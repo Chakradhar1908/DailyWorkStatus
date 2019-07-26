@@ -1,4 +1,14 @@
-﻿Public Class OrdStatus
+﻿Imports Microsoft.VisualBasic.Interaction
+Public Class OrdStatus
+    Public Dimensions As String
+    Public Mode As String
+
+    '###STORECOUNT32
+    Private Const H_FRAONHAND_8 As Long = 855
+    Private Const H_FRAONHAND_16 As Long = 1455
+    Private Const H_FRAONHAND_24 As Long = 2052
+    Private Const H_FRAONHAND_32 As Long = 2652
+
     Private Sub OrdStatus_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim TotOO As String, I As Integer, X As Integer
         Dim bsStyle As String
@@ -10,11 +20,11 @@
         fraItemStatus.Top = fraOnHand.Top + fraOnHand.Height + 120
         cmdApply.Top = fraItemStatus.Top + fraItemStatus.Height + 120
         cmdCancel.Top = cmdApply.Top
-        Height = cmdApply.Top + cmdApply.Height + 120 + Height - ScaleHeight
+        Height = cmdApply.Top + cmdApply.Height + 120 + Height - Me.ClientSize.Height
 
         '  NoPO
 
-        optReduceStock.Value = True  'take with default
+        optReduceStock.Checked = True  'take with default
         StoreStock = IIf(StoreSettings.bSellFromLoginLocation, StoresSld, 1)
 
         For I = 1 To cOptionCount
@@ -83,4 +93,126 @@
         If OrdSelect.optCarpet Then frmYardage.Show vbModal, OrdStatus
 
     End Sub
+
+    Public Property StoreStock() As Integer
+        Get
+            Dim I As Integer
+            'For I = optStock.LBound To optStock.UBound
+            '    If optStock(I) Then StoreStock = I : Exit Property
+            'Next
+            For I = 1 To 32
+                If optStock1.Checked = True Then StoreStock = I : Exit Property
+                If optStock2.Checked = True Then StoreStock = I : Exit Property
+                If optStock3.Checked = True Then StoreStock = I : Exit Property
+                If optStock4.Checked = True Then StoreStock = I : Exit Property
+                If optStock5.Checked = True Then StoreStock = I : Exit Property
+                If optStock6.Checked = True Then StoreStock = I : Exit Property
+                If optStock7.Checked = True Then StoreStock = I : Exit Property
+                If optStock8.Checked = True Then StoreStock = I : Exit Property
+                If optStock9.Checked = True Then StoreStock = I : Exit Property
+                If optStock10.Checked = True Then StoreStock = I : Exit Property
+                If optStock11.Checked = True Then StoreStock = I : Exit Property
+                If optStock12.Checked = True Then StoreStock = I : Exit Property
+                If optStock13.Checked = True Then StoreStock = I : Exit Property
+                If optStock14.Checked = True Then StoreStock = I : Exit Property
+                If optStock15.Checked = True Then StoreStock = I : Exit Property
+                If optStock16.Checked = True Then StoreStock = I : Exit Property
+                If optStock17.Checked = True Then StoreStock = I : Exit Property
+                If optStock18.Checked = True Then StoreStock = I : Exit Property
+                If optStock19.Checked = True Then StoreStock = I : Exit Property
+                If optStock20.Checked = True Then StoreStock = I : Exit Property
+                If optStock21.Checked = True Then StoreStock = I : Exit Property
+                If optStock22.Checked = True Then StoreStock = I : Exit Property
+                If optStock23.Checked = True Then StoreStock = I : Exit Property
+                If optStock24.Checked = True Then StoreStock = I : Exit Property
+                If optStock25.Checked = True Then StoreStock = I : Exit Property
+                If optStock26.Checked = True Then StoreStock = I : Exit Property
+                If optStock27.Checked = True Then StoreStock = I : Exit Property
+                If optStock28.Checked = True Then StoreStock = I : Exit Property
+                If optStock29.Checked = True Then StoreStock = I : Exit Property
+                If optStock30.Checked = True Then StoreStock = I : Exit Property
+                If optStock31.Checked = True Then StoreStock = I : Exit Property
+                If optStock32.Checked = True Then StoreStock = I : Exit Property
+
+            Next
+        End Get
+        Set(value As Integer)
+            Select Case value
+                Case 1
+                    optStock1.Checked = True
+                Case 2
+                    optStock2.Checked = True
+                Case 3
+                    optStock3.Checked = True
+                Case 4
+                    optStock4.Checked = True
+                Case 5
+                    optStock5.Checked = True
+                Case 6
+                    optStock6.Checked = True
+                Case 7
+                    optStock7.Checked = True
+                Case 8
+                    optStock8.Checked = True
+                Case 9
+                    optStock9.Checked = True
+                Case 10
+                    optStock10.Checked = True
+                Case 11
+                    optStock11.Checked = True
+                Case 12
+                    optStock12.Checked = True
+                Case 13
+                    optStock13.Checked = True
+                Case 14
+                    optStock14.Checked = True
+                Case 15
+                    optStock15.Checked = True
+                Case 16
+                    optStock16.Checked = True
+                Case 17
+                    optStock17.Checked = True
+                Case 18
+                    optStock18.Checked = True
+                Case 19
+                    optStock19.Checked = True
+                Case 20
+                    optStock20.Checked = True
+                Case 21
+                    optStock21.Checked = True
+                Case 22
+                    optStock22.Checked = True
+                Case 23
+                    optStock23.Checked = True
+                Case 24
+                    optStock24.Checked = True
+                Case 25
+                    optStock25.Checked = True
+                Case 26
+                    optStock26.Checked = True
+                Case 27
+                    optStock27.Checked = True
+                Case 28
+                    optStock28.Checked = True
+                Case 29
+                    optStock29.Checked = True
+                Case 30
+                    optStock30.Checked = True
+                Case 31
+                    optStock31.Checked = True
+                Case 32
+                    optStock32.Checked = True
+
+            End Select
+
+        End Set
+    End Property
+
+    Private ReadOnly Property cOptionCount() As Integer
+        Get
+            'cOptionCount = optStock.UBound
+            cOptionCount = 32
+        End Get
+    End Property
+
 End Class
