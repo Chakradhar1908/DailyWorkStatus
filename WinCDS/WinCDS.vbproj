@@ -293,6 +293,12 @@
     </Compile>
     <Compile Include="Class Modules\cDataConvert.vb" />
     <Compile Include="Class Modules\CGrossMargin.vb" />
+    <Compile Include="Forms\frmYardage.Designer.vb">
+      <DependentUpon>frmYardage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmYardage.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\InvADefault.Designer.vb">
       <DependentUpon>InvADefault.vb</DependentUpon>
     </Compile>

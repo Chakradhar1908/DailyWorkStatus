@@ -632,7 +632,8 @@
 
     Private Sub lstOptions_DoubleClick(sender As Object, e As EventArgs) Handles lstOptions.DoubleClick
         'cmdOk.Value = True
-        cmdOk.PerformClick()
+        'cmdOk.PerformClick()
+        cmdOk_Click(cmdOk, New EventArgs)
     End Sub
 
     Private Sub mInvCkStyle_OKClicked(ByRef Override As Boolean, ByVal Picked As String, ByVal IsNew As Boolean) Handles mInvCkStyle.OKClicked

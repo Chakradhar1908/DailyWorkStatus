@@ -37,15 +37,20 @@
     Public Const LICENSE_STORES_31 As String = "94801"
     Public Const LICENSE_STORES_32 As String = "01024"
 
-    Private mActiveLocations as integer
+    Private mActiveLocations as Integer
     '    Public Property Get LicensedNoOfStores() as integer :     
     '    LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense) 
     'End Function
-    Public ReadOnly Property LicensedNoOfStores() as integer
-        Get
-            LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense)
-        End Get
-    End Property
+    'Public ReadOnly Property LicensedNoOfStores() As Integer
+    '    Get
+    '        LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense)
+    '    End Get
+    'End Property
+
+    Public Function LicensedNoOfStores() As Integer
+        LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense)
+    End Function
+
     Public Function ConvertWinCDSLicenseCode(ByVal Code As String, Optional ByRef Valid As Boolean = False) as integer
         Dim I as integer
 

@@ -4,15 +4,15 @@ Public Class OrdStatus
     Public Mode As String
 
     '###STORECOUNT32
-    Private Const H_FRAONHAND_8 As Long = 855
-    Private Const H_FRAONHAND_16 As Long = 1455
-    Private Const H_FRAONHAND_24 As Long = 2052
-    Private Const H_FRAONHAND_32 As Long = 2652
+    Private Const H_FRAONHAND_8 As Integer = 855
+    Private Const H_FRAONHAND_16 As Integer = 1455
+    Private Const H_FRAONHAND_24 As Integer = 2052
+    Private Const H_FRAONHAND_32 As Integer = 2652
 
     Private Sub OrdStatus_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim TotOO As String, I As Integer, X As Integer
         Dim bsStyle As String
-
+        Dim SSCaption As String
 
         '###STORECOUNT32
         X = LicensedNoOfStores
@@ -28,23 +28,29 @@ Public Class OrdStatus
         StoreStock = IIf(StoreSettings.bSellFromLoginLocation, StoresSld, 1)
 
         For I = 1 To cOptionCount
-            StoreStockToolTipText(I) = StoreSettings(I).Address
-            StoreStockLocTip(I) = StoreSettings(I).Address
+            'StoreStockToolTipText(I) = StoreSettings(I).Address
+            'StoreStockLocTip(I) = StoreSettings(I).Address
+
+            'Note: 'In the above two properties(StoreStockToolTipText(I) and StoreStockLocTip(I)) two parameters are there in vb6.0 code.
+            'In vb.net, properties will not accept multiple parameters.
+            ' So created below two procedures as replacement for the above two Let properties of vb 6.0. 
+            StoreStockToolTipText()
+            StoreStockLocTip()
         Next
 
         If IsUFO() Or CheckStoreName("") Then  'Sets default option
-            optLayaway = True 'LayAWay
+            optLayaway.Checked = True 'LayAWay
         ElseIf IsRockyMountain() Or IsDecoratingOnADime() Then
-            optTakeWith = True 'TW
+            optTakeWith.Checked = True 'TW
         ElseIf IsParkPlace Then
             ' bfh20051031
             ' bfh20070405 - change from SpOrd to tw
-            optTakeWith = True
+            optTakeWith.Checked = True
         ElseIf IsLapeer Then
-            optSpecOrd = True
+            optSpecOrd.Checked = True
         End If
 
-        GetStore
+        GetStore()
 
         If Mode = "Adj" Then Exit Sub
 
@@ -57,40 +63,48 @@ Public Class OrdStatus
         'takes way too long to search!!! removed 6-1-00
         'ProcessTagPO  'finds open orders and reduces quantity
         bsStyle = BillOSale.QueryStyle(BillOSale.X)
-        LoadOnOrder bsStyle
-  lblTotAvail.Caption = BillOSale.Rb - BillOSale.ItemsSoldOnSale(bsStyle, 0, 1)
+        LoadOnOrder(bsStyle)
+        lblTotAvail.Text = BillOSale.Rb - BillOSale.ItemsSoldOnSale(bsStyle, 0, 1)
         For I = 1 To cOptionCount
-            StoreStockCaption(I) = Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
+            'NOTE: THE BELOW LINE IS COMMENTED, BECAUSE IN VB.NET PROPERTY WILL NOT ACCEPT TWO OR MORE PARAMETERS.
+            'IT IS REPLACED WITH StoreStockCaption(I, SSCaption) PROCEDURE.
+            'StoreStockCaption(I) = Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
+            SSCaption = Microsoft.VisualBasic.Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
+            StoreStockCaption(I, SSCaption)
         Next
 
+
         If StoreSettings.bTagIncommingDistinct Then
-            Dim S As String, P As Integer, RS As Recordset, Amt As Integer
+            Dim S As String, P As Integer, RS As ADODB.Recordset, Amt As Integer
             P = StoresSld
             TotOO = BillOSale.GetOnOrder(P)
             S = "SELECT Sum(Loc" & P & ") AS Amt FROM [Detail] WHERE Style='" & bsStyle & "' AND Trans='PO' AND Loc" & P & "<>0"
-    Set RS = GetRecordsetBySQL(S, , GetDatabaseInventory)
-    If Not RS.EOF Then Amt = IfNullThenZero(RS("Amt")) Else Amt = 0
-    Set RS = Nothing
-      
-' BFH20060420 - removed the minus of 'PR's
-'      S = "SELECT Sum(Loc" & P & ") AS Amt FROM [Detail] WHERE Style='" & bsStyle & "' AND Trans='PR' AND Loc" & P & "<>0"
-'      Set RS = GetRecordsetBySQL(S, , GetDatabaseInventory)
-'      If Not RS.EOF Then Amt = Amt - IfNullThenZero(RS("Amt"))
-'      Set RS = Nothing
-'
-    If Amt < 0 Then Amt = 0
-            lblTagAmt = TotOO - Amt - BillOSale.ItemsSoldOnSale(bsStyle, , -1)
+            RS = GetRecordsetBySQL(S, , GetDatabaseInventory)
+            If Not RS.EOF Then Amt = IfNullThenZero(RS("Amt")) Else Amt = 0
+            RS = Nothing
+
+            ' BFH20060420 - removed the minus of 'PR's
+            '      S = "SELECT Sum(Loc" & P & ") AS Amt FROM [Detail] WHERE Style='" & bsStyle & "' AND Trans='PR' AND Loc" & P & "<>0"
+            '      Set RS = GetRecordsetBySQL(S, , GetDatabaseInventory)
+            '      If Not RS.EOF Then Amt = Amt - IfNullThenZero(RS("Amt"))
+            '      Set RS = Nothing
+            '
+            If Amt < 0 Then Amt = 0
+            lblTagAmt.Text = TotOO - Amt - BillOSale.ItemsSoldOnSale(bsStyle, , -1)
 
         Else ' chkTagIncommingDistinct wasn't selected
-            lblTagAmt = TotOO - Val(BillOSale.PoSold) - BillOSale.ItemsSoldOnSale(bsStyle, , -1)  'total available for sale (also decrease based on current sale's PO Sold)
+            lblTagAmt.Text = TotOO - Val(BillOSale.PoSold) - BillOSale.ItemsSoldOnSale(bsStyle, , -1)  'total available for sale (also decrease based on current sale's PO Sold)
         End If
         '  End If
 
         'bfh20051111
-        Quan = "1"
-        txtUnitPrice = CurrencyFormat(BillOSale.QueryPrice(BillOSale.X))
+        Quan.Text = "1"
+        txtUnitPrice.Text = CurrencyFormat(BillOSale.QueryPrice(BillOSale.X))
         Dimensions = ""
-        If OrdSelect.optCarpet Then frmYardage.Show vbModal, OrdStatus
+        If OrdSelect.optCarpet.Checked = True Then
+            'frmYardage.Show vbModal, OrdStatus
+            frmYardage.ShowDialog(Me)
+        End If
 
     End Sub
 
@@ -214,5 +228,240 @@ Public Class OrdStatus
             cOptionCount = 32
         End Get
     End Property
+
+    Private Sub StoreStockToolTipText()
+        For I = 1 To cOptionCount
+            Select Case I
+                Case 1
+                    ToolTip1.SetToolTip(optStock1, StoreSettings(I).Address)
+                Case 2
+                    ToolTip1.SetToolTip(optStock2, StoreSettings(I).Address)
+                Case 3
+                    ToolTip1.SetToolTip(optStock3, StoreSettings(I).Address)
+                Case 4
+                    ToolTip1.SetToolTip(optStock4, StoreSettings(I).Address)
+                Case 5
+                    ToolTip1.SetToolTip(optStock5, StoreSettings(I).Address)
+                Case 6
+                    ToolTip1.SetToolTip(optStock6, StoreSettings(I).Address)
+                Case 7
+                    ToolTip1.SetToolTip(optStock7, StoreSettings(I).Address)
+                Case 8
+                    ToolTip1.SetToolTip(optStock8, StoreSettings(I).Address)
+                Case 9
+                    ToolTip1.SetToolTip(optStock9, StoreSettings(I).Address)
+                Case 10
+                    ToolTip1.SetToolTip(optStock10, StoreSettings(I).Address)
+                Case 11
+                    ToolTip1.SetToolTip(optStock11, StoreSettings(I).Address)
+                Case 12
+                    ToolTip1.SetToolTip(optStock12, StoreSettings(I).Address)
+                Case 13
+                    ToolTip1.SetToolTip(optStock13, StoreSettings(I).Address)
+                Case 14
+                    ToolTip1.SetToolTip(optStock14, StoreSettings(I).Address)
+                Case 15
+                    ToolTip1.SetToolTip(optStock15, StoreSettings(I).Address)
+                Case 16
+                    ToolTip1.SetToolTip(optStock16, StoreSettings(I).Address)
+                Case 17
+                    ToolTip1.SetToolTip(optStock17, StoreSettings(I).Address)
+                Case 18
+                    ToolTip1.SetToolTip(optStock18, StoreSettings(I).Address)
+                Case 19
+                    ToolTip1.SetToolTip(optStock19, StoreSettings(I).Address)
+                Case 20
+                    ToolTip1.SetToolTip(optStock20, StoreSettings(I).Address)
+                Case 21
+                    ToolTip1.SetToolTip(optStock21, StoreSettings(I).Address)
+                Case 22
+                    ToolTip1.SetToolTip(optStock22, StoreSettings(I).Address)
+                Case 23
+                    ToolTip1.SetToolTip(optStock23, StoreSettings(I).Address)
+                Case 24
+                    ToolTip1.SetToolTip(optStock24, StoreSettings(I).Address)
+                Case 25
+                    ToolTip1.SetToolTip(optStock25, StoreSettings(I).Address)
+                Case 26
+                    ToolTip1.SetToolTip(optStock26, StoreSettings(I).Address)
+                Case 27
+                    ToolTip1.SetToolTip(optStock27, StoreSettings(I).Address)
+                Case 28
+                    ToolTip1.SetToolTip(optStock28, StoreSettings(I).Address)
+                Case 29
+                    ToolTip1.SetToolTip(optStock29, StoreSettings(I).Address)
+                Case 30
+                    ToolTip1.SetToolTip(optStock30, StoreSettings(I).Address)
+                Case 31
+                    ToolTip1.SetToolTip(optStock31, StoreSettings(I).Address)
+                Case 32
+                    ToolTip1.SetToolTip(optStock32, StoreSettings(I).Address)
+            End Select
+        Next
+    End Sub
+
+    Private Sub StoreStockLocTip()
+        For I = 1 To cOptionCount
+            Select Case I
+                Case 1
+                    ToolTip1.SetToolTip(lblLoc1, StoreSettings(I).Address)
+                Case 2
+                    ToolTip1.SetToolTip(lblLoc2, StoreSettings(I).Address)
+                Case 3
+                    ToolTip1.SetToolTip(lblLoc3, StoreSettings(I).Address)
+                Case 4
+                    ToolTip1.SetToolTip(lblLoc4, StoreSettings(I).Address)
+                Case 5
+                    ToolTip1.SetToolTip(lblLoc5, StoreSettings(I).Address)
+                Case 6
+                    ToolTip1.SetToolTip(lblLoc6, StoreSettings(I).Address)
+                Case 7
+                    ToolTip1.SetToolTip(lblLoc7, StoreSettings(I).Address)
+                Case 8
+                    ToolTip1.SetToolTip(lblLoc8, StoreSettings(I).Address)
+                Case 9
+                    ToolTip1.SetToolTip(lblLoc9, StoreSettings(I).Address)
+                Case 10
+                    ToolTip1.SetToolTip(lblLoc10, StoreSettings(I).Address)
+                Case 11
+                    ToolTip1.SetToolTip(lblLoc11, StoreSettings(I).Address)
+                Case 12
+                    ToolTip1.SetToolTip(lblLoc12, StoreSettings(I).Address)
+                Case 13
+                    ToolTip1.SetToolTip(lblLoc13, StoreSettings(I).Address)
+                Case 14
+                    ToolTip1.SetToolTip(lblLoc14, StoreSettings(I).Address)
+                Case 15
+                    ToolTip1.SetToolTip(lblLoc15, StoreSettings(I).Address)
+                Case 16
+                    ToolTip1.SetToolTip(lblLoc16, StoreSettings(I).Address)
+                Case 17
+                    ToolTip1.SetToolTip(lblLoc17, StoreSettings(I).Address)
+                Case 18
+                    ToolTip1.SetToolTip(lblLoc18, StoreSettings(I).Address)
+                Case 19
+                    ToolTip1.SetToolTip(lblLoc19, StoreSettings(I).Address)
+                Case 20
+                    ToolTip1.SetToolTip(lblLoc20, StoreSettings(I).Address)
+                Case 21
+                    ToolTip1.SetToolTip(lblLoc21, StoreSettings(I).Address)
+                Case 22
+                    ToolTip1.SetToolTip(lblLoc22, StoreSettings(I).Address)
+                Case 23
+                    ToolTip1.SetToolTip(lblLoc23, StoreSettings(I).Address)
+                Case 24
+                    ToolTip1.SetToolTip(lblLoc24, StoreSettings(I).Address)
+                Case 25
+                    ToolTip1.SetToolTip(lblLoc25, StoreSettings(I).Address)
+                Case 26
+                    ToolTip1.SetToolTip(lblLoc26, StoreSettings(I).Address)
+                Case 27
+                    ToolTip1.SetToolTip(lblLoc27, StoreSettings(I).Address)
+                Case 28
+                    ToolTip1.SetToolTip(lblLoc28, StoreSettings(I).Address)
+                Case 29
+                    ToolTip1.SetToolTip(lblLoc29, StoreSettings(I).Address)
+                Case 30
+                    ToolTip1.SetToolTip(lblLoc30, StoreSettings(I).Address)
+                Case 31
+                    ToolTip1.SetToolTip(lblLoc31, StoreSettings(I).Address)
+                Case 32
+                    ToolTip1.SetToolTip(lblLoc32, StoreSettings(I).Address)
+            End Select
+        Next
+    End Sub
+
+    Private Sub StoreStockCaption(ByVal I As Integer, ByVal Caption As String)
+        'For I = 1 To cOptionCount
+        '    StoreStockCaption(I) = Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
+        'Next
+        Select Case I
+            Case 1
+                optStock1.Text = Caption
+            Case 2
+                optStock2.Text = Caption
+            Case 3
+                optStock3.Text = Caption
+            Case 4
+                optStock4.Text = Caption
+            Case 5
+                optStock5.Text = Caption
+            Case 6
+                optStock6.Text = Caption
+            Case 7
+                optStock7.Text = Caption
+            Case 8
+                optStock8.Text = Caption
+            Case 9
+                optStock9.Text = Caption
+            Case 10
+                optStock10.Text = Caption
+            Case 11
+                optStock11.Text = Caption
+            Case 12
+                optStock12.Text = Caption
+            Case 13
+                optStock13.Text = Caption
+            Case 14
+                optStock14.Text = Caption
+            Case 15
+                optStock15.Text = Caption
+            Case 16
+                optStock16.Text = Caption
+            Case 17
+                optStock17.Text = Caption
+            Case 18
+                optStock18.Text = Caption
+            Case 19
+                optStock19.Text = Caption
+            Case 20
+                optStock20.Text = Caption
+            Case 21
+                optStock21.Text = Caption
+            Case 22
+                optStock22.Text = Caption
+            Case 23
+                optStock23.Text = Caption
+            Case 24
+                optStock24.Text = Caption
+            Case 25
+                optStock25.Text = Caption
+            Case 26
+                optStock26.Text = Caption
+            Case 27
+                optStock27.Text = Caption
+            Case 28
+                optStock28.Text = Caption
+            Case 29
+                optStock29.Text = Caption
+            Case 30
+                optStock30.Text = Caption
+            Case 31
+                optStock31.Text = Caption
+            Case 32
+                optStock32.Text = Caption
+        End Select
+    End Sub
+
+    Private Sub GetStore()
+        If Not optTagIncoming.Checked = True Then 'tag PO
+            StoreStock = IIf(StoreSettings.bSellFromLoginLocation, StoresSld, 1) ' default to store sold
+        End If
+    End Sub
+
+    Public Sub LoadOnOrder(ByVal ST As String)
+        Dim I As Integer, C2 As CInvRec, X As Double
+        cmbOnOrd.Items.Clear()
+        '    cmbOnord.AddItem "OO Quantities"
+        C2 = New CInvRec
+        C2.Load(ST, "Style")
+        For I = 1 To cOptionCount
+            X = C2.QueryOnOrder(I)
+            If X > 0 Then
+                cmbOnOrd.Items.Add("L" & I & " - " & QuantityFormat(X))
+            End If
+        Next
+        DisposeDA(C2)
+    End Sub
 
 End Class

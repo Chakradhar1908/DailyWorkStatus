@@ -258,4 +258,39 @@ AnError:
         End If
     End Function
 
+    Public Function QuantityFormat(ByVal Q As Double, Optional ByVal Decimals As Integer = 2, Optional ByVal BlankEmpty As Boolean = False) As String
+        '::::QuantityFormat
+        ':::SUMMARY
+        ':Used to display the formatted Quantity when the order is loading.
+        ':::DESCRIPTION
+        ':Gets the result from FormatQuantity.This function is  called, after filling information related to quantity,i.e when order is loading while making new sale.
+        ':::PARAMETERS
+        ':-Q-Denotes the current Quantity.
+        ':-Decimals-Decimal points after the Quantity value.
+        ':-BlankEmpty-Boolean function which denotes Quantity Blank is not Empty.
+        ':::RETURN
+        ':String-Returns the QuantityFormat string.
+        QuantityFormat = FormatQuantity(Q, Decimals, BlankEmpty)
+    End Function
+
+    Public Function FormatQuantity(ByVal Q As Double, Optional ByVal Decimals As Integer = 2, Optional ByVal BlankEmpty As Boolean = True) As String
+        '::::FormQuantity
+        ':::SUMMARY
+        ':Used to format the Quantity.
+        ':::DESCRIPTION
+        ':Here format of Quantity is designed by using function GMFormat.
+        ':::PARAMETERS
+        ':-Q-Denotes the current Quantity.
+        ':-Decimals-Decimal points after the Quantity value.
+        ':-BlankEmpty-Boolean function which denotes Quantity Blank is Empty.
+        ':::RETURN
+        ':String-Returns the FormatQuantity string.
+        ':::SEE ALSO
+        ':-QuantityFormat
+
+
+        If BlankEmpty And Q = 0 Then Exit Function
+        FormatQuantity = GMFormat(Q, Decimals)
+    End Function
+
 End Module

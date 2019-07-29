@@ -13,6 +13,7 @@ D:\WinCDS\WinCDS\bin\Debug\AxInterop.cipwin32.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDBGrid.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 D:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSDataGridLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSDATASRC.dll
@@ -58,6 +59,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.MainMenu4.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdConvertLAW.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdPreview.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdSelect.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdStatus.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.PackagePrice.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.PassWord.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.RestoreInv.resources
@@ -72,4 +74,3 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

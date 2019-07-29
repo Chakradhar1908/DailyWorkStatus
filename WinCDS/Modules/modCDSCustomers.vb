@@ -151,4 +151,16 @@
             IsRockyMountain = CheckStoreName("Rocky Mountain")
         End Get
     End Property
+
+    Public ReadOnly Property IsDecoratingOnADime() As Boolean
+        Get
+            IsDecoratingOnADime = CheckStoreName("Decorating on a Dime")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsParkPlace() As Boolean
+        Get
+            IsParkPlace = CheckStoreName("Park Place")
+        End Get
+    End Property
 End Module

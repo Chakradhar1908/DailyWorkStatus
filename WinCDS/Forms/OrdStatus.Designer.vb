@@ -22,6 +22,7 @@ Partial Class OrdStatus
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Sell = New System.Windows.Forms.Label()
         Me.lblTotAvailCaption = New System.Windows.Forms.Label()
         Me.lblUnitPrice = New System.Windows.Forms.Label()
@@ -103,6 +104,7 @@ Partial Class OrdStatus
         Me.optReduceStock = New System.Windows.Forms.RadioButton()
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.fraOnHand.SuspendLayout()
         Me.fraItemStatus.SuspendLayout()
         Me.SuspendLayout()
@@ -1087,4 +1089,5 @@ Partial Class OrdStatus
     Friend WithEvents lblTagAmt As Label
     Friend WithEvents cmdApply As Button
     Friend WithEvents cmdCancel As Button
+    Friend WithEvents ToolTip1 As ToolTip
 End Class
