@@ -17,9 +17,15 @@
     Public Function INIRead(ByVal sSection As String, ByVal sKeyName As String, ByVal sINIFileName As String) As String
         On Error Resume Next
         Dim sRet As String
+        Dim Length As Integer
         'sRet = String(255, Chr(0))
-        sRet = New String(Chr(0), 255)
-        INIRead = Left(sRet, GetPrivateProfileString(sSection, sKeyName, "", sRet, Len(sRet), sINIFileName))
+        'sRet = New String(Chr(0), 255)
+        sRet = Space(255)
+        Length = Len(sRet)
+        'INIRead = Microsoft.VisualBasic.Left(sRet, GetPrivateProfileString(sSection, sKeyName, "", sRet, Len(sRet), sINIFileName))
+        Length = GetPrivateProfileString(sSection, sKeyName, "", sRet, Length, sINIFileName)
+        'INIRead = Microsoft.VisualBasic.Left(sRet, GetPrivateProfileString(sSection, sKeyName, "", sRet, Length, sINIFileName))
+        INIRead = Left(sRet, Length)
     End Function
 
     Public Function INIWrite(ByVal sSection As String, ByVal sKeyName As String, ByVal sNewString As String, ByVal sINIFileName As String) As Boolean

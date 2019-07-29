@@ -139,8 +139,8 @@ Public Class InvCkStyle
     Private Sub Style_TextChanged(sender As Object, e As EventArgs) Handles Style.TextChanged
         IsByVendor = ""
         If Microsoft.VisualBasic.Left(Style.Text, 3) = "KIT" Then HandleStyleChange() 'makes this work right
-        'StartTypeTimer()
-        HandleStyleChange()  '-> NOTE: Added this line temporarily. Remove the above line comment and remove this line afte complete project coding.
+        StartTypeTimer()
+        'HandleStyleChange()  '-> NOTE: Added this line temporarily. Remove the above line comment and remove this line afte complete project coding.
     End Sub
 
     Private Sub HandleStyleChange()
@@ -847,7 +847,7 @@ HandleErr:
         End If
         IsKit = Microsoft.VisualBasic.Left(Style.Text, 4) = KIT_PFX
 
-        If Not optSearchByDesc.Checked Then
+        If Not optSearchByDesc.Checked = True Then
             ClickedList = True
             'ClickedStyle = Trim(Left(lstStyles.List(lstStyles.ListIndex), 16)) '###STYLELENGTH16
             ClickedStyle = Trim(Microsoft.VisualBasic.Left(lstStyles.GetItemText(lstStyles.SelectedItem), 16)) '###STYLELENGTH16
