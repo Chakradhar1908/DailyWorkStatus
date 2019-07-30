@@ -23,8 +23,9 @@ Public Class BillOSale
     Public MailRec As Integer
     Public Sale As Decimal
     Public RN As Integer
-    Public NsRec1, NsRec2, NsRec3, NsRec4, NsRec5, NsRec6
-    Private Ba(0 To Setup_MaxStores_DB), OO(0 To Setup_MaxStores_DB)
+    Public NsRec1 As Integer, NsRec2 As Integer, NsRec3 As Integer, NsRec4 As Integer, NsRec5 As Integer, NsRec6 As Integer
+    Private Ba(0 To Setup_MaxStores_DB - 1) As Integer
+    Private OO(0 To Setup_MaxStores_DB - 1) As Integer
     Public PoSold As Single
     Public Rb As Single
     Public NonTaxable As Decimal
@@ -3672,12 +3673,12 @@ HandleErr:
 
     Public Function GetBalance(ByVal StoreNum As Integer) As Double
         If StoreNum <= 0 Or StoreNum > Setup_MaxStores_DB Then Exit Function
-        GetBalance = Ba(StoreNum)
+        GetBalance = Ba(StoreNum - 1)
     End Function
 
     Public Function SetBalance(ByVal StoreNum As Integer, ByVal nBalance As Double)
         If StoreNum <= 0 Or StoreNum > Setup_MaxStores_DB Then Exit Function
-        Ba(StoreNum) = nBalance
+        Ba(StoreNum - 1) = nBalance
     End Function
 
     Public Function GetTotalBalance() As Double
@@ -3690,12 +3691,12 @@ HandleErr:
 
     Public Function GetOnOrder(ByVal StoreNum As Integer) As Double
         If StoreNum <= 0 Or StoreNum > Setup_MaxStores_DB Then Exit Function
-        GetOnOrder = OO(StoreNum)
+        GetOnOrder = OO(StoreNum - 1)
     End Function
 
     Public Function SetOnOrder(ByVal StoreNum As Integer, ByVal nOnOrd As Double)
         If StoreNum <= 0 Or StoreNum > Setup_MaxStores_DB Then Exit Function
-        OO(StoreNum) = nOnOrd
+        OO(StoreNum - 1) = nOnOrd
     End Function
 
     Public Function GetTotalOnOrder() As Double

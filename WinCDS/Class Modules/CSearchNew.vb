@@ -32,7 +32,10 @@
             DataAccess.Records_OpenFieldIndexAt(KeyName, KeyVal)
         End If
 
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
     Public Sub Dispose()
         On Error Resume Next

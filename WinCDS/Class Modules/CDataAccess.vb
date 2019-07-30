@@ -158,6 +158,7 @@ Public Class CDataAccess
             )
         mUpdated = False
     End Function
+
     Friend Function Records_Available() As Boolean
         On Error GoTo HandleErr
         If (mCurrentIndex <> -1) Then

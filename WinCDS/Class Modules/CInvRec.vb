@@ -17,10 +17,12 @@
     Public Sales4 As Double
     Private WithEvents mDataAccess As CDataAccess
     'Implements CDataAccess
-    Private LocBal(0 To Setup_MaxStores_DB - 1)
+    Private mDataConvert As cDataConvert
+    'Implements cDataConvert
+    Private LocBal(0 To Setup_MaxStores_DB - 1) As Integer
     Public Cost As Decimal
     Public RN As String
-    Private OO(0 To Setup_MaxStores_DB - 1)
+    Private OO(0 To Setup_MaxStores_DB - 1) As Integer
 
     Public MinStk As Double
     Public Freight As Double
@@ -35,7 +37,97 @@
     Public Psales2 As Double
     Public Psales3 As Double
     Public Psales4 As Double
+    Private Const TABLE_NAME As String = "2Data"
+    Private Const TABLE_INDEX As String = "Style"
+    Public GMROI As String
+    Public Fabric As String
+    Public Distributors As String
+    Private ChangeKits As Boolean
 
+    Public Sub New()
+        CDataConvert_Init()
+        CDataAccess_Init()
+    End Sub
+
+    Public Sub CDataConvert_Init()
+        mDataConvert = New cDataConvert
+        With mDataConvert '@NO-LINT-WITH
+            .SubClass = Me.mDataConvert
+            .DataBase = GetDatabaseInventory()
+            .Table = TABLE_NAME
+            .Index = TABLE_INDEX
+        End With
+    End Sub
+
+    Public Sub CDataAccess_Init()
+        mDataAccess = New CDataAccess
+        mDataAccess.SubClass = Me.mDataAccess
+        mDataAccess.DataBase = GetDatabaseInventory()
+        mDataAccess.Table = TABLE_NAME
+        mDataAccess.Index = TABLE_INDEX
+    End Sub
+
+    Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        Style = IfNullThenNilString(RS("Style").Value)
+        Vendor = IfNullThenNilString(RS("Vendor").Value)
+        RN = RS("Rn").Value
+
+        RDate = RS("RDate").Value
+
+        DeptNo = RS("Dept").Value
+        VendorNo = IfNullThenNilString(RS("VendorNo").Value)
+
+        Desc = IfNullThenNilString(RS("Desc").Value)
+
+        MinStk = RS("MinStk").Value
+        Freight = RS("Freight").Value
+        FreightType = RS("FreightType").Value
+        GM = RS("GM").Value
+        MarkUp = RS("MarkUp").Value
+
+        Cost = RS("Cost").Value
+        Landed = RS("Landed").Value
+        OnSale = RS("OnSale").Value
+        List = RS("List").Value
+        Spiff = RS("Spiff").Value
+
+        Comments = Trim(IfNullThenNilString(RS("Comments").Value))
+        Available = RS("Available").Value
+        OnHand = RS("OnHand").Value
+
+        Dim I As Integer
+        For I = 1 To Setup_MaxStores_DB
+            SetStock(I, IfNullThenZeroDouble(RS("Loc" & I & "Bal").Value))
+            SetOnOrder(I, IfNullThenZeroDouble(RS("OnOrder" & I).Value))
+        Next
+
+        Sales1 = RS("Sales1").Value
+        Sales2 = RS("Sales2").Value
+        Sales3 = RS("Sales3").Value
+        Sales4 = RS("Sales4").Value
+
+        Psales1 = RS("Psales1").Value
+        Psales2 = RS("Psales2").Value
+        Psales3 = RS("Psales3").Value
+        Psales4 = RS("Psales4").Value
+
+        PoSold = RS("POSold").Value
+
+        GMROI = IfNullThenNilString(RS("GMROI").Value)
+        Fabric = IfNullThenNilString(RS("Fabric").Value)
+        SKU = IfNullThenNilString(RS("SKU").Value)
+        Cubes = IfNullThenZeroDouble(RS("Cubes").Value)
+
+        Distributors = IfNullThenNilString(RS("Distributors").Value)
+
+        ChangeKits = False   ' Clear the kit-change trigger.
+    End Sub
+
+    Public Sub SetOnOrder(ByVal StoreNum As Integer, ByVal Val As Double)
+        If Not InvRecValidLocation(StoreNum) Then Exit Sub
+        OO(StoreNum - 1) = Val
+    End Sub
 
     Public Function Load(ByVal KeyVal As String, Optional ByRef KeyName As String = "") As Boolean
         ' Checks the database for a matching Style ID.
@@ -54,8 +146,12 @@
             DataAccess.Records_OpenFieldIndexAt(KeyName, KeyVal)
         End If
 
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
+
     Public Sub ItemsSold(ByRef Quan As Double, ByRef DateSold As Date)
         If Year(DateSold) <> Year(Date.Today) Then Exit Sub
         Select Case DatePart("q", DateSold)
@@ -71,9 +167,11 @@
                 MsgBox("Error: Can't determine which quarter " & DateSold & " is in.")
         End Select
     End Sub
-    Public Sub AddLocationQuantity(ByVal Location as integer, ByVal Quantity As Double)
+
+    Public Sub AddLocationQuantity(ByVal Location As Integer, ByVal Quantity As Double)
         SetStock(Location, QueryStock(Location) + Quantity)
     End Sub
+
     Public Sub Save()
         ' This instructs the class (in one simple call) to save its data members to the database.
         If DataAccess.Record_EOF Then
@@ -84,37 +182,44 @@
         ' And finally, tell the class to save the recordset.
         DataAccess.Records_Update
     End Sub
+
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
-    Public Function SetStock(ByVal StoreNum as integer, ByVal Val As Double)
-        SetStock = Nothing
-        If Not InvRecValidLocation(StoreNum) Then Exit Function
+
+    Public Sub SetStock(ByVal StoreNum As Integer, ByVal Val As Double)
+        'SetStock = Nothing
+        If Not InvRecValidLocation(StoreNum) Then Exit Sub
         LocBal(StoreNum - 1) = Val
-    End Function
-    Public Function QueryStock(ByVal StoreNum as integer) As Double
+    End Sub
+
+    Public Function QueryStock(ByVal StoreNum As Integer) As Double
         QueryStock = 0
         If StoreNum = 0 Then QueryStock = QueryTotalStock()
         If Not InvRecValidLocation(StoreNum) Then Exit Function
         QueryStock = LocBal(StoreNum - 1)
     End Function
-    Private Function InvRecValidLocation(ByRef Loc as integer) As Boolean
+
+    Private Function InvRecValidLocation(ByRef Loc As Integer) As Boolean
         InvRecValidLocation = (Loc >= 1 And Loc <= Setup_MaxStores_DB)
     End Function
+
     Public Function QueryTotalStock() As Double
-        Dim I as integer
+        Dim I As Integer
         QueryTotalStock = 0
         For I = 1 To Setup_MaxStores_DB
             QueryTotalStock = QueryTotalStock + QueryStock(I)
         Next
     End Function
-    Public Function QueryOnOrder(ByVal StoreNum as integer) As Double
-        If StoreNum = 0 Then QueryOnOrder = QueryTotalOnOrder
+
+    Public Function QueryOnOrder(ByVal StoreNum As Integer) As Double
+        If StoreNum = 0 Then QueryOnOrder = QueryTotalOnOrder()
         If Not InvRecValidLocation(StoreNum) Then Exit Function
-        QueryOnOrder = OO(StoreNum)
+        QueryOnOrder = OO(StoreNum - 1)
     End Function
+
     Public Function QueryTotalOnOrder() As Double
-        Dim I as integer
+        Dim I As Integer
         QueryTotalOnOrder = 0
         For I = 1 To Setup_MaxStores_DB
             QueryTotalOnOrder = QueryTotalOnOrder + QueryOnOrder(I)
