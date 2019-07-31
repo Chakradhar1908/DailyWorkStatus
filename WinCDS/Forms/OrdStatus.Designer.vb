@@ -135,6 +135,7 @@ Partial Class OrdStatus
         Me.lblUnitPrice.Size = New System.Drawing.Size(56, 13)
         Me.lblUnitPrice.TabIndex = 2
         Me.lblUnitPrice.Text = "Unit Pr&ice:"
+        Me.lblUnitPrice.Visible = False
         '
         'Quan
         '
@@ -149,6 +150,7 @@ Partial Class OrdStatus
         Me.txtUnitPrice.Name = "txtUnitPrice"
         Me.txtUnitPrice.Size = New System.Drawing.Size(61, 20)
         Me.txtUnitPrice.TabIndex = 4
+        Me.txtUnitPrice.Visible = False
         '
         'lblTotAvail
         '
@@ -899,7 +901,6 @@ Partial Class OrdStatus
         '
         'cmbOnOrd
         '
-        Me.cmbOnOrd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbOnOrd.FormattingEnabled = True
         Me.cmbOnOrd.Location = New System.Drawing.Point(224, 40)
         Me.cmbOnOrd.Name = "cmbOnOrd"
@@ -983,11 +984,11 @@ Partial Class OrdStatus
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(580, 416)
+        Me.ClientSize = New System.Drawing.Size(320, 368)
         Me.ControlBox = False
+        Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.fraItemStatus)
         Me.Controls.Add(Me.cmdCancel)
-        Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.fraOnHand)
         Me.Controls.Add(Me.lblTotAvail)
         Me.Controls.Add(Me.txtUnitPrice)

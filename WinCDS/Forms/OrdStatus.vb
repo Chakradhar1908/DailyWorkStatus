@@ -4,10 +4,14 @@ Public Class OrdStatus
     Public Mode As String
 
     '###STORECOUNT32
-    Private Const H_FRAONHAND_8 As Integer = 855
-    Private Const H_FRAONHAND_16 As Integer = 1455
-    Private Const H_FRAONHAND_24 As Integer = 2052
-    Private Const H_FRAONHAND_32 As Integer = 2652
+    'Private Const H_FRAONHAND_8 As Integer = 855
+    Private Const H_FRAONHAND_8 As Integer = 60
+    'Private Const H_FRAONHAND_16 As Integer = 1455
+    Private Const H_FRAONHAND_16 As Integer = 105
+    'Private Const H_FRAONHAND_24 As Integer = 2052
+    Private Const H_FRAONHAND_24 As Integer = 150
+    'Private Const H_FRAONHAND_32 As Integer = 2652
+    Private Const H_FRAONHAND_32 As Integer = 220
 
     Private Sub OrdStatus_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim TotOO As String, I As Integer, X As Integer
@@ -17,14 +21,18 @@ Public Class OrdStatus
         '###STORECOUNT32
         X = LicensedNoOfStores
         fraOnHand.Height = Switch(X > 24, H_FRAONHAND_32, X > 16, H_FRAONHAND_24, X > 8, H_FRAONHAND_16, True, H_FRAONHAND_8)
-        fraItemStatus.Top = fraOnHand.Top + fraOnHand.Height + 120
-        cmdApply.Top = fraItemStatus.Top + fraItemStatus.Height + 120
+        'fraItemStatus.Top = fraOnHand.Top + fraOnHand.Height + 120
+        fraItemStatus.Top = fraOnHand.Top + fraOnHand.Height + 10
+        'cmdApply.Top = fraItemStatus.Top + fraItemStatus.Height + 120
+        cmdApply.Top = fraItemStatus.Top + fraItemStatus.Height + 10
         cmdCancel.Top = cmdApply.Top
-        Height = cmdApply.Top + cmdApply.Height + 120 + Height - Me.ClientSize.Height
+        'Height = cmdApply.Top + cmdApply.Height + 120 + Height - Me.ClientSize.Height
+        Height = cmdApply.Top + cmdApply.Height + 10 + Height - Me.ClientSize.Height
 
         '  NoPO
 
         optReduceStock.Checked = True  'take with default
+        optReduceStock_Click(optReduceStock, New EventArgs)
         StoreStock = IIf(StoreSettings.bSellFromLoginLocation, StoresSld, 1)
 
         For I = 1 To cOptionCount
@@ -34,8 +42,8 @@ Public Class OrdStatus
             'Note: 'In the above two properties(StoreStockToolTipText(I) and StoreStockLocTip(I)) two parameters are there in vb6.0 code.
             'In vb.net, properties will not accept multiple parameters.
             ' So created below two procedures as replacement for the above two Let properties of vb 6.0. 
-            StoreStockToolTipText()
-            StoreStockLocTip()
+            StoreStockToolTipText(I)
+            StoreStockLocTip(I)
         Next
 
         If IsUFO() Or CheckStoreName("") Then  'Sets default option
@@ -66,8 +74,9 @@ Public Class OrdStatus
         LoadOnOrder(bsStyle)
         lblTotAvail.Text = BillOSale.Rb - BillOSale.ItemsSoldOnSale(bsStyle, 0, 1)
         For I = 1 To cOptionCount
-            'NOTE: THE BELOW LINE IS COMMENTED, BECAUSE IN VB.NET PROPERTY WILL NOT ACCEPT TWO OR MORE PARAMETERS.
-            'IT IS REPLACED WITH StoreStockCaption(I, SSCaption) PROCEDURE.
+            'NOTE: THE BELOW LINE IS COMMENTED, BECAUSE the property StoreStockCaption(I) in vb6.0 has two parameters.
+            'IN VB.NET PROPERTY WILL NOT ACCEPT TWO OR MORE PARAMETERS.
+            'SO IT IS COMMENTED AND REPLACED WITH StoreStockCaption(I, SSCaption) PROCEDURE.
             'StoreStockCaption(I) = Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
             SSCaption = Microsoft.VisualBasic.Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
             StoreStockCaption(I, SSCaption)
@@ -229,146 +238,146 @@ Public Class OrdStatus
         End Get
     End Property
 
-    Private Sub StoreStockToolTipText()
-        For I = 1 To cOptionCount
-            Select Case I
-                Case 1
-                    ToolTip1.SetToolTip(optStock1, StoreSettings(I).Address)
-                Case 2
-                    ToolTip1.SetToolTip(optStock2, StoreSettings(I).Address)
-                Case 3
-                    ToolTip1.SetToolTip(optStock3, StoreSettings(I).Address)
-                Case 4
-                    ToolTip1.SetToolTip(optStock4, StoreSettings(I).Address)
-                Case 5
-                    ToolTip1.SetToolTip(optStock5, StoreSettings(I).Address)
-                Case 6
-                    ToolTip1.SetToolTip(optStock6, StoreSettings(I).Address)
-                Case 7
-                    ToolTip1.SetToolTip(optStock7, StoreSettings(I).Address)
-                Case 8
-                    ToolTip1.SetToolTip(optStock8, StoreSettings(I).Address)
-                Case 9
-                    ToolTip1.SetToolTip(optStock9, StoreSettings(I).Address)
-                Case 10
-                    ToolTip1.SetToolTip(optStock10, StoreSettings(I).Address)
-                Case 11
-                    ToolTip1.SetToolTip(optStock11, StoreSettings(I).Address)
-                Case 12
-                    ToolTip1.SetToolTip(optStock12, StoreSettings(I).Address)
-                Case 13
-                    ToolTip1.SetToolTip(optStock13, StoreSettings(I).Address)
-                Case 14
-                    ToolTip1.SetToolTip(optStock14, StoreSettings(I).Address)
-                Case 15
-                    ToolTip1.SetToolTip(optStock15, StoreSettings(I).Address)
-                Case 16
-                    ToolTip1.SetToolTip(optStock16, StoreSettings(I).Address)
-                Case 17
-                    ToolTip1.SetToolTip(optStock17, StoreSettings(I).Address)
-                Case 18
-                    ToolTip1.SetToolTip(optStock18, StoreSettings(I).Address)
-                Case 19
-                    ToolTip1.SetToolTip(optStock19, StoreSettings(I).Address)
-                Case 20
-                    ToolTip1.SetToolTip(optStock20, StoreSettings(I).Address)
-                Case 21
-                    ToolTip1.SetToolTip(optStock21, StoreSettings(I).Address)
-                Case 22
-                    ToolTip1.SetToolTip(optStock22, StoreSettings(I).Address)
-                Case 23
-                    ToolTip1.SetToolTip(optStock23, StoreSettings(I).Address)
-                Case 24
-                    ToolTip1.SetToolTip(optStock24, StoreSettings(I).Address)
-                Case 25
-                    ToolTip1.SetToolTip(optStock25, StoreSettings(I).Address)
-                Case 26
-                    ToolTip1.SetToolTip(optStock26, StoreSettings(I).Address)
-                Case 27
-                    ToolTip1.SetToolTip(optStock27, StoreSettings(I).Address)
-                Case 28
-                    ToolTip1.SetToolTip(optStock28, StoreSettings(I).Address)
-                Case 29
-                    ToolTip1.SetToolTip(optStock29, StoreSettings(I).Address)
-                Case 30
-                    ToolTip1.SetToolTip(optStock30, StoreSettings(I).Address)
-                Case 31
-                    ToolTip1.SetToolTip(optStock31, StoreSettings(I).Address)
-                Case 32
-                    ToolTip1.SetToolTip(optStock32, StoreSettings(I).Address)
-            End Select
-        Next
+    Private Sub StoreStockToolTipText(ByVal I As Integer)
+        'For I = 1 To cOptionCount
+        Select Case I
+            Case 1
+                ToolTip1.SetToolTip(optStock1, StoreSettings(I).Address)
+            Case 2
+                ToolTip1.SetToolTip(optStock2, StoreSettings(I).Address)
+            Case 3
+                ToolTip1.SetToolTip(optStock3, StoreSettings(I).Address)
+            Case 4
+                ToolTip1.SetToolTip(optStock4, StoreSettings(I).Address)
+            Case 5
+                ToolTip1.SetToolTip(optStock5, StoreSettings(I).Address)
+            Case 6
+                ToolTip1.SetToolTip(optStock6, StoreSettings(I).Address)
+            Case 7
+                ToolTip1.SetToolTip(optStock7, StoreSettings(I).Address)
+            Case 8
+                ToolTip1.SetToolTip(optStock8, StoreSettings(I).Address)
+            Case 9
+                ToolTip1.SetToolTip(optStock9, StoreSettings(I).Address)
+            Case 10
+                ToolTip1.SetToolTip(optStock10, StoreSettings(I).Address)
+            Case 11
+                ToolTip1.SetToolTip(optStock11, StoreSettings(I).Address)
+            Case 12
+                ToolTip1.SetToolTip(optStock12, StoreSettings(I).Address)
+            Case 13
+                ToolTip1.SetToolTip(optStock13, StoreSettings(I).Address)
+            Case 14
+                ToolTip1.SetToolTip(optStock14, StoreSettings(I).Address)
+            Case 15
+                ToolTip1.SetToolTip(optStock15, StoreSettings(I).Address)
+            Case 16
+                ToolTip1.SetToolTip(optStock16, StoreSettings(I).Address)
+            Case 17
+                ToolTip1.SetToolTip(optStock17, StoreSettings(I).Address)
+            Case 18
+                ToolTip1.SetToolTip(optStock18, StoreSettings(I).Address)
+            Case 19
+                ToolTip1.SetToolTip(optStock19, StoreSettings(I).Address)
+            Case 20
+                ToolTip1.SetToolTip(optStock20, StoreSettings(I).Address)
+            Case 21
+                ToolTip1.SetToolTip(optStock21, StoreSettings(I).Address)
+            Case 22
+                ToolTip1.SetToolTip(optStock22, StoreSettings(I).Address)
+            Case 23
+                ToolTip1.SetToolTip(optStock23, StoreSettings(I).Address)
+            Case 24
+                ToolTip1.SetToolTip(optStock24, StoreSettings(I).Address)
+            Case 25
+                ToolTip1.SetToolTip(optStock25, StoreSettings(I).Address)
+            Case 26
+                ToolTip1.SetToolTip(optStock26, StoreSettings(I).Address)
+            Case 27
+                ToolTip1.SetToolTip(optStock27, StoreSettings(I).Address)
+            Case 28
+                ToolTip1.SetToolTip(optStock28, StoreSettings(I).Address)
+            Case 29
+                ToolTip1.SetToolTip(optStock29, StoreSettings(I).Address)
+            Case 30
+                ToolTip1.SetToolTip(optStock30, StoreSettings(I).Address)
+            Case 31
+                ToolTip1.SetToolTip(optStock31, StoreSettings(I).Address)
+            Case 32
+                ToolTip1.SetToolTip(optStock32, StoreSettings(I).Address)
+        End Select
+        'Next
     End Sub
 
-    Private Sub StoreStockLocTip()
-        For I = 1 To cOptionCount
-            Select Case I
-                Case 1
-                    ToolTip1.SetToolTip(lblLoc1, StoreSettings(I).Address)
-                Case 2
-                    ToolTip1.SetToolTip(lblLoc2, StoreSettings(I).Address)
-                Case 3
-                    ToolTip1.SetToolTip(lblLoc3, StoreSettings(I).Address)
-                Case 4
-                    ToolTip1.SetToolTip(lblLoc4, StoreSettings(I).Address)
-                Case 5
-                    ToolTip1.SetToolTip(lblLoc5, StoreSettings(I).Address)
-                Case 6
-                    ToolTip1.SetToolTip(lblLoc6, StoreSettings(I).Address)
-                Case 7
-                    ToolTip1.SetToolTip(lblLoc7, StoreSettings(I).Address)
-                Case 8
-                    ToolTip1.SetToolTip(lblLoc8, StoreSettings(I).Address)
-                Case 9
-                    ToolTip1.SetToolTip(lblLoc9, StoreSettings(I).Address)
-                Case 10
-                    ToolTip1.SetToolTip(lblLoc10, StoreSettings(I).Address)
-                Case 11
-                    ToolTip1.SetToolTip(lblLoc11, StoreSettings(I).Address)
-                Case 12
-                    ToolTip1.SetToolTip(lblLoc12, StoreSettings(I).Address)
-                Case 13
-                    ToolTip1.SetToolTip(lblLoc13, StoreSettings(I).Address)
-                Case 14
-                    ToolTip1.SetToolTip(lblLoc14, StoreSettings(I).Address)
-                Case 15
-                    ToolTip1.SetToolTip(lblLoc15, StoreSettings(I).Address)
-                Case 16
-                    ToolTip1.SetToolTip(lblLoc16, StoreSettings(I).Address)
-                Case 17
-                    ToolTip1.SetToolTip(lblLoc17, StoreSettings(I).Address)
-                Case 18
-                    ToolTip1.SetToolTip(lblLoc18, StoreSettings(I).Address)
-                Case 19
-                    ToolTip1.SetToolTip(lblLoc19, StoreSettings(I).Address)
-                Case 20
-                    ToolTip1.SetToolTip(lblLoc20, StoreSettings(I).Address)
-                Case 21
-                    ToolTip1.SetToolTip(lblLoc21, StoreSettings(I).Address)
-                Case 22
-                    ToolTip1.SetToolTip(lblLoc22, StoreSettings(I).Address)
-                Case 23
-                    ToolTip1.SetToolTip(lblLoc23, StoreSettings(I).Address)
-                Case 24
-                    ToolTip1.SetToolTip(lblLoc24, StoreSettings(I).Address)
-                Case 25
-                    ToolTip1.SetToolTip(lblLoc25, StoreSettings(I).Address)
-                Case 26
-                    ToolTip1.SetToolTip(lblLoc26, StoreSettings(I).Address)
-                Case 27
-                    ToolTip1.SetToolTip(lblLoc27, StoreSettings(I).Address)
-                Case 28
-                    ToolTip1.SetToolTip(lblLoc28, StoreSettings(I).Address)
-                Case 29
-                    ToolTip1.SetToolTip(lblLoc29, StoreSettings(I).Address)
-                Case 30
-                    ToolTip1.SetToolTip(lblLoc30, StoreSettings(I).Address)
-                Case 31
-                    ToolTip1.SetToolTip(lblLoc31, StoreSettings(I).Address)
-                Case 32
-                    ToolTip1.SetToolTip(lblLoc32, StoreSettings(I).Address)
-            End Select
-        Next
+    Private Sub StoreStockLocTip(ByVal I As Integer)
+        'For I = 1 To cOptionCount
+        Select Case I
+            Case 1
+                ToolTip1.SetToolTip(lblLoc1, StoreSettings(I).Address)
+            Case 2
+                ToolTip1.SetToolTip(lblLoc2, StoreSettings(I).Address)
+            Case 3
+                ToolTip1.SetToolTip(lblLoc3, StoreSettings(I).Address)
+            Case 4
+                ToolTip1.SetToolTip(lblLoc4, StoreSettings(I).Address)
+            Case 5
+                ToolTip1.SetToolTip(lblLoc5, StoreSettings(I).Address)
+            Case 6
+                ToolTip1.SetToolTip(lblLoc6, StoreSettings(I).Address)
+            Case 7
+                ToolTip1.SetToolTip(lblLoc7, StoreSettings(I).Address)
+            Case 8
+                ToolTip1.SetToolTip(lblLoc8, StoreSettings(I).Address)
+            Case 9
+                ToolTip1.SetToolTip(lblLoc9, StoreSettings(I).Address)
+            Case 10
+                ToolTip1.SetToolTip(lblLoc10, StoreSettings(I).Address)
+            Case 11
+                ToolTip1.SetToolTip(lblLoc11, StoreSettings(I).Address)
+            Case 12
+                ToolTip1.SetToolTip(lblLoc12, StoreSettings(I).Address)
+            Case 13
+                ToolTip1.SetToolTip(lblLoc13, StoreSettings(I).Address)
+            Case 14
+                ToolTip1.SetToolTip(lblLoc14, StoreSettings(I).Address)
+            Case 15
+                ToolTip1.SetToolTip(lblLoc15, StoreSettings(I).Address)
+            Case 16
+                ToolTip1.SetToolTip(lblLoc16, StoreSettings(I).Address)
+            Case 17
+                ToolTip1.SetToolTip(lblLoc17, StoreSettings(I).Address)
+            Case 18
+                ToolTip1.SetToolTip(lblLoc18, StoreSettings(I).Address)
+            Case 19
+                ToolTip1.SetToolTip(lblLoc19, StoreSettings(I).Address)
+            Case 20
+                ToolTip1.SetToolTip(lblLoc20, StoreSettings(I).Address)
+            Case 21
+                ToolTip1.SetToolTip(lblLoc21, StoreSettings(I).Address)
+            Case 22
+                ToolTip1.SetToolTip(lblLoc22, StoreSettings(I).Address)
+            Case 23
+                ToolTip1.SetToolTip(lblLoc23, StoreSettings(I).Address)
+            Case 24
+                ToolTip1.SetToolTip(lblLoc24, StoreSettings(I).Address)
+            Case 25
+                ToolTip1.SetToolTip(lblLoc25, StoreSettings(I).Address)
+            Case 26
+                ToolTip1.SetToolTip(lblLoc26, StoreSettings(I).Address)
+            Case 27
+                ToolTip1.SetToolTip(lblLoc27, StoreSettings(I).Address)
+            Case 28
+                ToolTip1.SetToolTip(lblLoc28, StoreSettings(I).Address)
+            Case 29
+                ToolTip1.SetToolTip(lblLoc29, StoreSettings(I).Address)
+            Case 30
+                ToolTip1.SetToolTip(lblLoc30, StoreSettings(I).Address)
+            Case 31
+                ToolTip1.SetToolTip(lblLoc31, StoreSettings(I).Address)
+            Case 32
+                ToolTip1.SetToolTip(lblLoc32, StoreSettings(I).Address)
+        End Select
+        'Next
     End Sub
 
     Private Sub StoreStockCaption(ByVal I As Integer, ByVal Caption As String)
@@ -464,4 +473,43 @@ Public Class OrdStatus
         DisposeDA(C2)
     End Sub
 
+    Private Sub optReduceStock_Click(sender As Object, e As EventArgs) Handles optReduceStock.Click
+        'reduce stock
+        'NoPO  -> Code in this sub procedure is commented in vb6.0.
+
+        If Mode = "Adj" Then
+        ElseIf OrderMode("Credit") Then
+        Else
+            If IsFormLoaded("BillOSale") Then BillOSale.DescEnabled = True 'added 05-21-01 for Sleep Store
+        End If
+        optTakeWith.TabStop = False
+        optSpecOrd.TabStop = False
+        optLayaway.TabStop = False
+
+        optTakeWith.Checked = False
+        optSpecOrd.Checked = False
+        optLayaway.Checked = False
+
+        FocusQuantity
+
+    End Sub
+
+    Private Sub FocusQuantity(Optional ByVal Always As Boolean = False)
+        On Error Resume Next
+        If Always Or Not SpeechActive() Then Quan.Select()
+    End Sub
+
+    Private Sub Quan_TextChanged(sender As Object, e As EventArgs) Handles Quan.TextChanged
+        Dimensions = "" ' clear this if they type in a manual quantity... for frmYardage
+        If Val(Quan.Text) <> 1 And OrderMode("A") Then
+            txtUnitPrice.Visible = True
+            lblUnitPrice.Visible = True
+        End If
+    End Sub
+
+    Private Sub OrdStatus_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+        'SetCustomFrame Me, ncBasicTool-------> This is line is not required. It is for U.I design using modNeoCaption module.
+        If Mode <> "Adj" And Dimensions = "" Then Quan.Text = "1"
+
+    End Sub
 End Class

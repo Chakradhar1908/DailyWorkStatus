@@ -139,8 +139,8 @@ Public Class InvCkStyle
     Private Sub Style_TextChanged(sender As Object, e As EventArgs) Handles Style.TextChanged
         IsByVendor = ""
         If Microsoft.VisualBasic.Left(Style.Text, 3) = "KIT" Then HandleStyleChange() 'makes this work right
-        StartTypeTimer()
-        'HandleStyleChange()  '-> NOTE: Added this line temporarily. Remove the above line comment and remove this line afte complete project coding.
+        'StartTypeTimer()
+        HandleStyleChange()  '-> NOTE: Added this line temporarily. Remove the above line comment and remove this line afte complete project coding.
     End Sub
 
     Private Sub HandleStyleChange()
@@ -433,7 +433,7 @@ HandleErr:
         LockWindowUpdate(lstStyles.Handle)  'Locks the listbox until all the data will be loaded in to it.
 
         '---------------------------
-        'Finding maximum lenth of style no.
+        'Finding maximum lenth of style no.  This code block is not there in vb6.0. It is added here because vb6.0 code is not enough for this requirement here.
         Dim MaxLengthStyleNo As Integer
         For X = 1 To Counter
             If Trim(Style.Text) = Microsoft.VisualBasic.Left(ListSearch(X), Len(Trim(Style.Text))) Then
