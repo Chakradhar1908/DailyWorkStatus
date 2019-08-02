@@ -293,4 +293,13 @@ AnError:
         FormatQuantity = GMFormat(Q, Decimals)
     End Function
 
+    Public Function GetDouble(ByVal Value As String) As Double
+        'If IsNull(Value) Then Value = 0
+        If IsNothing(Value) Then Value = 0
+        On Error GoTo AnError
+        GetDouble = CDbl(Value)
+        Exit Function
+AnError:
+    End Function
+
 End Module

@@ -123,7 +123,7 @@ Public Class OrdStatus
             'For I = optStock.LBound To optStock.UBound
             '    If optStock(I) Then StoreStock = I : Exit Property
             'Next
-            For I = 1 To 32
+            For I = 1 To Setup_MaxStores
                 If optStock1.Checked = True Then StoreStock = I : Exit Property
                 If optStock2.Checked = True Then StoreStock = I : Exit Property
                 If optStock3.Checked = True Then StoreStock = I : Exit Property
@@ -380,77 +380,208 @@ Public Class OrdStatus
         'Next
     End Sub
 
-    Private Sub StoreStockCaption(ByVal I As Integer, ByVal Caption As String)
+    Private Function StoreStockCaption(ByVal I As Integer, Optional ByVal Caption As String = "") As String
         'For I = 1 To cOptionCount
         '    StoreStockCaption(I) = Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
         'Next
+        ' If Caption ="" Then is for Get property of vb6
+        ' Else part is for Let property of vb6
+
         Select Case I
             Case 1
-                optStock1.Text = Caption
+                If Caption = "" Then '-> For get property of vb6
+                    StoreStockCaption = optStock1.Text
+                Else                 '-> Forlet property of vb6  
+                    optStock1.Text = Caption
+                End If
             Case 2
-                optStock2.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock2.Text
+                Else
+                    optStock2.Text = Caption
+                End If
             Case 3
-                optStock3.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock3.Text
+                Else
+                    optStock3.Text = Caption
+                End If
             Case 4
-                optStock4.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock4.Text
+                Else
+                    optStock4.Text = Caption
+                End If
             Case 5
-                optStock5.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock5.Text
+                Else
+                    optStock5.Text = Caption
+                End If
             Case 6
-                optStock6.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock6.Text
+                Else
+                    optStock6.Text = Caption
+                End If
             Case 7
-                optStock7.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock7.Text
+                Else
+                    optStock7.Text = Caption
+                End If
             Case 8
-                optStock8.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock8.Text
+                Else
+                    optStock8.Text = Caption
+                End If
             Case 9
-                optStock9.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock9.Text
+                Else
+                    optStock9.Text = Caption
+                End If
             Case 10
-                optStock10.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock10.Text
+                Else
+                    optStock10.Text = Caption
+                End If
             Case 11
-                optStock11.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock11.Text
+                Else
+                    optStock11.Text = Caption
+                End If
             Case 12
-                optStock12.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock12.Text
+                Else
+                    optStock12.Text = Caption
+                End If
             Case 13
-                optStock13.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock13.Text
+                Else
+                    optStock13.Text = Caption
+                End If
             Case 14
-                optStock14.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock14.Text
+                Else
+                    optStock14.Text = Caption
+                End If
             Case 15
-                optStock15.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock15.Text
+                Else
+                    optStock15.Text = Caption
+                End If
             Case 16
-                optStock16.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock16.Text
+                Else
+                    optStock16.Text = Caption
+                End If
             Case 17
-                optStock17.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock17.Text
+                Else
+                    optStock17.Text = Caption
+                End If
             Case 18
-                optStock18.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock18.Text
+                Else
+                    optStock18.Text = Caption
+                End If
             Case 19
-                optStock19.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock19.Text
+                Else
+                    optStock19.Text = Caption
+                End If
             Case 20
-                optStock20.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock20.Text
+                Else
+                    optStock20.Text = Caption
+                End If
             Case 21
-                optStock21.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock21.Text
+                Else
+                    optStock21.Text = Caption
+                End If
             Case 22
-                optStock22.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock22.Text
+                Else
+                    optStock22.Text = Caption
+                End If
             Case 23
-                optStock23.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock23.Text
+                Else
+                    optStock23.Text = Caption
+                End If
             Case 24
-                optStock24.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock24.Text
+                Else
+                    optStock24.Text = Caption
+                End If
             Case 25
-                optStock25.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock25.Text
+                Else
+                    optStock25.Text = Caption
+                End If
             Case 26
-                optStock26.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock26.Text
+                Else
+                    optStock26.Text = Caption
+                End If
             Case 27
-                optStock27.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock27.Text
+                Else
+                    optStock27.Text = Caption
+                End If
             Case 28
-                optStock28.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock28.Text
+                Else
+                    optStock28.Text = Caption
+                End If
             Case 29
-                optStock29.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock29.Text
+                Else
+                    optStock29.Text = Caption
+                End If
             Case 30
-                optStock30.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock30.Text
+                Else
+                    optStock30.Text = Caption
+                End If
             Case 31
-                optStock31.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock31.Text
+                Else
+                    optStock31.Text = Caption
+                End If
             Case 32
-                optStock32.Text = Caption
+                If Caption = "" Then
+                    StoreStockCaption = optStock32.Text
+                Else
+                    optStock32.Text = Caption
+                End If
         End Select
-    End Sub
+    End Function
 
     Private Sub GetStore()
         If Not optTagIncoming.Checked = True Then 'tag PO
@@ -512,4 +643,115 @@ Public Class OrdStatus
         If Mode <> "Adj" And Dimensions = "" Then Quan.Text = "1"
 
     End Sub
+
+    Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
+        Dim I As Integer, LocAvailable As Double
+        Dim ScheduledForTransfer As Double
+        If Not ValidateQuantity() Then
+            MsgBox("Please enter a quantity.", vbCritical, "Error")
+            FocusQuantity(True)
+            Exit Sub
+        End If
+
+        If Mode = "Adj" Then
+            If optTagIncoming.Checked = True Then
+                LocAvailable = Val(lblTagAmt.Text)
+            Else
+                LocAvailable = Val(StoreStockCaption(StoreStock))
+            End If
+
+            If LocAvailable - Val(Quan.Text) < 0 And Not optSpecOrd.Checked = True Then
+                If MsgBox("Caution: Over Selling Item!", vbExclamation + vbOKCancel, "Warning", , , , , , False) = vbCancel Then Exit Sub
+            End If
+            Hide()
+            Exit Sub
+        End If
+
+        If IsFormLoaded("BillOSale") Then
+
+            ScheduledForTransfer = GetPendingTransfersFrom(BillOSale.QueryStyle(BillOSale.NewStyleLine), StoreStock)
+            If ScheduledForTransfer > Val(StoreStockCaption(StoreStock)) Then
+                'BFH20150117
+                '"Both stores sell these items into the Red.  One store had -76 items"
+                '"Can you modify so that if orig balance is less than 0 not to pop up?"
+                If Val(StoreStockCaption(StoreStock)) >= 0 Then
+                    If MsgBox("Location " & StoreStock & " has " & FormatQuantity(ScheduledForTransfer) & " item(s) scheduled to be transfered to other location(s)." & vbCrLf & "This may cause inventory to not be available.", vbOKCancel, "Pending Transfers") = vbCancel Then
+                        FocusQuantity(True)
+                        Exit Sub
+                    End If
+                End If
+            End If
+
+
+
+            Dim X As Integer
+            X = BillOSale.NewStyleLine '.X
+            BillOSale.X = X
+
+            If optReduceStock.Checked = True Then
+                If Not CheckQuan(X) Then Exit Sub
+                BillOSale.SetStatus(X, "ST")
+            ElseIf optTakeWith.Checked = True Then
+                If Not CheckQuan(X) Then Exit Sub
+                BillOSale.SetStatus(X, "DELTW")  ' Take With Item
+            ElseIf optSpecOrd.Checked = True Then
+                BillOSale.SetStatus(X, "SO")
+            ElseIf optLayaway.Checked = True Then
+                BillOSale.SetStatus(X, "LAW")
+            ElseIf optTagIncoming.Checked = True Then
+                BillOSale.SetStatus(X, "PO")
+            End If
+
+            'Locations
+            BillOSale.SetLoc(X, StoreStock)
+            '        If BillOSale.Status = "PO" Then BillOSale.Loc = StoresSld         'removed 04-05-02
+
+            BillOSale.SetQuan(X, Quan.Text)
+            BillOSale.StatusEnabled = False
+            BillOSale.SetPrice(X, GetPrice(txtUnitPrice.Text) * Val(Quan.Text))
+            If Dimensions <> "" Then
+                BillOSale.SetDesc(X, "(" & Dimensions & ")  " & BillOSale.QueryDesc(X))
+            End If
+            BillOSale.PriceFocus(X)
+            '.CheckAddRow
+            BillOSale.StyleAddEnd()
+            BillOSale.KitLines = 0
+            BillOSale.PriceFocus()
+        End If
+        'Unload OrdStatus
+        Me.Close()
+
+    End Sub
+
+    Private Function ValidateQuantity() As Boolean
+        If Not IsNumeric(Quan) Then ValidateQuantity = False : Exit Function
+        If GetDouble(Quan.Text) = 0 Then ValidateQuantity = False : Exit Function  ' Allow returns, at least for United.
+        '  If Val(Quan) < 0 Then ValidateQuantity = False: Exit Function
+        '  If CLng(Quan) <> CDbl(Quan) Then ValidateQuantity = False: Exit Function  ' Allow decimals, for carpet yardage and such.  Maybe make this product-dependent later.
+        ValidateQuantity = True
+    End Function
+
+    Private Function CheckQuan(ByVal BSX As Integer) As Boolean
+        Dim LocAvailable As Double, I As Integer
+        CheckQuan = True
+        If Mode = "Adj" Then
+            Exit Function
+        End If
+
+        LocAvailable = Val(StoreStockCaption(StoreStock))
+
+        If LocAvailable - Val(Quan) < 0 Then
+            ', , , , , , False
+            If MsgBox("Caution: Over Selling Item!", vbExclamation + vbOKCancel, "Warning") = vbCancel Then
+                CheckQuan = False
+            End If
+        ElseIf LocAvailable - Val(Quan) = 0 Then
+            If Microsoft.VisualBasic.Left(BillOSale.QueryDesc(BSX), 3) <> "tg " Then
+                BillOSale.SetDesc(BSX, "tg " & BillOSale.QueryDesc(BSX))
+            Else
+                ' Already marked tg, don't re-mark it.
+            End If
+        End If
+    End Function
+
 End Class

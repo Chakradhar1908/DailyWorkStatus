@@ -108,7 +108,8 @@ Public Class InvCkStyle
     End Sub
 
     Public Sub New()
-        'This constructor is for form initialize event of vb6.0. In vb.net, form Initialize and Activate events are not available.
+        'This constructor is for form initialize event of vb6.0. In vb.net, form Initialize event is not available.
+        'For form activate event, use activated event in vb.net
 
         ' This call is required by the designer.
         InitializeComponent()

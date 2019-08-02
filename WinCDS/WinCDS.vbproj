@@ -225,6 +225,12 @@
     <Compile Include="Forms\frmMenu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmMsg2.Designer.vb">
+      <DependentUpon>frmMsg2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMsg2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmNotes.Designer.vb">
       <DependentUpon>frmNotes.vb</DependentUpon>
     </Compile>
@@ -371,6 +377,7 @@
     <Compile Include="Forms\MainMenu4.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\modEasing.vb" />
     <Compile Include="Forms\OrdConvertLAW.Designer.vb">
       <DependentUpon>OrdConvertLAW.vb</DependentUpon>
     </Compile>
@@ -451,6 +458,7 @@
     <Compile Include="Modules\MainModule.vb" />
     <Compile Include="Modules\MFreeImage.vb" />
     <Compile Include="Modules\mod2Data.vb" />
+    <Compile Include="Modules\mod2DataTransfers.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
     <Compile Include="Modules\modAPI.vb" />
     <Compile Include="Modules\modAR.vb" />
@@ -576,6 +584,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Calendar.resx">
       <DependentUpon>Calendar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditPO.resx">
+      <DependentUpon>EditPO.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashRegister.resx">
       <DependentUpon>frmCashRegister.vb</DependentUpon>
