@@ -565,6 +565,12 @@
     <Compile Include="UserControls\testusercontrol2.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\ucPBar.Designer.vb">
+      <DependentUpon>ucPBar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucPBar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\UGridIO.Designer.vb">
       <DependentUpon>UGridIO.vb</DependentUpon>
     </Compile>
@@ -689,6 +695,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\testusercontrol.resx">
       <DependentUpon>testusercontrol.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ucPBar.resx">
+      <DependentUpon>ucPBar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UGridIO.resx">
       <DependentUpon>UGridIO.vb</DependentUpon>

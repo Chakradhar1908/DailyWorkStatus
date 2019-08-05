@@ -183,56 +183,56 @@ Module modSupportForms
         ':::RETURN
         ': - vbMsgBoxResult
 
-        '      On Error Resume Next
-        '      If SuppressMessagesUntil <> "" Then
-        '          If Not DateAfter(Now, SuppressMessagesUntil, , "n") Then
-        '              Exit Function
-        '          Else
-        '              SuppressMessagesUntil = ""
-        '          End If
-        '      End If
+        On Error Resume Next
+        If SuppressMessagesUntil <> "" Then
+            If Not DateAfter(Now, SuppressMessagesUntil, , "n") Then
+                Exit Function
+            Else
+                SuppressMessagesUntil = ""
+            End If
+        End If
 
 
-        '      If Value = -1 Or Max = 0 Then
-        '          ClearOtherProgressForms()
+        If Value = -1 Or Max = 0 Then
+            ClearOtherProgressForms()
 
-        '          Exit Function
-        '      End If
+            Exit Function
+        End If
 
 
-        '      If BarColor <> vbInactiveBorder Then PR.prg.FillColor = BarColor
-        '      If BackColor <> vbInactiveBorder Then PR.prg.BackColor = BackColor
+        If BarColor <> vbInactiveBorder Then PR.prg.FillColor = BarColor
+        If BackColor <> vbInactiveBorder Then PR.prg.BackColor = BackColor
 
-        '      If IsWin5 And Not IsIDE() And IsIn(Style, prgSpin, prgIndefinite) Then Style = prgStatic ' WinxP is too slow to do this
-        '      If Not Gif89Installed And Not IsIn(Style, prgStatic, prg3DFloat, prgDefault) Then Style = prgDefault
-        '      If Style = prgDefault Then Style = IIf(Value = 0 And Max = 1, prgStatic, prg3DFloat)
-        '      ClearOtherProgressForms Style
+        If IsWin5 And Not IsIDE() And IsIn(Style, prgSpin, prgIndefinite) Then Style = prgStatic ' WinxP is too slow to do this
+        If Not Gif89Installed And Not IsIn(Style, prgStatic, prg3DFloat, prgDefault) Then Style = prgDefault
+        If Style = prgDefault Then Style = IIf(Value = 0 And Max = 1, prgStatic, prg3DFloat)
+        ClearOtherProgressForms Style
 
-        'Select Case Style
-        '          Case prg3DFloat
-        '              If PR Is Nothing Then Set PR = New frmProgress
-        '    PR.Progress Value, Max, Caption, True, True ', vButtons
-        '    'If Lt > 0 Then
-        '    '  PR.Left = Lt + 200
-        '    '  PR.Top = Tp + 100
-        '    'End If
-        '          Case prgFlatFloat
-        '              If PR2 Is Nothing Then Set PR2 = New frmProgress2
-        '    PR2.Progress Value, Max, Caption, True, True, vButtons
-        '  Case prgIndefinite
-        '              If PR3 Is Nothing Then Set PR3 = New frmProgress3
-        '    PR3.Progress Caption, True, True, vButtons
-        '  Case prgSpin
-        '              If PS Is Nothing Then Set PS = New frmProgressStatic
-        '    PS.ProgressSpin Caption, True, True
-        '  Case prgStatic
-        '              If PS Is Nothing Then Set PS = New frmProgressStatic
-        '    PS.Progress Caption, True, True
-        'End Select
+        Select Case Style
+            Case prg3DFloat
+                If PR Is Nothing Then Set PR = New frmProgress
+            PR.Progress Value, Max, Caption, True, True ', vButtons
+            'If Lt > 0 Then
+            '  PR.Left = Lt + 200
+            '  PR.Top = Tp + 100
+            'End If
+            Case prgFlatFloat
+                If PR2 Is Nothing Then Set PR2 = New frmProgress2
+            PR2.Progress Value, Max, Caption, True, True, vButtons
+          Case prgIndefinite
+                If PR3 Is Nothing Then Set PR3 = New frmProgress3
+            PR3.Progress Caption, True, True, vButtons
+          Case prgSpin
+                If PS Is Nothing Then Set PS = New frmProgressStatic
+            PS.ProgressSpin Caption, True, True
+          Case prgStatic
+                If PS Is Nothing Then Set PS = New frmProgressStatic
+            PS.Progress Caption, True, True
+        End Select
 
-        '      If Value = 0 And Max = 1 Then
-        '      Else
-        '      End If
+        If Value = 0 And Max = 1 Then
+        Else
+        End If
     End Function
 
 
