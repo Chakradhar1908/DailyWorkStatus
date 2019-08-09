@@ -1005,7 +1005,7 @@ Partial Class BillOSale
         Me.fraBOS2.Controls.Add(Me.BalDue)
         Me.fraBOS2.Controls.Add(Me.cmdPrint)
         Me.fraBOS2.Controls.Add(Me.cmdChangePrice)
-        Me.fraBOS2.Location = New System.Drawing.Point(-1100, 181)
+        Me.fraBOS2.Location = New System.Drawing.Point(-1000, 181)
         Me.fraBOS2.Name = "fraBOS2"
         Me.fraBOS2.Size = New System.Drawing.Size(875, 382)
         Me.fraBOS2.TabIndex = 88
@@ -1288,6 +1288,7 @@ Partial Class BillOSale
         Me.Controls.Add(Me.dteSaleDate)
         Me.Controls.Add(Me.lblDateCaption)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Location = New System.Drawing.Point(100, 0)
         Me.MaximizeBox = False
         Me.Name = "BillOSale"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual

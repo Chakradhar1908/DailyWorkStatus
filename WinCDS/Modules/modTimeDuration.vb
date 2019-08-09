@@ -29,9 +29,10 @@ Module modTimeDuration
     Public Function DescribeTimeDurationMS(ByVal Ms as integer, Optional ByVal Style As TimeDurationStyles = TimeDurationStyles.tdsty_Text, Optional ByVal Resolution As TimeSegments = TimeSegments.tseg_Y) As String
         DescribeTimeDurationMS = DescribeTimeDuration(Ms / DUR_MS_S, Style, Resolution)
     End Function
+
     Public Function DescribeTimeDuration(ByVal tS As Double, Optional ByVal Style As TimeDurationStyles = TimeDurationStyles.tdsty_Text, Optional ByVal Resolution As TimeSegments = TimeSegments.tseg_Y) As String
-        Dim Ms as integer, S As Double, M as integer, H as integer, D as integer
-        Dim W as integer, T as integer, Y as integer
+        Dim Ms As Integer, S As Double, M As Integer, H As Integer, D As Integer
+        Dim W As Integer, T As Integer, Y As Integer
         Dim Res As String
 
         Ms = TimeDurationSegment(tS, TimeSegments.tseg_MS, Resolution)
@@ -78,9 +79,10 @@ Module modTimeDuration
 
         DescribeTimeDuration = Trim(Res)
     End Function
-    Public Function TimeDurationSegment(ByVal tS As Double, Optional ByRef Segment As TimeSegments = 0, Optional ByVal Resolution As TimeSegments = TimeSegments.tseg_Y) as integer
-        Dim Ms As Double, S As Double, M as integer, H as integer, D as integer
-        Dim W as integer, T as integer, Y as integer
+
+    Public Function TimeDurationSegment(ByVal tS As Double, Optional ByRef Segment As TimeSegments = 0, Optional ByVal Resolution As TimeSegments = TimeSegments.tseg_Y) As Integer
+        Dim Ms As Double, S As Double, M As Integer, H As Integer, D As Integer
+        Dim W As Integer, T As Integer, Y As Integer
         Dim Res As String
 
         Ms = Decimals(tS) * 1000
@@ -123,6 +125,7 @@ Render:
             Case TimeSegments.tseg_Y : TimeDurationSegment = Y
         End Select
     End Function
+
     Public Function DescribeTimeSegment(ByVal Seg As TimeSegments, Optional ByVal Style As TimeDurationStyles = TimeDurationStyles.tdsty_Text) As String
         Select Case Seg
             Case TimeSegments.tseg_MS : DescribeTimeSegment = Switch(Style = TimeDurationStyles.tdsty_Long, "millisecond", Style = TimeDurationStyles.tdsty_Short, "ms", True, "")
@@ -134,6 +137,49 @@ Render:
             Case TimeSegments.tseg_MO : DescribeTimeSegment = Switch(Style = TimeDurationStyles.tdsty_Long, "month", Style = TimeDurationStyles.tdsty_Short, "mo", True, "mo")
             Case TimeSegments.tseg_Y : DescribeTimeSegment = Switch(Style = TimeDurationStyles.tdsty_Long, "year", Style = TimeDurationStyles.tdsty_Short, "y", True, "yr")
         End Select
+    End Function
+
+    Public Function TimeRemaining(Optional ByVal ItemsRemaining As Integer = -1, Optional ByVal AverageOver As Integer = 25) As String
+        Static BeginningTick As Double, LastTick As Double, LastCount As Integer, Avg As Double, LastReturn As Double, LastCheck As Integer, LastResult As String
+        'Debug.Print "TimeRemaining(IR=" & ItemsRemaining & ", AO=" & AverageOver & ")"
+
+        Dim ItemsElapsed As Integer
+        Dim Tick As Integer, Dur As Integer, RemainingTicks As Double
+        Dim UseCurr As Boolean
+        Tick = GetTickCount
+
+
+        If ItemsRemaining <= 0 Then
+            BeginningTick = Tick
+            LastTick = Tick
+            LastCount = 0
+            LastReturn = 0
+            LastCheck = 0
+            Avg = 0
+            Exit Function
+        End If
+
+        ItemsElapsed = LastCount - ItemsRemaining
+        Dur = Tick - LastTick
+        Avg = (Dur + (AverageOver - 1) * IIf(Avg = 0, Dur, Avg)) / AverageOver
+        RemainingTicks = ItemsRemaining * Avg / IIf(ItemsElapsed = 0, 1, ItemsElapsed)
+
+        If Dur < 50 Then TimeRemaining = LastResult : Exit Function ' Just a redraw
+        'Debug.Print "Items=" & ItemsRemaining & ", Tick=" & Tick & ", Last = " & LastTick & ", Dur = " & Dur & ", Avg = " & FormatQuantity(Avg) & ", Remaining=" & RemainingTicks
+
+        ' This is an anti-flicker approach..  Don't show constant up/down..  Only go back up if a certain period has elapsed.
+        If LastReturn = 0 Or RemainingTicks < LastReturn Or Tick - LastCheck > 2500 Then
+            LastReturn = RemainingTicks
+            LastCheck = Tick
+            UseCurr = True
+        End If
+
+        LastTick = Tick
+        LastCount = ItemsRemaining
+
+        On Error Resume Next ' Sometimes, a few of these were overflowing...  This prevents errors
+        TimeRemaining = DescribeTimeDurationMS(IIf(UseCurr, RemainingTicks, LastReturn) + 1000, TimeDurationStyles.tdsty_Clock) '+ 1000 because you NEVER show 0s...  0s means done, not 1s remaining.
+        LastResult = TimeRemaining
     End Function
 
 End Module

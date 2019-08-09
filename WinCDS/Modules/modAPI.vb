@@ -1,4 +1,5 @@
 ﻿'Imports System.Runtime.InteropServices
+Imports stdole
 
 Module modAPI
     Public Declare Function GetComputerName Lib "kernel32" Alias "GetComputerNameA" (ByVal lpBuffer As String, nSize As Integer) As Integer
@@ -405,6 +406,85 @@ Module modAPI
         lRetVal = GetShortPathName(sLongFileName, sShortPathName, iLen)
         'Strip away unwanted characters.
         GetShortName = Left(sShortPathName, lRetVal)
+    End Function
+
+    Public Function CaptureForm(ByRef frmSrc As Form) As Picture
+        ' Call CaptureWindow to capture the entire form given its window
+        ' handle and then return the resulting Picture object.
+        'CaptureForm = CaptureWindow(frmSrc.hWnd, False, 0, 0,
+        CaptureForm = CaptureWindow(frmSrc.Handle, False, 0, 0, frmSrc.ScaleX(frmSrc.Width, vbTwips, vbPixels), frmSrc.ScaleY(frmSrc.Height, vbTwips, vbPixels))
+
+
+    End Function
+
+    Public Function CaptureWindow(ByVal hWndSrc As Long,
+          ByVal Client As Boolean, ByVal LeftSrc As Long,
+          ByVal TopSrc As Long, ByVal WidthSrc As Long,
+          ByVal HeightSrc As Long) As Picture
+
+        Dim hDCMemory As Long
+        Dim hBmp As Long
+        Dim hBmpPrev As Long
+        Dim R As Long
+        Dim hDCSrc As Long
+        Dim hPal As Long
+        Dim hPalPrev As Long
+        Dim RasterCapsScrn As Long
+        Dim HasPaletteScrn As Long
+        Dim PaletteSizeScrn As Long
+        Dim LogPal As LOGPALETTE
+
+        ' Depending on the value of Client get the proper device context.
+        If Client Then
+            hDCSrc = GetDC(hWndSrc) ' Get device context for client area.
+        Else
+            hDCSrc = GetWindowDC(hWndSrc) ' Get device context for entire window.
+        End If
+
+        ' Create a memory device context for the copy process.
+        hDCMemory = CreateCompatibleDC(hDCSrc)
+        ' Create a bitmap and place it in the memory DC.
+        hBmp = CreateCompatibleBitmap(hDCSrc, WidthSrc, HeightSrc)
+        hBmpPrev = SelectObject(hDCMemory, hBmp)
+
+        ' Get screen properties.
+        RasterCapsScrn = GetDeviceCaps(hDCSrc, RASTERCAPS) ' Raster capabilities
+        HasPaletteScrn = RasterCapsScrn And RC_PALETTE       ' Palette support
+        PaletteSizeScrn = GetDeviceCaps(hDCSrc, SIZEPALETTE) ' Size of pallet
+
+        ' If the screen has a palette make a copy and realize it.
+        If HasPaletteScrn And (PaletteSizeScrn = 256) Then
+            ' Create a copy of the system palette.
+            LogPal.palVersion = &H300
+            LogPal.palNumEntries = 256
+            R = GetSystemPaletteEntries(hDCSrc, 0, 256, LogPal.palPalEntry(0))
+            hPal = CreatePalette(LogPal)
+            ' Select the new palette into the memory DC and realize it.
+            hPalPrev = SelectPalette(hDCMemory, hPal, 0)
+            R = RealizePalette(hDCMemory)
+        End If
+
+        ' Copy the on-screen image into the memory DC.
+        R = BitBlt(hDCMemory, 0, 0, WidthSrc, HeightSrc, hDCSrc,
+        LeftSrc, TopSrc, vbSrcCopy)
+
+        ' Remove the new copy of the  on-screen image.
+        hBmp = SelectObject(hDCMemory, hBmpPrev)
+
+        ' If the screen has a palette get back the palette that was
+        ' selected in previously.
+        If HasPaletteScrn And (PaletteSizeScrn = 256) Then
+            hPal = SelectPalette(hDCMemory, hPalPrev, 0)
+        End If
+
+        ' Release the device context resources back to the system.
+        R = DeleteDC(hDCMemory)
+        R = ReleaseDC(hWndSrc, hDCSrc)
+
+        ' Call CreateBitmapPicture to create a picture object from the
+        ' bitmap and palette handles. Then return the resulting picture
+        ' object.
+        CaptureWindow = CreateBitmapPicture(hBmp, hPal)
     End Function
 
 End Module
