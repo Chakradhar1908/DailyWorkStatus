@@ -630,12 +630,12 @@ TryAgain:
 
     Public Sub GridFocus(ByVal ColNum As Integer, Optional ByVal RowNum As Integer = -1)
         On Error Resume Next
-        'UGridIO1.Loading = True
+        UGridIO1.Loading = True
         If RowNum = -1 Then RowNum = CurrentLine
-        'If ColNum >= 0 And ColNum <= UGridIO1.MaxCols Then UGridIO1.Col = ColNum
-        'If RowNum >= 0 And RowNum <= UGridIO1.MaxRows Then UGridIO1.Row = RowNum
-        'UGridIO1.Loading = False
-        'UGridIO1.Select()
+        If ColNum >= 0 And ColNum <= UGridIO1.MaxCols Then UGridIO1.Col = ColNum
+        If RowNum >= 0 And RowNum <= UGridIO1.MaxRows Then UGridIO1.Row = RowNum
+        UGridIO1.Loading = False
+        UGridIO1.Select()
     End Sub
 
     Private Sub GetTax2(ByVal Quantity As Integer)

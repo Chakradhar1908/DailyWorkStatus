@@ -724,7 +724,7 @@ Public Class OrdStatus
     End Sub
 
     Private Function ValidateQuantity() As Boolean
-        If Not IsNumeric(Quan) Then ValidateQuantity = False : Exit Function
+        If Not IsNumeric(Quan.Text) Then ValidateQuantity = False : Exit Function
         If GetDouble(Quan.Text) = 0 Then ValidateQuantity = False : Exit Function  ' Allow returns, at least for United.
         '  If Val(Quan) < 0 Then ValidateQuantity = False: Exit Function
         '  If CLng(Quan) <> CDbl(Quan) Then ValidateQuantity = False: Exit Function  ' Allow decimals, for carpet yardage and such.  Maybe make this product-dependent later.
@@ -740,12 +740,12 @@ Public Class OrdStatus
 
         LocAvailable = Val(StoreStockCaption(StoreStock))
 
-        If LocAvailable - Val(Quan) < 0 Then
+        If LocAvailable - Val(Quan.Text) < 0 Then
             ', , , , , , False
             If MsgBox("Caution: Over Selling Item!", vbExclamation + vbOKCancel, "Warning") = vbCancel Then
                 CheckQuan = False
             End If
-        ElseIf LocAvailable - Val(Quan) = 0 Then
+        ElseIf LocAvailable - Val(Quan.Text) = 0 Then
             If Microsoft.VisualBasic.Left(BillOSale.QueryDesc(BSX), 3) <> "tg " Then
                 BillOSale.SetDesc(BSX, "tg " & BillOSale.QueryDesc(BSX))
             Else

@@ -493,12 +493,17 @@ AnError:
         End If
     End Function
 
-    Public Property Loading As Boolean
+    Public Property Loading() As Boolean
         Get
             Loading = mLoading > 0
         End Get
         Set(value As Boolean)
-            mLoading = mLoading + IIf(value, 1, -1)  ' Increment or decrement the counter.
+            'mLoading = mLoading + IIf(value, 1, -1)  ' Increment or decrement the counter.
+            If value = True Then
+                mLoading = mLoading + 1
+            Else
+                mLoading = mLoading - 1
+            End If
         End Set
     End Property
 

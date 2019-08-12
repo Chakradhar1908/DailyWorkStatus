@@ -1,4 +1,4 @@
-﻿Public Class frmProgress3
+﻿Public Class FrmProgress3
     Public LockOn As Boolean              ' this does a version modal
     Public PreventLockOn As Boolean
 
@@ -20,4 +20,7 @@
         End If
     End Sub
 
+    Private Sub FrmProgress3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

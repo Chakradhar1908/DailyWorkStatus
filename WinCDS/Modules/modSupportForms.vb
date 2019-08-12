@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Module modSupportForms
     Private PR As frmProgress
     Private PR2 As frmProgress2
-    Private PR3 As frmProgress3
+    Private PR3 As FrmProgress3
     Private PS As frmProgressStatic
 
     Private SuppressMessagesUntil As Date
@@ -32,6 +32,7 @@ Module modSupportForms
         If Style <> ProgressBarStyle.prgFlatFloat Then DisposeDA(PR2)
         If Style <> ProgressBarStyle.prgIndefinite Then DisposeDA(PR3)
         If Style <> ProgressBarStyle.prgSpin And Style <> ProgressBarStyle.prgStatic Then DisposeDA(PS)
+        Return Nothing
     End Function
 
     Public Function PreviewItemByStyle(Optional ByVal Style As String = "", Optional ByRef frm As Form = Nothing) As Boolean
@@ -77,7 +78,7 @@ Module modSupportForms
         ':::RETURN
         ': - vbMsgBoxResult
 
-        Dim R As New frmMsg2
+        Dim R As New FrmMsg2
         'MsgBox = VBA.MsgBox(Prompt, Buttons, Title, Helpfile, Context)   ' good for comparing original with ours in debugging
         On Error Resume Next
         If SuppressMessagesUntil <> "" Then
@@ -153,7 +154,7 @@ Module modSupportForms
                 If PR2 Is Nothing Then PR2 = New frmProgress2
                 PR2.Progress(Value, Max, Caption, True, True, vButtons)
             Case ProgressBarStyle.prgIndefinite
-                If PR3 Is Nothing Then PR3 = New frmProgress3
+                If PR3 Is Nothing Then PR3 = New FrmProgress3
                 PR3.Progress(Caption, True, True, vButtons)
             Case ProgressBarStyle.prgSpin
                 If PS Is Nothing Then PS = New frmProgressStatic

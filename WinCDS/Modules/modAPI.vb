@@ -187,7 +187,7 @@ Module modAPI
         RedrawWindow(hwnd, tr, 0, RDW_INTERNALPAINT + RDW_UPDATENOW)
     End Function
     Public Function DrawRectangleToDC(ByVal DC As Integer, ByVal L As Integer, ByVal T As Integer, ByVal W As Integer, ByVal H As Integer, ByVal Color As Integer, Optional ByVal Transparency As Integer = 75, Optional ByVal Invalidate1st As Boolean = True) As Boolean
-        Dim PTB As PictureBox
+        'Dim PTB As PictureBox
         Dim lBlend As Integer, Bf As BLENDFUNCTION
         Dim N As Integer
 
@@ -207,11 +207,11 @@ Module modAPI
 
         'PTB.Line(0, 0)-(W, H), Color, BF
 
-        Dim g As Graphics = PTB.CreateGraphics
+        'Dim g As Graphics = PTB.CreateGraphics
 
 
         'N = GdiAlphaBlend(DC, L, T, W, H, PTB.hDC, 0, 0, 1, 1, lBlend)
-        N = GdiAlphaBlend(DC, L, T, W, H, g.GetHdc, 0, 0, 1, 1, lBlend)
+        'N = GdiAlphaBlend(DC, L, T, W, H, g.GetHdc, 0, 0, 1, 1, lBlend)
         '  Debug.Print "n=" & N
         DrawRectangleToDC = N <> 0
         '  EditPO.UGridIO1.ColorColumn 2, vbRed
@@ -303,8 +303,9 @@ Module modAPI
         Dim Info_address As Integer
         Dim Fixed_File_Info As VS_FIXEDFILEINFO
         Dim Fixed_File_Info_Size As Integer
-        Dim Result As VersionInformationType
+        Dim Result As VersionInformationType = Nothing
 
+        VersionInformation = Nothing
         ' Get the version information buffer size.
         Info_size = GetFileVersionInfoSize(FILE_Name, Dummy_handle)
         If Info_size = 0 Then
@@ -412,79 +413,78 @@ Module modAPI
         ' Call CaptureWindow to capture the entire form given its window
         ' handle and then return the resulting Picture object.
         'CaptureForm = CaptureWindow(frmSrc.hWnd, False, 0, 0,
-        CaptureForm = CaptureWindow(frmSrc.Handle, False, 0, 0, frmSrc.ScaleX(frmSrc.Width, vbTwips, vbPixels), frmSrc.ScaleY(frmSrc.Height, vbTwips, vbPixels))
-
-
+        'CaptureForm = CaptureWindow(frmSrc.Handle, False, 0, 0, frmSrc.ScaleX(frmSrc.Width, vbTwips, vbPixels), frmSrc.ScaleY(frmSrc.Height, vbTwips, vbPixels))
+        Return Nothing
     End Function
 
-    Public Function CaptureWindow(ByVal hWndSrc As Long,
-          ByVal Client As Boolean, ByVal LeftSrc As Long,
-          ByVal TopSrc As Long, ByVal WidthSrc As Long,
-          ByVal HeightSrc As Long) As Picture
+    'Public Function CaptureWindow(ByVal hWndSrc As Long,
+    '      ByVal Client As Boolean, ByVal LeftSrc As Long,
+    '      ByVal TopSrc As Long, ByVal WidthSrc As Long,
+    '      ByVal HeightSrc As Long) As Picture
 
-        Dim hDCMemory As Long
-        Dim hBmp As Long
-        Dim hBmpPrev As Long
-        Dim R As Long
-        Dim hDCSrc As Long
-        Dim hPal As Long
-        Dim hPalPrev As Long
-        Dim RasterCapsScrn As Long
-        Dim HasPaletteScrn As Long
-        Dim PaletteSizeScrn As Long
-        Dim LogPal As LOGPALETTE
+    '    Dim hDCMemory As Long
+    '    Dim hBmp As Long
+    '    Dim hBmpPrev As Long
+    '    Dim R As Long
+    '    Dim hDCSrc As Long
+    '    Dim hPal As Long
+    '    Dim hPalPrev As Long
+    '    Dim RasterCapsScrn As Long
+    '    Dim HasPaletteScrn As Long
+    '    Dim PaletteSizeScrn As Long
+    '    Dim LogPal As LOGPALETTE
 
-        ' Depending on the value of Client get the proper device context.
-        If Client Then
-            hDCSrc = GetDC(hWndSrc) ' Get device context for client area.
-        Else
-            hDCSrc = GetWindowDC(hWndSrc) ' Get device context for entire window.
-        End If
+    '    ' Depending on the value of Client get the proper device context.
+    '    If Client Then
+    '        hDCSrc = GetDC(hWndSrc) ' Get device context for client area.
+    '    Else
+    '        hDCSrc = GetWindowDC(hWndSrc) ' Get device context for entire window.
+    '    End If
 
-        ' Create a memory device context for the copy process.
-        hDCMemory = CreateCompatibleDC(hDCSrc)
-        ' Create a bitmap and place it in the memory DC.
-        hBmp = CreateCompatibleBitmap(hDCSrc, WidthSrc, HeightSrc)
-        hBmpPrev = SelectObject(hDCMemory, hBmp)
+    '    ' Create a memory device context for the copy process.
+    '    hDCMemory = CreateCompatibleDC(hDCSrc)
+    '    ' Create a bitmap and place it in the memory DC.
+    '    hBmp = CreateCompatibleBitmap(hDCSrc, WidthSrc, HeightSrc)
+    '    hBmpPrev = SelectObject(hDCMemory, hBmp)
 
-        ' Get screen properties.
-        RasterCapsScrn = GetDeviceCaps(hDCSrc, RASTERCAPS) ' Raster capabilities
-        HasPaletteScrn = RasterCapsScrn And RC_PALETTE       ' Palette support
-        PaletteSizeScrn = GetDeviceCaps(hDCSrc, SIZEPALETTE) ' Size of pallet
+    '    ' Get screen properties.
+    '    RasterCapsScrn = GetDeviceCaps(hDCSrc, RASTERCAPS) ' Raster capabilities
+    '    HasPaletteScrn = RasterCapsScrn And RC_PALETTE       ' Palette support
+    '    PaletteSizeScrn = GetDeviceCaps(hDCSrc, SIZEPALETTE) ' Size of pallet
 
-        ' If the screen has a palette make a copy and realize it.
-        If HasPaletteScrn And (PaletteSizeScrn = 256) Then
-            ' Create a copy of the system palette.
-            LogPal.palVersion = &H300
-            LogPal.palNumEntries = 256
-            R = GetSystemPaletteEntries(hDCSrc, 0, 256, LogPal.palPalEntry(0))
-            hPal = CreatePalette(LogPal)
-            ' Select the new palette into the memory DC and realize it.
-            hPalPrev = SelectPalette(hDCMemory, hPal, 0)
-            R = RealizePalette(hDCMemory)
-        End If
+    '    ' If the screen has a palette make a copy and realize it.
+    '    If HasPaletteScrn And (PaletteSizeScrn = 256) Then
+    '        ' Create a copy of the system palette.
+    '        LogPal.palVersion = &H300
+    '        LogPal.palNumEntries = 256
+    '        R = GetSystemPaletteEntries(hDCSrc, 0, 256, LogPal.palPalEntry(0))
+    '        hPal = CreatePalette(LogPal)
+    '        ' Select the new palette into the memory DC and realize it.
+    '        hPalPrev = SelectPalette(hDCMemory, hPal, 0)
+    '        R = RealizePalette(hDCMemory)
+    '    End If
 
-        ' Copy the on-screen image into the memory DC.
-        R = BitBlt(hDCMemory, 0, 0, WidthSrc, HeightSrc, hDCSrc,
-        LeftSrc, TopSrc, vbSrcCopy)
+    '    ' Copy the on-screen image into the memory DC.
+    '    R = BitBlt(hDCMemory, 0, 0, WidthSrc, HeightSrc, hDCSrc,
+    '    LeftSrc, TopSrc, vbSrcCopy)
 
-        ' Remove the new copy of the  on-screen image.
-        hBmp = SelectObject(hDCMemory, hBmpPrev)
+    '    ' Remove the new copy of the  on-screen image.
+    '    hBmp = SelectObject(hDCMemory, hBmpPrev)
 
-        ' If the screen has a palette get back the palette that was
-        ' selected in previously.
-        If HasPaletteScrn And (PaletteSizeScrn = 256) Then
-            hPal = SelectPalette(hDCMemory, hPalPrev, 0)
-        End If
+    '    ' If the screen has a palette get back the palette that was
+    '    ' selected in previously.
+    '    If HasPaletteScrn And (PaletteSizeScrn = 256) Then
+    '        hPal = SelectPalette(hDCMemory, hPalPrev, 0)
+    '    End If
 
-        ' Release the device context resources back to the system.
-        R = DeleteDC(hDCMemory)
-        R = ReleaseDC(hWndSrc, hDCSrc)
+    '    ' Release the device context resources back to the system.
+    '    R = DeleteDC(hDCMemory)
+    '    R = ReleaseDC(hWndSrc, hDCSrc)
 
-        ' Call CreateBitmapPicture to create a picture object from the
-        ' bitmap and palette handles. Then return the resulting picture
-        ' object.
-        CaptureWindow = CreateBitmapPicture(hBmp, hPal)
-    End Function
+    '    ' Call CreateBitmapPicture to create a picture object from the
+    '    ' bitmap and palette handles. Then return the resulting picture
+    '    ' object.
+    '    CaptureWindow = CreateBitmapPicture(hBmp, hPal)
+    'End Function
 
 End Module

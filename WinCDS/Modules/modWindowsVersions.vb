@@ -72,7 +72,8 @@ Module modWindowsVersions
     End Function
 
     Public Function IsWin5() As Boolean  ' XP or Server2003
-        IsWin5 = GetWinVerMajor <= 5
+        'IsWin5 = GetWinVerMajor <= 5
+
     End Function
 
 End Module
