@@ -10,7 +10,7 @@ Public Class UGridIO
     Private mMaxRows As Integer              'Number of rows
 
     Private mLoading As Integer              'Count of things moving the grid around without wanting events fired.
-
+    Private Const J As Integer = 1
     Private mRefresh As Boolean
     Private mActivated As Boolean
 
@@ -62,8 +62,21 @@ Public Class UGridIO
         If MaxCols = 0 Then MaxCols = 2
         If MaxRows = 0 Then MaxRows = 10
         'RowColChange_Active = True
+        ConnectData()
     End Sub
 
+    Sub ConnectData()
+        Dim c As New ADODB.Connection
+        c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\CDSData\Store1\NewOrder\cdsdata.mdb"
+        c.CursorLocation = ADODB.CursorLocationEnum.adUseClient
+        c.Open()
+        'MsgBox(c.State)
+        'MessageBox.Show(c.State)
+        Dim r As New ADODB.Recordset
+        r.Open("select * from temptable", c, ADODB.CursorTypeEnum.adOpenKeyset)
+        AxDataGrid1.DataSource = r
+        'c.Close()
+    End Sub
     Public ReadOnly Property Hwnd() As Integer
         Get
             uhwnd = Me.Handle
@@ -88,7 +101,7 @@ Public Class UGridIO
         Set(value As Integer)
             mMaxRows = value
             On Error Resume Next
-            'AxDataGrid1.ApproxCount = value
+            'AxDataGrid1.ApproxCount=value
 
             ' This can error if GridArray hasn't been initialized yet, and that's okay.
             If value <> UBound(GridArray, 2) Then
@@ -304,16 +317,20 @@ Public Class UGridIO
         End Get
         Set(value As Integer)
             On Error Resume Next
+            'Dim i As Integer
+            'AxDataGrid1.ApproxCount
             MakeRowVisible(value)  ' Debug this before distributing..
             'AxDataGrid1.Row = value - AxDataGrid1.FirstRow
             AxDataGrid1.Row = value - AxDataGrid1.FirstRow
         End Set
     End Property
 
-    Public Sub MakeRowVisible(RowNum As Integer)
-        'With AxDataGrid1
+    Public Sub MakeRowVisible(ByRef RowNum As Integer)
+        Dim FirstRow As Integer
+        FirstRow = AxDataGrid1.FirstRow
+        If FirstRow > 0 Then FirstRow = 0
         With AxDataGrid1
-            If .FirstRow > RowNum Then
+            If FirstRow > RowNum Then
                 .FirstRow = RowNum - .VisibleRows + 1 ' Move up
             ElseIf .FirstRow + .VisibleRows <= RowNum Then
                 .FirstRow = RowNum   ' Move down
@@ -500,7 +517,8 @@ AnError:
         Set(value As Boolean)
             'mLoading = mLoading + IIf(value, 1, -1)  ' Increment or decrement the counter.
             If value = True Then
-                mLoading = mLoading + 1
+                'mLoading = mLoading + J
+                mLoading = 1
             Else
                 mLoading = mLoading - 1
             End If
