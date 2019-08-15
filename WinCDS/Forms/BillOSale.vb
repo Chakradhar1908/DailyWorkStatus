@@ -894,13 +894,13 @@ TryAgain:
 
     Private Sub LoadFakeGrid(Optional ByVal Visible As Boolean = False)
         With ugrFake
-            .AddColumn(0, "Style Number", 150, True, False)
+            .AddColumn(0, "Style Number", 100, True, False)
             .AddColumn(1, "Manufacturer", 150, False, False)
-            .AddColumn(2, "Loc", 40, True, False)
-            .AddColumn(3, "Status", 80, False, False)
+            .AddColumn(2, "Loc", 30, True, False)
+            .AddColumn(3, "Status", 60, False, False)
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
-            .AddColumn(5, "Description", 300, False, False)
-            .AddColumn(6, "Price", 100, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            .AddColumn(5, "Description", 200, False, False)
+            .AddColumn(6, "Price", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .MaxCols = 8
             .MaxRows = 20
@@ -940,13 +940,13 @@ TryAgain:
         End With
 
         With UGridIO1
-            .AddColumn(0, "Style Number", 150, True, False)
-            .AddColumn(1, "Manufacturer", 150, False, False)
-            .AddColumn(2, "Loc", 40, True, False)
-            .AddColumn(3, "Status", 80, False, False)
+            .AddColumn(0, "Style Number", 100, True, False)
+            .AddColumn(1, "Manufacturer", 200, False, False)
+            .AddColumn(2, "Loc", 30, True, False)
+            .AddColumn(3, "Status", 50, False, False)
             .AddColumn(4, "Quant.", 50, False, False, MSDBGrid.AlignmentConstants.dbgRight)
-            .AddColumn(5, "Description", 300, False, False)
-            .AddColumn(6, "Price", 100, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+            .AddColumn(5, "Description", 250, False, False)
+            .AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .AddColumn(8, "TransID", 0, True, False, , False)
             .MaxCols = 9
@@ -966,6 +966,7 @@ TryAgain:
             X = 0
             .Col = 0
             .Row = 0
+
         End With
 
         '  VerifyMailRecUnique MailRec, vbTrue  ' clear it if it was saved..
@@ -1007,6 +1008,10 @@ TryAgain:
         '    cmdChangePrice.Visible = False
         '    cmdNoChangePrice.Visible = False
         '  End If
+        'MessageBox.Show(UGridIO1.AxDataGrid1.Bookmark)
+        'UGridIO1.AxDataGrid1.Row = 0
+        'UGridIO1.AxDataGrid1.Col = 0
+        'UGridIO1.AxDataGrid1.Text = "akekekw"
     End Sub
 
     Public Sub Arrange(Optional ByVal TALL As TriState = vbUseDefault, Optional ByVal BoS2 As TriState = vbUseDefault)
@@ -2399,12 +2404,12 @@ HandleErr:
     Public Function Price_LostFocus(ByVal Index As Integer) As Boolean
         Dim Col As Integer, Row As Integer
 
-        'Col = UGridIO1.Col
-        'Row = UGridIO1.Row
+        Col = UGridIO1.Col
+        Row = UGridIO1.Row
 
-        'Recalculate()  'checks for wrong price
-        'UGridIO1.Row = Row
-        'UGridIO1.Col = Col
+        Recalculate()  'checks for wrong price
+        UGridIO1.Row = Row
+        UGridIO1.Col = Col
 
         DeleteLine = ""
     End Function

@@ -686,6 +686,7 @@ Public Class OrdStatus
 
             Dim X As Integer
             X = BillOSale.NewStyleLine '.X
+            'X = X + 1
             BillOSale.X = X
 
             If optReduceStock.Checked = True Then

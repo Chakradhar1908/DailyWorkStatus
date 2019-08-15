@@ -63,6 +63,10 @@ Public Class UGridIO
         If MaxRows = 0 Then MaxRows = 10
         'RowColChange_Active = True
         ConnectData()
+        'MessageBox.Show(AxDataGrid1.FirstRow & "-" & AxDataGrid1.Bookmark & "-" & AxDataGrid1.Text)
+        AxDataGrid1.Row = 0
+        AxDataGrid1.Col = 1
+        AxDataGrid1.Text = "hello"
     End Sub
 
     Sub ConnectData()
@@ -73,7 +77,8 @@ Public Class UGridIO
         'MsgBox(c.State)
         'MessageBox.Show(c.State)
         Dim r As New ADODB.Recordset
-        r.Open("select * from temptable", c, ADODB.CursorTypeEnum.adOpenKeyset)
+        r.CursorLocation = ADODB.CursorLocationEnum.adUseClient
+        r.Open("select * from temptable", c, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic)
         AxDataGrid1.DataSource = r
         'c.Close()
     End Sub
@@ -313,7 +318,9 @@ Public Class UGridIO
         Get
             On Error Resume Next
             'Return Row = AxDataGrid1.Row + IIf(AxDataGrid1.FirstRow = "", 0, AxDataGrid1.FirstRow)
-            Return Row = AxDataGrid1.Row + IIf(AxDataGrid1.FirstRow = "", 0, AxDataGrid1.FirstRow)
+            'Return Row = AxDataGrid1.Row + IIf(AxDataGrid1.FirstRow = "", 0, AxDataGrid1.FirstRow)
+            Row = AxDataGrid1.Row
+            Return Row
         End Get
         Set(value As Integer)
             On Error Resume Next
@@ -321,7 +328,8 @@ Public Class UGridIO
             'AxDataGrid1.ApproxCount
             MakeRowVisible(value)  ' Debug this before distributing..
             'AxDataGrid1.Row = value - AxDataGrid1.FirstRow
-            AxDataGrid1.Row = value - AxDataGrid1.FirstRow
+            AxDataGrid1.Row = value - (AxDataGrid1.FirstRow - 1)
+
         End Set
     End Property
 
@@ -332,7 +340,8 @@ Public Class UGridIO
         With AxDataGrid1
             If FirstRow > RowNum Then
                 .FirstRow = RowNum - .VisibleRows + 1 ' Move up
-            ElseIf .FirstRow + .VisibleRows <= RowNum Then
+                'ElseIf .FirstRow + .VisibleRows <= RowNum Then
+            ElseIf FirstRow + .VisibleRows <= RowNum Then
                 .FirstRow = RowNum   ' Move down
             End If
         End With
@@ -383,7 +392,8 @@ Public Class UGridIO
 
             'Dim TopRow As Object, BottomRow As Object
             Dim TopRow As Integer, BottomRow As Integer
-            TopRow = .FirstRow
+            TopRow = .FirstRow - 1
+            'If TopRow = 1 Then TopRow = 0
             If (.VisibleRows = 0) Then
                 BottomRow = 0
             Else
@@ -394,18 +404,19 @@ Public Class UGridIO
             '      StoreUserData row, col, value
             .Col = Col
             '        If (row < items_per_page) Then
-            If (Val(TopRow) <= Row) And (Row <= Val(BottomRow)) Then
+            If (TopRow <= Row) And (Row <= BottomRow) Then
                 '       .row = row
                 On Error GoTo softError
                 On Error Resume Next
                 .Bookmark = Str(Row)
                 On Error GoTo softError
                 On Error Resume Next
+                '.Row = 1
                 .Text = Value
-                .FirstRow = TopRow
+                .FirstRow = TopRow + 1
             End If
             On Error GoTo AnError
-            '        bm = .Bookmark
+            'bm = .Bookmark
             On Error Resume Next
             .Bookmark = BM
             .Col = OldCol
@@ -520,7 +531,8 @@ AnError:
                 'mLoading = mLoading + J
                 mLoading = 1
             Else
-                mLoading = mLoading - 1
+                'mLoading = mLoading - 1
+                mLoading = 0
             End If
         End Set
     End Property
@@ -1049,41 +1061,42 @@ AnError:
     '    End If
     'End Sub
 
-    'Public Sub AxDataGrid1_RowColChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_RowColChangeEvent) Handles AxDataGrid1.RowColChange
-    '---------> NOTE: RowColChange event will execute automatically as per WinCDS new sale requirement, 
-    '---------> which Is happening in existing WinCDS of vb 6.0. But in vb.net, it will executing for user action only.
-    '---------> So, created a new function and pulled this code in to it to execute automatically by calling it from cmdApplyBillOSale_Click event.
+    Public Sub AxDataGrid1_RowColChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_RowColChangeEvent) Handles AxDataGrid1.RowColChange
+        '---------> NOTE: RowColChange event will execute automatically as per WinCDS new sale requirement, 
+        '---------> which Is happening in existing WinCDS of vb 6.0. But in vb.net, it will executing for user action only.
+        '---------> So, created a new function and pulled this code in to it to execute automatically by calling it from cmdApplyBillOSale_Click event.
 
-    '    Dim Cancel As Boolean
-    '    Dim OldCol As Object
-    '    'Debug.Print "DBGrid1_RowColChange: ", LastRow, LastCol, DBGrid1.row, DBGrid1.FirstRow
+        Dim Cancel As Boolean
+        Dim OldCol As Object
+        'Debug.Print "DBGrid1_RowColChange: ", LastRow, LastCol, DBGrid1.row, DBGrid1.FirstRow
 
-    '    If Loading Then Exit Sub
+        If Loading Then Exit Sub
 
-    '    mLastRow = e.lastRow
-    '    mLastCol = e.lastCol
-    '    mLostFocus = False
-    '    If AxDataGrid1.Row = -1 Then Exit Sub
+        mLastRow = e.lastRow - 1
+        mLastCol = e.lastCol
+        mLostFocus = False
+        If AxDataGrid1.Row = -1 Then Exit Sub
 
-    '    OldCol = AxDataGrid1.Col  '+NEW 2003-01-20
+        OldCol = AxDataGrid1.Col  '+NEW 2003-01-20
 
-    '    If RowColChange_Active Then
-    '        RaiseEvent RowColChange(mLastRow, mLastCol, Val(AxDataGrid1.Row) + Val(AxDataGrid1.FirstRow), AxDataGrid1.Col, Cancel)
-    '        Loading = True
-    '        If Cancel Then
-    '            ' Change to lastrow+col  ' This causes horrible looping, and I don't have time to debug it now, so un-movement code goes in the lostfocus events.
-    '            '      row = LastRow
-    '            '      col = LastCol
-    '            On Error Resume Next
-    '            AxDataGrid1.Col = e.lastCol   '+NEW 2003-01-20
-    '            AxDataGrid1.Row = e.lastRow
-    '        Else
-    '            mCurrentCellModified = False
-    '        End If
-    '        Loading = False
-    '    End If
+        If RowColChange_Active Then
+            'RaiseEvent RowColChange(mLastRow, mLastCol, Val(AxDataGrid1.Row) + Val(AxDataGrid1.FirstRow), AxDataGrid1.Col, Cancel)
+            RaiseEvent RowColChange(mLastRow, mLastCol, AxDataGrid1.Row + 0, AxDataGrid1.Col, Cancel)
+            Loading = True
+            If Cancel Then
+                ' Change to lastrow+col  ' This causes horrible looping, and I don't have time to debug it now, so un-movement code goes in the lostfocus events.
+                '      row = LastRow
+                '      col = LastCol
+                On Error Resume Next
+                AxDataGrid1.Col = e.lastCol   '+NEW 2003-01-20
+                AxDataGrid1.Row = e.lastRow
+            Else
+                mCurrentCellModified = False
+            End If
+            Loading = False
+        End If
 
-    'End Sub
+    End Sub
 
     Public Sub Update()
         '    Refresh(True)
