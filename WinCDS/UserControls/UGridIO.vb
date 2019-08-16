@@ -66,7 +66,7 @@ Public Class UGridIO
         'MessageBox.Show(AxDataGrid1.FirstRow & "-" & AxDataGrid1.Bookmark & "-" & AxDataGrid1.Text)
         AxDataGrid1.Row = 0
         AxDataGrid1.Col = 1
-        AxDataGrid1.Text = "hello"
+        AxDataGrid1.Text = ""
     End Sub
 
     Sub ConnectData()

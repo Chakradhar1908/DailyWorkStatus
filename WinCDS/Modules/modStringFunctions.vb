@@ -1,4 +1,5 @@
-﻿Module modStringFunctions
+﻿Imports VBRUN
+Module modStringFunctions
     Public Const STR_CHR_UCASE As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     Public Const STR_CHR_LCASE As String = "abcdefghijklmnopqrstuvwxyz"
     Public Const STR_CHR_DIGIT As String = "0123456789"
@@ -63,7 +64,7 @@
             If IsInStr(Source, L) Then IsInStrArray = True : Exit Function
         Next
     End Function
-    Public Function AlignString(ByVal Source As String, ByVal DesiredLength As Integer, Optional ByVal Alignment As ContentAlignment = ContentAlignment.MiddleRight, Optional ByVal Truncate As Boolean = False) As String
+    Public Function AlignString(ByVal Source As String, ByVal DesiredLength As Integer, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignRight, Optional ByVal Truncate As Boolean = False) As String
         '::::AlignString
         ':::SUMMARY
         ': Align a string
@@ -87,21 +88,24 @@
             AlignString = Space(DesiredLength - Len(Source))
             Select Case Alignment
                 'Case vbAlignLeft
-                Case ContentAlignment.MiddleLeft
+                'Case ContentAlignment.MiddleLeft
+                Case AlignConstants.vbAlignLeft
                     AlignString = Source & AlignString
                     'AlignString = Source
+                    'AlignString = Source
                     'Case vbAlignRight, vbAlignNone
-                Case ContentAlignment.MiddleRight
+                'Case ContentAlignment.MiddleRight
+                Case AlignConstants.vbAlignRight
                     AlignString = AlignString & Source
-                    'AlignString = Source & AlignString
-                Case ContentAlignment.MiddleCenter
-                    AlignString = AlignString & Source
+                    'AlignString = Source
+                    'Case ContentAlignment.MiddleCenter
+                    '   AlignString = AlignString & Source
                 Case Else
                     ' Bottom, Top: Invalid choices
             End Select
         End If
     End Function
-    Public Function WrapLongText(ByVal Inp As String, ByVal MaxLen as integer, Optional ByVal NL As String = vbCrLf, Optional ByVal NavigateWordSplit As Boolean = False) As String
+    Public Function WrapLongText(ByVal Inp As String, ByVal MaxLen As Integer, Optional ByVal NL As String = vbCrLf, Optional ByVal NavigateWordSplit As Boolean = False) As String
         '::::WrapLongText
         ':::SUMMARY
         ': Wraps long text
@@ -121,10 +125,10 @@
         F = SplitLongText(Inp, MaxLen, NavigateWordSplit)
         WrapLongText = Join(F, NL)
     End Function
-    Public Function ArrangeString(ByVal Source As String, ByVal Length as integer, Optional ByVal Alignment As ContentAlignment = ContentAlignment.MiddleLeft, Optional ByVal Truncate As Boolean = True) As String
+    Public Function ArrangeString(ByVal Source As String, ByVal Length As Integer, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal Truncate As Boolean = True) As String
         ArrangeString = AlignString(Source, Length, Alignment, Truncate)
     End Function
-    Public Function SplitLongText(ByVal Inp As String, ByVal MaxLen as integer, Optional ByVal CareAboutWords As Boolean = True) As Object
+    Public Function SplitLongText(ByVal Inp As String, ByVal MaxLen As Integer, Optional ByVal CareAboutWords As Boolean = True) As Object
         '::::SplitLongText
         ':::SUMMARY
         ': Splits a string based on MaxLength
@@ -138,12 +142,12 @@
         ':  String()
         ':::SEE ALSO
         ':  WrapLongTextByPrintWidth, WrapLongText
-        Dim Arr As Object, Out As Object, I as integer
+        Dim Arr As Object, Out As Object, I As Integer
         Arr = Split(Inp, vbCrLf)
         For I = LBound(Arr) To UBound(Arr)
             If Len(Arr(I)) > MaxLen Then
                 Do While (Len(Arr(I)) > 0)
-                    Dim LastSpace as integer
+                    Dim LastSpace As Integer
                     If CareAboutWords Then
                         LastSpace = LastWhiteSpace(CStr(Arr(I)), MaxLen)
                     Else
@@ -159,7 +163,7 @@
         Next
         SplitLongText = Out
     End Function
-    Public Function LastWhiteSpace(ByVal Inp As String, Optional ByVal nPos as integer = 0) as integer
+    Public Function LastWhiteSpace(ByVal Inp As String, Optional ByVal nPos As Integer = 0) As Integer
         '::::LastWhiteSpace
         ':::SUMMARY
         ': Returns position of last whitespace in a string
@@ -179,7 +183,7 @@
         ':::SEE ALSO
         ':  WrapLongTextByPrintWidth, WrapLongText, SplitLongText
         ' Whitespace includes spaces, tabs, and cr/lf.
-        Dim LS as integer, Lt as integer, LC as integer, LL as integer
+        Dim LS As Integer, Lt As Integer, LC As Integer, LL As Integer
         If nPos > 0 Then
             LS = InStrRev(Inp, " ", nPos)
             Lt = InStrRev(Inp, vbTab, nPos)
@@ -221,7 +225,7 @@
         Loop
         NLTrim = Str
     End Function
-    Public Function Slug(ByVal S As String, Optional ByVal MaxLen as integer = 0) As String
+    Public Function Slug(ByVal S As String, Optional ByVal MaxLen As Integer = 0) As String
         '::::slug
         ':::SUMMARY
         ': Convert a string into a slug
@@ -267,7 +271,7 @@
             AugmentByRightLetter = Left(CurrentArNo, Len(CurrentArNo) - 1) & Chr(Asc(C) + 1)
         End If
     End Function
-    Public Function ReduceString(ByVal Src As String, Optional ByVal Allowed As String = "", Optional ByVal Subst As String = "-", Optional ByVal MaxLen as integer = 0, Optional ByVal bLCase As Boolean = True) As String
+    Public Function ReduceString(ByVal Src As String, Optional ByVal Allowed As String = "", Optional ByVal Subst As String = "-", Optional ByVal MaxLen As Integer = 0, Optional ByVal bLCase As Boolean = True) As String
         '::::ReduceString
         ':::SUMMARY
         ': Reduces a string by removing non-allowed characters, optionally replacing them with a substitute.
@@ -292,7 +296,7 @@
         ': Benjamin - 2018.04.28
         ':::SEE ALSO
         ':  ArrangeString, StringNumerals, slug, CleanANI
-        Dim I as integer, N as integer, C As String
+        Dim I As Integer, N As Integer, C As String
         If Allowed = "" Then Allowed = STR_CHR_UCASE & STR_CHR_LCASE & STR_CHR_DIGIT
         ReduceString = ""
         N = Len(Src)

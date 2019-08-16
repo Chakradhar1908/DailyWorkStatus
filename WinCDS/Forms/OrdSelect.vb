@@ -552,8 +552,8 @@
     Private Sub OrdSelect_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
         'SetCustomFrame(Me, ncBasicTool)   ->This line is not required. It is to set font and color properties using cSkinConfiguration and cNeoCaption of modNeoCaption.
         optEnterStyle.Checked = True
-        optTax1.Enabled = Not BillOSale.HasTax1
-        optNoTax.Enabled = Not BillOSale.HasTax1
+        'optTax1.Enabled = Not BillOSale.HasTax1
+        'optNoTax.Enabled = Not BillOSale.HasTax1
     End Sub
 
     Private Sub OrdSelect_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -583,7 +583,7 @@
 
 
         ' Disable sales tax if it's already used.
-        If BillOSale.HasTax1 Then optTax1.Enabled = False
+        'If BillOSale.HasTax1 Then optTax1.Enabled = False '- -----> Remove this line comment later.
         '    BillOSale.HasTax1 replaces the following check...  BFH20050113
         '    Dim I As integer
         '    For I = 0 To BillOSale.UGridIO1.MaxRows - 1
@@ -596,18 +596,18 @@
         ' Disable variable tax if it's not defined.
         optTax2.Enabled = False
         optNoTax2.Enabled = False
-        If Trim(QuerySalesTax2(0)) <> "" Then optTax2.Enabled = True : optNoTax2.Enabled = True
-        If IsCanadian() Then optNoTax2.Enabled = False
+        'If Trim(QuerySalesTax2(0)) <> "" Then optTax2.Enabled = True : optNoTax2.Enabled = True '- -----------> Moved this line To Sub New.
+        'If IsCanadian() Then optNoTax2.Enabled = False                                                             '----------> Remove the comment later.
 
-        If BillOSale.IsGridFull Then
-            optEnterStyle.Enabled = False
-            optStain.Enabled = False
-            optDelivery.Enabled = False
-            optLabor.Enabled = False
-            optTax2.Enabled = False
-            optNotes.Enabled = False
-            optPayment.Enabled = False
-        End If
+        'If BillOSale.IsGridFull Then                                                                               '----------> Remove the if block comment later.
+        '    optEnterStyle.Enabled = False
+        '    optStain.Enabled = False
+        '    optDelivery.Enabled = False
+        '    optLabor.Enabled = False
+        '    optTax2.Enabled = False
+        '    optNotes.Enabled = False
+        '    optPayment.Enabled = False
+        'End If
     End Sub
 
     Private Sub OrdSelect_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

@@ -1009,6 +1009,7 @@ HandleErr:
         'LockWindowUpdate(lstStyles.hwnd)
         LockWindowUpdate(lstStyles.Handle)
         Do While DataObj.DataAccess.Records_Available
+            DataObj.cDataAccess_GetRecordSet(DataObj.DataAccess.RS)
             ' Say the maximum reasonable description is about 2500..
             ' We want a number of tabs equal to (2500-textwidth(x))/textwidth(vbtab)
             Dim Str As String, Spaces As Integer
@@ -1021,10 +1022,17 @@ HandleErr:
             '      If Left(str, 2) = "NI" Then Stop
             If chkStkOnly.Checked = True Then
                 'lstStyles.AddItem ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & AlignString(DataObj.Available, QuanLen, vbAlignRight) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen) & Space(Spacing) & AlignString(FormatCurrency(DataObj.OnSale), CostLen)
-                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen) & Space(Spacing) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'Dim Lststyle As String, LstAvailable As String
+                'Lststyle = ArrangeString(DataObj.Style, StyleLen)
+                'Lststyle = String.Format("{0,-20}", DataObj.Style)
+                'LstAvailable = AlignString(DataObj.Available, QuanLen)
+                'LstAvailable = String.Format("{0,20}", DataObj.Available)
+                'lstStyles.Items.Add(Lststyle & LstAvailable)
+                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(10) & ArrangeString(DataObj.Desc, DescLen) & Space(80) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
             Else
                 'lstStyles.AddItem ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen)
-                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen))
+                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen))
+                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & ArrangeString(DataObj.Desc, DescLen))
             End If
             Counter = Counter + 1
             ListSearch(Counter) = DataObj.Style

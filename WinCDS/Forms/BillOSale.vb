@@ -1019,10 +1019,10 @@ TryAgain:
         'Const FRM_TALL_H = 9280
         Const FRM_TALL_H = 700
 
-        If BoS2 <> vbUseDefault Then
-            fraBOS2.Visible = BoS2
-            fraBOS2.Left = IIf(BoS2, 0, -15000)
-        End If
+        'If BoS2 <> vbUseDefault Then                 ----------> Remove the if block comment later.
+        '    fraBOS2.Visible = BoS2
+        '    fraBOS2.Left = IIf(BoS2, 0, -15000)
+        'End If
 
         If TALL <> vbUseDefault Then
             'Me.Height = IIf(TALL = vbTrue, FRM_TALL_H, FRM_SHORT_H)
@@ -3401,7 +3401,7 @@ NewProcessSaleError:
 
         HasTax1 = False
         '---> NOTE: COMMENTED THE BELOW LINE. AFTER COMPLETION OF THE CODE, REMOVE THE COMMENT.
-        'If StoreSettings.SalesTax = 0# Then HasTax1 = True : Exit Function
+        If StoreSettings.SalesTax = 0# Then HasTax1 = True : Exit Function
         For I = 0 To UGridIO1.MaxRows - 1
             If Trim(QueryStyle(I)) = "TAX1" Then HasTax1 = True : Exit Function
         Next

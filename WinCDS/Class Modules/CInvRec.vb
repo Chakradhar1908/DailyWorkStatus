@@ -67,7 +67,7 @@
         mDataAccess.Index = TABLE_INDEX
     End Sub
 
-    Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+    Public Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
         On Error Resume Next
         Style = IfNullThenNilString(RS("Style").Value)
         Vendor = IfNullThenNilString(RS("Vendor").Value)
