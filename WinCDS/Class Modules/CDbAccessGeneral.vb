@@ -9,6 +9,7 @@
     Public Event GetRecordEvent(RS As ADODB.Recordset)
     Public Event SetRecordEvent(RS As ADODB.Recordset)
     Public Event RecordUpdated(RS As ADODB.Recordset)
+    Private FetchProgress As Object
 
     ' if 'SetNew:=True' will always create a new record
     Public Function getRecordset(Optional ByVal Always As Boolean = True, Optional ByVal SetNew As Boolean = False, Optional ByVal QuietErrors As Boolean = False, Optional ByVal ErrMsg As String = "", Optional ByVal ProgressForm As Object = False) As ADODB.Recordset
@@ -96,19 +97,26 @@ AnError:
         Exit Function
     End Function
 
+    Public Sub Dispose()
+        On Error Resume Next
+        DisposeDA(Mrs, mRs_External)
+        Mrs = Nothing
+        mRs_External = Nothing
+        FetchProgress = Nothing
+    End Sub
 
     Public Sub dbClose()
         On Error Resume Next
         mConnection.Close()
         mConnection = Nothing
-        Mrs.Close
+        Mrs.Close()
         Mrs = Nothing
         Err.Clear()
     End Sub
     Public Function dbOpen(Optional ByVal DBName As String = "") As Boolean
         ' --> Below databse connection code has been commented. It will be implemented in app.config file. <--
 
-        Dim TryCount as integer, T As Date
+        Dim TryCount As Integer, T As Date
         'TrackDataAccess
         On Error GoTo AnError
 Retry:
@@ -136,7 +144,7 @@ Retry:
 
         Exit Function
 AnError:
-        Dim N as integer, D As String
+        Dim N As Integer, D As String
         N = Err.Number
         D = Err.Description
 
@@ -238,12 +246,13 @@ AnError:
             mSQL = value
         End Set
     End Property
+
     Public Function GetRecord() As Boolean
         Mrs = New ADODB.Recordset
-        Mrs.ActiveConnection = mConnection
+        'Mrs.ActiveConnection = mConnection
         Mrs.CursorLocation = ADODB.CursorLocationEnum.adUseClient
-        Mrs.CursorType = ADODB.CursorTypeEnum.adOpenStatic
-        Mrs.LockType = ADODB.LockTypeEnum.adLockBatchOptimistic
+        'Mrs.CursorType = ADODB.CursorTypeEnum.adOpenStatic
+        'Mrs.LockType = ADODB.LockTypeEnum.adLockBatchOptimistic
         '        .Properties("Update Resync") = adResyncAutoIncrement
         '        .ActiveConnection = mConnection
         '.CursorLocation = adUseClient
@@ -251,8 +260,8 @@ AnError:
         '        .CursorType = adOpenStatic
         '        .LockType = adLockReadOnly
 
-        Mrs.Source = mSQL
-        Mrs.Open()
+        'Mrs.Source = mSQL
+        Mrs.Open(mSQL, mConnection, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic)
         Mrs.ActiveConnection = Nothing
 
         If (Mrs.RecordCount = 0) Then
@@ -272,31 +281,33 @@ AnError:
             Dim Current As String
             Select Case ArCard.f_strDirection
                 Case "First"    'Get to the first record
-                    RS.MoveFirst
+                    RS.MoveFirst()
                     ArCard.f_strDirection = ""
                 Case "Last"     'Move to the last(right) record
-                    RS.MoveLast
+                    RS.MoveLast()
                     ArCard.f_strDirection = ""
                 Case "Previous" 'Move to the previous record
-                    RS.MoveLast
+                    RS.MoveLast()
                     'Current = RS!ArNo
                     Current = RS.Fields("ArNo").Value
-                    RS.MovePrevious
+                    RS.MovePrevious()
+
                     Do While Not RS.BOF
                         If RS.Fields("ArNo").Value <> Current Then Exit Do
-                        RS.MovePrevious
+                        RS.MovePrevious()
                     Loop
-                    If RS.BOF Then RS.MoveFirst
+                    If RS.BOF Then RS.MoveFirst()
                     ArCard.f_strDirection = ""
                 Case "Next"     'Move to the next record
-                    RS.MoveFirst
+                    RS.MoveFirst()
                     Current = RS.Fields("ArNo").Value
-                    RS.MoveNext
+                    RS.MoveNext()
+
                     Do While Not RS.EOF
                         If RS.Fields("ArNo").Value <> Current Then Exit Do
-                        RS.MoveNext
+                        RS.MoveNext()
                     Loop
-                    If RS.EOF Then RS.MoveLast
+                    If RS.EOF Then RS.MoveLast()
                     ArCard.f_strDirection = ""
             End Select
             ' Get the new arno and save it

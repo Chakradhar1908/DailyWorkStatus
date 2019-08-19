@@ -38,6 +38,8 @@ Partial Class frmKitLevels
         Me.fraControls = New System.Windows.Forms.GroupBox()
         Me.lblItemLocCaption = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.cmdOK = New System.Windows.Forms.Button()
+        Me.cmdCancel = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cmdtatus
@@ -180,11 +182,31 @@ Partial Class frmKitLevels
         Me.Label1.TabIndex = 15
         Me.Label1.Text = "Label1"
         '
+        'cmdOK
+        '
+        Me.cmdOK.Location = New System.Drawing.Point(165, 365)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(75, 23)
+        Me.cmdOK.TabIndex = 16
+        Me.cmdOK.Text = "OK"
+        Me.cmdOK.UseVisualStyleBackColor = True
+        '
+        'cmdCancel
+        '
+        Me.cmdCancel.Location = New System.Drawing.Point(275, 375)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
+        Me.cmdCancel.TabIndex = 17
+        Me.cmdCancel.Text = "Cancel"
+        Me.cmdCancel.UseVisualStyleBackColor = True
+        '
         'frmKitLevels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.cmdCancel)
+        Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.lblItemLocCaption)
         Me.Controls.Add(Me.fraControls)
@@ -224,4 +246,6 @@ Partial Class frmKitLevels
     Friend WithEvents fraControls As GroupBox
     Friend WithEvents lblItemLocCaption As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents cmdOK As Button
+    Friend WithEvents cmdCancel As Button
 End Class

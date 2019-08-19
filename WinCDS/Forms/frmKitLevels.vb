@@ -362,4 +362,21 @@
         End If
     End Function
 
+    Private Sub frmKitLevels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdOK)
+        SetButtonImage(cmdCancel)
+        'SetCustomFrame(Me, ncBasicTool)  -> This is not required. This is for changing U.I. (font and color) using modNeoCaption module.
+
+        Cancelled = False
+
+        mLocation = 0
+        AllowStatusChange = True
+        AllowItemStatusChange = False
+        AllowItemLocChange = True
+
+        AllowPartialKits = False
+        AllowAdjustedQuantities = True ' IsDevelopment
+
+        ClearItems()
+    End Sub
 End Class

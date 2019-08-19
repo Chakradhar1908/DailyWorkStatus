@@ -140,8 +140,8 @@ Public Class InvCkStyle
     Private Sub Style_TextChanged(sender As Object, e As EventArgs) Handles Style.TextChanged
         IsByVendor = ""
         If Microsoft.VisualBasic.Left(Style.Text, 3) = "KIT" Then HandleStyleChange() 'makes this work right
-        'StartTypeTimer()
-        HandleStyleChange()  '-> NOTE: Added this line temporarily. Remove the above line comment and remove this line afte complete project coding.
+        StartTypeTimer()
+        'HandleStyleChange()  '-> NOTE: Added this line temporarily. Remove the above line comment and remove this line afte complete project coding.
     End Sub
 
     Private Sub HandleStyleChange()
@@ -396,6 +396,7 @@ HandleErr:
 
     Private Sub mDBInvKit_Init()
         mDBInvKit = New CDbAccessGeneral
+        mDBInvKit.Dispose()
         mDBInvKit.dbOpen(GetDatabaseAtLocation(1))  ' Kits are always in DB1.
     End Sub
 
@@ -871,7 +872,8 @@ HandleErr:
 
         ElseIf optKitVendors.Checked = True Then
             tmrType.Tag = "NO" 'Made more changes here 5/16/2017 Robert
-            Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.GetItemText(lstStyles.SelectedIndex), 16)) '###STYLELENGTH16
+            'Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.GetItemText(lstStyles.SelectedIndex), 16)) '###STYLELENGTH16
+            Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.SelectedItem, 16))
             tmrType.Tag = ""
             DoApply
             Exit Sub
