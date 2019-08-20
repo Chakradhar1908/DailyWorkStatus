@@ -22,6 +22,7 @@ Partial Class frmKitLevels
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.cmdtatus = New System.Windows.Forms.Button()
         Me.txtItemQuan = New System.Windows.Forms.TextBox()
         Me.lblStyle = New System.Windows.Forms.Label()
@@ -40,6 +41,7 @@ Partial Class frmKitLevels
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'cmdtatus
@@ -80,7 +82,7 @@ Partial Class frmKitLevels
         Me.cmdStatus.Name = "cmdStatus"
         Me.cmdStatus.Size = New System.Drawing.Size(75, 23)
         Me.cmdStatus.TabIndex = 4
-        Me.cmdStatus.Text = "Button1"
+        Me.cmdStatus.Text = "ST"
         Me.cmdStatus.UseVisualStyleBackColor = True
         '
         'lblItem
@@ -88,9 +90,9 @@ Partial Class frmKitLevels
         Me.lblItem.AutoSize = True
         Me.lblItem.Location = New System.Drawing.Point(12, 204)
         Me.lblItem.Name = "lblItem"
-        Me.lblItem.Size = New System.Drawing.Size(39, 13)
+        Me.lblItem.Size = New System.Drawing.Size(61, 13)
         Me.lblItem.TabIndex = 5
-        Me.lblItem.Text = "Label1"
+        Me.lblItem.Text = "### 1 ###"
         '
         'lblItemLoc
         '
@@ -142,9 +144,9 @@ Partial Class frmKitLevels
         Me.lblItemNum.AutoSize = True
         Me.lblItemNum.Location = New System.Drawing.Point(12, 375)
         Me.lblItemNum.Name = "lblItemNum"
-        Me.lblItemNum.Size = New System.Drawing.Size(39, 13)
+        Me.lblItemNum.Size = New System.Drawing.Size(13, 13)
         Me.lblItemNum.TabIndex = 11
-        Me.lblItemNum.Text = "Label1"
+        Me.lblItemNum.Text = "1"
         '
         'fraItems
         '
@@ -248,4 +250,5 @@ Partial Class frmKitLevels
     Friend WithEvents Label1 As Label
     Friend WithEvents cmdOK As Button
     Friend WithEvents cmdCancel As Button
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

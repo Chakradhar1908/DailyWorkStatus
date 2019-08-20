@@ -104,4 +104,11 @@ BadFile:
         End Select
     End Function
 
+    Public Sub ChooseSet(ByVal Idx, ByVal Value, ParamArray List())
+        On Error Resume Next
+        List(Idx - 1) = Value
+        'List(Idx) = Value
+    End Sub
+
 End Module
+

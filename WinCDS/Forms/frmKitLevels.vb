@@ -8,7 +8,6 @@
     Public AllowItemLocChange As Boolean
     Public ItemStyle() As String
     Public ItemLoc() As Integer
-    Public ItemStatus() As String
     Public lblItemNumCount As Integer
 
     Public Function KitCost(Optional ByVal vType As String = "Landed", Optional ByVal Line As Integer = 0, Optional ByVal Style As String = "") As Decimal
@@ -202,106 +201,165 @@
         If vLoc = 0 Then vLoc = Locations
         GetItem(vLoc, Style, A, B, C, D, E)
 
+        For Each ctrl As Control In Me.Controls
+            If Mid(ctrl.Name, 1, 10) = "lblItemNum" Then
+                lblItemNumCount = lblItemNumCount + 1
+            End If
+        Next
         'N = lblItemNum.UBound
         N = lblItemNumCount
         'If N > 1 Or lblItem(N) <> "" Then
-        If N > 1 Or lblItem.ToString & N & ".Text" <> "" Then
+        'If N > 1 Or lblItem.ToString & N & ".Text" <> "" Then
+        If N > 1 Or lblItem.Text <> "" Then
             'T = lblItemNum(N).Top + 240
             T = lblItemNum.ToString & N & ".Top" + 240
             N = N + 1
             'Load lblItemNum(N)
-            Me.Controls.Item(lblItemNum.ToString & N).Show()
+            'Me.Controls.Item(lblItemNum.ToString & N).Show()
+            Me.Controls.Item(lblItemNum.ToString & N).Hide()
             'lblItemNum(N).Top = T
             Me.Controls.Item(lblItemNum.ToString & N).Top = T
             'Load lblItem(N)
-            Me.Controls.Item(lblItem.ToString & N).Show()
+            'Me.Controls.Item(lblItem.ToString & N).Show()
+            Me.Controls.Item(lblItem.ToString & N).Hide()
             'lblItem(N).Top = T
             Me.Controls.Item(lblItem.ToString & N).Top = T
             'Load txtItemQuan(N)
-            Me.Controls.Item(txtItemQuan.ToString & N).Show()
+            'Me.Controls.Item(txtItemQuan.ToString & N).Show()
+            Me.Controls.Item(txtItemQuan.ToString & N).Hide()
             'txtItemQuan(N).Top = T
             Me.Controls.Item(txtItemQuan.ToString & N).Top = T
             'Load lblItemLoc(N)
-            Me.Controls.Item(lblItemLoc.ToString & N).Show()
+            'Me.Controls.Item(lblItemLoc.ToString & N).Show()
+            Me.Controls.Item(lblItemLoc.ToString & N).Hide()
             'lblItemLoc(N).Top = T
             Me.Controls.Item(lblItemLoc.ToString & N).Top = T
             'Load lblOnOrd(N)
-            Me.Controls.Item(lblOnOrd.ToString & N).Show()
+            'Me.Controls.Item(lblOnOrd.ToString & N).Show()
+            Me.Controls.Item(lblOnOrd.ToString & N).Hide()
             'lblOnOrd(N).Top = T
             Me.Controls.Item(lblOnOrd.ToString & N).Top = T
             'Load lblItemAvail(N)
-            Me.Controls.Item(lblItemAvail.ToString & N).Show()
+            'Me.Controls.Item(lblItemAvail.ToString & N).Show()
+            Me.Controls.Item(lblItemAvail.ToString & N).Hide()
             'lblItemAvail(N).Top = T
             Me.Controls.Item(lblItemAvail.ToString & N).Top = T
             'Load cmdItemLoc(N)
-            Me.Controls.Item(cmdItemLoc.ToString & N).Show()
+            'Me.Controls.Item(cmdItemLoc.ToString & N).Show()
+            Me.Controls.Item(cmdItemLoc.ToString & N).Hide()
             'cmdItemLoc(N).Top = T
             Me.Controls.Item(cmdItemLoc.ToString & N).Top = T
             'Load cmdItemStatus(N)
-            Me.Controls.Item(cmdItemStatus.ToString & N).Show()
+            'Me.Controls.Item(cmdItemStatus.ToString & N).Show()
+            Me.Controls.Item(cmdItemStatus.ToString & N).Hide()
             'cmdItemStatus(N).Top = T
             Me.Controls.Item(cmdItemStatus.ToString & N).Top = T
         End If
-        'lblItemNum(N).Visible = True
-        Me.Controls.Item(lblItemNum.ToString & N).Visible = True
-        'lblItemNum(N) = N
-        'lblItemNum(N).ToolTipText = D
-        'lblItem(N).Visible = True
-        Me.Controls.Item(lblItem.ToString & N).Visible = True
-        'lblItem(N) = Style
-        'lblItem(N).ToolTipText = D
-        'txtItemQuan(N).Visible = True
-        Me.Controls.Item(txtItemQuan.ToString & N).Visible = True
-        'txtItemQuan(N) = Round(Q, 2)
 
-        'txtItemQuan(N).Tag = SingleQuantity
-        Me.Controls.Item(txtItemQuan.ToString & Math.Round(Q, 2)).Tag = SingleQuantity
-        'txtItemQuan(N).Locked = Not AllowAdjustedQuantities
-        Me.Controls.Item(txtItemQuan.ToString & Math.Round(Q, 2)).Enabled = Not AllowAdjustedQuantities
+        If N = 1 Then
+            lblItemNum.Visible = True
+            ToolTip1.SetToolTip(lblItemNum, D)
 
-        'If txtItemQuan(N).Locked Then
-        If Me.Controls.Item(txtItemQuan.ToString & Math.Round(Q, 2)).Enabled = True Then
-            'txtItemQuan(N).Appearance = 0   --> This is only for show some 3-d effects at runtime.
-            'txtItemQuan(N).BackColor = &H8000000F
-            'Me.Controls.Item(txtItemQuan.ToString & N).BackColor = &H8000000F   --> This value is not accepted in vb.net
-            'txtItemQuan(N).BorderStyle = 0   --> This property at runtime is not available. Only available at designtime.
+            lblItem.Visible = True
+            ToolTip1.SetToolTip(lblItem, D)
 
-        Else
-            'txtItemQuan(N).Appearance = 1            --> appearance property not avaible for textbox 
-            'txtItemQuan(N).BackColor = &H80000005    --> backcolor hexadecimal value not accepted in vb.net
-            'txtItemQuan(N).BorderStyle = 1           --> borderstyle not available at runtime.    
+            txtItemQuan.Visible = True
+            txtItemQuan.Text = Math.Round(Q, 2)
+            txtItemQuan.Tag = SingleQuantity
+            txtItemQuan.Enabled = Not AllowAdjustedQuantities   '-> Locked replaced with Enabled. Because Locked propert not available at runtime in vb.net
+            If txtItemQuan.Enabled = True Then
+                'txtItemQuan.Appearance = 0         Property not available.
+                'txtItemQuan.BackColor = &H8000000F   Hexadecimal not accepted in vb.net
+                txtItemQuan.BorderStyle = 0
+            Else
+                'txtItemQuan.Appearance = 1
+                'txtItemQuan.BackColor = &H80000005
+                txtItemQuan.BorderStyle = 1
+            End If
 
+            If ShowST Then
+                lblItemLoc.Visible = True
+            Else
+                lblItemLocCaption.Visible = False
+                lblItemLoc.Visible = False
+            End If
+
+            lblItemLoc.Text = A
+            lblOnOrd.Visible = True
+            lblOnOrd.Text = B
+            lblOnOrd.Tag = E
+            lblItemAvail.Visible = True
+            lblItemAvail.Text = C
+            cmdItemLoc.Visible = True
+            cmdItemLoc.Text = "L" & vLoc                ' original setup doesn't use property...  don't need update call
+            cmdItemLoc.Enabled = AllowItemLocChange
+            cmdItemStatus.Visible = True
+            cmdItemStatus.Text = status
+            cmdItemStatus.Enabled = AllowItemStatusChange
+
+        ElseIf N > 1 Then
+            'lblItemNum(N).Visible = True
+            'On Error Resume Next
+            Me.Controls.Item(lblItemNum.ToString & N).Visible = True
+            'lblItemNum(N) = N
+            'lblItemNum(N).ToolTipText = D
+            'lblItem(N).Visible = True
+            Me.Controls.Item(lblItem.ToString & N).Visible = True
+            'lblItem(N) = Style
+            'lblItem(N).ToolTipText = D
+            'txtItemQuan(N).Visible = True
+            Me.Controls.Item(txtItemQuan.ToString & N).Visible = True
+            'txtItemQuan(N) = Round(Q, 2)
+
+            'txtItemQuan(N).Tag = SingleQuantity
+            Me.Controls.Item(txtItemQuan.ToString & Math.Round(Q, 2)).Tag = SingleQuantity
+            'txtItemQuan(N).Locked = Not AllowAdjustedQuantities
+            Me.Controls.Item(txtItemQuan.ToString & Math.Round(Q, 2)).Enabled = Not AllowAdjustedQuantities
+
+            'If txtItemQuan(N).Locked Then
+            If Me.Controls.Item(txtItemQuan.ToString & Math.Round(Q, 2)).Enabled = True Then
+                'txtItemQuan(N).Appearance = 0   --> This is only for show some 3-d effects at runtime.
+                'txtItemQuan(N).BackColor = &H8000000F
+                'Me.Controls.Item(txtItemQuan.ToString & N).BackColor = &H8000000F   --> This value is not accepted in vb.net
+                'txtItemQuan(N).BorderStyle = 0   --> This property at runtime is not available. Only available at designtime.
+
+            Else
+                'txtItemQuan(N).Appearance = 1            --> appearance property not avaible for textbox 
+                'txtItemQuan(N).BackColor = &H80000005    --> backcolor hexadecimal value not accepted in vb.net
+                'txtItemQuan(N).BorderStyle = 1           --> borderstyle not available at runtime.    
+
+            End If
+
+            If ShowST Then
+                'lblItemLoc(N).Visible = True
+                Me.Controls.Item(lblItemLoc.ToString & N).Visible = True
+            Else
+                lblItemLocCaption.Visible = False
+                'lblItemLoc(N).Visible = False
+                Me.Controls.Item(lblItemLoc.ToString & N).Visible = False
+            End If
+            'lblItemLoc(N) = A
+            'lblOnOrd(N).Visible = True
+            Me.Controls.Item(lblOnOrd.ToString & N).Visible = True
+            'lblOnOrd(N) = B
+            'lblOnOrd(N).Tag = E
+            Me.Controls.Item(lblOnOrd.ToString & B).Tag = E
+            'lblItemAvail(N).Visible = True
+            Me.Controls.Item(lblItemAvail.ToString & N).Visible = True
+            'lblItemAvail(N) = C
+            'cmdItemLoc(N).Visible = True
+            Me.Controls.Item(cmdItemLoc.ToString & N).Visible = True
+            'cmdItemLoc(N).Caption = "L" & vLoc                ' original setup doesn't use property...  don't need update call
+            Me.Controls.Item(cmdItemLoc.ToString & N).Text = "L" & vLoc
+            'cmdItemLoc(N).Enabled = AllowItemLocChange
+            Me.Controls.Item(cmdItemLoc.ToString & N).Enabled = AllowItemLocChange
+            'cmdItemStatus(N).Visible = True
+            Me.Controls.Item(cmdItemStatus.ToString & N).Visible = True
+            'cmdItemStatus(N).Caption = status
+            Me.Controls.Item(cmdItemStatus.ToString & N).Text = status
+            'cmdItemStatus(N).Enabled = AllowItemStatusChange
+            Me.Controls.Item(cmdItemStatus.ToString & N).Enabled = AllowItemStatusChange
         End If
-
-        If ShowST Then
-            'lblItemLoc(N).Visible = True
-            Me.Controls.Item(lblItemLoc.ToString & N).Visible = True
-        Else
-            lblItemLocCaption.Visible = False
-            'lblItemLoc(N).Visible = False
-            Me.Controls.Item(lblItemLoc.ToString & N).Visible = False
-        End If
-        'lblItemLoc(N) = A
-        'lblOnOrd(N).Visible = True
-        Me.Controls.Item(lblOnOrd.ToString & N).Visible = True
-        'lblOnOrd(N) = B
-        'lblOnOrd(N).Tag = E
-        Me.Controls.Item(lblOnOrd.ToString & B).Tag = E
-        'lblItemAvail(N).Visible = True
-        Me.Controls.Item(lblItemAvail.ToString & N).Visible = True
-        'lblItemAvail(N) = C
-        'cmdItemLoc(N).Visible = True
-        Me.Controls.Item(cmdItemLoc.ToString & N).Visible = True
-        'cmdItemLoc(N).Caption = "L" & vLoc                ' original setup doesn't use property...  don't need update call
-        Me.Controls.Item(cmdItemLoc.ToString & N).Text = "L" & vLoc
-        'cmdItemLoc(N).Enabled = AllowItemLocChange
-        Me.Controls.Item(cmdItemLoc.ToString & N).Enabled = AllowItemLocChange
-        'cmdItemStatus(N).Visible = True
-        Me.Controls.Item(cmdItemStatus.ToString & N).Visible = True
-        'cmdItemStatus(N).Caption = status
-        Me.Controls.Item(cmdItemStatus.ToString & N).Text = status
-        'cmdItemStatus(N).Enabled = AllowItemStatusChange
-        Me.Controls.Item(cmdItemStatus.ToString & N).Enabled = AllowItemStatusChange
 
         HiLiteKitRow(N)
 
@@ -333,6 +391,7 @@
     End Property
 
     Private Sub HiLiteKitRow(ByVal Index As Integer)
+        'Private Sub HiLiteKitRow(ByVal Currentobj As Object)
         Dim hlkrNormal As Integer, hlkrPink As Integer, hlkrCyan As Integer
         hlkrNormal = -2147483633
         hlkrPink = RGB(255, 200, 200)
@@ -347,6 +406,23 @@
         End If
         '  lblItemAvail(N).BackColor = txtItemQuan(N).BackColor
     End Sub
+
+    Public Function ItemStatus(ByVal Index As Integer, Optional ByVal Vdata As String = "") As String
+        If Vdata = "" Then
+            'Get property of vb6.0
+            If Index <= 0 Then Exit Function
+            If Index > ItemCount Then Exit Function
+            'ItemStatus = cmdItemStatus(Index).Caption
+            ItemStatus = Me.Controls.Item(cmdItemStatus.ToString & Index).Text
+            Return ItemStatus
+        Else
+            'Let property of vb6.0
+            If Index <= 0 Then Exit Function
+            'If Index > cmdItemStatus.UBound Then Exit Property
+            'cmdItemStatus(Index).Caption = Vdata
+            Me.Controls.Item(cmdItemStatus.ToString & Index).Text = Vdata
+        End If
+    End Function
 
     Private Function LineOverSold(ByVal I As Integer) As Boolean
         'BFH20120726
@@ -378,5 +454,9 @@
         AllowAdjustedQuantities = True ' IsDevelopment
 
         ClearItems()
+    End Sub
+
+    Private Sub txtItemQuan_TextChanged(sender As Object, e As EventArgs) Handles txtItemQuan.TextChanged
+        HiLiteKitRow(1)
     End Sub
 End Class
