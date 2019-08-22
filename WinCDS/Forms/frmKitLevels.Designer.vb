@@ -23,7 +23,6 @@ Partial Class frmKitLevels
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.cmdtatus = New System.Windows.Forms.Button()
         Me.txtItemQuan = New System.Windows.Forms.TextBox()
         Me.lblStyle = New System.Windows.Forms.Label()
         Me.txtKitQuantity = New System.Windows.Forms.TextBox()
@@ -38,49 +37,55 @@ Partial Class frmKitLevels
         Me.fraItems = New System.Windows.Forms.GroupBox()
         Me.fraControls = New System.Windows.Forms.GroupBox()
         Me.lblItemLocCaption = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.cmdOK = New System.Windows.Forms.Button()
-        Me.cmdCancel = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lblKitQuantityCaption = New System.Windows.Forms.Label()
+        Me.lblItemNumCaption = New System.Windows.Forms.Label()
+        Me.lblItemCaption = New System.Windows.Forms.Label()
+        Me.lblItemQuanCaption = New System.Windows.Forms.Label()
+        Me.lblItemAvailCaption = New System.Windows.Forms.Label()
+        Me.lblOnOrdCaption = New System.Windows.Forms.Label()
+        Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.cmdOK = New System.Windows.Forms.Button()
+        Me.tmrReload = New System.Windows.Forms.Timer(Me.components)
+        Me.fraItems.SuspendLayout()
+        Me.fraControls.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'cmdtatus
-        '
-        Me.cmdtatus.Location = New System.Drawing.Point(0, 0)
-        Me.cmdtatus.Name = "cmdtatus"
-        Me.cmdtatus.Size = New System.Drawing.Size(75, 23)
-        Me.cmdtatus.TabIndex = 0
-        Me.cmdtatus.Text = "Button1"
-        Me.cmdtatus.UseVisualStyleBackColor = True
         '
         'txtItemQuan
         '
-        Me.txtItemQuan.Location = New System.Drawing.Point(12, 47)
+        Me.txtItemQuan.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.txtItemQuan.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtItemQuan.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemQuan.Location = New System.Drawing.Point(116, 31)
         Me.txtItemQuan.Name = "txtItemQuan"
-        Me.txtItemQuan.Size = New System.Drawing.Size(100, 20)
+        Me.txtItemQuan.Size = New System.Drawing.Size(44, 11)
         Me.txtItemQuan.TabIndex = 1
+        Me.txtItemQuan.Text = "0"
+        Me.txtItemQuan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblStyle
         '
-        Me.lblStyle.AutoSize = True
-        Me.lblStyle.Location = New System.Drawing.Point(12, 89)
+        Me.lblStyle.BackColor = System.Drawing.SystemColors.Window
+        Me.lblStyle.Font = New System.Drawing.Font("Lucida Console", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStyle.Location = New System.Drawing.Point(10, 9)
         Me.lblStyle.Name = "lblStyle"
-        Me.lblStyle.Size = New System.Drawing.Size(39, 13)
+        Me.lblStyle.Size = New System.Drawing.Size(384, 40)
         Me.lblStyle.TabIndex = 2
-        Me.lblStyle.Text = "Label1"
+        Me.lblStyle.Text = "###"
+        Me.lblStyle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtKitQuantity
         '
-        Me.txtKitQuantity.Location = New System.Drawing.Point(12, 114)
+        Me.txtKitQuantity.Location = New System.Drawing.Point(150, 58)
         Me.txtKitQuantity.Name = "txtKitQuantity"
-        Me.txtKitQuantity.Size = New System.Drawing.Size(100, 20)
+        Me.txtKitQuantity.Size = New System.Drawing.Size(52, 20)
         Me.txtKitQuantity.TabIndex = 3
         '
         'cmdStatus
         '
-        Me.cmdStatus.Location = New System.Drawing.Point(12, 166)
+        Me.cmdStatus.Location = New System.Drawing.Point(208, 58)
         Me.cmdStatus.Name = "cmdStatus"
-        Me.cmdStatus.Size = New System.Drawing.Size(75, 23)
+        Me.cmdStatus.Size = New System.Drawing.Size(52, 20)
         Me.cmdStatus.TabIndex = 4
         Me.cmdStatus.Text = "ST"
         Me.cmdStatus.UseVisualStyleBackColor = True
@@ -88,151 +93,215 @@ Partial Class frmKitLevels
         'lblItem
         '
         Me.lblItem.AutoSize = True
-        Me.lblItem.Location = New System.Drawing.Point(12, 204)
+        Me.lblItem.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItem.Location = New System.Drawing.Point(47, 31)
         Me.lblItem.Name = "lblItem"
-        Me.lblItem.Size = New System.Drawing.Size(61, 13)
+        Me.lblItem.Size = New System.Drawing.Size(68, 11)
         Me.lblItem.TabIndex = 5
         Me.lblItem.Text = "### 1 ###"
         '
         'lblItemLoc
         '
         Me.lblItemLoc.AutoSize = True
-        Me.lblItemLoc.Location = New System.Drawing.Point(12, 232)
+        Me.lblItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemLoc.Location = New System.Drawing.Point(192, 31)
         Me.lblItemLoc.Name = "lblItemLoc"
-        Me.lblItemLoc.Size = New System.Drawing.Size(39, 13)
+        Me.lblItemLoc.Size = New System.Drawing.Size(12, 11)
         Me.lblItemLoc.TabIndex = 6
-        Me.lblItemLoc.Text = "Label1"
+        Me.lblItemLoc.Text = "0"
+        Me.lblItemLoc.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblOnOrd
         '
         Me.lblOnOrd.AutoSize = True
-        Me.lblOnOrd.Location = New System.Drawing.Point(12, 256)
+        Me.lblOnOrd.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOnOrd.Location = New System.Drawing.Point(281, 31)
         Me.lblOnOrd.Name = "lblOnOrd"
-        Me.lblOnOrd.Size = New System.Drawing.Size(39, 13)
+        Me.lblOnOrd.Size = New System.Drawing.Size(12, 11)
         Me.lblOnOrd.TabIndex = 7
-        Me.lblOnOrd.Text = "Label1"
+        Me.lblOnOrd.Text = "0"
+        Me.lblOnOrd.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblItemAvail
         '
         Me.lblItemAvail.AutoSize = True
-        Me.lblItemAvail.Location = New System.Drawing.Point(12, 280)
+        Me.lblItemAvail.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemAvail.Location = New System.Drawing.Point(241, 31)
         Me.lblItemAvail.Name = "lblItemAvail"
-        Me.lblItemAvail.Size = New System.Drawing.Size(39, 13)
+        Me.lblItemAvail.Size = New System.Drawing.Size(12, 11)
         Me.lblItemAvail.TabIndex = 8
-        Me.lblItemAvail.Text = "Label1"
+        Me.lblItemAvail.Text = "0"
+        Me.lblItemAvail.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'cmdItemLoc
         '
-        Me.cmdItemLoc.Location = New System.Drawing.Point(15, 305)
+        Me.cmdItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdItemLoc.Location = New System.Drawing.Point(300, 31)
         Me.cmdItemLoc.Name = "cmdItemLoc"
-        Me.cmdItemLoc.Size = New System.Drawing.Size(75, 23)
+        Me.cmdItemLoc.Size = New System.Drawing.Size(36, 23)
         Me.cmdItemLoc.TabIndex = 9
-        Me.cmdItemLoc.Text = "Button1"
+        Me.cmdItemLoc.Text = "L1"
         Me.cmdItemLoc.UseVisualStyleBackColor = True
         '
         'cmdItemStatus
         '
-        Me.cmdItemStatus.Location = New System.Drawing.Point(15, 334)
+        Me.cmdItemStatus.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdItemStatus.Location = New System.Drawing.Point(342, 31)
         Me.cmdItemStatus.Name = "cmdItemStatus"
-        Me.cmdItemStatus.Size = New System.Drawing.Size(75, 23)
+        Me.cmdItemStatus.Size = New System.Drawing.Size(36, 23)
         Me.cmdItemStatus.TabIndex = 10
-        Me.cmdItemStatus.Text = "Button1"
+        Me.cmdItemStatus.Text = "ST"
         Me.cmdItemStatus.UseVisualStyleBackColor = True
         '
         'lblItemNum
         '
         Me.lblItemNum.AutoSize = True
-        Me.lblItemNum.Location = New System.Drawing.Point(12, 375)
+        Me.lblItemNum.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemNum.Location = New System.Drawing.Point(19, 31)
         Me.lblItemNum.Name = "lblItemNum"
-        Me.lblItemNum.Size = New System.Drawing.Size(13, 13)
+        Me.lblItemNum.Size = New System.Drawing.Size(12, 11)
         Me.lblItemNum.TabIndex = 11
         Me.lblItemNum.Text = "1"
         '
         'fraItems
         '
-        Me.fraItems.Location = New System.Drawing.Point(221, 31)
+        Me.fraItems.Controls.Add(Me.lblOnOrdCaption)
+        Me.fraItems.Controls.Add(Me.lblItemAvailCaption)
+        Me.fraItems.Controls.Add(Me.lblItemQuanCaption)
+        Me.fraItems.Controls.Add(Me.lblItemCaption)
+        Me.fraItems.Controls.Add(Me.lblItemNumCaption)
+        Me.fraItems.Controls.Add(Me.lblItemLocCaption)
+        Me.fraItems.Controls.Add(Me.cmdItemStatus)
+        Me.fraItems.Controls.Add(Me.lblItemNum)
+        Me.fraItems.Controls.Add(Me.cmdItemLoc)
+        Me.fraItems.Controls.Add(Me.lblItem)
+        Me.fraItems.Controls.Add(Me.lblItemAvail)
+        Me.fraItems.Controls.Add(Me.txtItemQuan)
+        Me.fraItems.Controls.Add(Me.lblOnOrd)
+        Me.fraItems.Controls.Add(Me.lblItemLoc)
+        Me.fraItems.Location = New System.Drawing.Point(13, 84)
         Me.fraItems.Name = "fraItems"
-        Me.fraItems.Size = New System.Drawing.Size(247, 58)
+        Me.fraItems.Size = New System.Drawing.Size(381, 92)
         Me.fraItems.TabIndex = 12
         Me.fraItems.TabStop = False
-        Me.fraItems.Text = "GroupBox1"
         '
         'fraControls
         '
-        Me.fraControls.Location = New System.Drawing.Point(221, 123)
+        Me.fraControls.Controls.Add(Me.cmdCancel)
+        Me.fraControls.Controls.Add(Me.cmdOK)
+        Me.fraControls.Location = New System.Drawing.Point(87, 182)
         Me.fraControls.Name = "fraControls"
-        Me.fraControls.Size = New System.Drawing.Size(246, 65)
+        Me.fraControls.Size = New System.Drawing.Size(180, 65)
         Me.fraControls.TabIndex = 13
         Me.fraControls.TabStop = False
-        Me.fraControls.Text = "GroupBox1"
         '
         'lblItemLocCaption
         '
         Me.lblItemLocCaption.AutoSize = True
-        Me.lblItemLocCaption.Location = New System.Drawing.Point(9, 406)
+        Me.lblItemLocCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemLocCaption.Location = New System.Drawing.Point(186, 16)
         Me.lblItemLocCaption.Name = "lblItemLocCaption"
-        Me.lblItemLocCaption.Size = New System.Drawing.Size(39, 13)
+        Me.lblItemLocCaption.Size = New System.Drawing.Size(23, 13)
         Me.lblItemLocCaption.TabIndex = 14
-        Me.lblItemLocCaption.Text = "Label1"
+        Me.lblItemLocCaption.Text = "ST"
         '
-        'Label1
+        'lblKitQuantityCaption
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 428)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(39, 13)
-        Me.Label1.TabIndex = 15
-        Me.Label1.Text = "Label1"
+        Me.lblKitQuantityCaption.AutoSize = True
+        Me.lblKitQuantityCaption.Location = New System.Drawing.Point(100, 61)
+        Me.lblKitQuantityCaption.Name = "lblKitQuantityCaption"
+        Me.lblKitQuantityCaption.Size = New System.Drawing.Size(49, 13)
+        Me.lblKitQuantityCaption.TabIndex = 18
+        Me.lblKitQuantityCaption.Text = "Quantity:"
         '
-        'cmdOK
+        'lblItemNumCaption
         '
-        Me.cmdOK.Location = New System.Drawing.Point(165, 365)
-        Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 23)
-        Me.cmdOK.TabIndex = 16
-        Me.cmdOK.Text = "OK"
-        Me.cmdOK.UseVisualStyleBackColor = True
+        Me.lblItemNumCaption.AutoSize = True
+        Me.lblItemNumCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemNumCaption.Location = New System.Drawing.Point(17, 16)
+        Me.lblItemNumCaption.Name = "lblItemNumCaption"
+        Me.lblItemNumCaption.Size = New System.Drawing.Size(15, 13)
+        Me.lblItemNumCaption.TabIndex = 0
+        Me.lblItemNumCaption.Text = "#"
+        '
+        'lblItemCaption
+        '
+        Me.lblItemCaption.AutoSize = True
+        Me.lblItemCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemCaption.Location = New System.Drawing.Point(45, 16)
+        Me.lblItemCaption.Name = "lblItemCaption"
+        Me.lblItemCaption.Size = New System.Drawing.Size(63, 13)
+        Me.lblItemCaption.TabIndex = 1
+        Me.lblItemCaption.Text = "Item Style"
+        '
+        'lblItemQuanCaption
+        '
+        Me.lblItemQuanCaption.AutoSize = True
+        Me.lblItemQuanCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemQuanCaption.Location = New System.Drawing.Point(126, 16)
+        Me.lblItemQuanCaption.Name = "lblItemQuanCaption"
+        Me.lblItemQuanCaption.Size = New System.Drawing.Size(37, 13)
+        Me.lblItemQuanCaption.TabIndex = 2
+        Me.lblItemQuanCaption.Text = "Quan"
+        '
+        'lblItemAvailCaption
+        '
+        Me.lblItemAvailCaption.AutoSize = True
+        Me.lblItemAvailCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemAvailCaption.Location = New System.Drawing.Point(225, 16)
+        Me.lblItemAvailCaption.Name = "lblItemAvailCaption"
+        Me.lblItemAvailCaption.Size = New System.Drawing.Size(35, 13)
+        Me.lblItemAvailCaption.TabIndex = 15
+        Me.lblItemAvailCaption.Text = "Avail"
+        '
+        'lblOnOrdCaption
+        '
+        Me.lblOnOrdCaption.AutoSize = True
+        Me.lblOnOrdCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOnOrdCaption.Location = New System.Drawing.Point(271, 16)
+        Me.lblOnOrdCaption.Name = "lblOnOrdCaption"
+        Me.lblOnOrdCaption.Size = New System.Drawing.Size(27, 13)
+        Me.lblOnOrdCaption.TabIndex = 16
+        Me.lblOnOrdCaption.Text = "Ord"
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(275, 375)
+        Me.cmdCancel.Location = New System.Drawing.Point(97, 19)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
-        Me.cmdCancel.TabIndex = 17
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 38)
+        Me.cmdCancel.TabIndex = 19
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
+        '
+        'cmdOK
+        '
+        Me.cmdOK.Location = New System.Drawing.Point(9, 19)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(75, 38)
+        Me.cmdOK.TabIndex = 18
+        Me.cmdOK.Text = "OK"
+        Me.cmdOK.UseVisualStyleBackColor = True
         '
         'frmKitLevels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Controls.Add(Me.cmdCancel)
-        Me.Controls.Add(Me.cmdOK)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.lblItemLocCaption)
+        Me.ClientSize = New System.Drawing.Size(403, 250)
+        Me.Controls.Add(Me.lblKitQuantityCaption)
         Me.Controls.Add(Me.fraControls)
         Me.Controls.Add(Me.fraItems)
-        Me.Controls.Add(Me.lblItemNum)
-        Me.Controls.Add(Me.cmdItemStatus)
-        Me.Controls.Add(Me.cmdItemLoc)
-        Me.Controls.Add(Me.lblItemAvail)
-        Me.Controls.Add(Me.lblOnOrd)
-        Me.Controls.Add(Me.lblItemLoc)
-        Me.Controls.Add(Me.lblItem)
         Me.Controls.Add(Me.cmdStatus)
         Me.Controls.Add(Me.txtKitQuantity)
         Me.Controls.Add(Me.lblStyle)
-        Me.Controls.Add(Me.txtItemQuan)
-        Me.Controls.Add(Me.cmdtatus)
         Me.Name = "frmKitLevels"
-        Me.Text = "frmKitLevels"
+        Me.Text = "Kit Stock Levels"
+        Me.fraItems.ResumeLayout(False)
+        Me.fraItems.PerformLayout()
+        Me.fraControls.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents cmdtatus As Button
     Friend WithEvents txtItemQuan As TextBox
     Friend WithEvents lblStyle As Label
     Friend WithEvents txtKitQuantity As TextBox
@@ -247,8 +316,14 @@ Partial Class frmKitLevels
     Friend WithEvents fraItems As GroupBox
     Friend WithEvents fraControls As GroupBox
     Friend WithEvents lblItemLocCaption As Label
-    Friend WithEvents Label1 As Label
-    Friend WithEvents cmdOK As Button
-    Friend WithEvents cmdCancel As Button
     Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents lblOnOrdCaption As Label
+    Friend WithEvents lblItemAvailCaption As Label
+    Friend WithEvents lblItemQuanCaption As Label
+    Friend WithEvents lblItemCaption As Label
+    Friend WithEvents lblItemNumCaption As Label
+    Friend WithEvents cmdCancel As Button
+    Friend WithEvents cmdOK As Button
+    Friend WithEvents lblKitQuantityCaption As Label
+    Friend WithEvents tmrReload As Timer
 End Class
