@@ -8,6 +8,8 @@
     Public AllowItemLocChange As Boolean
     Public ItemLoc() As Integer
     Public lblItemNumCount As Integer
+    Dim N As Integer
+    Dim TxtItemQty As TextBox
 
     Public Function KitCost(Optional ByVal vType As String = "Landed", Optional ByVal Line As Integer = 0, Optional ByVal Style As String = "") As Decimal
         Dim I As Integer, S As String, C As CInvRec
@@ -73,8 +75,11 @@
             lblStyle.Text = KitStyle
             txtKitQuantity.Text = Quan
 
-            For I = 1 To Setup_MaxKitItems
-                If CI.Item(I) <> "" Then AddItem(CI.Item(I), Quan * CI.Quantity(I), Locations, CI.Quantity(I))
+            'For I = 1 To Setup_MaxKitItems
+            For I = 1 To 2
+                If CI.Item(I) <> "" Then
+                    AddItem(CI.Item(I), Quan * CI.Quantity(I), Locations, CI.Quantity(I))
+                End If
             Next
         End If
         DisposeDA(CI)
@@ -210,31 +215,40 @@
     End Sub
 
     Private Sub AddItem(ByVal Style As String, ByRef Q As Double, Optional ByVal vLoc As Integer = 0, Optional ByVal SingleQuantity As Double = 0)
-        Dim N As Integer, T As Integer
+        'Dim N As Integer
+        Dim T As Integer
         Dim A As Double, B As Double, C As Double, D As String, E As Double
         Dim lblItemCount As Integer
         Dim labelItemText As String = ""
+        Dim lblItemNumber As String
+
+        Dim L1, L2, L3, L4, L5, L6, L7, L8 As Integer
 
         If vLoc = 0 Then vLoc = Locations
         GetItem(vLoc, Style, A, B, C, D, E)
 
         lblItemNumCount = 0
-        For Each ctrl As Control In Me.Controls
-            If Mid(ctrl.Name, 1, 10) = "lblItemNum" Then
+        lblItemCount = 1
+        For Each ctrl As Control In Me.fraItems.Controls
+            If Mid(ctrl.Name, 1, 10) = "lblItemNum" And Len(ctrl.Name) <= 13 Then
                 lblItemNumCount = lblItemNumCount + 1
             End If
-        Next
 
-        For Each ctrl As Control In Me.Controls
-            Dim lblItemNumber As String
             lblItemNumber = Mid(ctrl.Name, 8, 1)
             If Mid(ctrl.Name, 1, 7) = "lblItem" And IsNumeric(lblItemNumber) Then
                 lblItemCount = lblItemCount + 1
-            Else
-                lblItemCount = 1
             End If
-
         Next
+
+        'For Each ctrl As Control In Me.fraItems.Controls
+        '    lblItemNumber = Mid(ctrl.Name, 8, 1)
+        '    If Mid(ctrl.Name, 1, 7) = "lblItem" And IsNumeric(lblItemNumber) Then
+        '        lblItemCount = lblItemCount + 1
+        '    Else
+        '        lblItemCount = 1
+        '    End If
+        'Next
+
         'N = lblItemNum.UBound
         N = lblItemNumCount
         'If N > 1 Or lblItem(N) <> "" Then
@@ -249,7 +263,7 @@
             'Lc.Name = "lblItem" & N
             'labelItemText = Lc.Text
             Dim L As Label
-            For Each ctrl In Me.Controls
+            For Each ctrl In Me.fraItems.Controls
                 If ctrl.name = "lblItem" & N Then
                     L = ctrl
                     labelItemText = L.Text
@@ -263,7 +277,15 @@
         If N > 1 Or labelItemText <> "" Then
             If lblItemNumCount = 1 Then
                 'T = lblItemNum(N).Top + 240
-                T = lblItemNum.Top + 240
+                T = lblItemNum.Top + 25
+                L1 = lblItemNum.Left
+                L2 = lblItem.Left
+                L3 = txtItemQuan.Left
+                L4 = lblItemLoc.Left
+                L5 = lblOnOrd.Left
+                L6 = lblItemAvail.Left
+                L7 = cmdItemLoc.Left
+                L8 = cmdItemStatus.Left
             Else
                 'T = lblItemNum(N).Top + 240
                 'T = Me.Controls.Item(lblItemNum.ToString & N).Top + 240
@@ -271,10 +293,10 @@
                 Dim L As Label
                 'L.Name = "lblItemNum" & N
                 'T = L.Top + 240
-                For Each ctrl In Me.Controls
+                For Each ctrl In Me.fraItems.Controls
                     If ctrl.name = "lblItemNum" & N Then
                         L = ctrl
-                        T = L.Top + 240
+                        T = L.Top + 25
                         Exit For
                     End If
                 Next
@@ -289,10 +311,12 @@
             ctrll = New Label
             'ctrll.Name = lblItemNum.ToString & N
             ctrll.Name = "lblItemNum" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
             ToolTip1.SetToolTip(ctrll, D)
+            ctrll.Location = New Point(L1, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load lblItem(N)
             'Me.Controls.Item(lblItem.ToString & N).Show()
@@ -301,11 +325,14 @@
             'Me.Controls.Item(lblItem.ToString & N).Top = T
             ctrll = New Label
             ctrll.Name = "lblItem" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
             ctrll.Text = Style
             ToolTip1.SetToolTip(ctrll, D)
+            ctrll.Size = New Size(68, 11)
+            ctrll.Location = New Point(L2, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load txtItemQuan(N)
             'Me.Controls.Item(txtItemQuan.ToString & N).Show()
@@ -314,9 +341,8 @@
             'Me.Controls.Item(txtItemQuan.ToString & N).Top = T
             ctrll = New TextBox
             ctrll.Name = "txtItemQuan" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
+            AddHandler ctrll.TextChanged, AddressOf txtItemQuanTextChanged
             ctrll.Text = Math.Round(Q, 2)
             ctrll.Tag = SingleQuantity
             ctrll.Enabled = Not AllowAdjustedQuantities
@@ -324,12 +350,17 @@
                 'txtItemQuan(N).Appearance = 0  -Appearance property not available in vb.net
                 ctrll.BackColor = Color.White
                 'txtItemQuan(N).BorderStyle = 0 -Borderstyle property not available
+
             Else
                 'txtItemQuan(N).Appearance = 1  -Appearance property not available in vb.net
-                ctrll.BackColor = Color.White
+                ctrll.BackColor = Color.Gray
                 'txtItemQuan(N).BorderStyle = 1 -Borderstyle property not available
             End If
-
+            ctrll.Location = New Point(L3, T)
+            ctrll.Size = New Size(44, 18)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load lblItemLoc(N)
             'Me.Controls.Item(lblItemLoc.ToString & N).Show()
@@ -338,18 +369,20 @@
             'Me.Controls.Item(lblItemLoc.ToString & N).Top = T
             ctrll = New Label
             ctrll.Name = "lblItemLoc" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
-
+            'ctrll.Top = T
             If ShowST Then
                 'lblItemLoc.Visible = True -> This line not required because in the above lblItemLoc is added with default visible is true.
+                ctrll.Visible = True
             Else
                 lblItemLocCaption.Visible = False
                 'lblItemLoc.Visible = False
                 ctrll.Visible = False
             End If
             ctrll.Text = A
+            ctrll.Location = New Point(L4, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load lblOnOrd(N)
             'Me.Controls.Item(lblOnOrd.ToString & N).Show()
@@ -358,11 +391,13 @@
             'Me.Controls.Item(lblOnOrd.ToString & N).Top = T
             ctrll = New Label
             ctrll.Name = "lblOnOrd" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
             ctrll.Text = B
             ctrll.Tag = E
+            ctrll.Location = New Point(L5, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load lblItemAvail(N)
             'Me.Controls.Item(lblItemAvail.ToString & N).Show()
@@ -371,10 +406,12 @@
             'Me.Controls.Item(lblItemAvail.ToString & N).Top = T
             ctrll = New Label
             ctrll.Name = "lblItemAvail" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
             ctrll.Text = C
+            ctrll.Location = New Point(L6, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load cmdItemLoc(N)
             'Me.Controls.Item(cmdItemLoc.ToString & N).Show()
@@ -383,11 +420,13 @@
             'Me.Controls.Item(cmdItemLoc.ToString & N).Top = T
             ctrll = New Button
             ctrll.Name = "cmdItemLoc" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
             ctrll.Text = "L" & vLoc
             ctrll.Enabled = AllowItemLocChange
+            ctrll.Location = New Point(L7, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
 
             'Load cmdItemStatus(N)
             'Me.Controls.Item(cmdItemStatus.ToString & N).Show()
@@ -396,11 +435,14 @@
             'Me.Controls.Item(cmdItemStatus.ToString & N).Top = T
             ctrll = New Button
             ctrll.Name = "cmdItemStatus" & N
-            ctrll.Top = T
-            Me.Controls.Add(ctrll)
-            'ctrll.Hide()
+            'ctrll.Top = T
             ctrll.Text = status
             ctrll.Enabled = AllowItemStatusChange
+            ctrll.Location = New Point(L8, T)
+            'Me.Controls.Add(ctrll)
+            Me.fraItems.Controls.Add(ctrll)
+            'ctrll.Hide()
+
         End If
 
         If N = 1 Then
@@ -528,23 +570,22 @@
 
         If N = 1 Then
             'fraItems.Height = cmdItemStatus(N).Top + cmdItemStatus(N).Height + 60
-            fraItems.Height = cmdItemStatus.Top + cmdItemStatus.Height + 60
+            fraItems.Height = cmdItemStatus.Top + cmdItemStatus.Height
             fraItems.Visible = True
             fraControls.Top = fraItems.Top + fraItems.Height
             'Height = Height - ScaleHeight + fraControls.Top + fraControls.Height + 120
-            Height = Height - Me.ClientSize.Height + fraControls.Top + fraControls.Height + 120
+            Height = Height - Me.ClientSize.Height + fraControls.Top + fraControls.Height
         ElseIf N > 1 Then
             'fraItems.Height = cmdItemStatus(N).Top + cmdItemStatus(N).Height + 60
             'fraItems.Height = Me.Controls.Item(cmdItemStatus.ToString & N).Top + Me.Controls.Item(cmdItemStatus.ToString & N).Height + 60
             Dim Btn As Button
-            For Each ctrl In Me.Controls
+            For Each ctrl In Me.fraItems.Controls
                 If ctrl.name = "cmdItemStatus" & N Then
                     Btn = ctrl
                     fraItems.Height = Btn.Top + Btn.Height + 60
                     Exit For
                 End If
             Next
-
             fraItems.Visible = True
             fraControls.Top = fraItems.Top + fraItems.Height
             'Height = Height - ScaleHeight + fraControls.Top + fraControls.Height + 120
@@ -769,12 +810,23 @@
         AllowItemLocChange = True
 
         AllowPartialKits = False
-        AllowAdjustedQuantities = True ' IsDevelopment
-
-        ClearItems()
+        'AllowAdjustedQuantities = True ' IsDevelopment
+        AllowAdjustedQuantities = False ' IsDevelopment -> Replaced this line with the above one to change true to false. Because, in vb6 form load is executing
+        'before any other code. But in vb.net, this load event is executing after other code.So to work it correctly, change true to false.
+        'ClearItems()  -> Commented it because load event is executing in a different time than vb6.0 load event. Because of it caling ClearItems is giving
+        'wrong output at runtime.
     End Sub
 
     Private Sub txtItemQuan_TextChanged(sender As Object, e As EventArgs) Handles txtItemQuan.TextChanged
         HiLiteKitRow(1)
+    End Sub
+
+    Private Sub txtItemQuanTextChanged(sender As Object, e As EventArgs)
+        Dim t As TextBox
+
+        t = CType(sender, TextBox)
+        If t.Name = "txtItemQuan" & N Then
+            HiLiteKitRow(N)
+        End If
     End Sub
 End Class

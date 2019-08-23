@@ -35,17 +35,17 @@ Partial Class frmKitLevels
         Me.cmdItemStatus = New System.Windows.Forms.Button()
         Me.lblItemNum = New System.Windows.Forms.Label()
         Me.fraItems = New System.Windows.Forms.GroupBox()
-        Me.fraControls = New System.Windows.Forms.GroupBox()
-        Me.lblItemLocCaption = New System.Windows.Forms.Label()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblKitQuantityCaption = New System.Windows.Forms.Label()
-        Me.lblItemNumCaption = New System.Windows.Forms.Label()
-        Me.lblItemCaption = New System.Windows.Forms.Label()
-        Me.lblItemQuanCaption = New System.Windows.Forms.Label()
-        Me.lblItemAvailCaption = New System.Windows.Forms.Label()
         Me.lblOnOrdCaption = New System.Windows.Forms.Label()
+        Me.lblItemAvailCaption = New System.Windows.Forms.Label()
+        Me.lblItemQuanCaption = New System.Windows.Forms.Label()
+        Me.lblItemCaption = New System.Windows.Forms.Label()
+        Me.lblItemNumCaption = New System.Windows.Forms.Label()
+        Me.lblItemLocCaption = New System.Windows.Forms.Label()
+        Me.fraControls = New System.Windows.Forms.GroupBox()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lblKitQuantityCaption = New System.Windows.Forms.Label()
         Me.tmrReload = New System.Windows.Forms.Timer(Me.components)
         Me.fraItems.SuspendLayout()
         Me.fraControls.SuspendLayout()
@@ -54,11 +54,10 @@ Partial Class frmKitLevels
         'txtItemQuan
         '
         Me.txtItemQuan.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.txtItemQuan.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtItemQuan.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemQuan.Location = New System.Drawing.Point(116, 31)
         Me.txtItemQuan.Name = "txtItemQuan"
-        Me.txtItemQuan.Size = New System.Drawing.Size(44, 11)
+        Me.txtItemQuan.Size = New System.Drawing.Size(44, 18)
         Me.txtItemQuan.TabIndex = 1
         Me.txtItemQuan.Text = "0"
         Me.txtItemQuan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -99,6 +98,7 @@ Partial Class frmKitLevels
         Me.lblItem.Size = New System.Drawing.Size(68, 11)
         Me.lblItem.TabIndex = 5
         Me.lblItem.Text = "### 1 ###"
+        Me.lblItem.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblItemLoc
         '
@@ -185,64 +185,15 @@ Partial Class frmKitLevels
         Me.fraItems.TabIndex = 12
         Me.fraItems.TabStop = False
         '
-        'fraControls
+        'lblOnOrdCaption
         '
-        Me.fraControls.Controls.Add(Me.cmdCancel)
-        Me.fraControls.Controls.Add(Me.cmdOK)
-        Me.fraControls.Location = New System.Drawing.Point(87, 182)
-        Me.fraControls.Name = "fraControls"
-        Me.fraControls.Size = New System.Drawing.Size(180, 65)
-        Me.fraControls.TabIndex = 13
-        Me.fraControls.TabStop = False
-        '
-        'lblItemLocCaption
-        '
-        Me.lblItemLocCaption.AutoSize = True
-        Me.lblItemLocCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemLocCaption.Location = New System.Drawing.Point(186, 16)
-        Me.lblItemLocCaption.Name = "lblItemLocCaption"
-        Me.lblItemLocCaption.Size = New System.Drawing.Size(23, 13)
-        Me.lblItemLocCaption.TabIndex = 14
-        Me.lblItemLocCaption.Text = "ST"
-        '
-        'lblKitQuantityCaption
-        '
-        Me.lblKitQuantityCaption.AutoSize = True
-        Me.lblKitQuantityCaption.Location = New System.Drawing.Point(100, 61)
-        Me.lblKitQuantityCaption.Name = "lblKitQuantityCaption"
-        Me.lblKitQuantityCaption.Size = New System.Drawing.Size(49, 13)
-        Me.lblKitQuantityCaption.TabIndex = 18
-        Me.lblKitQuantityCaption.Text = "Quantity:"
-        '
-        'lblItemNumCaption
-        '
-        Me.lblItemNumCaption.AutoSize = True
-        Me.lblItemNumCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemNumCaption.Location = New System.Drawing.Point(17, 16)
-        Me.lblItemNumCaption.Name = "lblItemNumCaption"
-        Me.lblItemNumCaption.Size = New System.Drawing.Size(15, 13)
-        Me.lblItemNumCaption.TabIndex = 0
-        Me.lblItemNumCaption.Text = "#"
-        '
-        'lblItemCaption
-        '
-        Me.lblItemCaption.AutoSize = True
-        Me.lblItemCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemCaption.Location = New System.Drawing.Point(45, 16)
-        Me.lblItemCaption.Name = "lblItemCaption"
-        Me.lblItemCaption.Size = New System.Drawing.Size(63, 13)
-        Me.lblItemCaption.TabIndex = 1
-        Me.lblItemCaption.Text = "Item Style"
-        '
-        'lblItemQuanCaption
-        '
-        Me.lblItemQuanCaption.AutoSize = True
-        Me.lblItemQuanCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemQuanCaption.Location = New System.Drawing.Point(126, 16)
-        Me.lblItemQuanCaption.Name = "lblItemQuanCaption"
-        Me.lblItemQuanCaption.Size = New System.Drawing.Size(37, 13)
-        Me.lblItemQuanCaption.TabIndex = 2
-        Me.lblItemQuanCaption.Text = "Quan"
+        Me.lblOnOrdCaption.AutoSize = True
+        Me.lblOnOrdCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOnOrdCaption.Location = New System.Drawing.Point(271, 16)
+        Me.lblOnOrdCaption.Name = "lblOnOrdCaption"
+        Me.lblOnOrdCaption.Size = New System.Drawing.Size(27, 13)
+        Me.lblOnOrdCaption.TabIndex = 16
+        Me.lblOnOrdCaption.Text = "Ord"
         '
         'lblItemAvailCaption
         '
@@ -254,19 +205,59 @@ Partial Class frmKitLevels
         Me.lblItemAvailCaption.TabIndex = 15
         Me.lblItemAvailCaption.Text = "Avail"
         '
-        'lblOnOrdCaption
+        'lblItemQuanCaption
         '
-        Me.lblOnOrdCaption.AutoSize = True
-        Me.lblOnOrdCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOnOrdCaption.Location = New System.Drawing.Point(271, 16)
-        Me.lblOnOrdCaption.Name = "lblOnOrdCaption"
-        Me.lblOnOrdCaption.Size = New System.Drawing.Size(27, 13)
-        Me.lblOnOrdCaption.TabIndex = 16
-        Me.lblOnOrdCaption.Text = "Ord"
+        Me.lblItemQuanCaption.AutoSize = True
+        Me.lblItemQuanCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemQuanCaption.Location = New System.Drawing.Point(126, 16)
+        Me.lblItemQuanCaption.Name = "lblItemQuanCaption"
+        Me.lblItemQuanCaption.Size = New System.Drawing.Size(37, 13)
+        Me.lblItemQuanCaption.TabIndex = 2
+        Me.lblItemQuanCaption.Text = "Quan"
+        '
+        'lblItemCaption
+        '
+        Me.lblItemCaption.AutoSize = True
+        Me.lblItemCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemCaption.Location = New System.Drawing.Point(45, 16)
+        Me.lblItemCaption.Name = "lblItemCaption"
+        Me.lblItemCaption.Size = New System.Drawing.Size(63, 13)
+        Me.lblItemCaption.TabIndex = 1
+        Me.lblItemCaption.Text = "Item Style"
+        '
+        'lblItemNumCaption
+        '
+        Me.lblItemNumCaption.AutoSize = True
+        Me.lblItemNumCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemNumCaption.Location = New System.Drawing.Point(17, 16)
+        Me.lblItemNumCaption.Name = "lblItemNumCaption"
+        Me.lblItemNumCaption.Size = New System.Drawing.Size(15, 13)
+        Me.lblItemNumCaption.TabIndex = 0
+        Me.lblItemNumCaption.Text = "#"
+        '
+        'lblItemLocCaption
+        '
+        Me.lblItemLocCaption.AutoSize = True
+        Me.lblItemLocCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemLocCaption.Location = New System.Drawing.Point(186, 16)
+        Me.lblItemLocCaption.Name = "lblItemLocCaption"
+        Me.lblItemLocCaption.Size = New System.Drawing.Size(23, 13)
+        Me.lblItemLocCaption.TabIndex = 14
+        Me.lblItemLocCaption.Text = "ST"
+        '
+        'fraControls
+        '
+        Me.fraControls.Controls.Add(Me.cmdCancel)
+        Me.fraControls.Controls.Add(Me.cmdOK)
+        Me.fraControls.Location = New System.Drawing.Point(87, 180)
+        Me.fraControls.Name = "fraControls"
+        Me.fraControls.Size = New System.Drawing.Size(180, 56)
+        Me.fraControls.TabIndex = 13
+        Me.fraControls.TabStop = False
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(97, 19)
+        Me.cmdCancel.Location = New System.Drawing.Point(97, 13)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 38)
         Me.cmdCancel.TabIndex = 19
@@ -275,12 +266,21 @@ Partial Class frmKitLevels
         '
         'cmdOK
         '
-        Me.cmdOK.Location = New System.Drawing.Point(9, 19)
+        Me.cmdOK.Location = New System.Drawing.Point(9, 13)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.Size = New System.Drawing.Size(75, 38)
         Me.cmdOK.TabIndex = 18
         Me.cmdOK.Text = "OK"
         Me.cmdOK.UseVisualStyleBackColor = True
+        '
+        'lblKitQuantityCaption
+        '
+        Me.lblKitQuantityCaption.AutoSize = True
+        Me.lblKitQuantityCaption.Location = New System.Drawing.Point(100, 61)
+        Me.lblKitQuantityCaption.Name = "lblKitQuantityCaption"
+        Me.lblKitQuantityCaption.Size = New System.Drawing.Size(49, 13)
+        Me.lblKitQuantityCaption.TabIndex = 18
+        Me.lblKitQuantityCaption.Text = "Quantity:"
         '
         'frmKitLevels
         '
