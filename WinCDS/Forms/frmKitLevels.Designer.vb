@@ -53,9 +53,9 @@ Partial Class frmKitLevels
         '
         'txtItemQuan
         '
-        Me.txtItemQuan.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.txtItemQuan.BackColor = System.Drawing.Color.White
         Me.txtItemQuan.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItemQuan.Location = New System.Drawing.Point(116, 31)
+        Me.txtItemQuan.Location = New System.Drawing.Point(119, 31)
         Me.txtItemQuan.Name = "txtItemQuan"
         Me.txtItemQuan.Size = New System.Drawing.Size(44, 18)
         Me.txtItemQuan.TabIndex = 1
@@ -91,9 +91,8 @@ Partial Class frmKitLevels
         '
         'lblItem
         '
-        Me.lblItem.AutoSize = True
         Me.lblItem.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItem.Location = New System.Drawing.Point(47, 31)
+        Me.lblItem.Location = New System.Drawing.Point(40, 31)
         Me.lblItem.Name = "lblItem"
         Me.lblItem.Size = New System.Drawing.Size(68, 11)
         Me.lblItem.TabIndex = 5
@@ -102,9 +101,8 @@ Partial Class frmKitLevels
         '
         'lblItemLoc
         '
-        Me.lblItemLoc.AutoSize = True
         Me.lblItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemLoc.Location = New System.Drawing.Point(192, 31)
+        Me.lblItemLoc.Location = New System.Drawing.Point(197, 31)
         Me.lblItemLoc.Name = "lblItemLoc"
         Me.lblItemLoc.Size = New System.Drawing.Size(12, 11)
         Me.lblItemLoc.TabIndex = 6
@@ -113,9 +111,8 @@ Partial Class frmKitLevels
         '
         'lblOnOrd
         '
-        Me.lblOnOrd.AutoSize = True
         Me.lblOnOrd.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOnOrd.Location = New System.Drawing.Point(281, 31)
+        Me.lblOnOrd.Location = New System.Drawing.Point(286, 31)
         Me.lblOnOrd.Name = "lblOnOrd"
         Me.lblOnOrd.Size = New System.Drawing.Size(12, 11)
         Me.lblOnOrd.TabIndex = 7
@@ -124,9 +121,8 @@ Partial Class frmKitLevels
         '
         'lblItemAvail
         '
-        Me.lblItemAvail.AutoSize = True
         Me.lblItemAvail.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemAvail.Location = New System.Drawing.Point(241, 31)
+        Me.lblItemAvail.Location = New System.Drawing.Point(248, 31)
         Me.lblItemAvail.Name = "lblItemAvail"
         Me.lblItemAvail.Size = New System.Drawing.Size(12, 11)
         Me.lblItemAvail.TabIndex = 8
@@ -138,7 +134,7 @@ Partial Class frmKitLevels
         Me.cmdItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdItemLoc.Location = New System.Drawing.Point(300, 31)
         Me.cmdItemLoc.Name = "cmdItemLoc"
-        Me.cmdItemLoc.Size = New System.Drawing.Size(36, 23)
+        Me.cmdItemLoc.Size = New System.Drawing.Size(36, 20)
         Me.cmdItemLoc.TabIndex = 9
         Me.cmdItemLoc.Text = "L1"
         Me.cmdItemLoc.UseVisualStyleBackColor = True
@@ -148,14 +144,13 @@ Partial Class frmKitLevels
         Me.cmdItemStatus.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdItemStatus.Location = New System.Drawing.Point(342, 31)
         Me.cmdItemStatus.Name = "cmdItemStatus"
-        Me.cmdItemStatus.Size = New System.Drawing.Size(36, 23)
+        Me.cmdItemStatus.Size = New System.Drawing.Size(36, 20)
         Me.cmdItemStatus.TabIndex = 10
         Me.cmdItemStatus.Text = "ST"
         Me.cmdItemStatus.UseVisualStyleBackColor = True
         '
         'lblItemNum
         '
-        Me.lblItemNum.AutoSize = True
         Me.lblItemNum.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemNum.Location = New System.Drawing.Point(19, 31)
         Me.lblItemNum.Name = "lblItemNum"
@@ -187,47 +182,46 @@ Partial Class frmKitLevels
         '
         'lblOnOrdCaption
         '
-        Me.lblOnOrdCaption.AutoSize = True
         Me.lblOnOrdCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOnOrdCaption.Location = New System.Drawing.Point(271, 16)
         Me.lblOnOrdCaption.Name = "lblOnOrdCaption"
         Me.lblOnOrdCaption.Size = New System.Drawing.Size(27, 13)
         Me.lblOnOrdCaption.TabIndex = 16
         Me.lblOnOrdCaption.Text = "Ord"
+        Me.lblOnOrdCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblItemAvailCaption
         '
-        Me.lblItemAvailCaption.AutoSize = True
         Me.lblItemAvailCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemAvailCaption.Location = New System.Drawing.Point(225, 16)
         Me.lblItemAvailCaption.Name = "lblItemAvailCaption"
         Me.lblItemAvailCaption.Size = New System.Drawing.Size(35, 13)
         Me.lblItemAvailCaption.TabIndex = 15
         Me.lblItemAvailCaption.Text = "Avail"
+        Me.lblItemAvailCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblItemQuanCaption
         '
-        Me.lblItemQuanCaption.AutoSize = True
         Me.lblItemQuanCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemQuanCaption.Location = New System.Drawing.Point(126, 16)
         Me.lblItemQuanCaption.Name = "lblItemQuanCaption"
         Me.lblItemQuanCaption.Size = New System.Drawing.Size(37, 13)
         Me.lblItemQuanCaption.TabIndex = 2
         Me.lblItemQuanCaption.Text = "Quan"
+        Me.lblItemQuanCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblItemCaption
         '
-        Me.lblItemCaption.AutoSize = True
         Me.lblItemCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemCaption.Location = New System.Drawing.Point(45, 16)
         Me.lblItemCaption.Name = "lblItemCaption"
         Me.lblItemCaption.Size = New System.Drawing.Size(63, 13)
         Me.lblItemCaption.TabIndex = 1
         Me.lblItemCaption.Text = "Item Style"
+        Me.lblItemCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblItemNumCaption
         '
-        Me.lblItemNumCaption.AutoSize = True
         Me.lblItemNumCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemNumCaption.Location = New System.Drawing.Point(17, 16)
         Me.lblItemNumCaption.Name = "lblItemNumCaption"
@@ -237,13 +231,13 @@ Partial Class frmKitLevels
         '
         'lblItemLocCaption
         '
-        Me.lblItemLocCaption.AutoSize = True
         Me.lblItemLocCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemLocCaption.Location = New System.Drawing.Point(186, 16)
         Me.lblItemLocCaption.Name = "lblItemLocCaption"
         Me.lblItemLocCaption.Size = New System.Drawing.Size(23, 13)
         Me.lblItemLocCaption.TabIndex = 14
         Me.lblItemLocCaption.Text = "ST"
+        Me.lblItemLocCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'fraControls
         '
