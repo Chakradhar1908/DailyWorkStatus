@@ -132,9 +132,9 @@ Partial Class frmKitLevels
         'cmdItemLoc
         '
         Me.cmdItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdItemLoc.Location = New System.Drawing.Point(300, 31)
+        Me.cmdItemLoc.Location = New System.Drawing.Point(307, 28)
         Me.cmdItemLoc.Name = "cmdItemLoc"
-        Me.cmdItemLoc.Size = New System.Drawing.Size(36, 20)
+        Me.cmdItemLoc.Size = New System.Drawing.Size(30, 20)
         Me.cmdItemLoc.TabIndex = 9
         Me.cmdItemLoc.Text = "L1"
         Me.cmdItemLoc.UseVisualStyleBackColor = True
@@ -142,9 +142,9 @@ Partial Class frmKitLevels
         'cmdItemStatus
         '
         Me.cmdItemStatus.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdItemStatus.Location = New System.Drawing.Point(342, 31)
+        Me.cmdItemStatus.Location = New System.Drawing.Point(342, 28)
         Me.cmdItemStatus.Name = "cmdItemStatus"
-        Me.cmdItemStatus.Size = New System.Drawing.Size(36, 20)
+        Me.cmdItemStatus.Size = New System.Drawing.Size(30, 20)
         Me.cmdItemStatus.TabIndex = 10
         Me.cmdItemStatus.Text = "ST"
         Me.cmdItemStatus.UseVisualStyleBackColor = True
@@ -243,17 +243,17 @@ Partial Class frmKitLevels
         '
         Me.fraControls.Controls.Add(Me.cmdCancel)
         Me.fraControls.Controls.Add(Me.cmdOK)
-        Me.fraControls.Location = New System.Drawing.Point(87, 180)
+        Me.fraControls.Location = New System.Drawing.Point(124, 182)
         Me.fraControls.Name = "fraControls"
-        Me.fraControls.Size = New System.Drawing.Size(180, 56)
+        Me.fraControls.Size = New System.Drawing.Size(154, 56)
         Me.fraControls.TabIndex = 13
         Me.fraControls.TabStop = False
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(97, 13)
+        Me.cmdCancel.Location = New System.Drawing.Point(84, 13)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 38)
+        Me.cmdCancel.Size = New System.Drawing.Size(64, 38)
         Me.cmdCancel.TabIndex = 19
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -262,7 +262,7 @@ Partial Class frmKitLevels
         '
         Me.cmdOK.Location = New System.Drawing.Point(9, 13)
         Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 38)
+        Me.cmdOK.Size = New System.Drawing.Size(64, 38)
         Me.cmdOK.TabIndex = 18
         Me.cmdOK.Text = "OK"
         Me.cmdOK.UseVisualStyleBackColor = True

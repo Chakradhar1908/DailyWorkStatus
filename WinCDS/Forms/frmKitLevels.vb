@@ -6,7 +6,6 @@
     Public AllowStatusChange As Boolean
     Public AllowItemStatusChange As Boolean
     Public AllowItemLocChange As Boolean
-    Public ItemLoc() As Integer
     Public lblItemNumCount As Integer
     Dim N As Integer
     Dim TxtItemQty As TextBox
@@ -289,7 +288,7 @@
         If N > 1 Or labelItemText <> "" Then
             If lblItemNumCount = 1 Then
                 'T = lblItemNum(N).Top + 240
-                T = lblItemNum.Top + 25
+                T = lblItemNum.Top + 18
                 L1 = lblItemNum.Left
                 L2 = lblItem.Left
                 L3 = txtItemQuan.Left
@@ -311,7 +310,7 @@
 
                     If ctrl.Name = "lblItemNum" & N And lblItemNumFound = False Then
                         L = ctrl
-                        T = L.Top + 25
+                        T = L.Top + 18
                         L1 = L.Left
                         lblItemNumFound = True
                         FoundCount = FoundCount + 1
@@ -525,7 +524,7 @@
             ctrll.Text = "L" & vLoc
             ctrll.Enabled = AllowItemLocChange
             ctrll.Location = New Point(L7, T)
-            ctrll.Size = New Size(36, 20)
+            ctrll.Size = New Size(30, 20)
             'Me.Controls.Add(ctrll)
 
             Me.fraItems.Controls.Add(ctrll)
@@ -543,12 +542,13 @@
             ctrll.Text = status
             ctrll.Enabled = AllowItemStatusChange
             ctrll.Location = New Point(L8, T)
-            ctrll.Size = New Size(36, 20)
+            ctrll.Size = New Size(30, 20)
             ctrll.Font = New Font("Lucida Console", 8, FontStyle.Regular)
             'Me.Controls.Add(ctrll)
 
             Me.fraItems.Controls.Add(ctrll)
             DirectCast(Me.fraItems.Controls.Item(ctrll.Name), Button).TextAlign = ContentAlignment.MiddleCenter
+            AddHandler ctrll.Click, AddressOf cmdItemStatus_Click
             'ctrll.Hide()
 
         End If
@@ -848,6 +848,81 @@
         End If
     End Function
 
+    Public Function ItemLoc(ByVal Index As Integer, Optional ByVal vData As Integer = -32767)
+        Dim b As Button
+        If vData = -32767 Then  'Get property of vb6.0
+            If Index <= 0 Then Exit Function
+            If Index > ItemCount Then Exit Function
+            'ItemLoc = Val(Mid(cmdItemLoc(Index).Caption, 2))
+            For Each c As Control In Me.fraItems.Controls
+                If c.Name = "cmdItemLoc" & Index Then
+                    b = c
+                    ItemLoc = Val(Mid(b.Text, 2))
+                    Exit For
+                End If
+            Next
+        End If
+
+        'Let property of vb6.0
+        If Index <= 0 Then Exit Function
+        If Index > ItemCount Then Exit Function
+        If ItemLoc(Index) = vData Then Exit Function
+        'cmdItemLoc(Index).Text = "L" & vData
+
+        For Each c As Control In Me.fraItems.Controls
+            If c.Name = "cmdItemLoc" & Index Then
+                b = c
+                b.Text = "L" & vData
+                Exit For
+            End If
+        Next
+        UpdateKitRow(Index)
+    End Function
+
+    Private Sub UpdateKitRow(ByVal Line As Integer)
+        Dim A As Double, B As Double, C As Double, D As String, E As Double
+        If Line < 1 Or Line > ItemCount Then Exit Sub
+
+        GetItem(ItemLoc(Line), ItemStyle(Line), A, B, C, D, E)
+
+        'lblItemNum(Line).ToolTipText = D
+        'lblItem(Line).ToolTipText = D
+        ''  txtItemQuan(N) = Round(Q, 2)
+        'lblItemLoc(Line) = A
+        'lblOnOrd(Line) = B
+        'lblOnOrd(Line).Tag = E
+        'lblItemAvail(Line) = C
+
+        Dim LoopItemCount As Integer
+        For Each ctrl As Control In Me.fraItems.Controls
+            If ctrl.Name = "lblItemNum" & Line Then
+                ToolTip1.SetToolTip(ctrl, D)
+                LoopItemCount = LoopItemCount + 1
+            End If
+            If ctrl.Name = "lblItem" & Line Then
+                ToolTip1.SetToolTip(ctrl, D)
+                LoopItemCount = LoopItemCount + 1
+            End If
+            If ctrl.Name = "lblItemLoc" & Line Then
+                ctrl.Text = A
+                LoopItemCount = LoopItemCount + 1
+            End If
+            If ctrl.Name = "lblOnOrd" & Line Then
+                ctrl.Text = B
+                ctrl.Tag = E
+                LoopItemCount = LoopItemCount + 1
+            End If
+            If ctrl.Name = "lblItemAvail" & Line Then
+                ctrl.Text = C
+                LoopItemCount = LoopItemCount + 1
+            End If
+            If LoopItemCount = 5 Then
+                Exit For
+            End If
+        Next
+        HiLiteKitRow(Line)
+    End Sub
+
     Private Function LineOverSold(ByVal I As Integer) As Boolean
         Dim T As New TextBox
         Dim LItem As New Label, LItemLoc As New Label, LOnOrd As New Label
@@ -938,4 +1013,141 @@
             HiLiteKitRow(N)
         End If
     End Sub
+
+    Private Sub cmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
+        If OverSold Then
+            If MsgBox("Caution: Over Selling Kit!", vbCritical + vbOKCancel, "Warning") = vbCancel Then Exit Sub
+        End If
+
+        Cancelled = False
+        If Quantity <= 0 Then Cancelled = True
+        Hide()
+    End Sub
+
+    Private Function OverSold() As Boolean
+        Dim I As Integer
+        For I = 1 To ItemCount
+            If LineOverSold(I) Then OverSold = True : Exit Function
+        Next
+    End Function
+
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
+        Cancelled = True
+        Hide()
+    End Sub
+
+    Public ReadOnly Property Style() As String
+        Get
+            Style = lblStyle.Text
+        End Get
+    End Property
+    Dim cmdStatusIndex As Integer
+    Dim FromcmdStatusClick As Boolean
+    Private Sub cmdStatus_Click(sender As Object, e As EventArgs) Handles cmdStatus.Click
+        'cmdItemStatus_Click(0)
+        'cmdStatusIndex = 0
+        FromcmdStatusClick = True
+        cmdItemStatus_Click(cmdItemStatus, New EventArgs)
+    End Sub
+
+    Private Sub cmdItemStatus_Click(sender As Object, e As EventArgs) Handles cmdItemStatus.Click
+        Dim Stat As String, I As Integer, OS As String
+        Dim b As Button
+        Dim cmdItemStatusIndex As Integer = 2
+
+        If FromcmdStatusClick = True Then
+            cmdStatusIndex = 0
+            FromcmdStatusClick = False
+        Else
+            b = CType(sender, Button)
+            If b.Name = "cmdItemStatus" Then
+                cmdStatusIndex = 1
+            Else
+                For Each c As Control In Me.fraItems.Controls
+                    If c.Name = "cmdItemStatus" & cmdItemStatusIndex Then
+                        b = c
+                        cmdStatusIndex = cmdItemStatusIndex
+                        Exit For
+                    Else
+                        cmdItemStatusIndex = cmdItemStatusIndex + 1
+                    End If
+                Next
+            End If
+        End If
+
+        Stat = SelectStatusPopup(IIf(cmdStatusIndex = 0, status, ItemStatus(cmdStatusIndex)))
+        If Stat = "" Then Exit Sub
+        If cmdStatusIndex = 0 Then
+            OS = cmdStatus.Text
+            cmdStatus.Text = Stat
+        ElseIf cmdStatusIndex = 1 Then
+            cmdItemStatus.Text = Stat
+        Else
+            'cmdItemStatus(Index).Caption = Stat
+            b.Text = Stat
+        End If
+
+        'If Index = 0 Then
+        '    For I = 1 To cmdItemStatus.UBound
+        '        If cmdItemStatus(I).Caption = OS Then cmdItemStatus(I).Caption = Stat
+        '    Next
+        'End If
+
+        If cmdStatusIndex = 0 Then
+            If cmdItemStatus.Text = OS Then cmdItemStatus.Text = Stat
+            cmdItemStatusIndex = 2
+            For Each c As Control In Me.fraItems.Controls
+                If c.Name = "cmdItemStatus" & cmdItemStatusIndex Then
+                    If c.Text = OS Then
+                        c.Text = Stat
+                        cmdItemStatusIndex = cmdItemStatusIndex + 1
+                    Else
+                        cmdItemStatusIndex = cmdItemStatusIndex + 1
+                    End If
+                End If
+            Next
+        End If
+        HiLiteKitRow(cmdStatusIndex)
+    End Sub
+
+    Private Function SelectStatusPopup(Optional ByVal Status As String = "") As String
+        Dim cP As clsPopup, Res As Integer
+        cP = New clsPopup
+        cP.AddItem("ST", , , IIf(Status = "ST", clsPopup.enumMenuItemStates.MFS_CHECKED, 0))
+        cP.AddItem("SO", , , IIf(Status = "SO", clsPopup.enumMenuItemStates.MFS_CHECKED, 0))
+        cP.AddItem("PO", , , IIf(Status = "PO", clsPopup.enumMenuItemStates.MFS_CHECKED, 0))
+        cP.AddItem("LAW", , , IIf(Status = "LAW", clsPopup.enumMenuItemStates.MFS_CHECKED, 0))
+        cP.AddItem("DELTW", , , IIf(Status = "DELTW", clsPopup.enumMenuItemStates.MFS_CHECKED, 0))
+        'Res = cP.PopupMenu(hWnd)
+        Res = cP.PopupMenu(Handle)
+        DisposeDA(cP)
+        SelectStatusPopup = Choose(Res + 1, "", "ST", "SO", "PO", "LAW", "DELTW")
+    End Function
+
+    Public Sub LoadCustomKit(ByVal vLoc As Long, ByVal vStat As String,
+Optional ByRef KI1 As String = "", Optional ByVal KQ1 As Double = 0,
+Optional ByRef KI2 As String = "", Optional ByVal KQ2 As Double = 0,
+Optional ByRef KI3 As String = "", Optional ByVal KQ3 As Double = 0,
+Optional ByRef KI4 As String = "", Optional ByVal KQ4 As Double = 0,
+Optional ByRef KI5 As String = "", Optional ByVal KQ5 As Double = 0,
+Optional ByRef KI6 As String = "", Optional ByVal KQ6 As Double = 0,
+Optional ByRef KI7 As String = "", Optional ByVal KQ7 As Double = 0,
+Optional ByRef KI8 As String = "", Optional ByVal KQ8 As Double = 0,
+Optional ByRef KI9 As String = "", Optional ByVal KQ9 As Double = 0,
+Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
+
+        Locations = vLoc
+        status = vStat
+        If KI1 <> "" Then AddItem(KI1, KQ1)
+        If KI2 <> "" Then AddItem(KI2, KQ2)
+        If KI3 <> "" Then AddItem(KI3, KQ3)
+        If KI4 <> "" Then AddItem(KI4, KQ4)
+        If KI5 <> "" Then AddItem(KI5, KQ5)
+        If KI6 <> "" Then AddItem(KI6, KQ6)
+        If KI7 <> "" Then AddItem(KI7, KQ7)
+        If KI8 <> "" Then AddItem(KI8, KQ8)
+        If KI9 <> "" Then AddItem(KI9, KQ9)
+        If KI10 <> "" Then AddItem(KI10, KQ10)
+    End Sub
+
 End Class
