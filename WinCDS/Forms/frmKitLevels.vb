@@ -8,7 +8,7 @@
     Public AllowItemLocChange As Boolean
     Public lblItemNumCount As Integer
     Dim N As Integer
-    Dim TxtItemQty As TextBox
+    'Dim TxtItemQty As TextBox
 
     Public Function KitCost(Optional ByVal vType As String = "Landed", Optional ByVal Line As Integer = 0, Optional ByVal Style As String = "") As Decimal
         Dim I As Integer, S As String, C As CInvRec
@@ -522,13 +522,15 @@
             ctrll.Name = "cmdItemLoc" & N
             'ctrll.Top = T
             ctrll.Text = "L" & vLoc
-            ctrll.Enabled = AllowItemLocChange
+            'ctrll.Enabled = AllowItemLocChange
             ctrll.Location = New Point(L7, T)
             ctrll.Size = New Size(30, 20)
+            ctrll.Font = New Font("Lucida Console", 8, FontStyle.Regular)
             'Me.Controls.Add(ctrll)
 
             Me.fraItems.Controls.Add(ctrll)
             DirectCast(Me.fraItems.Controls.Item(ctrll.Name), Button).TextAlign = ContentAlignment.MiddleCenter
+            AddHandler ctrll.Click, AddressOf cmdItemLoc_Click
             'ctrll.Hide()
 
             'Load cmdItemStatus(N)
@@ -542,7 +544,7 @@
             ctrll.Text = status
             ctrll.Enabled = AllowItemStatusChange
             ctrll.Location = New Point(L8, T)
-            ctrll.Size = New Size(30, 20)
+            ctrll.Size = New Size(35, 20)
             ctrll.Font = New Font("Lucida Console", 8, FontStyle.Regular)
             'Me.Controls.Add(ctrll)
 
@@ -590,7 +592,7 @@
             lblItemAvail.Text = C
             cmdItemLoc.Visible = True
             cmdItemLoc.Text = "L" & vLoc                ' original setup doesn't use property...  don't need update call
-            cmdItemLoc.Enabled = AllowItemLocChange
+            'cmdItemLoc.Enabled = AllowItemLocChange
             cmdItemStatus.Visible = True
             cmdItemStatus.Text = status
             cmdItemStatus.Enabled = AllowItemStatusChange
@@ -869,6 +871,10 @@
         If ItemLoc(Index) = vData Then Exit Function
         'cmdItemLoc(Index).Text = "L" & vData
 
+        If Index = 1 Then
+            cmdItemLoc.Text = "L" & vData
+            Exit Function
+        End If
         For Each c As Control In Me.fraItems.Controls
             If c.Name = "cmdItemLoc" & Index Then
                 b = c
@@ -893,34 +899,49 @@
         'lblOnOrd(Line).Tag = E
         'lblItemAvail(Line) = C
 
-        Dim LoopItemCount As Integer
+        'Dim LoopItemCount As Integer
         For Each ctrl As Control In Me.fraItems.Controls
             If ctrl.Name = "lblItemNum" & Line Then
                 ToolTip1.SetToolTip(ctrl, D)
-                LoopItemCount = LoopItemCount + 1
+                'LoopItemCount = LoopItemCount + 1
             End If
             If ctrl.Name = "lblItem" & Line Then
                 ToolTip1.SetToolTip(ctrl, D)
-                LoopItemCount = LoopItemCount + 1
+                'LoopItemCount = LoopItemCount + 1
             End If
             If ctrl.Name = "lblItemLoc" & Line Then
                 ctrl.Text = A
-                LoopItemCount = LoopItemCount + 1
+                'LoopItemCount = LoopItemCount + 1
             End If
             If ctrl.Name = "lblOnOrd" & Line Then
                 ctrl.Text = B
                 ctrl.Tag = E
-                LoopItemCount = LoopItemCount + 1
+                'LoopItemCount = LoopItemCount + 1
             End If
             If ctrl.Name = "lblItemAvail" & Line Then
                 ctrl.Text = C
-                LoopItemCount = LoopItemCount + 1
+                'LoopItemCount = LoopItemCount + 1
             End If
-            If LoopItemCount = 5 Then
-                Exit For
-            End If
+            'If LoopItemCount = 5 Then
+            '    Exit For
+            'End If
         Next
         HiLiteKitRow(Line)
+    End Sub
+
+    Private Sub UpdateAllKitRows()
+        Dim I As Integer
+        'For I = lblItemNum.LBound To lblItemNum.UBound
+        '   UpdateKitRow I
+        'Next
+
+        UpdateKitRow(1)  '--For physically placed lblItemNum on a form.
+        For Each c As Control In Me.fraItems.Controls   '-> Dynamically added lblItemNum lables on a form.
+            If c.Name = "lblItemNum" & I Then
+                UpdateKitRow(I)
+                I = I + 1
+            End If
+        Next
     End Sub
 
     Private Function LineOverSold(ByVal I As Integer) As Boolean
@@ -991,7 +1012,8 @@
         mLocation = 0
         AllowStatusChange = True
         AllowItemStatusChange = False
-        AllowItemLocChange = True
+        'AllowItemLocChange = True
+        AllowItemLocChange = False
 
         AllowPartialKits = False
         'AllowAdjustedQuantities = True ' IsDevelopment
@@ -1124,7 +1146,47 @@
         SelectStatusPopup = Choose(Res + 1, "", "ST", "SO", "PO", "LAW", "DELTW")
     End Function
 
-    Public Sub LoadCustomKit(ByVal vLoc As Long, ByVal vStat As String,
+    Private Function SelectLocationPopup(Optional ByVal L As Integer = 0, Optional ByVal Line As Integer = 0) As Integer
+        Dim cP As clsPopup, I As Integer, F As String
+        Dim R() As Integer, X As Integer
+        cP = New clsPopup
+
+        Dim T As CInvRec
+        T = New CInvRec
+        If Line <> 0 Then
+            If Not T.Load(ItemStyle(Line), "Style") Then
+                MsgBox("Could not load inventory record.")
+                DisposeDA(T)
+                Exit Function
+            End If
+        End If
+
+        X = 0
+        For I = 1 To ActiveNoOfLocations
+            If Line <> 0 And T.QueryOnOrder(I) <= 0 Then GoTo Skip
+            F = "L" & I
+            If Line <> 0 Then F = F & " = " & T.QueryOnOrder(I)
+            cP.AddItem(F, , , IIf(L = I, clsPopup.enumMenuItemStates.MFS_CHECKED, 0))
+            X = X + 1
+            'ReDim Preserve R(1 To X)
+            ReDim Preserve R(0 To X - 1)
+            R(X - 1) = I
+Skip:
+        Next
+        If X = 0 Then
+            MsgBox("No locations have On Order.")
+            DisposeDA(T)
+            Exit Function
+        End If
+
+        'SelectLocationPopup = cP.PopupMenu(hWnd)
+        SelectLocationPopup = cP.PopupMenu(Handle)
+        'If SelectLocationPopup <> 0 Then SelectLocationPopup = R(SelectLocationPopup)
+        If SelectLocationPopup <> 0 Then SelectLocationPopup = R(SelectLocationPopup - 1)
+        DisposeDA(cP, T)
+    End Function
+
+    Public Sub LoadCustomKit(ByVal vLoc As Integer, ByVal vStat As String,
 Optional ByRef KI1 As String = "", Optional ByVal KQ1 As Double = 0,
 Optional ByRef KI2 As String = "", Optional ByVal KQ2 As Double = 0,
 Optional ByRef KI3 As String = "", Optional ByVal KQ3 As Double = 0,
@@ -1149,5 +1211,73 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
         If KI9 <> "" Then AddItem(KI9, KQ9)
         If KI10 <> "" Then AddItem(KI10, KQ10)
     End Sub
+
+    Private Sub cmdItemLoc_Click(sender As Object, e As EventArgs) Handles cmdItemLoc.Click
+        Dim Res As Integer, cmdItemLocIndex As Integer
+        Dim b As Button
+
+        b = CType(sender, Button)
+        If b.Name = "cmdItemLoc" Then
+            Res = SelectLocationPopup(ItemLoc(1), IIf(IsDevelopment, 1, 0))
+        Else
+            If Len(b.Name) = 11 Then
+                cmdItemLocIndex = Microsoft.VisualBasic.Right(b.Name, 1)
+            ElseIf Len(b.Name) = 12 Then
+                cmdItemLocIndex = Microsoft.VisualBasic.Right(b.Name, 2)
+            End If
+            Res = SelectLocationPopup(ItemLoc(cmdItemLocIndex), IIf(IsDevelopment, cmdItemLocIndex, 0))
+        End If
+
+        'If Res > 0 Then ItemLoc(Index) = Res
+        If Res = 1 Then
+            ItemLoc(1, Res)
+        ElseIf Res > 1 Then
+            ItemLoc(cmdItemLocIndex, Res)
+        End If
+    End Sub
+
+    Private Sub txtKitQuantity_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtKitQuantity.Validating
+        Dim I As Integer
+        If Val(txtKitQuantity.Text) <> Trunc(Val(txtKitQuantity.Text)) And Not AllowPartialKits Then
+            MsgBox("No decimals allowed on kit quantities.", vbInformation, "Data Error")
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        If Val(txtKitQuantity.Text) <= 0 Then
+            MsgBox("Invalid number.  Please enter a valid number or press cancel.", vbInformation, "Data Error")
+            Exit Sub
+        End If
+
+        'For I = 1 To ItemCount
+        '    txtItemQuan(I) = Val(txtItemQuan(I).Tag) * Val(txtKitQuantity)
+        'Next
+
+        txtItemQuan.Text = Val(txtItemQuan.Tag) * Val(txtKitQuantity.Text)  '-> For original txtItemQuan textbox placed on a form.
+        For I = 2 To ItemCount
+            For Each c As Control In Me.fraItems.Controls      '-> For dynamically added txtItemQuan textboxes.
+                If c.Name = "txtItemQuan" & I Then
+                    'txtItemQuan(I) = Val(txtItemQuan(I).Tag) * Val(txtKitQuantity)
+                    c.Text = Val(c.Tag) * Val(txtKitQuantity.Text)
+                    Exit For
+                End If
+            Next
+        Next
+        UpdateAllKitRows()
+        '  Reload
+
+    End Sub
+
+
+    'Private Sub tmrReload_Tick(sender As Object, e As EventArgs) Handles tmrReload.Tick
+    '    tmrReload.Enabled = False
+    '    LoadKit(mLocation, status, Style, Quantity)
+    'End Sub
+
+    'Private Sub Reload()
+    '    tmrReload.Enabled = False
+    '    tmrReload.Interval = 100
+    '    tmrReload.Enabled = True
+    'End Sub
 
 End Class

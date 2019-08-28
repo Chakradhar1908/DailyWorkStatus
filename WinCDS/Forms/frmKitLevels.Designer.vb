@@ -31,10 +31,10 @@ Partial Class frmKitLevels
         Me.lblItemLoc = New System.Windows.Forms.Label()
         Me.lblOnOrd = New System.Windows.Forms.Label()
         Me.lblItemAvail = New System.Windows.Forms.Label()
-        Me.cmdItemLoc = New System.Windows.Forms.Button()
         Me.cmdItemStatus = New System.Windows.Forms.Button()
         Me.lblItemNum = New System.Windows.Forms.Label()
         Me.fraItems = New System.Windows.Forms.GroupBox()
+        Me.cmdItemLoc = New System.Windows.Forms.Button()
         Me.lblOnOrdCaption = New System.Windows.Forms.Label()
         Me.lblItemAvailCaption = New System.Windows.Forms.Label()
         Me.lblItemQuanCaption = New System.Windows.Forms.Label()
@@ -65,6 +65,7 @@ Partial Class frmKitLevels
         'lblStyle
         '
         Me.lblStyle.BackColor = System.Drawing.SystemColors.Window
+        Me.lblStyle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblStyle.Font = New System.Drawing.Font("Lucida Console", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStyle.Location = New System.Drawing.Point(10, 9)
         Me.lblStyle.Name = "lblStyle"
@@ -129,22 +130,12 @@ Partial Class frmKitLevels
         Me.lblItemAvail.Text = "0"
         Me.lblItemAvail.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'cmdItemLoc
-        '
-        Me.cmdItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdItemLoc.Location = New System.Drawing.Point(307, 28)
-        Me.cmdItemLoc.Name = "cmdItemLoc"
-        Me.cmdItemLoc.Size = New System.Drawing.Size(30, 20)
-        Me.cmdItemLoc.TabIndex = 9
-        Me.cmdItemLoc.Text = "L1"
-        Me.cmdItemLoc.UseVisualStyleBackColor = True
-        '
         'cmdItemStatus
         '
         Me.cmdItemStatus.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdItemStatus.Location = New System.Drawing.Point(342, 28)
         Me.cmdItemStatus.Name = "cmdItemStatus"
-        Me.cmdItemStatus.Size = New System.Drawing.Size(30, 20)
+        Me.cmdItemStatus.Size = New System.Drawing.Size(35, 20)
         Me.cmdItemStatus.TabIndex = 10
         Me.cmdItemStatus.Text = "ST"
         Me.cmdItemStatus.UseVisualStyleBackColor = True
@@ -160,6 +151,7 @@ Partial Class frmKitLevels
         '
         'fraItems
         '
+        Me.fraItems.Controls.Add(Me.cmdItemLoc)
         Me.fraItems.Controls.Add(Me.lblOnOrdCaption)
         Me.fraItems.Controls.Add(Me.lblItemAvailCaption)
         Me.fraItems.Controls.Add(Me.lblItemQuanCaption)
@@ -168,7 +160,6 @@ Partial Class frmKitLevels
         Me.fraItems.Controls.Add(Me.lblItemLocCaption)
         Me.fraItems.Controls.Add(Me.cmdItemStatus)
         Me.fraItems.Controls.Add(Me.lblItemNum)
-        Me.fraItems.Controls.Add(Me.cmdItemLoc)
         Me.fraItems.Controls.Add(Me.lblItem)
         Me.fraItems.Controls.Add(Me.lblItemAvail)
         Me.fraItems.Controls.Add(Me.txtItemQuan)
@@ -179,6 +170,16 @@ Partial Class frmKitLevels
         Me.fraItems.Size = New System.Drawing.Size(381, 92)
         Me.fraItems.TabIndex = 12
         Me.fraItems.TabStop = False
+        '
+        'cmdItemLoc
+        '
+        Me.cmdItemLoc.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdItemLoc.Location = New System.Drawing.Point(306, 29)
+        Me.cmdItemLoc.Name = "cmdItemLoc"
+        Me.cmdItemLoc.Size = New System.Drawing.Size(30, 20)
+        Me.cmdItemLoc.TabIndex = 17
+        Me.cmdItemLoc.Text = "L1"
+        Me.cmdItemLoc.UseVisualStyleBackColor = True
         '
         'lblOnOrdCaption
         '
@@ -288,6 +289,7 @@ Partial Class frmKitLevels
         Me.Controls.Add(Me.txtKitQuantity)
         Me.Controls.Add(Me.lblStyle)
         Me.Name = "frmKitLevels"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Kit Stock Levels"
         Me.fraItems.ResumeLayout(False)
         Me.fraItems.PerformLayout()
@@ -304,7 +306,6 @@ Partial Class frmKitLevels
     Friend WithEvents lblItemLoc As Label
     Friend WithEvents lblOnOrd As Label
     Friend WithEvents lblItemAvail As Label
-    Friend WithEvents cmdItemLoc As Button
     Friend WithEvents cmdItemStatus As Button
     Friend WithEvents lblItemNum As Label
     Friend WithEvents fraItems As GroupBox
@@ -320,4 +321,5 @@ Partial Class frmKitLevels
     Friend WithEvents cmdOK As Button
     Friend WithEvents lblKitQuantityCaption As Label
     Friend WithEvents tmrReload As Timer
+    Friend WithEvents cmdItemLoc As Button
 End Class
