@@ -28,8 +28,9 @@ Module MainModule
     End Function
 
     Public Function FormIsLoaded(ByVal FrmName As String) As Form
-        On Error Resume Next
+        'On Error Resume Next
         FormIsLoaded = Nothing
+
         For Each f As Form In My.Application.OpenForms
             If UCase(f.Name) = UCase(FrmName) Then
                 FormIsLoaded = f

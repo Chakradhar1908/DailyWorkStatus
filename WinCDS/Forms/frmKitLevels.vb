@@ -96,7 +96,7 @@
 
     Public Property Quantity As Double
         Get
-            Quantity = Val(txtKitQuantity)
+            Quantity = Val(Trim(txtKitQuantity.Text))
         End Get
         Set(value As Double)
             txtKitQuantity.Text = value
@@ -106,7 +106,7 @@
     Public ReadOnly Property ItemCount() As Integer
         Get
             Dim cmdItemStatusCount As Integer
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If Mid(ctrl.Name, 1, 13) = "cmdItemStatus" Then
                     cmdItemStatusCount = cmdItemStatusCount + 1
                 End If
@@ -136,7 +136,7 @@
             'ItemQuantity = Val(txtItemQuan(Index))
             'ItemQuantity = txtItemQuan & Index & .text
             Dim T As TextBox
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If ctrl.Name = "txtItemQuan" & Index Then
                     T = ctrl
                     ItemQuantity = T.Text
@@ -177,7 +177,7 @@
         'cmdItemStatus(1).Caption = status
         cmdItemStatus.Text = status
 
-        On Error Resume Next
+        'On Error Resume Next
         '    If lblItemNum.UBound >= 2 Then
         '        For I = lblItemNum.UBound To 2 Step -1
         '            Unload lblItemNum(I)
@@ -191,26 +191,53 @@
         'Next
         '    End If
 
-        Dim HideCount As Integer
-        If lblItemNumCount >= 2 Then
-            For I = lblItemNumCount To 2 Step -1
-                'Me.Controls.Item(lblItemNum.ToString & I).Hide()
-                'Me.Controls.Item(lblItem.ToString & I).Hide()
-                'Me.Controls.Item(txtItemQuan.ToString & I).Hide()
-                'Me.Controls.Item(lblItemLoc.ToString & I).Hide()
-                'Me.Controls.Item(lblOnOrd.ToString & I).Hide()
-                'Me.Controls.Item(lblItemAvail.ToString & I).Hide()
-                'Me.Controls.Item(cmdItemLoc.ToString & I).Hide()
-                'Me.Controls.Item(cmdItemStatus.ToString & I).Hide()
 
+        lblItemNumCount = 0
+        For Each ctrl As Control In Me.fraItems.Controls
+            If Mid(ctrl.Name, 1, 10) = "lblItemNum" And Len(ctrl.Name) <= 13 Then
+                lblItemNumCount = lblItemNumCount + 1
+            End If
+
+        Next
+
+        If lblItemNumCount >= 2 Then
+            'For I = lblItemNumCount To 2 Step -1
+            'For I = 2 To lblItemNumCount
+            'Me.Controls.Item(lblItemNum.ToString & I).Hide()
+            'Me.Controls.Item(lblItem.ToString & I).Hide()
+            'Me.Controls.Item(txtItemQuan.ToString & I).Hide()
+            'Me.Controls.Item(lblItemLoc.ToString & I).Hide()
+            'Me.Controls.Item(lblOnOrd.ToString & I).Hide()
+            'Me.Controls.Item(lblItemAvail.ToString & I).Hide()
+            'Me.Controls.Item(cmdItemLoc.ToString & I).Hide()
+            'Me.Controls.Item(cmdItemStatus.ToString & I).Hide()
+
+            For I = 2 To lblItemNumCount
                 For Each c As Control In Me.fraItems.Controls
-                    If c.Name = "lblItemNum" & I Or c.Name = "lblItem" & I Or c.Name = "txtItemQuan" & I Or c.Name = "lblItemLoc" & I _
-                        Or c.Name = "lblOnOrd" & I Or c.Name = "lblItemAvail" & I Or c.Name = "cmdItemLoc" & I Or c.Name = "cmdItemStatus" & I Then
-                        c.Hide()
-                        HideCount = HideCount + 1
-                    End If
-                    If HideCount = 8 Then
-                        Exit For
+                    '    'Debug.Print(c.Name)
+                    If c.Name = "lblItemNum" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "lblItem" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "txtItemQuan" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "lblItemLoc" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "lblOnOrd" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "lblItemAvail" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "cmdItemLoc" & I Then
+                        Me.fraItems.Controls.Remove(c)
+
+                    ElseIf c.Name = "cmdItemStatus" & I Then
+                        Me.fraItems.Controls.Remove(c)
                     End If
                 Next
             Next
@@ -240,6 +267,8 @@
 
         lblItemNumCount = 0
         lblItemCount = 1
+
+
         For Each ctrl As Control In Me.fraItems.Controls
             If Mid(ctrl.Name, 1, 10) = "lblItemNum" And Len(ctrl.Name) <= 13 Then
                 lblItemNumCount = lblItemNumCount + 1
@@ -249,6 +278,7 @@
             If Mid(ctrl.Name, 1, 7) = "lblItem" And IsNumeric(lblItemNumber) Then
                 lblItemCount = lblItemCount + 1
             End If
+            'Debug.Print(ctrl.Name)
         Next
 
         'For Each ctrl As Control In Me.fraItems.Controls
@@ -306,60 +336,60 @@
                 Dim FoundCount As Integer
                 'L.Name = "lblItemNum" & N
                 'T = L.Top + 240
-                For Each ctrl As Control In Me.fraItems.Controls
+                For Each cc As Control In Me.fraItems.Controls
 
-                    If ctrl.Name = "lblItemNum" & N And lblItemNumFound = False Then
-                        L = ctrl
+                    If cc.Name = "lblItemNum" & N And lblItemNumFound = False Then
+                        L = cc
                         T = L.Top + 18
                         L1 = L.Left
                         lblItemNumFound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "lblItem" & N And lblItemFound = False Then
-                        L = ctrl
+                    If cc.Name = "lblItem" & N And lblItemFound = False Then
+                        L = cc
                         L2 = L.Left
                         lblItemFound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "txtItemQuan" & N And txtItemQuanFound = False Then
-                        L = ctrl
+                    If cc.Name = "txtItemQuan" & N And txtItemQuanFound = False Then
+                        L = cc
                         L3 = L.Left
                         txtItemQuanFound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "lblItemLoc" & N And lblItemLocFound = False Then
-                        L = ctrl
+                    If cc.Name = "lblItemLoc" & N And lblItemLocFound = False Then
+                        L = cc
                         L4 = L.Left
                         lblItemLocFound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "lblOnOrd" & N And lblOnOrdFound = False Then
-                        L = ctrl
+                    If cc.Name = "lblOnOrd" & N And lblOnOrdFound = False Then
+                        L = cc
                         L5 = L.Left
                         lblOnOrdFound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "lblItemAvail" & N And lblItemAvailFound = False Then
-                        L = ctrl
+                    If cc.Name = "lblItemAvail" & N And lblItemAvailFound = False Then
+                        L = cc
                         L6 = L.Left
                         lblItemAvailFound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "cmdItemLoc" & N And cmdItemLocfound = False Then
-                        L = ctrl
+                    If cc.Name = "cmdItemLoc" & N And cmdItemLocfound = False Then
+                        L = cc
                         L7 = L.Left
                         cmdItemLocfound = True
                         FoundCount = FoundCount + 1
                         'Debug.Print(ctrl.Name)
                     End If
-                    If ctrl.Name = "cmdItemStatus" & N And cmdItemStatusFound = False Then
-                        L = ctrl
+                    If cc.Name = "cmdItemStatus" & N And cmdItemStatusFound = False Then
+                        L = cc
                         L8 = L.Left
                         cmdItemStatusFound = True
                         FoundCount = FoundCount + 1
@@ -402,7 +432,7 @@
             'ctrll.Top = T
             ctrll.Text = Style
             ToolTip1.SetToolTip(ctrll, D)
-            ctrll.Size = New Size(68, 11)
+            ctrll.Size = New Size(97, 11)
             ctrll.Location = New Point(L2, T)
             ctrll.Font = New Font("Lucida Console", 8, FontStyle.Regular)
             'Me.Controls.Add(ctrll)
@@ -544,7 +574,7 @@
             ctrll.Text = status
             ctrll.Enabled = AllowItemStatusChange
             ctrll.Location = New Point(L8, T)
-            ctrll.Size = New Size(35, 20)
+            ctrll.Size = New Size(44, 20)
             ctrll.Font = New Font("Lucida Console", 8, FontStyle.Regular)
             'Me.Controls.Add(ctrll)
 
@@ -702,6 +732,9 @@
             'Height = Height - ScaleHeight + fraControls.Top + fraControls.Height + 120
             Height = Height - Me.ClientSize.Height + fraControls.Top + fraControls.Height
         End If
+        For Each cc As Control In Me.fraItems.Controls
+            Debug.Print(cc.Name)
+        Next
     End Sub
 
     Private Sub GetItem(ByVal vLoc As Integer, ByVal Style As String, ByRef Loc As Double, ByRef OnOrd As Double, ByRef Avl As Double, ByRef Dsc As String, ByRef PreSold As Double)
@@ -736,14 +769,16 @@
         If ItemStatus(Index) = "PO" Then
             'txtItemQuan(Index).BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
             If Index = 1 Then
-                txtItemQuan.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                'txtItemQuan.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                txtItemQuan.BackColor = IIf(LineOverSold(Index), Color.Cyan, Color.White)
             ElseIf Index > 1 Then
                 'Me.Controls.Item(txtItemQuan.ToString & Index).BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
 
-                For Each ctrl As Control In Me.Controls
+                For Each ctrl As Control In Me.fraItems.Controls
                     If ctrl.Name = "txtItemQuan" & Index Then
                         T = ctrl
-                        T.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                        'T.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                        T.BackColor = IIf(LineOverSold(Index), Color.Cyan, Color.White)
                         Exit For
                     End If
                 Next
@@ -752,13 +787,22 @@
         Else
             'txtItemQuan(Index).BackColor = IIf(LineOverSold(Index), hlkrPink, hlkrNormal)
             If Index = 1 Then
-                txtItemQuan.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                'txtItemQuan.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                txtItemQuan.BackColor = IIf(LineOverSold(Index), Color.LightPink, Color.White)
             ElseIf Index > 1 Then
                 'Me.Controls.Item(txtItemQuan.ToString & Index).BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
-                For Each ctrl As Control In Me.Controls
+                For Each ctrl As Control In Me.fraItems.Controls
                     If ctrl.Name = "txtItemQuan" & Index Then
-                        T = ctrl
-                        T.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                        'T = ctrl
+                        'T.BackColor = IIf(LineOverSold(Index), hlkrCyan, hlkrNormal)
+                        'T.BackColor = IIf(LineOverSold(Index), Color.LightPink, Color.White)
+                        'ctrl.BackColor = IIf(LineOverSold(Index), Color.LightPink, Color.White)
+
+                        If LineOverSold(Index) = True Then
+                            DirectCast(Me.fraItems.Controls.Item(ctrl.Name), TextBox).BackColor = Color.LightPink
+                        Else
+                            DirectCast(Me.fraItems.Controls.Item(ctrl.Name), TextBox).BackColor = Color.White
+                        End If
                         Exit For
                     End If
                 Next
@@ -779,7 +823,7 @@
                 ItemStatus = cmdItemStatus.Text
             Else
                 'ItemStatus = Me.Controls.Item(cmdItemStatus.ToString & Index).Text
-                For Each ctrl As Control In Me.Controls
+                For Each ctrl As Control In Me.fraItems.Controls
                     If ctrl.Name = "cmdItemStatus" & Index Then
                         B = ctrl
                         ItemStatus = B.Text
@@ -798,7 +842,7 @@
                 cmdItemStatus.Text = Vdata
             Else
                 'Me.Controls.Item(cmdItemStatus.ToString & Index).Text = Vdata
-                For Each ctrl As Control In Me.Controls
+                For Each ctrl As Control In Me.fraItems.Controls
                     If ctrl.Name = "cmdItemStatus" & Index Then
                         B = ctrl
                         B.Text = Vdata
@@ -821,7 +865,7 @@
                 ItemStyle = lblItem.Text
             Else
                 'ItemStyle = Me.Controls.Item(lblItem.ToString & Index).Text
-                For Each ctrl As Control In Me.Controls
+                For Each ctrl As Control In Me.fraItems.Controls
                     If ctrl.Name = "lblItem" & Index Then
                         L = ctrl
                         ItemStyle = L.Text
@@ -839,7 +883,7 @@
                 lblItem.Text = Vdata
             Else
                 'Me.Controls.Item(lblItem.ToString & Index).Text = Vdata
-                For Each ctrl As Control In Me.Controls
+                For Each ctrl As Control In Me.fraItems.Controls
                     If ctrl.Name = "lblItem" & Index Then
                         L = ctrl
                         L.Text = Vdata
@@ -856,11 +900,15 @@
             If Index <= 0 Then Exit Function
             If Index > ItemCount Then Exit Function
             'ItemLoc = Val(Mid(cmdItemLoc(Index).Caption, 2))
+            If Index = 1 Then
+                ItemLoc = Val(Mid(cmdItemLoc.Text, 2))
+                Exit Function
+            End If
             For Each c As Control In Me.fraItems.Controls
                 If c.Name = "cmdItemLoc" & Index Then
                     b = c
                     ItemLoc = Val(Mid(b.Text, 2))
-                    Exit For
+                    Exit Function
                 End If
             Next
         End If
@@ -873,15 +921,15 @@
 
         If Index = 1 Then
             cmdItemLoc.Text = "L" & vData
-            Exit Function
+        Else
+            For Each c As Control In Me.fraItems.Controls
+                If c.Name = "cmdItemLoc" & Index Then
+                    b = c
+                    b.Text = "L" & vData
+                    Exit For
+                End If
+            Next
         End If
-        For Each c As Control In Me.fraItems.Controls
-            If c.Name = "cmdItemLoc" & Index Then
-                b = c
-                b.Text = "L" & vData
-                Exit For
-            End If
-        Next
         UpdateKitRow(Index)
     End Function
 
@@ -900,32 +948,42 @@
         'lblItemAvail(Line) = C
 
         'Dim LoopItemCount As Integer
-        For Each ctrl As Control In Me.fraItems.Controls
-            If ctrl.Name = "lblItemNum" & Line Then
-                ToolTip1.SetToolTip(ctrl, D)
-                'LoopItemCount = LoopItemCount + 1
-            End If
-            If ctrl.Name = "lblItem" & Line Then
-                ToolTip1.SetToolTip(ctrl, D)
-                'LoopItemCount = LoopItemCount + 1
-            End If
-            If ctrl.Name = "lblItemLoc" & Line Then
-                ctrl.Text = A
-                'LoopItemCount = LoopItemCount + 1
-            End If
-            If ctrl.Name = "lblOnOrd" & Line Then
-                ctrl.Text = B
-                ctrl.Tag = E
-                'LoopItemCount = LoopItemCount + 1
-            End If
-            If ctrl.Name = "lblItemAvail" & Line Then
-                ctrl.Text = C
-                'LoopItemCount = LoopItemCount + 1
-            End If
-            'If LoopItemCount = 5 Then
-            '    Exit For
-            'End If
-        Next
+        If Line = 1 Then
+            ToolTip1.SetToolTip(lblItemNum, D)
+            ToolTip1.SetToolTip(lblItem, D)
+            lblItemLoc.Text = A
+            lblOnOrd.Text = B
+            lblOnOrd.Tag = E
+            lblItemAvail.Text = C
+        Else
+
+            For Each ctrl As Control In Me.fraItems.Controls
+                If ctrl.Name = "lblItemNum" & Line Then
+                    ToolTip1.SetToolTip(ctrl, D)
+                    'LoopItemCount = LoopItemCount + 1
+                End If
+                If ctrl.Name = "lblItem" & Line Then
+                    ToolTip1.SetToolTip(ctrl, D)
+                    'LoopItemCount = LoopItemCount + 1
+                End If
+                If ctrl.Name = "lblItemLoc" & Line Then
+                    ctrl.Text = A
+                    'LoopItemCount = LoopItemCount + 1
+                End If
+                If ctrl.Name = "lblOnOrd" & Line Then
+                    ctrl.Text = B
+                    ctrl.Tag = E
+                    'LoopItemCount = LoopItemCount + 1
+                End If
+                If ctrl.Name = "lblItemAvail" & Line Then
+                    ctrl.Text = C
+                    'LoopItemCount = LoopItemCount + 1
+                End If
+                'If LoopItemCount = 5 Then
+                '    Exit For
+                'End If
+            Next
+        End If
         HiLiteKitRow(Line)
     End Sub
 
@@ -948,26 +1006,25 @@
         Dim T As New TextBox
         Dim LItem As New Label, LItemLoc As New Label, LOnOrd As New Label
         'BFH20120726
-        '  If ItemStatus(I) = "ST" And Val(txtItemQuan(I)) > Val(lblItemAvail(I)) Then LineOverSold = True
         'If ItemStatus(I) = "ST" And Val(txtItemQuan(I)) + BillOSale.ItemsSoldOnSale(lblItem(I)) > Val(lblItemLoc(I)) Then LineOverSold = True
         If I = 1 Then
             If ItemStatus(I) = "ST" And Val(txtItemQuan.Text) + BillOSale.ItemsSoldOnSale(lblItem.Text) > Val(lblItemLoc.Text) Then
                 LineOverSold = True
             End If
         ElseIf I > 1 Then
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If ctrl.Name = "txtItemQuan" & I Then
                     T = ctrl
                     Exit For
                 End If
             Next
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If ctrl.Name = "lblItem" & I Then
                     LItem = ctrl
                     Exit For
                 End If
             Next
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If ctrl.Name = "lblItemLoc" & I Then
                     LItemLoc = ctrl
                     Exit For
@@ -984,13 +1041,13 @@
                 LineOverSold = True
             End If
         ElseIf I > 1 Then
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If ctrl.Name = "txtItemQuan" & I Then
                     T = ctrl
                     Exit For
                 End If
             Next
-            For Each ctrl As Control In Me.Controls
+            For Each ctrl As Control In Me.fraItems.Controls
                 If ctrl.Name = "lblOnOrd" & I Then
                     LOnOrd = ctrl
                     Exit For
@@ -1019,7 +1076,7 @@
         'AllowAdjustedQuantities = True ' IsDevelopment
         AllowAdjustedQuantities = False ' IsDevelopment -> Replaced this line with the above one to change true to false. Because, in vb6 form load is executing
         'before any other code. But in vb.net, this load event is executing after other code.So to work it correctly, change true to false.
-        'ClearItems()  -> Commented it because load event is executing in a different time than vb6.0 load event. Because of it caling ClearItems is giving
+        'ClearItems()  '-> Commented it because load Event Is executing In a different time than vb6.0 load Event. Because Of it caling ClearItems Is giving
         'wrong output at runtime.
     End Sub
 
@@ -1044,6 +1101,7 @@
         Cancelled = False
         If Quantity <= 0 Then Cancelled = True
         Hide()
+        'Me.Visible = False
     End Sub
 
     Private Function OverSold() As Boolean
@@ -1073,7 +1131,7 @@
     End Sub
 
     Private Sub cmdItemStatus_Click(sender As Object, e As EventArgs) Handles cmdItemStatus.Click
-        Dim Stat As String, I As Integer, OS As String
+        Dim Stat As String, I As Integer, OS As String, Ln As Integer
         Dim b As Button
         Dim cmdItemStatusIndex As Integer = 2
 
@@ -1085,15 +1143,17 @@
             If b.Name = "cmdItemStatus" Then
                 cmdStatusIndex = 1
             Else
-                For Each c As Control In Me.fraItems.Controls
-                    If c.Name = "cmdItemStatus" & cmdItemStatusIndex Then
-                        b = c
-                        cmdStatusIndex = cmdItemStatusIndex
-                        Exit For
-                    Else
-                        cmdItemStatusIndex = cmdItemStatusIndex + 1
-                    End If
-                Next
+                'For Each c As Control In Me.fraItems.Controls
+                '    If c.Name = "cmdItemStatus" & cmdItemStatusIndex Then
+                '        b = c
+                '        cmdStatusIndex = cmdItemStatusIndex
+                '        Exit For
+                '    Else
+                '        cmdItemStatusIndex = cmdItemStatusIndex + 1
+                '    End If
+                'Next
+                Ln = Len(b.Name) - 13
+                cmdStatusIndex = Microsoft.VisualBasic.Right(b.Name, Ln)
             End If
         End If
 
@@ -1213,12 +1273,14 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
     End Sub
 
     Private Sub cmdItemLoc_Click(sender As Object, e As EventArgs) Handles cmdItemLoc.Click
-        Dim Res As Integer, cmdItemLocIndex As Integer
+        Dim Res As Integer
+        Dim cmdItemLocIndex As Integer
         Dim b As Button
 
         b = CType(sender, Button)
         If b.Name = "cmdItemLoc" Then
-            Res = SelectLocationPopup(ItemLoc(1), IIf(IsDevelopment, 1, 0))
+            cmdItemLocIndex = 1
+            Res = SelectLocationPopup(ItemLoc(cmdItemLocIndex), IIf(IsDevelopment, 1, 0))
         Else
             If Len(b.Name) = 11 Then
                 cmdItemLocIndex = Microsoft.VisualBasic.Right(b.Name, 1)
@@ -1228,13 +1290,38 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
             Res = SelectLocationPopup(ItemLoc(cmdItemLocIndex), IIf(IsDevelopment, cmdItemLocIndex, 0))
         End If
 
+        'Res = SelectLocationPopup(ItemLoc(1), IIf(IsDevelopment, 1, 0))
         'If Res > 0 Then ItemLoc(Index) = Res
-        If Res = 1 Then
-            ItemLoc(1, Res)
-        ElseIf Res > 1 Then
+        If Res > 0 Then
             ItemLoc(cmdItemLocIndex, Res)
+            'ElseIf Res > 1 Then
+            '   ItemLoc(cmdItemLocIndex, Res)
         End If
     End Sub
+
+    'Private Sub cmdItemLocNClick(sender As Object, e As EventArgs)
+    '    Dim Res As Integer, cmdItemLocIndex As Integer
+    '    Dim b As Button
+
+    '    b = CType(sender, Button)
+    '    If b.Name = "cmdItemLoc" Then
+    '        Res = SelectLocationPopup(ItemLoc(1), IIf(IsDevelopment, 1, 0))
+    '    Else
+    '        If Len(b.Name) = 11 Then
+    '            cmdItemLocIndex = Microsoft.VisualBasic.Right(b.Name, 1)
+    '        ElseIf Len(b.Name) = 12 Then
+    '            cmdItemLocIndex = Microsoft.VisualBasic.Right(b.Name, 2)
+    '        End If
+    '        Res = SelectLocationPopup(ItemLoc(cmdItemLocIndex), IIf(IsDevelopment, cmdItemLocIndex, 0))
+    '    End If
+
+    '    'If Res > 0 Then ItemLoc(Index) = Res
+    '    If Res = 1 Then
+    '        ItemLoc(1, Res)
+    '    ElseIf Res > 1 Then
+    '        ItemLoc(cmdItemLocIndex, Res)
+    '    End If
+    'End Sub
 
     Private Sub txtKitQuantity_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtKitQuantity.Validating
         Dim I As Integer
@@ -1254,7 +1341,7 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
         'Next
 
         txtItemQuan.Text = Val(txtItemQuan.Tag) * Val(txtKitQuantity.Text)  '-> For original txtItemQuan textbox placed on a form.
-        For I = 2 To ItemCount
+        For I = 1 To ItemCount
             For Each c As Control In Me.fraItems.Controls      '-> For dynamically added txtItemQuan textboxes.
                 If c.Name = "txtItemQuan" & I Then
                     'txtItemQuan(I) = Val(txtItemQuan(I).Tag) * Val(txtKitQuantity)
