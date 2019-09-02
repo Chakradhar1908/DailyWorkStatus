@@ -1141,6 +1141,12 @@ HandleErr:
             KitOnSaleTotal = frmKitLevels.KitCost("OnSale")
         End If
 
+        If frmKitLevels.IsfrmKitLevelsHide = True Then
+            KitLandedTotal = frmKitLevels.KitCost("Landed")
+            KitOnSaleTotal = frmKitLevels.KitCost("OnSale")
+        End If
+
+
         For I = 1 To Setup_MaxKitItems
             StyleNo = Trim(IfNullThenNilString(RS("Item" & I).Value))
             If StyleNo = "" Then GoTo ExitHere
@@ -1159,7 +1165,7 @@ HandleErr:
             End If
             GetRecord   ' Loads BoS2 form with data
             If Not isCS And Not OrderMode("Credit") Then
-                BillOSale.SetLoc(X, frmKitLevels.ItemLocByStyle(IfNullThenNilString(RS("Item" & I))))
+                BillOSale.SetLoc(X, frmKitLevels.ItemLocByStyle(IfNullThenNilString(RS("Item" & I).Value)))
             End If
         Next
 

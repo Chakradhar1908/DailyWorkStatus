@@ -408,7 +408,9 @@ Public Class UGridIO
                 '       .row = row
                 On Error GoTo softError
                 On Error Resume Next
-                .Bookmark = Str(Row)
+                '.Bookmark = Str(Row)
+                '.Bookmark = .Bookmark + 1
+                .Row = Row
                 On Error GoTo softError
                 On Error Resume Next
                 '.Row = 1

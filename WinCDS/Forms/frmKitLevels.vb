@@ -7,6 +7,7 @@
     Public AllowItemStatusChange As Boolean
     Public AllowItemLocChange As Boolean
     Public lblItemNumCount As Integer
+    Public IsfrmKitLevelsHide As Boolean
     Dim N As Integer
     'Dim TxtItemQty As TextBox
 
@@ -135,14 +136,18 @@
 
             'ItemQuantity = Val(txtItemQuan(Index))
             'ItemQuantity = txtItemQuan & Index & .text
-            Dim T As TextBox
-            For Each ctrl As Control In Me.fraItems.Controls
-                If ctrl.Name = "txtItemQuan" & Index Then
-                    T = ctrl
-                    ItemQuantity = T.Text
-                    Exit For
-                End If
-            Next
+            If Index = 1 Then
+                ItemQuantity = txtItemQuan.Text
+            Else
+                Dim T As TextBox
+                For Each ctrl As Control In Me.fraItems.Controls
+                    If ctrl.Name = "txtItemQuan" & Index Then
+                        T = ctrl
+                        ItemQuantity = T.Text
+                        Exit For
+                    End If
+                Next
+            End If
         End Get
 
     End Property
@@ -1101,7 +1106,7 @@
         Cancelled = False
         If Quantity <= 0 Then Cancelled = True
         Hide()
-        'Me.Visible = False
+        IsfrmKitLevelsHide = True
     End Sub
 
     Private Function OverSold() As Boolean
