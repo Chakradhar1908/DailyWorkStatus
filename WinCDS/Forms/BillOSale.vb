@@ -944,9 +944,11 @@ TryAgain:
             .AddColumn(1, "Manufacturer", 200, False, False)
             .AddColumn(2, "Loc", 30, True, False)
             .AddColumn(3, "Status", 50, False, False)
-            .AddColumn(4, "Quant.", 50, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+            '.AddColumn(4, "Quant.", 50, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+            .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(5, "Description", 250, False, False)
-            .AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+            '.AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+            .AddColumn(6, "Price", 70, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .AddColumn(8, "TransID", 0, True, False, , False)
             .MaxCols = 9
@@ -955,7 +957,8 @@ TryAgain:
 
             With .GetDBGrid
                 '.RowHeight = .Height / (items_per_page + 2) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
-                .RowHeight = .Height / (18 + 2) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
+                '.RowHeight = .Height / (18 + 2) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
+                .RowHeight = .Height / (18) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
                 .Height = .RowHeight * 20
             End With
             .Activated = True

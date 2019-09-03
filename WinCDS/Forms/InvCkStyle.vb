@@ -476,7 +476,7 @@ HandleErr:
                         Q = ArrangeString(Stylenumber, (StyleLen - 1)) & AlignString(ListQuan(X), QuanLenData) & AlignString(ListCost(X), CostLenData)
                     End If
                 Else
-                        Q = ArrangeString(ListSearch(X), StyleLen)
+                    Q = ArrangeString(ListSearch(X), StyleLen)
                 End If
                 lstStyles.Items.Add(Q)
             End If
@@ -808,7 +808,7 @@ HandleErr:
             End If
         End If
 
-        DoSelect
+        DoSelect()
     End Sub
 
     Private Sub LoadKitRecord()
@@ -875,7 +875,7 @@ HandleErr:
             'Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.GetItemText(lstStyles.SelectedIndex), 16)) '###STYLELENGTH16
             Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.SelectedItem, 16))
             tmrType.Tag = ""
-            DoApply
+            DoApply()
             Exit Sub
         End If
 
@@ -1008,6 +1008,7 @@ HandleErr:
         ReDim RecordNo(C)
         Counter = 0
 
+
         'LockWindowUpdate(lstStyles.hwnd)
         LockWindowUpdate(lstStyles.Handle)
         Do While DataObj.DataAccess.Records_Available
@@ -1030,7 +1031,12 @@ HandleErr:
                 'LstAvailable = AlignString(DataObj.Available, QuanLen)
                 'LstAvailable = String.Format("{0,20}", DataObj.Available)
                 'lstStyles.Items.Add(Lststyle & LstAvailable)
-                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(10) & ArrangeString(DataObj.Desc, DescLen) & Space(80) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(10) & ArrangeString(DataObj.Desc, DescLen) & Space(80) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & ArrangeString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(10) & ArrangeString(DataObj.Desc, DescLen) & Space(80) & ArrangeString(DataObj.OnSale, CostLen))
+                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & ArrangeString(DataObj.Available, QuanLen) & Chr(9) & ArrangeString(DataObj.Desc, DescLen) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc, DescLen) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'Dim s As String = DataObj.Style & Chr(9) & DataObj.Available & Chr(9) & DataObj.Desc & "     " & Chr(9) & FormatCurrency(DataObj.OnSale)
+                'lstStyles.Items.Add(s)
             Else
                 'lstStyles.AddItem ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen)
                 'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen))

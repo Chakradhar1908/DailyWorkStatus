@@ -411,16 +411,18 @@ Public Class UGridIO
                 '.Bookmark = Str(Row)
                 '.Bookmark = .Bookmark + 1
                 .Row = Row
+
                 On Error GoTo softError
                 On Error Resume Next
                 '.Row = 1
+                If Value = ".00" Then Value = ""
                 .Text = Value
                 .FirstRow = TopRow + 1
             End If
             On Error GoTo AnError
             'bm = .Bookmark
             On Error Resume Next
-            .Bookmark = BM
+            '.Bookmark = BM
             .Col = OldCol
         End With
         '      Debug.Print "B: " & DBGrid1.Bookmark & ", " & bm & ", " & TopRow & ", " & BottomRow
