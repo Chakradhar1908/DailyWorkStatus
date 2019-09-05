@@ -161,7 +161,7 @@ Partial Class InvCkStyle
         '
         Me.lblCaptions.BackColor = System.Drawing.SystemColors.Control
         Me.lblCaptions.Font = New System.Drawing.Font("Lucida Console", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCaptions.Location = New System.Drawing.Point(220, 6)
+        Me.lblCaptions.Location = New System.Drawing.Point(210, 6)
         Me.lblCaptions.Name = "lblCaptions"
         Me.lblCaptions.Size = New System.Drawing.Size(31, 13)
         Me.lblCaptions.TabIndex = 11
@@ -171,7 +171,7 @@ Partial Class InvCkStyle
         '
         Me.lstStyles.FormattingEnabled = True
         Me.lstStyles.Items.AddRange(New Object() {"1", "2", "3", "4"})
-        Me.lstStyles.Location = New System.Drawing.Point(208, 23)
+        Me.lstStyles.Location = New System.Drawing.Point(210, 23)
         Me.lstStyles.Name = "lstStyles"
         Me.lstStyles.Size = New System.Drawing.Size(220, 199)
         Me.lstStyles.TabIndex = 12

@@ -360,16 +360,18 @@ HandleErr:
                     ListSearch(Counter) = RS("Style").Value
                     On Error Resume Next
                     ListQuan(Counter) = RS("Available").Value
-                    ListQuan(Counter) = FormatCurrency(IfNullThenZeroCurrency(RS("OnSale")))
+                    ListQuan(Counter) = FormatCurrency(IfNullThenZeroCurrency(RS("OnSale").Value))
                     On Error GoTo 0
                     If chkStkOnly.Checked = False Then
-                        ListDesc(Counter) = ArrangeString(RS("style").Value, StyleLen) & Space(Spacing) & ArrangeString(RS("Desc").Value, DescLen) & Space(Spacing) & AlignString(FormatCurrency(RS("OnSale").Value), CostLen, AlignConstants.vbAlignRight)
+                        'ListDesc(Counter) = ArrangeString(RS("style").Value, StyleLen) & Space(Spacing) & ArrangeString(RS("Desc").Value, DescLen) & Space(Spacing) & AlignString(FormatCurrency(RS("OnSale").Value), CostLen, AlignConstants.vbAlignRight)
+                        ListDesc(Counter) = ArrangeString(RS("style").Value, StyleLen) & Chr(9) & Chr(9) & ArrangeString(RS("Desc").Value, DescLen) & Chr(9) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(RS("OnSale").Value), CostLen, AlignConstants.vbAlignRight)
                     Else
-                        ListDesc(Counter) = ArrangeString(RS("style").Value, StyleLen) & Space(Spacing) & ArrangeString(RS("Available").Value, QuanLen, AlignConstants.vbAlignRight) & Space(Spacing) & ArrangeString(RS("Desc").Value, DescLen) & Space(Spacing) & AlignString(FormatCurrency(RS("OnSale").Value), CostLen, AlignConstants.vbAlignRight)
+                        'ListDesc(Counter) = ArrangeString(RS("style").Value, StyleLen) & Space(Spacing) & ArrangeString(RS("Available").Value, QuanLen, AlignConstants.vbAlignRight) & Space(Spacing) & ArrangeString(RS("Desc").Value, DescLen) & Space(Spacing) & AlignString(FormatCurrency(RS("OnSale").Value), CostLen, AlignConstants.vbAlignRight)
+                        ListDesc(Counter) = ArrangeString(RS("style").Value, StyleLen) & Chr(9) & Chr(9) & ArrangeString(RS("Available").Value, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(RS("Desc").Value, DescLen) & Chr(9) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(RS("OnSale").Value), CostLen, AlignConstants.vbAlignRight)
                     End If
                     RecordNo(Counter) = RS("RN").Value
-                End If
-                RS.MoveNext()
+                    End If
+                    RS.MoveNext()
             Loop
             GetStyle2()
         End If
@@ -774,8 +776,10 @@ HandleErr:
                 Else
                     If chkStkOnly.Checked = False Then
                         lblCaptions.Text = ArrangeString("Style", StyleLen) & Space(Spacing) & ArrangeString("Description", DescLen)
+                        'lblCaptions.Text = ArrangeString("Style", StyleLen) & Space(1) & ArrangeString("Description", DescLen)
                     Else
-                        lblCaptions.Text = ArrangeString("Style", StyleLen) & Space(Spacing) & AlignString("Qty", QuanLen) & Space(Spacing) & ArrangeString("Description", DescLen) & Space(Spacing) & AlignString("On Sale", CostLen)
+                        'lblCaptions.Text = ArrangeString("Style", StyleLen) & Space(Spacing) & AlignString("Qty", QuanLen) & Space(Spacing) & ArrangeString("Description", DescLen) & Space(Spacing) & AlignString("On Sale", CostLen)
+                        lblCaptions.Text = ArrangeString("Style", StyleLen - 3) & AlignString("Qty", QuanLen) & Space(Spacing) & ArrangeString("Description", DescLen) & Space(Spacing) & AlignString("On Sale", CostLen)
                     End If
                 End If
             Case Else : lblCaptions.Text = "Style"
@@ -1007,6 +1011,28 @@ HandleErr:
         ReDim ListDesc(C)
         ReDim RecordNo(C)
         Counter = 0
+        '----------------
+        'for desc length
+        Dim rstDesc As ADODB.Recordset
+        Dim cnt As Integer = 1
+        Dim DescLength As Integer
+        Dim BlankSpace As Integer
+        rstDesc = DataObj.DataAccess.RS.Clone(ADODB.LockTypeEnum.adLockReadOnly)
+        If rstDesc.BOF = False And rstDesc.EOF = False Then
+            Do While Not rstDesc.EOF
+                If cnt = 1 Then
+                    DescLength = Len(rstDesc("desc").Value)
+                    cnt = 2
+                Else
+                    If Len(rstDesc("desc").Value) > DescLength Then
+                        DescLength = Len(rstDesc("desc").Value)
+                    End If
+                End If
+                rstDesc.MoveNext()
+            Loop
+        End If
+        rstDesc.Close()
+        rstDesc = Nothing
 
 
         'LockWindowUpdate(lstStyles.hwnd)
@@ -1023,7 +1049,10 @@ HandleErr:
             If Len(Str) + Spaces < 16 Then Spaces = 16 - Len(Str) '###STYLELENGTH16
             '      Debug.Print "Adding " & spaces & " spaces to " & str & "(" & TextWidth(str) & ")."
             '      If Left(str, 2) = "NI" Then Stop
+
             If chkStkOnly.Checked = True Then
+                BlankSpace = DescLength - Len(DataObj.Desc)
+
                 'lstStyles.AddItem ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & AlignString(DataObj.Available, QuanLen, vbAlignRight) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen) & Space(Spacing) & AlignString(FormatCurrency(DataObj.OnSale), CostLen)
                 'Dim Lststyle As String, LstAvailable As String
                 'Lststyle = ArrangeString(DataObj.Style, StyleLen)
@@ -1034,13 +1063,20 @@ HandleErr:
                 'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(10) & ArrangeString(DataObj.Desc, DescLen) & Space(80) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
                 'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & ArrangeString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Space(10) & ArrangeString(DataObj.Desc, DescLen) & Space(80) & ArrangeString(DataObj.OnSale, CostLen))
                 'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & ArrangeString(DataObj.Available, QuanLen) & Chr(9) & ArrangeString(DataObj.Desc, DescLen) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
-                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc, DescLen) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
-                'Dim s As String = DataObj.Style & Chr(9) & DataObj.Available & Chr(9) & DataObj.Desc & "     " & Chr(9) & FormatCurrency(DataObj.OnSale)
-                'lstStyles.Items.Add(s)
+                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc, DescLen) & Chr(9) & Chr(9) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc & New String("          ", DescLength - Len(DataObj.Desc)), DescLen) & Chr(9) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc & Space(BlankSpace), DescLen) & Chr(9) & Chr(9) & Chr(9) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+
+                'If Len(DataObj.Desc) = DescLength Then
+                '    lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc, DescLen) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'Else
+                '    lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & AlignString(DataObj.Available, QuanLen, AlignConstants.vbAlignRight) & Chr(9) & ArrangeString(DataObj.Desc & Space(BlankSpace), DescLen) & Chr(9) & Chr(9) & AlignString(FormatCurrency(DataObj.OnSale), CostLen))
+                'End If
             Else
-                'lstStyles.AddItem ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen)
-                'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen))
-                lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & ArrangeString(DataObj.Desc, DescLen))
+                    'lstStyles.AddItem ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen)
+                    'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(Spacing) & ArrangeString(DataObj.Desc, DescLen))
+                    'lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Space(30) & ArrangeString(DataObj.Desc, DescLen))
+                    lstStyles.Items.Add(ArrangeString(DataObj.Style, StyleLen) & Chr(9) & ArrangeString(DataObj.Desc, DescLen))
             End If
             Counter = Counter + 1
             ListSearch(Counter) = DataObj.Style
@@ -1082,6 +1118,7 @@ HandleErr:
         'LockWindowUpdate lstStyles.hwnd
         LockWindowUpdate(lstStyles.Handle)
         Do While DataObj.DataAccess.Records_Available
+            DataObj.cDataAccess_GetRecordSet(DataObj.DataAccess.RS)
             lstStyles.Items.Add(DataObj.Style & New String("32", 16 - Len(DataObj.Style)) & DataObj.Desc & New String("32", 10 - Len(FormatCurrency(DataObj.OnSale))) & FormatCurrency(DataObj.OnSale))
             'lstStyles.AddItem DataObj.Style & DataObj.Desc
         Loop
@@ -1119,7 +1156,8 @@ HandleErr:
                 KitSyleNo = KitSyleNo & New String(" ", 16 - Len(KitSyleNo)) '###STYLELENGTH16
                 Counter = Counter + 1
                 ListSearch(Counter) = KitSyleNo & Space(Spacing) & IfNullThenNilString(RS("Heading").Value)
-                lstStyles.Items.Add(KitSyleNo & Space(Spacing) & IfNullThenNilString(RS("Heading").Value))
+                'lstStyles.Items.Add(KitSyleNo & Space(Spacing) & IfNullThenNilString(RS("Heading").Value))
+                lstStyles.Items.Add(KitSyleNo & Chr(9) & Chr(9) & IfNullThenNilString(RS("Heading").Value))
                 RS.MoveNext()
             Loop
             'LockWindowUpdate 0
@@ -1338,14 +1376,17 @@ HandleErr:
         End If
 
         If Trim(Style.Text) = "" Then
-            MsgBox("Please enter a Style Number.", vbExclamation, "No Style Number")
+            'Below line is commented. It is custom msgbox. find full details later.
+            'MsgBox("Please enter a Style Number.", vbExclamation, "No Style Number")
+            MessageBox.Show("Please enter a Style Number.", "No Style Number", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
         If Microsoft.VisualBasic.Left(Style.Text, 4) <> KIT_PFX And ReportsMode("CS") And Not Style.Visible = False Then
             cmdCancel.Enabled = True
             cmdDesc.Enabled = True
-            MsgBox("You may only select kits from this list.", vbExclamation, "Warning")
+            'MsgBox("You may only select kits from this list.", vbExclamation, "Warning")
+            MessageBox.Show("You may only select kits from this list.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         ElseIf (microsoft.VisualBasic.Left(Style.Text, 4) <> KIT_PFX And ReportsMode("CS")) Or optKitVendors.Checked = True Then 'Added by Robert 5/16/2017
             DoSelect()

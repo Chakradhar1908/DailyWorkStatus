@@ -39,9 +39,9 @@ Partial Class InvDefault
         Me.fraOptions.Controls.Add(Me.optSONotCarried)
         Me.fraOptions.Controls.Add(Me.optEnterNotInInv)
         Me.fraOptions.Controls.Add(Me.optReEnter)
-        Me.fraOptions.Location = New System.Drawing.Point(5, 12)
+        Me.fraOptions.Location = New System.Drawing.Point(5, 3)
         Me.fraOptions.Name = "fraOptions"
-        Me.fraOptions.Size = New System.Drawing.Size(160, 114)
+        Me.fraOptions.Size = New System.Drawing.Size(160, 121)
         Me.fraOptions.TabIndex = 0
         Me.fraOptions.TabStop = False
         '
@@ -93,9 +93,9 @@ Partial Class InvDefault
         '
         Me.lstResults.FormattingEnabled = True
         Me.lstResults.Items.AddRange(New Object() {"1", "2", "3", "4"})
-        Me.lstResults.Location = New System.Drawing.Point(171, 18)
+        Me.lstResults.Location = New System.Drawing.Point(171, 3)
         Me.lstResults.Name = "lstResults"
-        Me.lstResults.Size = New System.Drawing.Size(120, 108)
+        Me.lstResults.Size = New System.Drawing.Size(120, 121)
         Me.lstResults.TabIndex = 1
         '
         'cmdApply
@@ -115,12 +115,13 @@ Partial Class InvDefault
         Me.lblStylenotindatabase.Size = New System.Drawing.Size(109, 13)
         Me.lblStylenotindatabase.TabIndex = 3
         Me.lblStylenotindatabase.Text = "Style not in database."
+        Me.lblStylenotindatabase.Visible = False
         '
         'InvDefault
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(293, 171)
+        Me.ClientSize = New System.Drawing.Size(297, 168)
         Me.Controls.Add(Me.lblStylenotindatabase)
         Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.lstResults)
