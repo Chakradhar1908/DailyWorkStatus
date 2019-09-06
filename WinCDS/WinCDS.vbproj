@@ -166,6 +166,12 @@
     <Compile Include="Forms\frmBarcode.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmBarcodeOptions.Designer.vb">
+      <DependentUpon>frmBarcodeOptions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBarcodeOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmBOSDiscount.Designer.vb">
       <DependentUpon>frmBOSDiscount.vb</DependentUpon>
     </Compile>
@@ -598,6 +604,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBarcode.resx">
+      <DependentUpon>frmBarcode.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashRegister.resx">
       <DependentUpon>frmCashRegister.vb</DependentUpon>

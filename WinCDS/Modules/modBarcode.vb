@@ -29,6 +29,46 @@ Module modBarcode
         bctCode128
     End Enum
 
+    Public Enum CommPorts
+        COM1 = 0
+        COM2 = 1
+        COM3 = 2
+        COM4 = 3
+        COM5 = 4
+        COM6 = 5
+        COM7 = 6
+        COM8 = 7
+        COM9 = 8
+        COM10 = 9
+        COM11 = 10
+        COM12 = 11
+        COM13 = 12
+        COM14 = 13
+        COM15 = 14
+        COM16 = 15
+    End Enum
+
+    Declare Function csp2Restore Lib "csp2.dll" () As Integer
+    Declare Function csp2ReadData Lib "csp2.dll" () As Integer
+    Declare Function csp2GetASCIIMode Lib "csp2.dll" () As Integer
+    Public Const PARAM_ON As Integer = 1
+    Declare Function csp2GetPacket Lib "csp2.dll" (stPacketData As Byte, ByVal lgBarcodeNumber As Integer, ByVal MaxLength As Integer) As Integer
+    Declare Function csp2Init Lib "csp2.dll" (ByVal nComPort As Integer) As Integer
+    Public Const STATUS_OK As Integer = 0
+    Declare Function csp2WakeUp Lib "csp2.dll" () As Integer
+    Public Const COMMUNICATIONS_ERROR As Integer = -1
+    Public Const BAD_PARAM As Integer = -2
+    Public Const SETUP_ERROR As Integer = -3
+    Public Const INVALID_COMMAND_NUMBER As Integer = -4
+    Public Const COMMAND_LRC_ERROR As Integer = -7
+    Public Const RECEIVED_CHARACTER_ERROR As Integer = -8
+    Public Const GENERAL_ERROR As Integer = -9
+    Public Const FILE_NOT_FOUND As Integer = 2
+    Public Const ACCESS_DENIED As Integer = 5
+    Declare Function csp2ClearData Lib "csp2.dll" () As Integer
+    Public BarcodeListQty As Integer
+    Public BarcodeList() As String
+
     Public Function SelectBarcodeFont(Optional ByVal Alt As BarCodeFonts = BarCodeFonts.bcfDefault, Optional ByVal FSize As Integer = 39, Optional ByRef OldFontName As String = "", Optional ByRef OldFontSize As Integer = 1) As Boolean
         ' for some reason, setting the fontname to barcodes was failing randomly..
         ' so we'll try it a few times to make sure
@@ -229,7 +269,7 @@ Module modBarcode
 
     Public Function ValidBarcode(ByVal Barcode As String) As Boolean
         ' Valid characters are: A-Z, 0-9, Space, $ % + - . /
-        Dim I As Long
+        Dim I As Integer
         If Barcode = "" Then Exit Function
         If Len(Barcode) > Setup_2Data_StyleMaxLen Then Exit Function
         For I = 1 To Len(Barcode)
@@ -243,6 +283,13 @@ Module modBarcode
             End Select
         Next
         ValidBarcode = True
+    End Function
+
+    Public Function InterpretBarcode(ByVal Barcode As String) As String
+        ' Unmap barcodes.
+        InterpretBarcode = Barcode
+        InterpretBarcode = Replace(InterpretBarcode, "_", " ")
+        Exit Function
     End Function
 
 End Module

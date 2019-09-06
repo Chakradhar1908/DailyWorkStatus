@@ -1,5 +1,6 @@
 ﻿Imports VBRUN
 Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class InvCkStyle
     Public StyleCkIt As String
     Public StyleCkIt2 As String
@@ -1095,6 +1096,10 @@ HandleErr:
     End Sub
 
     Private Sub cmdDesc_Click(sender As Object, e As EventArgs) Handles cmdDesc.Click
+        'Dim s As String = New String("", 10)
+        'MessageBox.Show(s)
+        'MessageBox.Show(Len(s))
+        'Exit Sub
         Me.Width = FRMW_3
         '  lstStyles.Width = 5400
         PrintDesc()
@@ -1106,6 +1111,8 @@ HandleErr:
         ' But what is Counter, and what do we do with RecordNo(X)?
         ' Counter is a module-wide count of elements.
         ' RecordNo is an array pointing to file positions!
+        'Dim ArStyle(), ArDesc(), ArSale() As String
+        'Dim i As Integer
 
         lstStyles.Items.Clear()
         Dim Query As String
@@ -1116,14 +1123,25 @@ HandleErr:
         DataObj.DataAccess.Records_OpenSQL(Query)
         '.DataAccess.Records_OpenIndexLike Trim(Style.Text)
         'LockWindowUpdate lstStyles.hwnd
-        LockWindowUpdate(lstStyles.Handle)
+        'LockWindowUpdate(lstStyles.Handle)      -------> LockWindowUpdate is for drag/drop requirement. Here it is not required to load data in to listbox.
         Do While DataObj.DataAccess.Records_Available
             DataObj.cDataAccess_GetRecordSet(DataObj.DataAccess.RS)
-            lstStyles.Items.Add(DataObj.Style & New String("32", 16 - Len(DataObj.Style)) & DataObj.Desc & New String("32", 10 - Len(FormatCurrency(DataObj.OnSale))) & FormatCurrency(DataObj.OnSale))
+            'ReDim Preserve ArStyle(i)
+            'ReDim Preserve ArDesc(i)
+            'ReDim Preserve ArSale(i)
+            'ArStyle(i) = DataObj.Style
+            'ArDesc(i) = DataObj.Desc
+            'ArSale(i) = DataObj.OnSale
+
+            'lstStyles.Items.Add(DataObj.Style & New String("", 16 - Len(DataObj.Style)) & DataObj.Desc & New String("", 10 - Len(FormatCurrency(DataObj.OnSale))) & FormatCurrency(DataObj.OnSale))
+            lstStyles.Items.Add(DataObj.Style & Chr(9) & Chr(9) & DataObj.Desc & Chr(9) & FormatCurrency(DataObj.OnSale))
             'lstStyles.AddItem DataObj.Style & DataObj.Desc
+
+            'i = i + 1
         Loop
+        'lstStyles.Items.Add(ArStyle)
         'LockWindowUpdate 0
-        LockWindowUpdate(IntPtr.Zero)
+        'LockWindowUpdate(IntPtr.Zero)
         DisposeDA(DataObj)
 
         Exit Sub
@@ -1489,7 +1507,7 @@ HandleErr:
     Private Sub InvCkStyle_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         ' This event is replacement for form unload and query unload event of vb6.0
         'If UnloadMode = vbFormControlMenu Then Cancel = True 'cmdCancel.value = True  ' Hangs program when we do this the right way.
-        If e.CloseReason = CloseReason.UserClosing Then
+        If e.CloseReason = CloseReason.FormOwnerClosing Then
             e.Cancel = True
         End If
         PreviewItemByStyle("") ' Remove the preview on form close
