@@ -329,7 +329,6 @@ Public Class UGridIO
             MakeRowVisible(value)  ' Debug this before distributing..
             'AxDataGrid1.Row = value - AxDataGrid1.FirstRow
             AxDataGrid1.Row = value - (AxDataGrid1.FirstRow - 1)
-
         End Set
     End Property
 
@@ -594,10 +593,10 @@ AnError:
     '    RaiseEvent BeforeColEdit(e.colIndex, e.keyAscii, e.cancel)
     'End Sub
 
-    'Private Sub AxDataGrid1_BeforeColUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeColUpdateEvent) Handles AxDataGrid1.BeforeColUpdate
-    '    RaiseEvent BeforeColUpdate(e.colIndex, e.oldValue, e.cancel)
-    '    If Not e.cancel Then mCurrentCellModified = True
-    'End Sub
+    Private Sub AxDataGrid1_BeforeColUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeColUpdateEvent) Handles AxDataGrid1.BeforeColUpdate
+        RaiseEvent BeforeColUpdate(e.colIndex, e.oldValue, e.cancel)
+        If Not e.cancel Then mCurrentCellModified = True
+    End Sub
 
     'Private Sub AxDataGrid1_BeforeDelete(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeDeleteEvent) Handles AxDataGrid1.BeforeDelete
     '    RaiseEvent BeforeDelete(e.cancel)

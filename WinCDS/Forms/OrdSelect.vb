@@ -363,6 +363,7 @@
             BillOSale.QuanEnabled = False
             BillOSale.DescEnabled = True
             BillOSale.DescFocus()
+            BillOSale.SetDesc(X, "") 'NOTE: This code line is not in vb6.0 project. But added here because in Notes option, desc will be showing value 1 which is actually blank. So, to clear it added this line.
             BillOSale.StyleAddEnd()
 
         ElseIf optPayment.Checked = True Then                '********************************payment

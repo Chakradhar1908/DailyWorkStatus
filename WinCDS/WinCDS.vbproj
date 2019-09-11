@@ -659,6 +659,9 @@
     <EmbeddedResource Include="Forms\frmSendMail.resx">
       <DependentUpon>frmSendMail.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmYardage.resx">
+      <DependentUpon>frmYardage.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvCkStyle.resx">
       <DependentUpon>InvCkStyle.vb</DependentUpon>
     </EmbeddedResource>
@@ -762,6 +765,14 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxMSComCtl2">
+      <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxMSDataGridLib">
       <Guid>{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -810,6 +821,15 @@
       <VersionMinor>9</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="MSComCtl2">
+      <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>

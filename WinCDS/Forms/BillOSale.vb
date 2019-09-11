@@ -516,6 +516,14 @@ TryAgain:
         For Xx = 0 To UGridIO1.LastRowUsed
             oPrice = UGridIO1.GetValue(Xx, BillColumns.ePrice)
             tStyle = Trim(UGridIO1.GetValue(Xx, BillColumns.eStyle))
+            '----------
+            If tStyle = "STAIN" Then
+                If UGridIO1.GetValue(Xx, BillColumns.ePrice) = "" Then
+
+                    SetPrice(Xx, BillColumns.ePrice)
+                End If
+            End If
+            '-----------
             tPrice = GetPrice(oPrice, PriceError)
             Desc = Trim(UGridIO1.GetValue(Xx, BillColumns.eDescription))
 
@@ -626,6 +634,10 @@ TryAgain:
 
     Public Sub PriceFocus(Optional ByVal nRow As Integer = -1)
         GridFocus(BillColumns.ePrice, nRow) ' 6
+        If nRow = -1 Then nRow = CurrentLine
+        If UGridIO1.GetValue(nRow, BillColumns.ePrice) = "" Then
+            SetPrice(nRow, "")
+        End If
     End Sub
 
     Public Sub GridFocus(ByVal ColNum As Integer, Optional ByVal RowNum As Integer = -1)
@@ -3760,43 +3772,43 @@ HandleErr:
 
     Private Sub UGridIO1_AfterDelete()
         Recalculate()
-        'If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
-        'UGridIO1.Refresh(True)
+        If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
+        UGridIO1.Refresh(True)
     End Sub
 
-    Private Sub UGridIO1_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer)
+    Private Sub UGridIO1_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO1.BeforeColUpdate
         Dim NewVal As String
 
-        'With UGridIO1
-        '    NewVal = .Text
-        '    Select Case ColIndex
-        '        Case BillColumns.eStyle  ' Style
-        '            If Len(NewVal) > Setup_2Data_StyleMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_StyleMaxLen)
-        '        Case BillColumns.eManufacturer  ' Mfg
-        '            If Len(NewVal) > Setup_2Data_ManufMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_ManufMaxLen)
-        '        Case BillColumns.eLoc  ' Loc
-        '            If Not IsNumeric(NewVal) Then
-        '                NewVal = ""
-        '                .Text = NewVal
-        '            ElseIf Not InRange(1, Val(NewVal), Setup_MaxStores) Then
-        '                NewVal = FitRange(1, Val(NewVal), Setup_MaxStores)
-        '                .Text = NewVal
-        '            End If
-        '        Case BillColumns.eStatus  ' Status
-        '            If Len(NewVal) > 5 Then .Text = Microsoft.VisualBasic.Left(NewVal, 5)
-        '        Case BillColumns.eQuant  ' Quantity
-        '            If Not IsNumeric(NewVal) Then NewVal = "" : .Text = NewVal
-        '            If QueryPrice(X) <> 0 Then
-        '                .SetValueDisplay(X, BillColumns.ePrice, CurrencyFormat(Val(.Text) * QueryPrice(X) / Val(OldValue)))
-        '                Recalculate()
-        '                .Text = NewVal
-        '            End If
-        '        Case BillColumns.eDescription  ' Description
-        '            If Len(NewVal) > Setup_2Data_DescMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_DescMaxLen)
-        '        Case BillColumns.ePrice  ' Price
-        '            '.Text = Format(GetPrice(.Text), "###,###.00")
-        '    End Select
-        'End With
+        With UGridIO1
+            NewVal = .Text
+            Select Case ColIndex
+                Case BillColumns.eStyle  ' Style
+                    If Len(NewVal) > Setup_2Data_StyleMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_StyleMaxLen)
+                Case BillColumns.eManufacturer  ' Mfg
+                    If Len(NewVal) > Setup_2Data_ManufMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_ManufMaxLen)
+                Case BillColumns.eLoc  ' Loc
+                    If Not IsNumeric(NewVal) Then
+                        NewVal = ""
+                        .Text = NewVal
+                    ElseIf Not InRange(1, Val(NewVal), Setup_MaxStores) Then
+                        NewVal = FitRange(1, Val(NewVal), Setup_MaxStores)
+                        .Text = NewVal
+                    End If
+                Case BillColumns.eStatus  ' Status
+                    If Len(NewVal) > 5 Then .Text = Microsoft.VisualBasic.Left(NewVal, 5)
+                Case BillColumns.eQuant  ' Quantity
+                    If Not IsNumeric(NewVal) Then NewVal = "" : .Text = NewVal
+                    If QueryPrice(X) <> 0 Then
+                        .SetValueDisplay(X, BillColumns.ePrice, CurrencyFormat(Val(.Text) * QueryPrice(X) / Val(OldValue)))
+                        Recalculate()
+                        .Text = NewVal
+                    End If
+                Case BillColumns.eDescription  ' Description
+                    If Len(NewVal) > Setup_2Data_DescMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_DescMaxLen)
+                Case BillColumns.ePrice  ' Price
+                    '.Text = Format(GetPrice(.Text), "###,###.00")
+            End Select
+        End With
     End Sub
 
     Private WriteOnly Property StatusSet() As String

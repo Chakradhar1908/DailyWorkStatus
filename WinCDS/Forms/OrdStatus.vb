@@ -709,10 +709,12 @@ Public Class OrdStatus
 
             BillOSale.SetQuan(X, Quan.Text)
             BillOSale.StatusEnabled = False
-            BillOSale.SetPrice(X, GetPrice(txtUnitPrice.Text) * Val(Quan.Text))
+            'Note: Moved SetPrice code line from here to bottom (after below if condition) to avoid showing description in Price cell of the grid.
             If Dimensions <> "" Then
                 BillOSale.SetDesc(X, "(" & Dimensions & ")  " & BillOSale.QueryDesc(X))
             End If
+            BillOSale.SetPrice(X, GetPrice(txtUnitPrice.Text) * Val(Quan.Text))
+
             BillOSale.PriceFocus(X)
             '.CheckAddRow
             BillOSale.StyleAddEnd()
