@@ -77,6 +77,7 @@ Public Class BillOSale
     Public InstallmentTotal As Decimal
     Dim offY As Integer, offX As Integer
     Dim SplitKits As TriState
+    Dim NewVal As String
 
     Private Sub cboPhone1_Enter(sender As Object, e As EventArgs) Handles cboPhone1.Enter
         ' This event is replacement for Gotfocus of vb6.0
@@ -517,12 +518,12 @@ TryAgain:
             oPrice = UGridIO1.GetValue(Xx, BillColumns.ePrice)
             tStyle = Trim(UGridIO1.GetValue(Xx, BillColumns.eStyle))
             '----------
-            If tStyle = "STAIN" Then
-                If UGridIO1.GetValue(Xx, BillColumns.ePrice) = "" Then
-
-                    SetPrice(Xx, BillColumns.ePrice)
-                End If
-            End If
+            'If tStyle = "STAIN" Then
+            '    If UGridIO1.GetValue(Xx, BillColumns.ePrice) = "" Then
+            '        SetPrice(Xx, NewVal)
+            '        oPrice = UGridIO1.GetValue(Xx, BillColumns.ePrice)
+            '    End If
+            'End If
             '-----------
             tPrice = GetPrice(oPrice, PriceError)
             Desc = Trim(UGridIO1.GetValue(Xx, BillColumns.eDescription))
@@ -3775,9 +3776,12 @@ HandleErr:
         If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
         UGridIO1.Refresh(True)
     End Sub
-
+    'Public Event AfterColEdit(ByVal ColIndex As Integer)
+    Private Sub UGRIDIO1_AfterColEdit(ByVal ColIndex As Integer) Handles UGridIO1.AfterColEdit
+        UGridIO1.Text = NewVal
+    End Sub
     Private Sub UGridIO1_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO1.BeforeColUpdate
-        Dim NewVal As String
+        'Dim NewVal As String
 
         With UGridIO1
             NewVal = .Text
@@ -3807,6 +3811,14 @@ HandleErr:
                     If Len(NewVal) > Setup_2Data_DescMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_DescMaxLen)
                 Case BillColumns.ePrice  ' Price
                     '.Text = Format(GetPrice(.Text), "###,###.00")
+                    Dim LastRow As Integer = UGridIO1.LastRowUsed
+                    Dim StainDelLabNotes As String = UGridIO1.GetValue(LastRow, BillColumns.eStyle)
+                    If StainDelLabNotes = "STAIN" Or StainDelLabNotes = "DEL" Or StainDelLabNotes = "LAB" Or StainDelLabNotes = "NOTES" Then
+                        If UGridIO1.GetValue(LastRow, BillColumns.ePrice) = "" Then
+                            SetPrice(LastRow, NewVal)
+                            NewVal = Format(NewVal, "##,##0.00")
+                        End If
+                    End If
             End Select
         End With
     End Sub
@@ -3875,13 +3887,13 @@ HandleErr:
     Private Sub Email_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Email.Validating
         Email.Text = Trim(Email.Text)
         If Email.Text = "" Then Exit Sub
-        If InStr(Email.Text, "@") = 0 Or InStr(Email.Text, ".") = 0 Or Len(Email.Text) < 5 Then
+        If InStr(Email.Text, "Then@") = 0 Or InStr(Email.Text, ".") = 0 Or Len(Email.Text) < 5 Then
             MsgBox("Invalid email address.  Email address must be in 'user@company.com' format.")
             'Cancel = True
             e.Cancel = True
-            Exit Sub
-        End If
-        If InStr(Email.Text, " ") <> 0 Then
+                        Exit Sub
+                    End If
+                    If InStr(Email.Text, " ") <> 0 Then
             MsgBox("Invalid email address.  Email address must not contain spaces.")
             'Cancel = True
             e.Cancel = True

@@ -36,7 +36,7 @@
     Public Const LICENSE_STORES_30 As String = "94532"
     Public Const LICENSE_STORES_31 As String = "94801"
     Public Const LICENSE_STORES_32 As String = "01024"
-
+    Public Const LICENSE_INSTALLMENT As String = "I589423"
     Private mActiveLocations as Integer
     '    Public Property Get LicensedNoOfStores() as integer :     
     '    LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense) 
@@ -114,9 +114,19 @@
             SetWinCDSLicense(value)
         End Set
     End Property
+
     Public Function SetWinCDSLicense(ByVal vData As String) As String
         SetWinCDSLicense = SaveCDSSetting("License", vData)
         mActiveLocations = 0
     End Function
 
+    Public ReadOnly Property Installment() As Boolean
+        Get
+            Installment = InstallmentLicenseValid(InstallmentLicense)
+        End Get
+    End Property
+
+    Public Function InstallmentLicenseValid(ByVal S As String) As Boolean
+        InstallmentLicenseValid = IsIn(S, LICENSE_INSTALLMENT, "TEST")
+    End Function
 End Module

@@ -46,13 +46,4 @@
             ModifiedRevolvingChargeAllowed = Installment()  ' Valid Installment license required 'IsDevelopment() 'Or isevridges()
         End Get
     End Property
-    Public ReadOnly Property Installment() As Boolean
-        Get
-            Installment = InstallmentLicenseValid(InstallmentLicense)
-        End Get
-    End Property
-    Public Function InstallmentLicenseValid(ByVal S As String) As Boolean
-        'InstallmentLicenseValid = IsIn(S, LICENSE_INSTALLMENT, "TEST")
-    End Function
-
 End Module

@@ -83,7 +83,7 @@
         End If
 
         If IsFormLoaded("BilloSale") Then
-            If Val(BillOSale.BalDue) < 0 Then
+            If Val(BillOSale.BalDue.Text) < 0 Then
                 AddListItem(lst, PayListItem(cdsPayTypes.cdsPT_CompanyCheck), , 21500) ' exchange for check refunds (was 21400)
             End If
         End If
@@ -101,7 +101,7 @@
             lst.Items.Add(New ItemDataClass(Item, itemData))
         Else
             'lst.AddItem Item, ListIndex
-            lst.Items.Insert(ListIndex, Item)
+            'lst.Items.Insert(ListIndex, Item)
             lst.Items.Insert(ListIndex, New ItemDataClass(Item, itemData))
         End If
         'lst.itemData(lst.NewIndex) = itemData
@@ -609,6 +609,7 @@
         '    optNotes.Enabled = False
         '    optPayment.Enabled = False
         'End If
+        HideListbox()
     End Sub
 
     Private Sub OrdSelect_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -832,4 +833,7 @@ SkipPriceFocus:
         chkPayAll.Enabled = True 'pay all
     End Sub
 
+    Private Sub lstOptions_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstOptions.SelectedIndexChanged
+
+    End Sub
 End Class

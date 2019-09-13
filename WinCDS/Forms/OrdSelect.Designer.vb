@@ -238,6 +238,7 @@ Partial Class OrdSelect
         '
         'cmdCancel
         '
+        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdCancel.Location = New System.Drawing.Point(93, 235)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
@@ -264,8 +265,10 @@ Partial Class OrdSelect
         '
         'OrdSelect
         '
+        Me.AcceptButton = Me.cmdOk
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmdCancel
         Me.ClientSize = New System.Drawing.Size(378, 269)
         Me.ControlBox = False
         Me.Controls.Add(Me.cmdOk)

@@ -126,15 +126,14 @@ Public Class UGridIO
     '    '    End Set
     '    'End Property
 
-    'Public Property Text() As String
-    '    Get
-    '        Text = AxDataGrid1.Text
-    '        Return Text
-    '    End Get
-    '    Set(value As String)
-    '        AxDataGrid1.Text = value
-    '    End Set
-    'End Property
+    Public Property Text() As String
+        Get
+            Text = AxDataGrid1.Text
+        End Get
+        Set(value As String)
+            AxDataGrid1.Text = value
+        End Set
+    End Property
 
     Public Sub AddColumn(ColOrder As Integer, Title As String, ColWidth As Integer, IsLocked As Boolean, AllowSizing As Boolean, Optional Align As Integer = 0, Optional IsVisible As Boolean = True)
         'Dim Col As MSDBGrid.Column
@@ -149,6 +148,7 @@ Public Class UGridIO
             .Alignment = Align
             .Visible = IsVisible
             .Locked = IsLocked
+
         End With
     End Sub
 
@@ -354,7 +354,7 @@ Public Class UGridIO
             For J = 0 To MaxCols - 1
                 If GetValue(I, J) <> "" Then HasData = True : Exit For ' mark and move to the next row
             Next
-            If HasData Then
+            If HasData = True Then
                 LastRowUsed = I
             Else
                 If BlankLinesAllowed > 0 Then
@@ -569,13 +569,15 @@ AnError:
     '    If (MaxRows = 0) Then MaxRows = 10
     'End Sub
 
-    'Private Sub AxDataGrid1_AfterColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_AfterColEditEvent) Handles AxDataGrid1.AfterColEdit
-    '    RaiseEvent AfterColEdit(e.colIndex)
-    'End Sub
+    'NOTE -----------------------AfterColEdit is not required. It is not used in BillOSale form in vb6.0----------------------
+    Private Sub AxDataGrid1_AfterColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_AfterColEditEvent) Handles AxDataGrid1.AfterColEdit
+        RaiseEvent AfterColEdit(e.colIndex)
+    End Sub
 
-    'Private Sub AxDataGrid1_AfterColUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_AfterColUpdateEvent) Handles AxDataGrid1.AfterColUpdate
-    '    RaiseEvent AfterColUpdate(e.colIndex)
-    'End Sub
+    'NOTE -----------------------AfterColUpdate is not required. It is not used in BillOSale form in vb6.0----------------------
+    Private Sub AxDataGrid1_AfterColUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_AfterColUpdateEvent) Handles AxDataGrid1.AfterColUpdate
+        RaiseEvent AfterColUpdate(e.colIndex)
+    End Sub
 
     'Private Sub AxDataGrid1_AfterDelete(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterDelete
     '    RaiseEvent AfterDelete()
@@ -589,9 +591,9 @@ AnError:
     '    RaiseEvent AfterUpdate()
     'End Sub
 
-    'Private Sub AxDataGrid1_BeforeColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeColEditEvent) Handles AxDataGrid1.BeforeColEdit
-    '    RaiseEvent BeforeColEdit(e.colIndex, e.keyAscii, e.cancel)
-    'End Sub
+    Private Sub AxDataGrid1_BeforeColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeColEditEvent) Handles AxDataGrid1.BeforeColEdit
+        RaiseEvent BeforeColEdit(e.colIndex, e.keyAscii, e.cancel)
+    End Sub
 
     Private Sub AxDataGrid1_BeforeColUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeColUpdateEvent) Handles AxDataGrid1.BeforeColUpdate
         RaiseEvent BeforeColUpdate(e.colIndex, e.oldValue, e.cancel)
@@ -631,43 +633,46 @@ AnError:
     '    RaiseEvent HeadClick(e.colIndex)
     'End Sub
 
-    'Private Sub AxDataGrid1_KeyDownEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyDownEvent) Handles AxDataGrid1.KeyDownEvent
-    '    mKeyPressed = (e.keyCode = 9)
-    'End Sub
+    Private Sub AxDataGrid1_KeyDownEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyDownEvent) Handles AxDataGrid1.KeyDownEvent
+        mKeyPressed = (e.keyCode = 9)
+    End Sub
 
-    'Private Sub AxDataGrid1_KeyUpEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyUpEvent) Handles AxDataGrid1.KeyUpEvent
-    '    If e.keyCode = 9 And mKeyPressed Then ProcessTabKeys()  ' Replaces timer object, MJK 20030414
-    'End Sub
+    Private Sub AxDataGrid1_KeyUpEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyUpEvent) Handles AxDataGrid1.KeyUpEvent
+        If e.keyCode = 9 And mKeyPressed Then
+            ProcessTabKeys()  ' Replaces timer object, MJK 20030414
+            'AxDataGrid1_RowColChange(AxDataGrid1, New AxMSDataGridLib.DDataGridEvents_RowColChangeEvent(AxDataGrid1.Row, AxDataGrid1.Col))
+        End If
+    End Sub
 
     'Private Sub AxDataGrid1_KeyPressEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyPressEvent) Handles AxDataGrid1.KeyPressEvent
     '    RaiseEvent Key_Press(e.keyAscii)
     '    mKeyPressed = True
     'End Sub
 
-    'Private Sub ProcessTabKeys()
-    '    '-----------> NOTE: ProcessTabKey name has been changed to ProcessTabKeys. Because ProcessTabKey is a keyword in vb.net <------------
+    Private Sub ProcessTabKeys()
+        '-----------> NOTE: ProcessTabKey name has been changed to ProcessTabKeys. Because ProcessTabKey is a keyword in vb.net <------------
 
-    '    ' This is fired from the KeyUp event, and only if
-    '    ' the tab key was properly hit.
-    '    'Dim c As MSDBGrid.Columns = DBGrid1.get_Columns
+        ' This is fired from the KeyUp event, and only if
+        ' the tab key was properly hit.
+        'Dim c As MSDBGrid.Columns = DBGrid1.get_Columns
 
-    '    RaiseEvent TabKey()
+        RaiseEvent TabKey()
 
-    '    If CurrentCellModified() Then
-    '        ' Move to next cell.
-    '        mCurrentCellModified = False
-    '        Dim I As Integer, ColChanged As Boolean
-    '        For I = Col + 1 To MaxCols - 1
-    '            'If DBGrid1.Columns(I).Width > 0 And DBGrid1.Columns(I).Visible Then Col = Col + 1 : ColChanged = True : Exit For
-    '            'If c.Columns(I).Width > 0 And c.Columns(I).Visible Then Col = Col + 1 : ColChanged = True : Exit For
-    '            If AxDataGrid1.Columns(I).Width > 0 And AxDataGrid1.Columns(I).Visible Then Col = Col + 1 : ColChanged = True : Exit For
-    '        Next
-    '        If Not ColChanged Then
-    '            Row = Row + 1
-    '            Col = 0
-    '        End If
-    '    End If
-    'End Sub
+        If CurrentCellModified() Then
+            ' Move to next cell.
+            mCurrentCellModified = False
+            Dim I As Integer, ColChanged As Boolean
+            For I = Col + 1 To MaxCols - 1
+                'If DBGrid1.Columns(I).Width > 0 And DBGrid1.Columns(I).Visible Then Col = Col + 1 : ColChanged = True : Exit For
+                'If c.Columns(I).Width > 0 And c.Columns(I).Visible Then Col = Col + 1 : ColChanged = True : Exit For
+                If AxDataGrid1.Columns(I).Width > 0 And AxDataGrid1.Columns(I).Visible Then Col = Col + 1 : ColChanged = True : Exit For
+            Next
+            If Not ColChanged Then
+                Row = Row + 1
+                Col = 0
+            End If
+        End If
+    End Sub
 
     'Private Sub AxDataGrid1_MouseMoveEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_MouseMoveEvent) Handles AxDataGrid1.MouseMoveEvent
     '    RaiseEvent Mouse_Move(e.button, e.shift, e.x, e.y)
@@ -1067,7 +1072,7 @@ AnError:
     Public Sub AxDataGrid1_RowColChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_RowColChangeEvent) Handles AxDataGrid1.RowColChange
         '---------> NOTE: RowColChange event will execute automatically as per WinCDS new sale requirement, 
         '---------> which Is happening in existing WinCDS of vb 6.0. But in vb.net, it will executing for user action only.
-        '---------> So, created a new function and pulled this code in to it to execute automatically by calling it from cmdApplyBillOSale_Click event.
+        '---------> So, created a new sub function and pulled this code in to it to execute automatically by calling it from cmdApplyBillOSale_Click event of BillOSale form.
 
         Dim Cancel As Boolean
         Dim OldCol As Object
