@@ -2424,6 +2424,7 @@ HandleErr:
         Row = UGridIO1.Row
 
         Recalculate()  'checks for wrong price
+        SetPrice(Row, "")
         UGridIO1.Row = Row
         UGridIO1.Col = Col
 
@@ -3776,9 +3777,30 @@ HandleErr:
         If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
         UGridIO1.Refresh(True)
     End Sub
-    'Public Event AfterColEdit(ByVal ColIndex As Integer)
-    Private Sub UGRIDIO1_AfterColEdit(ByVal ColIndex As Integer) Handles UGridIO1.AfterColEdit
-        UGridIO1.Text = NewVal
+
+    'Public Event ColEdit(ByVal ColIndex As Integer)
+    'Private Sub UGRIDIO1_ColEdit(ByVal ColIndex As Integer) Handles UGridIO1.ColEdit
+    '    If ColIndex = BillColumns.ePrice Then
+    '        'UGridIO1.Text = NewVal
+    '        Format(UGridIO1.Text, "##,##0.00")
+    '        'SetPrice(LastRow, NewVal)
+    '    End If
+    'End Sub
+    ''Public Event AfterColEdit(ByVal ColIndex As Integer)
+    'Private Sub UGRIDIO1_AfterColEdit(ByVal ColIndex As Integer) Handles UGridIO1.AfterColEdit
+    '    'UGridIO1.Text = NewVal
+    '    Format(UGridIO1.Text, "##,##0.00")
+    'End Sub
+    ''Public Event BeforeColEdit(ByVal ColIndex As Integer, ByVal KeyAscii As Integer, Cancel As Integer)
+    'Private Sub UGRIDIO1_BeforeColEdit(ByVal ColIndex As Integer, ByVal KeyAscii As Integer, Cancel As Integer) Handles UGridIO1.BeforeColEdit
+
+    'End Sub
+    ''Public Event AfterColUpdate(ByVal ColIndex As Integer)
+    Private Sub UGRIDIO1_AfterColUpdate(ByVal ColIndex As Integer) Handles UGridIO1.AfterColUpdate
+        If ColIndex = BillColumns.ePrice Then
+            UGridIO1.Text = NewVal
+            'MessageBox.Show(UGridIO1.Text)
+        End If
     End Sub
     Private Sub UGridIO1_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO1.BeforeColUpdate
         'Dim NewVal As String
@@ -3813,7 +3835,7 @@ HandleErr:
                     '.Text = Format(GetPrice(.Text), "###,###.00")
                     Dim LastRow As Integer = UGridIO1.LastRowUsed
                     Dim StainDelLabNotes As String = UGridIO1.GetValue(LastRow, BillColumns.eStyle)
-                    If StainDelLabNotes = "STAIN" Or StainDelLabNotes = "DEL" Or StainDelLabNotes = "LAB" Or StainDelLabNotes = "NOTES" Then
+                    If StainDelLabNotes = "STAIN" Or StainDelLabNotes = "DEL" Or StainDelLabNotes = "LAB" Or StainDelLabNotes = "NOTES" Or StainDelLabNotes = "PAYMENT" Then
                         If UGridIO1.GetValue(LastRow, BillColumns.ePrice) = "" Then
                             SetPrice(LastRow, NewVal)
                             NewVal = Format(NewVal, "##,##0.00")

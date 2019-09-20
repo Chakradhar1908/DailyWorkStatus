@@ -493,11 +493,13 @@
 
         If IsStoreFinance Then                    'Right(lstOptions.List(lstOptions.ListIndex), 2) = "11"
             If Val(BillOSale.Index) = 0 Then
-                MsgBox("You cannot set up an Installment Contract without the Customer's Name and Address!", vbCritical)
+                'MsgBox("You cannot set up an Installment Contract without the Customer's Name and Address!", vbCritical)
+                MessageBox.Show("You cannot set up an Installment Contract without the Customer's Name and Address!", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
             If Len(Trim(BillOSale.CustomerPhone1.Text)) < 1 Then
-                MsgBox("You cannot set up an Installment Contract without the Customer's Telephone Number.", vbCritical)
+                'MsgBox("You cannot set up an Installment Contract without the Customer's Telephone Number.", vbCritical)
+                MessageBox.Show("You cannot set up an Installment Contract without the Customer's Telephone Number.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -627,9 +629,8 @@
         'LastListItemData = lstOptions.itemData(LastListClick)
         LastListItemData = CType(lstOptions.SelectedItem, ItemDataClass).ItemData
         'LastListItemText = lstOptions.List(LastListClick)
-        LastListItemText = lstOptions.SelectedItem
-        'HideListbox
-
+        LastListItemText = lstOptions.Items(lstOptions.SelectedIndex).ToString
+        'HideListbox()
     End Sub
 
     Private Sub lstOptions_DoubleClick(sender As Object, e As EventArgs) Handles lstOptions.DoubleClick
@@ -834,6 +835,6 @@ SkipPriceFocus:
     End Sub
 
     Private Sub lstOptions_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstOptions.SelectedIndexChanged
-
+        lstOptions_Click(lstOptions, New EventArgs)
     End Sub
 End Class

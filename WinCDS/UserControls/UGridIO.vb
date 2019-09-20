@@ -143,12 +143,10 @@ Public Class UGridIO
         With Col
             .Caption = Title
             .Width = ColWidth
-
             .AllowSizing = AllowSizing
             .Alignment = Align
             .Visible = IsVisible
             .Locked = IsLocked
-
         End With
     End Sub
 
@@ -167,7 +165,6 @@ Public Class UGridIO
             GetColumn = .Columns(Index)
             'Set Cols = Nothing
         End With
-
     End Function
 
     Public Sub Initialize()
@@ -625,9 +622,9 @@ AnError:
     '    RaiseEvent ClickEvent()
     'End Sub
 
-    'Private Sub AxDataGrid1_ColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_ColEditEvent) Handles AxDataGrid1.ColEdit
-    '    RaiseEvent ColEdit(e.colIndex)
-    'End Sub
+    Private Sub AxDataGrid1_ColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_ColEditEvent) Handles AxDataGrid1.ColEdit
+        RaiseEvent ColEdit(e.colIndex)
+    End Sub
 
     'Private Sub AxDataGrid1_HeadClick(sender As Object, e As AxMSDataGridLib.DDataGridEvents_HeadClickEvent) Handles AxDataGrid1.HeadClick
     '    RaiseEvent HeadClick(e.colIndex)

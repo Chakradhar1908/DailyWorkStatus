@@ -596,6 +596,9 @@
     <EmbeddedResource Include="Forms\ArApp.resx">
       <DependentUpon>ArApp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ARPaySetUp.resx">
+      <DependentUpon>ARPaySetUp.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\BillOSale.resx">
       <DependentUpon>BillOSale.vb</DependentUpon>
     </EmbeddedResource>
