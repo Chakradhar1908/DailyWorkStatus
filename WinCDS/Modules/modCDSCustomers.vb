@@ -163,4 +163,48 @@
             IsParkPlace = CheckStoreName("Park Place")
         End Get
     End Property
+
+    Public ReadOnly Property IsThorntons() As Boolean
+        Get
+            IsThorntons = CheckStoreName("Thornton")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsElmore() As Boolean
+        Get
+            IsElmore = CheckStoreName("Elmore")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsKenLu() As Boolean
+        Get
+            IsKenLu = CheckStoreName("KENLU")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsLott() As Boolean
+        Get
+            IsLott = CheckStoreName("Lott")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsBoyd() As Boolean
+        Get
+            IsBoyd = CheckStoreName("Boyd")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsMcClure() As Boolean
+        Get
+            IsMcClure = CheckStoreName("McClure")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsYeatts() As Boolean
+        Get
+            IsYeatts = CheckStoreName("Yeatts")
+        End Get
+    End Property
 End Module
+
+

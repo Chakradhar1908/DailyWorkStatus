@@ -84,6 +84,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class Modules\cArBoyd.vb" />
+    <Compile Include="Class Modules\CArLott.vb" />
+    <Compile Include="Class Modules\cArTreehouse.vb" />
     <Compile Include="Class Modules\CDataAccess.vb" />
     <Compile Include="Class Modules\CDbAccessGeneral.vb" />
     <Compile Include="Class Modules\cFTP.vb" />
@@ -107,6 +110,7 @@
     <Compile Include="Class Modules\clsUserGroup.vb" />
     <Compile Include="Class Modules\clsXCharge.vb" />
     <Compile Include="Class Modules\clsXChargeXpressLink.vb" />
+    <Compile Include="Class Modules\CLyndonLife.vb" />
     <Compile Include="Class Modules\cPODetail.vb" />
     <Compile Include="Class Modules\cPOReceived.vb" />
     <Compile Include="Class Modules\CSearchNew.vb" />
@@ -461,11 +465,14 @@
     <Compile Include="Modules\dbSQL.vb" />
     <Compile Include="Modules\Functions.vb" />
     <Compile Include="Modules\ImplementsModule.vb" />
+    <Compile Include="Modules\LUT_AandHRate.vb" />
+    <Compile Include="Modules\LUT_PropRate.vb" />
     <Compile Include="Modules\MainModule.vb" />
     <Compile Include="Modules\MFreeImage.vb" />
     <Compile Include="Modules\mod2Data.vb" />
     <Compile Include="Modules\mod2DataTransfers.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
+    <Compile Include="Modules\modAmericanHeritageInsurance.vb" />
     <Compile Include="Modules\modAPI.vb" />
     <Compile Include="Modules\modAR.vb" />
     <Compile Include="Modules\modArrays.vb" />
@@ -482,6 +489,7 @@
     <Compile Include="Modules\modConfigTable.vb" />
     <Compile Include="Modules\modCreditCard.vb" />
     <Compile Include="Modules\modCSV.vb" />
+    <Compile Include="Modules\modCustomizations.vb" />
     <Compile Include="Modules\modDataMetrics.vb" />
     <Compile Include="Modules\modDataTypes.vb" />
     <Compile Include="Modules\modDataValidation.vb" />

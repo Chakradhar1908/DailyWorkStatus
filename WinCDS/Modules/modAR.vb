@@ -149,4 +149,12 @@
         RS = Nothing
     End Function
 
+    Public ReadOnly Property UseAmericanNationalInsurance() As Boolean
+        Get
+            '  UseAmericanNationalInsurance = UseAmericanNationalInsurance Or IsTreehouse ' Treehouse doesn't use this anymore
+            '  UseAmericanNationalInsurance = UseAmericanNationalInsurance Or IsBlueSky
+            UseAmericanNationalInsurance = UseAmericanNationalInsurance Or IsMcClure
+        End Get
+    End Property
+
 End Module

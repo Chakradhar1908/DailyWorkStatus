@@ -50,4 +50,58 @@
         Decimals = Number - Trunc(Number, 0)
     End Function
 
+    Public Function Max(ParamArray A())
+        Dim B()
+        B = A
+        Max = MaxArray(B)
+    End Function
+
+    Public Function Min(ParamArray A())
+        Dim B()
+        B = A
+        Min = MinArray(B)
+    End Function
+
+    Public Function MaxArray(ByRef A)
+        '::::Decimals
+        ':::SUMMARY
+        ': Used to return maximum value in given Array.
+        ':::DESCRIPTION
+        ': This function is used to return the maximum value in given array, using loop given below.
+        ':::PARAMETERS
+        ': - A - Indicates the Reference Array.
+        ':::RETURN
+        '::: SEE ALSO
+        ': - Max , Min
+        Dim L
+        On Error Resume Next
+        If Not IsArray(A) Then Exit Function
+        If UBound(A) = -1 Then Exit Function
+        MaxArray = A(LBound(A))
+        For Each L In A
+            If Val(L) > Val(MaxArray) Then MaxArray = Val(L)
+        Next
+    End Function
+
+    Public Function Pow(ByVal X As Double, ByVal Y As Long) As Double
+        '::::Pow
+        ':::SUMMARY
+        ': Used to return result of a number raised to a specified power.
+        ':::DESCRIPTION
+        ': This is a generalized exponential function.
+        ': It returns the result of a number raised to a specified power.
+        ':::PARAMETERS
+        ': - X - Indicates the Base value.
+        ': - Y - Indicates the Power value.
+        ':::RETURN
+        ': Double : Return Double that is x (the base) raised to the power y (the exponent).
+        Dim N As Long
+        If Y < 0 Then Exit Function
+        If Y = 0 Then Pow = 1 : Exit Function
+        Pow = X
+        For N = 2 To Y
+            Pow = Pow * X
+        Next
+    End Function
+
 End Module
