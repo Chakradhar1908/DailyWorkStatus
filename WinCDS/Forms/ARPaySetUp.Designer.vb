@@ -24,6 +24,65 @@ Partial Class ARPaySetUp
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.fraARPaySetup = New System.Windows.Forms.GroupBox()
+        Me.fraMath = New System.Windows.Forms.GroupBox()
+        Me.cmdApply = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.lblMathTotal = New System.Windows.Forms.Label()
+        Me.lblMathLastPay = New System.Windows.Forms.Label()
+        Me.lblMathAdd = New System.Windows.Forms.Label()
+        Me.lblMathMonthlyTotal = New System.Windows.Forms.Label()
+        Me.lblMathMontlyMonths = New System.Windows.Forms.Label()
+        Me.lblMathMultiply = New System.Windows.Forms.Label()
+        Me.lblMathMonthly = New System.Windows.Forms.Label()
+        Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
+        Me.LineShape2 = New Microsoft.VisualBasic.PowerPacks.LineShape()
+        Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
+        Me.fraCoupons = New System.Windows.Forms.GroupBox()
+        Me.optWeekly = New System.Windows.Forms.RadioButton()
+        Me.optMonthly = New System.Windows.Forms.RadioButton()
+        Me.lblDeferred = New System.Windows.Forms.Label()
+        Me.cboDeferred = New System.Windows.Forms.ComboBox()
+        Me.lblAPR = New System.Windows.Forms.Label()
+        Me.txtRate = New System.Windows.Forms.TextBox()
+        Me.chkUnemployment = New System.Windows.Forms.CheckBox()
+        Me.chkProperty = New System.Windows.Forms.CheckBox()
+        Me.chkAccident = New System.Windows.Forms.CheckBox()
+        Me.chkLife = New System.Windows.Forms.CheckBox()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.lblTotalCaption = New System.Windows.Forms.Label()
+        Me.txtBalDueLateCharge = New System.Windows.Forms.TextBox()
+        Me.lblBalDueLateCharge = New System.Windows.Forms.Label()
+        Me.txtAddlPaymentsMade = New System.Windows.Forms.TextBox()
+        Me.lblAddlPayments = New System.Windows.Forms.Label()
+        Me.chkRoundUp = New System.Windows.Forms.CheckBox()
+        Me.txtPaymentWillBe = New System.Windows.Forms.TextBox()
+        Me.txtTotalBalance = New System.Windows.Forms.TextBox()
+        Me.txtFinanceChargeSalesTax = New System.Windows.Forms.TextBox()
+        Me.lblAcctNo = New System.Windows.Forms.Label()
+        Me.lblPaymentWillBe = New System.Windows.Forms.Label()
+        Me.lblTotalBalance = New System.Windows.Forms.Label()
+        Me.lblFinanceChargeSalesTax = New System.Windows.Forms.Label()
+        Me.txtFinanceCharges = New System.Windows.Forms.TextBox()
+        Me.txtDeferredInt = New System.Windows.Forms.TextBox()
+        Me.cboCashOption = New System.Windows.Forms.ComboBox()
+        Me.txtFinanceAmount = New System.Windows.Forms.TextBox()
+        Me.txtMonthsToFinance = New System.Windows.Forms.TextBox()
+        Me.lblFinanceCharges = New System.Windows.Forms.Label()
+        Me.lblDeferredInt = New System.Windows.Forms.Label()
+        Me.lblCashOpt = New System.Windows.Forms.Label()
+        Me.lblFinanceAmount = New System.Windows.Forms.Label()
+        Me.lblMonthsToFinance = New System.Windows.Forms.Label()
+        Me.txtUnemploymentInsurance = New System.Windows.Forms.TextBox()
+        Me.txtPropertyInsurance = New System.Windows.Forms.TextBox()
+        Me.txtAccidentInsurance = New System.Windows.Forms.TextBox()
+        Me.txtLifeInsurance = New System.Windows.Forms.TextBox()
+        Me.txtDocFee = New System.Windows.Forms.TextBox()
+        Me.lblUnemploymentInsurance = New System.Windows.Forms.Label()
+        Me.lblPropertyInsurance = New System.Windows.Forms.Label()
+        Me.lblAccidentInsurance = New System.Windows.Forms.Label()
+        Me.lblLifeInsurance = New System.Windows.Forms.Label()
+        Me.lblDocFee = New System.Windows.Forms.Label()
         Me.txtSubTotal = New System.Windows.Forms.TextBox()
         Me.txtOrigDeposit = New System.Windows.Forms.TextBox()
         Me.txtGrossSale = New System.Windows.Forms.TextBox()
@@ -39,86 +98,35 @@ Partial Class ARPaySetUp
         Me.optLate16 = New System.Windows.Forms.RadioButton()
         Me.optLate6 = New System.Windows.Forms.RadioButton()
         Me.lblLateChargesApplied = New System.Windows.Forms.Label()
-        Me.picPicture = New System.Windows.Forms.PictureBox()
         Me.lblFirstPaymentDue = New System.Windows.Forms.Label()
         Me.lblDelDate = New System.Windows.Forms.Label()
         Me.dteDate2 = New System.Windows.Forms.DateTimePicker()
         Me.dteDate1 = New System.Windows.Forms.DateTimePicker()
-        Me.lblDocFee = New System.Windows.Forms.Label()
-        Me.lblLifeInsurance = New System.Windows.Forms.Label()
-        Me.lblAccidentInsurance = New System.Windows.Forms.Label()
-        Me.lblPropertyInsurance = New System.Windows.Forms.Label()
-        Me.lblUnemploymentInsurance = New System.Windows.Forms.Label()
-        Me.txtDocFee = New System.Windows.Forms.TextBox()
-        Me.txtLifeInsurance = New System.Windows.Forms.TextBox()
-        Me.txtAccidentInsurance = New System.Windows.Forms.TextBox()
-        Me.txtPropertyInsurance = New System.Windows.Forms.TextBox()
-        Me.txtUnemploymentInsurance = New System.Windows.Forms.TextBox()
-        Me.lblMonthsToFinance = New System.Windows.Forms.Label()
-        Me.lblFinanceAmount = New System.Windows.Forms.Label()
-        Me.lblCashOpt = New System.Windows.Forms.Label()
-        Me.lblDeferredInt = New System.Windows.Forms.Label()
-        Me.lblFinanceCharges = New System.Windows.Forms.Label()
-        Me.txtMonthsToFinance = New System.Windows.Forms.TextBox()
-        Me.txtFinanceAmount = New System.Windows.Forms.TextBox()
-        Me.cboCashOption = New System.Windows.Forms.ComboBox()
-        Me.txtDeferredInt = New System.Windows.Forms.TextBox()
-        Me.txtFinanceCharges = New System.Windows.Forms.TextBox()
-        Me.lblFinanceChargeSalesTax = New System.Windows.Forms.Label()
-        Me.lblTotalBalance = New System.Windows.Forms.Label()
-        Me.lblPaymentWillBe = New System.Windows.Forms.Label()
-        Me.lblAcctNo = New System.Windows.Forms.Label()
-        Me.txtFinanceChargeSalesTax = New System.Windows.Forms.TextBox()
-        Me.txtTotalBalance = New System.Windows.Forms.TextBox()
-        Me.txtPaymentWillBe = New System.Windows.Forms.TextBox()
-        Me.chkRoundUp = New System.Windows.Forms.CheckBox()
-        Me.lblAddlPayments = New System.Windows.Forms.Label()
-        Me.txtAddlPaymentsMade = New System.Windows.Forms.TextBox()
-        Me.lblBalDueLateCharge = New System.Windows.Forms.Label()
-        Me.txtBalDueLateCharge = New System.Windows.Forms.TextBox()
-        Me.lblTotalCaption = New System.Windows.Forms.Label()
-        Me.lblTotal = New System.Windows.Forms.Label()
-        Me.chkLife = New System.Windows.Forms.CheckBox()
-        Me.chkAccident = New System.Windows.Forms.CheckBox()
-        Me.chkProperty = New System.Windows.Forms.CheckBox()
-        Me.chkUnemployment = New System.Windows.Forms.CheckBox()
-        Me.optJointLife0 = New System.Windows.Forms.RadioButton()
-        Me.optJointLife1 = New System.Windows.Forms.RadioButton()
-        Me.txtRate = New System.Windows.Forms.TextBox()
-        Me.lblAPR = New System.Windows.Forms.Label()
-        Me.cboDeferred = New System.Windows.Forms.ComboBox()
-        Me.lblDeferred = New System.Windows.Forms.Label()
-        Me.fraCoupons = New System.Windows.Forms.GroupBox()
-        Me.optMonthly = New System.Windows.Forms.RadioButton()
-        Me.optWeekly = New System.Windows.Forms.RadioButton()
-        Me.fraMath = New System.Windows.Forms.GroupBox()
-        Me.lblMathMonthly = New System.Windows.Forms.Label()
-        Me.lblMathMultiply = New System.Windows.Forms.Label()
-        Me.lblMathMontlyMonths = New System.Windows.Forms.Label()
-        Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
-        Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
-        Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.cmdApply = New System.Windows.Forms.Button()
-        Me.cmdCancel = New System.Windows.Forms.Button()
-        Me.lblMathMonthlyTotal = New System.Windows.Forms.Label()
         Me.tmrLoad = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lblAccountNo = New System.Windows.Forms.Label()
+        Me.picPicture = New System.Windows.Forms.PictureBox()
+        Me.fraJointLife = New System.Windows.Forms.Panel()
+        Me.optJointLife1 = New System.Windows.Forms.RadioButton()
+        Me.optJointLife0 = New System.Windows.Forms.RadioButton()
         Me.fraARPaySetup.SuspendLayout()
+        Me.fraMath.SuspendLayout()
+        Me.fraCoupons.SuspendLayout()
         Me.fraLateChargesApplied.SuspendLayout()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.fraCoupons.SuspendLayout()
-        Me.fraMath.SuspendLayout()
+        Me.fraJointLife.SuspendLayout()
         Me.SuspendLayout()
         '
         'fraARPaySetup
         '
+        Me.fraARPaySetup.Controls.Add(Me.fraJointLife)
+        Me.fraARPaySetup.Controls.Add(Me.lblAccountNo)
         Me.fraARPaySetup.Controls.Add(Me.fraMath)
         Me.fraARPaySetup.Controls.Add(Me.fraCoupons)
         Me.fraARPaySetup.Controls.Add(Me.lblDeferred)
         Me.fraARPaySetup.Controls.Add(Me.cboDeferred)
         Me.fraARPaySetup.Controls.Add(Me.lblAPR)
         Me.fraARPaySetup.Controls.Add(Me.txtRate)
-        Me.fraARPaySetup.Controls.Add(Me.optJointLife1)
-        Me.fraARPaySetup.Controls.Add(Me.optJointLife0)
         Me.fraARPaySetup.Controls.Add(Me.chkUnemployment)
         Me.fraARPaySetup.Controls.Add(Me.chkProperty)
         Me.fraARPaySetup.Controls.Add(Me.chkAccident)
@@ -175,9 +183,542 @@ Partial Class ARPaySetUp
         Me.fraARPaySetup.Controls.Add(Me.dteDate1)
         Me.fraARPaySetup.Location = New System.Drawing.Point(5, 5)
         Me.fraARPaySetup.Name = "fraARPaySetup"
-        Me.fraARPaySetup.Size = New System.Drawing.Size(323, 661)
+        Me.fraARPaySetup.Size = New System.Drawing.Size(323, 651)
         Me.fraARPaySetup.TabIndex = 0
         Me.fraARPaySetup.TabStop = False
+        '
+        'fraMath
+        '
+        Me.fraMath.Controls.Add(Me.cmdApply)
+        Me.fraMath.Controls.Add(Me.cmdPrint)
+        Me.fraMath.Controls.Add(Me.cmdCancel)
+        Me.fraMath.Controls.Add(Me.lblMathTotal)
+        Me.fraMath.Controls.Add(Me.lblMathLastPay)
+        Me.fraMath.Controls.Add(Me.lblMathAdd)
+        Me.fraMath.Controls.Add(Me.lblMathMonthlyTotal)
+        Me.fraMath.Controls.Add(Me.lblMathMontlyMonths)
+        Me.fraMath.Controls.Add(Me.lblMathMultiply)
+        Me.fraMath.Controls.Add(Me.lblMathMonthly)
+        Me.fraMath.Controls.Add(Me.ShapeContainer1)
+        Me.fraMath.Location = New System.Drawing.Point(204, 541)
+        Me.fraMath.Name = "fraMath"
+        Me.fraMath.Size = New System.Drawing.Size(109, 104)
+        Me.fraMath.TabIndex = 60
+        Me.fraMath.TabStop = False
+        '
+        'cmdApply
+        '
+        Me.cmdApply.Location = New System.Drawing.Point(52, 57)
+        Me.cmdApply.Name = "cmdApply"
+        Me.cmdApply.Size = New System.Drawing.Size(43, 23)
+        Me.cmdApply.TabIndex = 5
+        Me.cmdApply.Text = "&Apply"
+        Me.cmdApply.UseVisualStyleBackColor = True
+        '
+        'cmdPrint
+        '
+        Me.cmdPrint.Location = New System.Drawing.Point(6, 57)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(46, 23)
+        Me.cmdPrint.TabIndex = 4
+        Me.cmdPrint.Text = "&Print"
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
+        'cmdCancel
+        '
+        Me.cmdCancel.Location = New System.Drawing.Point(6, 78)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(89, 23)
+        Me.cmdCancel.TabIndex = 6
+        Me.cmdCancel.Text = "&Cancel"
+        Me.cmdCancel.UseVisualStyleBackColor = True
+        '
+        'lblMathTotal
+        '
+        Me.lblMathTotal.AutoSize = True
+        Me.lblMathTotal.Location = New System.Drawing.Point(37, 82)
+        Me.lblMathTotal.Name = "lblMathTotal"
+        Me.lblMathTotal.Size = New System.Drawing.Size(52, 13)
+        Me.lblMathTotal.TabIndex = 10
+        Me.lblMathTotal.Text = "$5999.38"
+        '
+        'lblMathLastPay
+        '
+        Me.lblMathLastPay.AutoSize = True
+        Me.lblMathLastPay.Location = New System.Drawing.Point(43, 64)
+        Me.lblMathLastPay.Name = "lblMathLastPay"
+        Me.lblMathLastPay.Size = New System.Drawing.Size(46, 13)
+        Me.lblMathLastPay.TabIndex = 9
+        Me.lblMathLastPay.Text = "$499.38"
+        '
+        'lblMathAdd
+        '
+        Me.lblMathAdd.AutoSize = True
+        Me.lblMathAdd.Location = New System.Drawing.Point(19, 61)
+        Me.lblMathAdd.Name = "lblMathAdd"
+        Me.lblMathAdd.Size = New System.Drawing.Size(13, 13)
+        Me.lblMathAdd.TabIndex = 8
+        Me.lblMathAdd.Text = "+"
+        '
+        'lblMathMonthlyTotal
+        '
+        Me.lblMathMonthlyTotal.AutoSize = True
+        Me.lblMathMonthlyTotal.Location = New System.Drawing.Point(37, 47)
+        Me.lblMathMonthlyTotal.Name = "lblMathMonthlyTotal"
+        Me.lblMathMonthlyTotal.Size = New System.Drawing.Size(52, 13)
+        Me.lblMathMonthlyTotal.TabIndex = 7
+        Me.lblMathMonthlyTotal.Text = "$5500.00"
+        '
+        'lblMathMontlyMonths
+        '
+        Me.lblMathMontlyMonths.AutoSize = True
+        Me.lblMathMontlyMonths.Location = New System.Drawing.Point(70, 28)
+        Me.lblMathMontlyMonths.Name = "lblMathMontlyMonths"
+        Me.lblMathMontlyMonths.Size = New System.Drawing.Size(19, 13)
+        Me.lblMathMontlyMonths.TabIndex = 2
+        Me.lblMathMontlyMonths.Text = "11"
+        '
+        'lblMathMultiply
+        '
+        Me.lblMathMultiply.AutoSize = True
+        Me.lblMathMultiply.Location = New System.Drawing.Point(11, 28)
+        Me.lblMathMultiply.Name = "lblMathMultiply"
+        Me.lblMathMultiply.Size = New System.Drawing.Size(12, 13)
+        Me.lblMathMultiply.TabIndex = 1
+        Me.lblMathMultiply.Text = "x"
+        '
+        'lblMathMonthly
+        '
+        Me.lblMathMonthly.AutoSize = True
+        Me.lblMathMonthly.Location = New System.Drawing.Point(43, 12)
+        Me.lblMathMonthly.Name = "lblMathMonthly"
+        Me.lblMathMonthly.Size = New System.Drawing.Size(46, 13)
+        Me.lblMathMonthly.TabIndex = 0
+        Me.lblMathMonthly.Text = "$500.00"
+        '
+        'ShapeContainer1
+        '
+        Me.ShapeContainer1.Location = New System.Drawing.Point(3, 16)
+        Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
+        Me.ShapeContainer1.Name = "ShapeContainer1"
+        Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape2, Me.LineShape1})
+        Me.ShapeContainer1.Size = New System.Drawing.Size(103, 85)
+        Me.ShapeContainer1.TabIndex = 3
+        Me.ShapeContainer1.TabStop = False
+        '
+        'LineShape2
+        '
+        Me.LineShape2.Name = "LineShape2"
+        Me.LineShape2.X1 = 7
+        Me.LineShape2.X2 = 89
+        Me.LineShape2.Y1 = 63
+        Me.LineShape2.Y2 = 62
+        '
+        'LineShape1
+        '
+        Me.LineShape1.Name = "LineShape1"
+        Me.LineShape1.X1 = 9
+        Me.LineShape1.X2 = 91
+        Me.LineShape1.Y1 = 26
+        Me.LineShape1.Y2 = 26
+        '
+        'fraCoupons
+        '
+        Me.fraCoupons.Controls.Add(Me.optWeekly)
+        Me.fraCoupons.Controls.Add(Me.optMonthly)
+        Me.fraCoupons.Location = New System.Drawing.Point(194, 479)
+        Me.fraCoupons.Name = "fraCoupons"
+        Me.fraCoupons.Size = New System.Drawing.Size(119, 50)
+        Me.fraCoupons.TabIndex = 59
+        Me.fraCoupons.TabStop = False
+        '
+        'optWeekly
+        '
+        Me.optWeekly.AutoSize = True
+        Me.optWeekly.Location = New System.Drawing.Point(6, 26)
+        Me.optWeekly.Name = "optWeekly"
+        Me.optWeekly.Size = New System.Drawing.Size(106, 17)
+        Me.optWeekly.TabIndex = 1
+        Me.optWeekly.Text = "&Weekly Coupons"
+        Me.optWeekly.UseVisualStyleBackColor = True
+        '
+        'optMonthly
+        '
+        Me.optMonthly.AutoSize = True
+        Me.optMonthly.Checked = True
+        Me.optMonthly.Location = New System.Drawing.Point(6, 7)
+        Me.optMonthly.Name = "optMonthly"
+        Me.optMonthly.Size = New System.Drawing.Size(107, 17)
+        Me.optMonthly.TabIndex = 0
+        Me.optMonthly.TabStop = True
+        Me.optMonthly.Text = "&Monthly Coupons"
+        Me.optMonthly.UseVisualStyleBackColor = True
+        '
+        'lblDeferred
+        '
+        Me.lblDeferred.AutoSize = True
+        Me.lblDeferred.Location = New System.Drawing.Point(266, 461)
+        Me.lblDeferred.Name = "lblDeferred"
+        Me.lblDeferred.Size = New System.Drawing.Size(45, 13)
+        Me.lblDeferred.TabIndex = 58
+        Me.lblDeferred.Text = "Pay Def"
+        '
+        'cboDeferred
+        '
+        Me.cboDeferred.FormattingEnabled = True
+        Me.cboDeferred.Location = New System.Drawing.Point(194, 458)
+        Me.cboDeferred.Name = "cboDeferred"
+        Me.cboDeferred.Size = New System.Drawing.Size(68, 21)
+        Me.cboDeferred.TabIndex = 57
+        '
+        'lblAPR
+        '
+        Me.lblAPR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblAPR.Location = New System.Drawing.Point(253, 430)
+        Me.lblAPR.Name = "lblAPR"
+        Me.lblAPR.Size = New System.Drawing.Size(39, 20)
+        Me.lblAPR.TabIndex = 56
+        '
+        'txtRate
+        '
+        Me.txtRate.Location = New System.Drawing.Point(194, 430)
+        Me.txtRate.Name = "txtRate"
+        Me.txtRate.Size = New System.Drawing.Size(47, 20)
+        Me.txtRate.TabIndex = 55
+        Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'chkUnemployment
+        '
+        Me.chkUnemployment.AutoSize = True
+        Me.chkUnemployment.Location = New System.Drawing.Point(194, 381)
+        Me.chkUnemployment.Name = "chkUnemployment"
+        Me.chkUnemployment.Size = New System.Drawing.Size(15, 14)
+        Me.chkUnemployment.TabIndex = 52
+        Me.chkUnemployment.UseVisualStyleBackColor = True
+        '
+        'chkProperty
+        '
+        Me.chkProperty.AutoSize = True
+        Me.chkProperty.Location = New System.Drawing.Point(194, 361)
+        Me.chkProperty.Name = "chkProperty"
+        Me.chkProperty.Size = New System.Drawing.Size(15, 14)
+        Me.chkProperty.TabIndex = 51
+        Me.chkProperty.UseVisualStyleBackColor = True
+        '
+        'chkAccident
+        '
+        Me.chkAccident.AutoSize = True
+        Me.chkAccident.Location = New System.Drawing.Point(194, 341)
+        Me.chkAccident.Name = "chkAccident"
+        Me.chkAccident.Size = New System.Drawing.Size(15, 14)
+        Me.chkAccident.TabIndex = 50
+        Me.chkAccident.UseVisualStyleBackColor = True
+        '
+        'chkLife
+        '
+        Me.chkLife.AutoSize = True
+        Me.chkLife.Location = New System.Drawing.Point(194, 321)
+        Me.chkLife.Name = "chkLife"
+        Me.chkLife.Size = New System.Drawing.Size(15, 14)
+        Me.chkLife.TabIndex = 49
+        Me.chkLife.UseVisualStyleBackColor = True
+        '
+        'lblTotal
+        '
+        Me.lblTotal.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.lblTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblTotal.Location = New System.Drawing.Point(227, 271)
+        Me.lblTotal.Name = "lblTotal"
+        Me.lblTotal.Size = New System.Drawing.Size(82, 20)
+        Me.lblTotal.TabIndex = 48
+        Me.lblTotal.Visible = False
+        '
+        'lblTotalCaption
+        '
+        Me.lblTotalCaption.AutoSize = True
+        Me.lblTotalCaption.Location = New System.Drawing.Point(191, 272)
+        Me.lblTotalCaption.Name = "lblTotalCaption"
+        Me.lblTotalCaption.Size = New System.Drawing.Size(34, 13)
+        Me.lblTotalCaption.TabIndex = 47
+        Me.lblTotalCaption.Text = "Total:"
+        Me.lblTotalCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.lblTotalCaption.Visible = False
+        '
+        'txtBalDueLateCharge
+        '
+        Me.txtBalDueLateCharge.Location = New System.Drawing.Point(227, 233)
+        Me.txtBalDueLateCharge.Name = "txtBalDueLateCharge"
+        Me.txtBalDueLateCharge.Size = New System.Drawing.Size(82, 20)
+        Me.txtBalDueLateCharge.TabIndex = 46
+        '
+        'lblBalDueLateCharge
+        '
+        Me.lblBalDueLateCharge.AutoSize = True
+        Me.lblBalDueLateCharge.Location = New System.Drawing.Point(206, 217)
+        Me.lblBalDueLateCharge.Name = "lblBalDueLateCharge"
+        Me.lblBalDueLateCharge.Size = New System.Drawing.Size(94, 13)
+        Me.lblBalDueLateCharge.TabIndex = 45
+        Me.lblBalDueLateCharge.Text = "Bal Due Late Chg:"
+        '
+        'txtAddlPaymentsMade
+        '
+        Me.txtAddlPaymentsMade.Location = New System.Drawing.Point(227, 194)
+        Me.txtAddlPaymentsMade.Name = "txtAddlPaymentsMade"
+        Me.txtAddlPaymentsMade.Size = New System.Drawing.Size(82, 20)
+        Me.txtAddlPaymentsMade.TabIndex = 44
+        '
+        'lblAddlPayments
+        '
+        Me.lblAddlPayments.AutoSize = True
+        Me.lblAddlPayments.Location = New System.Drawing.Point(206, 179)
+        Me.lblAddlPayments.Name = "lblAddlPayments"
+        Me.lblAddlPayments.Size = New System.Drawing.Size(112, 13)
+        Me.lblAddlPayments.TabIndex = 43
+        Me.lblAddlPayments.Text = "Additional Pmts Made:"
+        '
+        'chkRoundUp
+        '
+        Me.chkRoundUp.AutoSize = True
+        Me.chkRoundUp.Checked = True
+        Me.chkRoundUp.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkRoundUp.Location = New System.Drawing.Point(112, 596)
+        Me.chkRoundUp.Name = "chkRoundUp"
+        Me.chkRoundUp.Size = New System.Drawing.Size(75, 17)
+        Me.chkRoundUp.TabIndex = 42
+        Me.chkRoundUp.Text = "Round Up"
+        Me.chkRoundUp.UseVisualStyleBackColor = True
+        '
+        'txtPaymentWillBe
+        '
+        Me.txtPaymentWillBe.Location = New System.Drawing.Point(112, 570)
+        Me.txtPaymentWillBe.Name = "txtPaymentWillBe"
+        Me.txtPaymentWillBe.Size = New System.Drawing.Size(78, 20)
+        Me.txtPaymentWillBe.TabIndex = 41
+        Me.txtPaymentWillBe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtTotalBalance
+        '
+        Me.txtTotalBalance.Location = New System.Drawing.Point(112, 541)
+        Me.txtTotalBalance.Name = "txtTotalBalance"
+        Me.txtTotalBalance.Size = New System.Drawing.Size(78, 20)
+        Me.txtTotalBalance.TabIndex = 40
+        Me.txtTotalBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtFinanceChargeSalesTax
+        '
+        Me.txtFinanceChargeSalesTax.Location = New System.Drawing.Point(112, 521)
+        Me.txtFinanceChargeSalesTax.Name = "txtFinanceChargeSalesTax"
+        Me.txtFinanceChargeSalesTax.Size = New System.Drawing.Size(78, 20)
+        Me.txtFinanceChargeSalesTax.TabIndex = 39
+        Me.txtFinanceChargeSalesTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'lblAcctNo
+        '
+        Me.lblAcctNo.AutoSize = True
+        Me.lblAcctNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAcctNo.Location = New System.Drawing.Point(28, 631)
+        Me.lblAcctNo.Name = "lblAcctNo"
+        Me.lblAcctNo.Size = New System.Drawing.Size(78, 13)
+        Me.lblAcctNo.TabIndex = 38
+        Me.lblAcctNo.Text = "Account No:"
+        '
+        'lblPaymentWillBe
+        '
+        Me.lblPaymentWillBe.AutoSize = True
+        Me.lblPaymentWillBe.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPaymentWillBe.Location = New System.Drawing.Point(3, 570)
+        Me.lblPaymentWillBe.Name = "lblPaymentWillBe"
+        Me.lblPaymentWillBe.Size = New System.Drawing.Size(103, 13)
+        Me.lblPaymentWillBe.TabIndex = 37
+        Me.lblPaymentWillBe.Text = "Payment Will Be:"
+        '
+        'lblTotalBalance
+        '
+        Me.lblTotalBalance.AutoSize = True
+        Me.lblTotalBalance.Location = New System.Drawing.Point(30, 548)
+        Me.lblTotalBalance.Name = "lblTotalBalance"
+        Me.lblTotalBalance.Size = New System.Drawing.Size(76, 13)
+        Me.lblTotalBalance.TabIndex = 36
+        Me.lblTotalBalance.Text = "Total Balance:"
+        '
+        'lblFinanceChargeSalesTax
+        '
+        Me.lblFinanceChargeSalesTax.AutoSize = True
+        Me.lblFinanceChargeSalesTax.Location = New System.Drawing.Point(49, 528)
+        Me.lblFinanceChargeSalesTax.Name = "lblFinanceChargeSalesTax"
+        Me.lblFinanceChargeSalesTax.Size = New System.Drawing.Size(57, 13)
+        Me.lblFinanceChargeSalesTax.TabIndex = 1
+        Me.lblFinanceChargeSalesTax.Text = "Sales Tax:"
+        '
+        'txtFinanceCharges
+        '
+        Me.txtFinanceCharges.Location = New System.Drawing.Point(112, 501)
+        Me.txtFinanceCharges.Name = "txtFinanceCharges"
+        Me.txtFinanceCharges.Size = New System.Drawing.Size(78, 20)
+        Me.txtFinanceCharges.TabIndex = 35
+        Me.txtFinanceCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtDeferredInt
+        '
+        Me.txtDeferredInt.Location = New System.Drawing.Point(112, 481)
+        Me.txtDeferredInt.Name = "txtDeferredInt"
+        Me.txtDeferredInt.Size = New System.Drawing.Size(78, 20)
+        Me.txtDeferredInt.TabIndex = 34
+        Me.txtDeferredInt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'cboCashOption
+        '
+        Me.cboCashOption.FormattingEnabled = True
+        Me.cboCashOption.Location = New System.Drawing.Point(112, 456)
+        Me.cboCashOption.Name = "cboCashOption"
+        Me.cboCashOption.Size = New System.Drawing.Size(78, 21)
+        Me.cboCashOption.TabIndex = 33
+        '
+        'txtFinanceAmount
+        '
+        Me.txtFinanceAmount.Location = New System.Drawing.Point(112, 436)
+        Me.txtFinanceAmount.Name = "txtFinanceAmount"
+        Me.txtFinanceAmount.Size = New System.Drawing.Size(78, 20)
+        Me.txtFinanceAmount.TabIndex = 32
+        Me.txtFinanceAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtMonthsToFinance
+        '
+        Me.txtMonthsToFinance.Location = New System.Drawing.Point(112, 416)
+        Me.txtMonthsToFinance.Name = "txtMonthsToFinance"
+        Me.txtMonthsToFinance.Size = New System.Drawing.Size(78, 20)
+        Me.txtMonthsToFinance.TabIndex = 31
+        Me.txtMonthsToFinance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'lblFinanceCharges
+        '
+        Me.lblFinanceCharges.AutoSize = True
+        Me.lblFinanceCharges.Location = New System.Drawing.Point(16, 508)
+        Me.lblFinanceCharges.Name = "lblFinanceCharges"
+        Me.lblFinanceCharges.Size = New System.Drawing.Size(90, 13)
+        Me.lblFinanceCharges.TabIndex = 30
+        Me.lblFinanceCharges.Text = "Finance Charges:"
+        '
+        'lblDeferredInt
+        '
+        Me.lblDeferredInt.AutoSize = True
+        Me.lblDeferredInt.Location = New System.Drawing.Point(9, 488)
+        Me.lblDeferredInt.Name = "lblDeferredInt"
+        Me.lblDeferredInt.Size = New System.Drawing.Size(97, 13)
+        Me.lblDeferredInt.TabIndex = 29
+        Me.lblDeferredInt.Text = "Deferment Interest:"
+        '
+        'lblCashOpt
+        '
+        Me.lblCashOpt.AutoSize = True
+        Me.lblCashOpt.Location = New System.Drawing.Point(38, 458)
+        Me.lblCashOpt.Name = "lblCashOpt"
+        Me.lblCashOpt.Size = New System.Drawing.Size(68, 13)
+        Me.lblCashOpt.TabIndex = 28
+        Me.lblCashOpt.Text = "Cash Option:"
+        '
+        'lblFinanceAmount
+        '
+        Me.lblFinanceAmount.AutoSize = True
+        Me.lblFinanceAmount.Location = New System.Drawing.Point(3, 437)
+        Me.lblFinanceAmount.Name = "lblFinanceAmount"
+        Me.lblFinanceAmount.Size = New System.Drawing.Size(103, 13)
+        Me.lblFinanceAmount.TabIndex = 27
+        Me.lblFinanceAmount.Text = "Amount To Finance:"
+        '
+        'lblMonthsToFinance
+        '
+        Me.lblMonthsToFinance.AutoSize = True
+        Me.lblMonthsToFinance.Location = New System.Drawing.Point(4, 416)
+        Me.lblMonthsToFinance.Name = "lblMonthsToFinance"
+        Me.lblMonthsToFinance.Size = New System.Drawing.Size(102, 13)
+        Me.lblMonthsToFinance.TabIndex = 26
+        Me.lblMonthsToFinance.Text = "Months To Finance:"
+        '
+        'txtUnemploymentInsurance
+        '
+        Me.txtUnemploymentInsurance.Location = New System.Drawing.Point(112, 378)
+        Me.txtUnemploymentInsurance.Name = "txtUnemploymentInsurance"
+        Me.txtUnemploymentInsurance.Size = New System.Drawing.Size(78, 20)
+        Me.txtUnemploymentInsurance.TabIndex = 25
+        Me.txtUnemploymentInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtPropertyInsurance
+        '
+        Me.txtPropertyInsurance.Location = New System.Drawing.Point(112, 358)
+        Me.txtPropertyInsurance.Name = "txtPropertyInsurance"
+        Me.txtPropertyInsurance.Size = New System.Drawing.Size(78, 20)
+        Me.txtPropertyInsurance.TabIndex = 24
+        Me.txtPropertyInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtAccidentInsurance
+        '
+        Me.txtAccidentInsurance.Location = New System.Drawing.Point(112, 338)
+        Me.txtAccidentInsurance.Name = "txtAccidentInsurance"
+        Me.txtAccidentInsurance.Size = New System.Drawing.Size(78, 20)
+        Me.txtAccidentInsurance.TabIndex = 23
+        Me.txtAccidentInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtLifeInsurance
+        '
+        Me.txtLifeInsurance.Location = New System.Drawing.Point(112, 318)
+        Me.txtLifeInsurance.Name = "txtLifeInsurance"
+        Me.txtLifeInsurance.Size = New System.Drawing.Size(78, 20)
+        Me.txtLifeInsurance.TabIndex = 22
+        Me.txtLifeInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtDocFee
+        '
+        Me.txtDocFee.Location = New System.Drawing.Point(112, 298)
+        Me.txtDocFee.Name = "txtDocFee"
+        Me.txtDocFee.Size = New System.Drawing.Size(78, 20)
+        Me.txtDocFee.TabIndex = 21
+        Me.txtDocFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'lblUnemploymentInsurance
+        '
+        Me.lblUnemploymentInsurance.AutoSize = True
+        Me.lblUnemploymentInsurance.Location = New System.Drawing.Point(7, 383)
+        Me.lblUnemploymentInsurance.Name = "lblUnemploymentInsurance"
+        Me.lblUnemploymentInsurance.Size = New System.Drawing.Size(99, 13)
+        Me.lblUnemploymentInsurance.TabIndex = 20
+        Me.lblUnemploymentInsurance.Text = "Unempl. Insurance:"
+        '
+        'lblPropertyInsurance
+        '
+        Me.lblPropertyInsurance.AutoSize = True
+        Me.lblPropertyInsurance.Location = New System.Drawing.Point(7, 362)
+        Me.lblPropertyInsurance.Name = "lblPropertyInsurance"
+        Me.lblPropertyInsurance.Size = New System.Drawing.Size(99, 13)
+        Me.lblPropertyInsurance.TabIndex = 19
+        Me.lblPropertyInsurance.Text = "Property Insurance:"
+        '
+        'lblAccidentInsurance
+        '
+        Me.lblAccidentInsurance.AutoSize = True
+        Me.lblAccidentInsurance.Location = New System.Drawing.Point(4, 341)
+        Me.lblAccidentInsurance.Name = "lblAccidentInsurance"
+        Me.lblAccidentInsurance.Size = New System.Drawing.Size(102, 13)
+        Me.lblAccidentInsurance.TabIndex = 18
+        Me.lblAccidentInsurance.Text = "Accident Insurance:"
+        '
+        'lblLifeInsurance
+        '
+        Me.lblLifeInsurance.AutoSize = True
+        Me.lblLifeInsurance.Location = New System.Drawing.Point(29, 320)
+        Me.lblLifeInsurance.Name = "lblLifeInsurance"
+        Me.lblLifeInsurance.Size = New System.Drawing.Size(77, 13)
+        Me.lblLifeInsurance.TabIndex = 17
+        Me.lblLifeInsurance.Text = "Life Insurance:"
+        '
+        'lblDocFee
+        '
+        Me.lblDocFee.AutoSize = True
+        Me.lblDocFee.Location = New System.Drawing.Point(3, 299)
+        Me.lblDocFee.Name = "lblDocFee"
+        Me.lblDocFee.Size = New System.Drawing.Size(103, 13)
+        Me.lblDocFee.TabIndex = 16
+        Me.lblDocFee.Text = "Documentation Fee:"
         '
         'txtSubTotal
         '
@@ -320,15 +861,6 @@ Partial Class ARPaySetUp
         Me.lblLateChargesApplied.TabIndex = 0
         Me.lblLateChargesApplied.Text = "Late Charges Will Be Applied:"
         '
-        'picPicture
-        '
-        Me.picPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picPicture.Location = New System.Drawing.Point(275, 16)
-        Me.picPicture.Name = "picPicture"
-        Me.picPicture.Size = New System.Drawing.Size(40, 29)
-        Me.picPicture.TabIndex = 4
-        Me.picPicture.TabStop = False
-        '
         'lblFirstPaymentDue
         '
         Me.lblFirstPaymentDue.AutoSize = True
@@ -365,526 +897,60 @@ Partial Class ARPaySetUp
         Me.dteDate1.Size = New System.Drawing.Size(78, 20)
         Me.dteDate1.TabIndex = 0
         '
-        'lblDocFee
-        '
-        Me.lblDocFee.AutoSize = True
-        Me.lblDocFee.Location = New System.Drawing.Point(3, 299)
-        Me.lblDocFee.Name = "lblDocFee"
-        Me.lblDocFee.Size = New System.Drawing.Size(103, 13)
-        Me.lblDocFee.TabIndex = 16
-        Me.lblDocFee.Text = "Documentation Fee:"
-        '
-        'lblLifeInsurance
-        '
-        Me.lblLifeInsurance.AutoSize = True
-        Me.lblLifeInsurance.Location = New System.Drawing.Point(29, 320)
-        Me.lblLifeInsurance.Name = "lblLifeInsurance"
-        Me.lblLifeInsurance.Size = New System.Drawing.Size(77, 13)
-        Me.lblLifeInsurance.TabIndex = 17
-        Me.lblLifeInsurance.Text = "Life Insurance:"
-        '
-        'lblAccidentInsurance
-        '
-        Me.lblAccidentInsurance.AutoSize = True
-        Me.lblAccidentInsurance.Location = New System.Drawing.Point(4, 341)
-        Me.lblAccidentInsurance.Name = "lblAccidentInsurance"
-        Me.lblAccidentInsurance.Size = New System.Drawing.Size(102, 13)
-        Me.lblAccidentInsurance.TabIndex = 18
-        Me.lblAccidentInsurance.Text = "Accident Insurance:"
-        '
-        'lblPropertyInsurance
-        '
-        Me.lblPropertyInsurance.AutoSize = True
-        Me.lblPropertyInsurance.Location = New System.Drawing.Point(7, 362)
-        Me.lblPropertyInsurance.Name = "lblPropertyInsurance"
-        Me.lblPropertyInsurance.Size = New System.Drawing.Size(99, 13)
-        Me.lblPropertyInsurance.TabIndex = 19
-        Me.lblPropertyInsurance.Text = "Property Insurance:"
-        '
-        'lblUnemploymentInsurance
-        '
-        Me.lblUnemploymentInsurance.AutoSize = True
-        Me.lblUnemploymentInsurance.Location = New System.Drawing.Point(7, 383)
-        Me.lblUnemploymentInsurance.Name = "lblUnemploymentInsurance"
-        Me.lblUnemploymentInsurance.Size = New System.Drawing.Size(99, 13)
-        Me.lblUnemploymentInsurance.TabIndex = 20
-        Me.lblUnemploymentInsurance.Text = "Unempl. Insurance:"
-        '
-        'txtDocFee
-        '
-        Me.txtDocFee.Location = New System.Drawing.Point(112, 298)
-        Me.txtDocFee.Name = "txtDocFee"
-        Me.txtDocFee.Size = New System.Drawing.Size(78, 20)
-        Me.txtDocFee.TabIndex = 21
-        Me.txtDocFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtLifeInsurance
-        '
-        Me.txtLifeInsurance.Location = New System.Drawing.Point(112, 318)
-        Me.txtLifeInsurance.Name = "txtLifeInsurance"
-        Me.txtLifeInsurance.Size = New System.Drawing.Size(78, 20)
-        Me.txtLifeInsurance.TabIndex = 22
-        Me.txtLifeInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtAccidentInsurance
-        '
-        Me.txtAccidentInsurance.Location = New System.Drawing.Point(112, 338)
-        Me.txtAccidentInsurance.Name = "txtAccidentInsurance"
-        Me.txtAccidentInsurance.Size = New System.Drawing.Size(78, 20)
-        Me.txtAccidentInsurance.TabIndex = 23
-        Me.txtAccidentInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtPropertyInsurance
-        '
-        Me.txtPropertyInsurance.Location = New System.Drawing.Point(112, 358)
-        Me.txtPropertyInsurance.Name = "txtPropertyInsurance"
-        Me.txtPropertyInsurance.Size = New System.Drawing.Size(78, 20)
-        Me.txtPropertyInsurance.TabIndex = 24
-        Me.txtPropertyInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtUnemploymentInsurance
-        '
-        Me.txtUnemploymentInsurance.Location = New System.Drawing.Point(112, 378)
-        Me.txtUnemploymentInsurance.Name = "txtUnemploymentInsurance"
-        Me.txtUnemploymentInsurance.Size = New System.Drawing.Size(78, 20)
-        Me.txtUnemploymentInsurance.TabIndex = 25
-        Me.txtUnemploymentInsurance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'lblMonthsToFinance
-        '
-        Me.lblMonthsToFinance.AutoSize = True
-        Me.lblMonthsToFinance.Location = New System.Drawing.Point(4, 416)
-        Me.lblMonthsToFinance.Name = "lblMonthsToFinance"
-        Me.lblMonthsToFinance.Size = New System.Drawing.Size(102, 13)
-        Me.lblMonthsToFinance.TabIndex = 26
-        Me.lblMonthsToFinance.Text = "Months To Finance:"
-        '
-        'lblFinanceAmount
-        '
-        Me.lblFinanceAmount.AutoSize = True
-        Me.lblFinanceAmount.Location = New System.Drawing.Point(3, 437)
-        Me.lblFinanceAmount.Name = "lblFinanceAmount"
-        Me.lblFinanceAmount.Size = New System.Drawing.Size(103, 13)
-        Me.lblFinanceAmount.TabIndex = 27
-        Me.lblFinanceAmount.Text = "Amount To Finance:"
-        '
-        'lblCashOpt
-        '
-        Me.lblCashOpt.AutoSize = True
-        Me.lblCashOpt.Location = New System.Drawing.Point(38, 458)
-        Me.lblCashOpt.Name = "lblCashOpt"
-        Me.lblCashOpt.Size = New System.Drawing.Size(68, 13)
-        Me.lblCashOpt.TabIndex = 28
-        Me.lblCashOpt.Text = "Cash Option:"
-        '
-        'lblDeferredInt
-        '
-        Me.lblDeferredInt.AutoSize = True
-        Me.lblDeferredInt.Location = New System.Drawing.Point(9, 488)
-        Me.lblDeferredInt.Name = "lblDeferredInt"
-        Me.lblDeferredInt.Size = New System.Drawing.Size(97, 13)
-        Me.lblDeferredInt.TabIndex = 29
-        Me.lblDeferredInt.Text = "Deferment Interest:"
-        '
-        'lblFinanceCharges
-        '
-        Me.lblFinanceCharges.AutoSize = True
-        Me.lblFinanceCharges.Location = New System.Drawing.Point(16, 508)
-        Me.lblFinanceCharges.Name = "lblFinanceCharges"
-        Me.lblFinanceCharges.Size = New System.Drawing.Size(90, 13)
-        Me.lblFinanceCharges.TabIndex = 30
-        Me.lblFinanceCharges.Text = "Finance Charges:"
-        '
-        'txtMonthsToFinance
-        '
-        Me.txtMonthsToFinance.Location = New System.Drawing.Point(112, 416)
-        Me.txtMonthsToFinance.Name = "txtMonthsToFinance"
-        Me.txtMonthsToFinance.Size = New System.Drawing.Size(78, 20)
-        Me.txtMonthsToFinance.TabIndex = 31
-        Me.txtMonthsToFinance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtFinanceAmount
-        '
-        Me.txtFinanceAmount.Location = New System.Drawing.Point(112, 436)
-        Me.txtFinanceAmount.Name = "txtFinanceAmount"
-        Me.txtFinanceAmount.Size = New System.Drawing.Size(78, 20)
-        Me.txtFinanceAmount.TabIndex = 32
-        Me.txtFinanceAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'cboCashOption
-        '
-        Me.cboCashOption.FormattingEnabled = True
-        Me.cboCashOption.Location = New System.Drawing.Point(112, 456)
-        Me.cboCashOption.Name = "cboCashOption"
-        Me.cboCashOption.Size = New System.Drawing.Size(78, 21)
-        Me.cboCashOption.TabIndex = 33
-        '
-        'txtDeferredInt
-        '
-        Me.txtDeferredInt.Location = New System.Drawing.Point(112, 481)
-        Me.txtDeferredInt.Name = "txtDeferredInt"
-        Me.txtDeferredInt.Size = New System.Drawing.Size(78, 20)
-        Me.txtDeferredInt.TabIndex = 34
-        Me.txtDeferredInt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtFinanceCharges
-        '
-        Me.txtFinanceCharges.Location = New System.Drawing.Point(112, 501)
-        Me.txtFinanceCharges.Name = "txtFinanceCharges"
-        Me.txtFinanceCharges.Size = New System.Drawing.Size(78, 20)
-        Me.txtFinanceCharges.TabIndex = 35
-        Me.txtFinanceCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'lblFinanceChargeSalesTax
-        '
-        Me.lblFinanceChargeSalesTax.AutoSize = True
-        Me.lblFinanceChargeSalesTax.Location = New System.Drawing.Point(49, 528)
-        Me.lblFinanceChargeSalesTax.Name = "lblFinanceChargeSalesTax"
-        Me.lblFinanceChargeSalesTax.Size = New System.Drawing.Size(57, 13)
-        Me.lblFinanceChargeSalesTax.TabIndex = 1
-        Me.lblFinanceChargeSalesTax.Text = "Sales Tax:"
-        '
-        'lblTotalBalance
-        '
-        Me.lblTotalBalance.AutoSize = True
-        Me.lblTotalBalance.Location = New System.Drawing.Point(30, 548)
-        Me.lblTotalBalance.Name = "lblTotalBalance"
-        Me.lblTotalBalance.Size = New System.Drawing.Size(76, 13)
-        Me.lblTotalBalance.TabIndex = 36
-        Me.lblTotalBalance.Text = "Total Balance:"
-        '
-        'lblPaymentWillBe
-        '
-        Me.lblPaymentWillBe.AutoSize = True
-        Me.lblPaymentWillBe.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentWillBe.Location = New System.Drawing.Point(3, 570)
-        Me.lblPaymentWillBe.Name = "lblPaymentWillBe"
-        Me.lblPaymentWillBe.Size = New System.Drawing.Size(103, 13)
-        Me.lblPaymentWillBe.TabIndex = 37
-        Me.lblPaymentWillBe.Text = "Payment Will Be:"
-        '
-        'lblAcctNo
-        '
-        Me.lblAcctNo.AutoSize = True
-        Me.lblAcctNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAcctNo.Location = New System.Drawing.Point(28, 631)
-        Me.lblAcctNo.Name = "lblAcctNo"
-        Me.lblAcctNo.Size = New System.Drawing.Size(78, 13)
-        Me.lblAcctNo.TabIndex = 38
-        Me.lblAcctNo.Text = "Account No:"
-        '
-        'txtFinanceChargeSalesTax
-        '
-        Me.txtFinanceChargeSalesTax.Location = New System.Drawing.Point(112, 521)
-        Me.txtFinanceChargeSalesTax.Name = "txtFinanceChargeSalesTax"
-        Me.txtFinanceChargeSalesTax.Size = New System.Drawing.Size(78, 20)
-        Me.txtFinanceChargeSalesTax.TabIndex = 39
-        Me.txtFinanceChargeSalesTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtTotalBalance
-        '
-        Me.txtTotalBalance.Location = New System.Drawing.Point(112, 541)
-        Me.txtTotalBalance.Name = "txtTotalBalance"
-        Me.txtTotalBalance.Size = New System.Drawing.Size(78, 20)
-        Me.txtTotalBalance.TabIndex = 40
-        Me.txtTotalBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtPaymentWillBe
-        '
-        Me.txtPaymentWillBe.Location = New System.Drawing.Point(112, 570)
-        Me.txtPaymentWillBe.Name = "txtPaymentWillBe"
-        Me.txtPaymentWillBe.Size = New System.Drawing.Size(78, 20)
-        Me.txtPaymentWillBe.TabIndex = 41
-        Me.txtPaymentWillBe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'chkRoundUp
-        '
-        Me.chkRoundUp.AutoSize = True
-        Me.chkRoundUp.Checked = True
-        Me.chkRoundUp.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRoundUp.Location = New System.Drawing.Point(112, 596)
-        Me.chkRoundUp.Name = "chkRoundUp"
-        Me.chkRoundUp.Size = New System.Drawing.Size(75, 17)
-        Me.chkRoundUp.TabIndex = 42
-        Me.chkRoundUp.Text = "Round Up"
-        Me.chkRoundUp.UseVisualStyleBackColor = True
-        '
-        'lblAddlPayments
-        '
-        Me.lblAddlPayments.AutoSize = True
-        Me.lblAddlPayments.Location = New System.Drawing.Point(206, 179)
-        Me.lblAddlPayments.Name = "lblAddlPayments"
-        Me.lblAddlPayments.Size = New System.Drawing.Size(112, 13)
-        Me.lblAddlPayments.TabIndex = 43
-        Me.lblAddlPayments.Text = "Additional Pmts Made:"
-        '
-        'txtAddlPaymentsMade
-        '
-        Me.txtAddlPaymentsMade.Location = New System.Drawing.Point(227, 194)
-        Me.txtAddlPaymentsMade.Name = "txtAddlPaymentsMade"
-        Me.txtAddlPaymentsMade.Size = New System.Drawing.Size(82, 20)
-        Me.txtAddlPaymentsMade.TabIndex = 44
-        '
-        'lblBalDueLateCharge
-        '
-        Me.lblBalDueLateCharge.AutoSize = True
-        Me.lblBalDueLateCharge.Location = New System.Drawing.Point(206, 217)
-        Me.lblBalDueLateCharge.Name = "lblBalDueLateCharge"
-        Me.lblBalDueLateCharge.Size = New System.Drawing.Size(94, 13)
-        Me.lblBalDueLateCharge.TabIndex = 45
-        Me.lblBalDueLateCharge.Text = "Bal Due Late Chg:"
-        '
-        'txtBalDueLateCharge
-        '
-        Me.txtBalDueLateCharge.Location = New System.Drawing.Point(227, 233)
-        Me.txtBalDueLateCharge.Name = "txtBalDueLateCharge"
-        Me.txtBalDueLateCharge.Size = New System.Drawing.Size(82, 20)
-        Me.txtBalDueLateCharge.TabIndex = 46
-        '
-        'lblTotalCaption
-        '
-        Me.lblTotalCaption.AutoSize = True
-        Me.lblTotalCaption.Location = New System.Drawing.Point(191, 272)
-        Me.lblTotalCaption.Name = "lblTotalCaption"
-        Me.lblTotalCaption.Size = New System.Drawing.Size(34, 13)
-        Me.lblTotalCaption.TabIndex = 47
-        Me.lblTotalCaption.Text = "Total:"
-        Me.lblTotalCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'lblTotal
-        '
-        Me.lblTotal.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTotal.Location = New System.Drawing.Point(227, 271)
-        Me.lblTotal.Name = "lblTotal"
-        Me.lblTotal.Size = New System.Drawing.Size(82, 20)
-        Me.lblTotal.TabIndex = 48
-        '
-        'chkLife
-        '
-        Me.chkLife.AutoSize = True
-        Me.chkLife.Location = New System.Drawing.Point(194, 321)
-        Me.chkLife.Name = "chkLife"
-        Me.chkLife.Size = New System.Drawing.Size(15, 14)
-        Me.chkLife.TabIndex = 49
-        Me.chkLife.UseVisualStyleBackColor = True
-        '
-        'chkAccident
-        '
-        Me.chkAccident.AutoSize = True
-        Me.chkAccident.Location = New System.Drawing.Point(194, 341)
-        Me.chkAccident.Name = "chkAccident"
-        Me.chkAccident.Size = New System.Drawing.Size(15, 14)
-        Me.chkAccident.TabIndex = 50
-        Me.chkAccident.UseVisualStyleBackColor = True
-        '
-        'chkProperty
-        '
-        Me.chkProperty.AutoSize = True
-        Me.chkProperty.Location = New System.Drawing.Point(194, 361)
-        Me.chkProperty.Name = "chkProperty"
-        Me.chkProperty.Size = New System.Drawing.Size(15, 14)
-        Me.chkProperty.TabIndex = 51
-        Me.chkProperty.UseVisualStyleBackColor = True
-        '
-        'chkUnemployment
-        '
-        Me.chkUnemployment.AutoSize = True
-        Me.chkUnemployment.Location = New System.Drawing.Point(194, 381)
-        Me.chkUnemployment.Name = "chkUnemployment"
-        Me.chkUnemployment.Size = New System.Drawing.Size(15, 14)
-        Me.chkUnemployment.TabIndex = 52
-        Me.chkUnemployment.UseVisualStyleBackColor = True
+        'lblAccountNo
+        '
+        Me.lblAccountNo.Location = New System.Drawing.Point(107, 624)
+        Me.lblAccountNo.Name = "lblAccountNo"
+        Me.lblAccountNo.Size = New System.Drawing.Size(91, 23)
+        Me.lblAccountNo.TabIndex = 61
+        Me.lblAccountNo.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'picPicture
+        '
+        Me.picPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.picPicture.Location = New System.Drawing.Point(275, 16)
+        Me.picPicture.Name = "picPicture"
+        Me.picPicture.Size = New System.Drawing.Size(40, 29)
+        Me.picPicture.TabIndex = 4
+        Me.picPicture.TabStop = False
+        Me.picPicture.Visible = False
+        '
+        'fraJointLife
+        '
+        Me.fraJointLife.Controls.Add(Me.optJointLife1)
+        Me.fraJointLife.Controls.Add(Me.optJointLife0)
+        Me.fraJointLife.Location = New System.Drawing.Point(227, 311)
+        Me.fraJointLife.Name = "fraJointLife"
+        Me.fraJointLife.Size = New System.Drawing.Size(82, 39)
+        Me.fraJointLife.TabIndex = 63
+        '
+        'optJointLife1
+        '
+        Me.optJointLife1.AutoSize = True
+        Me.optJointLife1.Location = New System.Drawing.Point(3, 21)
+        Me.optJointLife1.Name = "optJointLife1"
+        Me.optJointLife1.Size = New System.Drawing.Size(67, 17)
+        Me.optJointLife1.TabIndex = 58
+        Me.optJointLife1.Text = "Joint Life"
+        Me.optJointLife1.UseVisualStyleBackColor = True
         '
         'optJointLife0
         '
         Me.optJointLife0.AutoSize = True
         Me.optJointLife0.Checked = True
-        Me.optJointLife0.Location = New System.Drawing.Point(225, 318)
+        Me.optJointLife0.Location = New System.Drawing.Point(3, 5)
         Me.optJointLife0.Name = "optJointLife0"
         Me.optJointLife0.Size = New System.Drawing.Size(74, 17)
-        Me.optJointLife0.TabIndex = 53
+        Me.optJointLife0.TabIndex = 57
         Me.optJointLife0.TabStop = True
         Me.optJointLife0.Text = "Single Life"
         Me.optJointLife0.UseVisualStyleBackColor = True
-        '
-        'optJointLife1
-        '
-        Me.optJointLife1.AutoSize = True
-        Me.optJointLife1.Location = New System.Drawing.Point(225, 334)
-        Me.optJointLife1.Name = "optJointLife1"
-        Me.optJointLife1.Size = New System.Drawing.Size(67, 17)
-        Me.optJointLife1.TabIndex = 54
-        Me.optJointLife1.Text = "Joint Life"
-        Me.optJointLife1.UseVisualStyleBackColor = True
-        '
-        'txtRate
-        '
-        Me.txtRate.Location = New System.Drawing.Point(194, 430)
-        Me.txtRate.Name = "txtRate"
-        Me.txtRate.Size = New System.Drawing.Size(47, 20)
-        Me.txtRate.TabIndex = 55
-        Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'lblAPR
-        '
-        Me.lblAPR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblAPR.Location = New System.Drawing.Point(253, 430)
-        Me.lblAPR.Name = "lblAPR"
-        Me.lblAPR.Size = New System.Drawing.Size(39, 20)
-        Me.lblAPR.TabIndex = 56
-        '
-        'cboDeferred
-        '
-        Me.cboDeferred.FormattingEnabled = True
-        Me.cboDeferred.Location = New System.Drawing.Point(194, 458)
-        Me.cboDeferred.Name = "cboDeferred"
-        Me.cboDeferred.Size = New System.Drawing.Size(68, 21)
-        Me.cboDeferred.TabIndex = 57
-        '
-        'lblDeferred
-        '
-        Me.lblDeferred.AutoSize = True
-        Me.lblDeferred.Location = New System.Drawing.Point(266, 461)
-        Me.lblDeferred.Name = "lblDeferred"
-        Me.lblDeferred.Size = New System.Drawing.Size(45, 13)
-        Me.lblDeferred.TabIndex = 58
-        Me.lblDeferred.Text = "Pay Def"
-        '
-        'fraCoupons
-        '
-        Me.fraCoupons.Controls.Add(Me.optWeekly)
-        Me.fraCoupons.Controls.Add(Me.optMonthly)
-        Me.fraCoupons.Location = New System.Drawing.Point(194, 479)
-        Me.fraCoupons.Name = "fraCoupons"
-        Me.fraCoupons.Size = New System.Drawing.Size(119, 50)
-        Me.fraCoupons.TabIndex = 59
-        Me.fraCoupons.TabStop = False
-        '
-        'optMonthly
-        '
-        Me.optMonthly.AutoSize = True
-        Me.optMonthly.Checked = True
-        Me.optMonthly.Location = New System.Drawing.Point(6, 7)
-        Me.optMonthly.Name = "optMonthly"
-        Me.optMonthly.Size = New System.Drawing.Size(107, 17)
-        Me.optMonthly.TabIndex = 0
-        Me.optMonthly.TabStop = True
-        Me.optMonthly.Text = "&Monthly Coupons"
-        Me.optMonthly.UseVisualStyleBackColor = True
-        '
-        'optWeekly
-        '
-        Me.optWeekly.AutoSize = True
-        Me.optWeekly.Location = New System.Drawing.Point(6, 26)
-        Me.optWeekly.Name = "optWeekly"
-        Me.optWeekly.Size = New System.Drawing.Size(106, 17)
-        Me.optWeekly.TabIndex = 1
-        Me.optWeekly.Text = "&Weekly Coupons"
-        Me.optWeekly.UseVisualStyleBackColor = True
-        '
-        'fraMath
-        '
-        Me.fraMath.Controls.Add(Me.cmdApply)
-        Me.fraMath.Controls.Add(Me.cmdPrint)
-        Me.fraMath.Controls.Add(Me.lblMathMonthlyTotal)
-        Me.fraMath.Controls.Add(Me.cmdCancel)
-        Me.fraMath.Controls.Add(Me.lblMathMontlyMonths)
-        Me.fraMath.Controls.Add(Me.lblMathMultiply)
-        Me.fraMath.Controls.Add(Me.lblMathMonthly)
-        Me.fraMath.Controls.Add(Me.ShapeContainer1)
-        Me.fraMath.Location = New System.Drawing.Point(204, 531)
-        Me.fraMath.Name = "fraMath"
-        Me.fraMath.Size = New System.Drawing.Size(109, 113)
-        Me.fraMath.TabIndex = 60
-        Me.fraMath.TabStop = False
-        '
-        'lblMathMonthly
-        '
-        Me.lblMathMonthly.AutoSize = True
-        Me.lblMathMonthly.Location = New System.Drawing.Point(43, 14)
-        Me.lblMathMonthly.Name = "lblMathMonthly"
-        Me.lblMathMonthly.Size = New System.Drawing.Size(46, 13)
-        Me.lblMathMonthly.TabIndex = 0
-        Me.lblMathMonthly.Text = "$500.00"
-        '
-        'lblMathMultiply
-        '
-        Me.lblMathMultiply.AutoSize = True
-        Me.lblMathMultiply.Location = New System.Drawing.Point(11, 33)
-        Me.lblMathMultiply.Name = "lblMathMultiply"
-        Me.lblMathMultiply.Size = New System.Drawing.Size(12, 13)
-        Me.lblMathMultiply.TabIndex = 1
-        Me.lblMathMultiply.Text = "x"
-        '
-        'lblMathMontlyMonths
-        '
-        Me.lblMathMontlyMonths.AutoSize = True
-        Me.lblMathMontlyMonths.Location = New System.Drawing.Point(65, 33)
-        Me.lblMathMontlyMonths.Name = "lblMathMontlyMonths"
-        Me.lblMathMontlyMonths.Size = New System.Drawing.Size(19, 13)
-        Me.lblMathMontlyMonths.TabIndex = 2
-        Me.lblMathMontlyMonths.Text = "11"
-        '
-        'ShapeContainer1
-        '
-        Me.ShapeContainer1.Location = New System.Drawing.Point(3, 16)
-        Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
-        Me.ShapeContainer1.Name = "ShapeContainer1"
-        Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape1})
-        Me.ShapeContainer1.Size = New System.Drawing.Size(103, 94)
-        Me.ShapeContainer1.TabIndex = 3
-        Me.ShapeContainer1.TabStop = False
-        '
-        'LineShape1
-        '
-        Me.LineShape1.Name = "LineShape1"
-        Me.LineShape1.X1 = 9
-        Me.LineShape1.X2 = 98
-        Me.LineShape1.Y1 = 32
-        Me.LineShape1.Y2 = 32
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(6, 61)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(46, 23)
-        Me.cmdPrint.TabIndex = 4
-        Me.cmdPrint.Text = "&Print"
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdApply
-        '
-        Me.cmdApply.Location = New System.Drawing.Point(52, 61)
-        Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(43, 23)
-        Me.cmdApply.TabIndex = 5
-        Me.cmdApply.Text = "&Apply"
-        Me.cmdApply.UseVisualStyleBackColor = True
-        '
-        'cmdCancel
-        '
-        Me.cmdCancel.Location = New System.Drawing.Point(6, 82)
-        Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(89, 23)
-        Me.cmdCancel.TabIndex = 6
-        Me.cmdCancel.Text = "&Cancel"
-        Me.cmdCancel.UseVisualStyleBackColor = True
-        '
-        'lblMathMonthlyTotal
-        '
-        Me.lblMathMonthlyTotal.AutoSize = True
-        Me.lblMathMonthlyTotal.Location = New System.Drawing.Point(32, 53)
-        Me.lblMathMonthlyTotal.Name = "lblMathMonthlyTotal"
-        Me.lblMathMonthlyTotal.Size = New System.Drawing.Size(52, 13)
-        Me.lblMathMonthlyTotal.TabIndex = 7
-        Me.lblMathMonthlyTotal.Text = "$5500.00"
         '
         'ARPaySetUp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(333, 670)
+        Me.ClientSize = New System.Drawing.Size(333, 661)
         Me.Controls.Add(Me.fraARPaySetup)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "ARPaySetUp"
@@ -892,13 +958,15 @@ Partial Class ARPaySetUp
         Me.Text = "Payment Set Up"
         Me.fraARPaySetup.ResumeLayout(False)
         Me.fraARPaySetup.PerformLayout()
+        Me.fraMath.ResumeLayout(False)
+        Me.fraMath.PerformLayout()
+        Me.fraCoupons.ResumeLayout(False)
+        Me.fraCoupons.PerformLayout()
         Me.fraLateChargesApplied.ResumeLayout(False)
         Me.fraLateChargesApplied.PerformLayout()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.fraCoupons.ResumeLayout(False)
-        Me.fraCoupons.PerformLayout()
-        Me.fraMath.ResumeLayout(False)
-        Me.fraMath.PerformLayout()
+        Me.fraJointLife.ResumeLayout(False)
+        Me.fraJointLife.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -962,8 +1030,6 @@ Partial Class ARPaySetUp
     Friend WithEvents chkProperty As CheckBox
     Friend WithEvents chkAccident As CheckBox
     Friend WithEvents chkLife As CheckBox
-    Friend WithEvents optJointLife1 As RadioButton
-    Friend WithEvents optJointLife0 As RadioButton
     Friend WithEvents fraCoupons As GroupBox
     Friend WithEvents optWeekly As RadioButton
     Friend WithEvents optMonthly As RadioButton
@@ -982,4 +1048,13 @@ Partial Class ARPaySetUp
     Friend WithEvents ShapeContainer1 As PowerPacks.ShapeContainer
     Friend WithEvents LineShape1 As PowerPacks.LineShape
     Friend WithEvents tmrLoad As Timer
+    Friend WithEvents lblMathTotal As Label
+    Friend WithEvents lblMathLastPay As Label
+    Friend WithEvents lblMathAdd As Label
+    Friend WithEvents LineShape2 As PowerPacks.LineShape
+    Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents lblAccountNo As Label
+    Friend WithEvents fraJointLife As Panel
+    Friend WithEvents optJointLife1 As RadioButton
+    Friend WithEvents optJointLife0 As RadioButton
 End Class

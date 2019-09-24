@@ -50,7 +50,7 @@
     End Property
 
     Private Function LifePremiumArray() As Object
-        'Dim A(1 To 16) As Variant, I As Long
+        'Dim A(1 To 16) As Variant, I as integer
         Dim A(0 To 15) As Object, I As Integer
         For I = 0 To 15
             A(I) = LifePremiumOptions(I)
@@ -99,7 +99,7 @@
     End Property
 
     Private Function MonthlyPaymentArray() As Object
-        'Dim A(1 To 16) As Variant, I As Long
+        'Dim A(1 To 16) As Variant, I as integer
         Dim A(0 To 15) As Object, I As Integer
         For I = 0 To 15
             A(I) = MonthlyPaymentOptions(I)
@@ -107,7 +107,7 @@
         MonthlyPaymentArray = A
     End Function
 
-    Private Function MonthlyPaymentOptions(ByVal O As Long) As Decimal
+    Private Function MonthlyPaymentOptions(ByVal O As Integer) As Decimal
         Dim R As Decimal
         Select Case O
             'Case 1
@@ -126,7 +126,7 @@
         MonthlyPaymentOptions = Trunc(R, 2)
     End Function
 
-    Private Function AHPremiumOptions(ByVal O As Long) As Decimal
+    Private Function AHPremiumOptions(ByVal O As Integer) As Decimal
         Dim R As Decimal
         If Not bAH Or AHR = 0 Then Exit Function
         Select Case O
@@ -140,7 +140,7 @@
         AHPremiumOptions = Math.Round(R, 2)
     End Function
 
-    Private Function IUIPremiumOptions(ByVal O As Long) As Decimal
+    Private Function IUIPremiumOptions(ByVal O As Integer) As Decimal
         Dim R As Decimal
         If Not bIUI Or IUIr = 0 Then Exit Function
         Select Case O
@@ -154,7 +154,7 @@
         IUIPremiumOptions = Math.Round(R, 2)
     End Function
 
-    Private Function PropertyPremiumOptions(ByVal O As Long) As Decimal
+    Private Function PropertyPremiumOptions(ByVal O As Integer) As Decimal
         Dim R As Decimal
         If Not bProperty Or PRr = 0 Then Exit Function
         Select Case O
@@ -212,7 +212,7 @@
         End Get
     End Property
 
-    Private Function LifePremiumOptions(ByVal O As Long) As Decimal
+    Private Function LifePremiumOptions(ByVal O As Integer) As Decimal
         Dim R As Decimal
         If Not bLife Or LifeR = 0 Or LP < 0 Then Exit Function
         Select Case O
@@ -238,7 +238,7 @@
     End Property
 
     Private Function AHPremiumArray() As Object
-        'Dim A(1 To 16) As Variant, I As Long
+        'Dim A(1 To 16) As Variant, I as integer
         Dim A(0 To 15) As Object, I As Integer
 
         'For I = 1 To 16
@@ -262,7 +262,7 @@
     End Property
 
     Private Function PropertyPremiumArray() As Object
-        'Dim A(1 To 16) As Variant, I As Long
+        'Dim A(1 To 16) As Variant, I as integer
         Dim A(0 To 15) As Object, I As Integer
 
         'For I = 1 To 16
@@ -296,7 +296,7 @@
     End Property
 
     Private Function IUIPremiumArray() As Object
-        'Dim A(1 To 16) As Variant, I As Long
+        'Dim A(1 To 16) As Variant, I as integer
         Dim A(0 To 15) As Object, I As Integer
         'For I = 1 To 16
         For I = 0 To 15

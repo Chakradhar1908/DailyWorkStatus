@@ -71,14 +71,14 @@ BadVBARateFunction:
         End If
     End Function
 
-    Public Sub GetPreviousContractTerms(ByVal ArNo As String, Optional ByVal StoreNo As Long = 0, Optional ByRef Prev As Currency, Optional ByRef Sale As Currency, Optional ByRef Deposit As Currency, Optional ByRef DocFee As Currency, Optional ByRef tLife As Currency, Optional ByRef tAcc As Currency, Optional ByRef tProp As Currency, Optional ByRef tIUI As Currency, Optional ByRef tInt As Currency, Optional ByRef tIntST As Currency)
-        Dim RS As Recordset
+    Public Sub GetPreviousContractTerms(ByVal ArNo As String, Optional ByVal StoreNo As Long = 0, Optional ByRef Prev As Decimal = 0, Optional ByRef Sale As Decimal = 0, Optional ByRef Deposit As Decimal = 0, Optional ByRef DocFee As Decimal = 0, Optional ByRef tLife As Decimal = 0, Optional ByRef tAcc As Decimal = 0, Optional ByRef tProp As Decimal = 0, Optional ByRef tIUI As Decimal = 0, Optional ByRef tInt As Decimal = 0, Optional ByRef tIntST As Decimal = 0)
+        Dim RS As ADODB.Recordset
         Dim CL As Boolean, CA As Boolean, cP As Boolean, cU As Boolean ' , cI as boolean
         Dim IsSale As Boolean
         Dim F As String
-  Set RS = GetRecordsetBySQL("SELECT * FROM [Transactions] WHERE ArNo='" & ArNo & "' ORDER BY [TransactionID]", , GetDatabaseAtLocation(StoreNo))
-    
-  Sale = 0
+        RS = GetRecordsetBySQL("SELECT * FROM [Transactions] WHERE ArNo='" & ArNo & "' ORDER BY [TransactionID]", , GetDatabaseAtLocation(StoreNo))
+
+        Sale = 0
         Deposit = 0
         Prev = 0
         DocFee = 0
@@ -119,8 +119,8 @@ BadVBARateFunction:
             End If
             RS.MoveNext
         Loop
-  
-  Set RS = Nothing
-End Sub
+
+        RS = Nothing
+    End Sub
 
 End Module

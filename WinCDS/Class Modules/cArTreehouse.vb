@@ -2,8 +2,8 @@
     Public CA As Decimal
     Public Ani As Double
 
-    Public N As Long              'Term of loan, and life, A&H and Property coverage
-    Private mNu As Long           'Term of the IUI coverage  (Must be equal to n, unless n is greater than 60, then nu is 60.)
+    Public N As Integer              'Term of loan, and life, A&H and Property coverage
+    Private mNu As Integer           'Term of the IUI coverage  (Must be equal to n, unless n is greater than 60, then nu is 60.)
     Public JointLife As Boolean
 
     Public bHasLife As Boolean
@@ -21,7 +21,7 @@
     Private mSPG As Decimal        'Property rate per $1000 for the term of insurance
     Private mIUSP As Decimal       'prima facie IUI rate per $100
 
-    Public OD As Long ' Days to first payment
+    Public OD As Integer ' Days to first payment
 
     Public Property Nu As Integer
         Get
@@ -110,7 +110,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property LifeRate(ByVal N As Long, ByVal Joint As Boolean) As Double
+    Public ReadOnly Property LifeRate(ByVal N As Integer, ByVal Joint As Boolean) As Double
         Get
             Dim A As Double
             If IsMcClure Then LifeRate = LifeRate_Table(N, Joint) : Exit Property
@@ -120,7 +120,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property LifeRate_Table(ByVal N As Long, ByVal Joint As Boolean) As Double
+    Public ReadOnly Property LifeRate_Table(ByVal N As Integer, ByVal Joint As Boolean) As Double
         Get
             Select Case N
     ' Copied from Excel, so there are no errors..
@@ -191,10 +191,10 @@
     Public ReadOnly Property DisabilityRate(ByVal N As Integer, Optional ByVal R As Integer = 0) As Double
         Get
             'Dim X(1 To 120) As Variant
-            Dim X(0 To 119) As Object    'Replaced above line aray with 0 to 119. Because vb.net will not accept 1 as lbound. It must be zero only.
+            Dim X(0 To 119) As Object    'NOTE: Replaced above line aray with 0 to 119. Because vb.net will not accept 1 as lbound. It must be zero only.
             R = FitRange(0, R, 7)
             'N = FitRange(1, N, 120)
-            N = FitRange(0, N, 119)     'Replaced above line because array start must be zero, not 1.
+            N = FitRange(0, N, 119)     'NOTE: Replaced above line because array start must be zero, not 1.
 
             'X(0) = Array(0.31, 0.47, 0.24, 0.36, 0.21, 0.32, 0.13, 0.2)
             X(0) = New String() {0.31, 0.47, 0.24, 0.36, 0.21, 0.32, 0.13, 0.2}

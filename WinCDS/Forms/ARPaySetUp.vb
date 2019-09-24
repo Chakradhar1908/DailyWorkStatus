@@ -191,8 +191,8 @@ Public Class ARPaySetUp
             Else
                 Rate = 18 : APR = Rate
             End If
-            If Val(txtRate) <> 0 Then
-                Rate = Val(txtRate) : APR = Rate
+            If Val(txtRate.Text) <> 0 Then
+                Rate = Val(txtRate.Text) : APR = Rate
             End If
         End If
 
@@ -469,7 +469,7 @@ Public Class ARPaySetUp
             Payment = B.MonthlyPayment
             LastPay = B.AmountFinanced - (B.N - 1) * B.MonthlyPayment
 
-            APR = CalculateAPR(B.AmountFinanced, B.FinanceCharge, Val(txtMonthsToFinance), Val(cboDeferred.Text))
+            APR = CalculateAPR(B.AmountFinanced, B.FinanceCharge, Val(txtMonthsToFinance.Text), Val(cboDeferred.Text))
             If APR < 0 Then APR = 0
             Dim Sanity As Integer
             If StoreSettings.bAPR And APR > 0 Then
@@ -486,7 +486,7 @@ Public Class ARPaySetUp
                     If APR = Rate Then Exit Do
                     B.Intr = B.Intr + Delta
 
-                    APR = CalculateAPR(B.AmountFinanced, B.FinanceCharge, Val(txtMonthsToFinance), Val(cboDeferred.Text))
+                    APR = CalculateAPR(B.AmountFinanced, B.FinanceCharge, Val(txtMonthsToFinance.Text), Val(cboDeferred.Text))
                     SIR = B.intr
                     If Math.Abs(Delta) < 0.00000000001 And Previous = 1 Then Exit Do
                 Loop
@@ -623,9 +623,9 @@ Public Class ARPaySetUp
             T.AHBenefitRate = RateTypes.SingleRate
             T.PropInsuranceRate = PropInsuranceTypes.DualInterest
 
-            T.LifeInsuranceOn = (chkLife.Value = 1)
-            T.AHInsuranceOn = (chkAccident.Value = 1)
-            T.PropertyInsuranceOn = (chkProperty.Value = 1)
+            T.LifeInsuranceOn = (chkLife.Checked = True)
+            T.AHInsuranceOn = (chkAccident.Checked = True)
+            T.PropertyInsuranceOn = (chkProperty.Checked = True)
 
             T.Calculate
             txtLifeInsurance.Text = CurrencyFormat(Math.Round(T.LifeInsurance, 2))
@@ -635,12 +635,12 @@ Public Class ARPaySetUp
             txtPaymentWillBe.Text = CurrencyFormat(Math.Round(T.MontlyLoanPayment, 2))
             FinanceCharge = GetPrice(txtFinanceCharges.Text)
 
-            txtFinanceAmount = CurrencyFormat(txtSubTotal + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance) + GetPrice(txtUnemploymentInsurance))
-            NewBalance = txtFinanceAmount
+            txtFinanceAmount.Text = CurrencyFormat(txtSubTotal.Text + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+            NewBalance = txtFinanceAmount.Text
         End If    ' END:  If Elmore Then
-        txtFinanceAmount = CurrencyFormat(txtSubTotal + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance) + GetPrice(txtUnemploymentInsurance))
-        txtTotalBalance = CurrencyFormat(GetPrice(txtFinanceAmount) + GetPrice(txtFinanceCharges))
-        CalculateMath
+        txtFinanceAmount.Text = CurrencyFormat(txtSubTotal.Text + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+        txtTotalBalance.Text = CurrencyFormat(GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text))
+        CalculateMath()
     End Sub
     '
     'Private Function ReverseRateCalculator(ByVal Total as decimal, ByVal Rate As Double) as decimal
@@ -650,15 +650,15 @@ Public Class ARPaySetUp
 
     Private Sub UpdateAPRLabel()
         'Debug.Print "APR = " & APR
-        lblAPR = Format(APR, "#0.00")
+        lblAPR.Text = Format(APR, "#0.00")
     End Sub
 
     Private Sub CalculateLateCharge()
         'calculate late charge
-        If optWeekly = True Then
-            LateCharge = CurrencyFormat((StoreSettings.LateChargePer * 0.01) * GetPrice(txtPaymentWillBe * 4))
+        If optWeekly.Checked = True Then
+            LateCharge = CurrencyFormat((StoreSettings.LateChargePer * 0.01) * GetPrice(txtPaymentWillBe.Text * 4))
         Else
-            LateCharge = CurrencyFormat((StoreSettings.LateChargePer * 0.01) * GetPrice(txtPaymentWillBe))
+            LateCharge = CurrencyFormat((StoreSettings.LateChargePer * 0.01) * GetPrice(txtPaymentWillBe.Text))
         End If
         If StoreSettings.MaxLateCharge <> 0 Then
             If LateCharge > StoreSettings.MaxLateCharge Then LateCharge = StoreSettings.MaxLateCharge
@@ -670,13 +670,13 @@ Public Class ARPaySetUp
     End Sub
 
     Public Sub CalculateMath()
-        lblMathMonthly = FormatCurrency(GetPrice(txtPaymentWillBe))
-        lblMathMontlyMonths = IIf(Val(txtMonthsToFinance) > 1, Val(txtMonthsToFinance) - 1, 0)
-        lblMathMonthlyTotal = FormatCurrency(GetPrice(lblMathMonthly) * Val(lblMathMontlyMonths))
+        lblMathMonthly.Text = FormatCurrency(GetPrice(txtPaymentWillBe.Text))
+        lblMathMontlyMonths.Text = IIf(Val(txtMonthsToFinance.Text) > 1, Val(txtMonthsToFinance.Text) - 1, 0)
+        lblMathMonthlyTotal.Text = FormatCurrency(GetPrice(lblMathMonthly.Text) * Val(lblMathMontlyMonths.Text))
 
-        lblMathLastPay = FormatCurrency(GetPrice(txtFinanceAmount) + GetPrice(txtFinanceCharges) + GetPrice(txtFinanceChargeSalesTax) - GetPrice(lblMathMonthlyTotal))
-        LastPay = GetPrice(lblMathLastPay)
-        lblMathTotal = FormatCurrency(GetPrice(lblMathMonthlyTotal) + GetPrice(lblMathLastPay))
+        lblMathLastPay.Text = FormatCurrency(GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(txtFinanceChargeSalesTax.Text) - GetPrice(lblMathMonthlyTotal.Text))
+        LastPay = GetPrice(lblMathLastPay.Text)
+        lblMathTotal.Text = FormatCurrency(GetPrice(lblMathMonthlyTotal.Text) + GetPrice(lblMathLastPay.Text))
     End Sub
 
     Private Function ThorntonsPropertyRate() As Double
@@ -844,112 +844,420 @@ Public Class ARPaySetUp
         ThorntonsAccidentRate = ThorntonsAccidentRate / 100
     End Function
 
-    Private Function GetLife() As Currency
-        Dim X As Currency
-        If chkLife.Value = vbGrayed Then GetLife = GetPrice(txtLifeInsurance) : Exit Function
-        X = (GetPrice(txtSubTotal) + GetPrice(txtDocFee))
+    Private Function GetLife() As Decimal
+        Dim X As Decimal
+        If chkLife.CheckState = CheckState.Indeterminate Then GetLife = GetPrice(txtLifeInsurance.Text) : Exit Function
+        X = (GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text))
         If IsBoyd Or IsUFO() Then
-            txtLifeInsurance = 0.55 * (X / 100)
-            txtLifeInsurance = txtLifeInsurance * (txtMonthsToFinance / 12)
-            txtLifeInsurance = CurrencyFormat(txtLifeInsurance)
-            If GetPrice(txtLifeInsurance) < 3 Then txtLifeInsurance = "3.00"
+            txtLifeInsurance.Text = 0.55 * (X / 100)
+            txtLifeInsurance.Text = txtLifeInsurance.Text * (txtMonthsToFinance.Text / 12)
+            txtLifeInsurance.Text = CurrencyFormat(txtLifeInsurance.Text)
+            If GetPrice(txtLifeInsurance.Text) < 3 Then txtLifeInsurance.Text = "3.00"
         ElseIf IsLott Then
             ' $1.60 per $100.00 per 12 months.  it is rebated at a pro-rata rate.
-            txtLifeInsurance = CurrencyFormat(1.6 * (X / 100.0#) * Val(txtMonthsToFinance) / 12.0#)
+            txtLifeInsurance.Text = CurrencyFormat(1.6 * (X / 100.0#) * Val(txtMonthsToFinance.Text) / 12.0#)
         ElseIf IsCarroll Then
-            txtLifeInsurance = CurrencyFormat(0.008 * X * (CDbl(txtMonthsToFinance) / 12.0#))
+            txtLifeInsurance.Text = CurrencyFormat(0.008 * X * (CDbl(txtMonthsToFinance.Text) / 12.0#))
         ElseIf IsShaw Or IsWesternDiscount Then
-            txtLifeInsurance = CurrencyFormat(0.015 * X * (CDbl(txtMonthsToFinance) / 12.0#))
+            txtLifeInsurance.Text = CurrencyFormat(0.015 * X * (CDbl(txtMonthsToFinance.Text) / 12.0#))
         ElseIf UseThorntonsInsurance Then
-            txtLifeInsurance = CurrencyFormat(AmericanHeritage_Life(X, txtMonthsToFinance, optJointLife(0), False))
+            txtLifeInsurance.Text = CurrencyFormat(AmericanHeritage_Life(X, txtMonthsToFinance.Text, optJointLife0.Checked, False))
         End If
 
         If IsElmore Then Recalculate()
-        GetLife = GetPrice(txtLifeInsurance)
+        GetLife = GetPrice(txtLifeInsurance.Text)
     End Function
 
-    Private Function GetAcc() As Currency
-        Dim X As Currency
-        If chkAccident.Value = vbGrayed Then GetAcc = GetPrice(txtAccidentInsurance) : Exit Function
+    Private Sub ARPaySetUp_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'large portions moved to SetDefaultsInstallment MJK20140218
+        tmrLoad.Enabled = True
+        NeedPayOff = False
+        AddOnAcc.Typee = ArAddOn_Nil   ' clear previous results of AddOnAcc.
+        AccountFound = ""
+        AddOn = ArAddOn_Nil
+        FirstPayment = ""
 
-        X = (GetPrice(txtSubTotal) + GetPrice(txtDocFee))
+        If IsBoyd Then
+            chkRoundUp.Visible = False
+        Else
+            chkRoundUp.Visible = True
+        End If
+
+        txtArNo.Text = ""
+        txtGrossSale.Text = ""
+        txtOrigDeposit.Text = ""
+        txtFinanceAmount.Text = ""
+        PrevousBal = 0
+        Balance = 0
+        NewBalance = 0
+        Contract = 0
+        Zz = 0
+
+
+        'lblLateChargesApplied.ToolTipText = "Grace Period: " & StoreSettings.GracePeriod & " day(s)"
+        ToolTip1.SetToolTip(lblLateChargesApplied, "Grace Period: " & StoreSettings.GracePeriod & " day(s)")
+        optLate6.Checked = True
+
+        dteDate1.Value = DateFormat(Now)
+        AdjustFirstPay
+
+        txtArNo.Visible = False 'account No
+        chkAutoARNO.Visible = False
+
+        txtPrevBalance.Visible = False 'orig balance
+        lblPrevBal.Visible = False
+
+        txtAddlPaymentsMade.Visible = False
+        lblAddlPayments.Visible = False
+        txtBalDueLateCharge.Visible = False
+        lblBalDueLateCharge.Visible = False
+        lblAcctNo.Visible = False
+        lblAccountNo.Visible = False
+
+
+        SetDefaultsInstallment ' MJK20140218
+
+        If OrderMode("A", "D") Then   'New Sale or Payment - Direct Deliver Sales
+            cmdCancel.Text = "Cancel Set-Up"
+
+            If IsDate(BillOSale.lblDelDate.Text) Then
+                dteDate1.Value = BillOSale.lblDelDate.Text  'delivery date
+            Else
+                If IsDate(BillOSale.dteSaleDate.Value) Then
+                    dteDate1.Value = BillOSale.dteSaleDate.Value 'written
+                Else
+                    dteDate1.Value = Today
+                    'MsgBox "Can't find Delivery or Written dates.  Pay special attention to the date box on this form.", vbCritical, "Warning"
+                    MessageBox.Show("Can't find Delivery or Written dates.  Pay special attention to the date box on this form.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            End If
+
+            dteDate2.Value = DateAdd("m", 1, dteDate1)
+            '    dteDate2 = Format(dteDate2, "mm/dd/yyyy")
+            CheckLateDay
+
+            BillOSale.Recalculate()
+            txtGrossSale.Text = CurrencyFormat(BillOSale.Written)
+            txtOrigDeposit.Text = CurrencyFormat(BillOSale.Deposit)
+            txtFinanceAmount.Text = CurrencyFormat(BillOSale.Sale)
+            txtArNo.Visible = True
+            chkAutoARNO.Visible = True
+        End If
+
+        If OrderMode("B") Then   'deliver sales
+            cmdCancel.Text = "Cancel Set-Up"
+            txtArNo.Visible = True
+            chkAutoARNO.Visible = True
+            dteDate1.Value = OrdPay.dtePayDate.Value  'delivery date
+            dteDate2.Value = DateFormat(DateAdd("D", 30, dteDate1.Value))
+            txtGrossSale.Text = CurrencyFormat(OrdPay.Sale)
+            txtOrigDeposit.Text = CurrencyFormat(OrdPay.TotDeposit)
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtPrevBalance.Text) + OrdPay.Sale - OrdPay.TotDeposit)
+        End If
+
+        If ArMode("E") Then ' contract estimator
+            Me.Text = "Contract Estimator"
+            txtPrevBalance.Visible = True
+            'txtPrevBalance.TabIndex = 1
+            txtPrevBalance.Text = "0.00"
+            lblPrevBal.Visible = True
+
+            txtGrossSale.Enabled = True
+            txtOrigDeposit.Enabled = True
+            txtFinanceAmount.Enabled = True
+            'lblCashOpt.Visible = False
+            cboCashOption.Visible = True
+            cmdApply.Enabled = False
+        End If
+
+        If OrderMode("A", "B", "D") Then
+            txtGrossSale.Enabled = False
+            txtOrigDeposit.Enabled = True 'False
+            txtFinanceAmount.Enabled = False
+            txtMonthsToFinance.TabIndex = 1
+        End If
+
+        If ArMode("S") Then ' Set up old accounts
+            txtArNo.Visible = True  'account No
+            txtArNo.TabIndex = 1
+            chkAutoARNO.Visible = True
+            txtAddlPaymentsMade.Visible = True
+            lblAddlPayments.Visible = True
+            txtBalDueLateCharge.Visible = True
+            lblBalDueLateCharge.Visible = True
+            txtGrossSale.Enabled = True
+            txtOrigDeposit.Enabled = True
+            txtFinanceAmount.Enabled = True
+            txtPrevBalance.Text = "0.00"
+
+            lblTotal.Visible = True
+            lblTotalCaption.Visible = True
+        End If
+        If ArMode("REPRINT") Then
+            txtArNo.Visible = True  'account No
+            txtArNo.TabIndex = 1
+            txtPrevBalance.Visible = True
+            lblPrevBal.Visible = True
+        End If
+
+        If OrderMode("A", "B", "D", "Credit") Or ArMode("S") Then
+            'new sales, deliver sales, or old account set up
+            If OrderMode("A", "B", "D") Then
+                MailCheck.Index = BillOSale.Index
+                BillOSale.Index = BillOSale.Index
+            ElseIf OrderMode("Credit") Then
+                MailCheck.Index = OnScreenReport.Index
+            Else
+                MailCheck.Index = BillOSale.Index
+            End If
+            If MailCheck.Index = "" Then MailCheck.Index = "0"
+
+            ' This checks for previous AR Account.
+            mDBAccess_Init(MailCheck.Index)
+            mDBAccess.SQL = "SELECT * From InstallmentInfo Where MailIndex = " & MailCheck.Index
+            mDBAccess.GetRecord()
+            mDBAccess.dbClose()
+            mDBAccess = Nothing
+
+            'If AddOnAcc.lstAccounts.ListCount > 0 Then
+            If AddOnAcc.lstAccounts.Items.Count > 0 Then
+                If AddOnAcc.lstAccounts.Items.Count = 1 Then AddOnAcc.lstAccounts.SelectedIndex = 0
+                'AddOnAcc.Show vbModal
+                AddOnAcc.ShowDialog()
+                AddOn = AddOnAcc.Typee
+
+                Select Case AddOn
+                    Case ArAddOn_New
+                        If OrderMode("B") Then
+                            Show() 'vbModal
+                        Else
+                            Show()
+                        End If
+
+                        txtArNo.Visible = True  'account No
+                        chkAutoARNO.Visible = True
+                        If IsRevolvingCharge(mArNo) Then
+                            txtArNo.Text = mArNo & RevolvingSuffixLetter
+                            SetDefaultsRevolving
+                        Else
+                            txtArNo.Text = ArAddOnAccount(mArNo)  ' mArNo & "A"
+                        End If
+                        ArNo = txtArNo.Text
+                        mDBAccess_Init(ArNo)
+                        mDBAccess.GetRecord()    ' this gets the record
+                        mDBAccess.dbClose()
+                        mDBAccess = Nothing
+                        txtArNo.Enabled = True
+                        Recalculate()
+                    Case ArAddOn_Add, ArAddOn_AdT
+                        'gets selected record from the list
+                        Zz = 0
+                        ArNo = AccountArray(AddOnAcc.lstAccounts.SelectedIndex)
+                        If AddOnAcc.Revolved = True Then ArNo = AddRevolvingSuffix(ArNo)
+                        mDBAccess_Init(ArNo)
+                        mDBAccessTransactions_Init(ArNo)
+                        mDBAccess.GetRecord()    ' this gets the record
+                        mDBAccess.dbClose()
+                        mDBAccess = Nothing
+                        mDBAccessTransactions.dbClose()
+                        mDBAccessTransactions = Nothing
+
+                        ' BFH20051229 - we moved the payoff to arcard's OK button
+                        NeedPayOff = True
+                        '        Payoff
+
+                        If OrderMode("B") Then
+                            ArCard.Show()
+                        Else
+                            ArCard.ShowArCardForDisplayOnly(ArCard.ArNo, False)
+                        End If
+
+                        If OrderMode("B") Then
+                            Show()
+                        Else
+                            Show()
+                        End If
+                        txtPrevBalance.Visible = True
+                        lblPrevBal.Visible = True
+
+                        txtArNo.Text = IIf(AddOn = ArAddOn_AdT, ArAddOnAccount(ArNo), ArNo)
+
+                        If IsRevolvingCharge(ArNo) Then
+                            txtRate.Text = StoreSettings.ModifiedRevolvingRate
+                            txtMonthsToFinance.Text = StoreSettings.ModifiedRevolvingSameAsCash
+                            txtDocFee.Text = ""
+                        End If
+
+                        If GetPrice(ArCard.lblTotalPayoff.Text) < GetPrice(txtPrevBalance.Text) Then txtPrevBalance.Text = GetPrice(ArCard.lblTotalPayoff.Text)
+                        Recalculate()
+
+                        'Unload AddOnAcc
+                        AddOnAcc.Close()
+                        AddOnAcc = Nothing
+                        Erase AccountArray
+                        Zz = 0
+                        txtPrevBalance.Visible = True 'Previous balance
+                        lblPrevBal.Visible = True
+                        If OrderMode("Credit") Then
+                            txtGrossSale.Text = OnScreenReport.Balance + OnScreenReport.TotTax
+                        Else
+                            txtPrevBalance.Enabled = False
+                        End If
+                        txtArNo.Enabled = False
+                        chkAutoARNO.Enabled = False
+                        '        Case "AddToNew"
+                        '        '
+                    Case Else : DevErr("Unknown AddOnAcc.Typee: " & AddOnAcc.Typee)
+                End Select
+            End If
+        End If
+
+        '  cboCashOption.Clear
+        '  cboDeferred.Clear
+        Dim Z1 As Long
+        '  For Z1 = 0 To 36
+        '    cboCashOption.AddItem Z1, Z1
+        '    cboDeferred.AddItem CStr(Z1) & " mos.", Z1
+        '  Next Z1
+        '  cboCashOption.ListIndex = 0
+        '  cboDeferred.ListIndex = 0
+
+        If False Then
+            '
+            '  ElseIf IsElmore Or IsLott Or IsCarroll Then
+            '    chkLife.Value = 1
+            '    chkAccident.Value = 1
+            '    chkProperty.Value = 1
+            '    chkUnemployment = 0
+            '  ElseIf IsBoyd Then
+            '    chkLife.Value = 1
+            '    chkAccident.Value = 0
+            '    chkProperty.Value = 1
+            '    chkUnemployment = 0
+            '  ElseIf IsMidSouth Then
+            '    chkLife.Value = 0
+            '    chkAccident.Value = 0
+            '    chkProperty.Value = 0
+            '    chkUnemployment = 0
+            '  ElseIf IsShaw() Or IsWesternDiscount() Then
+            '    chkLife.Value = 1
+            '    chkAccident.Value = 0
+            '    chkProperty.Value = 1
+            '    chkUnemployment = 0
+            '  ElseIf IsThorntons Then
+            '    chkLife.Value = 1
+            '    chkAccident.Value = 1
+            '    chkProperty.Value = 1
+            '    chkUnemployment = 0
+        ElseIf UseAmericanNationalInsurance Then
+            If IsMcClure Then
+                chkLife.Checked = True
+                chkAccident.Checked = True
+                chkProperty.Checked = True
+                chkUnemployment.Checked = False
+            End If
+            '  ElseIf True Then
+            '    chkLife.Value = 0
+            '    chkAccident.Value = 0
+            '    chkProperty.Value = 0
+            '    chkUnemployment = 0
+        Else
+            '
+        End If
+
+
+
+        If True Then
+            PrevousBal = GetPrice(txtPrevBalance.Text)
+            PrevousBal = CurrencyFormat(PrevousBal)
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+        End If
+        Recalculate()
+    End Sub
+
+    Private Function GetAcc() As Decimal
+        Dim X As Decimal
+        If chkAccident.CheckState = CheckState.Indeterminate Then GetAcc = GetPrice(txtAccidentInsurance.Text) : Exit Function
+
+        X = (GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text))
         If IsLott Then
             ' computed at $3.00 per $100 per 12 months on contracts from 1 to 12 months
             ' On contracts that run from 13 to 24 months, it is $3.80 a month.
             ' We write very little A & H.  I would like the insurance defaults to automatically
             ' figure the life and property only.  Of course, I would like the option to add
             ' A & H if we like to.
-            If Val(txtMonthsToFinance) <= 12 Then
-                txtAccidentInsurance = CurrencyFormat(3.0# * (X / 100.0#) * Val(txtMonthsToFinance) / 12.0#)
-            ElseIf Val(txtMonthsToFinance) <= 24 Then
-                txtAccidentInsurance = CurrencyFormat(3.8 * (X / 100.0#) * Val(txtMonthsToFinance) / 12.0#)
-            ElseIf Val(txtMonthsToFinance) <= 36 Then
-                txtAccidentInsurance = CurrencyFormat(4.6 * (X / 100.0#) * Val(txtMonthsToFinance) / 12.0#)
+            If Val(txtMonthsToFinance.Text) <= 12 Then
+                txtAccidentInsurance.Text = CurrencyFormat(3.0# * (X / 100.0#) * Val(txtMonthsToFinance.Text) / 12.0#)
+            ElseIf Val(txtMonthsToFinance.Text) <= 24 Then
+                txtAccidentInsurance.Text = CurrencyFormat(3.8 * (X / 100.0#) * Val(txtMonthsToFinance.Text) / 12.0#)
+            ElseIf Val(txtMonthsToFinance.Text) <= 36 Then
+                txtAccidentInsurance.Text = CurrencyFormat(4.6 * (X / 100.0#) * Val(txtMonthsToFinance.Text) / 12.0#)
             Else
-                MsgBox "No A & H formula available for contracts greater than 36 months!", vbExclamation, ProgramMessageTitle
-    End If
+                'MsgBox "No A & H formula available for contracts greater than 36 months!", vbExclamation, ProgramMessageTitle
+                MessageBox.Show("No A & H formula available for contracts greater than 36 months!", ProgramMessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
         End If
         If UseThorntonsInsurance Then
-            txtAccidentInsurance = CurrencyFormat(AmericanHeritage_Acc(X, txtMonthsToFinance, True, 7))
+            txtAccidentInsurance.Text = CurrencyFormat(AmericanHeritage_Acc(X, txtMonthsToFinance.Text, True, 7))
         End If
 
         If IsElmore Then Recalculate()
-        GetAcc = GetPrice(txtAccidentInsurance)
+        GetAcc = GetPrice(txtAccidentInsurance.Text)
     End Function
 
-    Private Function GetProp() As Currency
-        Dim X As Currency
-        If chkProperty.Value = vbGrayed Then GetProp = GetPrice(txtPropertyInsurance) : Exit Function
-        X = (GetPrice(txtSubTotal) + GetPrice(txtOrigDeposit) + GetPrice(txtDocFee)) '11-26-07 added deposit so insurance is on gross
+    Private Function GetProp() As Decimal
+        Dim X As Decimal
+        If chkProperty.CheckState = CheckState.Indeterminate Then GetProp = GetPrice(txtPropertyInsurance.Text) : Exit Function
+        X = (GetPrice(txtSubTotal.Text) + GetPrice(txtOrigDeposit.Text) + GetPrice(txtDocFee.Text)) '11-26-07 added deposit so insurance is on gross
         If IsUFO() Then
-            txtPropertyInsurance = 3.0# * (X / 100)
-            txtPropertyInsurance = txtPropertyInsurance * (txtMonthsToFinance / 12)
-            txtPropertyInsurance = CurrencyFormat(txtPropertyInsurance)
-            If Val(txtPropertyInsurance) < 3 Then txtPropertyInsurance = "3.00"
+            txtPropertyInsurance.Text = 3.0# * (X / 100)
+            txtPropertyInsurance.Text = txtPropertyInsurance.Text * (txtMonthsToFinance.Text / 12)
+            txtPropertyInsurance.Text = CurrencyFormat(txtPropertyInsurance.Text)
+            If Val(txtPropertyInsurance.Text) < 3 Then txtPropertyInsurance.Text = "3.00"
         ElseIf IsBoyd Then
             'BFH2014050 - This one doesn't actually get used apparently.. it's in the Recalulate function
-            txtPropertyInsurance = 2.9 * (X / 100)
-            txtPropertyInsurance = txtPropertyInsurance * (txtMonthsToFinance / 12)
-            txtPropertyInsurance = CurrencyFormat(txtPropertyInsurance)
-            If Val(txtPropertyInsurance) < 3 Then txtPropertyInsurance = "3.00"
+            txtPropertyInsurance.Text = 2.9 * (X / 100)
+            txtPropertyInsurance.Text = txtPropertyInsurance.Text * (txtMonthsToFinance.Text / 12)
+            txtPropertyInsurance.Text = CurrencyFormat(txtPropertyInsurance.Text)
+            If Val(txtPropertyInsurance.Text) < 3 Then txtPropertyInsurance.Text = "3.00"
         ElseIf IsLott Then
             ' $3.35 per $100.00 per 12 months.  It is rebated on a rule of 78.' changed 10-8-2007
             '11-14-2007 should be based on number payment x payment like Elmore
-            txtPropertyInsurance = CurrencyFormat(3.35 * (X / 100.0#) * Val(txtMonthsToFinance) / 12.0#)
+            txtPropertyInsurance.Text = CurrencyFormat(3.35 * (X / 100.0#) * Val(txtMonthsToFinance.Text) / 12.0#)
         ElseIf IsCarroll Then
-            txtPropertyInsurance = CurrencyFormat(X * 0.03 * ((txtMonthsToFinance) / 12.0#))
+            txtPropertyInsurance.Text = CurrencyFormat(X * 0.03 * ((txtMonthsToFinance.Text) / 12.0#))
         ElseIf IsShaw Or IsWesternDiscount Then
-            txtPropertyInsurance = CurrencyFormat(0.03 * X * (CDbl(txtMonthsToFinance) / 12.0#))
+            txtPropertyInsurance.Text = CurrencyFormat(0.03 * X * (CDbl(txtMonthsToFinance.Text) / 12.0#))
         ElseIf UseThorntonsInsurance Then
-            txtPropertyInsurance = CurrencyFormat(AmericanHeritage_Prop(X - GetPrice(txtDocFee), txtMonthsToFinance))
+            txtPropertyInsurance.Text = CurrencyFormat(AmericanHeritage_Prop(X - GetPrice(txtDocFee.Text), txtMonthsToFinance.Text))
         End If
 
         If IsElmore Then Recalculate()
-        GetProp = GetPrice(txtPropertyInsurance)
+        GetProp = GetPrice(txtPropertyInsurance.Text)
     End Function
 
-    Private Function GetIUI() As Currency
-        txtUnemploymentInsurance = CurrencyFormat(0)
-        GetIUI = GetPrice(txtUnemploymentInsurance)
+    Private Function GetIUI() As Decimal
+        txtUnemploymentInsurance.Text = CurrencyFormat(0)
+        GetIUI = GetPrice(txtUnemploymentInsurance.Text)
     End Function
 
     Public Sub RecalculateFinancing(Optional ByVal EditingFinancing As Boolean = False)
-        DeferredMonths = cboDeferred.ListIndex
+        DeferredMonths = cboDeferred.SelectedIndex
         DeferredInt = (InterestRate * NewBalance) / 12 * DeferredMonths
         txtDeferredInt.Text = CurrencyFormat(DeferredInt)
 
         If Months = 0 Then
             If EditingFinancing Then
-                FinanceCharge = GetPrice(txtFinanceCharges)
+                FinanceCharge = GetPrice(txtFinanceCharges.Text)
             Else
                 FinanceCharge = 0 + DeferredInt
             End If
             Payment = 0
         Else
             If EditingFinancing Then
-                FinanceCharge = GetPrice(txtFinanceCharges)
+                FinanceCharge = GetPrice(txtFinanceCharges.Text)
             Else
-                If Not IsRevolvingCharge(txtArNo) And UseAlabamaSection5_19_3 Then
+                If Not IsRevolvingCharge(txtArNo.Text) And UseAlabamaSection5_19_3 Then
                     FinanceCharge = AlabamaFinanceCharges(NewBalance)
                 Else
                     FinanceCharge = ((NewBalance * InterestRate) / 12 * Months)
@@ -962,25 +1270,25 @@ Public Class ARPaySetUp
                 FinanceChargeSalesTax = CurrencyFormat(0)
             End If
 
-            If optWeekly Then
+            If optWeekly.Checked = True Then
                 Payment = (NewBalance + FinanceCharge + FinanceChargeSalesTax) / (Months * 4)
             Else
                 Payment = (NewBalance + FinanceCharge + FinanceChargeSalesTax) / Months
             End If
         End If
 
-        If chkRoundUp.Value = 1 Then
-            Dim Op As Currency
+        If chkRoundUp.Checked = True Then
+            Dim Op As Decimal
             Op = Payment
-            Payment = Payment - ((Payment - Round(Payment, 0)))
+            Payment = Payment - ((Payment - Math.Round(Payment, 0)))
             If Payment < Op Then Payment = Payment + 1
         End If
 
-        If IsRevolvingCharge(txtArNo) Then
+        If IsRevolvingCharge(txtArNo.Text) Then
             FinanceCharge = INTEREST
             FinanceChargeSalesTax = 0
             'Payment = CalculateRevolvingPayment(RevolvingCurrentFinancedAmount(txtArNo) + GetPrice(txtTotalBalance) - GetPrice(txtPrevBalance), chkRoundUp.Value)
-            Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance), chkRoundUp.Value, CLng(Months))
+            Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance.Text), chkRoundUp.Checked, CLng(Months))
             APR = StoreSettings.ModifiedRevolvingRate
         Else
             If (FinanceCharge) <> 0 And (Months + DeferredMonths) <> -1 And NewBalance <> 0 Then
@@ -990,12 +1298,299 @@ Public Class ARPaySetUp
             End If
         End If
 
-        txtFinanceCharges = CurrencyFormat(FinanceCharge)
-        txtFinanceChargeSalesTax = CurrencyFormat(FinanceChargeSalesTax)
-        txtPaymentWillBe = CurrencyFormat(Payment)
+        txtFinanceCharges.Text = CurrencyFormat(FinanceCharge)
+        txtFinanceChargeSalesTax.Text = CurrencyFormat(FinanceChargeSalesTax)
+        txtPaymentWillBe.Text = CurrencyFormat(Payment)
 
         UpdateAPRLabel()
         UpdateTotalCaption
+    End Sub
+
+    Private Sub UpdateTotalCaption()
+        lblTotal.Text = FormatCurrency(GetPrice(txtFinanceAmount.Text) - GetPrice(txtAddlPaymentsMade.Text) + GetPrice(txtBalDueLateCharge.Text) + GetPrice(txtFinanceCharges.Text))
+    End Sub
+
+    Private Sub AdjustFirstPay(Optional ByVal N As Integer = 0)
+        Dim T As Date
+        'bfh20090309 - changed to +1 month instead of +30 days (first pay for 2/10/2009 came out to 3/12/2009 otherwise, which was wrong)
+        If IsRevolvingCharge(txtArNo.Text) Then
+            '    T = DateAdd("d", RevolvingStatementDay - Day(dteDate2.Value), dteDate2.Value)
+            T = DateAdd("m", 1, dteDate1)
+            dteDate2.Value = fAdjustFirstPay(T, cboDeferred.SelectedIndex)
+        ElseIf IsPricesFurniture Then
+            T = dteDate2.Value
+            dteDate2.Value = fAdjustFirstPay(T, cboDeferred.SelectedIndex)
+        Else
+            T = DateAdd("m", 1, dteDate1.Value) ' Adjust First Payment date to Delivery+30.
+            dteDate2.Value = fAdjustFirstPay(T, cboDeferred.SelectedIndex)
+        End If
+
+        CheckLateDay(N)
+    End Sub
+
+    Private Function fAdjustFirstPay(ByVal X As Date, ByVal Deferrment As Long) As Date
+        fAdjustFirstPay = IIf(Deferrment <= 0, X, DateAdd("m", Deferrment, X))
+    End Function
+
+    Private Sub SetDefaultsInstallment()
+        txtDocFee.Enabled = True
+        chkLife.Enabled = True
+        txtLifeInsurance.Enabled = True
+        chkAccident.Enabled = True
+        txtAccidentInsurance.Enabled = True
+        chkProperty.Enabled = True
+        txtPropertyInsurance.Enabled = True
+        txtMonthsToFinance.Enabled = True
+        optMonthly.Checked = True
+        optMonthly.Enabled = True
+        optWeekly.Enabled = True
+        RecalculateFinancing(True)
+        cmdPrint.Enabled = True
+        chkAutoARNO.Visible = (chkAutoARNO.Tag = "visible")
+
+        If UseIUI Then
+            chkUnemployment.Visible = True
+            lblUnemploymentInsurance.Visible = True
+            txtUnemploymentInsurance.Visible = True
+        Else
+            chkUnemployment.Visible = False
+            lblUnemploymentInsurance.Visible = False
+            txtUnemploymentInsurance.Visible = False
+        End If
+
+        optLate16.Enabled = True
+        optLate26.Enabled = True
+        UpdateLateCaptions
+        '  optLate6.Caption = "Due on " & QueryDueDate(1, dteDate2, , True) & ", Late on " & QueryLateDate(1, dteDate2, , True)
+        '  optLate16.Caption = "Due on " & QueryDueDate(10, dteDate2, , True) & ", Late on " & QueryLateDate(10, dteDate2, , True)
+        '  optLate26.Caption = "Due on " & QueryDueDate(20, dteDate2, , True) & ", Late on " & QueryLateDate(20, dteDate2, , True)
+        optLate16.Visible = True
+        optLate26.Visible = True
+
+        txtMonthsToFinance.Text = ""
+        txtDocFee.Text = ""
+        txtLifeInsurance.Text = ""
+        txtAccidentInsurance.Text = ""
+        txtPropertyInsurance.Text = ""
+        txtUnemploymentInsurance.Text = ""
+        txtFinanceCharges.Text = ""
+        txtPaymentWillBe.Text = ""
+        txtFinanceChargeSalesTax.Text = ""
+
+        FinanceCharge = 0
+        CashOpt = 0
+        Payment = 0
+
+        'use for previous balance on Add On & New accounts
+        lblCashOpt.Visible = True
+        cboCashOption.Visible = True
+        cboDeferred.Visible = True
+
+        optJointLife0.Checked = True
+        fraJointLife.Visible = (UseAmericanNationalInsurance Or UseThorntonsInsurance Or IsLott) ' Or IsLott ' IsMidSouth Or
+
+        txtFinanceChargeSalesTax.Visible = StoreSettings.bInstallmentInterestIsTaxable
+        lblFinanceChargeSalesTax.Visible = StoreSettings.bInstallmentInterestIsTaxable
+
+        ' BFH20111210 - Added Ordermode(A)
+        lblTotalBalance.Visible = ArMode("S") Or OrderMode("A")
+        txtTotalBalance.Visible = ArMode("S") Or OrderMode("A")
+
+        'defaults
+        Rate = Val(StoreSettings.SimpleInterestRate) 'Interest rate
+
+        txtDocFee.Text = CurrencyFormat(StoreSettings.DocFee) 'file fee default
+        txtMonthsToFinance.Text = "12" ' months to finance default
+        If StoreSettings.bPaymentBooksMonthly Then
+            optMonthly.Checked = True
+        Else
+            optWeekly.Checked = True
+        End If
+        Months = txtMonthsToFinance.Text
+
+        cboCashOption.Items.Clear()
+        cboDeferred.Items.Clear()
+        Dim Z1 As Long
+        For Z1 = 0 To 36
+            cboCashOption.Items.Add(Z1 & " mos.", Z1)
+            cboDeferred.Items.Add(CStr(Z1) & " mos.", Z1)
+        Next
+        cboCashOption.ListIndex = 0
+        cboDeferred.ListIndex = 0
+
+        If False Then
+            '
+        ElseIf IsElmore Or IsCarroll Or IsLott Then ' Or IsLott
+            chkLife.Value = 1
+            chkAccident.Value = 1
+            chkProperty.Value = 1
+            chkUnemployment = 0
+        ElseIf IsBoyd Then
+            chkLife.Value = 1
+            chkAccident.Value = 0
+            chkProperty.Value = 1
+            chkUnemployment = 0
+            '  ElseIf IsMidSouth Then
+            '    chkLife.Value = 0
+            '    chkAccident.Value = 0
+            '    chkProperty.Value = 0
+            '    chkUnemployment = 0
+        ElseIf IsShaw() Or IsWesternDiscount() Then
+            chkLife.Value = 1
+            chkAccident.Value = 0
+            chkProperty.Value = 1
+            chkUnemployment = 0
+        ElseIf UseThorntonsInsurance Then
+            chkLife.Value = 1
+            chkAccident.Value = 1
+            chkProperty.Value = 1
+            chkUnemployment = 0
+        ElseIf UseAmericanNationalInsurance Then
+            chkLife = 1
+            chkAccident = 1
+            chkProperty = 1
+            chkUnemployment = 1
+        Else
+            chkLife.Value = 0
+            chkAccident.Value = 0
+            chkProperty.Value = 0
+            chkUnemployment = 0
+        End If
+
+        If True Then
+            PrevousBal = GetPrice(txtPrevBalance)
+            PrevousBal = CurrencyFormat(PrevousBal)
+            txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance) + GetPrice(txtUnemploymentInsurance))
+        End If
+        chkRoundUp.Value = IIf(StoreSettings.bInstallmentRoundUp, vbChecked, vbUnchecked)
+        Recalculate()
+        CheckLateDay
+    End Sub
+
+    Private Sub CheckLateDay(Optional ByVal vDueOn As Long)
+        NoAdjust = True
+
+        If vDueOn = 0 Then
+            If IsRevolvingCharge(txtArNo.Text) Then
+                optLate6.Value = True
+                '      DueOn = RevolvingStatementDay
+                DueOn = Day(dteDate1)
+            ElseIf Day(dteDate2) > 1 And Day(dteDate2) <= 10 Then
+                optLate16.Value = True
+                DueOn = 10
+            ElseIf Day(dteDate2) >= 11 And Day(dteDate2) <= 20 Then
+                optLate26.Value = True
+                DueOn = 20
+            ElseIf Day(dteDate2) >= 21 And Day(dteDate2) <= 31 Or Day(dteDate2) = 1 Then
+                optLate6.Value = True
+                DueOn = 1
+            End If
+        Else
+            DueOn = vDueOn
+        End If
+        DoEvents
+
+        Do While Day(dteDate2.Value) <> DueOn
+            dteDate2.Value = DateAdd("d", 1, dteDate2.Value)
+        Loop
+
+        NoAdjust = False
+    End Sub
+
+    Private Sub mDBAccess_Init(Tid As String)
+  Set mDBAccess = New CDbAccessGeneral
+  mDBAccess.dbOpen GetDatabaseAtLocation(StoresSld)
+  If AddOnAcc.Typee = ArAddOn_New Then
+            mDBAccess.SQL = "SELECT * From InstallmentInfo WHERE (((ArNo)  =""" & ProtectSQL(Tid) & """))"
+        Else 'checks for old accounts
+            mDBAccess.SQL = "SELECT * From InstallmentInfo" _
+          & " WHERE Status <> '" & arST_Void & "'" & " and ArNo=""" & ProtectSQL(Tid) & """"
+        End If
+    End Sub
+
+    Private Sub SetDefaultsRevolving()
+        txtDocFee = "0.00"
+        txtDocFee.Enabled = False
+        chkLife = 0
+        chkLife.Enabled = False
+        txtLifeInsurance = "0.00"
+        txtLifeInsurance.Enabled = False
+        chkAccident = 0
+        chkAccident.Enabled = False
+        txtAccidentInsurance = "0.00"
+        txtAccidentInsurance.Enabled = False
+        chkProperty = 0
+        chkProperty.Enabled = False
+        txtPropertyInsurance = "0.00"
+        txtPropertyInsurance.Enabled = False
+        txtMonthsToFinance = "3"
+        txtMonthsToFinance.Enabled = False
+        Months = 3
+        chkUnemployment = 0
+        chkUnemployment.Visible = False
+        lblUnemploymentInsurance.Visible = False
+        txtUnemploymentInsurance.Visible = False
+        optMonthly.Value = False
+        optMonthly.Enabled = False
+        optWeekly.Value = False
+        optWeekly.Enabled = False
+        cboCashOption.ListIndex = RevolvingSameAsCash()
+        FinanceCharge = DBInterest ' Must carry through for existing sales, but be zero for new revolving accounts
+        INTEREST = FinanceCharge
+        txtFinanceCharges = CurrencyFormat(FinanceCharge)
+        NewBalance = GetPrice(txtSubTotal)
+        txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance) + GetPrice(txtUnemploymentInsurance))
+
+        Rate = StoreSettings.ModifiedRevolvingRate
+        If StoreSettings.ModifiedRevolvingAPR Then
+            InterestRate = Rate * 0.01 / 12 'CalculateSIR(NewBalance, Rate, Months)
+        Else
+            InterestRate = Rate * 0.01
+        End If
+        SIR = InterestRate
+
+        txtTotalBalance = CurrencyFormat(GetPrice(txtSubTotal))
+        cmdPrint.Enabled = False
+        optLate6.Caption = "Due on the Delivery Day"
+        '  optLate6.Caption = "Due on the " & Ordinal(RevolvingStatementDay) & ", Late on " & Ordinal(RevolvingStatementDay)
+        optLate16.Visible = False
+        optLate26.Visible = False
+        '  optLate6.Value = True
+        '  DueOn = RevolvingStatementDay
+        optLate16.Enabled = False
+        optLate26.Enabled = False
+        AdjustFirstPay()
+
+        If chkAutoARNO.Tag = "" Then
+            If chkAutoARNO.Visible Then
+                chkAutoARNO.Tag = "visible"
+            Else
+                chkAutoARNO.Tag = "invisible"
+            End If
+        End If
+        chkAutoARNO.Visible = False
+
+        Recalculate() 'Financing True
+        CheckLateDay()
+    End Sub
+
+    Private Sub mDBAccessTransactions_Init(ByVal Tid As String)
+  Set mDBAccessTransactions = New CDbAccessGeneral
+  mDBAccessTransactions.dbOpen GetDatabaseAtLocation()
+  mDBAccessTransactions.SQL = "SELECT * From Transactions WHERE (((ArNo)=""" & ProtectSQL(Tid) & """))"  ' Changed to tid from mArNo - MJK 20041122
+    End Sub
+
+    Public Function UseIUI() As Boolean
+        '* Installment Option -- Involuntary Unemployment Insurance
+        UseIUI = IsTreehouse Or IsBlueSky
+    End Function
+
+    Private Sub UpdateLateCaptions()
+        'BFH20170713 - Changed to show Grace applied LATE DATE
+        ' I believe these should show the LATE date...  typically, GRACE is only applied on late notices, and that is what this is about
+        optLate6.Caption = "Due on 1st, Late on " & QueryLateDate(1, dteDate2, , False)
+        optLate16.Caption = "Due on 10th, Late on " & QueryLateDate(10, dteDate2, , False)
+        optLate26.Caption = "Due on 20th, Late on " & QueryLateDate(20, dteDate2, , False)
     End Sub
 
 End Class

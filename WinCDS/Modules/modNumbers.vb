@@ -83,7 +83,7 @@
         Next
     End Function
 
-    Public Function Pow(ByVal X As Double, ByVal Y As Long) As Double
+    Public Function Pow(ByVal X As Double, ByVal Y As Integer) As Double
         '::::Pow
         ':::SUMMARY
         ': Used to return result of a number raised to a specified power.
@@ -95,7 +95,7 @@
         ': - Y - Indicates the Power value.
         ':::RETURN
         ': Double : Return Double that is x (the base) raised to the power y (the exponent).
-        Dim N As Long
+        Dim N As Integer
         If Y < 0 Then Exit Function
         If Y = 0 Then Pow = 1 : Exit Function
         Pow = X

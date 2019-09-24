@@ -127,7 +127,7 @@ Module modMail
         Dim cDBa As CDbAccessGeneral
         cDBa = DbAccessGeneral(GetDatabaseAtLocation, SQL)
         RS = cDBa.getRecordset(Always:=False)
-        MailTableRecordMax = IfNullThenZero(RS("GetMax"))
+        MailTableRecordMax = IfNullThenZero(RS("GetMax").Value)
         cDBa.dbClose()
     End Function
     Public Sub SetMailRecordsetFromMailNew(ByRef RS As ADODB.Recordset, ByRef tMailNew As MailNew)

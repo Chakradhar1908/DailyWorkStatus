@@ -388,6 +388,12 @@
     <Compile Include="Forms\MainMenu4.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\OnScreenReport.Designer.vb">
+      <DependentUpon>OnScreenReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OnScreenReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\OrdConvertLAW.Designer.vb">
       <DependentUpon>OrdConvertLAW.vb</DependentUpon>
     </Compile>
@@ -604,6 +610,9 @@
     <EmbeddedResource Include="Forms\ArApp.resx">
       <DependentUpon>ArApp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ArCard.resx">
+      <DependentUpon>ArCard.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ARPaySetUp.resx">
       <DependentUpon>ARPaySetUp.vb</DependentUpon>
     </EmbeddedResource>
@@ -705,6 +714,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrdConvertLAW.resx">
       <DependentUpon>OrdConvertLAW.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OrdPay.resx">
+      <DependentUpon>OrdPay.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrdPreview.resx">
       <DependentUpon>OrdPreview.vb</DependentUpon>

@@ -1,5 +1,5 @@
 ﻿Module modCustomizations
-    Public Function Yeatts_MaximumAPR(ByRef AmountFinanced As Currency) As Double
+    Public Function Yeatts_MaximumAPR(ByRef AmountFinanced As Decimal) As Double
         Dim APR As Double
         Select Case AmountFinanced
             Case 0 To 1224 : APR = 30

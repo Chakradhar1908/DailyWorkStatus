@@ -75,4 +75,38 @@
     Dim cmdApplyValue As Boolean                 ' Used to determine whether this button has been clicked.
     Dim cmdReceiptValue As Boolean               ' Future Languages do not support command button value property
 
+    Public Sub ShowArCardForDisplayOnly(ByVal nArNo As String, Optional ByVal Modal As Boolean = True, Optional ByVal AllowClose As Boolean = False, Optional ByVal AllowContractChange As Boolean = False)
+        Dim OldAR As String
+        If nArNo <> "" Then LoadArNo nArNo
+
+  cmdApply.Enabled = AllowContractChange
+        'cmdCreditApp.Enabled = False
+        'cmdDetail.Enabled = False
+        cmdEdit.Enabled = False
+        cmdExport.Enabled = False
+        cmdFields.Enabled = False
+        cmdMakeSameAsCash.Enabled = False
+        cmdMoveFirst.Enabled = False
+        cmdMoveLast.Enabled = False
+        cmdMoveNext.Enabled = False
+        cmdMovePrevious.Enabled = False
+        cmdPayoff.Enabled = False
+        cmdReceipt.Enabled = False
+        cmdReprintContract.Enabled = False
+        'Notes_Open.Enabled = False
+        cmdPrint.Enabled = False
+        'cmdPrintCard.Enabled = False
+        'cmdPrintLabel.Enabled = False
+        cmdCancel.Enabled = AllowClose
+
+        fraPaymentOptions.Visible = False
+        fraEditOptions.Visible = False
+
+        Show IIf(Modal, 1, 0)
+
+  If OldAR <> "" Then ArSelect = OldAR
+
+        '  DisposeDA RS
+    End Sub
+
 End Class

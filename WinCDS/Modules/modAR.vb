@@ -157,4 +157,46 @@
         End Get
     End Property
 
+    Public ReadOnly Property UseAlabamaSection5_19_3() As Boolean
+        Get
+            UseAlabamaSection5_19_3 = IsSidesFurniture
+        End Get
+    End Property
+
+    Public ReadOnly Property AlabamaFinanceCharges(ByVal CA As Decimal) As Decimal
+        Get
+            AlabamaFinanceCharges = Max(AlabamaFinanceChargesMin(CA), AlabamaFinanceChargesMax(CA))
+        End Get
+    End Property
+
+    Public ReadOnly Property AlabamaFinanceChargesMin(ByVal CA As Decimal) As Decimal
+        Get
+            AlabamaFinanceChargesMin = IIf(CA <= 25, 4, 6)
+        End Get
+    End Property
+
+    Public ReadOnly Property AlabamaFinanceChargesMax(ByVal CA As Decimal) As Decimal
+        Get
+            AlabamaFinanceChargesMax = IIf(CA < 750, 15 * CA / 100, 15 * 750 / 100) + IIf(CA < 750, 0, 10 * Max(0, (CA - 750)) / 100)
+        End Get
+    End Property
+
+    Public Function ArAddOnAccount(ByVal vArNo As String) As String
+        '::::ArAddOnAccount
+        ':::SUMMARY
+        ': Generates the appropriate ArNo for an Add on Account
+        ':::DESCRIPTION
+        ': Adds/modfies ArNo suffix by augmenting the final letter.
+        ':
+        ': Central way to calculate the appropriate add on account number to use for an add on.  Does not create the add on.
+        ':::PARAMETERS
+        ': - ArNo
+        ':::RETURN
+        ': String
+        ArAddOnAccount = AugmentByRightLetter(vArNo)
+        Do While ArNoExists(ArAddOnAccount)
+            ArAddOnAccount = AugmentByRightLetter(ArAddOnAccount)
+        Loop
+    End Function
+
 End Module

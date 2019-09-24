@@ -22,9 +22,30 @@ Partial Class ArCard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container
+        Me.lblTotalPayoff = New System.Windows.Forms.Label()
+        Me.SuspendLayout()
+        '
+        'lblTotalPayoff
+        '
+        Me.lblTotalPayoff.AutoSize = True
+        Me.lblTotalPayoff.Location = New System.Drawing.Point(0, 0)
+        Me.lblTotalPayoff.Name = "lblTotalPayoff"
+        Me.lblTotalPayoff.Size = New System.Drawing.Size(71, 13)
+        Me.lblTotalPayoff.TabIndex = 0
+        Me.lblTotalPayoff.Text = "lblTotalPayoff"
+        '
+        'ArCard
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.lblTotalPayoff)
+        Me.Name = "ArCard"
         Me.Text = "ArCardvb"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
     End Sub
+
+    Friend WithEvents lblTotalPayoff As Label
 End Class

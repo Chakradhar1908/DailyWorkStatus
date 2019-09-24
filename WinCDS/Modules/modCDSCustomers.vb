@@ -205,6 +205,28 @@
             IsYeatts = CheckStoreName("Yeatts")
         End Get
     End Property
+
+    Public ReadOnly Property IsCarroll() As Boolean
+        Get
+            IsCarroll = CheckStoreName("Carroll")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsShaw() As Boolean
+        Get
+            IsShaw = CheckStoreName("shaw")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsWesternDiscount() As Boolean
+        Get
+            IsWesternDiscount = CheckStoreName("Western Discount")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsPricesFurniture() As Boolean
+        Get
+            IsPricesFurniture = CheckStoreName("Prices")
+        End Get
+    End Property
 End Module
-
-

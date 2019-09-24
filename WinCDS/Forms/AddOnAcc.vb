@@ -98,4 +98,10 @@ SkipItem:
         End If
     End Function
 
+    Public ReadOnly Property Revolved() As Boolean
+        Get
+            Revolved = mRevolved
+        End Get
+    End Property
+
 End Class
