@@ -1114,7 +1114,7 @@ Public Class ARPaySetUp
 
         '  cboCashOption.Clear
         '  cboDeferred.Clear
-        Dim Z1 As Long
+        Dim Z1 As Integer
         '  For Z1 = 0 To 36
         '    cboCashOption.AddItem Z1, Z1
         '    cboDeferred.AddItem CStr(Z1) & " mos.", Z1
@@ -1303,7 +1303,7 @@ Public Class ARPaySetUp
         txtPaymentWillBe.Text = CurrencyFormat(Payment)
 
         UpdateAPRLabel()
-        UpdateTotalCaption
+        UpdateTotalCaption()
     End Sub
 
     Private Sub UpdateTotalCaption()
@@ -1328,7 +1328,7 @@ Public Class ARPaySetUp
         CheckLateDay(N)
     End Sub
 
-    Private Function fAdjustFirstPay(ByVal X As Date, ByVal Deferrment As Long) As Date
+    Private Function fAdjustFirstPay(ByVal X As Date, ByVal Deferrment As Integer) As Date
         fAdjustFirstPay = IIf(Deferrment <= 0, X, DateAdd("m", Deferrment, X))
     End Function
 
@@ -1348,7 +1348,7 @@ Public Class ARPaySetUp
         cmdPrint.Enabled = True
         chkAutoARNO.Visible = (chkAutoARNO.Tag = "visible")
 
-        If UseIUI Then
+        If UseIUI() Then
             chkUnemployment.Visible = True
             lblUnemploymentInsurance.Visible = True
             txtUnemploymentInsurance.Visible = True
@@ -1360,7 +1360,7 @@ Public Class ARPaySetUp
 
         optLate16.Enabled = True
         optLate26.Enabled = True
-        UpdateLateCaptions
+        UpdateLateCaptions()
         '  optLate6.Caption = "Due on " & QueryDueDate(1, dteDate2, , True) & ", Late on " & QueryLateDate(1, dteDate2, , True)
         '  optLate16.Caption = "Due on " & QueryDueDate(10, dteDate2, , True) & ", Late on " & QueryLateDate(10, dteDate2, , True)
         '  optLate26.Caption = "Due on " & QueryDueDate(20, dteDate2, , True) & ", Late on " & QueryLateDate(20, dteDate2, , True)
@@ -1410,87 +1410,91 @@ Public Class ARPaySetUp
 
         cboCashOption.Items.Clear()
         cboDeferred.Items.Clear()
-        Dim Z1 As Long
+        Dim Z1 As Integer
         For Z1 = 0 To 36
-            cboCashOption.Items.Add(Z1 & " mos.", Z1)
-            cboDeferred.Items.Add(CStr(Z1) & " mos.", Z1)
+            'cboCashOption.AddItem Z1 & " mos.", Z1
+            cboCashOption.Items.Insert(Z1, Z1 & " mos.")
+            'cboDeferred.AddItem CStr(Z1) & " mos.", Z1
+            cboDeferred.Items.Insert(Z1, CStr(Z1) & " mos.")
         Next
-        cboCashOption.ListIndex = 0
-        cboDeferred.ListIndex = 0
+        cboCashOption.SelectedIndex = 0
+        cboDeferred.SelectedIndex = 0
 
         If False Then
             '
         ElseIf IsElmore Or IsCarroll Or IsLott Then ' Or IsLott
-            chkLife.Value = 1
-            chkAccident.Value = 1
-            chkProperty.Value = 1
-            chkUnemployment = 0
+            chkLife.Checked = True
+            chkAccident.Checked = True
+            chkProperty.Checked = True
+            chkUnemployment.Checked = False
         ElseIf IsBoyd Then
-            chkLife.Value = 1
-            chkAccident.Value = 0
-            chkProperty.Value = 1
-            chkUnemployment = 0
+            chkLife.Checked = True
+            chkAccident.Checked = False
+            chkProperty.Checked = True
+            chkUnemployment.Checked = False
             '  ElseIf IsMidSouth Then
             '    chkLife.Value = 0
             '    chkAccident.Value = 0
             '    chkProperty.Value = 0
             '    chkUnemployment = 0
         ElseIf IsShaw() Or IsWesternDiscount() Then
-            chkLife.Value = 1
-            chkAccident.Value = 0
-            chkProperty.Value = 1
-            chkUnemployment = 0
+            chkLife.Checked = True
+            chkAccident.Checked = False
+            chkProperty.Checked = True
+            chkUnemployment.Checked = False
         ElseIf UseThorntonsInsurance Then
-            chkLife.Value = 1
-            chkAccident.Value = 1
-            chkProperty.Value = 1
-            chkUnemployment = 0
+            chkLife.Checked = True
+            chkAccident.Checked = True
+            chkProperty.Checked = True
+            chkUnemployment.Checked = False
         ElseIf UseAmericanNationalInsurance Then
-            chkLife = 1
-            chkAccident = 1
-            chkProperty = 1
-            chkUnemployment = 1
+            chkLife.Checked = True
+            chkAccident.Checked = True
+            chkProperty.Checked = True
+            chkUnemployment.Checked = True
         Else
-            chkLife.Value = 0
-            chkAccident.Value = 0
-            chkProperty.Value = 0
-            chkUnemployment = 0
+            chkLife.Checked = False
+            chkAccident.Checked = False
+            chkProperty.Checked = False
+            chkUnemployment.Checked = False
         End If
 
         If True Then
-            PrevousBal = GetPrice(txtPrevBalance)
+            PrevousBal = GetPrice(txtPrevBalance.Text)
             PrevousBal = CurrencyFormat(PrevousBal)
-            txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance) + GetPrice(txtUnemploymentInsurance))
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
         End If
-        chkRoundUp.Value = IIf(StoreSettings.bInstallmentRoundUp, vbChecked, vbUnchecked)
+        chkRoundUp.Checked = IIf(StoreSettings.bInstallmentRoundUp, True, False)
         Recalculate()
-        CheckLateDay
+        CheckLateDay()
     End Sub
 
-    Private Sub CheckLateDay(Optional ByVal vDueOn As Long)
+    Private Sub CheckLateDay(Optional ByVal vDueOn As Integer = 0)
         NoAdjust = True
 
         If vDueOn = 0 Then
             If IsRevolvingCharge(txtArNo.Text) Then
-                optLate6.Value = True
+                optLate6.Checked = True
                 '      DueOn = RevolvingStatementDay
-                DueOn = Day(dteDate1)
-            ElseIf Day(dteDate2) > 1 And Day(dteDate2) <= 10 Then
-                optLate16.Value = True
+                'DueOn = Day(dteDate1)
+                DueOn = DateAndTime.Day(dteDate1.Value)
+                'ElseIf Day(dteDate2) > 1 And Day(dteDate2) <= 10 Then
+            ElseIf DateAndTime.Day(dteDate2.Value) > 1 And DateAndTime.Day(dteDate2.Value) <= 10 Then
+                optLate16.Checked = True
                 DueOn = 10
-            ElseIf Day(dteDate2) >= 11 And Day(dteDate2) <= 20 Then
-                optLate26.Value = True
+            ElseIf DateAndTime.Day(dteDate2.Value) >= 11 And DateAndTime.Day(dteDate2.Value) <= 20 Then
+                optLate26.Checked = True
                 DueOn = 20
-            ElseIf Day(dteDate2) >= 21 And Day(dteDate2) <= 31 Or Day(dteDate2) = 1 Then
-                optLate6.Value = True
+            ElseIf DateAndTime.Day(dteDate2.Value) >= 21 And DateAndTime.Day(dteDate2.Value) <= 31 Or DateAndTime.Day(dteDate2.Value) = 1 Then
+                optLate6.Checked = True
                 DueOn = 1
             End If
         Else
             DueOn = vDueOn
         End If
-        DoEvents
+        Application.DoEvents()
 
-        Do While Day(dteDate2.Value) <> DueOn
+        Do While DateAndTime.Day(dteDate2.Value) <> DueOn
             dteDate2.Value = DateAdd("d", 1, dteDate2.Value)
         Loop
 
@@ -1498,9 +1502,9 @@ Public Class ARPaySetUp
     End Sub
 
     Private Sub mDBAccess_Init(Tid As String)
-  Set mDBAccess = New CDbAccessGeneral
-  mDBAccess.dbOpen GetDatabaseAtLocation(StoresSld)
-  If AddOnAcc.Typee = ArAddOn_New Then
+        mDBAccess = New CDbAccessGeneral
+        mDBAccess.dbOpen(GetDatabaseAtLocation(StoresSld))
+        If AddOnAcc.Typee = ArAddOn_New Then
             mDBAccess.SQL = "SELECT * From InstallmentInfo WHERE (((ArNo)  =""" & ProtectSQL(Tid) & """))"
         Else 'checks for old accounts
             mDBAccess.SQL = "SELECT * From InstallmentInfo" _
@@ -1509,37 +1513,37 @@ Public Class ARPaySetUp
     End Sub
 
     Private Sub SetDefaultsRevolving()
-        txtDocFee = "0.00"
+        txtDocFee.Text = "0.00"
         txtDocFee.Enabled = False
-        chkLife = 0
+        chkLife.Checked = False
         chkLife.Enabled = False
-        txtLifeInsurance = "0.00"
+        txtLifeInsurance.Text = "0.00"
         txtLifeInsurance.Enabled = False
-        chkAccident = 0
+        chkAccident.Checked = False
         chkAccident.Enabled = False
-        txtAccidentInsurance = "0.00"
+        txtAccidentInsurance.Text = "0.00"
         txtAccidentInsurance.Enabled = False
-        chkProperty = 0
+        chkProperty.Checked = False
         chkProperty.Enabled = False
-        txtPropertyInsurance = "0.00"
+        txtPropertyInsurance.Text = "0.00"
         txtPropertyInsurance.Enabled = False
-        txtMonthsToFinance = "3"
+        txtMonthsToFinance.Text = "3"
         txtMonthsToFinance.Enabled = False
         Months = 3
-        chkUnemployment = 0
+        chkUnemployment.Checked = False
         chkUnemployment.Visible = False
         lblUnemploymentInsurance.Visible = False
         txtUnemploymentInsurance.Visible = False
-        optMonthly.Value = False
+        optMonthly.Checked = False
         optMonthly.Enabled = False
-        optWeekly.Value = False
+        optWeekly.Checked = False
         optWeekly.Enabled = False
-        cboCashOption.ListIndex = RevolvingSameAsCash()
+        cboCashOption.SelectedIndex = RevolvingSameAsCash()
         FinanceCharge = DBInterest ' Must carry through for existing sales, but be zero for new revolving accounts
         INTEREST = FinanceCharge
-        txtFinanceCharges = CurrencyFormat(FinanceCharge)
-        NewBalance = GetPrice(txtSubTotal)
-        txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance) + GetPrice(txtUnemploymentInsurance))
+        txtFinanceCharges.Text = CurrencyFormat(FinanceCharge)
+        NewBalance = GetPrice(txtSubTotal.Text)
+        txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
 
         Rate = StoreSettings.ModifiedRevolvingRate
         If StoreSettings.ModifiedRevolvingAPR Then
@@ -1549,9 +1553,9 @@ Public Class ARPaySetUp
         End If
         SIR = InterestRate
 
-        txtTotalBalance = CurrencyFormat(GetPrice(txtSubTotal))
+        txtTotalBalance.Text = CurrencyFormat(GetPrice(txtSubTotal.Text))
         cmdPrint.Enabled = False
-        optLate6.Caption = "Due on the Delivery Day"
+        optLate6.Text = "Due on the Delivery Day"
         '  optLate6.Caption = "Due on the " & Ordinal(RevolvingStatementDay) & ", Late on " & Ordinal(RevolvingStatementDay)
         optLate16.Visible = False
         optLate26.Visible = False
@@ -1575,22 +1579,17 @@ Public Class ARPaySetUp
     End Sub
 
     Private Sub mDBAccessTransactions_Init(ByVal Tid As String)
-  Set mDBAccessTransactions = New CDbAccessGeneral
-  mDBAccessTransactions.dbOpen GetDatabaseAtLocation()
-  mDBAccessTransactions.SQL = "SELECT * From Transactions WHERE (((ArNo)=""" & ProtectSQL(Tid) & """))"  ' Changed to tid from mArNo - MJK 20041122
+        mDBAccessTransactions = New CDbAccessGeneral
+        mDBAccessTransactions.dbOpen(GetDatabaseAtLocation())
+        mDBAccessTransactions.SQL = "SELECT * From Transactions WHERE (((ArNo)=""" & ProtectSQL(Tid) & """))"  ' Changed to tid from mArNo - MJK 20041122
     End Sub
-
-    Public Function UseIUI() As Boolean
-        '* Installment Option -- Involuntary Unemployment Insurance
-        UseIUI = IsTreehouse Or IsBlueSky
-    End Function
 
     Private Sub UpdateLateCaptions()
         'BFH20170713 - Changed to show Grace applied LATE DATE
         ' I believe these should show the LATE date...  typically, GRACE is only applied on late notices, and that is what this is about
-        optLate6.Caption = "Due on 1st, Late on " & QueryLateDate(1, dteDate2, , False)
-        optLate16.Caption = "Due on 10th, Late on " & QueryLateDate(10, dteDate2, , False)
-        optLate26.Caption = "Due on 20th, Late on " & QueryLateDate(20, dteDate2, , False)
+        optLate6.Text = "Due on 1st, Late on " & QueryLateDate(1, dteDate2.Value, , False)
+        optLate16.Text = "Due on 10th, Late on " & QueryLateDate(10, dteDate2.Value, , False)
+        optLate26.Text = "Due on 20th, Late on " & QueryLateDate(20, dteDate2.Value, , False)
     End Sub
 
 End Class

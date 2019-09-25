@@ -1,4 +1,10 @@
 ﻿Module modArrays
+    Public Enum IsInOptions
+        isinNone = 0
+        isinIgnoreCase = 1
+        isinLeftCheck = 2
+    End Enum
+
     'BFH20050906
     ' aka member_array(), et al
     Public Function IsIn(ByVal What, ParamArray Rest()) As Boolean
@@ -34,11 +40,11 @@
 NoArray:
         IsInArray = False
     End Function
-    Public Function SubArr(ByVal sourceArray As Object, ByVal fromIndex as integer, ByVal copyLength as integer)
+    Public Function SubArr(ByVal sourceArray As Object, ByVal fromIndex As Integer, ByVal copyLength As Integer)
         SubArr = ArrSlice(sourceArray, fromIndex, fromIndex + copyLength - 1)
     End Function
-    Public Function ArrSlice(ByRef sourceArray As Object, ByVal fromIndex as integer, ByVal toIndex as integer)
-        Dim Idx as integer
+    Public Function ArrSlice(ByRef sourceArray As Object, ByVal fromIndex As Integer, ByVal toIndex As Integer)
+        Dim Idx As Integer
         Dim tempList() = Nothing
 
         ArrSlice = Nothing
@@ -54,7 +60,7 @@ NoArray:
         ArrSlice = tempList
     End Function
     Public Sub ArrAdd(ByRef Ar(), ByRef Item)
-        Dim X as integer
+        Dim X As Integer
         Dim Arr() As Object
 
         Err.Clear()
@@ -93,5 +99,25 @@ NoArray:
         If Not IsArray(Arr) Then ReDim Arr(0) Else ReDim Preserve Arr(UBound(Arr) + 1)
         Arr(UBound(Arr)) = El
     End Sub
+
+    Public Function IsInOpt(ByVal Src As String, ByVal Options As IsInOptions, ParamArray Rest() As Object) As Boolean
+        Dim L, A As String, B As String
+        For Each L In Rest
+            A = Src
+            B = L
+            If Options And IsInOptions.isinIgnoreCase Then
+                A = UCase(A)
+                B = UCase(B)
+            End If
+            If Options And IsInOptions.isinLeftCheck Then
+                A = Left(A, Min(Len(A), Len(B)))
+                B = Left(B, Min(Len(A), Len(B)))
+            End If
+            If "" & A = "" & B Then
+                IsInOpt = True
+                Exit Function
+            End If
+        Next
+    End Function
 
 End Module

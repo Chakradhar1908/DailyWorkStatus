@@ -229,4 +229,21 @@
             IsPricesFurniture = CheckStoreName("Prices")
         End Get
     End Property
+
+    Public Function UseIUI() As Boolean
+        '* Installment Option -- Involuntary Unemployment Insurance
+        UseIUI = IsTreehouse Or IsBlueSky
+    End Function
+
+    Public ReadOnly Property IsTreehouse() As Boolean
+        Get
+            IsTreehouse = CheckStoreName("Tree house")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsBlueSky() As Boolean
+        Get
+            IsBlueSky = CheckStoreName("Blue Sky", "Texas Discount")
+        End Get
+    End Property
 End Module

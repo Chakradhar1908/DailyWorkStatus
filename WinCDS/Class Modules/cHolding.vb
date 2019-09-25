@@ -108,4 +108,79 @@ NoSave:
         End If
     End Function
 
+    Public Function InterestChargedInPeriod(ByRef ChargeDate As Date, ByRef MonthsBack As Long) As Currency
+        ' Interest charged within X months before a date
+        Dim GM As CGrossMargin
+  Set GM = New CGrossMargin
+  GM.Load LeaseNo
+  Do Until GM.DataAccess.Record_EOF
+            If DateAdd("m", MonthsBack, GM.SellDte) > ChargeDate And GM.SellDte <= ChargeDate And GM.Style = "INTEREST" Then
+                InterestChargedInPeriod = InterestChargedInPeriod + GM.SellPrice * IIf(InStr(1, GM.Desc, "CREDIT", vbTextCompare) > 0, -1, 1)
+            End If
+            GM.DataAccess.Records_MoveNext()
+        Loop
+        DisposeDA GM
+End Function
+
+    Public Function AddInterest(ByRef Amount As Currency, ByRef PayDate As Date) As Boolean
+        If Amount = 0 Then Exit Function
+        ' INTEREST is only for tracking purposes, and does not affect sale balance.
+        ' This is only here so we can undo interest if a sale is paid within 90 days.
+        'Sale = Sale + Amount
+
+        Dim GM As CGrossMargin, GM2 As CGrossMargin
+        If LeaseNo = "" Then
+            MsgBox "Attempting to add interest before setting sale number.", vbCritical, "Error"
+    Exit Function
+        End If
+  Set GM = New CGrossMargin
+  Set GM2 = New CGrossMargin
+  If GM2.Load(LeaseNo, "SaleNo") Then
+            GM.SaleNo = LeaseNo
+            GM.Quantity = 1
+            GM.Style = "INTEREST" ' This may have to change, it might show up on reports and be a pain to get rid of.
+            If Amount > 0 Then
+                GM.Desc = "INTEREST CHARGE " & PayDate
+            Else
+                GM.Desc = "INTEREST CREDIT " & PayDate
+                Amount = Abs(Amount)
+            End If
+            If Installment Then
+                GM.Commission = "X" ' Commission on interest should not happen
+            End If
+            GM.Cost = 0
+            GM.ItemFreight = 0
+            GM.SellPrice = Amount
+            GM.Status = "DEL" ' right or not?
+            GM.Location = 0
+            GM.SellDte = PayDate
+            GM.Store = StoresSld 'StoreNumber
+            GM.Name = GM2.Name
+            GM.Salesman = GM2.Salesman
+            GM.ShipDte = PayDate
+            GM.Phone = GM2.Phone
+            GM.Index = GM2.Index
+            GM.SalesSplit = GM2.SalesSplit
+            GM.PackSaleGM = GM2.PackSaleGM
+            GM.Save()
+
+            If Not IsNumeric(GM.MarginLine) Then
+                ' Originally there were occasional issues when a payment overlapped sales;
+                ' the first payment wouldn't get saved.
+                ' I haven't seen it since adding DisposeDA below, but don't know why it happened
+                ' and that change SHOULD NOT have fixed it.
+                ' This message should catch it if it happens again.
+                MsgBox "Problem saving interest - Record failed for Sale " & LeaseNo & ".", vbCritical, "Error"
+      AddInterest = False
+            Else
+                AddInterest = True
+            End If
+        Else
+            ' This should never happen; empty sale except this payment?
+            MsgBox "Problem saving interest - no records found for Sale " & LeaseNo & ".", vbCritical, "Error"
+    AddInterest = False
+        End If
+        DisposeDA GM, GM2
+End Function
+
 End Class

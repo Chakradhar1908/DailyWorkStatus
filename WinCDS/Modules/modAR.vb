@@ -131,7 +131,7 @@
         RS.Close()
         RS = Nothing
     End Function
-    Public Function AccountHasRecentARNotes(ByVal MailIndex as integer) As Boolean
+    Public Function AccountHasRecentARNotes(ByVal MailIndex As Integer) As Boolean
         '::::AccountHasRecentARNotes
         ':::SUMMARY
         ': Check if customer has recent AR notes.
@@ -197,6 +197,234 @@
         Do While ArNoExists(ArAddOnAccount)
             ArAddOnAccount = AugmentByRightLetter(ArAddOnAccount)
         Loop
+    End Function
+
+    Public ReadOnly Property AdjustedGracePeriod(Optional ByVal nDay As Object = 10, Optional ByVal StoreNo As Integer = 0) As Integer
+        Get
+            On Error Resume Next
+            If VarType(nDay) = vbDate Then
+                nDay = DateAndTime.Day(nDay)
+            End If
+
+            nDay = CLng(Val(nDay))
+            AdjustedGracePeriod = StoreSettings(StoreNo).GracePeriod
+            If True Then
+                AdjustedGracePeriod = AdjustedGracePeriod - IIf(HasGracePeriod And nDay = 1, 1, 0)
+            End If
+        End Get
+    End Property
+
+    Public Function ArNoExists(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As Boolean
+        '::::ArNoExists
+        ':::SUMMARY
+        ': Returns whether an ArNo exists (in the given store)
+        ':::DESCRIPTION
+        ': Returns True if the ArNo exists
+        ':::PARAMETERS
+        ': - ArNo - Indicates the Ar number.
+        ': - StoreNo - Indicates the  Store number.
+        ':::RETURN
+        ': Boolean
+
+        Dim RS As ADODB.Recordset
+        RS = GetRecordsetBySQL("SELECT * FROM [InstallmentInfo] WHERE ArNo=""" & ProtectSQL(ArNo) & """", False, GetDatabaseAtLocation(StoreNo))
+        If Not RS.EOF Then ArNoExists = True
+        RS.Close()
+        RS = Nothing
+    End Function
+
+    Public ReadOnly Property HasGracePeriod(Optional ByVal StoreNo As Integer = 0) As Boolean
+        Get
+            HasGracePeriod = StoreSettings(StoreNo).GracePeriod > 0
+        End Get
+    End Property
+
+    Public Function GetArNoLastPayment(ByVal ArNo As String, Optional ByRef LastPay As Decimal = 0, Optional ByRef LastPayType As String = "", Optional ByRef LastPayDate As String = "") As Boolean
+        '::::GetArNoLastPayment
+        ':::SUMMARY
+        ': Retrieve information on last payment on AR Account
+        ':::DESCRIPTION
+        ': This function is used to get the information of last payment on specifed Ar Number related to customer.
+        ':::PARAMETERS
+        ': - ArNo
+        ': - LastPay - Returns Last Payment Currency.
+        ': - LastPayType - Returns Last Payment Type.
+        ': - LastPayDate - Returns Last Payment Date.
+        ':::RETURN
+        ': Boolean
+        Dim R As ADODB.Recordset, T As String
+        R = GetRecordsetBySQL("SELECT * FROM Transactions WHERE ArNo='" & ProtectSQL(ArNo) & "' ORDER BY TransDate DESC,TransactionID DESC", , GetDatabaseAtLocation())
+        Do While Not R.EOF
+            T = IfNullThenNilString(R("Type"))
+            If ArTypeIsNewSale(T) Then
+                GetArNoLastPayment = False
+                DisposeDA(R)
+                Exit Function
+            ElseIf ArTypeIsPayment(T) Then
+                LastPay = IfNullThenZeroCurrency(R("Credits"))
+                LastPayType = T
+                LastPayDate = IfNullThenNilString(R("TransDate"))
+                'Debug.Print "lastpaydate = " & LastPayDate
+                GetArNoLastPayment = True
+                DisposeDA(R)
+
+                Exit Function
+            End If
+
+            R.MoveNext
+        Loop
+        GetArNoLastPayment = False
+    End Function
+
+    Public Function ArTypeIsNewSale(ByVal pt As String) As Boolean
+        '::::ArTypeIsNewSale
+        ':::SUMMARY
+        ': Whether AR Type is a New Sale Line
+        ':::DESCRIPTION
+        ': Returns Whether AR Transaction type is a New Sale entry
+        ':::PARAMETERS
+        ': - pt - Payment Type
+        ':::RETURN
+        ': Boolean
+        ArTypeIsNewSale = IsInOpt(pt, IsInOptions.isinIgnoreCase + IsInOptions.isinLeftCheck, arPT_New)
+    End Function
+
+    Public Function ArTypeIsPayment(ByVal pt As String) As Boolean
+        '::::ArTypeIsPayment
+        ':::SUMMARY
+        ': Whether ARType is a payment
+        ':::DESCRIPTION
+        ': This function is used to check whether the Ar type is Payment
+        ':::PARAMETER
+        ': - pt - Payment Type
+        ':::RETURN
+        ': Boolean
+
+        ArTypeIsPayment = IsInOpt(pt, IsInOptions.isinIgnoreCase, arPT_pyCash, arPT_pyChck, arPT_pyDebt, arPT_pyVisa, arPT_pyMCrd, arPT_pyDisc, arPT_pyAmex)
+    End Function
+
+    Public Function GetArNoContractDate(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As Date
+        '::::GetArNoContractDate
+        ':::SUMMARY
+        ': Contract date from Ar number
+        ':::DESCRIPTION
+        ': This function is used to get Contract date from transactions table in descending manner using Ar number through Sql statements.
+        ':::PARAMETERS
+        ': - ArNo
+        ': - StoreNo
+        ':::RETURN
+        ': Date
+        Dim V As String
+        V = GetValueBySQL("SELECT TOP 1 [TransDate] FROM [Transactions] WHERE [ArNo]='" & ProtectSQL(ArNo) & "' AND Left([Type], 7) = '" & arPT_New & "' ORDER BY [TransDate] DESC", , GetDatabaseAtLocation(StoreNo))
+
+        If IsDate(V) Then
+            GetArNoContractDate = DateValue(V)
+        Else
+            GetArNoContractDate = NullDate
+        End If
+    End Function
+
+    Public Function GetArNoFirstContractDate(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As Date
+        '::::GetArNoFirstContractDate
+        ':::SUMMARY
+        ': The first Contract date by ArNo.
+        ':::DESCRIPTION
+        ': "Earliest" contract date, since there can be innumerable Add-Ons
+        ':::PARAMETERS
+        ': - ArNo
+        ': - StoreNo
+        ':::RETURN
+        ': Date - Returns the first contract date.
+
+        Dim V As String
+        V = GetValueBySQL("SELECT TOP 1 [TransDate] FROM [Transactions] WHERE [ArNo]='" & ProtectSQL(ArNo) & "' AND Left([Type], 7) = '" & arPT_New & "' ORDER BY [TransDate] ASC", , GetDatabaseAtLocation(StoreNo))
+
+        If IsDate(V) Then
+            GetArNoFirstContractDate = DateValue(V)
+        Else
+            GetArNoFirstContractDate = NullDate
+        End If
+    End Function
+
+    Public Function ArTypeIsStatusChange(ByVal pt As String) As Boolean
+        '::::ArTypeIsStatusChange
+        ':::SUMMARY
+        ': Whether Payment Type is a status Change event
+        ':::DESCRIPTION
+        ': This function is used to check whether the Ar type is Status Change
+        ':::PARAMETER
+        ': - pt - Payment Type
+        ':::RETURN
+        ': Boolean
+        If ArTypeIsNewSale(pt) Then ArTypeIsStatusChange = True : Exit Function
+        ArTypeIsStatusChange = IsInOpt(pt, IsInOptions.isinIgnoreCase, arPT_stReO, arPT_stClo, arPT_stVoi, arPT_stWtO, arPT_stRep, arPT_stLeg, arPT_stBkr)
+    End Function
+
+    Public Function ArTypeIsContract(ByVal pt As String) As Boolean
+        '::::ArTypeIsContract
+        ':::SUMMARY
+        ': Used to check whether the Ar Type is Contract or not.
+        ':::DESCRIPTION
+        ': This function is used to check whether the Ar type is Contract
+        ':::PARAMETER
+        ': - pt - Payment Type
+        ':::RETURN
+        ': Boolean
+        ArTypeIsContract = IsInOpt(pt, IsInOptions.isinIgnoreCase + IsInOptions.isinLeftCheck, arPT_New, arPT_Prv, arPT_PLC, arPT_Doc, arPT_Lif, arPT_Acc, arPT_Pro, arPT_IUI, arPT_Int, arPT_Tax, arPT_poDoc, arPT_poPri, arPT_poL_C, arPT_poInt, arPT_poLif, arPT_poAcc, arPT_poPro, arPT_poIUI, arPT_poTax)
+    End Function
+
+    Public Function ArTypeIsPayoff(ByVal pt As String) As Boolean
+        '::::ArTypeIsPayoff
+        ':::SUMMARY
+        ': Used to check whether the Ar Type is Payoff or not.
+        ':::DESCRIPTION
+        ': This function is used to check whether the Ar type is Payoff event
+        ':::PARAMETER
+        ': - pt - Payment Type
+        ':::RETURN
+        ': Boolean
+        ArTypeIsPayoff = IsInOpt(pt, IsInOptions.isinIgnoreCase, arPT_poPri, arPT_poPri, arPT_poL_C, arPT_poInt, arPT_poLif, arPT_poAcc, arPT_poPro, arPT_poIUI, arPT_poTax)
+    End Function
+
+    Public Function ArTypeIsLCAdjust(ByVal pt As String) As Boolean
+        '::::ArTypeIsLCAdjust
+        ':::SUMMARY
+        ': Whether Payment Type is a Late Charge Adjust event
+        ':::DESCRIPTION
+        ': This function is used to check whether the Ar type is LCAdjust
+        ':::PARAMETER
+        ': - pt - Payment Type
+        ':::RETURN
+        ': Boolean
+        ArTypeIsLCAdjust = IsIn(pt, arPT_L_C, arPT_crL_C, arPT_crL_C2, arPT_dbL_C2, arPT_poL_C, arPT_pyL_C)
+    End Function
+
+    Public Function GetArNoLastAddOnAccountNo(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As String
+        '::::GetArNoLastAddOnAccountNo
+        ':::SUMMARY
+        ': Used to get Last added Account number using Ar number.
+        ':::DESCRIPTION
+        ': Gets the AddOnAccount number for the given Add On account.
+        ':::PARAMETERS
+        ': - ArNo
+        ': - StoreNo
+        ':::RETURN
+        ': String - The associated AddOnAccount number
+        GetArNoLastAddOnAccountNo = Trim("" & GetValueBySQL("SELECT TOP 1 [Receipt] FROM [Transactions] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """ AND Left([Type], 7) = '" & arPT_New & "' ORDER BY [TransDate] DESC", , GetDatabaseAtLocation(StoreNo)))
+    End Function
+
+    Public Function GetArNoLastAddOnPHP(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As String
+        '::::GetArNoLastAddOnPHP
+        ':::SUMMARY
+        ': Used to get the specified Ar number's Last Payment History Profile information related to customer.
+        ':::DESCRIPTION
+        ': This function is used to retrieve the Last added Payment History Profile on AR Number stored in the associated AddOnRecord account
+        ':::PARAMETERS
+        ': - ArNo
+        ': - StoreNo
+        ':::RETURN
+        ': String - Returns the 24-character PHP
+        GetArNoLastAddOnPHP = Trim("" & GetValueBySQL("SELECT [PaymentHistoryProfile] FROM [InstallmentInfo] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo)))
     End Function
 
 End Module

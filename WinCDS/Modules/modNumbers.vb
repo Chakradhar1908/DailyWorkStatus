@@ -104,4 +104,35 @@
         Next
     End Function
 
+    Public Function RoundDn(ByVal Number As Double) As Double
+        '::::RoundDn
+        ':::SUMMARY
+        ': Used to Positivre RoundUp value or Integer part of given number.
+        ':::DESCRIPTION
+        ': This function is used to return the Integer part of given number if given number > 0 or Positive RoundUp value of given number.
+        ':::PARAMETERS
+        ': - Number - Indicates the Input Value.
+        ':::RETURN
+        ': Double : Return the RoundDn value as Double.
+
+        If Number < 0 Then
+            RoundDn = -RoundUp(-Number)
+        Else
+            RoundDn = Trunc0(Number)
+        End If
+    End Function
+
+    Public Function RoundUp(ByVal Money As Decimal) As Decimal
+        '::::RoundUp
+        ':::SUMMARY
+        ': Used to Round Up the Currency Amount.
+        ':::DESCRIPTION
+        ': This function is used to RoundUp the value of Currency amount to its nearest value.
+        ':::PARAMETERS
+        ': - Money - Indicates the Currency Value.
+        ':::RETURN
+        ': Currency : Return the RoundUp value as Currency.
+        RoundUp = Math.Round(Money + 0.49, 0)
+    End Function
+
 End Module

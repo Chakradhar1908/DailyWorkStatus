@@ -85,4 +85,40 @@
         YearStart = DateAdd("yyyy", YearOffset, YearStart)
     End Function
 
+    Public Function DaySeek(ByVal mDate As Date, ByVal SeekDay As Integer, Optional ByVal DirForward As Boolean = True) As Date
+        DaySeek = mDate
+        Do Until DateAndTime.Day(DaySeek) = SeekDay
+            DaySeek = IIf(DirForward, DayAfter(DaySeek), DayBefore(DaySeek))
+        Loop
+    End Function
+
+    Public Function DayAfter(ByVal mDate As Date, Optional ByVal Value As Integer = 1) As Date
+        DayAfter = DayAdd(mDate, Value)
+    End Function
+    Public Function DayBefore(ByVal mDate As Date, Optional ByVal Value As Integer = 1) As Date
+        DayBefore = DayAdd(mDate, -Value)
+    End Function
+
+    Public Function DayAdd(ByVal mDate As Date, ByVal Value As Integer) As Date
+        DayAdd = DateAdd("d", Value, mDate)
+    End Function
+
+    Public Function CheckNullDate(ByRef ValDate As Date, Optional ByVal NewDate As Date = NullDate, Optional ByVal wTime As Boolean = False) As Date
+        If DateEqual(ValDate, NullDate) Then
+            If DateEqual(NewDate, NullDate) Then NewDate = Now
+            ValDate = NewDate
+        End If
+
+        If Not wTime Then ValDate = DateValue(ValDate)
+        CheckNullDate = ValDate
+    End Function
+
+    Public Function MonthAdd(ByVal mDate As Date, ByVal Value As Integer) As Date
+        MonthAdd = DateAdd("m", Value, mDate)
+    End Function
+
+    Public Function MonthAfter(ByVal mDate As Date, Optional ByVal nMonths As Integer = 1) As Date
+        MonthAfter = MonthAdd(mDate, nMonths)
+    End Function
+
 End Module
