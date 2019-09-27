@@ -101,6 +101,7 @@
     <Compile Include="Class Modules\clsEmployee.vb" />
     <Compile Include="Class Modules\clsHashTable.vb" />
     <Compile Include="Class Modules\clsMailRec.vb" />
+    <Compile Include="Class Modules\clsMailShipTo.vb" />
     <Compile Include="Class Modules\clsPopup.vb" />
     <Compile Include="Class Modules\clsSaleItem.vb" />
     <Compile Include="Class Modules\clsServiceItemParts.vb" />

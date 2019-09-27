@@ -236,7 +236,7 @@ HandleErr:
         If IsRevolvingCharge(ArNo) Then
             Dim InstAcct As New cInstallment
             InstAcct.Load(ArNo)
-            lblTotalPayoff = CurrencyFormat(InstAcct.GetPayoffRevolving(AsOfDate))
+            lblTotalPayoff.Text = CurrencyFormat(InstAcct.GetPayoffRevolving(AsOfDate))
             DisposeDA(InstAcct)
             Exit Sub
         End If

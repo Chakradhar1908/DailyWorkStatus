@@ -27,6 +27,7 @@
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
+
     Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String = "") As Boolean
         ' Checks the database for a matching LeaseNo.
         ' Returns True if the load was successful, false otherwise.
@@ -48,6 +49,15 @@
 
         ' Move to the first record if we can, and return success.
         If DataAccess.Records_Available Then Load = True
+    End Function
+
+    Public Function ShipTo(Optional ByVal StoreNo As Integer = 0) As clsMailShipTo
+        '  If StoreNo = 0 Then StoreNo = StoresSld
+        '  modMail.Mail2_GetAtIndex CStr(Index), ShipTo, StoreNo
+        ShipTo = New clsMailShipTo
+        ShipTo.DataAccess.DataBase = DataAccess.DataBase ' default to same database...
+        If StoreNo <> 0 Then ShipTo.DataAccess.DataBase = GetDatabaseAtLocation(StoreNo)
+        ShipTo.Load(Index)
     End Function
 
 End Class

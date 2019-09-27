@@ -2,13 +2,13 @@
 Module modRevolving
     Private Structure ReportColumn
         Dim Title As String
-        Dim Position As Long
+        Dim Position As Integer
         Dim Alignment As AlignConstants
         Dim Type As String
     End Structure
 
     Private Const SkipRecord As String = "*SKIP*"
-    Private Const SummaryColumn_Max As Long = 9
+    Private Const SummaryColumn_Max As Integer = 9
 
     Private Enum eRevolvingSummaryColumns
         ' Account     Name     Balance     Interest     LateFees     Email     Phone1     Phone2
@@ -26,9 +26,9 @@ Module modRevolving
 
     Private SummaryCols() As ReportColumn
     Private SummaryData(,) As Object
-    Private CurrentRecord As Long ' Painted myself into a corner and have to use a form variable...
-    Private SummaryRecordCount As Long
-    Private SummarySkipCount As Long
+    Private CurrentRecord As Integer ' Painted myself into a corner and have to use a form variable...
+    Private SummaryRecordCount As Integer
+    Private SummarySkipCount As Integer
 
     Public CancelRevolvingProcessing As Boolean
 
@@ -122,7 +122,7 @@ Module modRevolving
         Dim Rate As Double, Balance As Decimal, NewInterest As Decimal, NewInterestTotal As Decimal, LastInterestDate As Date
         Dim AmountProcessed As Decimal
         Dim LateInterestOn As Date
-        Dim RealLateDueOn As Long
+        Dim RealLateDueOn As Integer
 
         On Error GoTo ProcessError
 
@@ -189,7 +189,7 @@ Module modRevolving
             '    End If
         ElseIf IA2.Balance > 0 Then
             ' We are owed money and maybe interest.  Calculate and charge interest here.
-            Dim InterestAmount As Decimal, MonthsInterest As Long
+            Dim InterestAmount As Decimal, MonthsInterest As Integer
             DoLog("Account " & AlignString(IA2.ArNo, 7) & " owes a balance of " & AlignString(FormatCurrency(IA2.Balance), 12) & ".")
 
             Application.DoEvents()
@@ -268,14 +268,14 @@ Module modRevolving
         ' Recalculate next payment and maybe late charge.  If current payment ends in .00, assume it was set to round up on ArPaySetup.
         IA2.AddInterest(NewInterestTotal, IA2.RevolvingInterestDate(DTE))  ' Updates InstallmentInfo fields and makes a Transactions row.
         IA2.PerMonth = CalculateRevolvingPayment(IA2.Balance, Right(CurrencyFormat(IA2.PerMonth), 2) = ".00", IA2.Months)
-        IA2.Save
+        IA2.Save()
 
         ' record balance on account (adjust for any late fees)
         '  SummaryData(CurrentRecord, eRSC_Balance) = IA2.Balance ' balance after late fees
         ' BFH20150117 - So we can run, rerun, or be completely overrunnable,
         ' this was converted to a calculation, rather than a record operations.
         ' All other calculations of this are now defunct.
-        CalculateAccountValues(ArNo, DTE, DateAndTime.Day(DTE) = RevolvingStatementDay)
+        CalculateAccountValues(ArNo, DTE, DateAndTime.Day(DTE) = RevolvingStatementDay())
 
 
         ' And print the statement
@@ -338,11 +338,11 @@ ProcessError:
         RevolvingLog(vMsg)
     End Sub
 
-    Private Function DescribeInterest(ByRef Balance As Decimal, ByRef Rate As Double, ByRef MonthsInterest As Long) As String
+    Private Function DescribeInterest(ByRef Balance As Decimal, ByRef Rate As Double, ByRef MonthsInterest As Integer) As String
         DescribeInterest = "(" & FormatCurrency(Balance) & " * " & CurrencyFormat(Rate) & "%" & IIf(MonthsInterest = 1, "", " * " & MonthsInterest & " months") & ")"
     End Function
 
-    Public Function RevolvingMonthsInterest(ByVal SaleDate As Date, ByVal QueryDate As Date, ByVal CashOpt As Long) As Decimal
+    Public Function RevolvingMonthsInterest(ByVal SaleDate As Date, ByVal QueryDate As Date, ByVal CashOpt As Integer) As Decimal
         RevolvingMonthsInterest = 0 ' Default to no interest
         If CashOpt < 0 Then CashOpt = 0
         If DateAdd("m", CashOpt, SaleDate) >= QueryDate Then Exit Function ' No interest before the sale date or before cashopt expires
@@ -386,10 +386,10 @@ ProcessError:
             SummaryData(CurrentRecord, eRevolvingSummaryColumns.eRSC_LateFees) = CI.GetChargedInPeriod(DateAdd("d", -1, DTE), DTE, "Late Fees")
         End If
 
-        DisposeDA CI
-End Sub
+        DisposeDA(CI)
+    End Sub
 
-    Public Function RevolvingStatementDay() As Long
+    Public Function RevolvingStatementDay() As Integer
         RevolvingStatementDay = 25
     End Function
 
@@ -428,19 +428,19 @@ End Sub
         Do While Trans.DataAccess.Records_Available
             If Trans.TransDate > DateAdd("m", -1, DTE) And Trans.TransDate <= DTE Then
                 '    If DateAdd("m", 1, Trans.TransDate) > dte Then
-                If Printer.CurrentY + Printer.TextHeight("X") > Printer.ScaleHeight Then PrintMonthlyStatementHeading mR, InstAcct: PrintTransactionsHeader
-                PrintToPosition Printer, Trans.TransDate, 1800, vbAlignRight, False
-      PrintToPosition Printer, Trans.TransType, 2100, vbAlignLeft, False
-      PrintToPosition Printer, CurrencyFormat(Trans.Charges), 4900, vbAlignRight, False
-      If Not IsIn(Left(Trans.TransType, 7), "NewSale", "Doc Fee") Then ' don't show "credits" on a new sale, because it's the deposit...  hide it in the numbers
-                    PrintToPosition Printer, CurrencyFormat(Trans.Charges - Trans.Credits), 4900, vbAlignRight, False
-      Else
-                    PrintToPosition Printer, CurrencyFormat(Trans.Charges), 4900, vbAlignRight, False
-        PrintToPosition Printer, CurrencyFormat(Trans.Credits), 6000, vbAlignRight, False
-      End If
-                PrintToPosition Printer, CurrencyFormat(Trans.Balance), 7200, vbAlignRight, False
-      PrintToPosition Printer, Trans.Receipt, 11500, vbAlignRight, True
-      TotNewCharges = TotNewCharges - Trans.Credits + Trans.Charges
+                If Printer.CurrentY + Printer.TextHeight("X") > Printer.ScaleHeight Then PrintMonthlyStatementHeading(mR, InstAcct) : PrintTransactionsHeader()
+                PrintToPosition(Printer, Trans.TransDate, 1800, AlignConstants.vbAlignRight, False)
+                PrintToPosition(Printer, Trans.TransType, 2100, AlignConstants.vbAlignLeft, False)
+                PrintToPosition(Printer, CurrencyFormat(Trans.Charges), 4900, AlignConstants.vbAlignRight, False)
+                If Not IsIn(Left(Trans.TransType, 7), "NewSale", "Doc Fee") Then ' don't show "credits" on a new sale, because it's the deposit...  hide it in the numbers
+                    PrintToPosition(Printer, CurrencyFormat(Trans.Charges - Trans.Credits), 4900, AlignConstants.vbAlignRight, False)
+                Else
+                    PrintToPosition(Printer, CurrencyFormat(Trans.Charges), 4900, AlignConstants.vbAlignRight, False)
+                    PrintToPosition(Printer, CurrencyFormat(Trans.Credits), 6000, AlignConstants.vbAlignRight, False)
+                End If
+                PrintToPosition(Printer, CurrencyFormat(Trans.Balance), 7200, AlignConstants.vbAlignRight, False)
+                PrintToPosition(Printer, Trans.Receipt, 11500, AlignConstants.vbAlignRight, True)
+                TotNewCharges = TotNewCharges - Trans.Credits + Trans.Charges
                 If Not IsIn(Left(Trans.TransType, 7), "NewSale", "Doc Fee") Then ' don't show these (desposits for new sales)
                     TotCredits = TotCredits + Trans.Credits
                 End If
@@ -451,48 +451,49 @@ End Sub
                 End If
             End If
         Loop
-        If Printer.CurrentY + Printer.TextHeight("X") * 4 > Printer.ScaleHeight Then PrintMonthlyStatementHeading mR, InstAcct
-  PrintTransactionsFooter InstAcct.Balance, TotNewCharges, TotNewSales, TotCredits, TotCharges
-  PrintCentered "Interest assessed at " & Format(InstAcct.Rate, "0.00##") & "% per month (" & Format(InstAcct.Rate * 12, "0.00##") & "% APR)."
-'  PrintCentered "If sale is paid in full within 90 days of invoice date, any interest charges will be reversed upon receipt of your final payment."
+        If Printer.CurrentY + Printer.TextHeight("X") * 4 > Printer.ScaleHeight Then PrintMonthlyStatementHeading(mR, InstAcct)
+        PrintTransactionsFooter(InstAcct.Balance, TotNewCharges, TotNewSales, TotCredits, TotCharges)
+        PrintCentered("Interest assessed at " & Format(InstAcct.Rate, "0.00##") & "% per month (" & Format(InstAcct.Rate * 12, "0.00##") & "% APR).")
+        '  PrintCentered "If sale is paid in full within 90 days of invoice date, any interest charges will be reversed upon receipt of your final payment."
         Printer.Print()
 
         ' Previous balance is computed from total due minus recent charges
-        If Printer.CurrentY + Printer.TextHeight("X") > Printer.ScaleHeight Then PrintMonthlyStatementHeading mR, InstAcct
-  Dim Str As String
+        If Printer.CurrentY + Printer.TextHeight("X") > Printer.ScaleHeight Then PrintMonthlyStatementHeading(mR, InstAcct)
+        Dim Str As String
         Str = "Your next payment of " & FormatCurrency(InstAcct.PerMonth) & " is due on " & NextPaymentDate & "."
-        PrintCentered Str, , True
-  Printer.Print()
+        PrintCentered(Str, , True)
+        Printer.Print()
 
         Printer.FontBold = False
 
         'If IsDevelopment And InstAcct.ArNo = "4299 R" Then Stop
 
         ' and for each open sale, list of items, amounts, totals
+        Dim GM As New CGrossMargin
         Dim Holding As New cHolding
-        Holding.Load InstAcct.ArNo, "ArNo"
-  Do Until Holding.DataAccess.Record_EOF
+        Holding.Load(InstAcct.ArNo, "ArNo")
+        Do Until Holding.DataAccess.Record_EOF
             ' If it's open, print the details.
             '    If IsIn(Holding.Status, "F", "S") And Holding.Sale > Holding.Deposit Then ' wasn't showing delivered, paid sales...
             If IsIn(Holding.Status, "F", "S", "D") Then
                 ' Don't forget to check for end of page
-                If Printer.CurrentY + Printer.TextHeight("X") * 5 > Printer.ScaleHeight Then PrintMonthlyStatementHeading mR, InstAcct
-      PrintHoldingHeading Holding
-      Dim GM As New CGrossMargin
-                GM.Load Holding.LeaseNo, "SaleNo"
-      Do Until GM.DataAccess.Record_EOF
+                If Printer.CurrentY + Printer.TextHeight("X") * 5 > Printer.ScaleHeight Then PrintMonthlyStatementHeading(mR, InstAcct)
+                PrintHoldingHeading(Holding)
+                'Dim GM As New CGrossMargin -------------> Moved this line to the above Do Until Loop.If not, DisposeDA (botton code line) will not recognizing GM variable.
+                GM.Load(Holding.LeaseNo, "SaleNo")
+                Do Until GM.DataAccess.Record_EOF
                     If GM.SellPrice <> 0 And GM.Style <> "SUB" And GM.Style <> "INTEREST" Then
-                        If Printer.CurrentY + Printer.TextHeight("X") > Printer.ScaleHeight Then PrintMonthlyStatementHeading mR, InstAcct: PrintHoldingHeading Holding
-          PrintToPosition Printer, GM.SellDte, 1800, vbAlignRight, False
-          PrintToPosition Printer, GM.Quantity, 2900, vbAlignRight, False
-          PrintToPosition Printer, GM.Desc, 3100, vbAlignLeft, False
-          PrintToPosition Printer, FormatCurrency(GM.SellPrice), 11500, vbAlignRight, True
-        End If
+                        If Printer.CurrentY + Printer.TextHeight("X") > Printer.ScaleHeight Then PrintMonthlyStatementHeading(mR, InstAcct) : PrintHoldingHeading(Holding)
+                        PrintToPosition(Printer, GM.SellDte, 1800, AlignConstants.vbAlignRight, False)
+                        PrintToPosition(Printer, GM.Quantity, 2900, AlignConstants.vbAlignRight, False)
+                        PrintToPosition(Printer, GM.Desc, 3100, AlignConstants.vbAlignLeft, False)
+                        PrintToPosition(Printer, FormatCurrency(GM.SellPrice), 11500, AlignConstants.vbAlignRight, True)
+                    End If
                     GM.DataAccess.Records_MoveNext()
                 Loop
-                If Printer.CurrentY + Printer.TextHeight("X") * 3 > Printer.ScaleHeight Then PrintMonthlyStatementHeading mR, InstAcct: PrintHoldingHeading Holding
-      PrintHoldingFooting Holding
-    End If
+                If Printer.CurrentY + Printer.TextHeight("X") * 3 > Printer.ScaleHeight Then PrintMonthlyStatementHeading(mR, InstAcct) : PrintHoldingHeading(Holding)
+                PrintHoldingFooting(Holding)
+            End If
             Holding.DataAccess.Records_MoveNext()
         Loop
         Printer.EndDoc()
@@ -533,43 +534,43 @@ End Sub
         If Printer.CurrentY <> 0 Then Printer.NewPage()
         Printer.FontName = "Arial"
         Printer.FontSize = 18
-        PrintCentered "Monthly Statement", , True
-  Printer.FontSize = 10
+        PrintCentered("Monthly Statement", , True)
+        Printer.FontSize = 10
 
         Printer.CurrentX = 0
         Printer.CurrentY = 800 ' 1500 matches ArCard, but too low (1300 too low)
-        Printer.Print TAB(10); StoreSettings.Name '; Tab(90); "Report Date: "; DateFormat(Now)
-        Printer.Print TAB(10); StoreSettings.Address
-  Printer.Print TAB(10); StoreSettings.City
-  Printer.Print TAB(10); StoreSettings.Phone
-  Printer.Print()
+        Printer.Print(TAB(10), StoreSettings.Name) '; Tab(90); "Report Date: "; DateFormat(Now)
+        Printer.Print(TAB(10), StoreSettings.Address)
+        Printer.Print(TAB(10), StoreSettings.City)
+        Printer.Print(TAB(10), StoreSettings.Phone)
+        Printer.Print()
 
         Printer.FontBold = True
         Printer.FontSize = 13
-        PrintToPosition Printer, "Account:", 10300, vbAlignRight, False
-  PrintToPosition Printer, InstAcct.ArNo, 11500, vbAlignRight, False
-  Printer.FontSize = 10
+        PrintToPosition(Printer, "Account:", 10300, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, InstAcct.ArNo, 11500, AlignConstants.vbAlignRight, False)
+        Printer.FontSize = 10
         Printer.FontBold = False
-        PrintToPosition Printer, "Statement Date:", 7300, vbAlignRight, False
-  PrintToPosition Printer, StatementDate, 8500, vbAlignRight, True
-  PrintToPosition Printer, "Total Balance:", 7300, vbAlignRight, False
-  PrintToPosition Printer, Format(InstAcct.Balance, "Currency"), 8500, vbAlignRight, True
-  PrintToPosition Printer, "Next Payment:", 7300, vbAlignRight, False
-  PrintToPosition Printer, Format(InstAcct.PerMonth, "Currency"), 8500, vbAlignRight, True
-  PrintToPosition Printer, "Payment Due:", 7300, vbAlignRight, False
-  PrintToPosition Printer, NextPaymentDate, 8500, vbAlignRight, True
+        PrintToPosition(Printer, "Statement Date:", 7300, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, StatementDate, 8500, AlignConstants.vbAlignRight, True)
+        PrintToPosition(Printer, "Total Balance:", 7300, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, Format(InstAcct.Balance, "Currency"), 8500, AlignConstants.vbAlignRight, True)
+        PrintToPosition(Printer, "Next Payment:", 7300, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, Format(InstAcct.PerMonth, "Currency"), 8500, AlignConstants.vbAlignRight, True)
+        PrintToPosition(Printer, "Payment Due:", 7300, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, NextPaymentDate, 8500, AlignConstants.vbAlignRight, True)
 
 
-  Printer.FontBold = False
+        Printer.FontBold = False
         Printer.FontSize = 10
         Printer.CurrentX = 0
         Printer.CurrentY = 2830 ' 3530 matches ArCard, but too low (3300 too low)
         Printer.Print()
-        Printer.Print TAB(10); Trim(mR.First); " "; Trim(mR.Last); Tab(60);
-  Printer.Print TAB(10); mR.Address
-  If Trim(mR.AddAddress) <> "" Then Printer.Print TAB(10); mR.AddAddress
-  Printer.Print TAB(10); mR.City; " "; mR.Zip
-  Printer.Print()
+        Printer.Print(TAB(10), Trim(mR.First), " ", Trim(mR.Last), TAB(60))
+        Printer.Print(TAB(10), mR.Address)
+        If Trim(mR.AddAddress) <> "" Then Printer.Print(TAB(10), mR.AddAddress)
+        Printer.Print(TAB(10), mR.City, " ", mR.Zip)
+        Printer.Print()
 
         ' if we want telephone numbers, captions may need fixing (which should be in the class object)
 
@@ -583,25 +584,116 @@ End Sub
         '  Printer.CurrentY = 4634
         Dim mR2 As clsMailShipTo
         mR2 = mR.ShipTo
-        Printer.Print TAB(10); DressTelephoneLabel(mR.PhoneLabel1, mR.Tele); DressAni(mR.Tele); "   "; DressTelephoneLabel(mR.PhoneLabel2, mR.Tele2); DressAni(mR.Tele2); "   "; DressTelephoneLabel(mR2.PhoneLabel3, mR2.Tele); DressAni(mR2.Tele)
-  If mR.Email <> "" Then Printer.Print(TAB(10); "Email: "; mR.Email)
+        Printer.Print(TAB(10), DressTelephoneLabel(mR.PhoneLabel1, mR.Tele), DressAni(mR.Tele), "   ", DressTelephoneLabel(mR.PhoneLabel2, mR.Tele2), DressAni(mR.Tele2), "   ", DressTelephoneLabel(mR2.PhoneLabel3, mR2.Tele), DressAni(mR2.Tele))
+        If mR.Email <> "" Then Printer.Print(TAB(10), "Email: ", mR.Email)
 
         DisposeDA(mR2)
     End Sub
 
     Public Sub PrintTransactionsHeader()
         ' Check for 1 line free before calling this.
-        PrintCentered "Recent Transactions", , True
-  PrintLine()
+        PrintCentered("Recent Transactions", , True)
+        PrintLine()
         Printer.FontBold = True
-        PrintToPosition Printer, "Date", 1800, vbAlignRight, False
-  PrintToPosition Printer, "Type", 2100, vbAlignLeft, False
-  PrintToPosition Printer, "Charges", 4900, vbAlignRight, False
-  PrintToPosition Printer, "Credits", 6000, vbAlignRight, False
-  PrintToPosition Printer, "Balance", 7200, vbAlignRight, False
-  PrintToPosition Printer, "Receipt / Notes", 11500, vbAlignRight, True
-  Printer.FontBold = False
+        PrintToPosition(Printer, "Date", 1800, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "Type", 2100, AlignConstants.vbAlignLeft, False)
+        PrintToPosition(Printer, "Charges", 4900, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "Credits", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "Balance", 7200, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "Receipt / Notes", 11500, AlignConstants.vbAlignRight, True)
+        Printer.FontBold = False
         PrintLine()
     End Sub
+
+    Private Sub PrintMonthlyStatementHeading(ByRef mR As clsMailRec, ByRef InstAcct As cInstallment)
+        If Printer.CurrentY <> 0 Then Printer.NewPage()
+        Printer.FontName = "Arial"
+        Printer.FontSize = 10
+
+        Printer.CurrentX = 0
+        Printer.CurrentY = 300
+        Printer.Print("Sold :", TAB(10), Trim(mR.First & " " & mR.Last))
+        Printer.Print(" To", TAB(10), mR.Address)
+        Printer.Print(TAB(10), mR.City)
+
+        Printer.CurrentX = 0
+        Printer.CurrentY = 300
+        Printer.Print(TAB(38), "OPEN CHARGE")
+        Printer.Print(TAB(38), "Acct # ", TAB(48), InstAcct.ArNo)
+        Printer.Print(TAB(38), "Date : ", TAB(48), Today)
+        Printer.Print(TAB(38), "Balance: ", TAB(48), FormatCurrency(InstAcct.Balance))
+
+        Printer.CurrentX = 0
+        Printer.CurrentY = 300
+
+        Printer.Print(TAB(80), StoreSettings.Name, " Page: " & Printer.Page)
+        Printer.Print(TAB(80), StoreSettings.Address)
+        Printer.Print(TAB(80), StoreSettings.City)
+        Printer.Print(TAB(80), StoreSettings.Phone)
+
+        Printer.Print()
+    End Sub
+
+    Public Sub PrintTransactionsFooter(ByVal Balance As Decimal, ByVal TotNewCharges As Decimal, Optional ByVal TotNewSales As Decimal = 0, Optional ByVal TotNewPayments As Decimal = 0, Optional ByVal TotNewInterest As Decimal = 0)
+        ' Check for 3 lines free before calling this.
+        PrintLine()
+        PrintToPosition(Printer, "Previous Balance", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(Balance - TotNewCharges), 7200, AlignConstants.vbAlignRight, True)
+
+        PrintToPosition(Printer, "+New Sales", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(TotNewSales), 7200, AlignConstants.vbAlignRight, True)
+
+        PrintToPosition(Printer, "-Payments", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(TotNewPayments), 7200, AlignConstants.vbAlignRight, True)
+
+        PrintToPosition(Printer, "+Interest", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(TotNewInterest), 7200, AlignConstants.vbAlignRight, True)
+
+        Printer.FontBold = True
+        PrintToPosition(Printer, "---------------", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "---------------", 7200, AlignConstants.vbAlignRight, True)
+
+        '  PrintToPosition Printer, "New Charges", 6000, vbAlignRight, False
+        '  PrintToPosition Printer, FormatCurrency(TotNewCharges), 7200, vbAlignRight, False
+        '  PrintToPosition Printer, "(Payments and Interest)", 7500, vbAlignLeft, True
+
+        PrintToPosition(Printer, "Total Balance", 6000, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(Balance), 7200, AlignConstants.vbAlignRight, True)
+        Printer.FontBold = False
+    End Sub
+
+    Private Sub PrintHoldingHeading(ByRef H As cHolding)
+        ' Check for 5 lines free before printing this.
+        Printer.FontBold = True
+        Printer.Print("Invoice #", H.LeaseNo)
+        PrintLine()
+        PrintToPosition(Printer, "DATE", 1800, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "QTY", 2900, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, "DESCRIPTION", 3100, AlignConstants.vbAlignLeft, False)
+        PrintToPosition(Printer, "AMOUNT", 11500, AlignConstants.vbAlignRight, True)
+        PrintLine()
+        Printer.FontBold = False
+    End Sub
+
+    Private Sub PrintHoldingFooting(ByRef H As cHolding)
+        ' Check for 3 lines free before printing this.
+        Printer.FontBold = True
+        PrintLine()
+        PrintToPosition(Printer, "TOTAL", 10500, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(H.Sale), 11500, AlignConstants.vbAlignRight, True)
+        PrintToPosition(Printer, "-AMT PAID", 10500, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(H.Deposit), 11500, AlignConstants.vbAlignRight, True)
+        PrintToPosition(Printer, "=UNPAID BAL", 10500, AlignConstants.vbAlignRight, False)
+        PrintToPosition(Printer, FormatCurrency(H.Sale - H.Deposit), 11500, AlignConstants.vbAlignRight, True)
+        Printer.FontBold = False
+    End Sub
+
+    Private Function DressTelephoneLabel(ByRef S As String, Optional ByRef IfNotBlank As String = "Not Blank") As String
+        If Trim(IfNotBlank) = "" Then Exit Function
+        DressTelephoneLabel = Trim(S)
+        If DressTelephoneLabel = "" Then DressTelephoneLabel = "Telephone:"
+        If Right(DressTelephoneLabel, 1) <> ":" Then DressTelephoneLabel = DressTelephoneLabel & ":"
+        DressTelephoneLabel = DressTelephoneLabel & " "
+    End Function
 
 End Module

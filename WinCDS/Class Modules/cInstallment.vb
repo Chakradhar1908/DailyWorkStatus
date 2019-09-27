@@ -39,8 +39,6 @@
     Private Const TABLE_NAME As String = "InstallmentInfo"
     Private Const TABLE_INDEX As String = "ArNo"
 
-
-    'Implements CDataAccess
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
@@ -90,39 +88,41 @@
     End Function
 
     Public Function GetLastInterestDate() As Date
-        GetLastInterestDate = 0
+        'GetLastInterestDate = 0
+        GetLastInterestDate = Nothing
         Dim Trans As New cTransaction
-        Trans.Load ArNo, "ArNo"
-  Do Until Trans.DataAccess.Record_EOF
+        Trans.Load(ArNo, "ArNo")
+        Do Until Trans.DataAccess.Record_EOF
             If Trans.TransDate > GetLastInterestDate And Trans.Charges > 0 And Trans.TransType = arPT_Int Then
                 GetLastInterestDate = Trans.TransDate
             End If
             Trans.DataAccess.Records_MoveNext()
         Loop
-        DisposeDA Trans
-End Function
+        DisposeDA(Trans)
+    End Function
 
-    Public Function PaidInPeriod(ByRef TargetDate As Date) As Currency
+    Public Function PaidInPeriod(ByRef TargetDate As Date) As Decimal
         ' Returns the amount paid during the month of TargetDate, using LateDueOn as period boundary.
         PaidInPeriod = 0
         Dim StartDate As Date, EndDate As Date
-        StartDate = DateAdd("d", -Day(TargetDate) + LateDueOn, TargetDate)
+        StartDate = DateAdd("d", -DateAndTime.Day(TargetDate) + LateDueOn, TargetDate)
         If StartDate > TargetDate Then StartDate = DateAdd("m", -1, StartDate)
-        EndDate = DateAdd("m", StartDate, 1)
+        'EndDate = DateAdd("m", StartDate, 1)
+        EndDate = DateAdd("m", 1, StartDate)
 
         Dim Trans As New cTransaction
-        Trans.Load ArNo, "ArNo"
-  Do Until Trans.DataAccess.Record_EOF
+        Trans.Load(ArNo, "ArNo")
+        Do Until Trans.DataAccess.Record_EOF
             If Trans.TransDate > StartDate And Trans.TransDate <= EndDate Then
                 PaidInPeriod = PaidInPeriod + Trans.Credits
             End If
             Trans.DataAccess.Records_MoveNext()
         Loop
-        DisposeDA Trans
-End Function
+        DisposeDA(Trans)
+    End Function
 
     Public Function RevolvingInterestDate(ByVal DTE As Date) As Date
-        Dim X As Long
+        Dim X As Integer
         X = LateDueOn
         Do Until IsDate(Month(DTE) & "/" & X & "/" & Year(DTE))
             X = X - 1
@@ -132,9 +132,10 @@ End Function
         RevolvingInterestDate = DateAdd("d", 1, RevolvingInterestDate)
     End Function
 
-    Public Function AddInterest(ByRef NewInterest As Currency, Optional ByRef ChargeDate As Date = 0) As Boolean
+    Public Function AddInterest(ByRef NewInterest As Decimal, Optional ByRef ChargeDate As Date = Nothing) As Boolean
         If NewInterest = 0 Then Exit Function
-        If ChargeDate = 0 Then ChargeDate = Date
+        'If ChargeDate = 0 Then ChargeDate = Date
+        If ChargeDate = Nothing Then ChargeDate = Today
 
         ' Record the interest in the revolving account
         INTEREST = INTEREST + NewInterest
@@ -148,13 +149,13 @@ End Function
         Trans.TransDate = ChargeDate
         Trans.MailIndex = MailIndex
         Trans.TransType = IIf(NewInterest > 0, arPT_Int, arPT_crInt)
-        Trans.Charges = Abs(NewInterest)
+        Trans.Charges = Math.Abs(NewInterest)
         Trans.Credits = 0
         Trans.Balance = Balance
         Trans.Receipt = ""
         Trans.Save
-        DisposeDA Trans
-End Function
+        DisposeDA(Trans)
+    End Function
 
     Public Function Save(Optional ByRef ErrDesc As String = "") As Boolean
         ErrDesc = ""
@@ -162,7 +163,7 @@ End Function
         On Error GoTo NoSave
         ' This instructs the class (in one simple call) to save its data members to the database.
         If DataAccess.CurrentIndex <= 0 Then            ' If we're already using the current record,
-            DataAccess.Records_OpenIndexAt ArNo 'there's no reason to re-open it.
+            DataAccess.Records_OpenIndexAt(ArNo) 'there's no reason to re-open it.
         End If
         If DataAccess.Record_Count = 0 Then
             DataAccess.Records_Add()      ' Record not found.  This means we're adding a new one.
@@ -178,11 +179,11 @@ NoSave:
         Save = False
     End Function
 
-    Public Function GetChargedInPeriod(ByVal AfterDate As Date, ByVal UpToIncluding As Date, Optional ByVal tType As String = arPT_Int) As Currency
+    Public Function GetChargedInPeriod(ByVal AfterDate As Date, ByVal UpToIncluding As Date, Optional ByVal tType As String = arPT_Int) As Decimal
         GetChargedInPeriod = 0
         Dim Trans As New cTransaction
-        Trans.Load ArNo, "ArNo"
-  Do Until Trans.DataAccess.Record_EOF
+        Trans.Load(ArNo, "ArNo")
+        Do Until Trans.DataAccess.Record_EOF
             If Trans.TransDate > AfterDate And Trans.TransDate <= UpToIncluding And Trans.Charges > 0 Then
                 If Trans.TransType = tType Then
                     GetChargedInPeriod = GetChargedInPeriod + Trans.Charges
@@ -190,7 +191,7 @@ NoSave:
             End If
             Trans.DataAccess.Records_MoveNext()
         Loop
-        DisposeDA Trans
-End Function
+        DisposeDA(Trans)
+    End Function
 
 End Class

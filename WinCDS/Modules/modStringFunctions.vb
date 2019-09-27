@@ -315,4 +315,41 @@ Module modStringFunctions
         If bLCase Then ReduceString = LCase(ReduceString)
     End Function
 
+    Public Function SplitWord(ByVal Source As String, Optional ByVal N As Long = 1, Optional ByVal Space As String = " ", Optional ByVal TrimResult As Boolean = True, Optional ByVal IncludeRest As Boolean = False) As String
+        '::::SplitWord
+        ':::SUMMARY
+        ': Return an indexed word from a string
+        ':::DESCRIPTION
+        ': Split()s a string based on a space (or other character) and return the word specified by the index.
+        ': - Returns "" for 1 > N > Count
+        ':::PARAMETERS
+        ': - Source - The original source string to analyze
+        ': - [N] = 1 - The index of the word to return (Default = 1)
+        ': - [Space] = " " - The character to use as the "space" (defaults to %20).
+        ': - [TrimResult] - Apply Trim() to the result (Default = True)
+        ': - [IncludeRest] - Return the rest of the string starting at the indexed word (Default = False).
+        ':::EXAMPLE
+        ': - SplitWord("The Rain In Spain Falls Mostly", 4) == "Spain"
+        ': - SplitWord("The Rain In Spain Falls Mostly", 4, , , True) == "Spain Falls Mostly"
+        ': - SplitWord("a:b:c:d", -1, ":") === "d"
+        ':::RETURN
+        ':  String
+        ':::SEE ALSO
+        ': Split, CountWords
+        Dim S As Variant, I As Long
+        N = N - 1
+        If Source = "" Then Exit Function
+        S = Split(Source, Space)
+        If N < 0 Then N = UBound(S) + N + 2
+        If N < LBound(S) Or N > UBound(S) Then Exit Function
+        If Not IncludeRest Then
+            SplitWord = S(N)
+        Else
+            For I = N To UBound(S)
+                SplitWord = SplitWord & IIf(Len(SplitWord) > 0, Space, "") & S(I)
+            Next
+        End If
+        If TrimResult Then SplitWord = Trim(SplitWord)
+    End Function
+
 End Module

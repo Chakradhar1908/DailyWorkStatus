@@ -372,7 +372,7 @@ BadVBARateFunction:
 
             Dim DateDue As Date
             DateDue = Format(GraceDate, "mm/" & (PaidBy + AdjustDays) & "/yyyy")
-            If Day(GraceDate) < PaidBy + AdjustDays Then DateDue = DateAdd("m", -1, DateDue)
+            If DateAndTime.Day(GraceDate) < PaidBy + AdjustDays Then DateDue = DateAdd("m", -1, DateDue)
 
             LateAmt = Arrears
             Do While LateAmt > 0

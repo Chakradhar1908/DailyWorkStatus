@@ -932,9 +932,9 @@ Public Class ARPaySetUp
                 End If
             End If
 
-            dteDate2.Value = DateAdd("m", 1, dteDate1)
+            dteDate2.Value = DateAdd("m", 1, dteDate1.Value)
             '    dteDate2 = Format(dteDate2, "mm/dd/yyyy")
-            CheckLateDay
+            CheckLateDay()
 
             BillOSale.Recalculate()
             txtGrossSale.Text = CurrencyFormat(BillOSale.Written)
@@ -1590,6 +1590,55 @@ Public Class ARPaySetUp
         optLate6.Text = "Due on 1st, Late on " & QueryLateDate(1, dteDate2.Value, , False)
         optLate16.Text = "Due on 10th, Late on " & QueryLateDate(10, dteDate2.Value, , False)
         optLate26.Text = "Due on 20th, Late on " & QueryLateDate(20, dteDate2.Value, , False)
+    End Sub
+
+    Private Function NeedCreditApp() As Boolean
+        Dim SQL As String, RS As ADODB.Recordset
+
+        NeedCreditApp = False
+        If Not UseIUI() Then Exit Function
+        If ArMode("E") Then Exit Function       ' not in estimator
+
+        SQL = "SELECT HisAge, HisSS, CoName, CoAddress, CoCityState, CoSS, CoAge FROM [ArApp] WHERE MailIndex='" & BillOSale.MailIndex & "'"
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+        If RS.RecordCount = 0 Then NeedCreditApp = True
+        If Not NeedCreditApp Then
+            If MsgBox("Edit Credit Application?", vbQuestion + vbYesNo + vbDefaultButton2, "Credit App On File") = vbYes Then NeedCreditApp = True
+        End If
+    End Function
+
+    Private Sub CreditApp()
+        'Load ArApp    ------> Load and Unload methods are not valid in vb.net. For Load formname, use formname.show only.
+        ArApp.Show()
+        ArApp.GetApp(BillOSale.MailIndex, txtArNo.Text)
+
+        If Trim(ArApp.txtFirstName.Text) = "" And Trim(ArApp.txtLastName.Text) = "" Then
+            If Not UseAmericanNationalInsurance Then
+                ArApp.txtFirstName = BillOSale.CustomerFirst
+                ArApp.txtLastName = BillOSale.CustomerLast
+            Else
+                If InStr(BillOSale.CustomerFirst.Text, "&") Then
+                    ArApp.txtFirstName.Text = SplitWord(BillOSale.CustomerFirst.Text, 1, "&")
+                    ArApp.txtLastName.Text = BillOSale.CustomerLast.Text
+                    ArApp.txtCoName.Text = SplitWord(BillOSale.CustomerFirst.Text, 2, "&") & " " & BillOSale.CustomerLast.Text
+                End If
+            End If
+        End If
+
+
+        If Trim(ArApp.txtAddress.Text) = "" Then ArApp.txtAddress.Text = BillOSale.CustomerAddress.Text
+        If Trim(ArApp.txtCity.Text) = "" Then ArApp.txtCity.Text = BillOSale.CustomerCity.Text
+        If Trim(ArApp.txtZip.Text) = "" Then ArApp.txtZip.Text = BillOSale.CustomerZip.Text
+        If Trim(ArApp.txtTele1.Text) = "" Then ArApp.txtTele1.Text = BillOSale.CustomerPhone1.Text
+        If Trim(ArApp.txtTele2.Text) = "" Then ArApp.txtTele2.Text = BillOSale.CustomerPhone2.Text
+
+        ArApp.txtAccount.Text = txtArNo.Text
+        'ArApp.Show 1
+        ArApp.ShowDialog()
+        If IsFormLoaded("ArApp") Then
+            'Unload ArApp
+            ArApp.Close()
+        End If
     End Sub
 
 End Class

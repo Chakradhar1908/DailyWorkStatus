@@ -322,4 +322,39 @@ NoFit:
         BestFontFit = OutOb.FontSize
     End Function
 
+    Public Sub PrintCentered(ByVal Text As String, Optional ByVal yPos As Integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
+        Dim Ob As Boolean, oI As Boolean
+        Dim OO As Object
+
+        On Error Resume Next
+        If OutputObject Is Nothing Then OutputObject = Printer
+        OO = OutputObject
+        Ob = OO.FontBold
+        oI = OO.FontItalic
+        If Bold Then OO.FontBold = True
+        If Italic Then OO.FontItalic = True
+        If yPos > 0 Then OO.CurrentY = yPos
+
+
+        OO.CurrentX = (OutputObject.ScaleWidth - OO.TextWidth(Text)) / 2 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+        OO.CurrentX = (Printer.ScaleWidth - OO.TextWidth(Text)) / 2 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+        If Not IscPrinter(OutputObject) Then
+            OutputObject.Print(Text)
+        Else
+            OutputObject.PrintNL(Text)
+        End If
+
+        If Bold Then OO.FontBold = Ob
+        If Italic Then OO.FontItalic = oI
+    End Sub
+
+    Public Sub PrintLine(Optional ByRef X1 As Integer = -1, Optional ByRef Y1 As Integer = -1, Optional ByRef X2 As Integer = -1, Optional ByRef Y2 As Integer = -1)
+        If X1 = -1 Then X1 = 0
+        If Y1 = -1 Then Y1 = Printer.CurrentY
+        If X2 = -1 Then X2 = Printer.ScaleWidth
+        If Y2 = -1 Then Y2 = Printer.CurrentY
+        'Printer.Line(X1, Y1)- (X2, Y2)
+        Printer.Line(X2, Y2)
+    End Sub
+
 End Module

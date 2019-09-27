@@ -30,6 +30,8 @@ Partial Class ArApp
         Me.txtTele1 = New System.Windows.Forms.TextBox()
         Me.txtTele2 = New System.Windows.Forms.TextBox()
         Me.lblTelephone = New System.Windows.Forms.Label()
+        Me.txtCoName = New System.Windows.Forms.TextBox()
+        Me.txtAccount = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'txtFirstName
@@ -90,11 +92,27 @@ Partial Class ArApp
         Me.lblTelephone.TabIndex = 7
         Me.lblTelephone.Text = "lblTelephone"
         '
+        'txtCoName
+        '
+        Me.txtCoName.Location = New System.Drawing.Point(114, 359)
+        Me.txtCoName.Name = "txtCoName"
+        Me.txtCoName.Size = New System.Drawing.Size(100, 20)
+        Me.txtCoName.TabIndex = 8
+        '
+        'txtAccount
+        '
+        Me.txtAccount.Location = New System.Drawing.Point(114, 385)
+        Me.txtAccount.Name = "txtAccount"
+        Me.txtAccount.Size = New System.Drawing.Size(100, 20)
+        Me.txtAccount.TabIndex = 9
+        '
         'ArApp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.txtAccount)
+        Me.Controls.Add(Me.txtCoName)
         Me.Controls.Add(Me.lblTelephone)
         Me.Controls.Add(Me.txtTele2)
         Me.Controls.Add(Me.txtTele1)
@@ -118,4 +136,6 @@ Partial Class ArApp
     Friend WithEvents txtTele1 As TextBox
     Friend WithEvents txtTele2 As TextBox
     Friend WithEvents lblTelephone As Label
+    Friend WithEvents txtCoName As TextBox
+    Friend WithEvents txtAccount As TextBox
 End Class
