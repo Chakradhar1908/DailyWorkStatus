@@ -480,7 +480,7 @@ HandleErr:
         CopyMailRecordsetToMailNew2(RS, tMailNew2)
         DisposeDA(RS)
     End Sub
-    Public Function LoadMailRecord(ByVal Index as integer, Optional ByVal StoreNo as integer = 0) As clsMailRec
+    Public Function LoadMailRecord(ByVal Index As Integer, Optional ByVal StoreNo As Integer = 0) As clsMailRec
         '::::LoadMailRecord
         ':::SUMMARY
         ': Loads records from Mail table.
@@ -508,4 +508,24 @@ HandleErr:
         End If
         LoadMailRecord = Ltmp
     End Function
+
+    Public Sub GetMailNewByIndex(ByVal Index As Long, ByRef tMailNew As MailNew, Optional ByVal StoreNo As Long = 0)
+        '::::GetMailNewByIndex
+        ':::SUMMARY
+        ': Gets a data structure MailNew
+        ':::DESCRIPTION
+        ': Gets a data structure MailNew with Index.
+        ':::PARAMETERS
+        ': - Index - Indicates the Index value.
+        ': - tMailNew - Indicates the MailNew data structure.
+        ': - StoreNo - Indicates the storenumber.
+        ':::RETURN
+
+        Dim RS As Recordset
+        If StoreNo = 0 Then StoreNo = StoresSld
+  Set RS = GetRecordsetBySQL("SELECT * FROM [Mail] WHERE Index=" & Index, , GetDatabaseAtLocation(StoreNo))
+  CopyMailRecordsetToMailNew RS, tMailNew
+  DisposeDA RS
+End Sub
+
 End Module

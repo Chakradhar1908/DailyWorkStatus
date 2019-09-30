@@ -302,4 +302,27 @@ AnError:
 AnError:
     End Function
 
+    Public Function PriceFormatFunc(ByVal Number As Variant, Optional ByVal Style As String = "$###,##0.00", Optional ByVal Length As Long = 12, Optional ByVal BlankForZero As Boolean = False) As String
+        '::::PriceFormatFunc
+        ':::Summmary
+        ':PriceFormatFunc is used display the price in certain format($###,##0.00).
+        ':::DESCRIPTION
+        ':This Function is mainly used to denote the format for price and gets the result from AlignString function.
+        ':AlignString Function aligns a string based on relevant criteria.Useful for forcing a fixed-width or left or right alignment.
+        ':::PARAMETERS
+        ':-Number-Denotes the Price.
+        ':-Style-Denotes the format style of price.
+        ':-Length-Denotes the length of price to be display.
+        ':-BlankForZero-It is Boolean Function.Used to display blank space when the value is Zero.
+        ':::RETURN
+        ':String-Returns price in given format as a string.
+
+        Dim NC As Currency, Text As String
+        NC = GetPrice(Number)
+        If BlankForZero And NC = 0 Then PriceFormatFunc = "" : Exit Function
+        Text = Format(NC, Style)
+        PriceFormatFunc = AlignString(Text, Length, vbAlignRight, False) ' Space(12 - Len(Text)) & Text
+
+    End Function
+
 End Module

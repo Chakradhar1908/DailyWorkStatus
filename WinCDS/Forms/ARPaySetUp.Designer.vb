@@ -24,9 +24,13 @@ Partial Class ARPaySetUp
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.fraARPaySetup = New System.Windows.Forms.GroupBox()
+        Me.fraJointLife = New System.Windows.Forms.Panel()
+        Me.optJointLife1 = New System.Windows.Forms.RadioButton()
+        Me.optJointLife0 = New System.Windows.Forms.RadioButton()
+        Me.lblAccountNo = New System.Windows.Forms.Label()
         Me.fraMath = New System.Windows.Forms.GroupBox()
+        Me.cmdPrint = New System.Windows.Forms.CheckBox()
         Me.cmdApply = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.lblMathTotal = New System.Windows.Forms.Label()
         Me.lblMathLastPay = New System.Windows.Forms.Label()
@@ -98,23 +102,19 @@ Partial Class ARPaySetUp
         Me.optLate16 = New System.Windows.Forms.RadioButton()
         Me.optLate6 = New System.Windows.Forms.RadioButton()
         Me.lblLateChargesApplied = New System.Windows.Forms.Label()
+        Me.picPicture = New System.Windows.Forms.PictureBox()
         Me.lblFirstPaymentDue = New System.Windows.Forms.Label()
         Me.lblDelDate = New System.Windows.Forms.Label()
         Me.dteDate2 = New System.Windows.Forms.DateTimePicker()
         Me.dteDate1 = New System.Windows.Forms.DateTimePicker()
         Me.tmrLoad = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblAccountNo = New System.Windows.Forms.Label()
-        Me.picPicture = New System.Windows.Forms.PictureBox()
-        Me.fraJointLife = New System.Windows.Forms.Panel()
-        Me.optJointLife1 = New System.Windows.Forms.RadioButton()
-        Me.optJointLife0 = New System.Windows.Forms.RadioButton()
         Me.fraARPaySetup.SuspendLayout()
+        Me.fraJointLife.SuspendLayout()
         Me.fraMath.SuspendLayout()
         Me.fraCoupons.SuspendLayout()
         Me.fraLateChargesApplied.SuspendLayout()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.fraJointLife.SuspendLayout()
         Me.SuspendLayout()
         '
         'fraARPaySetup
@@ -187,10 +187,49 @@ Partial Class ARPaySetUp
         Me.fraARPaySetup.TabIndex = 0
         Me.fraARPaySetup.TabStop = False
         '
+        'fraJointLife
+        '
+        Me.fraJointLife.Controls.Add(Me.optJointLife1)
+        Me.fraJointLife.Controls.Add(Me.optJointLife0)
+        Me.fraJointLife.Location = New System.Drawing.Point(227, 311)
+        Me.fraJointLife.Name = "fraJointLife"
+        Me.fraJointLife.Size = New System.Drawing.Size(82, 39)
+        Me.fraJointLife.TabIndex = 63
+        '
+        'optJointLife1
+        '
+        Me.optJointLife1.AutoSize = True
+        Me.optJointLife1.Location = New System.Drawing.Point(3, 21)
+        Me.optJointLife1.Name = "optJointLife1"
+        Me.optJointLife1.Size = New System.Drawing.Size(67, 17)
+        Me.optJointLife1.TabIndex = 58
+        Me.optJointLife1.Text = "Joint Life"
+        Me.optJointLife1.UseVisualStyleBackColor = True
+        '
+        'optJointLife0
+        '
+        Me.optJointLife0.AutoSize = True
+        Me.optJointLife0.Checked = True
+        Me.optJointLife0.Location = New System.Drawing.Point(3, 5)
+        Me.optJointLife0.Name = "optJointLife0"
+        Me.optJointLife0.Size = New System.Drawing.Size(74, 17)
+        Me.optJointLife0.TabIndex = 57
+        Me.optJointLife0.TabStop = True
+        Me.optJointLife0.Text = "Single Life"
+        Me.optJointLife0.UseVisualStyleBackColor = True
+        '
+        'lblAccountNo
+        '
+        Me.lblAccountNo.Location = New System.Drawing.Point(107, 624)
+        Me.lblAccountNo.Name = "lblAccountNo"
+        Me.lblAccountNo.Size = New System.Drawing.Size(91, 23)
+        Me.lblAccountNo.TabIndex = 61
+        Me.lblAccountNo.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'fraMath
         '
-        Me.fraMath.Controls.Add(Me.cmdApply)
         Me.fraMath.Controls.Add(Me.cmdPrint)
+        Me.fraMath.Controls.Add(Me.cmdApply)
         Me.fraMath.Controls.Add(Me.cmdCancel)
         Me.fraMath.Controls.Add(Me.lblMathTotal)
         Me.fraMath.Controls.Add(Me.lblMathLastPay)
@@ -206,6 +245,16 @@ Partial Class ARPaySetUp
         Me.fraMath.TabIndex = 60
         Me.fraMath.TabStop = False
         '
+        'cmdPrint
+        '
+        Me.cmdPrint.Appearance = System.Windows.Forms.Appearance.Button
+        Me.cmdPrint.Location = New System.Drawing.Point(6, 57)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(52, 24)
+        Me.cmdPrint.TabIndex = 11
+        Me.cmdPrint.Text = "&Print"
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
         'cmdApply
         '
         Me.cmdApply.Location = New System.Drawing.Point(52, 57)
@@ -214,15 +263,6 @@ Partial Class ARPaySetUp
         Me.cmdApply.TabIndex = 5
         Me.cmdApply.Text = "&Apply"
         Me.cmdApply.UseVisualStyleBackColor = True
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(6, 57)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(46, 23)
-        Me.cmdPrint.TabIndex = 4
-        Me.cmdPrint.Text = "&Print"
-        Me.cmdPrint.UseVisualStyleBackColor = True
         '
         'cmdCancel
         '
@@ -861,6 +901,16 @@ Partial Class ARPaySetUp
         Me.lblLateChargesApplied.TabIndex = 0
         Me.lblLateChargesApplied.Text = "Late Charges Will Be Applied:"
         '
+        'picPicture
+        '
+        Me.picPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.picPicture.Location = New System.Drawing.Point(275, 16)
+        Me.picPicture.Name = "picPicture"
+        Me.picPicture.Size = New System.Drawing.Size(40, 29)
+        Me.picPicture.TabIndex = 4
+        Me.picPicture.TabStop = False
+        Me.picPicture.Visible = False
+        '
         'lblFirstPaymentDue
         '
         Me.lblFirstPaymentDue.AutoSize = True
@@ -897,54 +947,8 @@ Partial Class ARPaySetUp
         Me.dteDate1.Size = New System.Drawing.Size(78, 20)
         Me.dteDate1.TabIndex = 0
         '
-        'lblAccountNo
+        'tmrLoad
         '
-        Me.lblAccountNo.Location = New System.Drawing.Point(107, 624)
-        Me.lblAccountNo.Name = "lblAccountNo"
-        Me.lblAccountNo.Size = New System.Drawing.Size(91, 23)
-        Me.lblAccountNo.TabIndex = 61
-        Me.lblAccountNo.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'picPicture
-        '
-        Me.picPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picPicture.Location = New System.Drawing.Point(275, 16)
-        Me.picPicture.Name = "picPicture"
-        Me.picPicture.Size = New System.Drawing.Size(40, 29)
-        Me.picPicture.TabIndex = 4
-        Me.picPicture.TabStop = False
-        Me.picPicture.Visible = False
-        '
-        'fraJointLife
-        '
-        Me.fraJointLife.Controls.Add(Me.optJointLife1)
-        Me.fraJointLife.Controls.Add(Me.optJointLife0)
-        Me.fraJointLife.Location = New System.Drawing.Point(227, 311)
-        Me.fraJointLife.Name = "fraJointLife"
-        Me.fraJointLife.Size = New System.Drawing.Size(82, 39)
-        Me.fraJointLife.TabIndex = 63
-        '
-        'optJointLife1
-        '
-        Me.optJointLife1.AutoSize = True
-        Me.optJointLife1.Location = New System.Drawing.Point(3, 21)
-        Me.optJointLife1.Name = "optJointLife1"
-        Me.optJointLife1.Size = New System.Drawing.Size(67, 17)
-        Me.optJointLife1.TabIndex = 58
-        Me.optJointLife1.Text = "Joint Life"
-        Me.optJointLife1.UseVisualStyleBackColor = True
-        '
-        'optJointLife0
-        '
-        Me.optJointLife0.AutoSize = True
-        Me.optJointLife0.Checked = True
-        Me.optJointLife0.Location = New System.Drawing.Point(3, 5)
-        Me.optJointLife0.Name = "optJointLife0"
-        Me.optJointLife0.Size = New System.Drawing.Size(74, 17)
-        Me.optJointLife0.TabIndex = 57
-        Me.optJointLife0.TabStop = True
-        Me.optJointLife0.Text = "Single Life"
-        Me.optJointLife0.UseVisualStyleBackColor = True
         '
         'ARPaySetUp
         '
@@ -958,6 +962,8 @@ Partial Class ARPaySetUp
         Me.Text = "Payment Set Up"
         Me.fraARPaySetup.ResumeLayout(False)
         Me.fraARPaySetup.PerformLayout()
+        Me.fraJointLife.ResumeLayout(False)
+        Me.fraJointLife.PerformLayout()
         Me.fraMath.ResumeLayout(False)
         Me.fraMath.PerformLayout()
         Me.fraCoupons.ResumeLayout(False)
@@ -965,8 +971,6 @@ Partial Class ARPaySetUp
         Me.fraLateChargesApplied.ResumeLayout(False)
         Me.fraLateChargesApplied.PerformLayout()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.fraJointLife.ResumeLayout(False)
-        Me.fraJointLife.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1041,7 +1045,6 @@ Partial Class ARPaySetUp
     Friend WithEvents lblMathMonthlyTotal As Label
     Friend WithEvents cmdCancel As Button
     Friend WithEvents cmdApply As Button
-    Friend WithEvents cmdPrint As Button
     Friend WithEvents lblMathMontlyMonths As Label
     Friend WithEvents lblMathMultiply As Label
     Friend WithEvents lblMathMonthly As Label
@@ -1057,4 +1060,5 @@ Partial Class ARPaySetUp
     Friend WithEvents fraJointLife As Panel
     Friend WithEvents optJointLife1 As RadioButton
     Friend WithEvents optJointLife0 As RadioButton
+    Friend WithEvents cmdPrint As CheckBox
 End Class

@@ -246,4 +246,34 @@
             IsBlueSky = CheckStoreName("Blue Sky", "Texas Discount")
         End Get
     End Property
+
+    Public ReadOnly Property IsEvridge() As Boolean
+        Get
+            IsEvridge = CheckStoreName("Evridge")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsJeffros() As Boolean
+        Get
+            IsJeffros = CheckStoreName("Jeffro")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsChicago() As Boolean
+        Get
+            IsChicago = CheckStoreName("New Age", "Chicago")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsCarpet() As Boolean
+        Get
+            IsCarpet = CheckStoreName("Carpet")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsMichaels() As Boolean
+        Get
+            IsMichaels = CheckStoreName("Michael")
+        End Get
+    End Property
 End Module

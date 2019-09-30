@@ -597,4 +597,8 @@ TestClearFailed:
         ItemPictureByRN = LoadPictureStd(ItemPXByRN(RN))
     End Function
 
+    Public Sub Domain_exit()
+        dbClose
+    End Sub
+
 End Module

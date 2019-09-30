@@ -427,4 +427,25 @@
         GetArNoLastAddOnPHP = Trim("" & GetValueBySQL("SELECT [PaymentHistoryProfile] FROM [InstallmentInfo] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo)))
     End Function
 
+    Public Function GetSaleNoFromArNo(ByVal mArNo As String) As String
+        '::::GetSaleNoFromArNo
+        ':::SUMMARY
+        ': Used to get Sale number from ArNo
+        ':::DESCRIPTION
+        ': Returns the Sale number associated with the AR No.
+        ':::PARAMETERS
+        ': - ArNo
+        ':::RETURN
+        ': String - Returns the sale number
+        Dim H As cHolding
+  Set H = New cHolding
+' Note: This only gets one (most recent?) sale, and there may be many.
+  If H.Load(mArNo, "ArNo") Then
+            GetSaleNoFromArNo = H.LeaseNo
+        Else
+            GetSaleNoFromArNo = mArNo
+        End If
+        DisposeDA H
+End Function
+
 End Module

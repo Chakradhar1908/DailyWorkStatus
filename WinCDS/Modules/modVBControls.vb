@@ -158,4 +158,30 @@ Fail:
         End If
     End Function
 
+    Public Sub EnableFrame(ByRef frm As Form, ByRef Fra As Frame, ByRef Enabled As Boolean, Optional ByRef ParentFrame As Frame = Nothing)
+        Dim C As Control, OK As Boolean
+        On Error Resume Next
+        Fra.Enabled = Enabled
+        For Each C In frm.Controls
+            If ParentFrame Is Nothing Then
+                OK = (C.Container.Name = Fra.Name)
+            Else
+                OK = (C.Container = Fra) Or (C.Container = ParentFrame)  ' doesn't seem to work..
+            End If
+            If Err.Number <> 0 Then
+                OK = False
+                Err.Clear()
+            End If
+            If OK Then
+                C.Enabled = Enabled
+                'If TypeName(C) = "Frame" Then EnableFrame Frm, C, Enabled, fra
+            End If
+        Next
+    End Sub
+
+    Public Function FocusControl(ByRef C) As Boolean
+        On Error Resume Next    ' SetFocus can hard-fail..  This protects it without adding error handling in your sub
+        C.SetFocus
+    End Function
+
 End Module

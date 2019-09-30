@@ -357,4 +357,125 @@ NoFit:
         Printer.Line(X2, Y2)
     End Sub
 
+    ' Generic method to send text to printer or print preview.
+    Public Sub PrintTo(Optional ByVal OutOb As Object, Optional ByVal OutText As Variant, Optional ByVal Position As Long = -1, Optional ByVal Alignment As AlignConstants = vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+        If OutOb Is Nothing Then Set OutOb = OutputObject
+  If Position = -1 Then Position = OutOb.CurrentX Else Position = Position * 80
+        PrintToPosition OutOb, OutText, Position, Alignment, NewLine
+End Sub
+
+    '    Public Property Get LegalContractPrinter(Optional ByVal StoreNo As Long = 0) As String
+    '    Dim F As String, F1 As String
+    '  F1 = "Legal Contract Printer"
+    '  If StoreNo = 0 Then StoreNo = StoresSld
+    '  F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
+    '  LegalContractPrinter = GetConfigTableValue(F, "")
+    'End Property
+    '    Public Property Let LegalContractPrinter(Optional ByVal StoreNo As Long = 0, ByVal nValue As String)
+    '    Dim F As String, F1 As String
+    '  F1 = "Legal Contract Printer"
+    '  If StoreNo = 0 Then StoreNo = StoresSld
+    '  F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
+    '  SetConfigTableValue F, nValue
+    '    End Property
+
+    Public Property LegalContractPrinter(Optional ByVal StoreNo As Long = 0) As String
+        Get
+            Dim F As String, F1 As String
+            F1 = "Legal Contract Printer"
+            If StoreNo = 0 Then StoreNo = StoresSld
+            F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
+            LegalContractPrinter = GetConfigTableValue(F, "")
+        End Get
+        Set(value As String)
+            Dim F As String, F1 As String
+            F1 = "Legal Contract Printer"
+            If StoreNo = 0 Then StoreNo = StoresSld
+            F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
+            SetConfigTableValue(F, value)
+        End Set
+    End Property
+
+    Public Function PrinterSetupDialog(ByVal Loc As Form, ByRef DeviceName As String, ByRef Port As String, Optional ByRef doSet As Boolean = True, Optional ByVal Flags As Long = cdlPDHidePrintToFile Or cdlPDNoPageNums Or cdlPDNoSelection Or cdlPDUseDevModeCopies Or cdlPDPrintSetup, Optional ByVal Min As Long, Optional ByVal Max As Long, Optional ByRef FromPage As Long, Optional ByRef ToPage As Long, Optional ByRef Copies As Long, Optional ByRef Orientation As Long = 0) As Boolean
+        Dim P As New PrinterDlg, Pri As Printer
+
+        On Error Resume Next
+        ' BFH20050107
+        ' it did this using com dlg, but we're not using that anymore..
+        ' cant find a similar way to do this, so i'm leaving it out.. its fairly trivial
+        '   ComDlg.DialogTitle = MsgTitle$   'Set the title of the dialog box
+        If Min <> 0 Then P.Min = Min
+        If Max <> 0 Then P.Max = Max
+        P.Flags = Flags
+
+        P.PrinterName = Printer.DeviceName
+        P.DriverName = Printer.DriverName
+        P.Port = Printer.Port
+        P.CancelError = True
+
+
+        On Error GoTo PrinterDialogCancelled
+        P.ShowPrinter Loc.hwnd
+
+  DeviceName = P.PrinterName
+        Port = P.Port
+        If P.Flags And cdlPDPageNums Then
+            FromPage = P.FromPage
+            ToPage = P.ToPage
+        ElseIf P.Flags And cdlPDSelection Then
+            ' no change
+        Else
+            FromPage = P.Min
+            ToPage = P.Max
+        End If
+        Copies = P.Copies
+        Orientation = P.Orientation
+  
+  Set P = Nothing
+   
+On Error Resume Next
+        If doSet Then
+            SetPrinter DeviceName
+    Printer.Orientation = Orientation
+        End If
+        PrinterSetupDialog = True
+        Exit Function
+
+PrinterDialogCancelled:
+        Err.Clear()
+    End Function
+
+    Public Sub PrintOut(Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal Text As String = "",
+   Optional ByVal XCenter As Boolean = False _
+  , Optional ByVal FontName As String = "", Optional ByVal FontBold As Boolean = False, Optional ByVal FontSize As String = "" _
+  , Optional ByVal DrawWidth As Single = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Long = -1 _
+  , Optional ByVal Orientation As Long = -1, Optional ByVal OutObj As Object = Nothing)
+
+        Dim I As Long
+        If Not OutputToPrinter And OutObj Is Nothing Then Set OutObj = OutputObject
+  If OutObj Is Nothing Then Set OutObj = Printer
+  If NewPage Then
+            If OutputToPrinter Then OutObj.NewPage Else frmPrintPreviewDocument.NewPage
+        End If
+        If FontName <> "" Then OutObj.FontName = FontName
+        If FontSize <> "" Then OutObj.FontSize = FontSize
+        OutObj.FontBold = FontBold
+        If Orientation <> -1 Then OutObj.Orientation = Orientation
+        If X <> -1 Then OutObj.CurrentX = X
+        If Y <> -1 Then OutObj.CurrentY = Y
+        If DrawWidth <> -1 Then OutObj.DrawWidth = DrawWidth
+        If XCenter Then OutObj.CurrentX = IIf(X <= 0, Printer.Width / 2, X) - OutObj.TextWidth(Trim(Text)) / 2
+        If Text <> "" Then
+            If Not IscPrinter(OutObj) Then
+                OutObj.Print Text
+    Else
+                OutObj.PrintNL Text
+    End If
+        End If
+
+        If (BlankLines <> -1) Then
+            For I = 1 To BlankLines : OutObj.Print "": Next
+        End If
+    End Sub
+
 End Module

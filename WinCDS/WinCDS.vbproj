@@ -475,6 +475,7 @@
     </Compile>
     <Compile Include="ItemDataClass.vb" />
     <Compile Include="Modules\BillOfSaleCommon.vb" />
+    <Compile Include="Modules\dbaseloModule.vb" />
     <Compile Include="Modules\dbSQL.vb" />
     <Compile Include="Modules\Functions.vb" />
     <Compile Include="Modules\ImplementsModule.vb" />
@@ -516,6 +517,7 @@
     <Compile Include="Modules\modDownloadURL.vb" />
     <Compile Include="Modules\modEasing.vb" />
     <Compile Include="Modules\modEmail.vb" />
+    <Compile Include="Modules\modEnglish.vb" />
     <Compile Include="Modules\modErrorReporting.vb" />
     <Compile Include="Modules\modExternalIP.vb" />
     <Compile Include="Modules\modFileSize.vb" />

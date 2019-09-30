@@ -1150,4 +1150,12 @@ AnError:
     'Public Sub Axdatagrid1RowColChange(sender As Object, Optional e As AxMSDataGridLib.DDataGridEvents_RowColChangeEvent = New AxMSDataGridLib.DDataGridEvents_RowColChangeEvent(lastRow:=LastRowUsed, 1) Handles AxDataGrid1.RowColChange
     '    AxDataGrid1_RowColChange(AxDataGrid1, e)
     'End Sub
+
+    Public Sub MoveRow(I As Long)
+        If I < 0 Then I = 0
+        With AxDataGrid1
+            .Bookmark = .RowBookmark(I)
+        End With
+    End Sub
+
 End Class

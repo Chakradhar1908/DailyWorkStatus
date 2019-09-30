@@ -122,4 +122,43 @@
         IsADJ = (Trim(Style) = styADJ)
     End Function
 
+    Public Function IsReturned(ByVal Status As String) As Boolean
+        '::::IsReturned
+        ':::SUMMARY
+        ': Is Returned (Status)
+        ':::DESCRIPTION
+        ': Returns whether the status is of returned type
+        ':::PARAMETERS
+        ': - Status
+        ':::RETURN
+        ': Boolean
+        IsReturned = (Left(Trim(Status), 1) = staPFRet)
+    End Function
+
+    Public Function IsSub(ByVal Style As String) As Boolean
+        '::::IsSub
+        ':::SUMMARY
+        ': Is Sub total (Style)
+        ':::DESCRIPTION
+        ': Returns whether style is a sub total
+        ':::PARAMETERS
+        ': - Style
+        ':::RETURN
+        ': Boolean
+        IsSub = (Trim(Style) = stySUB)
+    End Function
+
+    Public Function IsTax(ByVal Style As String) As Boolean
+        '::::IsTax
+        ':::SUMMARY
+        ': Is Tax (style)
+        ':::DESCRIPTION
+        ': Returns whether style is tax (TAX1 or TAX2)
+        ':::PARAMETERS
+        ': - Style
+        ':::RETURN
+        ': Boolean
+        IsTax = (Trim(Style) = styTX1 Or Trim(Style) = styTX2)
+    End Function
+
 End Module

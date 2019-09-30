@@ -774,4 +774,25 @@ DoNumber:
         Next
     End Function
 
+    Public Function ArAddOnCreateContractHistoryAccount(ByVal ArNo As String, Optional ByVal StoreNo As Long = 0) As String
+        Dim D As String
+        ArAddOnCreateContractHistoryAccount = ArAddOnContractHistoryAccountNo(ArNo, StoreNo)                ' Get and return the Record Keeping ArNo
+        D = Date                                                                                            ' We need to know the effective date of this PHP
+        GetPaymentHistoryEquifax ArNo, D                                                                    ' Record the current Payment History Profile
+        If Not DuplicateArInstallmentInfoRecord(StoreNo, ArNo, ArAddOnCreateContractHistoryAccount, arST_Void) Then   ' Duplicate the record to the new ArNo
+            MsgBox "Could not create AddOn Record Account: " & ArAddOnCreateContractHistoryAccount            ' If failure, notify
+        Else                                                                                                ' else, Make the new Record Keeping ArNo VOID and record PHP date
+            ExecuteRecordsetBySQL "UPDATE [InstallmentInfo] SET [Status]='" & arST_Void & "', [WriteOffDate]=#" & D & "#, [PaymentHistoryProfile]='' WHERE [ArNo]=""" & ProtectSQL(ArAddOnCreateContractHistoryAccount) & """", , GetDatabaseAtLocation(StoreNo)
+    AddNewARTransactionExisting StoreNo, ArAddOnCreateContractHistoryAccount, Date, arPT_stVoi, 0, 0, "Account Created VOID for A/R Add-On, Account #" & ArNo
+  End If
+    End Function
+
+    Public Function ArAddOnToNewCloseOutAccount(ByVal StoreNo As Long, ByVal ArNo As String, ByVal NewArNo As String, ByVal Balance As Currency) As String
+        Dim D As String
+        ' Close out the old account, marking a balance credit and recording the transfer to another account, as well as changing status...
+        AddNewARTransactionExisting StoreNo, ArNo, Date, arPT_crPri, 0, Balance, "Added onto Account: " & NewArNo
+  ExecuteRecordsetBySQL "UPDATE [InstallmentInfo] Set [TotPaid]=[Financed], [Balance]=0, [LateChargeBal]=0, [Status]='" & arST_Clos & "' WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo)
+  AddNewARTransactionExisting StoreNo, ArNo, Date, arPT_stClo, 0, 0, "Account Closed via Add-On-To, Account: " & NewArNo
+End Function
+
 End Module

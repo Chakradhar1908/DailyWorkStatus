@@ -1,4 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.Interaction
+Imports VBRUN
+Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Imports VBA
+
 Public Class ARPaySetUp
     Dim WithEvents mDBAccess As CDbAccessGeneral
     Dim WithEvents mDBAccessTransactions As CDbAccessGeneral
@@ -274,7 +278,7 @@ Public Class ARPaySetUp
             'A.RoundUp = (chkRoundUp.Value = 1)
             A.RoundUp = (chkRoundUp.Checked = True)
 
-            A.Calculate
+            A.Calculate()
 
             APR = A.APR
             UpdateAPRLabel()
@@ -299,7 +303,7 @@ Public Class ARPaySetUp
 
             CalculateLateCharge()
             txtTotalBalance.Text = GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text)
-            CalculateMath
+            CalculateMath()
             Exit Sub
 
             '  ElseIf ...
@@ -406,7 +410,7 @@ Public Class ARPaySetUp
             A.WeeklyPayments = Not (StoreSettings.bPaymentBooksMonthly)
             A.RoundUp = (chkRoundUp.Checked = True)
 
-            A.Calculate
+            A.Calculate()
 
             '    txtDocFee = CurrencyFormat(-Doc)
             txtPropertyInsurance.Text = CurrencyFormat(AmericanHeritage_Prop(A.NewSale + A.PrevBalance, Val(txtMonthsToFinance.Text)) - Tp)
@@ -426,14 +430,14 @@ Public Class ARPaySetUp
             Payment = GetPrice(txtPaymentWillBe.Text)
 
             CalculateLateCharge()
-            CalculateMath
+            CalculateMath()
             APR = 0
-            UpdateAPRLabel
+            UpdateAPRLabel()
             Exit Sub
         ElseIf UseThorntonsInsurance Then
             txtPropertyInsurance.Text = CurrencyFormat(ThorntonsPropertyRate() * GetPrice(txtSubTotal.Text))
             txtLifeInsurance.Text = CurrencyFormat(ThorntonsLifeRate(optJointLife1.Checked) * GetPrice(txtSubTotal.Text))
-            txtAccidentInsurance.Text = CurrencyFormat(ThorntonsAccidentRate * GetPrice(txtSubTotal.Text))
+            txtAccidentInsurance.Text = CurrencyFormat(ThorntonsAccidentRate() * GetPrice(txtSubTotal.Text))
 
         ElseIf IsBoyd Then
             Dim B As cArBoyd
@@ -447,7 +451,7 @@ Public Class ARPaySetUp
 
             B.DFP = DateDiff("d", dteDate1, dteDate2) 'Val(cboDeferred.Text) * 30
             B.N = Val(txtMonthsToFinance.Text)
-            B.Intr = InterestRate / 100
+            B.intr = InterestRate / 100
 
             B.bLife = chkLife.Checked = True
             B.bAH = chkAccident.Checked = True
@@ -484,7 +488,7 @@ Public Class ARPaySetUp
                         Previous = Previous * -1
                     End If
                     If APR = Rate Then Exit Do
-                    B.Intr = B.Intr + Delta
+                    B.intr = B.intr + Delta
 
                     APR = CalculateAPR(B.AmountFinanced, B.FinanceCharge, Val(txtMonthsToFinance.Text), Val(cboDeferred.Text))
                     SIR = B.intr
@@ -1512,6 +1516,187 @@ Public Class ARPaySetUp
         End If
     End Sub
 
+    Private Sub mDBAccess_GetRecordNotFound()   ' called if not found
+        'MsgBox "Record not found"
+        mArNo = -1
+        DBInterest = 0
+    End Sub
+
+    Private Sub mDBAccess_GetRecordEvent(RS As ADODB.Recordset)
+        ' finds old record
+
+        '**** show old account on screen and choose new account or Add On *****
+        AccountFound = "Y"
+
+        Do While Not RS.EOF
+            Application.DoEvents()
+            Dim Tid As String
+            ArCard.lblBalance.Text = ""
+            ArCard.lblLateCharge.Text = ""
+
+            Status = IfNullThenNilString(RS("Status").Value)
+            mArNo = IfNullThenNilString(RS("ArNo").Value)
+            ArCard.lblAccount.Text = mArNo
+            Telephone = IfNullThenNilString(RS("Telephone").Value)
+            mBalance = IfNullThenZeroCurrency(RS("Balance").Value)
+
+            If AddOnAcc.Typee <> ArAddOn_Nil Then
+                'ArCard.Text20 = IfNullThenNilString(rs!Status)
+                ArCard.ArNo = RS("ArNo").Value
+                ArCard.Status = RS("Status").Value
+                MailRec = IfNullThenNilString(RS("MailIndex").Value)
+                ArCard.txtFinanced.Text = CurrencyFormat(IfNullThenZeroCurrency(RS("Financed").Value))
+                ArCard.txtMonths.Text = IfNullThenNilString(RS("Months").Value)
+                ArCard.txtRate.Text = IfNullThenNilString(RS("Rate").Value)
+                ArCard.txtMonthlyPayment.Text = CurrencyFormat(IfNullThenZeroCurrency(RS("PerMonth").Value))
+                ArCard.txtLateChargeAmount.Text = CurrencyFormat(IfNullThenZeroCurrency(RS("LateCharge").Value))
+
+                ArCard.txtPaidBy.Text = IfNullThenNilString(RS("LateDueOn").Value)
+                ArCard.txtDelivery.Text = DateFormat(IfNullThenNilString(RS("DeliveryDate").Value))
+                ArCard.txtFirstPay.Text = DateFormat(IfNullThenNilString(RS("FirstPayment").Value))
+                ArCard.txtLastPay.Text = DateAdd("m", Val(ArCard.txtMonths.Text) - 1, ArCard.txtFirstPay.Text)
+                ArCard.txtSameAsCash.Text = IfNullThenNilString(RS("CashOpt").Value)
+                ArCard.lblBalance.Text = IfNullThenZeroCurrency(RS("Balance").Value)
+                'ArCard.TotPaid = IfNullThenNilString(rs!TotPaid)
+                'allow for opening late charge balance
+                ArCard.lblLateCharge.Text = IfNullThenZeroCurrency(RS("LateChargeBal").Value)
+                INTEREST = IfNullThenNilString(RS("INTEREST").Value)
+                DBInterest = GetPrice(INTEREST)
+                txtPrevBalance.Text = CurrencyFormat(mBalance) - IIf(IsRevolvingCharge(ArNo), INTEREST, 0)
+                InterestTax = IfNullThenZeroCurrency(RS("InterestSalesTax").Value)
+                FinanceChargeSalesTax = IfNullThenZeroCurrency(RS("InterestSalesTax").Value)
+                Life = IfNullThenZeroCurrency(RS("Life").Value)
+                Accident = IfNullThenZeroCurrency(RS("Accident").Value)
+                Prop = IfNullThenZeroCurrency(RS("Prop").Value)
+                IUI = IfNullThenZeroCurrency(RS("IUI").Value)
+
+                SendNotice = IfNullThenNilString(RS("SendNotice").Value)
+
+                ArCard.GetCustomer()
+                ArCard.GetCust()
+                ArCard.GetPayoff()
+                ArCard.GetAgeing()
+            End If
+
+            If Status <> arST_Void And Not ArNoIsAddOnRecord(mArNo) Then
+                'AddOnAcc.lstAccounts.AddItem " " & mArNo & "        " & Telephone & "  Balance: " & CurrencyFormat(mBalance)
+                AddOnAcc.lstAccounts.Items.Add(" " & mArNo & "        " & Telephone & "  Balance: " & CurrencyFormat(mBalance))
+                AccountArray(Zz) = Trim(mArNo)
+                Zz = Zz + 1
+            End If
+
+            RS.MoveNext()
+        Loop
+    End Sub
+
+    Private Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset)
+        On Error GoTo ErrorHandler
+        'called to write the record to info file
+
+        If IsIn(AddOn, ArAddOn_Add) Then
+            'BFH20170612 - This will back up the [InstallmentInfo] information for a given account when doing an Add-On
+            AddOnRecordAccount = ArAddOnCreateContractHistoryAccount(ArNo, StoresSld)
+        ElseIf IsIn(AddOn, ArAddOn_AdT) Then
+            'BFH20170707 - Add On to New Account:  Payoff and close existing account, add it to a NEW ACCOUNT as a previous balance
+            ArAddOnToNewCloseOutAccount(StoresSld, mArNo, ArNo, GetPrice(txtPrevBalance.Text))
+        End If
+
+        If ArMode("S") Or OrderMode("A", "B") Then
+            BillOSale.Index = BillOSale.Index
+        End If
+
+        RS("ArNo").Value = Trim(ArNo)
+        RS("MailIndex").Value = Trim(BillOSale.Index)
+        RS("LastName").Value = Trim(BillOSale.CustomerLast.Text)
+
+        RS("Telephone").Value = CleanAni(BillOSale.CustomerPhone1.Text)
+        RS("Financed").Value = CurrencyFormat(NewBalance + FinanceCharge + FinanceChargeSalesTax)
+        RS("Months").Value = Trim(Months)
+        RS("Rate").Value = Format(SIR * 100, "0.00")
+        RS("APR").Value = Format(APR, "0.00")
+        RS("PerMonth").Value = Trim(txtPaymentWillBe.Text)
+        RS("LateDueOn").Value = Trim(DueOn)
+        If Val(cboCashOption.SelectedIndex) < 0 Then cboCashOption.SelectedIndex = 0
+        RS("CashOpt").Value = cboCashOption.SelectedIndex
+
+        'calculate late charge
+        LateCharge = CurrencyFormat((StoreSettings.LateChargePer * 0.01) * GetPrice(txtPaymentWillBe.Text))
+        If StoreSettings.MaxLateCharge <> 0 Then
+            If LateCharge > StoreSettings.MaxLateCharge Then LateCharge = StoreSettings.MaxLateCharge
+        End If
+
+        If StoreSettings.MinLateCharge > 0 Then 'There is a minimum late charge
+            If LateCharge < StoreSettings.MinLateCharge Then LateCharge = StoreSettings.MinLateCharge
+        End If
+
+        RS("LateCharge").Value = LateCharge
+        RS("DeliveryDate").Value = dteDate1.Value
+
+        '  FirstPayment = DateAdd("m", 1, Format(dteDate1.Value, "mm/" & DueOn & "/yyyy"))
+        '  FirstPayment = fAdjustFirstPay(FirstPayment, cboDeferred.ListIndex) ' BFH20061026 - Added b/c it was wrong.. contracts and coupons were broken
+        '  If DateDiff("d", dteDate2, FirstPayment) < 0 Then
+        '    FirstPayment = DateAdd("m", 1, FirstPayment)
+        '  End If
+
+        RS("FirstPayment").Value = dteDate2.Value ' FirstPayment
+        RS("Balance").Value = Math.Round(NewBalance + FinanceCharge + FinanceChargeSalesTax, 2)
+        RS("LateChargeBal").Value = "0.00"
+        RS("Status").Value = "O"
+        RS("Interest").Value = GetPrice(txtFinanceCharges.Text)
+        RS("InterestSalesTax").Value = GetPrice(txtFinanceChargeSalesTax.Text)
+        RS("Life").Value = GetPrice(txtLifeInsurance.Text)
+        RS("LifeType").Value = IIf(optJointLife1.Checked, 1, 0)
+        RS("Accident").Value = GetPrice(txtAccidentInsurance.Text)
+        RS("Prop").Value = GetPrice(txtPropertyInsurance.Text)
+        RS("IUI").Value = GetPrice(txtUnemploymentInsurance.Text)
+        RS("TotPaid").Value = GetPrice("0")
+
+        RS("Period").Value = Switch(optMonthly.Checked = True, "M", optWeekly, "W", True, IIf(StoreSettings.bPaymentBooksMonthly, "M", "W"))
+
+        If ArMode("S") Then
+            'opening accounts previous payments
+            If Val(txtAddlPaymentsMade.Text) > 0 Then
+                '      rs("Balance") = Round(CurrencyFormat(NewBalance + FinanceCharge + FinanceChargeSalesTax - GetPrice(txtAddlPaymentsMade)), 2)
+                RS("TotPaid").Value = CurrencyFormat(GetPrice(txtAddlPaymentsMade.Text))
+            End If
+
+            'allow for opening late charge balance
+            If Val(txtBalDueLateCharge.Text) > 0 Then
+                '      rs("Balance") = Round(CurrencyFormat(NewBalance + FinanceCharge + FinanceChargeSalesTax - GetPrice(txtAddlPaymentsMade) + GetPrice(txtBalDueLateCharge)), 2)
+                RS("LateChargeBal").Value = CurrencyFormat(GetPrice(txtBalDueLateCharge.Text))
+            End If
+
+            RS("Balance").Value = Math.Round(CDec(CurrencyFormat(NewBalance + FinanceCharge + FinanceChargeSalesTax)) - GetPrice(txtAddlPaymentsMade.Text) + GetPrice(txtBalDueLateCharge.Text), 2)
+        End If
+        Exit Sub
+ErrorHandler:
+        If IsDevelopment() Then MessageBox.Show("Trouble with save:" & Err.Description, "Developer Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        Err.Clear()
+        Resume Next
+    End Sub
+
+    Private Sub mDBAccessTransactions_SetRecordEvent(RS As ADODB.Recordset)   ' called to write the record
+        '    RS("ArNo") = mArNo
+        RS("ArNo").Value = ArNo
+        If BillOSale.Index = 0 Then BillOSale.Index = MailRec 'this is for Add on sales from old account set up
+        RS("MailIndex").Value = BillOSale.Index
+        RS("LastName").Value = BillOSale.CustomerLast.Text
+        RS("TransDate").Value = dteDate1.Value
+
+        RS("Type").Value = TransType
+        RS("Charges").Value = CurrencyFormat(Charges)
+        RS("Credits").Value = CurrencyFormat(Credits)
+        RS("Balance").Value = Math.Round(CDec(CurrencyFormat(Balance)), 2)
+
+        If IsIn(AddOn, ArAddOn_Add, ArAddOn_AdT) And AddOnRecordAccount <> "" Then
+            RS("Receipt").Value = AddOnRecordAccount        ' On an add-on, record the history account #
+            AddOnRecordAccount = ""
+        End If
+    End Sub
+
+    Private Sub CalcFirstPayment()
+    End Sub
+
     Private Sub SetDefaultsRevolving()
         txtDocFee.Text = "0.00"
         txtDocFee.Enabled = False
@@ -1607,6 +1792,214 @@ Public Class ARPaySetUp
         End If
     End Function
 
+    Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
+        'Handle failure cases before changing mouse pointer or other things.
+        Working(True)
+
+        If NeedCreditApp() Then CreditApp()
+
+        If NeedPayOff Then Payoff()
+
+        If GetPrice(txtMonthsToFinance.Text) <= 0 And Not IsRevolvingCharge(txtArNo.Text) Then
+            'MsgBox "Please enter the length of the financing period.", vbExclamation
+            MessageBox.Show("Please enter the length of the financing period.")
+            txtMonthsToFinance.Select()
+            SelectContents(txtMonthsToFinance)
+            Working(False)
+            Exit Sub
+        End If
+
+        '  If SIR <= 0 Then
+        '    MsgBox "Please enter the interest rate.", vbExclamation
+        '    txtRate.SetFocus
+        '    SelectContents txtRate
+        '    Working False
+        '    Exit Sub
+        '  End If
+
+        'deliver sales AddOn
+        If OrderMode("A", "B") Or (OrderMode("D") And AddOnAcc.Typee <> ArAddOn_Add) Or ArMode("S") Then
+            If Trim(txtArNo.Text) = "" Then ' Or Val(txtArNo) = 0 Then ' added, then removed again:  bfh20061113
+                'MsgBox "You Must Enter An Account Number!", vbCritical
+                MessageBox.Show("You Must Enter An Account Number!")
+                On Error Resume Next
+                txtArNo.Select()
+                Working(False)
+                Exit Sub
+            ElseIf ArNoExists(txtArNo.Text) <> IsIn(AddOn, ArAddOn_Add) Then
+                If IsIn(AddOn, ArAddOn_Add) Then
+                    'MsgBox "This account number could not be found, so it can't be added on to.", vbCritical
+                    MessageBox.Show("This account number could not be found, so it can't be added on to.")
+                    On Error Resume Next
+                    txtArNo.Select()
+                    Working(False)
+                    Exit Sub
+                Else
+                    'MsgBox "This account number is already in use.  Please enter another.", vbCritical
+                    MessageBox.Show("This account number is already in use.  Please enter another.")
+                    On Error Resume Next
+                    txtArNo.Select()
+                    Working(False)
+                    Exit Sub
+                End If
+            End If
+        End If
+
+        If OrderMode("A") Then     ' Save txtArNo as a note on the bill of sale.
+            BillOSale.SetDesc(BillOSale.NewStyleLine - 1, BillOSale.QueryDesc(BillOSale.NewStyleLine - 1) & " Account #" & txtArNo.Text)
+            BillOSale.InstallmentTotal = GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(txtFinanceChargeSalesTax.Text)
+
+            Dim PSRes As Boolean
+            '    If BillOSale.UseNewProcessSale Then
+            PSRes = BillOSale.ProcessSale2
+            '    Else
+            '      PSRes = BillOSale.ProcessSale
+            '    End If
+            If Not PSRes Then
+                'MsgBox "Can't process Store Finance because Sale failed to save.", vbCritical, "Error",
+                MessageBox.Show("Can't process Store Finance because Sale failed to save.")
+                Working(False)
+                Exit Sub
+            End If
+
+        End If
+
+        'no contract - Post to data base
+        If ArMode("S") Then  ' Orig accounts
+            '    If Val(txtGrossSale) = 0 Then 'no Orig sale amount
+            '     If MsgBox("This Contract Is Incomplete!  You Must Enter The Gross Sale W/Tax", vbExclamation, "Incomplete Sale") = vbOK Then
+            '       txtGrossSale.SetFocus
+            '       cmdPrint.Enabled = True
+            '       cmdApply.Enabled = True
+            '       Working False
+            '       Exit Sub
+            '     End If
+            '    End If
+
+            If txtAddlPaymentsMade.Text = "" Then
+                'If MsgBox("Do You Want To Add Any Previous Payments!", vbExclamation + vbYesNo) = vbYes Then
+                If MessageBox.Show("Do You Want To Add Any Previous Payments!", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                    cmdPrint.Enabled = True
+                    cmdApply.Enabled = True
+                    FocusControl(txtAddlPaymentsMade)
+                    Working(False)
+                    Exit Sub
+                End If
+            End If
+        End If
+
+        'MousePointer = vbHourglass
+        Cursor = Cursors.WaitCursor
+        HandleBillOSaleControls(False)
+        cmdCancel.Text = "Done"
+
+        UnloadARPaySetUp = False 'processed sale for
+
+        If OrderMode("A") Then   'deliver sales
+            cmdCancel.Enabled = True
+            'Unload ArCard
+            ArCard.Close()
+            Show()
+        End If
+
+        Dim Printed As Boolean
+        If Not ArMode("E") Then   ' No contract estimator
+            ProcessAccount()
+
+            Printed = True
+            'If cmdPrint.Value Then  ---> In vb6 code, cmdPrint is a command button. It will be replaced with checkbox in vb.net. Cause If button.value conditional using is not possible in vb.net
+            If cmdPrint.Checked = True Then
+                PrintContract()
+                If StoreSettings.bPrintPaymentBooks Then PrintCoupons()
+            End If
+
+
+            Dim WasB As Boolean
+            WasB = OrderMode("B")
+
+            If OrderMode("D") Then
+                OrdPay.FinanceOnAccount(ArNo)
+                'Unload ArCard
+                ArCard.Close()
+                'Unload Me
+                Me.Close()
+                Exit Sub
+            Else
+                OrdPay.FinishRoutine(False)
+            End If
+
+            HandleBillOSaleControls(True)
+
+            Working(False, False)
+            '    cmdPrint.Enabled = False 'print & apply
+            '    cmdApply.Enabled = False
+
+            If WasB Or OrderMode("B") Then Exit Sub
+
+
+            If OrderMode("Credit") Then
+                'Unload ArCard
+                ArCard.Close()
+            End If
+
+            If Not ArMode("S") Then  'exit out of this sub from order "B"
+                'MousePointer = 0
+                Cursor = Cursors.Default
+                'Unload Me ' MJK 20140220
+                Me.Close()
+                Exit Sub
+            End If
+        End If
+
+        If ArMode("S") Then
+            'If MsgBox("Any More New Accounts To Open?", vbQuestion + vbYesNo) = vbYes Then
+            If MessageBox.Show("Any More New Accounts To Open?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                Domain_exit()
+                'Unload Me
+                Me.Close()
+                'Unload ArCard
+                ArCard.Close()
+                'Unload OrdPay
+                OrdPay.Close()
+                BillOSale.Show()
+                MailCheck.optTelephone.Checked = True
+                'MailCheck.Show vbModal, BillOSale
+                MailCheck.ShowDialog(BillOSale)
+                Exit Sub
+            Else
+                Domain_exit()
+                'Unload BillOSale
+                BillOSale.Close()
+                modProgramState.ArSelect = ""
+                'Unload ArCard
+                ArCard.Close()
+                'Unload OrdPay
+                OrdPay.Close()
+                'Unload ARPaySetUp
+                Me.Close()
+                MainMenu.Show()
+                Exit Sub
+            End If
+        End If
+
+        If Not OrderMode("B", "A") Then
+            'If cmdPrint.Value = True And Not Printed Then  --> Replaced button with checkbox. Cause If cmdPrint.Value = True is not possible in vb.net with button.
+            If cmdPrint.Checked = True And Not Printed Then
+                PrintContract()
+                If StoreSettings.bPrintPaymentBooks Then PrintCoupons()
+            End If
+
+            'MousePointer = 0
+            Cursor = Cursors.Default
+            'Unload Me
+            Me.Close()
+            ArSelect = ""
+        Else
+            'MousePointer = 0
+            Cursor = Cursors.Default
+        End If
+    End Sub
+
     Private Sub CreditApp()
         'Load ArApp    ------> Load and Unload methods are not valid in vb.net. For Load formname, use formname.show only.
         ArApp.Show()
@@ -1640,5 +2033,2377 @@ Public Class ARPaySetUp
             ArApp.Close()
         End If
     End Sub
+
+    Private Sub Working(Optional ByVal Working As Boolean = False, Optional ByVal CanSubmit As Boolean = True)
+        If Working Then CanSubmit = False
+
+        'MousePointer = IIf(Working, vbHourglass, vbDefault)
+        Me.Cursor = IIf(Working, Cursors.WaitCursor, Cursors.Default)
+        EnableFrame(Me, fraARPaySetup, Not Working)
+        'cmdCancel.Enabled = Not Working
+
+        cmdApply.Enabled = CanSubmit
+        cmdPrint.Enabled = CanSubmit
+    End Sub
+
+    Public Sub Payoff()
+        If mBalance = 0 Then Exit Sub
+
+        mDBAccessTransactions_Init(ArNo)
+        mDBAccessTransactions.GetRecord()    ' this gets the record
+
+        mDBAccessTransactions.SQL = "SELECT * From Transactions WHERE ArNo=""-1"""
+        ArNo = mArNo
+
+        '  If Val(ArCard.DocCredit) > 0 Then  'Doc
+        '    TransType = "Doc Payoff"
+        '    Charges = "0"
+        '    Credits = ArCard.DocCredit
+        '    Balance = ArCard.lblBalance - ArCard.DocCredit
+        '    mDBAccessTransactions.SetRecord
+        '  End If
+        '
+        If Val(ArCard.LifeCredit) > 0 Then  'Life
+            TransType = arPT_poLif
+            Charges = "0"
+            Credits = ArCard.LifeCredit
+            Balance = GetPrice(ArCard.lblBalance.Text) - ArCard.LifeCredit
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        If Val(ArCard.AccidentCredit) > 0 Then  'Acc
+            TransType = arPT_poAcc
+            Charges = "0"
+            Credits = ArCard.AccidentCredit
+            Balance = GetPrice(ArCard.lblBalance.Text) - ArCard.LifeCredit - ArCard.AccidentCredit
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        If Val(ArCard.PropertyCredit) > 0 Then  'Prop
+            TransType = arPT_poPro
+            Charges = "0"
+            Credits = ArCard.PropertyCredit
+            Balance = GetPrice(ArCard.lblBalance.Text) - ArCard.LifeCredit - ArCard.AccidentCredit - ArCard.PropertyCredit
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        If Val(ArCard.IUICredit) > 0 Then  'IUI
+            TransType = arPT_poIUI
+            Charges = "0"
+            Credits = ArCard.IUICredit
+            Balance = GetPrice(ArCard.lblBalance.Text) - ArCard.LifeCredit - ArCard.AccidentCredit - ArCard.PropertyCredit - ArCard.IUICredit
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        If Val(ArCard.InterestCredit) > 0 Then  'C/C
+            TransType = arPT_poInt
+            Charges = "0"
+            Credits = ArCard.InterestCredit
+            Dim lblARC8 As Decimal
+            lblARC8 = IIf(GetPrice(ArCard.lblBalance.Text) = 0, 0, GetPrice(ArCard.lblBalance.Text))
+            Balance = GetPrice(lblARC8) - ArCard.LifeCredit - ArCard.AccidentCredit - ArCard.PropertyCredit - ArCard.IUICredit - ArCard.InterestCredit
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        If Val(ArCard.InterestTaxCredit) > 0 Then  'C/C
+            TransType = arPT_poTax
+            Charges = "0"
+            Credits = ArCard.InterestTaxCredit
+            Balance = Balance - ArCard.InterestTaxCredit
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        'bfh20060905
+        Balance = GetPrice(ArCard.lblBalance.Text) - ArCard.LifeCredit - ArCard.AccidentCredit - ArCard.PropertyCredit - ArCard.IUICredit - ArCard.InterestCredit - ArCard.InterestTaxCredit
+
+        mDBAccessTransactions.dbClose()
+        mDBAccessTransactions = Nothing
+        txtPrevBalance.Text = Balance
+    End Sub
+
+    Private Sub ProcessAccount()
+        ArNo = txtArNo.Text
+
+        'BFH20170707 - Removed the following, because.... It was done on the line above it no matter what.
+        '  If OrderMode("B", "A") And IsNotIn(AddOn, ArAddOn_Add, ArAddOn_AdT) Then 'deliver sales/Add on
+        '    ArNo = txtArNo
+        '  End If
+        '
+        'addon account put in the A/R no automatically
+        If ArMode("S") Then    'old customer accounts / Add on
+            ArNo = txtArNo.Text
+            If Trim(ArNo) = "" Then Exit Sub
+        End If
+
+        mDBAccess_Init(Trim(ArNo))
+        mDBAccess.SetRecord()
+        mDBAccess.dbClose()
+        mDBAccess = Nothing
+
+
+        If BillOSale.BillOfSale.Text = "" Then
+            TransType = arPT_New & " " & GetSaleNoFromArNo(ArNo)
+        Else
+            TransType = arPT_New & " " & BillOSale.BillOfSale.Text
+        End If
+        Charges = GetPrice(txtGrossSale.Text)
+        ' Only add previous balance into contract amount if is an Add-OnTo (Add-Ons just use a running total from the previous account)
+        If IsIn(AddOn, ArAddOn_AdT) Then Charges = Charges + GetPrice(txtPrevBalance.Text)
+        Credits = GetPrice(txtOrigDeposit.Text)
+        Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text)) - GetPrice(txtOrigDeposit.Text)
+
+        mDBAccessTransactions_Init("-1")
+        mDBAccessTransactions.SetRecord()
+
+        If GetPrice(txtDocFee.Text) <> 0 Then  'doc fee
+            TransType = arPT_Doc
+            Charges = GetPrice(txtDocFee.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(txtDocFee), "40320", "Doc Fee"
+        End If
+
+        If GetPrice(txtLifeInsurance.Text) > 0 Then  'Life
+            TransType = arPT_Lif
+            Charges = GetPrice(txtLifeInsurance.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(txtLifeInsurance), "40330", "Life Ins."  ' 40330 == life single, 40340 == life joint
+        End If
+
+        If GetPrice(txtAccidentInsurance.Text) > 0 Then  'Acc
+            TransType = arPT_Acc
+            Charges = GetPrice(txtAccidentInsurance.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(txtAccidentInsurance), "40350", "Acc. Ins."
+        End If
+
+        If GetPrice(txtPropertyInsurance.Text) > 0 Then  'Prop
+            TransType = arPT_Pro
+            Charges = GetPrice(txtPropertyInsurance.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(txtPropertyInsurance), "40360", "Prop. Ins."
+        End If
+
+        If GetPrice(txtUnemploymentInsurance.Text) > 0 Then  'IUI
+            TransType = arPT_IUI
+            Charges = GetPrice(txtUnemploymentInsurance.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(txtUnemploymentInsurance), "40360", "IUI Ins."
+        End If
+
+        If GetPrice(txtFinanceCharges.Text) > 0 Then  'C/C
+            TransType = arPT_Int
+            Charges = GetPrice(txtFinanceCharges.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text)) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(txtFinanceCharges), "40370", "Interest Chg."
+        End If
+
+        If FinanceChargeSalesTax > 0 Then  'Finance Charge Sales Tax
+            TransType = arPT_Tax
+            Charges = GetPrice(FinanceChargeSalesTax)
+            Credits = "0"
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax)) - GetPrice(txtOrigDeposit.Text)
+            mDBAccessTransactions.SetRecord()
+            '    Cash BillOSale.BillOfSale, GetPrice(FinanceChargeSalesTax), "40380", "Int. Sls Tax"
+        End If
+
+        If GetPrice(txtAddlPaymentsMade.Text) > 0 Then  'Old account payments
+            TransType = arPT_Prv
+            Charges = 0
+            Credits = GetPrice(txtAddlPaymentsMade.Text)
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax) - GetPrice(txtOrigDeposit.Text) - GetPrice(txtAddlPaymentsMade.Text))
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        If GetPrice(txtBalDueLateCharge.Text) > 0 Then  'old account latecharge balance
+            TransType = arPT_PLC
+            Charges = GetPrice(txtBalDueLateCharge.Text)
+            Credits = 0
+            Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax) - GetPrice(txtOrigDeposit.Text) - GetPrice(txtAddlPaymentsMade.Text)) + GetPrice(txtBalDueLateCharge.Text)
+            mDBAccessTransactions.SetRecord()
+        End If
+
+        ' BFH20060911
+        Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax) - GetPrice(txtOrigDeposit.Text) - GetPrice(txtAddlPaymentsMade.Text)) + GetPrice(txtBalDueLateCharge.Text)
+        mDBAccessTransactions.dbClose()
+        mDBAccessTransactions = Nothing
+    End Sub
+
+    Public Sub PrintContract(Optional ByVal JustOnePlease As Boolean = False)
+        Dim BSN As String
+        On Error GoTo ErrorHandler
+
+
+        If IsRevolvingCharge(txtArNo.Text) Then Exit Sub ' No contract for revolving accounts MJK20140218
+        OutputObject = Printer
+
+        If IsDevelopmentMANUAL() Then GoTo JUST1FORM  'BFH20080301 - DEBUGGING
+
+        If UseAmericanNationalInsurance Then InsuranceFormTreeHouse : Exit Sub
+
+        If IsBoyd() Or IsUFO() Then Counter = 3 Else Counter = 2
+        If JustOnePlease Then Counter = 1
+
+        If FirstPayment = "" Then FirstPayment = dteDate2.Value
+
+        'Print contract & Post
+        For Copies = 1 To Counter
+            Printer.FontName = "Arial"
+            Printer.CurrentX = 0
+            Printer.FontSize = 14
+            Printer.CurrentY = 200
+            Printer.Print(("   Retail Installment & Security Agreement")
+
+            Printer.CurrentY = 1000
+            Printer.CurrentX = 0
+
+            Printer.FontSize = 16
+            Printer.FontBold = True
+            Printer.CurrentX = 500
+            Printer.Print((IStorename)
+
+            Printer.FontSize = 14
+            Printer.FontBold = False
+            Printer.CurrentX = 500
+            Printer.Print((IStoreAddress)
+            Printer.CurrentX = 500
+            Printer.Print((IStoreCity)
+            Printer.CurrentX = 500
+            Printer.Print((IStorePhone)
+
+            Printer.CurrentX = 8000
+            Printer.CurrentY = 100 '500 '1200
+            Printer.FontSize = 12
+            If IsEvridge Then Printer.FontSize = 11
+
+            PrintTo(OutputObject, "Delivery Date:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, dteDate1.Value, 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "1st. Payment Due:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, FirstPayment, 142, AlignConstants.vbAlignRight, True)
+
+            If IsEvridge Then
+                Dim InterestPayoff As Decimal
+                InterestPayoff = GetPrice(GetValueBySQL("SELECT TOP 1 [Credits] FROM Transactions WHERE ArNo='" & ArNo & "' AND [Type]='Interest Payoff' ORDER BY [TransactionID] DESC", , GetDatabaseAtLocation))
+
+                PrintTo(OutputObject, "Prior Balance:", 125, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, PriceFormatFunc(GetPrice(txtPrevBalance.Text) + InterestPayoff), 142, AlignConstants.vbAlignRight, True)
+
+                PrintTo(OutputObject, "Interest Payoff:", 125, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, PriceFormatFunc(InterestPayoff), 142, AlignConstants.vbAlignRight, True)
+            End If
+
+            PrintTo(OutputObject, "Previous Balance:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtPrevBalance), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "New Sale W/Tax:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtGrossSale), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Total Deposit:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtOrigDeposit), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Sub Total:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtSubTotal), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Documentation Fee:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtDocFee), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Life Insurance:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtLifeInsurance), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Accident Insurance:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtAccidentInsurance), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Property Insurance:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtPropertyInsurance), 142, AlignConstants.vbAlignRight, True)
+
+            '### UNEMPLOYMENT INSURANCE???  BFH20090722
+
+            PrintTo(OutputObject, "Months Financed:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, txtMonthsToFinance, 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Amount Financed:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtFinanceAmount), 142, AlignConstants.vbAlignRight, True)
+
+            PrintTo(OutputObject, "Payment Deferred:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, cboDeferred.SelectedIndex & " month(s)", 142, AlignConstants.vbAlignRight, True)
+
+            '    printto( OutputObject, "Deferment Interest:", 125, alignconstants.vbalignright, False
+            '    printto( OutputObject, PriceFormatFunc(txtDeferredInt), 142, alignconstants.vbalignright, True
+
+            PrintTo(OutputObject, "Finance Charge:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(txtFinanceCharges), 142, AlignConstants.vbAlignRight, True)
+
+            If StoreSettings.bInstallmentInterestIsTaxable Then
+                PrintTo(OutputObject, "Finance Charge Sales Tax:", 125, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, PriceFormatFunc(FinanceChargeSalesTax), 142, AlignConstants.vbAlignRight, True)
+            End If
+
+            PrintTo(OutputObject, "Total Financed:", 125, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, PriceFormatFunc(NewBalance + FinanceCharge + FinanceChargeSalesTax), 142, AlignConstants.vbAlignRight, True)
+
+            Printer.FontSize = 12
+            Printer.CurrentY = 3000 '3300
+            Printer.CurrentX = 0
+
+            BSN = GetBSNumList(ArNo)
+            If ArMode("REPRINT") Then
+                Printer.Print(TAB(10), Trim(ArCard.lblLastName.Text), ",  ", ArCard.lblFirstName.Text)
+                Printer.Print(TAB(10), Trim(ArCard.lblAddress.Text))
+                Printer.Print(TAB(10), Trim(ArCard.lblCity.Text), "   ", Trim(ArCard.lblZip.Text))
+                Printer.Print(TAB(10), DressAni(CleanAni(ArCard.lblTele1.Text)), "  ", DressAni(CleanAni(ArCard.lblTele2.Text)))
+                Printer.Print(TAB(10), "Sale No(s): ", BSN, "    Account: ", ArNo)
+            ElseIf Not ArMode("E") Then  ' contract estimator
+                Printer.Print(TAB(10), Trim(BillOSale.CustomerLast.Text), ",  ", BillOSale.CustomerFirst.Text)
+                Printer.Print(TAB(10), Trim(BillOSale.CustomerAddress.Text))
+                Printer.Print(TAB(10), Trim(BillOSale.CustomerCity.Text), "   ", Trim(BillOSale.CustomerZip.Text))
+                Printer.Print(TAB(10), DressAni(CleanAni(BillOSale.CustomerPhone1.Text)), "  ", DressAni(CleanAni(BillOSale.CustomerPhone2.Text)))
+                Printer.Print(TAB(10), "Sale No(s): ", BSN, "    Account: ", ArNo)
+            End If
+
+            Printer.DrawWidth = 7
+            'Printer.Line(0, 4600) - Step(11375, 1300), QBColor(0), B   'set large boxed for truth & Lending
+            Printer.Line(0, 4600, 11375, 1300, QBColor(0), True)   'set large boxed for truth & Lending
+
+            'Printer.Line(0, 4600)-Step(11375, 1300), QBColor(0), B   'set large boxed for truth & Lending
+            Printer.Line(0, 4600, 11375, 1300, QBColor(0), True)   'set large boxed for truth & Lending
+            'Printer.Line(2500, 4600)-Step(0, 1300)
+            Printer.Line(2500, 4600, 0, 1300)
+            'Printer.Line(4500, 4600)-Step(0, 1300)
+            Printer.Line(4500, 4600, 0, 1300)
+            'Printer.Line(6800, 4600)-Step(0, 1300)
+            Printer.Line(6800, 4600, 0, 1300)
+            'Printer.Line(8900, 4600)-Step(0, 1300)
+            Printer.Line(8900, 4600, 0, 1300)
+
+            Printer.CurrentX = 50
+            Printer.CurrentY = 4700 '5100
+            Printer.FontBold = True
+            Printer.FontSize = 8
+            Printer.Print(" ANNUAL PERCENTAGE RATE")
+            Printer.FontBold = False
+            Printer.CurrentX = 50
+            Printer.Print(" The cost of your credit as a")
+            Printer.CurrentX = 50
+            Printer.Print("yearly rate.")
+
+            Printer.CurrentX = 2800
+            Printer.CurrentY = 4700 '5100
+            Printer.FontBold = True
+            Printer.Print("FINANCE CHARGE")
+            Printer.FontBold = False
+            Printer.CurrentX = 2800
+            Printer.Print(" The dollar amount the")
+            Printer.CurrentX = 2800
+            Printer.Print("Credit will cost you.")
+
+            Printer.CurrentX = 4900
+            Printer.CurrentY = 4700 '5100
+            Printer.FontBold = True
+            Printer.Print("AMOUNT FINANCED")
+            Printer.FontBold = False
+            Printer.CurrentX = 4600
+            Printer.Print("The amount of credit pro-")
+            Printer.CurrentX = 4600
+            Printer.Print("vided to you on your behalf")
+
+            Printer.CurrentX = 6900
+            Printer.CurrentY = 4700 '5100
+            Printer.FontBold = True
+            Printer.Print(" TOTAL OF PAYMENTS")
+            Printer.FontBold = False
+            Printer.CurrentX = 6900
+            Printer.Print(" The amount you will have")
+            Printer.CurrentX = 6900
+            Printer.Print("paid after you have made all")
+            Printer.CurrentX = 6900
+            Printer.Print("payments as scheduled.")
+
+            Printer.CurrentX = 9200
+            Printer.CurrentY = 4700 '5100
+            Printer.FontBold = True
+            Printer.Print("  TOTAL SALE PRICE")
+            Printer.FontBold = False
+            Printer.CurrentX = 9000
+            Printer.Print("The total cost of your purchases")
+            Printer.CurrentX = 9000
+            Printer.Print("on credit; including your down-")
+            Printer.CurrentX = 9000
+            Printer.Print("payment of: ")
+
+            Printer.FontBold = False
+            Printer.FontSize = 8
+
+            CalculateLastPay
+
+            'Deposit
+            Printer.CurrentX = 10000
+            Printer.CurrentY = 5300 ' 5700
+            Printer.Print(CurrencyFormat(txtOrigDeposit) 'deposit
+
+            Printer.CurrentX = 800
+            Printer.CurrentY = 5500 '5900
+
+            Printer.FontSize = 14
+            Printer.Print(Format(APR, "#0.00"))
+            Printer.CurrentX = 3100
+            Printer.Print(Format(txtFinanceCharges, "$###,##0.00"))
+            Printer.CurrentX = 5200
+            Printer.Print(Format(txtFinanceAmount, "$###,##0.00"))
+            Printer.CurrentX = 7400
+            Printer.Print(Format(NewBalance + FinanceCharge + FinanceChargeSalesTax, "$###,##0.00"))
+            Printer.CurrentX = 9700
+            Printer.Print(Format(NewBalance + FinanceCharge + FinanceChargeSalesTax + GetPrice(txtOrigDeposit.Text), "$###,##0.00"))
+
+            PrintContractBody(BSN, dteDate1.Value)
+
+            Printer.EndDoc()
+        Next
+
+        If IsElmore Then
+            If GetPrice(txtLifeInsurance.Text) > 0 Or GetPrice(txtAccidentInsurance.Text) > 0 Or GetPrice(txtPropertyInsurance.Text) > 0 Or GetPrice(txtUnemploymentInsurance.Text) > 0 Then
+                InsuranceForm
+                InsuranceForm
+            End If
+
+        ElseIf IsLott Then ' IsMidSouth Then ' Or IsLott
+JUSTFORM:
+            If Not (chkLife.Checked = False And chkAccident.Checked = False And chkProperty.Checked = False And chkUnemployment.Checked = False) Then
+                If LegalContractPrinter <> "" Then
+                    'If MsgBox("Printing Insurance Contracts..." & vbCrLf & "This will print to: " & LegalContractPrinter & vbCrLf2 & "Would you like to use this printer?", vbQuestion + vbYesNo, "Legal Contract Printer") = vbNo Then
+                    If MessageBox.Show("Printing Insurance Contracts..." & vbCrLf & "This will print to: " & LegalContractPrinter & vbCrLf2 & "Would you like to use this printer?", "Legal Contract Printer", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
+                        LegalContractPrinter = ""
+                    End If
+                End If
+                If LegalContractPrinter = "" Then
+                    Dim DN As String
+                    PrinterSetupDialog(Me, DN, "", False)
+                    LegalContractPrinter = DN
+                End If
+                InsuranceForm_New(1)
+                '        If IsMidSouth Then
+                '          InsuranceForm_New 2
+                '          InsuranceForm_New 3
+                '          InsuranceForm_New 4
+                '        End If
+            End If
+
+        ElseIf IsCarroll Then
+            InsuranceFormCarroll()
+        End If
+
+        If IsJeffros() Or IsChicago() Or IsCarpet() Then
+            WageAssignment
+            WageAssignment
+        End If
+
+        Exit Sub
+
+
+JUST1FORM:
+        InsuranceForm_New(1)
+        Exit Sub
+
+ErrorHandler:
+        CheckStandardErrors("Installment Print Contract")
+        Working(False, False)
+        Exit Sub
+    End Sub
+
+    Public Sub PrintCoupons()
+        Dim Grace As Long, Pages As Long, NoPayments As Long
+        Dim Z1 As Long, YY As Long, Y As Long
+        Dim O As Object
+
+        On Error GoTo ErrorHandler
+
+        If IsRevolvingCharge(txtArNo.Text) Then Exit Sub ' No coupons for revolving accounts MJK20140218
+        If ArMode("E") Then NoMonths = Val(txtMonthsToFinance.Text)
+        O = Printer
+        Pages = IIf(optWeekly.Checked = True, NoMonths, Trunc(NoMonths / 4 + 0.9, 0)) ' math trick ==> trunc(3.0 + .9) = 3, trunc(3.25 + .9) = 4, trunc(3.75 + .9) = 4... it's what we want
+        NoPayments = IIf(optWeekly.Checked = True, NoMonths * 4, NoMonths)
+        Counter = 1 - Pages
+        Grace = AdjustedGracePeriod(DueOn)
+
+        For YY = 1 To Pages
+            For Z1 = 1 To 4  'no per page
+                Counter = ((Z1 - 1) * Pages + 1) + (YY - 1) ' + (YY - 1) * 4 + (Z1 - 1) ' 0 to n-1
+                If Counter > NoPayments Then Exit For        ' for monthly, non-multiple of 4
+                Y = Choose(Z1, 800, 4800, 8800, 12400)
+
+                O.FontSize = 8
+                O.FontBold = False
+                O.CurrentY = 0
+                O.CurrentX = 0
+
+                O.DrawWidth = 4
+
+                'left stub
+                O.CurrentY = Y
+                O.CurrentX = 500
+                O.print("Payment No: ", Counter, " of ", NoPayments)
+                O.CurrentX = 500
+
+                'calculate first payment
+                '              If ArMode("E") Then
+                '                FirstPayment = DateAdd("m", IIf(DueOn = 1, 1, 0), Format(dteDate2, "mm/" & DueOn & "/yyyy"))
+                '              Else
+                FirstPayment = dteDate2.Value
+                '              End If
+                If Not IsDate(FirstPayment) Then MessageBox.Show("Could not get First Payment date for Coupons.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning) : Exit Sub
+                If optWeekly.Checked = True Then
+                    DateDue = DateAdd("ww", Counter - 1, FirstPayment)
+                Else
+                    DateDue = DateAdd("m", Counter - 1, FirstPayment)
+                End If
+
+                O.print("   Due Date: "; DateDue)
+                O.CurrentX = 500
+                O.print("       Amount: ", FormatCurrency(GetPrice(IIf(Counter <> NoMonths, Payment, LastPay))))  ' check last payment
+
+                O.print
+                O.CurrentX = 200
+                PrintToPosition(O, "Amount Paid:  $______________", 2600, AlignConstants.vbAlignRight, True)
+                O.print
+                PrintToPosition(O, "Date Paid:  $______________", 2600, AlignConstants.vbAlignRight, True)
+                O.print
+                PrintToPosition(O, "Check No:  $______________", 2600, AlignConstants.vbAlignRight, True)
+
+                'lines seperating coupons
+                O.Line(3000, Choose(Z1, 700, 4500, 8500, 12500), 3000, Choose(Z1, 3200, 7000, 11000, 15000))
+
+                'body of coupon
+
+                O.FontSize = 10
+                O.CurrentY = Y - IIf(Z1 <> 4, 800, 300)
+
+                O.CurrentX = 3200
+                O.FontBold = True
+                O.print("Your payment must be received by Due Date!")
+                O.FontBold = False
+
+                O.print
+                O.print
+
+                O.CurrentY = Y - IIf(Z1 <> 4, 500, 0)
+                O.CurrentX = 8000
+                O.print("   Payment No: ", Counter, " of ", NoPayments)
+                O.print
+
+                O.FontBold = True
+
+                PrintToPosition(O, "Due On:", 7100, AlignConstants.vbAlignRight)
+                PrintToPosition(O, DateDue, 8300, AlignConstants.vbAlignRight)
+
+                PrintToPosition(O, "Late On:", 10000, AlignConstants.vbAlignRight)
+                PrintToPosition(O, DateAdd("D", Grace, DateDue), 11100, AlignConstants.vbAlignRight, True)
+
+                PrintToPosition(O, "Amount:", 7100, AlignConstants.vbAlignRight)
+                PrintToPosition(O, Format(IIf(Counter <> Val(NoMonths), txtPaymentWillBe, LastPay), "$###,##0.00"), 8300, AlignConstants.vbAlignRight)
+                PrintToPosition(O, "Late Charge:", 10000, AlignConstants.vbAlignRight)
+                PrintToPosition(O, FormatCurrency(LateCharge), 11100, AlignConstants.vbAlignRight, True)
+
+                PrintToPosition(O, "Amount:", 10000, AlignConstants.vbAlignRight)
+                PrintToPosition(O, FormatCurrency(IIf(Counter <> Val(NoMonths), txtPaymentWillBe, LastPay) + LateCharge), 11100, AlignConstants.vbAlignRight, True)
+
+                O.FontBold = False
+                O.print
+
+                If Z1 = 4 Then O.CurrentY = O.CurrentY - 100  'for Arno to fit
+
+                O.CurrentX = 7990
+                PrintToPosition(O, "Amount Paid: $_____________", 11100, AlignConstants.vbAlignRight, True)
+                O.CurrentX = 4000
+
+                O.print("    Mail To: ")
+                O.CurrentX = 4000
+                O.print(IStorename)
+                O.CurrentX = 8000
+                O.print(Trim(BillOSale.CustomerFirst.Text & " " & BillOSale.CustomerLast.Text))
+
+                O.CurrentX = 4000
+                O.print(IStoreAddress)
+                O.CurrentX = 8000
+                O.print(BillOSale.CustomerAddress.Text)
+
+                If Trim(BillOSale.AddAddress.Text) <> "" Then
+                    O.CurrentX = 8000
+                    O.print(BillOSale.AddAddress.Text)
+                End If
+
+                O.CurrentX = 4000
+                O.print(IStoreCity)
+                O.CurrentX = 8000
+                O.print(BillOSale.CustomerCity.Text & "  " & BillOSale.CustomerZip.Text)
+
+                O.CurrentX = 8000
+                O.print("Account Number: ", ArNo)
+                O.CurrentY = Choose(Z1, 3600, 7600, 11600, 0)
+
+                If Z1 <> 4 Then
+                    O.print("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                End If
+
+            Next
+            O.NewPage
+        Next
+        O.EndDoc
+
+        Exit Sub
+
+ErrorHandler:
+        CheckStandardErrors("Installment Print Coupons")
+        Working(False, False)
+        Exit Sub
+
+    End Sub
+
+    Private Sub InsuranceFormTreeHouse()
+        Dim Op As Object, R As VbMsgBoxResult
+        Dim PName As String, I As Long
+        Dim Page1Copies As Long, Page2Copies As Long, Page3Copies As Long, Page4Copies As Long
+        Dim X_SCALE As Double, Y_SCALE As Double
+        Dim First As String, Last As String, Add As String, City As String, Zip As String, Sales1 As String
+        Dim SS As String, DOB As Date, hAge As String, HasCo As Boolean
+
+        Op = Printer.DeviceName
+        FirstPayment = DateAdd("m", 1, Format(dteDate1.Value, "mm/" & DueOn & "/yyyy"))
+        FirstPayment = fAdjustFirstPay(FirstPayment, cboDeferred.SelectedIndex) ' BFH20061026 - Added b/c it was wrong.. contracts and coupons were broken
+        If DateDiff("d", dteDate2, FirstPayment) < 0 Then
+            FirstPayment = DateAdd("m", 1, FirstPayment)
+        End If
+
+        If chkLife.Checked = False And chkProperty.Checked = False And chkAccident.Checked = False And chkUnemployment.Checked = False Then
+            Page1Copies = 0
+            Page2Copies = 0
+            Page3Copies = 2
+            Page4Copies = 2
+        Else
+            Page1Copies = 3
+            Page2Copies = 1  ' refund
+            Page3Copies = 3
+            Page4Copies = 3
+        End If
+
+        ' Auto Dell 2335dn MFP on BLUESKY2
+        ' Brother HL-5370DW series  Treehouse
+        ' Brother MFC-8640D USB'  my printer
+
+
+        If False Then
+            '
+            '  ElseIf IsBlueSky Then
+            '    PName = "Auto Dell 2335dn MFP on BLUESKY2"
+        ElseIf IsTreehouse Then
+            PName = "Brother HL-5370DW series"
+        Else
+            PName = "Brother MFC-8640D USB" ' me
+        End If
+
+        'If MsgBox("Please make sure your " & PName & " is ready to print on legal sized paper.", vbExclamation + vbOKCancel) = vbCancel Then Exit Sub
+        If MessageBox.Show("Please make sure your " & PName & " is ready to print on legal sized paper.", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.Cancel Then Exit Sub
+        If True Or Not IsDevelopment() Then
+            If Not SetPrinter(PName) Then
+                If True Or Not IsDevelopment() Then
+                    MessageBox.Show("Could not connect to " & PName & ".", vbExclamation, "Printer Selection Failed")
+                    '        Exit Sub
+                End If
+            End If
+        End If
+
+        '  vbPRBNUpper         - Use paper from the upper bin.
+        '  vbPRBNLower         - Use paper from the lower bin.
+        '  vbPRBNMiddle        - Use paper from the middle bin.
+        '  vbPRBNManual        - Wait for manual insertion of each sheet of paper.
+        '  vbPRBNEnvelope      - Use envelopes from the envelope feeder.
+        '  vbPRBNEnvManual     - Use envelopes from the envelope feeder, but wait for manual insertion.
+        '  vbPRBNAuto          - Use paper from the current default bin. (This is the default.)
+        '  vbPRBNTractor       - Use paper fed from the tractor feeder.
+        '  vbPRBNSmallFmt      - Use paper from the small paper feeder.
+        '  vbPRBNLargeFmt      - Use paper from the large paper bin.
+        '  vbPRBNLargeCapacity - Use paper from the large capacity feeder.
+        '  vbPRBNCassette      - Use paper from the attached cassette cartridge.
+        On Error Resume Next
+        ' bluesky has 2 trays... tray #2 is legal sized paper..
+        Printer.EndDoc()  ' jic
+
+        '  If IsBlueSky Then Printer.PaperBin = vbPRBNLower
+        If IsTreehouse Then Printer.PaperBin = vbPRBNLower 'vbPRBNLower
+
+        Printer.FontName = "Arial"
+        Printer.FontSize = 8
+        'GoTo HERE
+        For I = 1 To Page1Copies
+
+            Printer.PaperSize = vbPRPSLegal
+            X_SCALE = Printer.ScaleWidth / 12240
+            Y_SCALE = Printer.ScaleHeight / 15840
+
+            'picPicture.Picture = LoadPictureStd(FXFile("FNI-Blank-1.gif"))
+            picPicture.Image = LoadPictureStd(FXFile("FNI-Blank-1.gif"))
+            Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+
+            Dim MailIndex As Long
+            'Dim First As String, Last As String, Add As String, City As String, Zip As String, Sales1 As String
+            Dim SQL As String, RS As ADODB.Recordset
+            'Dim SS As String, DOB As Date, hAge As String, HasCo As Boolean
+            Dim CoName As String, CoAddress As String, CoCity As String, CoSS As String, CoDOB As Date, CoAge As String
+            Dim expireDate As Date
+
+            If IsFormLoaded("BillOSale") Then
+                MailIndex = BillOSale.MailIndex
+                First = BillOSale.CustomerFirst.Text
+                Last = BillOSale.CustomerLast.Text
+                Add = BillOSale.CustomerAddress.Text
+                City = BillOSale.CustomerCity.Text
+                Zip = BillOSale.CustomerZip.Text
+                Sales1 = BillOSale.Sales1.Text
+            Else
+                MailIndex = ReprintMailIndex
+                Dim M As MailNew
+                GetMailNewByIndex(MailIndex, M, StoresSld)
+                First = M.First
+                Last = M.Last
+                Add = M.Address
+                City = M.City
+                Zip = M.Zip
+                Sales1 = ""
+            End If
+
+            If MailIndex <> 0 Then
+                SQL = "SELECT DOB, HisSS, CoName, CoAddress, CoCityState, CoSS, CoDOB FROM [ArApp] WHERE MailIndex='" & MailIndex & "'"
+                RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+                If RS.RecordCount >= 1 Then
+                    DOB = IfNullThenZeroDate(RS("DOB").Value)
+                    If IsDate(DOB) Then hAge = Age(DOB) Else hAge = ""
+                    SS = Trim(IfNullThenNilString(RS("HisSS").Value))
+                    CoName = Trim(IfNullThenNilString(RS("CoName").Value))
+                    CoAddress = Trim(IfNullThenNilString(RS("CoAddress").Value))
+                    CoCity = Trim(IfNullThenNilString(RS("CoCityState").Value))
+                    CoSS = Trim(IfNullThenNilString(RS("CoSS").Value))
+                    CoDOB = IfNullThenZeroDate(RS("CoDOB").Value)
+                    If IsDate(CoDOB) Then CoAge = Age(CoDOB) Else CoAge = ""
+                    HasCo = CoName <> "" Or CoSS <> ""
+                End If
+                RS = Nothing
+            End If
+
+            expireDate = DateAdd("m", Val(txtMonthsToFinance), dteDate2)
+
+            Printer.FontName = "Arial"
+            Printer.FontSize = 8
+
+            Printer.FontBold = True
+
+            Printer.CurrentX = 1300 * X_SCALE
+            Printer.CurrentY = 1200 * Y_SCALE
+            Printer.Print(txtArNo.Text)
+
+            ' PRIMARY
+
+            Printer.CurrentX = 1000 * X_SCALE
+            Printer.CurrentY = 1930 * Y_SCALE
+            If InStr(First, "&") Then
+                If CoName = SplitWord(First, 2, "&") & " " & Last Then
+                    Printer.Print(SplitWord(First, 1, "&") & " " & Last)
+                ElseIf CoName = SplitWord(First, 1, "&") & " " & Last Then
+                    Printer.Print(SplitWord(First, 2, "&") & " " & Last)
+                Else
+                    Printer.Print(First & " " & Last)
+                End If
+            Else
+                Printer.Print(First & " " & Last)
+            End If
+
+
+            Printer.CurrentX = 5225 * X_SCALE
+            Printer.CurrentY = 1930 * Y_SCALE
+            Printer.Print(hAge)
+
+            Printer.CurrentX = 6050 * X_SCALE
+            Printer.CurrentY = 1930 * Y_SCALE
+            Printer.Print(SS)
+
+            Printer.CurrentX = 7600 * X_SCALE
+            Printer.CurrentY = 1930 * Y_SCALE
+            Printer.Print(Add & ";", City & " " & Zip)
+
+            ' CO-BUYER
+
+            Printer.CurrentX = 1000 * X_SCALE
+            Printer.CurrentY = 2700 * Y_SCALE
+            Printer.Print(CoName)
+
+            Printer.CurrentX = 5225 * X_SCALE
+            Printer.CurrentY = 2700 * Y_SCALE
+            Printer.Print(CoAge)
+
+            Printer.CurrentX = 6050 * X_SCALE
+            Printer.CurrentY = 2700 * Y_SCALE
+            Printer.Print(CoSS)
+
+            Printer.CurrentX = 7600 * X_SCALE
+            Printer.CurrentY = 2700 * Y_SCALE
+            Printer.Print(CoAddress & ";", CoCity)
+
+            ' STORE
+
+            Printer.CurrentX = 2100 * X_SCALE
+            Printer.CurrentY = 3550 * Y_SCALE
+            Printer.Print(UCase(StoreSettings.Name))
+
+            Printer.CurrentX = 5500 * X_SCALE
+            Printer.CurrentY = 3370 * Y_SCALE
+            Printer.Print(UCase(StoreSettings.Address))
+
+            Printer.CurrentX = 5500 * X_SCALE
+            Printer.CurrentY = 3550 * Y_SCALE
+            Printer.Print(UCase(StoreSettings.City))
+
+            Printer.CurrentX = 8000 * X_SCALE
+            Printer.CurrentY = 3550 * Y_SCALE
+            Printer.Print(UCase("estate"))
+
+            ' loan information
+
+            Printer.CurrentX = 4800 * X_SCALE
+            Printer.CurrentY = 4150 * Y_SCALE
+            Printer.Print(lblAPR.Text)
+
+            Printer.CurrentX = 7500 * X_SCALE
+            Printer.CurrentY = 4150 * Y_SCALE
+            Printer.Print(txtFinanceAmount.Text)
+
+            Printer.CurrentX = 11000 * X_SCALE
+            Printer.CurrentY = 4150 * Y_SCALE
+            Printer.Print(txtMonthsToFinance.Text)
+
+            ' GROSS DECREASING
+            Printer.CurrentX = IIf(optJointLife1.Checked, 3560, 2880) * X_SCALE
+            Printer.CurrentY = 5260 * Y_SCALE
+            Printer.Print("X")
+
+            Printer.CurrentX = 5000 * X_SCALE
+            Printer.CurrentY = 5300 * Y_SCALE
+            Printer.Print(dteDate1.Value)
+
+            Printer.CurrentX = 6500 * X_SCALE
+            Printer.CurrentY = 5300 * Y_SCALE
+            Printer.Print(txtMonthsToFinance.Text)
+
+            Printer.CurrentX = 7450 * X_SCALE
+            Printer.CurrentY = 5300 * Y_SCALE
+            Printer.Print(expireDate)
+
+            Printer.CurrentX = 8700 * X_SCALE
+            Printer.CurrentY = 5300 * Y_SCALE
+            Printer.Print(CurrencyFormat(GetPrice(Balance)))
+
+            Printer.CurrentX = 10900 * X_SCALE
+            Printer.CurrentY = 5300 * Y_SCALE
+            Printer.Print(txtLifeInsurance.Text)
+
+            ' ACCIDENT
+            Printer.CurrentX = 1000 * X_SCALE
+            Printer.CurrentY = 6750 * Y_SCALE
+            Printer.Print("1st")
+
+            Printer.CurrentX = 2500 * X_SCALE
+            Printer.CurrentY = 6950 * Y_SCALE
+            Printer.Print("14")
+
+            '2880
+            '3560
+            Printer.CurrentX = 2880 * X_SCALE
+            Printer.CurrentY = 7450 * Y_SCALE
+            Printer.Print("X")
+
+            Printer.CurrentX = 5000 * X_SCALE
+            Printer.CurrentY = 6600 * Y_SCALE
+            Printer.Print(dteDate1.Value)
+
+            Printer.CurrentX = 6500 * X_SCALE
+            Printer.CurrentY = 6600 * Y_SCALE
+            Printer.Print(txtMonthsToFinance.Text)
+
+            Printer.CurrentX = 7450 * X_SCALE
+            Printer.CurrentY = 6600 * Y_SCALE
+            Printer.Print(expireDate)
+
+            Printer.CurrentX = 9900 * X_SCALE
+            Printer.CurrentY = 6600 * Y_SCALE
+            Printer.Print(Math.Round(Payment, 2))
+
+            Printer.CurrentX = 10900 * X_SCALE
+            Printer.CurrentY = 6600 * Y_SCALE
+            Printer.Print(txtAccidentInsurance.Text)
+
+            ' PROPERTY
+            Printer.CurrentX = 5000 * X_SCALE
+            Printer.CurrentY = 8150 * Y_SCALE
+            Printer.Print(dteDate1.Value)
+
+            Printer.CurrentX = 6500 * X_SCALE
+            Printer.CurrentY = 8150 * Y_SCALE
+            Printer.Print(txtMonthsToFinance.Text)
+
+            Printer.CurrentX = 7450 * X_SCALE
+            Printer.CurrentY = 8150 * Y_SCALE
+            Printer.Print(expireDate)
+
+            Printer.CurrentX = 8700 * X_SCALE
+            Printer.CurrentY = 8150 * Y_SCALE
+            Printer.Print(CurrencyFormat(GetPrice(Balance)))
+
+            Printer.CurrentX = 10900 * X_SCALE
+            Printer.CurrentY = 8150 * Y_SCALE
+            Printer.Print(txtPropertyInsurance.Text)
+
+            'IUI
+            '2880
+            '3560
+            Printer.CurrentX = 2880 * X_SCALE
+            Printer.CurrentY = 9250 * Y_SCALE
+            Printer.Print("X")
+
+            Printer.CurrentX = 5000 * X_SCALE
+            Printer.CurrentY = 9100 * Y_SCALE
+            Printer.Print(dteDate1.Value)
+
+            Printer.CurrentX = 6500 * X_SCALE
+            Printer.CurrentY = 9100 * Y_SCALE
+            Printer.Print(txtMonthsToFinance.Text)
+
+            Printer.CurrentX = 7450 * X_SCALE
+            Printer.CurrentY = 9100 * Y_SCALE
+            Printer.Print(expireDate)
+
+            Printer.CurrentX = 9900 * X_SCALE
+            Printer.CurrentY = 9100 * Y_SCALE
+            Printer.Print(Math.Round(Payment, 2))
+
+            Printer.CurrentX = 10900 * X_SCALE
+            Printer.CurrentY = 9100 * Y_SCALE
+            Printer.Print(txtUnemploymentInsurance.Text)
+
+            ' OTHER
+
+            Printer.CurrentX = 10900 * X_SCALE
+            Printer.CurrentY = 9700 * Y_SCALE
+            Printer.Print(CurrencyFormat(GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text)))
+
+            Printer.CurrentX = 3560 * X_SCALE
+            Printer.CurrentY = 10200 * Y_SCALE
+            Printer.Print("HOUSEHOLD GOODS")
+
+            '
+            '  If I <= Page2Copies Then
+            '    Printer.NewPage
+            '    Printer.PaperSize = vbPRPSLegal
+            '    picPicture.Picture = LoadPicture(fxfile( "FNI-Blank-2.gif"))
+            '    Printer.PaintPicture picPicture.Picture, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight
+            '  End If
+
+            Printer.NewPage()
+        Next
+
+        For I = 1 To Page2Copies
+
+            '    If IsBlueSky Then Printer.PaperBin = vbPRBNLower
+            If IsTreehouse Then Printer.PaperBin = vbPRBNLower 'vbPRBNLower
+
+            Printer.PaperSize = vbPRPSLegal
+            picPicture.Image = LoadPictureStd(FXFile("FNI-Blank-2.gif"))
+            Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+            Printer.NewPage()
+        Next
+
+        Printer.EndDoc()
+
+
+HERE:
+
+        For I = 1 To Page3Copies
+            Printer.Duplex = vbPRDPHorizontal 'vbPRDPSimplex 'vbPRDPHorizontal    ' do it if it's supported..
+            '  If IsBlueSky Then Printer.PaperBin = vbPRBNLower
+            If IsTreehouse Then Printer.PaperBin = vbPRBNLower 'vbPRBNLower
+            Printer.PaperSize = vbPRPSLegal
+
+            picPicture.Image = LoadPictureStd(FXFile("FNI-Burrell-1.gif"))
+            Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+            Printer.FontName = "Arial"
+            Printer.FontSize = 8
+
+            PrintOut_Alt2(OutObj:=Printer, X:=10000, Y:=400, Text:=dteDate1.Value) ' Date
+
+            PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=800, Text:=StoreSettings.Name)
+            PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=950, Text:=StoreSettings.Address)
+            PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=1100, Text:=StoreSettings.City)
+            PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=1250, Text:=StoreSettings.Phone)
+
+            PrintOut_Alt2(OutObj:=Printer, X:=2600, Y:=2125, Text:=Math.Round(APR, 2))
+            PrintOut_Alt2(OutObj:=Printer, X:=3750, Y:=2125, Text:=CurrencyFormat(txtFinanceCharges.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=5500, Y:=2125, Text:=CurrencyFormat(txtFinanceAmount.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=7300, Y:=2125, Text:=CurrencyFormat(txtTotalBalance.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=10200, Y:=1900, FontSize:=6, Text:=CurrencyFormat(txtOrigDeposit.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9100, Y:=2125, Text:=CurrencyFormat(txtGrossSale.Text))
+
+            PrintOut_Alt2(OutObj:=Printer, X:=2800, Y:=3000, Text:=txtMonthsToFinance.Text)
+            PrintOut_Alt2(OutObj:=Printer, X:=3800, Y:=3000, Text:=Math.Round(Payment, 2))
+            PrintOut_Alt2(OutObj:=Printer, X:=5000, Y:=3000, Text:=Switch(optLate6, "1st of every month", optLate16, "10th of every month", True, "20th of every month"))
+
+            PrintOut_Alt2(OutObj:=Printer, X:=3000, Y:=4500, Text:=First & " " & Last)
+            PrintOut_Alt2(OutObj:=Printer, X:=3000, Y:=4650, Text:=Add)
+            PrintOut_Alt2(OutObj:=Printer, X:=3000, Y:=4800, Text:=City & " " & Zip)
+
+            PrintOut_Alt2(OutObj:=Printer, X:=2000, Y:=5250, Text:=Sales1)
+            PrintOut_Alt2(OutObj:=Printer, X:=2700, Y:=5250, Text:="Yes")
+            PrintOut_Alt2(OutObj:=Printer, X:=3500, Y:=5250, Text:="No")
+            PrintOut_Alt2(OutObj:=Printer, X:=4400, Y:=5250, Text:=YesNo(Not chkAutoARNO.Visible))
+            '  PrintOut_alt2 OutObj:=Printer, X:=5200, Y:=5250, Text:="NO MEMO"
+            '  PrintOut_alt2 OutObj:=Printer, X:=8450, Y:=5250, Text:="NO OTHER"
+
+            Printer.FontSize = 6
+
+            Dim J As Long, gY As Long
+            gY = 5600
+
+            Dim CS As sSale
+            CS = New sSale
+
+            If IsFormLoaded("BillOSale") Then
+                CS.LoadFromBillOSale()
+            Else
+                CS.LoadSaleNo(ReprintSaleNo)
+            End If
+
+            For J = 0 To CS.ItemCount - 1
+                'BFH20090910 - via Jerry's email of 9/8/2009...
+                ' On the attached contract, the sale part of the contract must add up to the total plus tax.
+                ' Therefore, it must have Notes, Kits, Delivery, Labor, Stain Protection etc in that section of the contract.
+                '    If IsItem(BillOSale.QueryStyle(J)) Then
+                Dim Xa As String, Xy As String
+                Xa = CS.Item(J).Status
+                Xy = CS.Item(J).Style
+                If IsVoid(Xa) Or IsReturned(Xa) Then GoTo Skip
+                If IsSub(Xy) Or IsADJ(Xy) Or IsPayment(Xy) Then GoTo Skip
+                If IsNote(Xy) And GetPrice(CS.Item(J).Price) = 0 Then GoTo Skip
+                If IsTax(Xy) Then GoTo Skip
+
+                PrintOut_Alt2(OutObj:=Printer, X:=2000, Y:=gY, Text:=CS.Item(J).Quantity)
+                PrintOut_Alt2(OutObj:=Printer, X:=2700, Y:=gY, Text:=CS.Item(J).VendorNo)
+                PrintOut_Alt2(OutObj:=Printer, X:=3400, Y:=gY, Text:=CS.Item(J).Desc)
+                PrintOut_Alt2(OutObj:=Printer, X:=8450, Y:=gY, Text:=CS.Item(J).Style)
+                PrintOut_Alt2(OutObj:=Printer, X:=9850, Y:=gY, Text:=CurrencyFormat(CS.Item(J).Price))
+                gY = gY + 100
+Skip:
+            Next
+
+            PrintOut_Alt2(OutObj:=Printer, X:=9850, Y:=8200, Text:=CurrencyFormat(CS.SubTotal("TAX1") + CS.SubTotal("TAX2")))
+            PrintOut_Alt2(OutObj:=Printer, X:=9850, Y:=8375, Text:=txtGrossSale.Text)
+
+            Printer.FontSize = 8
+
+            If Not ArMode("REPRINT") Then
+                ' left summary
+                If GetPrice(txtPrevBalance.Text) <> 0 Then
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=8370, Text:=CurrencyFormat(txtPrevBalance.Text))
+                    '    If IsFormLoaded("ArCard") Then
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=8560, Text:=CurrencyFormat(ArCard.InterestCredit))
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=8750, Text:=CurrencyFormat(ArCard.LifeCredit))
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=8940, Text:=CurrencyFormat(ArCard.AccidentCredit))
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=9150, Text:=CurrencyFormat(ArCard.PropertyCredit))
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=9330, Text:=CurrencyFormat(ArCard.IUICredit))
+                    PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=9520, Text:=CurrencyFormat(GetPrice(txtPrevBalance.Text) + ArCard.InterestCredit + ArCard.LifeCredit + ArCard.AccidentCredit + ArCard.PropertyCredit + ArCard.IUICredit))
+                    '    End If
+                End If
+            Else
+                PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=8370, Text:="N/A")
+                PrintOut_Alt2(OutObj:=Printer, X:=4100, Y:=9520, Text:="N/A")
+            End If
+
+            ' left, prop summary
+            If chkProperty.Checked = True Then
+                PrintOut_Alt2(OutObj:=Printer, X:=1950, Y:=9900, Text:="X")
+                PrintOut_Alt2(OutObj:=Printer, X:=6200, Y:=10575, Text:=txtPropertyInsurance.Text)
+            End If
+            If False Then
+                PrintOut_Alt2(OutObj:=Printer, X:=1950, Y:=10820, Text:="X")
+            End If
+
+            ' left, other summary
+            If optJointLife0.Checked = True Then
+                PrintOut_Alt2(OutObj:=Printer, X:=3850, Y:=11650, Text:=txtLifeInsurance.Text)      ' single term premium
+            Else
+                PrintOut_Alt2(OutObj:=Printer, X:=6200, Y:=11650, Text:=txtLifeInsurance.Text)      ' joint term premium
+            End If
+            PrintOut_Alt2(OutObj:=Printer, X:=3850, Y:=11850, Text:=txtAccidentInsurance.Text)
+            PrintOut_Alt2(OutObj:=Printer, X:=3850, Y:=12050, Text:=txtUnemploymentInsurance.Text)
+
+            If chkLife.Checked = True Then PrintOut_Alt2(OutObj:=Printer, X:=1950, Y:=12230, Text:="X")
+            If chkAccident.Checked = True Then PrintOut_Alt2(OutObj:=Printer, X:=4075, Y:=12230, Text:="X")
+            If chkUnemployment.Checked = True Then PrintOut_Alt2(OutObj:=Printer, X:=5690, Y:=12230, Text:="X")
+            If chkLife.Checked = True And chkAccident.Checked = False And chkUnemployment.Checked = False Then PrintOut_Alt2(OutObj:=Printer, X:=1950, Y:=12430, Text:="X")
+
+            PrintOut_Alt2(OutObj:=Printer, X:=2100, Y:=12650, Text:=hAge)
+
+            If chkLife.Checked = True Then
+                PrintOut_Alt2(OutObj:=Printer, X:=1925, Y:=12900, Text:="X")
+            Else
+                PrintOut_Alt2(OutObj:=Printer, X:=4350, Y:=12900, Text:="X")
+            End If
+
+            PrintOut_Alt2( OutObj:=Printer, X:=2100, Y:=13090, Text:=hAge)
+
+            ' right summary
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=8760, Text:=CurrencyFormat(txtGrossSale.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=8950, Text:=CurrencyFormat(txtOrigDeposit.Text))
+            'PrintOut_alt2 OutObj:=Printer, X:=9200, Y:=9160, Text:="0.00" ' trade in
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=9360, Text:=CurrencyFormat(txtOrigDeposit.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=9550, Text:=CurrencyFormat(GetPrice(txtGrossSale.Text) - GetPrice(txtOrigDeposit.Text)))
+
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=9740, Text:=CurrencyFormat(txtPrevBalance.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=9930, Text:=CurrencyFormat(txtSubTotal.Text))
+
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=10320, Text:=CurrencyFormat(txtLifeInsurance.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=10510, Text:=CurrencyFormat(txtAccidentInsurance.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=10700, Text:=CurrencyFormat(txtPropertyInsurance.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=10890, Text:=CurrencyFormat(txtUnemploymentInsurance.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=11080, Text:="0.00")
+            PrintOut_Alt2(OutObj:=Printer, X:=9200, Y:=11270, Text:=CurrencyFormat(txtDocFee))
+
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=11480, Text:=CurrencyFormat(GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtDocFee.Text)))
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=11670, Text:=CurrencyFormat(txtFinanceAmount.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=11870, Text:=CurrencyFormat(txtFinanceCharges.Text))
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=12070, Text:=CurrencyFormat(txtTotalBalance.Text))
+
+            ' payment schedule
+
+            Printer.FontSize = 6
+            PrintOut_Alt2(OutObj:=Printer, X:=10325, Y:=13800, Text:=txtMonthsToFinance.Text & " " & IIf(StoreSettings.bPaymentBooksMonthly, "monthly", "weekly"))
+            PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=14000, Text:=Math.Round(Payment, 2))
+            PrintOut_Alt2(OutObj:=Printer, X:=8400, Y:=14200, Text:=LastPay)
+            PrintOut_Alt2(OutObj:=Printer, X:=7450, Y:=14400, Text:=FirstPayment) ' dteDate2
+            Printer.FontSize = 8
+
+            If I <= Page4Copies Then
+                Printer.NewPage()
+                '    If IsBlueSky Then Printer.PaperBin = vbPRBNLower
+                If IsTreehouse Then Printer.PaperBin = vbPRBNLower 'vbPRBNLower
+                Printer.PaperSize = vbPRPSLegal
+                picPicture.Image = LoadPictureStd(FXFile("FNI-Burrell-2.gif"))
+                Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+            End If
+
+            Printer.NewPage()
+        Next
+        Printer.EndDoc()
+
+
+        On Error Resume Next
+        If IsTreehouse Or IsBlueSky Then Printer.PaperBin = vbPRBNAuto 'vbPRBNUpper
+        SetPrinter(Op)
+    End Sub
+
+    Private Sub InsuranceFormCarroll() 'Carroll
+        Dim Op As Object, R As VbMsgBoxResult
+        Op = Printer.DeviceName
+
+#If False Then
+  picPicture.Picture = LoadPictureStd(FXFile("Insurance Contract Carroll.gif"))
+  Printer.PaintPicture picPicture.Picture, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight
+#Else
+        '  R = MsgBox("Be sure contract form is ready in tractor printer.", vbExclamation + vbOKCancel, "Printing contract")
+        '  If R = vbCancel Then Exit Sub
+        If Not PrinterSetupDialog(Me, "Lexmark 2380 Plus", "") Then Exit Sub
+#End If
+
+        Printer.FontName = "Arial"
+        Printer.FontSize = 12
+
+        Printer.CurrentX = 6000
+        Printer.CurrentY = 2075 '1175
+        Printer.Print(StoreSettings.Name;)
+
+        Printer.CurrentX = 10050
+        Printer.Print(ArNo) 'Creditor's No.
+
+        Printer.FontSize = 8
+        Printer.CurrentX = 200
+        Printer.CurrentY = 2575
+        Printer.Print(Trim(BillOSale.CustomerFirst.Text), "  ", Trim(BillOSale.CustomerLast.Text))
+        Printer.CurrentX = 200
+        Printer.Print(Trim(BillOSale.CustomerAddress.Text), IIf(Len(Trim(BillOSale.CustomerAddress.Text)) > 0, ",  ", ""), Trim(BillOSale.CustomerCity.Text), " ", Trim(BillOSale.CustomerZip.Text))
+
+        Printer.CurrentX = 200
+        Printer.CurrentY = 3300
+        Printer.FontSize = 12
+        Printer.Print(dteDate1.Value) 'Date
+
+        Printer.CurrentX = 4000
+        '.CurrentY = 2880
+        Printer.Print(txtMonthsToFinance.Text) 'Term (Months)
+
+        Printer.CurrentX = 3050
+        Printer.CurrentY = 3700
+        Printer.FontSize = 12
+        Printer.Print("X") '#1 Joint Life Net Decreasing Term
+
+        Printer.CurrentY = 4280
+        Printer.CurrentX = 7750
+
+        Printer.Print(CurrencyFormat(txtFinanceAmount.Text))
+        Printer.CurrentX = 10050
+        Printer.Print(CurrencyFormat(txtLifeInsurance.Text))
+
+        Printer.CurrentY = 5200
+        Printer.CurrentX = 500
+        Printer.Print("7")
+        Printer.CurrentY = 5650
+        Printer.CurrentX = 10050
+        Printer.Print(CurrencyFormat(txtAccidentInsurance.Text)) 'Disablity Premium
+
+        Printer.CurrentX = 8850
+        Printer.CurrentY = 7000
+        Printer.Print("X") 'Dual Interest
+
+        Printer.CurrentY = 7050
+        Printer.CurrentX = 10050
+        Printer.Print(CurrencyFormat(txtPropertyInsurance.Text))
+
+        Printer.EndDoc()
+        On Error Resume Next
+        SetPrinter(Op)
+    End Sub
+
+    Private Function GetBSNumList(ByVal ArAcctNum As String) As String
+        Dim RS As ADODB.Recordset, SQL As String
+        Dim Current As String, UsedCurrent As Boolean, T As String
+        SQL = ""
+        SQL = SQL & "SELECT DISTINCT([SaleNo]) AS SN "
+        SQL = SQL & "FROM [GrossMargin] "
+        SQL = SQL & "WHERE [Style] IN ('NOTES','PAYMENT') "
+        SQL = SQL & "AND [Desc] LIKE 'STORE FINANCE%Account [#]" & ArAcctNum & "' "
+        SQL = SQL & "ORDER BY SaleNo"
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+
+        If Not ArMode("E") Then  ' contract estimator
+            Current = BillOSale.BillOfSale.Text
+        Else
+            Current = ""
+        End If
+
+        Do While Not RS.EOF
+            T = IfNullThenNilString(RS("SN"))
+            GetBSNumList = GetBSNumList & IIf(Len(GetBSNumList) > 0, ",", "") & T
+            If Current = T Then UsedCurrent = True
+            RS.MoveNext
+        Loop
+        DisposeDA(RS)
+
+        If Current <> "" And Not UsedCurrent Then GetBSNumList = GetBSNumList & IIf(Len(GetBSNumList) > 0, ",", "") & Current
+
+        If GetBSNumList = "" Then   ' just in case....
+            If Not ArMode("E") Then  ' contract estimator
+                GetBSNumList = BillOSale.BillOfSale.Text
+            Else
+                GetBSNumList = ""
+            End If
+        End If
+    End Function
+
+    Private Sub CalculateLastPay()
+        Dim PWB As Decimal, Tot As Decimal, Adj As Decimal
+        PWB = GetPrice(txtPaymentWillBe., Text)
+        Tot = Math.Round(GetPrice(NewBalance) + GetPrice(FinanceCharge) + GetPrice(FinanceChargeSalesTax), 2)
+        LastPay = 0
+        Payment = 0
+        NoMonths = 0
+
+        ' BFH20060505
+        ' there isn't a need for checking weekly/monthly here b/c
+        ' it is based off txtPaymentWillBe which already checked it.
+        NoMonths = Val(txtMonthsToFinance)
+        '  If GetPrice(PWB) = 0 Then NoMonths = 0 Else NoMonths = Format(Tot / PWB, "##")
+        Adj = Val(NoMonths) * PWB
+        Payment = PWB                   ' normal payment remains the same
+
+        ' We could use the Switch() statement here, but it's not that widely used in WinCDS code
+        If Adj = Tot Then               ' If X payments of $Y is exactly what we want, ...
+            LastPay = PWB                 ' All the payments (in particularly the last one) are the same
+        ElseIf Adj > Tot Then           ' if paying X payments of $Y is greater than total, ...
+            LastPay = PWB - (Adj - Tot)   ' last payment is normal payment minus overage
+        ElseIf Adj < Tot Then           ' Finally, if full payment isn't quite enough, ...
+            LastPay = PWB + (Tot - Adj)   ' Add the extra to the normal payment for lastpay
+        End If
+    End Sub
+
+    Private Sub PrintContractBody(Optional ByVal BSNum As String = "", Optional ByVal BSDate As String = "")
+        If Trim(BSNum) = "" Then BSNum = New String("_", 16)
+        If Trim(BSDate) = "" Then BSDate = New String("_", 16)
+        Printer.FontName = "Arial"
+        Printer.FontSize = 6
+        Printer.CurrentX = 0
+        Printer.CurrentY = 6100 '6500
+
+        '    printer.print( "Buyer acknowledges that the seller has offered to sell the above described merchandise for the cash price indicated, but buyer has elected to purchase on the terms and conditions of this agreement.  The"
+        Printer.Print("Buyer acknowledges that the seller has offered to sell the merchandise on ")
+        Printer.FontBold = True : Printer.Print("Bill of Sale No(s) ", BSNum) : Printer.FontBold = False
+        If IsChicago() Then
+            Printer.Print(" and itemized below")
+        End If
+        Printer.Print(", Dated ")
+        Printer.FontBold = True : Printer.Print(BSDate)
+        Printer.FontBold = False : Printer.Print(" for the cash price indicated, but buyer has elected to purchase ")
+        Printer.Print("on the terms and conditions of this agreement.  The undersigned (BUYER) purchases subject to the terms and conditions as set forth below, from the seller as named above.")
+        Printer.Print("")
+        Printer.Print("The buyer agrees to pay  ")
+
+        Printer.FontBold = True
+        Printer.FontSize = 8
+
+        If optWeekly.Checked = True Then
+            Printer.Print((txtMonthsToFinance.Text * 4) - 1)
+        Else
+            Printer.Print(txtMonthsToFinance.Text - 1)
+        End If
+
+        Printer.FontBold = False
+        Printer.FontSize = 6
+
+        If optWeekly.Checked = True Then
+            Printer.Print(TAB(36), "consecutive weekly payments beginning  ")
+        Else
+            Printer.Print(TAB(36), "consecutive monthly payments beginning  ")
+        End If
+
+        Printer.FontBold = True
+        Printer.FontSize = 8
+        Printer.Print(FirstPayment)
+        Printer.FontBold = False
+        Printer.FontSize = 6
+
+        Printer.Print(TAB(95), ".  Each payment shall be   ")
+
+        Printer.FontBold = True
+        Printer.FontSize = 8
+
+        Printer.Print(Format(Payment, "$###,##0.00"))
+
+        Printer.FontBold = False
+        Printer.FontSize = 6
+
+        Printer.Print(TAB(140), " and an additional final payment which shall be")
+        Printer.Print("")
+
+        Printer.FontBold = True
+        Printer.FontSize = 8
+        Printer.Print("    ", Format(LastPay, "$###,##0.00"))
+        Printer.FontBold = False
+        Printer.FontSize = 6
+
+        Printer.Print(".  You shall make your payments to us at our office or the address of anyone to whom we may transfer this account to.")
+        Printer.Print("")
+        Printer.Print("SECURITY: To protect us, you give us a purchase money security interest created under the Uniform Commercial Code of this state in the Property sold and described under ", Chr(34), "Description Of Merchandise", Chr(34), ".")
+        Printer.Print("You also give us a security interest in the proceeds from any unauthorized sale of the property, and the proceeds of any insurance you requested.  We waive any other security interest or lien which may arise by")
+        Printer.Print("operation of law, except the lien of any judgment which we may obtain if this contract is not paid in accordance with its terms.")
+        Printer.Print("Any note given in connection with this contract is understood to be as evidence of, and not in payment of, the obligation hereunder and may be negotiated without waiving any conditions thereof.")
+        Printer.Print("")
+        Printer.Print("USE AND LOCATION OF PROPERTY:  If you are buying the property primarily for personal, family, of household use, you agree not to use the property in violation of the law.  The property must remain at your")
+        Printer.Print("address shown.  You must obtain written permission in advance to move the merchandise.")
+        Printer.Print("")
+        Printer.Print("DEFAULT:  You are in default if:")
+        Printer.Print("A.  We do not receive an installment payment from you on or before due date.")
+        Printer.Print("B.  You break one or more of your promises under this contract.")
+        Printer.Print("C.  You make any statement or representation in connection with this contract which is false in any material respect.")
+        Printer.Print("D.  Insolvency actions are begun by or against you; insolvency includes situations where you are unable to pay all of your debts as they become due.")
+        Printer.Print("")
+        Printer.Print("ACCELERATION:    If you are in default, we may demand immediate payment of the entire amount you owe.  This includes all the remaining monthly payments you must pay.  We shall have all rights and")
+        Printer.Print("remedies given by the Uniform Commercial Code.  This includes the right to retain property.")
+        Printer.Print("")
+        Printer.Print("REPOSSESSION:  If we retake the property, we have the right to sell it at public or private sale and apply the proceeds of the sale to what you owe, less selling expense.  You agree to pay the difference between"0
+  Printer.Print("the sale proceeds and what you owe.  We are permitted by law to collect the difference from you.  If we receive more money from the sale than you owe, we will pay the surplus amount to you."0
+  Printer.Print("")
+        Printer.Print("ATTORNEY'S FEES AND COURT COST:  If this Contract is given to an attorney for collection, you shall pay reasonable attorney's fees, as provided by the laws of this state in which the contract is executed.")
+        Printer.Print("You will also pay any court costs if permitted by the law.")
+        Printer.Print("")
+        Printer.Print("ENTIRE CONTRACT:  No oral promises or statement are part of this contract.  No warranties or representations, whether they are written or arise by operation of law are part of this Contract unless we give")
+        Printer.Print("you a written warranty in connection with this contract.")
+        Printer.Print("")
+        Printer.Print("SIGNERS OF CONTRACT:  If there are more than one of you signing this contract, each of you is individually responsible to see that you fully perform all obligations under this contract.  It is your responsibility")
+        Printer.Print("to know whether this contract is in default or that payments have been missed.  We are not responsible for notifying you of late payments, or any default proceedings.")
+        Printer.Print("")
+        Printer.Print("FINANCING STATEMENT:  You will sign financing statements showing our security interest in the Property which we can file from time to time in any filing office we think appropriate.")
+        Printer.Print("")
+        Printer.Print("FILING FEES FOR FINANCING THIS STATEMENT:  You will pay any required filing fees on these statements.")
+        Printer.Print("")
+        Printer.Print("NO WAIVER OF RIGHTS:  We do not waive our right to have future payments made when due if we accept a late or partial payment or delay the enforcement of our rights on any occasion.")
+        Printer.Print("")
+        Printer.Print("LAW APPLICABLE:  This contract is governed by the law of this state in which it is executed.")
+        Printer.Print("")
+        Printer.Print("INVALID PROVISIONS:  If any part of this contract becomes invalid or unenforceable the remainder of the Contract will be enforceable.")
+        Printer.Print("")
+        Printer.Print("NOT PAID IN TIME LIMIT:  If contract is not paid in the months shown on this contract, then interest will continue to be charged at the contract rate.")
+        Printer.Print("")
+        If Not IsLott Then 'And Not IsMidSouth Then  ' requested this removed
+            Printer.Print("BAD CHECKS:  All returned checks fees will be charged $30.00 to the customer.")
+            Printer.Print("")
+        End If
+        Printer.Print("LATE CHARGES:  A Late Charge Fee of:  ")
+        Printer.FontBold = True
+        Printer.FontSize = 10
+
+        Printer.Print(FormatCurrency(LateCharge))
+        Printer.FontBold = False
+        Printer.FontSize = 6
+        Printer.Print("   will be added automatically to the balance on this account if any payment is received after " & StoreSettings.GracePeriod & " day(s) from the payment due date.")
+        Printer.Print("")
+        Printer.FontSize = 8
+
+        'Custom area
+        '    printer.print( "To contact "; Trim(StoreSettings.Name); " about this account call "; StoreSettings.Phone; "  This contract is subject in whole or part to Texas law which is enforced"
+        '    printer.print( "by the Consumer Credit Commission, 2601 N. Lamar Blvd, Austin, Texas  78705-4207; (800) 538-1579; (512) 936-7600, and can be contacted relative"
+        '    printer.print( "to any inquiried or complaints."
+
+        If IsChicago() Then
+            Printer.Print("All Sales Final!  We do not accept returns or exchanges for merchandise ordered.  Any Special Orders Cancelled will be subject to 25% restocking fee.")
+            Printer.Print("The First Payment of an installmant contract will be due 30 days after delivery.  Current payment still due on existing balance.")
+            Printer.Print("Received in good condition:")
+
+
+
+            '   ElseIf UseAmericanNationalInsurance Then
+            '    Printer.FontSize = 6
+            '    printer.print( "Sales tax and official fees will be paid by Seller to the appropriate governmental agencies. Fire, extended coverage, credit and Involuntary Unemployment Insurance premiums will be paid by Seller to insurance"
+            '    printer.print( "companies. If a Net Balance of Prior Contract is shown above, Buyer's outstanding debt to Seller has been reduced by the amount of finance charges and insurance premiums unearned, and the net balance"
+            '    printer.print( "outstanding is included in the Amount Financed of this contract."
+
+
+        ElseIf IsBoyd Then
+            Printer.Print("Copy of Insurance Policy available upon request!")
+        ElseIf IsChicago() Then
+            Do While Printer.CurrentY + Printer.TextHeight("_") < 14000
+                Printer.Print(New String("_", Printer.ScaleWidth \ Printer.TextWidth("_")))
+            Loop
+
+        ElseIf IsLott Then ' IsMidSouth Then ' Or IsLott
+            Printer.FontBold = True
+            Printer.Print("Insurance: ")
+            Printer.FontBold = False
+            Printer.Print("Credit life insurance and credit disability insurance are not required to obtain credit, ")
+            Printer.Print("and will not be provided unless I sign and agree to pay the additional cost.")
+            Printer.Print("")
+            Printer.Print("")
+            Printer.Print("   I Want Credit Life Insurance: _______________________                                       I Want Credit Life and Disability Insurance: _______________________")
+
+        ElseIf IsCarroll Then
+            Printer.FontSize = 6
+            Printer.FontBold = True
+            Printer.Print("Insurance: ")
+            Printer.FontBold = False
+            Printer.Print("Credit life insurance and credit disability insurance are not required to obtain credit, and will not be provided ")
+            Printer.Print("unless I sign and agree to pay the additional cost.  Insurance, if provided, is for the term of the credit sale.")
+            Printer.Print("I may obtain required property insurance from anyone I want that is acceptable to you.")
+            Printer.Print("")
+            Printer.Print("   I Want Credit Life Insurance: _______________________                                       I Want Property Insurance: _______________________")
+            Printer.FontSize = 8
+        End If
+
+        If IsMichaels Then
+            Printer.FontSize = 6
+            '    Printer.CurrentY = 13700
+            Printer.Print(TAB(5), "NOTICE TO BUYER. ")
+            Printer.Print(TAB(5), "ANY HOLDER OF THIS CONSUMER CREDIT CONTRACT IS SUBJECT TO ALL CLAIMS AND DEFENSES WHICH THE DEBTOR ")
+            Printer.Print(TAB(5), "COULD ASSERT AGAINST THE SELLER OF GOODS OR SERVICES OBTAINED PURSUANT HERETO OR WITH THE PROCEEDS HEREOF RECOVERY HERE ")
+            Printer.Print(TAB(5), "UNDER BY THE DEBTOR SHALL NOT EXCEED AMOUNTS PAID BY THE DEBTOR HERE UNDER. DO NOT SIGN THIS CONTRACT BEFORE YOU READ IT ")
+            Printer.Print(TAB(5), "OR IF IT CONTAINS BLANK SPACES, YOU ARE ENTITLED TO A COPY OF THE CONTRACT YOU SIGN. UNDER LAW YOU HAVE THE RIGHT TO PAY ")
+            Printer.Print(TAB(5), "OFF IN ADVANCE THE FULL AMOUNT DUE AND UNDER CERTAIN CONDITIONS MAY OBTAIN A PARTIAL REFUND OF THE FINANCE CHARGES.")
+            Printer.Print(TAB(5), "KEEP THIS CONTRACT TO PROTECT YOUR LEGAL RIGHTS.")
+
+        Else
+            Printer.FontSize = 8
+            Printer.CurrentY = 14000 '13900
+            Printer.Print(TAB(5), "  NO INSURANCE IS INCLUDED ON FURNITURE;  IT IS THE BUYER'S RESPONSIBILITY FOR ANY LOSS OF OR DAMAGE TO THE MERCHANDISE")
+        End If
+
+        If Val(cboCashOption.SelectedIndex) >= 1 Then
+            Printer.FontBold = True
+            Printer.FontSize = 10
+            Printer.Print(cboCashOption.SelectedIndex, " Months Same As Cash Option!")
+            Printer.FontBold = False
+        Else
+            Printer.Print("")
+        End If
+
+        Printer.FontSize = 8
+
+        If Val(cboCashOption.SelectedIndex) = 0 Then
+            Printer.Print("")
+        End If
+
+        Printer.Print("You are entitled to an exact copy of the agreement you sign")
+        Printer.Print("Do not sign this agreement before you read it or if it contains")
+        Printer.Print("any blanks not filled in.")
+
+        Printer.CurrentY = 14200 '13900
+        Printer.FontSize = 14
+        PrintToPosition(Printer, "Buyer: ____________________________", Printer.ScaleWidth - 100, AlignConstants.vbAlignRight, False)
+
+        Printer.CurrentY = 14600 '14500
+        PrintToPosition(Printer, "Buyer: ____________________________", Printer.ScaleWidth - 100, AlignConstants.vbAlignRight, False)
+
+        Printer.CurrentY = 15000 '14500
+        PrintToPosition(Printer, "Guarantor: ____________________________", Printer.ScaleWidth - 100, AlignConstants.vbAlignRight, False)
+    End Sub
+
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
+        'cancel / done
+        If ArMode("REPRINT") Then Hide() :
+        Exit Sub
+
+
+        If OrderMode("A") Then
+            If cmdCancel.Text = "Cancel Set-Up" Then
+                Dim X As Long
+                X = BillOSale.X '+ 1
+                BillOSale.SetDesc(X, "")
+                BillOSale.SetStyle(X, "")
+                BillOSale.SetQuan(X, "")
+                BillOSale.SetStatus(X, "")
+                BillOSale.SetPrice(X, "")
+                BillOSale.X = BillOSale.X - 1
+                BillOSale.SetDesc(X - 1, "")
+                BillOSale.SetStyle(X - 1, "")
+                BillOSale.SetQuan(X - 1, "")
+                BillOSale.SetStatus(X - 1, "")
+                BillOSale.SetPrice(X - 1, "")
+                BillOSale.NewStyleLine = BillOSale.NewStyleLine - 2
+                OrdSelect.ArStatus = "" 'C
+                BillOSale.GetGrid.MoveRow(BillOSale.GetGrid.Row - 2)  '***does not work in deliver mode
+                BillOSale.GetGrid.Refresh(True)
+            End If
+            'Unload Me
+            Me.Close()
+        ElseIf OrderMode("D") Then
+            OrdPay.cmdOk.Enabled = True
+            OrdPay.cmdCancel.Enabled = True
+            'Unload Me
+            Me.Close()
+        ElseIf OrderMode("Credit") Then
+            MessageBox.Show("Add On was cancelled." & vbCrLf & "Adjustments was made on this Installment Sale." & vbCrLf & "To make it balance, make a payment to the sale or reverse the adjustment back to its original version.")
+            OrdPay.cmdOk.Enabled = True
+            OrdPay.cmdCancel.Enabled = True
+            'Unload Me
+            Me.Close()
+        Else
+            'Unload Me
+            Me.Close()
+            'Unload OrdSelect
+            OrdSelect.Close()
+            modProgramState.ArSelect = ""
+        End If
+
+        If IsIn(AddOn, ArAddOn_Add) Then
+            'Unload ArCard
+            ArCard.Close()
+        End If
+
+        OrdSelect.ArStatus = ""
+
+    End Sub
+
+    Private Sub ARPaySetUp_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+        If DateBetween(Today, #9/10/2016#, #8/28/2016#) Then
+            cboCashOption.BackColor = Color.FromArgb(256, 256, 128)
+            '    lblCashOpt.BackColor = RGB(256, 256, 128)
+            'lblCashOpt.FontUnderline = True
+            lblCashOpt.Font = New Font(lblCashOpt.Font.Name, lblCashOpt.Font.Size, FontStyle.Underline)
+            cboDeferred.BackColor = Color.FromArgb(150, 150, 256)
+            '    lblDeferred.BackColor = RGB(150, 150, 256)
+            'lblDeferred.FontUnderline = True
+            lblDeferred.Font = New Font(lblDeferred.Font.Name, lblDeferred.Font.Size, FontStyle.Underline)
+        End If
+    End Sub
+
+    Private Sub ARPaySetUp_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        On Error Resume Next
+
+        If Not ArMode("E") Then ' contract estimator
+            mDBAccess.dbClose()
+            mDBAccessTransactions.dbClose()
+        Else
+            modProgramState.ArSelect = ""
+            'Unload Me
+            Me.Close()
+            MainMenu.Show()
+        End If
+        mDBAccess = Nothing
+        mDBAccessTransactions = Nothing
+
+        If ArMode("S") Then
+            'Unload AddOnAcc  ' added: bfh20050803
+            AddOnAcc.Close()
+            'Unload MailCheck ' added: bfh20050803
+            MailCheck.Close()
+            'Unload BillOSale
+            BillOSale.Close()
+            MainMenu.Show()    ' added: bfh20050803
+        End If
+    End Sub
+
+    Private Sub optLate6_Click(sender As Object, e As EventArgs) Handles optLate6.Click
+        If IsRevolvingCharge(txtArNo.Text) Then
+            '    DueOn = RevolvingStatementDay
+        Else
+            DueOn = 1
+        End If
+        If Not NoAdjust Then AdjustFirstPay(1)
+        UpdateLateCaptions()
+    End Sub
+
+    Private Sub optLate16_Click(sender As Object, e As EventArgs) Handles optLate16.Click
+        DueOn = 10
+        If Not NoAdjust Then AdjustFirstPay(10)
+        UpdateLateCaptions()
+    End Sub
+
+    Private Sub optLate26_Click(sender As Object, e As EventArgs) Handles optLate26.Click
+        DueOn = 20
+        If Not NoAdjust Then AdjustFirstPay(20)
+        UpdateLateCaptions()
+    End Sub
+
+    Private Sub optMonthly_Click(sender As Object, e As EventArgs) Handles optMonthly.Click
+        Recalculate()
+    End Sub
+
+    Private Sub optWeekly_Click(sender As Object, e As EventArgs) Handles optWeekly.Click
+        Recalculate()
+    End Sub
+
+    Private Sub tmrLoad_Tick(sender As Object, e As EventArgs) Handles tmrLoad.Tick
+        On Error Resume Next
+        If ArMode("E") Then txtPrevBalance.Select()
+        tmrLoad.Enabled = False
+    End Sub
+
+    Private Sub txtArNo_TextChanged(sender As Object, e As EventArgs) Handles txtArNo.TextChanged
+        Dim R1 As Boolean, R2 As Boolean
+        R1 = IsRevolvingCharge(LastCheckedArNo)
+        R2 = IsRevolvingCharge(txtArNo.Text)
+        LastCheckedArNo = txtArNo.Text
+        If R1 <> R2 Then
+            If R2 Then
+                SetDefaultsRevolving()
+            Else
+                SetDefaultsInstallment()
+            End If
+        End If
+    End Sub
+
+    Private Sub txtFinanceCharges_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtFinanceCharges.Validating
+        '  If MsgBox("Are you sure you wish to change the Finance Charges?" & vbCrLf & "This will alter the actual APR rate if you do.", vbQuestion + vbOKCancel, "Change Finance Charges") = vbOK Then
+        '    MsgBox "Note that if you change one of the other values after editing this field, it will be reset.", vbInformation, "Note"
+        FinanceCharge = GetPrice(txtFinanceCharges.Text)
+        txtTotalBalance.Text = CurrencyFormat(NewBalance + FinanceCharge + FinanceChargeSalesTax)
+        If Not ArMode("S") And (UseAmericanNationalInsurance) Then Exit Sub
+        RecalculateFinancing(True)
+        '  Else
+        '    Cancel = True
+        '  End If
+    End Sub
+
+    Private Sub txtPaymentWillBe_TextChanged(sender As Object, e As EventArgs) Handles txtPaymentWillBe.TextChanged
+        CalculateMath()
+    End Sub
+
+    Private Sub txtPaymentWillBe_DoubleClick(sender As Object, e As EventArgs) Handles txtPaymentWillBe.DoubleClick
+        Recalculate()
+
+        If fraMath.Visible Then
+            fraMath.Visible = False
+        Else
+            CalculateMath()
+            fraMath.Visible = True
+            'fraMath.ZOrder 0
+            fraMath.BringToFront()
+        End If
+    End Sub
+
+    Private Sub txtPrevBalance_DoubleClick(sender As Object, e As EventArgs) Handles txtPrevBalance.DoubleClick
+        If IsDevelopment() Then InsuranceFormTreeHouse()
+    End Sub
+
+    Private Sub txtArNo_DoubleClick(sender As Object, e As EventArgs) Handles txtArNo.DoubleClick
+        If IsDevelopment() Then InsuranceFormTreeHouse()
+    End Sub
+
+    Private Sub txtRate_DoubleClick(sender As Object, e As EventArgs) Handles txtRate.DoubleClick
+        If Trim(txtRate.Text) <> "" Then txtRate.Text = Format(Rate, "##.00")
+        SelectContents(txtRate.Text)
+    End Sub
+
+    Private Sub txtRate_MouseDown(sender As Object, e As MouseEventArgs) Handles txtRate.MouseDown
+        'If Button = vbRightButton Then DebugAPR
+        If e.Button = MouseButtons.Right Then DebugAPR()
+    End Sub
+
+    Private Sub DebugAPR()
+        Dim M As String, Pattern As String
+        Pattern = IIf(IsDevelopment, "0.00000000%", "0.00%")
+        M = ""
+        M = M & "APR    = " & Format(APR / 100, Pattern) & vbCrLf
+        M = M & "Simple =" & Format(SIR, Pattern)
+        MessageBox.Show(M, "APR INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    Private Sub lblAPR_DoubleClick(sender As Object, e As EventArgs) Handles lblAPR.DoubleClick
+        DebugAPR()
+    End Sub
+
+    Private Sub txtRate_TextChanged(sender As Object, e As EventArgs) Handles txtRate.TextChanged
+        'txtRate_LostFocus
+    End Sub
+
+    Private Sub txtRate_Leave(sender As Object, e As EventArgs) Handles txtRate.Leave
+        'BFH20170428 - Re-instantiated the Rate = ... line because otherwise tab-off of rate wouldn't update financing...
+        'disabled following line to kill the abnormal behavior of the apr value changing for 21.00 to 0 wkd 17 MAR 17
+        Rate = Format(GetPrice(txtRate.Text), "##.00")
+        Recalculate()
+        lblAPR.Text = Format(APR, "#0.00")
+    End Sub
+
+    Private Sub txtPaymentWillBe_Leave(sender As Object, e As EventArgs) Handles txtPaymentWillBe.Leave
+        txtPaymentWillBe.Text = CurrencyFormat(GetPrice(txtPaymentWillBe.Text))
+    End Sub
+
+    Private Sub txtPrevBalance_Leave(sender As Object, e As EventArgs) Handles txtPrevBalance.Leave
+        txtPrevBalance.Text = CurrencyFormat(GetPrice(txtPrevBalance.Text))
+        Recalculate()
+    End Sub
+
+    Private Sub txtAddlPaymentsMade_Leave(sender As Object, e As EventArgs) Handles txtAddlPaymentsMade.Leave
+        txtAddlPaymentsMade.Text = CurrencyFormat(GetPrice(txtAddlPaymentsMade.Text))
+    End Sub
+
+    Private Sub txtBalDueLateCharge_Leave(sender As Object, e As EventArgs) Handles txtBalDueLateCharge.Leave
+        txtBalDueLateCharge.Text = CurrencyFormat(GetPrice(txtBalDueLateCharge.Text))
+    End Sub
+
+    Private Sub txtGrossSale_Leave(sender As Object, e As EventArgs) Handles txtGrossSale.Leave
+        txtGrossSale.Text = CurrencyFormat(GetPrice(txtGrossSale.Text))
+        Recalculate()
+    End Sub
+
+    Private Sub txtGrossSale_Enter(sender As Object, e As EventArgs) Handles txtGrossSale.Enter
+        SelectContents(txtGrossSale.Text)
+        If ArMode("S") Then
+            If Trim(txtArNo.Text) = "" Then
+                If MessageBox.Show("Select Auto Account or Enter Manual Account!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning) = DialogResult.OK Then
+                    txtArNo.Select()
+                    Exit Sub
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub txtOrigDeposit_Leave(sender As Object, e As EventArgs) Handles txtOrigDeposit.Leave
+        txtOrigDeposit.Text = CurrencyFormat(txtOrigDeposit.Text)
+        Recalculate()
+    End Sub
+
+    Private Sub txtMonthsToFinance_Leave(sender As Object, e As EventArgs) Handles txtMonthsToFinance.Leave
+        Recalculate()
+    End Sub
+
+    Private Sub txtMonthsToFinance_Enter(sender As Object, e As EventArgs) Handles txtMonthsToFinance.Enter
+        SelectContents(txtMonthsToFinance.Text)
+    End Sub
+
+    Private Sub txtDocFee_Leave(sender As Object, e As EventArgs) Handles txtDocFee.Leave
+        Recalculate()
+    End Sub
+
+    Private Sub txtAccidentInsurance_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtAccidentInsurance.KeyPress
+        'chkAccident.Value = vbGrayed
+        chkAccident.CheckState = CheckState.Indeterminate
+    End Sub
+
+    Private Sub txtLifeInsurance_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtLifeInsurance.KeyPress
+        'chkLife.Value = vbGrayed
+        chkLife.CheckState = CheckState.Indeterminate
+    End Sub
+
+    Private Sub txtPropertyInsurance_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPropertyInsurance.KeyPress
+        'chkProperty.Value = vbGrayed
+        chkProperty.CheckState = CheckState.Indeterminate
+    End Sub
+
+    Private Sub txtUnemploymentInsurance_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUnemploymentInsurance.KeyPress
+        'chkUnemployment.Value = vbGrayed
+        chkUnemployment.CheckState = CheckState.Indeterminate
+    End Sub
+
+    Private Sub txtPrevBalance_Enter(sender As Object, e As EventArgs) Handles txtPrevBalance.Enter
+        SelectContents(txtPrevBalance.Text)
+    End Sub
+
+    Private Sub txtFinanceChargeSalesTax_TextChanged(sender As Object, e As EventArgs) Handles txtFinanceChargeSalesTax.TextChanged
+        SelectContents(txtFinanceChargeSalesTax.Text)
+    End Sub
+
+    Private Sub txtOrigDeposit_Enter(sender As Object, e As EventArgs) Handles txtOrigDeposit.Enter
+        SelectContents(txtOrigDeposit.Text 0
+    End Sub
+
+    Private Sub txtDocFee_Enter(sender As Object, e As EventArgs) Handles txtDocFee.Enter
+        SelectContents(txtDocFee.Text)
+    End Sub
+
+    Private Sub txtLifeInsurance_Enter(sender As Object, e As EventArgs) Handles txtLifeInsurance.Enter
+        SelectContents(txtLifeInsurance.Text)
+    End Sub
+
+    Private Sub txtAccidentInsurance_Enter(sender As Object, e As EventArgs) Handles txtAccidentInsurance.Enter
+        SelectContents(txtAccidentInsurance.Text)
+    End Sub
+
+    Private Sub txtPropertyInsurance_Enter(sender As Object, e As EventArgs) Handles txtPropertyInsurance.Enter
+        SelectContents(txtPropertyInsurance.Text)
+    End Sub
+
+    Private Sub txtUnemploymentInsurance_Enter(sender As Object, e As EventArgs) Handles txtUnemploymentInsurance.Enter
+        SelectContents(txtUnemploymentInsurance.Text)
+    End Sub
+
+    Private Sub txtLifeInsurance_Leave(sender As Object, e As EventArgs) Handles txtLifeInsurance.Leave
+        txtLifeInsurance.Text = CurrencyFormat(GetPrice(txtLifeInsurance.Text))
+        Recalculate()
+    End Sub
+
+    Private Sub txtAccidentInsurance_Leave(sender As Object, e As EventArgs) Handles txtAccidentInsurance.Leave
+        txtAccidentInsurance.Text = CurrencyFormat(GetPrice(txtAccidentInsurance.Text))
+        Recalculate()
+    End Sub
+
+    Private Sub txtPropertyInsurance_Leave(sender As Object, e As EventArgs) Handles txtPropertyInsurance.Leave
+        txtPropertyInsurance.Text = CurrencyFormat(GetPrice(txtPropertyInsurance.Text))
+        Recalculate()
+    End Sub
+
+    Private Sub txtUnemploymentInsurance_Leave(sender As Object, e As EventArgs) Handles txtUnemploymentInsurance.Leave
+        txtUnemploymentInsurance.Text = CurrencyFormat(GetPrice(txtUnemploymentInsurance.Text))
+        Recalculate()
+    End Sub
+
+    Private Sub txtFinanceCharges_Enter(sender As Object, e As EventArgs) Handles txtFinanceCharges.Enter
+        SelectContents(txtFinanceCharges.Text)
+    End Sub
+
+    Private Sub txtSubTotal_Enter(sender As Object, e As EventArgs) Handles txtSubTotal.Enter
+        SelectContents(txtSubTotal.Text)
+    End Sub
+
+    Private Sub dteDate1_ValueChanged(sender As Object, e As EventArgs) Handles dteDate1.ValueChanged
+        AdjustFirstPay()
+        CheckLateDay()
+        UpdateLateCaptions()
+    End Sub
+
+    Private Sub dteDate2_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles dteDate2.Validating
+        If Not NoAdjust Then CheckLateDay()  ' No changes needed.
+    End Sub
+
+    Private Sub InsuranceForm() 'Elmore, Lott
+        Dim Op As Object
+        Dim FA As Decimal
+        '  If IsMidSouth Then ' Or IsLott
+        '    FA = GetPrice(txtFinanceAmount) + GetPrice(txtFinanceCharges) + GetPrice(txtFinanceChargeSalesTax)
+        '  Else
+        FA = GetPrice(txtFinanceAmount.Text)
+        '  End If
+        Op = Printer.DeviceName
+
+        picPicture.Image = LoadPictureStd(FXFile("Insurance Contract 2.gif"))
+        Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+
+        Printer.FontName = "Arial"
+        Printer.FontSize = 12
+
+        Printer.CurrentX = 5850
+        Printer.CurrentY = 1175
+        Printer.Print(StoreSettings.Name)
+
+        Printer.CurrentX = 10100
+        Printer.Print(ArNo) 'Creditor's No.
+
+        Printer.FontSize = 8
+        Printer.CurrentX = 200
+        Printer.CurrentY = 1675
+        Printer.Print(Trim(BillOSale.CustomerFirst.Text), "  ", Trim(BillOSale.CustomerLast.Text))
+        Printer.CurrentX = 200
+        Printer.Print(Trim(BillOSale.CustomerAddress.Text), ",  ", Trim(BillOSale.CustomerCity.Text), " ", Trim(BillOSale.CustomerZip.Text))
+
+        Printer.CurrentX = 200
+        Printer.CurrentY = 2500
+        Printer.FontSize = 12
+        Printer.Print(dteDate2.Value) 'Date
+
+        Printer.CurrentX = 3800
+        '.CurrentY = 2880
+        Printer.Print(txtMonthsToFinance.Text) 'Term (Months)
+
+        Printer.CurrentX = 3060
+        Printer.FontSize = 12
+#If False Then
+  Printer.CurrentY = 3250    '#2 Joint Life Net Decreasing Term
+#Else
+        Printer.CurrentY = 3500    '#3 Single Life Level Term
+#End If
+        Printer.Print("X")
+
+        Printer.CurrentX = 6300
+        Printer.CurrentY = 3575
+        Printer.Print(Format(APR, "##.##"))
+
+        Printer.CurrentY = 3500
+        Printer.CurrentX = 8000
+        Printer.Print(CurrencyFormat(FA))
+        Printer.CurrentX = 10100
+        Printer.Print(CurrencyFormat(txtLifeInsurance.Text))
+
+        Printer.CurrentY = 4550
+        Printer.CurrentX = 400
+        If IsLott Then ' IsMidSouth Then ' Or IsLott
+            Printer.Print("14")      ' BFH20071202
+        Else
+            Printer.Print("7")
+        End If
+        Printer.CurrentX = 6075
+        Printer.Print("X") 'Single
+        Printer.CurrentX = 8000
+        Printer.CurrentY = 5000
+        Printer.Print(txtPaymentWillBe.Text) 'Monthly Disability Proceeds
+        Printer.CurrentX = 10100
+        Printer.Print(CurrencyFormat(txtAccidentInsurance.Text)) 'Disablity Premium
+
+        Printer.CurrentX = 2930
+        Printer.CurrentY = 6100
+        Printer.Print("X") 'Dual Interest
+
+        Printer.CurrentX = 3900
+        Printer.CurrentY = 6600
+        Printer.Print(CurrencyFormat(FA))
+        Printer.CurrentX = 6400
+        Printer.Print(CurrencyFormat(FA))
+        Printer.CurrentX = 10100
+        Printer.Print(CurrencyFormat(txtPropertyInsurance))
+
+        Printer.EndDoc()
+        On Error Resume Next
+        SetPrinter(Op)
+    End Sub
+
+    Private Sub InsuranceForm_New(ByVal N As Long) 'Lott, 20080311
+        Dim Op As Object, OPS As Object, O As Object, Adj As Single
+        Dim FA As Decimal
+        Adj = -0.69
+
+        Op = Printer.DeviceName
+        SetPrinter(LegalContractPrinter)
+        OPS = Printer.PaperSize
+        O = Printer
+
+        If IsLott Then ' IsMidSouth Then ' Or IsLott
+            FA = GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(txtFinanceChargeSalesTax.Text)
+        Else
+            FA = GetPrice(txtFinanceAmount.Text)
+        End If
+
+        Dim ExpDate As Date
+        Dim tLifPre As Decimal, tDisPre As Decimal, tProPre As Decimal, tIUIPre As Decimal
+        Dim bLif As Boolean, bDis As Boolean, bPro As Boolean, bIUI As Boolean
+        bLif = chkLife.Checked = True
+        bDis = chkAccident.Checked = True
+        bPro = chkProperty.Checked = True
+        bIUI = chkUnemployment.Checked = True
+        If True Or Val(txtMonthsToFinance.Text) <> 0 Then
+            tLifPre = IIf(bLif, GetPrice(txtLifeInsurance.Text), 0) '/ Val(txtMonthsToFinance)
+            tDisPre = IIf(bDis, GetPrice(txtAccidentInsurance.Text), 0) '/ Val(txtMonthsToFinance)
+            tProPre = IIf(bPro, GetPrice(txtPropertyInsurance.Text), 0) '/ Val(txtMonthsToFinance)
+            tIUIPre = IIf(bIUI, GetPrice(txtUnemploymentInsurance.Text), 0)
+        End If
+
+        ExpDate = DateAdd("m", CDbl(txtMonthsToFinance.Text), dteDate1.Value)
+
+        ' 8.5"x14"
+        Printer.PaperSize = vbPRPSLegal
+        Printer.ScaleMode = vbInches
+        picPicture.Image = LoadPictureStd(FXFile("CentralInsurance" & N & ".gif"))
+        Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+
+        Printer.FontName = "Arial"
+        Printer.FontSize = 8
+
+        PrintOut_Alt(OutObj:=O, X:=3.83, Y:=1.57 + Adj, FontSize:=18, FontBold:=True, Text:=ArNo)
+
+        PrintOut_Alt(OutObj:=O, X:=0.5, Y:=2.09 + Adj, FontSize:=8, Text:=Trim(BillOSale.CustomerFirst.Text) & " " & Trim(BillOSale.CustomerLast.Text))
+        '    PrintOut_Alt( OutObj:=O, X:=2.9, Y:=2+adj, FontSize:=8, Text:="AGE" ' Age
+        '
+        '    PrintOut_Alt( OutObj:=O, X:=3.53, Y:=2+adj, FontSize:=8, Text:="DM" ' DOB
+        '    PrintOut_Alt( OutObj:=O, X:=3.94, Y:=2+adj, FontSize:=8, Text:="DD" ' DOB
+        '    PrintOut_Alt( OutObj:=O, X:=4.24, Y:=2+adj, FontSize:=8, Text:="DBYY" ' DOB
+        '
+        PrintOut_Alt(OutObj:=O, X:=0.5, Y:=2.55 + Adj, FontSize:=8, Text:=Trim(BillOSale.CustomerAddress.Text) & ",  " & Trim(BillOSale.CustomerCity.Text) & " " & Trim(BillOSale.CustomerZip.Text))
+
+        If True Then
+            '      PrintOut_Alt( OutObj:=O, X:=0.5, Y:=3.04 + Adj, FontSize:=8, Text:="Co-Buyer Name"
+            '      PrintOut_Alt( OutObj:=O, X:=0.5, Y:=3.49 + Adj, FontSize:=8, Text:="First Beneficiary"
+        End If
+
+
+        ' life/dis
+        If bLif Then PrintOut_Alt(OutObj:=O, X:=1.3, Y:=4.15 + Adj, FontSize:=14, FontBold:=True, Text:=txtMonthsToFinance.Text)
+        If bDis Then PrintOut_Alt(OutObj:=O, X:=2.54, Y:=4.15 + Adj, FontSize:=14, FontBold:=True, Text:=txtMonthsToFinance.Text)
+        PrintOut_Alt(OutObj:=O, X:=3.89, Y:=4.15 + Adj, FontSize:=14, FontBold:=True, Text:=txtMonthsToFinance.Text)
+        If bLif Or bDis Then
+            PrintOut_Alt(OutObj:=O, X:=5.21, Y:=4.15 + Adj, FontSize:=14, FontBold:=True, Text:=DateDiff("d", dteDate1.Value, dteDate2.Value))
+            PrintOut_Alt(OutObj:=O, X:=6.25, Y:=4.21 + Adj, FontSize:=10, FontBold:=True, Text:=Format(dteDate1, "mm dd yy"))
+            PrintOut_Alt(OutObj:=O, X:=7.53, Y:=4.21 + Adj, FontSize:=10, FontBold:=True, Text:=Format(ExpDate, "mm dd yy"))
+        End If
+
+        If optJointLife0.Checked = True Then
+            PrintOut_Alt(OutObj:=O, X:=1.44, Y:=4.46 + Adj, FontSize:=7, FontBold:=True, Text:="X")  ' single
+        Else
+            PrintOut_Alt(OutObj:=O, X:=2.25, Y:=4.46 + Adj, FontSize:=7, FontBold:=True, Text:="X")  ' joint
+        End If
+
+        If True Then
+            PrintOut_Alt(OutObj:=O, X:=0.41, Y:=5.17 + Adj, FontSize:=7, FontBold:=True, Text:="X") ' joint-level
+        Else
+            '      PrintOut_Alt( OutObj:=O, X:=0.41, Y:=4.7 + Adj, FontSize:=7, FontBold:=True, Text:="X"  ' Gross Decreasing Term Life
+            '      PrintOut_Alt( OutObj:=O, X:=0.41, Y:=4.87 + Adj, FontSize:=7, FontBold:=True, Text:="X"  ' Net Pay Decreasing Term Life
+            '      PrintOut_Alt( OutObj:=O, X:=0.41, Y:=5.04 + Adj, FontSize:=7, FontBold:=True, Text:="X"  ' Life With Dismemberment
+        End If
+
+        If bLif Then
+            PrintOut_Alt(OutObj:=O, X:=5.85, Y:=4.76 + Adj, FontSize:=10, Text:=CurrencyFormat(FA))
+            If tLifPre <> 0 Then PrintOut_Alt(OutObj:=O, X:=7.13, Y:=4.76 + Adj, FontSize:=10, Text:=CurrencyFormat(tLifPre))
+        End If
+
+
+        If bDis Then
+            PrintOut_Alt(OutObj:=O, X:=5.85, Y:=6.24 + Adj, FontSize:=10, Text:=txtPaymentWillBe.Text)
+            If tDisPre <> 0 Then PrintOut_Alt(OutObj:=O, X:=7.13, Y:=6.24 + Adj, FontSize:=10, Text:=CurrencyFormat(tDisPre))
+        End If
+        PrintOut_Alt(OutObj:=O, X:=7.13, Y:=6.55 + Adj, FontSize:=10, Text:=CurrencyFormat(tLifPre + tDisPre))
+
+
+        If bPro Then
+            PrintOut_Alt(OutObj:=O, X:=0.92, Y:=10.23 + Adj, FontSize:=8, Text:=Month(dteDate1.Value))
+            PrintOut_Alt(OutObj:=O, X:=1.36, Y:=10.23 + Adj, FontSize:=8, Text:=DateAndTime.Day(dteDate1.Value))
+            PrintOut_Alt(OutObj:=O, X:=1.86, Y:=10.23 + Adj, FontSize:=8, Text:=Year(dteDate1.Value))
+
+
+            PrintOut_Alt(OutObj:=O, X:=2.92, Y:=10.23 + Adj, FontSize:=8, Text:=Month(ExpDate))
+            PrintOut_Alt(OutObj:=O, X:=3.38, Y:=10.23 + Adj, FontSize:=8, Text:=DateAndTime.Day(ExpDate))
+            PrintOut_Alt(OutObj:=O, X:=3.9, Y:=10.23 + Adj, FontSize:=8, Text:=Year(ExpDate))
+
+            PrintOut_Alt(OutObj:=O, X:=4.63, Y:=10.18 + Adj, FontSize:=11, Text:=CurrencyFormat(FA))
+            PrintOut_Alt(OutObj:=O, X:=7.19, Y:=10.18 + Adj, FontSize:=10, FontBold:=True, Text:=txtMonthsToFinance.Text)
+
+            PrintOut_Alt(OutObj:=O, X:=4.51, Y:=10.41 + Adj, FontSize:=7, FontBold:=True, Text:="X")
+            If tProPre <> 0 Then PrintOut_Alt(OutObj:=O, X:=6.49, Y:=11.41 + Adj, FontSize:=10, Text:=CurrencyFormat(tProPre))
+        End If
+
+
+        '    PrintOut_Alt( OutObj:=O, X:=0, Y:=7000, FontSize:=10, Text:=dteDate2
+        '    PrintOut_Alt( OutObj:=O, X:=0, Y:=7000, FontSize:=10, Text:=dteDate2
+        '    PrintOut_Alt( OutObj:=O, X:=0, Y:=7000, FontSize:=10, Text:=dteDate2
+
+
+        Printer.EndDoc()
+        On Error Resume Next
+        SetPrinter(Op)
+        Printer.PaperSize = OPS
+        Printer.ScaleMode = vbTwips ' default
+    End Sub
+
+    Private Function PrintOut_Alt2(Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal Text As String = "" _
+   , Optional ByVal XCenter As Boolean = False _
+  , Optional ByVal FontName As String = "", Optional ByVal FontBold As Boolean = False, Optional ByVal FontSize As String = "" _
+  , Optional ByVal DrawWidth As Long = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Long = -1 _
+  , Optional ByVal Orientation As Long = -1, Optional ByVal OutObj As Object = Nothing)
+
+        Dim X_SCALE As Double, Y_SCALE As Double
+        X_SCALE = Printer.ScaleWidth / 12240 * 0.946153846153846
+        Y_SCALE = Printer.ScaleHeight / 15840 * 0.974093264248705
+
+        X = X * X_SCALE
+        Y = Y * Y_SCALE
+        PrintOut(X, Y, Text, XCenter, FontName, FontBold, FontSize, DrawWidth, NewPage, BlankLines, Orientation, OutObj)
+    End Function
+
+    Private Sub WageAssignment() ' New Age & Jeffro Furniture
+        Printer.FontName = "Arial"
+        Printer.FontSize = 24
+        Printer.FontBold = True
+        Printer.CurrentX = 0
+        Printer.CurrentY = 1000
+
+        PrintCentered("WAGE ASSIGNMENT")
+
+        Printer.FontBold = False
+        Printer.FontSize = 10
+        Printer.CurrentX = 0
+
+        Printer.FontBold = True
+        'Printer.Print Tab(7); BillOSale.dteSaleDate
+        Printer.FontBold = False
+        Printer.CurrentY = 1600
+        Printer.Print("__________________")
+        Printer.FontSize = 8
+        Printer.Print("             Date")
+        Printer.FontSize = 10
+        Printer.CurrentY = 1500
+        Printer.Print(TAB(7), BillOSale.dteSaleDate.Value)
+
+        ''''''''''''''''''''''''''''''''''
+        ' Buyer Information
+        ''''''''''''''''''''''''''''''''''
+
+        Printer.FontBold = True
+        Printer.CurrentY = 2400 '2350
+        Printer.Print("____________________________________")
+        Printer.FontSize = 8
+        Printer.Print("                           Buyer's Name")
+        Printer.FontSize = 10
+        Printer.CurrentY = 2300
+        Printer.Print(TAB(5), Trim(BillOSale.CustomerFirst.Text), " ", BillOSale.CustomerLast.Text & "   Account: ", ArNo)
+        Printer.FontBold = False
+
+        Printer.CurrentY = 3200
+        Printer.Print("____________________________________")
+        Printer.FontSize = 8
+        Printer.Print("                                   Address")
+        Printer.FontSize = 10
+        Printer.CurrentY = 3100
+        Printer.Print(TAB(5), BillOSale.CustomerAddress.Text)
+
+        Printer.CurrentY = 4000 '4000 '3875
+        Printer.Print("____________________________________")
+        Printer.FontSize = 8
+        Printer.Print("     City                       State                   Zip")
+        Printer.FontSize = 10
+        Printer.Print()
+        Printer.CurrentY = 3900
+        Printer.Print(TAB(5), Trim(BillOSale.CustomerCity.Text), ", ", BillOSale.CustomerZip.Text)
+
+        ''''''''''''''''''''''''''''''''''
+        ' Co-Buyer Information
+        ''''''''''''''''''''''''''''''''''
+
+        Dim HasCoBuyer As Boolean, dX As Long, ddX As Long
+        Dim CoBuyerName As String, CoBuyerAddress As String, CoBuyerCity As String, CoBuyerSS As String
+        Dim RS As ADODB.Recordset, SQL As String
+        dX = 5000
+        ddX = 200
+
+        If BillOSale.MailIndex <> 0 Then
+            SQL = "SELECT CoName, CoAddress, CoCityState, CoSS FROM [ArApp] WHERE MailIndex='" & BillOSale.MailIndex & "'"
+            RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+            If RS.RecordCount >= 1 Then
+                CoBuyerName = Trim(IfNullThenNilString(RS("CoName")))
+                CoBuyerAddress = Trim(IfNullThenNilString(RS("CoAddress")))
+                CoBuyerCity = Trim(IfNullThenNilString(RS("CoCityState")))
+                CoBuyerSS = Trim(IfNullThenNilString(RS("CoSS")))
+                HasCoBuyer = CoBuyerName <> "" Or CoBuyerSS <> ""
+                RS = Nothing
+            End If
+        End If
+
+        If HasCoBuyer Then
+            Printer.FontBold = True
+            Printer.CurrentY = 2400 '2350
+            Printer.CurrentX = dX
+            Printer.Print("____________________________________")
+            Printer.FontSize = 8
+            Printer.CurrentX = dX
+            Printer.Print("                         Co-Buyer's Name")
+            Printer.FontSize = 10
+            Printer.CurrentY = 2300
+            Printer.CurrentX = dX + ddX
+            Printer.Print(CoBuyerName)
+            Printer.FontBold = False
+
+            Printer.CurrentY = 3200
+            Printer.CurrentX = dX
+            Printer.Print("____________________________________")
+            Printer.FontSize = 8
+            Printer.CurrentX = dX
+            Printer.Print("                                   Address")
+            Printer.FontSize = 10
+            Printer.CurrentY = 3100
+            Printer.CurrentX = dX + ddX
+            Printer.Print(CoBuyerAddress)
+
+            Printer.CurrentY = 4000 '4000 '3875
+            Printer.CurrentX = dX
+            Printer.Print("____________________________________")
+            Printer.FontSize = 8
+            Printer.CurrentX = dX
+            Printer.Print("     City                       State                   Zip")
+            Printer.FontSize = 10
+            Printer.Print()
+            Printer.CurrentY = 3900
+            Printer.CurrentX = dX + ddX
+            Printer.Print(Trim(CoBuyerCity))
+        End If
+
+
+        ''''''''''''''''''''''''''''''''''
+        ' Seller Information
+        ''''''''''''''''''''''''''''''''''
+
+        Printer.Print()
+        Printer.CurrentY = 4800
+        Printer.Print("____________________________________")
+        Printer.FontSize = 8
+        Printer.Print("                     Seller (Assignee)")
+        Printer.FontSize = 10
+        Printer.Print()
+        Printer.CurrentY = 4700
+        Printer.Print(TAB(5), StoreSettings.Name)
+
+        Printer.CurrentY = 5600
+        Printer.Print("____________________________________")
+        Printer.FontSize = 8
+        Printer.Print("                     Seller's Address")
+        Printer.FontSize = 10
+        Printer.Print()
+        Printer.CurrentY = 5500
+        Printer.Print(TAB(5), StoreSettings.Address)
+
+        Printer.CurrentY = 6200
+        Printer.Print("____________________________________")
+        Printer.FontSize = 8
+        Printer.Print("     City                       State                   Zip")
+        Printer.FontSize = 10
+        Printer.Print()
+        Printer.CurrentY = 6100
+        Printer.Print(TAB(5), StoreSettings.City)
+        Printer.Print()
+
+        Printer.FontName = "Garamond"
+        Printer.Print()
+        Printer.Print()
+        Printer.FontSize = 8
+        Printer.Print("Amount of Debt:  ")
+
+        Printer.FontBold = True
+        Printer.FontSize = 12
+        Printer.Print(Format(NewBalance + FinanceCharge, "$###,##0.00"))
+
+        Printer.FontBold = False
+        Printer.FontSize = 8
+        Printer.Print("          payable in successive installments of:  ")
+
+        Printer.FontBold = True
+        Printer.FontSize = 12
+        Printer.Print(Format(txtPaymentWillBe, "$##,##0.00"))
+
+        Printer.FontBold = False
+        Printer.FontSize = 8
+        Printer.Print("      each, beginning:   ")
+
+        Printer.FontBold = True
+        Printer.FontSize = 12
+        Printer.Print(FirstPayment, " .    ")
+
+
+        Printer.FontBold = False
+        Printer.FontSize = 8
+        Printer.Print("       If Default be")
+        Printer.Print()
+
+        Printer.Print("made in the payment of any said installments, then all unpaid installments shall, at the assignee's option, become immediately due and payable without notice or demand.")
+        Printer.Print("Time Price Differential (Finance Charge): ", "       .")
+        Printer.Print("    As security of the above-described debt, which is the same time balance (Total of Payments) due on a retail installment contract, each of the undersigned hereby assigns, transfers and")
+        Printer.Print("sets over the above-named assignee, wages, salary, commissions and bonuses due or subsequently earned from his present employer for a period of (3) years from the date")
+        Printer.Print("hereof and from any future employer within a period of two (2) years from the date of execution hereof.  Any undersigned Debtor may revoke his assignment of wages by written")
+        Printer.Print("notification to the holder.  This assignment shall remain effective as to all the undersigned Debtors not electing to revoke their assignments.")
+        Printer.Print("    The amount may be collected by the assignee hereon shall not exceed the lesser of (1) 15% of the gross amount paid assignor for any week, or 2) the amount which disposable")
+        Printer.Print("earnings for a week exceed forty-five times the Federal Minimum Hourly Wage in effect at the time the amounts are payable; and shall be collected until the total amount due under this")
+        Printer.Print("assignment is paid or until expiration of employer's payroll period ending immediately prior to 84 days after service of the demand hereon, whichever first occurs.  This Wage Assignment")
+        Printer.Print("shall be valid for a period of three years from the date hereof.")
+        Printer.Print("    The term disposable earnings means that the part of the earnings remaining after deduction of any amount required by law to be withheld.")
+        Printer.Print("    The assignors) hereby authorize, empower and direct his/their said employer(s) to pay to assign any and all monies due or to become due assignor(s) hereon, authorize assignee")
+        Printer.Print("to receipt for the same and release and discharge employer from all liabilities to assignor(s) on account of monies paid in accordance herewith.  No copy hereof shall be served on")
+        Printer.Print("employer(s) except in conformity with applicable law.")
+        Printer.Print()
+        Printer.Print("Each assignor acknowledges receipt of an exact copy of this Wage Assignment.")
+
+        Printer.FontSize = 24
+        Printer.FontBold = True
+        Printer.FontName = "Arial"
+
+        Printer.Print()
+        PrintCentered("WAGE ASSIGNMENT")
+        Printer.FontBold = False
+
+        Printer.FontSize = 12
+        Printer.CurrentX = 0
+        Printer.Print()
+        Printer.Print("___________________________________ _________________________ ___________________________")
+        Printer.Print("                  Present Employer                                            S/S                                          Assignor")
+        Printer.Print()
+        Printer.Print("___________________________________ _________________________ ___________________________")
+        Printer.Print("                  Present Employer                                            S/S                                           Assignor")
+
+        If HasCoBuyer Then
+            Printer.Print()
+            Printer.Print()
+            Printer.Print("___________________________________ _________________________ ___________________________")
+            Printer.Print("                  Present Employer                                            S/S                                           Co-Buyer")
+        End If
+
+        Printer.EndDoc()
+    End Sub
+
+    Private Function PrintOut_Alt(Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal Text As String = "" _
+   , Optional ByVal XCenter As Boolean = False _
+  , Optional ByVal FontName As String = "", Optional ByVal FontBold As Boolean = False, Optional ByVal FontSize As String = "" _
+  , Optional ByVal DrawWidth As Long = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Long = -1 _
+  , Optional ByVal Orientation As Long = -1, Optional ByVal OutObj As Object = Nothing)
+
+#If True Then
+        Const X_OFFSET As Single = 0#
+        Const Y_OFFSET As Single = 0#
+        Const X_SCALE As Double = 0.946153846153846
+        Const Y_SCALE As Double = 0.974093264248705
+#Else
+  Const X_OFFSET As Single = 0#
+  Const Y_OFFSET As Single = 0#
+  Const X_SCALE As Double = 1#
+  Const Y_SCALE As Double = 1#
+#End If
+
+
+        X = X * X_SCALE + X_OFFSET
+        Y = Y * Y_SCALE + Y_OFFSET
+        PrintOut(X, Y, Text, XCenter, FontName, FontBold, FontSize, DrawWidth, NewPage, BlankLines, Orientation, OutObj)
+
+    End Function
 
 End Class
