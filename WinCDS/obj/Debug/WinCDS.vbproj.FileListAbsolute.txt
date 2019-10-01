@@ -1,20 +1,3 @@
-D:\WinCDS\WinCDS\bin\Debug\WinCDS.exe.config
-D:\WinCDS\WinCDS\bin\Debug\WinCDS.exe
-D:\WinCDS\WinCDS\bin\Debug\WinCDS.pdb
-D:\WinCDS\WinCDS\bin\Debug\WinCDS.xml
-D:\WinCDS\WinCDS\bin\Debug\Microsoft.SqlServer.GridControl.dll
-D:\WinCDS\WinCDS\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
-D:\WinCDS\WinCDS\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
-D:\WinCDS\WinCDS\bin\Debug\Interop.cipwin32.dll
-D:\WinCDS\WinCDS\bin\Debug\Interop.MSComCtl2.dll
-D:\WinCDS\WinCDS\bin\Debug\Interop.MSDataGridLib.dll
-D:\WinCDS\WinCDS\bin\Debug\Interop.MSDBGrid.dll
-D:\WinCDS\WinCDS\bin\Debug\Interop.MSFlexGridLib.dll
-D:\WinCDS\WinCDS\bin\Debug\AxInterop.cipwin32.dll
-D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSComCtl2.dll
-D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
-D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDBGrid.dll
-D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSComCtl2.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSDataGridLib.dll
@@ -24,6 +7,7 @@ D:\WinCDS\WinCDS\obj\Debug\Interop.MSFlexGridLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.olelib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.PINPadDevice.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.VBA.dll
+D:\WinCDS\WinCDS\obj\Debug\Interop.VBPrnDlgLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.VBRUN.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.WMPLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.XCTransaction2.dll
@@ -51,6 +35,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmKitLevels.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.FrmMsg2.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmNotes.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPermissionMonitor.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPrintPreviewDocument.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmProgress.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmProgress2.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.FrmProgress3.resources
@@ -86,8 +71,3 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.ucPBar.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.UGridIO.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.GenerateResource.cache
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CoreCompileInputs.cache
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

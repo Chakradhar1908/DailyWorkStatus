@@ -523,8 +523,8 @@
         On Error GoTo ErrCrypt
         Rnd(-1)                            ' Prepare the randomizer for a repeatable sequence.
         Randomize(StringValue(UserName))   ' Initialize the repeatable sequence by username.
-        Dim I As Long
-        For I = 1 To 16 : Rnd() :
+        Dim I As Integer
+        For I = 1 To 16 : Rnd()
         Next        ' Discard the first 16 random numbers.
         For I = 1 To Len(Plaintext)       ' Encrypt each character in the password.
             Encrypt = Encrypt & CryptCharacter(Mid(Plaintext, I, 1), Rnd, True)
@@ -536,8 +536,8 @@ ErrCrypt:
     "Please contact " & AdminContactString(Format:=1, Phone:=False) & " immediately!", vbCritical, ProgramErrorTitle)
     End Function
 
-    Private Function StringValue(ByVal Inp As String) As Long
-        Dim I As Long
+    Private Function StringValue(ByVal Inp As String) As Integer
+        Dim I As Integer
         For I = 1 To Len(Inp)
             StringValue = StringValue + Asc(Mid(Inp, I, 1))
         Next
@@ -545,7 +545,7 @@ ErrCrypt:
 
     Private Function CryptCharacter(ByRef Charr As String, ByRef Seed As Double, ByRef En As Boolean) As String
         '  Debug.Print IIf(En, "+", "-"), Asc(Char), Char, Seed,
-        Dim CC As Long
+        Dim CC As Integer
         If En Then
             CC = (Asc(Charr) + Seed * 255) Mod 255
             '    Debug.Print CC, Chr(CC)
@@ -579,7 +579,7 @@ ErrCrypt:
         On Error GoTo ErrCrypt
         Rnd(-1)                            ' Prepare the randomizer for a repeatable sequence.
         Randomize(StringValue(UserName))   ' Initialize the repeatable sequence by username.
-        Dim I As Long
+        Dim I As Integer
         For I = 1 To 16 : Rnd() :
         Next        ' Discard the first 16 random numbers.
         For I = 1 To Len(EncText)         ' Encrypt each character in the password.

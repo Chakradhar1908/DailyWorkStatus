@@ -509,7 +509,7 @@ HandleErr:
         LoadMailRecord = Ltmp
     End Function
 
-    Public Sub GetMailNewByIndex(ByVal Index As Long, ByRef tMailNew As MailNew, Optional ByVal StoreNo As Long = 0)
+    Public Sub GetMailNewByIndex(ByVal Index As Integer, ByRef tMailNew As MailNew, Optional ByVal StoreNo As Integer = 0)
         '::::GetMailNewByIndex
         ':::SUMMARY
         ': Gets a data structure MailNew
@@ -521,11 +521,11 @@ HandleErr:
         ': - StoreNo - Indicates the storenumber.
         ':::RETURN
 
-        Dim RS As Recordset
+        Dim RS As ADODB.Recordset
         If StoreNo = 0 Then StoreNo = StoresSld
-  Set RS = GetRecordsetBySQL("SELECT * FROM [Mail] WHERE Index=" & Index, , GetDatabaseAtLocation(StoreNo))
-  CopyMailRecordsetToMailNew RS, tMailNew
-  DisposeDA RS
-End Sub
+        RS = GetRecordsetBySQL("SELECT * FROM [Mail] WHERE Index=" & Index, , GetDatabaseAtLocation(StoreNo))
+        CopyMailRecordsetToMailNew(RS, tMailNew)
+        DisposeDA(RS)
+    End Sub
 
 End Module

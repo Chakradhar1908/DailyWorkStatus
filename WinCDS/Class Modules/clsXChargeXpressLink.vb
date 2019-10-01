@@ -177,7 +177,7 @@ Public Class clsXChargeXpressLink
 
     Private Function eXpressLink(ByVal Args As String) As clsHashTable
         Dim T As String
-        Dim C As Object, R As Long
+        Dim C As Object, R As Integer
         On Error Resume Next
 
         LogText("XCXL - eXpressLink: " & Args)

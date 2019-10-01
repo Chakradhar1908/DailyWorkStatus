@@ -774,25 +774,202 @@ DoNumber:
         Next
     End Function
 
-    Public Function ArAddOnCreateContractHistoryAccount(ByVal ArNo As String, Optional ByVal StoreNo As Long = 0) As String
+    Public Function ArAddOnCreateContractHistoryAccount(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As String
         Dim D As String
         ArAddOnCreateContractHistoryAccount = ArAddOnContractHistoryAccountNo(ArNo, StoreNo)                ' Get and return the Record Keeping ArNo
-        D = Date                                                                                            ' We need to know the effective date of this PHP
-        GetPaymentHistoryEquifax ArNo, D                                                                    ' Record the current Payment History Profile
+        D = Today                                                                                            ' We need to know the effective date of this PHP
+        GetPaymentHistoryEquifax(ArNo, D)                                                                    ' Record the current Payment History Profile
         If Not DuplicateArInstallmentInfoRecord(StoreNo, ArNo, ArAddOnCreateContractHistoryAccount, arST_Void) Then   ' Duplicate the record to the new ArNo
-            MsgBox "Could not create AddOn Record Account: " & ArAddOnCreateContractHistoryAccount            ' If failure, notify
+            MessageBox.Show("Could not create AddOn Record Account: " & ArAddOnCreateContractHistoryAccount)            ' If failure, notify
         Else                                                                                                ' else, Make the new Record Keeping ArNo VOID and record PHP date
-            ExecuteRecordsetBySQL "UPDATE [InstallmentInfo] SET [Status]='" & arST_Void & "', [WriteOffDate]=#" & D & "#, [PaymentHistoryProfile]='' WHERE [ArNo]=""" & ProtectSQL(ArAddOnCreateContractHistoryAccount) & """", , GetDatabaseAtLocation(StoreNo)
-    AddNewARTransactionExisting StoreNo, ArAddOnCreateContractHistoryAccount, Date, arPT_stVoi, 0, 0, "Account Created VOID for A/R Add-On, Account #" & ArNo
-  End If
+            ExecuteRecordsetBySQL("UPDATE [InstallmentInfo] SET [Status]='" & arST_Void & "', [WriteOffDate]=#" & D & "#, [PaymentHistoryProfile]='' WHERE [ArNo]=""" & ProtectSQL(ArAddOnCreateContractHistoryAccount) & """", , GetDatabaseAtLocation(StoreNo))
+            AddNewARTransactionExisting(StoreNo, ArAddOnCreateContractHistoryAccount, Today, arPT_stVoi, 0, 0, "Account Created VOID for A/R Add-On, Account #" & ArNo)
+        End If
     End Function
 
-    Public Function ArAddOnToNewCloseOutAccount(ByVal StoreNo As Long, ByVal ArNo As String, ByVal NewArNo As String, ByVal Balance As Currency) As String
+    Public Function ArAddOnToNewCloseOutAccount(ByVal StoreNo As Integer, ByVal ArNo As String, ByVal NewArNo As String, ByVal Balance As Decimal) As String
         Dim D As String
         ' Close out the old account, marking a balance credit and recording the transfer to another account, as well as changing status...
-        AddNewARTransactionExisting StoreNo, ArNo, Date, arPT_crPri, 0, Balance, "Added onto Account: " & NewArNo
-  ExecuteRecordsetBySQL "UPDATE [InstallmentInfo] Set [TotPaid]=[Financed], [Balance]=0, [LateChargeBal]=0, [Status]='" & arST_Clos & "' WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo)
-  AddNewARTransactionExisting StoreNo, ArNo, Date, arPT_stClo, 0, 0, "Account Closed via Add-On-To, Account: " & NewArNo
-End Function
+        AddNewARTransactionExisting(StoreNo, ArNo, Today, arPT_crPri, 0, Balance, "Added onto Account: " & NewArNo)
+        ExecuteRecordsetBySQL("UPDATE [InstallmentInfo] Set [TotPaid]=[Financed], [Balance]=0, [LateChargeBal]=0, [Status]='" & arST_Clos & "' WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo))
+        AddNewARTransactionExisting(StoreNo, ArNo, Today, arPT_stClo, 0, 0, "Account Closed via Add-On-To, Account: " & NewArNo)
+    End Function
+
+    Public Function ArAddOnContractHistoryAccountNo(ByVal ArNo As String, Optional ByVal StoreNo As Integer = 0) As String
+        Dim N As Integer, X As String
+        N = 1
+        Do While True
+            X = ArNo & ArNo_AddOnRecordIndicator & N
+            If Not ArNoExists(X, StoreNo) Then
+                ArAddOnContractHistoryAccountNo = X
+                Exit Function
+            End If
+            N = N + 1
+        Loop
+    End Function
+
+    Public Function DuplicateArInstallmentInfoRecord(ByVal StoreNo As Integer, ByVal ArNo As String, ByVal NewArNo As String, Optional ByVal NewStatus As String = "") As Boolean
+        ' Primarily to be used for Add-On's.
+        Dim R As ADODB.Recordset
+
+        If Not ArNoExists(ArNo, StoreNo) Then Exit Function
+        If ArNoExists(NewArNo, StoreNo) Then Exit Function
+
+        On Error Resume Next
+        R = GetRecordsetBySQL("SELECT * FROM [InstallmentInfo] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo))
+
+        If NewStatus = "" Then NewStatus = IfNullThenNilString(R("Status"))
+
+        AddNewARInstallmentInfo(StoreNo, NewArNo,
+  IfNullThenNilString(R("LastName").Value), IfNullThenNilString(R("Telephone").Value),
+  IfNullThenZero(R("MailIndex").Value), IfNullThenZeroCurrency(R("Financed").Value), IfNullThenZeroCurrency(R("PerMonth").Value), IfNullThenZero(R("Months").Value),
+  IfNullThenZeroDouble(R("Rate").Value), IfNullThenZero(R("LateDueOn").Value), IfNullThenZeroCurrency(R("LateCharge").Value),
+  IfNullThenNullDate(R("DeliveryDate").Value), IfNullThenNullDate(R("FirstPayment").Value), IfNullThenZero(R("CashOpt").Value),
+  IfNullThenZeroCurrency(R("TotPaid").Value), IfNullThenZeroCurrency(R("Balance").Value), IfNullThenZeroCurrency(R("LateChargeBal").Value),
+  NewStatus,
+  IfNullThenZeroCurrency(R("Interest").Value), IfNullThenZeroCurrency(R("Life").Value), IfNullThenZeroCurrency(R("Accident").Value), IfNullThenZeroCurrency(R("Prop").Value),
+  IfNullThenNilString(R("WriteOffDate").Value), IfNullThenNilString(R("SendNotice").Value), IfNullThenNilString(R("LastMetro426Status").Value),
+  IfNullThenZeroCurrency(R("InterestSalesTax").Value), IfNullThenZeroDouble(R("APR").Value), IfNullThenZero(R("Period").Value),
+  IfNullThenZero(R("LifeType").Value), IfNullThenZero(R("Satisfied").Value), IfNullThenNilString(R("SatisfiedDate").Value),
+  IfNullThenZeroCurrency(R("IUI").Value), IfNullThenZero(R("LastNotice").Value), IfNullThenNilString(R("LastLateCharge").Value), IfNullThenNilString(R("PaymentHistoryProfile").Value))
+
+        If Not ArNoExists(NewArNo, StoreNo) Then Exit Function
+        DuplicateArInstallmentInfoRecord = True
+    End Function
+
+    Public Function AddNewARTransactionExisting(ByVal StoreNo As Integer,
+  ByVal ArNo As String, Optional ByVal TransDate As String = "",
+  Optional ByVal Typee As String = "",
+  Optional ByVal Charges As Decimal = 0, Optional ByVal Credits As Decimal = 0,
+  Optional ByVal Receipt As String = "",
+  Optional ByVal AdjustArBalance As Boolean = False,
+  Optional ByVal AdjustTotPaid As Boolean = False) As Boolean
+        ' Adds onto an existing account, automatically continuing mail & name, and calculating balance.
+
+        Dim N As String, M As Integer, B As Integer, C As Decimal
+        N = GetValueBySQL("SELECT [LastName] FROM [InstallmentInfo] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo))
+        M = Val(GetValueBySQL("SELECT [MailIndex] FROM [InstallmentInfo] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """", , GetDatabaseAtLocation(StoreNo)))
+        C = GetPrice(GetValueBySQL("SELECT TOP 1 [Balance] FROM [Transactions] WHERE [ArNo]='" & ArNo & "' ORDER BY [TransDate] DESC, [TransactionID] DESC", , GetDatabaseAtLocation(StoreNo)))
+        If Not IsDate(TransDate) Then TransDate = Today
+        AddNewARTransactionExisting = AddNewARTransaction(StoreNo, ArNo, N, TransDate, M, Typee, Charges, Credits, C + Charges - Credits, Receipt, AdjustArBalance, AdjustTotPaid)
+    End Function
+
+    Public Function AddNewARInstallmentInfo(ByVal StoreNo As Integer,
+  ByVal ArNo As String, Optional ByVal LastName As String = "", Optional ByVal Telephone As String = "",
+  Optional ByVal MailIndex As Integer = 0, Optional ByVal Financed As Decimal = 0, Optional ByVal PerMonth As Decimal = 0, Optional ByVal Months As Integer = 0,
+  Optional ByVal Rate As Double = 0, Optional ByVal LateDueOn As Integer = 0, Optional ByVal LateCharge As Decimal = 0,
+  Optional ByVal DeliveryDate As String = "", Optional ByVal FirstPayment As String = "", Optional ByVal CashOpt As Integer = 0,
+  Optional ByVal TotPaid As Decimal = 0, Optional ByVal Balance As Decimal = 0, Optional ByVal LateChargeBal As Decimal = 0,
+  Optional ByVal Status As String = "", Optional ByVal INTEREST As Decimal = 0, Optional ByVal Life As Decimal = 0, Optional ByVal Accident As Decimal = 0, Optional ByVal Prop As Decimal = 0,
+  Optional ByVal WriteOffDate As String = "", Optional ByVal SendNotice As String = "", Optional ByVal LastMetro426Status As String = "",
+  Optional ByVal InterestSalesTax As Decimal = 0, Optional ByVal APR As Double = 0, Optional ByVal Period As Integer = 0, Optional ByVal LifeType As Integer = 0,
+  Optional ByVal Satisfied As Integer = 0, Optional ByVal SatisfiedDate As String = "",
+  Optional ByVal IUI As Decimal = 0, Optional ByVal LastNotice As Integer = 0,
+  Optional ByVal LastLateCharge As String = "", Optional ByVal PaymentHistoryProfile As String = "") As Boolean
+        '' Adds a AR Transaction record regardless of any other records in the table.
+        'ArNo  LastName  Telephone
+        'MailIndex Financed  PerMonth  Months
+        'Rate  LateDueOn LateCharge
+        'DeliveryDate  FirstPayment  CashOpt
+        'TotPaid Balance LateChargeBal
+        'Status  Interest  Life  Accident  Prop
+        'WriteOffDate  SendNotice  LastMetro426Status
+        'InterestSalesTax  APR Period  LifeType
+        'Satisfied SatisfiedDate IUI LastNotice
+        'LastLateCharge
+        Dim S As String
+        S = ""
+        S = S & "INSERT INTO [InstallmentInfo] "
+        S = S & "(ArNo, LastName, Telephone, MailIndex, Financed, PerMonth, Months, Rate, LateDueOn, LateCharge, DeliveryDate, FirstPayment, CashOpt, TotPaid, Balance, LateChargeBal, Status, Interest, Life, Accident, Prop, WriteOffDate, SendNotice, LastMetro426Status, InterestSalesTax, APR, Period, LifeType, Satisfied, SatisfiedDate, IUI, LastNotice, LastLateCharge, PaymentHistoryProfile) "
+        S = S & " VALUES "
+        S = S & "("
+        'ArNo  LastName  Telephone
+        S = S & """" & ProtectSQL(ArNo) & """, "
+        S = S & """" & ProtectSQL(LastName) & """, "
+        S = S & """" & ProtectSQL(Telephone) & """, "
+        'MailIndex Financed  PerMonth  Months
+        S = S & MailIndex & ", "
+        S = S & SQLCurrency(Financed) & ", "
+        S = S & SQLCurrency(PerMonth) & ", "
+        S = S & Months & ", "
+        'Rate  LateDueOn LateCharge
+        S = S & Rate & ", "
+        S = S & LateDueOn & ", "
+        S = S & SQLCurrency(LateCharge) & ", "
+        'DeliveryDate  FirstPayment  CashOpt
+        S = S & SQLDate(DeliveryDate, """") & ", "
+        S = S & SQLDate(FirstPayment, """") & ", "
+        S = S & CashOpt & ", "
+        'TotPaid Balance LateChargeBal
+        S = S & SQLCurrency(TotPaid) & ", "
+        S = S & SQLCurrency(Balance) & ", "
+        S = S & SQLCurrency(LateChargeBal) & ", "
+        'Status  Interest  Life  Accident  Prop
+        S = S & """" & Left(ProtectSQL(Status), 1) & """, "
+        S = S & SQLCurrency(INTEREST) & ", "
+        S = S & SQLCurrency(Life) & ", "
+        S = S & SQLCurrency(Accident) & ", "
+        S = S & SQLCurrency(Prop) & ", "
+        'WriteOffDate  SendNotice  LastMetro426Status
+        S = S & IIf(Trim(WriteOffDate) = "", "Null", """" & Trim(WriteOffDate) & """") & ", "
+        S = S & IIf(SendNotice = "", "Null", """" & ProtectSQL(SendNotice) & """") & ", "
+        S = S & """" & Left(ProtectSQL(LastMetro426Status), 2) & """, "
+        'InterestSalesTax  APR Period  LifeType
+        S = S & SQLCurrency(InterestSalesTax) & ", "
+        S = S & APR & ", "
+        S = S & Period & ", "
+        S = S & LifeType & ", "
+        'Satisfied SatisfiedDate IUI LastNotice
+        S = S & Satisfied & ", "
+        S = S & IIf(IsDate(SatisfiedDate), """" & Trim(SatisfiedDate) & """", "Null") & ", "
+        S = S & SQLCurrency(IUI) & ", "
+        S = S & LastNotice & ", "
+        'LastLateCharge
+        S = S & """" & ProtectSQL(LastLateCharge) & """, "
+        S = S & """" & Left(ProtectSQL(PaymentHistoryProfile), 24) & """"
+
+        S = S & ")"
+        ExecuteRecordsetBySQL(S, , GetDatabaseAtLocation(StoreNo))
+        AddNewARInstallmentInfo = True
+    End Function
+
+    Public Function AddNewARTransaction(ByVal StoreNo As Integer,
+  ByVal ArNo As String, Optional ByVal Name As String = "", Optional ByVal TransDate As String = "",
+  Optional ByVal MailIndex As Integer = 0, Optional ByVal Typee As String = "",
+  Optional ByVal Charges As Decimal = 0, Optional ByVal Credits As Decimal = 0, Optional ByVal Balance As Decimal = 0,
+  Optional ByVal Receipt As String = "",
+  Optional ByVal AdjustArBalance As Boolean = False,
+  Optional ByVal AdjustTotPaid As Boolean = False) As Decimal
+        ' Adds a AR Transaction record regardless of any other records in the table.
+
+        Dim S As String
+        Dim tS As String
+
+        S = ""
+        S = S & "INSERT INTO [Transactions] "
+        S = S & "(ArNo, [LastName], TransDate, MailIndex,Type,Charges,Credits,Balance" & IIf(Receipt = "", "", ", Receipt") & ") "
+        S = S & " VALUES "
+        S = S & "(""" & ProtectSQL(ArNo) & """, """ & ProtectSQL(Name) & """, #" & DateValue(TransDate) & "#,"
+        S = S & MailIndex & ",""" & ProtectSQL(Typee) & """, "
+        S = S & CurrencyFormat(Charges, , , True) & ", " & CurrencyFormat(Credits, , , True) & ", " & CurrencyFormat(Balance, , , True)
+        If Receipt <> "" Then S = S & ", """ & ProtectSQL(Receipt) & """"
+        S = S & ")"
+        ExecuteRecordsetBySQL(S, , GetDatabaseAtLocation(StoreNo))
+
+        If AdjustArBalance Then
+            tS = "UPDATE [InstallmentInfo] SET [Balance]=" & SQLCurrency(Balance) & " WHERE [ArNo]='" & ArNo & "'"
+            ExecuteRecordsetBySQL(tS, , GetDatabaseAtLocation(StoreNo))
+        End If
+
+        If AdjustTotPaid Then
+            Dim Tp As Decimal
+            Tp = GetValueBySQL("SELECT [TotPaid] FROM [InstallmentInfo] WHERE [ArNo]='" & ArNo & "'", , GetDatabaseAtLocation(StoreNo))
+            Tp = Tp + Credits
+            tS = "UPDATE [InstallmentInfo] SET [TotPaid]=" & SQLCurrency(Tp) & " WHERE [ArNo]='" & ArNo & "'"
+            ExecuteRecordsetBySQL(tS, , GetDatabaseAtLocation(StoreNo))
+        End If
+
+        AddNewARTransaction = Balance
+    End Function
 
 End Module

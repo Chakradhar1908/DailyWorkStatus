@@ -468,7 +468,7 @@ Failure:
         End If
 
 
-        '  Dim rAmount As Currency
+        '  Dim rAmount as decimal
         '  Dim Status As String
         '  Dim Msg As String
 

@@ -13,7 +13,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property MailIndex() As Long
+    Public ReadOnly Property MailIndex() As Integer
         Get
             MailIndex = Val(lblCust.Tag)
         End Get

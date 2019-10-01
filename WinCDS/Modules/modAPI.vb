@@ -27,7 +27,7 @@ Module modAPI
     Private Declare Function GetShortPathName Lib "kernel32" Alias "GetShortPathNameA" (ByVal lpszLongPath As String, ByVal lpszShortPath As String, ByVal cchBuffer As Integer) As Integer
     Public Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Integer
     Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Integer)
-
+    Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" (ByVal nSize As Integer, ByVal lpBuffer As String) As Integer
     'Public Declare Function LockWindowUpdate Lib "USER32" (ByVal hwnd As Integer) As Integer  -> This is for vb6.0.
     '<DllImport("user32.dll")>
     'Public Function LockWindowUpdate(ByVal hWndLock As IntPtr) As Boolean
@@ -417,21 +417,21 @@ Module modAPI
         Return Nothing
     End Function
 
-    'Public Function CaptureWindow(ByVal hWndSrc As Long,
-    '      ByVal Client As Boolean, ByVal LeftSrc As Long,
-    '      ByVal TopSrc As Long, ByVal WidthSrc As Long,
-    '      ByVal HeightSrc As Long) As Picture
+    'Public Function CaptureWindow(ByVal hWndSrc as integer,
+    '      ByVal Client As Boolean, ByVal LeftSrc as integer,
+    '      ByVal TopSrc as integer, ByVal WidthSrc as integer,
+    '      ByVal HeightSrc as integer) As Picture
 
-    '    Dim hDCMemory As Long
-    '    Dim hBmp As Long
-    '    Dim hBmpPrev As Long
-    '    Dim R As Long
-    '    Dim hDCSrc As Long
-    '    Dim hPal As Long
-    '    Dim hPalPrev As Long
-    '    Dim RasterCapsScrn As Long
-    '    Dim HasPaletteScrn As Long
-    '    Dim PaletteSizeScrn As Long
+    '    Dim hDCMemory as integer
+    '    Dim hBmp as integer
+    '    Dim hBmpPrev as integer
+    '    Dim R as integer
+    '    Dim hDCSrc as integer
+    '    Dim hPal as integer
+    '    Dim hPalPrev as integer
+    '    Dim RasterCapsScrn as integer
+    '    Dim HasPaletteScrn as integer
+    '    Dim PaletteSizeScrn as integer
     '    Dim LogPal As LOGPALETTE
 
     '    ' Depending on the value of Client get the proper device context.
@@ -486,5 +486,18 @@ Module modAPI
     '    ' object.
     '    CaptureWindow = CreateBitmapPicture(hBmp, hPal)
     'End Function
+
+    Public Function GetTempDir() As String
+        Dim Item As String, Size As Integer, Pos As Integer, Tmp As String
+        Tmp = Space(256)
+        Size = Len(Tmp)
+        GetTempPath(Size, Tmp)
+        Pos = InStr(Tmp, Chr(0))
+        If Pos Then
+            GetTempDir = Left(Tmp, Pos - 1)
+        Else
+            GetTempDir = Tmp
+        End If
+    End Function
 
 End Module

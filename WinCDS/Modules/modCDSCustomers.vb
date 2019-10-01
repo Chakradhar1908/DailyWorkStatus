@@ -276,4 +276,10 @@
             IsMichaels = CheckStoreName("Michael")
         End Get
     End Property
+
+    Public ReadOnly Property IsRogers() As Boolean
+        Get
+            IsRogers = CheckStoreName("Roger")
+        End Get
+    End Property
 End Module

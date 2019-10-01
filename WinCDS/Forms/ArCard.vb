@@ -750,4 +750,14 @@ ErrorHandler:
         DisposeDA(R)
     End Function
 
+    Public Function QueryPayLogSale(ByVal I As Long) As String
+        If I > PayCount Then Exit Function
+        QueryPayLogSale = PayLog(I - 1).SaleNo
+    End Function
+
+    Public Function QueryPayLogAmount(ByVal I As Long) As Decimal
+        If I > PayCount Then Exit Function
+        QueryPayLogAmount = PayLog(I - 1).Amount
+    End Function
+
 End Class

@@ -512,7 +512,7 @@ TryAgain:
         ' Loop through each row, doing only what's necessary.
         Dim Xx As Integer, YY As Integer
         Dim oPrice As String, tPrice As Decimal, tStyle As String, Desc As String
-        '  Dim AddTax As Currency
+        '  Dim AddTax as decimal
 
         For Xx = 0 To UGridIO1.LastRowUsed
             oPrice = UGridIO1.GetValue(Xx, BillColumns.ePrice)

@@ -391,4 +391,18 @@ HandleErr:
         DisposeDA(R)
     End Function
 
+    Public Function SQLDate(ByVal vDate As Date, Optional ByVal Delimiter As String = "#") As String
+        '::::SQLDate
+        ':::SUMMARY
+        ':::DESCRIPTION
+        ': This function is used to format the Date
+        ':::PARAMETERS
+        ': - vDate - Indicates the Date value.
+        ': - Delimiter - Indicates the date delimiter ('#' in MSJET)
+        ':::RETURN
+        ': String - Returns the Result as a String.
+
+        SQLDate = Delimiter & DateFormat(DateValue(vDate), "/") & Delimiter
+    End Function
+
 End Module

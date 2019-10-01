@@ -255,6 +255,12 @@
     <Compile Include="Forms\frmPermissionMonitor.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmPrintPreviewDocument.Designer.vb">
+      <DependentUpon>frmPrintPreviewDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPrintPreviewDocument.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmProgress.Designer.vb">
       <DependentUpon>frmProgress.vb</DependentUpon>
     </Compile>
@@ -545,6 +551,7 @@
     <Compile Include="Modules\modPODetail.vb" />
     <Compile Include="Modules\modPrintToolsCommon.vb" />
     <Compile Include="Modules\modProgramState.vb" />
+    <Compile Include="Modules\modReceipts.vb" />
     <Compile Include="Modules\modRegistry.vb" />
     <Compile Include="Modules\modRevolving.vb" />
     <Compile Include="Modules\modSalesJournal.vb" />
@@ -666,6 +673,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPermissionMonitor.resx">
       <DependentUpon>frmPermissionMonitor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPrintPreviewDocument.resx">
+      <DependentUpon>frmPrintPreviewDocument.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProgress.resx">
       <DependentUpon>frmProgress.vb</DependentUpon>
@@ -955,6 +965,15 @@
       <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBPrnDlgLib">
+      <Guid>{8620B873-D801-11D2-AC47-00600832A1F6}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>

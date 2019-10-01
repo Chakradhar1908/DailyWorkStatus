@@ -43,10 +43,10 @@ Partial Class OrdPay
         Me.cboAccount = New System.Windows.Forms.ComboBox()
         Me.Memo = New System.Windows.Forms.TextBox()
         Me.fraControl = New System.Windows.Forms.GroupBox()
-        Me.chkReceipt = New System.Windows.Forms.CheckBox()
-        Me.chkEmail = New System.Windows.Forms.CheckBox()
-        Me.cmdOk = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.cmdOk = New System.Windows.Forms.Button()
+        Me.chkEmail = New System.Windows.Forms.CheckBox()
+        Me.chkReceipt = New System.Windows.Forms.CheckBox()
         Me.tmrLockOn = New System.Windows.Forms.Timer(Me.components)
         Me.fraControl.SuspendLayout()
         Me.SuspendLayout()
@@ -231,16 +231,23 @@ Partial Class OrdPay
         Me.fraControl.TabIndex = 19
         Me.fraControl.TabStop = False
         '
-        'chkReceipt
+        'cmdCancel
         '
-        Me.chkReceipt.AutoSize = True
-        Me.chkReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkReceipt.Location = New System.Drawing.Point(6, 16)
-        Me.chkReceipt.Name = "chkReceipt"
-        Me.chkReceipt.Size = New System.Drawing.Size(63, 17)
-        Me.chkReceipt.TabIndex = 0
-        Me.chkReceipt.Text = "&Receipt"
-        Me.chkReceipt.UseVisualStyleBackColor = True
+        Me.cmdCancel.Location = New System.Drawing.Point(132, 17)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(51, 39)
+        Me.cmdCancel.TabIndex = 3
+        Me.cmdCancel.Text = "&Cancel"
+        Me.cmdCancel.UseVisualStyleBackColor = True
+        '
+        'cmdOk
+        '
+        Me.cmdOk.Location = New System.Drawing.Point(75, 17)
+        Me.cmdOk.Name = "cmdOk"
+        Me.cmdOk.Size = New System.Drawing.Size(51, 39)
+        Me.cmdOk.TabIndex = 2
+        Me.cmdOk.Text = "&OK"
+        Me.cmdOk.UseVisualStyleBackColor = True
         '
         'chkEmail
         '
@@ -253,23 +260,16 @@ Partial Class OrdPay
         Me.chkEmail.Text = "E&mail"
         Me.chkEmail.UseVisualStyleBackColor = True
         '
-        'cmdOk
+        'chkReceipt
         '
-        Me.cmdOk.Location = New System.Drawing.Point(75, 17)
-        Me.cmdOk.Name = "cmdOk"
-        Me.cmdOk.Size = New System.Drawing.Size(51, 39)
-        Me.cmdOk.TabIndex = 2
-        Me.cmdOk.Text = "&OK"
-        Me.cmdOk.UseVisualStyleBackColor = True
-        '
-        'cmdCancel
-        '
-        Me.cmdCancel.Location = New System.Drawing.Point(132, 17)
-        Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(51, 39)
-        Me.cmdCancel.TabIndex = 3
-        Me.cmdCancel.Text = "&Cancel"
-        Me.cmdCancel.UseVisualStyleBackColor = True
+        Me.chkReceipt.AutoSize = True
+        Me.chkReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.chkReceipt.Location = New System.Drawing.Point(6, 16)
+        Me.chkReceipt.Name = "chkReceipt"
+        Me.chkReceipt.Size = New System.Drawing.Size(63, 17)
+        Me.chkReceipt.TabIndex = 0
+        Me.chkReceipt.Text = "&Receipt"
+        Me.chkReceipt.UseVisualStyleBackColor = True
         '
         'OrdPay
         '

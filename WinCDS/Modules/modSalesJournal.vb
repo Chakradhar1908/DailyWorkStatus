@@ -106,4 +106,35 @@
         RS("Terminal").Value = Sj.Terminal
     End Sub
 
+    Public Sub SalesJournal_AddRecordNew_Data(
+      ByVal BOS As String, ByVal Name As String, ByVal TransDate As String,
+      ByVal Written As Decimal, ByVal TaxCharged1 As Decimal, ByVal ArCashSls As Decimal,
+      ByVal Controll As Decimal, ByVal UndSls As Decimal, ByVal DelSls As Decimal,
+      ByVal TaxRec1 As Decimal, ByVal TaxCode As Long, SalesPerson As String,
+      ByVal NonTaxable As Decimal, Optional ByVal Cashier As String = "", Optional ByVal Terminal As String = ""
+      )
+        '::::SalesJournal_AddRecordNew_Data
+        ':::SUMMARY
+        ': Used to Add New Audit Records.
+        ':::DESCRIPTION
+        ': This function is used to add new Audit Record to SalesJournalNew recordset.
+        AddNewAuditRecord(BOS, Name, TransDate, Written, TaxCharged1, ArCashSls, Controll,
+    UndSls, DelSls, TaxRec1, TaxCode, SalesPerson, NonTaxable, Cashier, Terminal)
+    End Sub
+
+    Public Function LastAuditID() As Long
+        '::::LastAuditID
+        ':::SUMMARY
+        ': Used to return Last Audit ID.
+        ':::DESCRIPTION
+        ': This function is used last Audit Id from Audit table based on Description.
+        ':::PARAMETERS
+        ':::RETURN
+        ': Long - Returns Last Audit ID.
+        Dim RS As ADODB.Recordset
+        RS = GetRecordsetBySQL("SELECT TOP 1 AuditID FROM Audit ORDER BY AuditID DESC", , GetDatabaseAtLocation)
+        If Not RS.EOF Then LastAuditID = RS("AuditID").Value
+        RS = Nothing
+    End Function
+
 End Module

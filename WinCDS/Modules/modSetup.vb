@@ -60,9 +60,9 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const CCPROC_XL As String = "eXpressLink"
     Public Const CCPROC_CM As String = "Credomatic"
     Public Const CCPROC_CI As String = "ChargeItPro"
-    Public Const Setup_MaxKitItems As Long = 10
+    Public Const Setup_MaxKitItems As Integer = 10
 
-    Public ReadOnly Property Setup_2Data_StyleMaxLen() as integer
+    Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get
             '::::Setup_2Data_StyleMaxLen
             ':::SUMMARY
@@ -93,7 +93,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         ':::SUMMARY
         ': Hook to the frmPermissionMontior form.
         If Not IsFormLoaded("frmPermissionMonitor") Then Exit Sub
-        frmPermissionMonitor.Update
+        frmPermissionMonitor.Update()
     End Sub
     Public Function GetStoreTax1() As Double
         '::::GetStoreTax1
@@ -104,7 +104,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         GetStoreTax1 = StoreSettings.SalesTax
     End Function
     Public Function AdminContactString(
-    Optional ByVal Format as integer = 0,
+    Optional ByVal Format As Integer = 0,
     Optional ByVal Version As Boolean = True,
     Optional ByVal Company As Boolean = True,
     Optional ByVal Name As Boolean = False,
@@ -176,7 +176,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
                 If Fax Then S = S & "Fax:     " & AdminContactFax & vbCrLf
                 If Copyright Then
                     S = S & vbCrLf
-                    S = S & SoftwareCopyright
+                    S = S & SoftwareCopyright()
                 End If
         End Select
         AdminContactString = S
@@ -207,25 +207,25 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         'LogStartup "SoftwareVersion: a"
         If ForDisplay Then
             'LogStartup "SoftwareVersion: b"
-            SoftwareVersion = WinCDSMajorVersion & ".0" ' & WinCDSMinorVersion
+            SoftwareVersion = WinCDSMajorVersion() & ".0" ' & WinCDSMinorVersion
             'LogStartup "SoftwareVersion: c"
-            If WithRevision Then SoftwareVersion = SoftwareVersion & " (Revision: " & WinCDSRevisionNumber & ")"
+            If WithRevision Then SoftwareVersion = SoftwareVersion & " (Revision: " & WinCDSRevisionNumber() & ")"
             'LogStartup "SoftwareVersion: d"
         Else
             'LogStartup "SoftwareVersion: e"
-            SoftwareVersion = WinCDSMajorVersion & "." & WinCDSMinorVersion
+            SoftwareVersion = WinCDSMajorVersion() & "." & WinCDSMinorVersion()
             'LogStartup "SoftwareVersion: f"
-            If WithRevision Then SoftwareVersion = SoftwareVersion & "." & WinCDSRevisionNumber & "." & WinCDSBuildNumber
+            If WithRevision Then SoftwareVersion = SoftwareVersion & "." & WinCDSRevisionNumber() & "." & WinCDSBuildNumber()
             'LogStartup "SoftwareVersion: g"
         End If
         'LogStartup "SoftwareVersion: h"
         If WithProgramName Then SoftwareVersion = AdminContactProgram & " v" & SoftwareVersion
         'LogStartup "SoftwareVersion: i"
-        If wHash Then SoftwareVersion = SoftwareVersion & " (HASH=" & SoftwareVersionHash & ")"
+        If wHash Then SoftwareVersion = SoftwareVersion & " (HASH=" & SoftwareVersionHash() & ")"
         'LogStartup "SoftwareVersion: j"
         If ShowStoreName Then SoftwareVersion = SoftwareVersion '& " @ " & StoreSettings(1).Name
         'LogStartup "SoftwareVersion: k"
-        If ShowOSVersion Then SoftwareVersion = SoftwareVersion & " {" & GetWinVerNumber & "}"
+        If ShowOSVersion Then SoftwareVersion = SoftwareVersion & " {" & GetWinVerNumber() & "}"
         'LogStartup "SoftwareVersion: l"
         'LogStartup "SoftwareVersion: m"
     End Function
@@ -245,10 +245,10 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         ': Returns a version hash.  Used as an attempt to bypass user improvisation of version numbers.
         ':::DESCRIPTION
         ':Returns a base 64 encoding of the current version.
-        SoftwareVersionHash = EncodeBase64String(BuildDate & " " & BuildTime & "-" & WinCDSRevisionNumber() & "." & WinCDSBuildNumber() & "-" & BuildComputer) ' & "-" & GetWinVerNumber)
+        SoftwareVersionHash = EncodeBase64String(BuildDate() & " " & BuildTime() & "-" & WinCDSRevisionNumber() & "." & WinCDSBuildNumber() & "-" & BuildComputer()) ' & "-" & GetWinVerNumber)
     End Function
 
-    Public Function GetXCTransactionFolder(Optional ByVal StoreNum As Long = 0, Optional ByVal MOTO As Boolean = False) As String
+    Public Function GetXCTransactionFolder(Optional ByVal StoreNum As Integer = 0, Optional ByVal MOTO As Boolean = False) As String
         '::::GetXCTransactionFolder
         ':::SUMMARY
         ': Returns the XCharge Transaction folder.

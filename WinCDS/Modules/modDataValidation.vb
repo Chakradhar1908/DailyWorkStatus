@@ -1,4 +1,5 @@
-﻿Module modDataValidation
+﻿Imports VBRUN
+Module modDataValidation
     Public Function GetPrice(ByVal Value As String, Optional ByRef PriceError As Boolean = False) As Decimal
         ' This function is used when a string may contain a numerical value.
         ' Calling this will allow for handing of "" or "$1.24" type cases,
@@ -22,8 +23,8 @@ AnError:
     ':FUNCTION cleanani(ani, req)
     ':removes all non number charecters
     ' Provided by Krollmark Technologies 20030708
-    Public Function CleanAni(ByVal Ani As String, Optional ByVal Req as integer = 0)
-        Dim I as integer
+    Public Function CleanAni(ByVal Ani As String, Optional ByVal Req As Integer = 0)
+        Dim I As Integer
         CleanAni = ""
         If Ani <> "" Then
             For I = 1 To Len(Ani)
@@ -32,9 +33,9 @@ AnError:
             If Len(CleanAni) < Req Then CleanAni = ""
         End If
     End Function
-    Public Function FormatAniTextBox(ByRef tBox As TextBox) as integer
-        Dim OrigAni As String, OrigPos as integer, OrigLen as integer, OrigSel as integer
-        Dim tempAni As String, tempPos as integer, tempLen as integer, tempSel as integer
+    Public Function FormatAniTextBox(ByRef tBox As TextBox) As Integer
+        Dim OrigAni As String, OrigPos As Integer, OrigLen As Integer, OrigSel As Integer
+        Dim tempAni As String, tempPos As Integer, tempLen As Integer, tempSel As Integer
 
         FormatAniTextBox = 0
         OrigAni = tBox.Text
@@ -76,7 +77,7 @@ AnError:
         ' Let's revise this.. it's too hard to crack.
         ' Count the number of numbers before the current cursor.
         ' Put the new cursor after that many numbers in the formatted text.
-        Dim I as integer, NumCount as integer
+        Dim I As Integer, NumCount As Integer
         For I = 1 To OrigPos
             If IsNumeric(Mid(OrigAni, I, 1)) Then
                 NumCount = NumCount + 1
@@ -180,7 +181,7 @@ AnError:
         If nVal = 0 Then Exit Function
         IsNothingOrZero = False
     End Function
-    Public Function FormatGM(ByVal GM As Double, Optional ByVal DecimalPoints as integer = 2) As String
+    Public Function FormatGM(ByVal GM As Double, Optional ByVal DecimalPoints As Integer = 2) As String
         '::::FormatGM
         ':::SUMMARY
         ':FormatGM function is used to generate the format for GrossMargin.
@@ -194,7 +195,7 @@ AnError:
         FormatGM = GMFormat(GM, DecimalPoints)
     End Function
 
-    Public Function GMFormat(ByVal GM As Double, Optional ByVal DecimalPoints as integer = 2) As String
+    Public Function GMFormat(ByVal GM As Double, Optional ByVal DecimalPoints As Integer = 2) As String
         '::::GMFormat
         ':::SUMMARY
         ':Result from function Format is assigned to function GMFormat.
@@ -206,7 +207,7 @@ AnError:
         ':::RETURN
         ':-String-Returns the GrossMargin as a string.
 
-        Dim S As String, I as integer
+        Dim S As String, I As Integer
         If DecimalPoints < 0 Then DecimalPoints = 0
         S = "0"
         If DecimalPoints > 0 Then
@@ -302,7 +303,7 @@ AnError:
 AnError:
     End Function
 
-    Public Function PriceFormatFunc(ByVal Number As Variant, Optional ByVal Style As String = "$###,##0.00", Optional ByVal Length As Long = 12, Optional ByVal BlankForZero As Boolean = False) As String
+    Public Function PriceFormatFunc(ByVal Number As Object, Optional ByVal Style As String = "$###,##0.00", Optional ByVal Length As Integer = 12, Optional ByVal BlankForZero As Boolean = False) As String
         '::::PriceFormatFunc
         ':::Summmary
         ':PriceFormatFunc is used display the price in certain format($###,##0.00).
@@ -317,11 +318,11 @@ AnError:
         ':::RETURN
         ':String-Returns price in given format as a string.
 
-        Dim NC As Currency, Text As String
+        Dim NC As Decimal, Text As String
         NC = GetPrice(Number)
         If BlankForZero And NC = 0 Then PriceFormatFunc = "" : Exit Function
         Text = Format(NC, Style)
-        PriceFormatFunc = AlignString(Text, Length, vbAlignRight, False) ' Space(12 - Len(Text)) & Text
+        PriceFormatFunc = AlignString(Text, Length, AlignConstants.vbAlignRight, False) ' Space(12 - Len(Text)) & Text
 
     End Function
 

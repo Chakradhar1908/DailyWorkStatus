@@ -1,7 +1,7 @@
 ﻿Module modInternet
     Public Function URLEncode(ByVal sRawURL As String, Optional ByVal AllowAmpersand As Boolean = True) As String
         On Error GoTo Catch1
-        Dim iLoop As Long, sRtn As String, sTmp As String
+        Dim iLoop As Integer, sRtn As String, sTmp As String
         Dim sValidChars As String
         sValidChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz:/.?=_-$(){}~"
         If AllowAmpersand Then sValidChars = sValidChars & "&"
@@ -31,6 +31,10 @@ Finally1:
 Catch1:
         URLEncode = ""
         Resume Finally1
+    End Function
+
+    Public Function QueryStringQueryL(ByVal QueryString As String, ByVal key As String) As Long
+        QueryStringQueryL = Val(QueryStringQuery(QueryString, key))
     End Function
 
 End Module

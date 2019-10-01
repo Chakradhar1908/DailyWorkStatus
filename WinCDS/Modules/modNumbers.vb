@@ -131,7 +131,7 @@
         ':::PARAMETERS
         ': - Money - Indicates the Currency Value.
         ':::RETURN
-        ': Currency : Return the RoundUp value as Currency.
+        ': Currency : Return the RoundUp value as decimal.
         RoundUp = Math.Round(Money + 0.49, 0)
     End Function
 

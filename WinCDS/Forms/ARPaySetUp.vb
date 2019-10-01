@@ -2263,7 +2263,7 @@ ErrorHandler:
             Printer.CurrentX = 0
             Printer.FontSize = 14
             Printer.CurrentY = 200
-            Printer.Print(("   Retail Installment & Security Agreement")
+            Printer.Print("   Retail Installment & Security Agreement")
 
             Printer.CurrentY = 1000
             Printer.CurrentX = 0
@@ -2271,16 +2271,16 @@ ErrorHandler:
             Printer.FontSize = 16
             Printer.FontBold = True
             Printer.CurrentX = 500
-            Printer.Print((IStorename)
+            Printer.Print(IStorename)
 
             Printer.FontSize = 14
             Printer.FontBold = False
             Printer.CurrentX = 500
-            Printer.Print((IStoreAddress)
+            Printer.Print(IStoreAddress)
             Printer.CurrentX = 500
-            Printer.Print((IStoreCity)
+            Printer.Print(IStoreCity)
             Printer.CurrentX = 500
-            Printer.Print((IStorePhone)
+            Printer.Print(IStorePhone)
 
             Printer.CurrentX = 8000
             Printer.CurrentY = 100 '500 '1200
@@ -2450,7 +2450,7 @@ ErrorHandler:
             'Deposit
             Printer.CurrentX = 10000
             Printer.CurrentY = 5300 ' 5700
-            Printer.Print(CurrencyFormat(txtOrigDeposit) 'deposit
+            Printer.Print(CurrencyFormat(txtOrigDeposit.Text)) 'deposit
 
             Printer.CurrentX = 800
             Printer.CurrentY = 5500 '5900
@@ -2522,8 +2522,8 @@ ErrorHandler:
     End Sub
 
     Public Sub PrintCoupons()
-        Dim Grace As Long, Pages As Long, NoPayments As Long
-        Dim Z1 As Long, YY As Long, Y As Long
+        Dim Grace As Integer, Pages As Integer, NoPayments As Integer
+        Dim Z1 As Integer, YY As Integer, Y As Integer
         Dim O As Object
 
         On Error GoTo ErrorHandler
@@ -2568,7 +2568,7 @@ ErrorHandler:
                     DateDue = DateAdd("m", Counter - 1, FirstPayment)
                 End If
 
-                O.print("   Due Date: "; DateDue)
+                O.print("   Due Date: ", DateDue)
                 O.CurrentX = 500
                 O.print("       Amount: ", FormatCurrency(GetPrice(IIf(Counter <> NoMonths, Payment, LastPay))))  ' check last payment
 
@@ -2671,8 +2671,8 @@ ErrorHandler:
 
     Private Sub InsuranceFormTreeHouse()
         Dim Op As Object, R As VbMsgBoxResult
-        Dim PName As String, I As Long
-        Dim Page1Copies As Long, Page2Copies As Long, Page3Copies As Long, Page4Copies As Long
+        Dim PName As String, I As Integer
+        Dim Page1Copies As Integer, Page2Copies As Integer, Page3Copies As Integer, Page4Copies As Integer
         Dim X_SCALE As Double, Y_SCALE As Double
         Dim First As String, Last As String, Add As String, City As String, Zip As String, Sales1 As String
         Dim SS As String, DOB As Date, hAge As String, HasCo As Boolean
@@ -2716,7 +2716,7 @@ ErrorHandler:
         If True Or Not IsDevelopment() Then
             If Not SetPrinter(PName) Then
                 If True Or Not IsDevelopment() Then
-                    MessageBox.Show("Could not connect to " & PName & ".", vbExclamation, "Printer Selection Failed")
+                    MessageBox.Show("Could not connect to " & PName & ".", "Printer Selection Failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     '        Exit Sub
                 End If
             End If
@@ -2754,7 +2754,7 @@ ErrorHandler:
             picPicture.Image = LoadPictureStd(FXFile("FNI-Blank-1.gif"))
             Printer.PaintPicture(picPicture.Image, 0, 0, Printer.ScaleWidth, Printer.ScaleHeight)
 
-            Dim MailIndex As Long
+            Dim MailIndex As Integer
             'Dim First As String, Last As String, Add As String, City As String, Zip As String, Sales1 As String
             Dim SQL As String, RS As ADODB.Recordset
             'Dim SS As String, DOB As Date, hAge As String, HasCo As Boolean
@@ -3076,7 +3076,7 @@ HERE:
 
             Printer.FontSize = 6
 
-            Dim J As Long, gY As Long
+            Dim J As Integer, gY As Integer
             gY = 5600
 
             Dim CS As sSale
@@ -3164,7 +3164,7 @@ Skip:
                 PrintOut_Alt2(OutObj:=Printer, X:=4350, Y:=12900, Text:="X")
             End If
 
-            PrintOut_Alt2( OutObj:=Printer, X:=2100, Y:=13090, Text:=hAge)
+            PrintOut_Alt2(OutObj:=Printer, X:=2100, Y:=13090, Text:=hAge)
 
             ' right summary
             PrintOut_Alt2(OutObj:=Printer, X:=9750, Y:=8760, Text:=CurrencyFormat(txtGrossSale.Text))
@@ -3234,7 +3234,7 @@ Skip:
 
         Printer.CurrentX = 6000
         Printer.CurrentY = 2075 '1175
-        Printer.Print(StoreSettings.Name;)
+        Printer.Print(StoreSettings.Name)
 
         Printer.CurrentX = 10050
         Printer.Print(ArNo) 'Creditor's No.
@@ -3308,7 +3308,7 @@ Skip:
             T = IfNullThenNilString(RS("SN"))
             GetBSNumList = GetBSNumList & IIf(Len(GetBSNumList) > 0, ",", "") & T
             If Current = T Then UsedCurrent = True
-            RS.MoveNext
+            RS.MoveNext()
         Loop
         DisposeDA(RS)
 
@@ -3325,7 +3325,7 @@ Skip:
 
     Private Sub CalculateLastPay()
         Dim PWB As Decimal, Tot As Decimal, Adj As Decimal
-        PWB = GetPrice(txtPaymentWillBe., Text)
+        PWB = GetPrice(txtPaymentWillBe.Text)
         Tot = Math.Round(GetPrice(NewBalance) + GetPrice(FinanceCharge) + GetPrice(FinanceChargeSalesTax), 2)
         LastPay = 0
         Payment = 0
@@ -3432,9 +3432,9 @@ Skip:
         Printer.Print("ACCELERATION:    If you are in default, we may demand immediate payment of the entire amount you owe.  This includes all the remaining monthly payments you must pay.  We shall have all rights and")
         Printer.Print("remedies given by the Uniform Commercial Code.  This includes the right to retain property.")
         Printer.Print("")
-        Printer.Print("REPOSSESSION:  If we retake the property, we have the right to sell it at public or private sale and apply the proceeds of the sale to what you owe, less selling expense.  You agree to pay the difference between"0
-  Printer.Print("the sale proceeds and what you owe.  We are permitted by law to collect the difference from you.  If we receive more money from the sale than you owe, we will pay the surplus amount to you."0
-  Printer.Print("")
+        Printer.Print("REPOSSESSION:  If we retake the property, we have the right to sell it at public or private sale and apply the proceeds of the sale to what you owe, less selling expense.  You agree to pay the difference between")
+        Printer.Print("the sale proceeds and what you owe.  We are permitted by law to collect the difference from you.  If we receive more money from the sale than you owe, we will pay the surplus amount to you.")
+        Printer.Print("")
         Printer.Print("ATTORNEY'S FEES AND COURT COST:  If this Contract is given to an attorney for collection, you shall pay reasonable attorney's fees, as provided by the laws of this state in which the contract is executed.")
         Printer.Print("You will also pay any court costs if permitted by the law.")
         Printer.Print("")
@@ -3569,13 +3569,13 @@ Skip:
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
         'cancel / done
-        If ArMode("REPRINT") Then Hide() :
+        If ArMode("REPRINT") Then Hide() : 
         Exit Sub
 
 
         If OrderMode("A") Then
             If cmdCancel.Text = "Cancel Set-Up" Then
-                Dim X As Long
+                Dim X As Integer
                 X = BillOSale.X '+ 1
                 BillOSale.SetDesc(X, "")
                 BillOSale.SetStyle(X, "")
@@ -3637,6 +3637,25 @@ Skip:
     End Sub
 
     Private Sub ARPaySetUp_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'If no form cancels the QueryUnload event, the Unload event occurs first in all other forms and then in an MDI form. 
+        'When a child form or a Form object closes, the QueryUnload event in that form occurs before the form's Unload event
+
+        '--------------
+        'This code block is for Query unload event of vb6.0
+        If OrderMode("B") Then  'deliver sale
+            'If UnloadMode = vbFormControlMenu Then Cancel = True
+            If e.CloseReason = CloseReason.UserClosing Then e.Cancel = True
+            Exit Sub
+        End If
+
+        'If UnloadMode = vbFormControlMenu Then
+        If e.CloseReason = CloseReason.UserClosing Then
+            UnloadARPaySetUp = True
+        End If
+        '------------------------
+
+        'This block of code is for Form Unload event of vb6.0. Cause in vb.net, there are no two separate events unload and queryunload. So joined both events 
+        'in FormClosing event of vb.net
         On Error Resume Next
 
         If Not ArMode("E") Then ' contract estimator
@@ -3864,7 +3883,7 @@ Skip:
     End Sub
 
     Private Sub txtOrigDeposit_Enter(sender As Object, e As EventArgs) Handles txtOrigDeposit.Enter
-        SelectContents(txtOrigDeposit.Text 0
+        SelectContents(txtOrigDeposit.Text)
     End Sub
 
     Private Sub txtDocFee_Enter(sender As Object, e As EventArgs) Handles txtDocFee.Enter
@@ -3923,6 +3942,15 @@ Skip:
 
     Private Sub dteDate2_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles dteDate2.Validating
         If Not NoAdjust Then CheckLateDay()  ' No changes needed.
+    End Sub
+
+    Private Sub cboDeferred_Click(sender As Object, e As EventArgs) Handles cboDeferred.Click
+        Dim tRate As Double
+        OneOrTheOther(True)
+        AdjustFirstPay()
+
+        tRate = APR
+        Recalculate()
     End Sub
 
     Private Sub InsuranceForm() 'Elmore, Lott
@@ -4015,7 +4043,7 @@ Skip:
         SetPrinter(Op)
     End Sub
 
-    Private Sub InsuranceForm_New(ByVal N As Long) 'Lott, 20080311
+    Private Sub InsuranceForm_New(ByVal N As Integer) 'Lott, 20080311
         Dim Op As Object, OPS As Object, O As Object, Adj As Single
         Dim FA As Decimal
         Adj = -0.69
@@ -4140,11 +4168,208 @@ Skip:
         Printer.ScaleMode = vbTwips ' default
     End Sub
 
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        'cmdApply.Value = True
+        cmdApply_Click(cmdApply, New EventArgs)
+    End Sub
+
+    Private Sub GetArNo()
+        If AccountFound <> "Y" Or Status = "V" Then 'Addon
+            'bfh20051206
+            '    ArNo = GetFileAutonumber(frmSetup .StoreOrdDrv + "NewOrder\ArNo.Dat", 2000)
+            ArNo = GetFileAutonumber(ArNoFile, 2000)
+            lblAcctNo.Visible = True
+            lblAccountNo.Text = ArNo
+            lblAccountNo.Visible = True
+        End If
+    End Sub
+
+    Private Sub txtArNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtArNo.KeyPress
+        'KeyAscii = Asc(UCase(Chr(KeyAscii)))
+        e.KeyChar = UCase(e.KeyChar)
+    End Sub
+
+    Private Sub chkAutoARNO_Click(sender As Object, e As EventArgs) Handles chkAutoARNO.Click
+        'Arno
+        If chkAutoARNO.Checked = True Then
+            GetArNo()
+            txtArNo.Text = ArNo
+        End If
+        If chkAutoARNO.Checked = False Then 'uncheck
+            txtArNo.Text = ""
+        End If
+
+    End Sub
+
+    Private Sub chkLife_Click(sender As Object, e As EventArgs) Handles chkLife.Click
+        'turn on life
+        If chkLife.CheckState = CheckState.Indeterminate Then Exit Sub
+        If chkLife.CheckState = CheckState.Checked Then
+            GetLife()
+        Else
+            txtLifeInsurance.Text = ""
+        End If
+
+        If IsElmore Or IsBoyd Or UseAmericanNationalInsurance Or UseThorntonsInsurance Or IsLott Then ' Or IsLott Or IsMidSouth
+            Recalculate()
+        Else
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+            FinanceCharge = ((txtFinanceAmount.Text * InterestRate) / 12 * Months)
+            txtFinanceCharges.Text = CurrencyFormat(FinanceCharge)
+            If optWeekly.Checked = True Then
+                Payment = (GetPrice(txtFinanceAmount.Text) + FinanceCharge) / (Months * 4)
+            Else
+                Payment = (GetPrice(txtFinanceAmount.Text) + FinanceCharge) / Months
+            End If
+            txtPaymentWillBe.Text = CurrencyFormat(Payment)
+        End If
+    End Sub
+
+    Private Sub optJointLife0_Click(sender As Object, e As EventArgs) Handles optJointLife0.Click
+        'turn on life
+        If chkLife.Checked = True Then
+            GetLife()
+        End If
+
+        Recalculate()
+
+        ' Moved into Recalculate.  This was giving different answers depending what was clicked.
+        '  If IsElmore Or IsLott Or IsMidSouth Or IsBoyd Or IsTreehouse Or IsBlueSky Then
+        '    Recalculate
+        '  Else
+        '    txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance)) + GetPrice(txtUnemploymentInsurance)
+        '    FinanceCharge = ((txtFinanceAmount * InterestRate) / 12 * Months)
+        '    txtFinanceCharges = CurrencyFormat(FinanceCharge)
+        '    If optWeekly Then
+        '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / (Months * 4)
+        '    Else
+        '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / Months
+        '    End If
+        '    txtPaymentWillBe = CurrencyFormat(Payment)
+        ' End If
+    End Sub
+
+    Private Sub optJointLife1_Click(sender As Object, e As EventArgs) Handles optJointLife1.Click
+        'turn on life
+        If chkLife.Checked = True Then
+            GetLife()
+        End If
+
+        Recalculate()
+
+        ' Moved into Recalculate.  This was giving different answers depending what was clicked.
+        '  If IsElmore Or IsLott Or IsMidSouth Or IsBoyd Or IsTreehouse Or IsBlueSky Then
+        '    Recalculate
+        '  Else
+        '    txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance)) + GetPrice(txtUnemploymentInsurance)
+        '    FinanceCharge = ((txtFinanceAmount * InterestRate) / 12 * Months)
+        '    txtFinanceCharges = CurrencyFormat(FinanceCharge)
+        '    If optWeekly Then
+        '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / (Months * 4)
+        '    Else
+        '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / Months
+        '    End If
+        '    txtPaymentWillBe = CurrencyFormat(Payment)
+        ' End If
+    End Sub
+
+    Private Sub chkAccident_Click(sender As Object, e As EventArgs) Handles chkAccident.Click
+        'turn on Accident
+        If chkAccident.CheckState = CheckState.Indeterminate Then Exit Sub
+        If chkAccident.Checked = True Then
+            GetAcc()
+        Else
+            txtAccidentInsurance.Text = ""
+        End If
+
+        If IsElmore Or IsBoyd Or UseAmericanNationalInsurance Or UseThorntonsInsurance Or IsLott Then  ' Or IsLott Or IsMidSouth
+            Recalculate()
+        Else
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+            If Months = 0 Then
+                FinanceCharge = 0
+            Else
+                FinanceCharge = ((txtFinanceAmount.Text * InterestRate) / 12 * Months)
+            End If
+            txtFinanceCharges.Text = CurrencyFormat(FinanceCharge)
+            If Months = 0 Then
+                Payment = 0
+            Else
+                If optWeekly.Checked = True Then
+                    Payment = (GetPrice(txtFinanceAmount.Text) + FinanceCharge) / (Months * 4)
+                Else
+                    Payment = (GetPrice(txtFinanceAmount.Text) + FinanceCharge) / Months
+                End If
+            End If
+            txtPaymentWillBe.Text = CurrencyFormat(Payment)
+        End If
+    End Sub
+
+    Private Sub chkProperty_Click(sender As Object, e As EventArgs) Handles chkProperty.Click
+        'turn off property
+        If chkProperty.CheckState = CheckState.Indeterminate Then Exit Sub
+        If chkProperty.Checked = True Then
+            GetProp()
+        Else
+            txtPropertyInsurance.Text = ""
+        End If
+
+        If IsElmore Or IsBoyd Or UseAmericanNationalInsurance Or UseThorntonsInsurance Or IsLott Then  ' Or IsLott Or IsMidSouth
+            Recalculate()
+        Else
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+            If Months = 0 Then
+                FinanceCharge = 0
+            Else
+                FinanceCharge = ((txtFinanceAmount.Text * InterestRate) / 12 * Months)
+            End If
+            txtFinanceCharges.Text = CurrencyFormat(FinanceCharge)
+            If Months = 0 Then
+
+                Payment = 0
+            Else
+                Payment = (GetPrice(txtFinanceAmount.Text) + FinanceCharge) / Months
+            End If
+            txtPaymentWillBe.Text = CurrencyFormat(Payment)
+        End If
+
+    End Sub
+
+    Private Sub chkUnemployment_Click(sender As Object, e As EventArgs) Handles chkUnemployment.Click
+        'turn off property
+        If chkUnemployment.CheckState = CheckState.Indeterminate Then Exit Sub
+        If chkUnemployment.Checked = True Then
+            GetIUI()
+        Else
+            txtUnemploymentInsurance.Text = ""
+        End If
+
+        If IsElmore Or IsBoyd Or UseAmericanNationalInsurance Or UseThorntonsInsurance Or IsLott Then  ' Or IsLott Or IsMidSouth
+            Recalculate()
+        Else
+            txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
+            If Months = 0 Then
+                FinanceCharge = 0
+            Else
+                FinanceCharge = ((txtFinanceAmount.Text * InterestRate) / 12 * Months)
+            End If
+            txtFinanceCharges.Text = CurrencyFormat(FinanceCharge)
+            If Months = 0 Then
+
+                Payment = 0
+            Else
+                Payment = (GetPrice(txtFinanceAmount.Text) + FinanceCharge) / Months
+            End If
+            txtPaymentWillBe.Text = CurrencyFormat(Payment)
+        End If
+
+    End Sub
+
     Private Function PrintOut_Alt2(Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal Text As String = "" _
    , Optional ByVal XCenter As Boolean = False _
   , Optional ByVal FontName As String = "", Optional ByVal FontBold As Boolean = False, Optional ByVal FontSize As String = "" _
-  , Optional ByVal DrawWidth As Long = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Long = -1 _
-  , Optional ByVal Orientation As Long = -1, Optional ByVal OutObj As Object = Nothing)
+  , Optional ByVal DrawWidth As Integer = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Integer = -1 _
+  , Optional ByVal Orientation As Integer = -1, Optional ByVal OutObj As Object = Nothing)
 
         Dim X_SCALE As Double, Y_SCALE As Double
         X_SCALE = Printer.ScaleWidth / 12240 * 0.946153846153846
@@ -4154,6 +4379,18 @@ Skip:
         Y = Y * Y_SCALE
         PrintOut(X, Y, Text, XCenter, FontName, FontBold, FontSize, DrawWidth, NewPage, BlankLines, Orientation, OutObj)
     End Function
+
+    Private Sub txtAddlPaymentsMade_TextChanged(sender As Object, e As EventArgs) Handles txtAddlPaymentsMade.TextChanged
+        UpdateTotalCaption()
+    End Sub
+
+    Private Sub txtBalDueLateCharge_TextChanged(sender As Object, e As EventArgs) Handles txtBalDueLateCharge.TextChanged
+        UpdateTotalCaption()
+    End Sub
+
+    Private Sub txtFinanceAmount_TextChanged(sender As Object, e As EventArgs) Handles txtFinanceAmount.TextChanged
+        UpdateTotalCaption()
+    End Sub
 
     Private Sub WageAssignment() ' New Age & Jeffro Furniture
         Printer.FontName = "Arial"
@@ -4214,7 +4451,7 @@ Skip:
         ' Co-Buyer Information
         ''''''''''''''''''''''''''''''''''
 
-        Dim HasCoBuyer As Boolean, dX As Long, ddX As Long
+        Dim HasCoBuyer As Boolean, dX As Integer, ddX As Integer
         Dim CoBuyerName As String, CoBuyerAddress As String, CoBuyerCity As String, CoBuyerSS As String
         Dim RS As ADODB.Recordset, SQL As String
         dX = 5000
@@ -4384,8 +4621,8 @@ Skip:
     Private Function PrintOut_Alt(Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal Text As String = "" _
    , Optional ByVal XCenter As Boolean = False _
   , Optional ByVal FontName As String = "", Optional ByVal FontBold As Boolean = False, Optional ByVal FontSize As String = "" _
-  , Optional ByVal DrawWidth As Long = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Long = -1 _
-  , Optional ByVal Orientation As Long = -1, Optional ByVal OutObj As Object = Nothing)
+  , Optional ByVal DrawWidth As Integer = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Integer = -1 _
+  , Optional ByVal Orientation As Integer = -1, Optional ByVal OutObj As Object = Nothing)
 
 #If True Then
         Const X_OFFSET As Single = 0#
@@ -4403,7 +4640,146 @@ Skip:
         X = X * X_SCALE + X_OFFSET
         Y = Y * Y_SCALE + Y_OFFSET
         PrintOut(X, Y, Text, XCenter, FontName, FontBold, FontSize, DrawWidth, NewPage, BlankLines, Orientation, OutObj)
-
     End Function
 
+    Public Sub LoadAdjustmentContract(ByVal vSaleNo As String, ByVal BalanceDue As Decimal)
+        Dim I As cInstallment, T As cTransaction
+
+        AddOn = ArAddOn_Add
+
+        SetDefaultsInstallment()
+        dteDate1.Value = Today
+        'dteDate1_Change
+        dteDate1_ValueChanged(dteDate1, New EventArgs)
+
+        T = New cTransaction
+        T.DataAccess.DataBase = GetDatabaseAtLocation()
+        T.DataAccess.Records_OpenSQL("SELECT * FROM [Transactions] WHERE [Type]='NewSale " & vSaleNo & "'")
+        If T.DataAccess.Records_Available Then
+            txtArNo.Text = T.ArNo
+        Else
+            MessageBox.Show("Could not load contract!", "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            DisposeDA(T)
+            Exit Sub
+        End If
+        ArNo = Val(txtArNo)
+        ReprintMailIndex = Val(T.MailIndex)
+
+        I = New cInstallment
+        I.Load(txtArNo.Text, "ArNo")
+
+        '  dteDate2 = Date
+        '  FirstPayment = FirstPay
+        '  Select Case Val(PaidBy)
+        '    Case 10:   optLate16 = True
+        '    Case 20:   optLate26 = True
+        '    Case Else: optLate6 = True
+        '  End Select
+        txtMonthsToFinance.Text = I.Months
+        '  vMonths = Val(txtMonthsToFinance)
+        txtRate.Text = I.APR
+
+#If False Then
+  txtPrevBalance = CurrencyFormat(PrevBal)
+  txtOrigDeposit = CurrencyFormat(OrigDeposit)
+  txtSubTotal = CurrencyFormat(GetPrice(PrevBal) + GetPrice(GrossSale) - GetPrice(OrigDeposit))
+#End If
+
+        txtGrossSale.Text = BalanceDue
+
+        Recalculate()
+
+        DisposeDA(T, I)
+
+
+        '  'SubTotal = GetPrice(txtSubTotal)
+        '
+        '  txtDocFee = CurrencyFormat(DocFee)
+        '  DocFee = GetPrice(txtDocFee)
+        '
+        '  chkLife = IIf(Life <> 0, 1, 0)
+        '  txtLifeInsurance = CurrencyFormat(Life)
+        '  chkAccident = IIf(Accident <> 0, 1, 0)
+        '  txtAccidentInsurance = CurrencyFormat(Accident)
+        '  chkProperty = IIf(Property <> 0, 1, 0)
+        '  txtPropertyInsurance = CurrencyFormat(Property)
+        '  chkUnemployment = IIf(IUI <> 0, 1, 0)
+        '  txtUnemploymentInsurance = CurrencyFormat(IUI)
+        '
+        '  txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + DocFee + Life + Accident + Property + IUI)
+        '  NewBalance = GetPrice(txtFinanceAmount)
+        '  txtFinanceCharges = CurrencyFormat(InterestCharged)
+        '  txtTotalBalance = CurrencyFormat(GetPrice(txtFinanceAmount) + GetPrice(txtFinanceCharges))
+        '
+        '  Payment = GetPrice(txtTotalBalance) / Months
+        '  LastPay = GetPrice(txtTotalBalance) - Payment * (Months - 1)
+        '  CalculateLateCharge
+        '
+        '
+    End Sub
+
+    Public Sub LoadReverseContract(
+    ByVal vArNo As String,
+    ByVal SaleNo As String, MailIndex As Integer,
+    ByVal Delivery As String, ByVal FirstPay As String, ByVal PaidBy As String,
+    ByVal vMonths As Integer, ByVal vAPR As String, ByVal vPerMonth As Decimal,
+    ByVal PrevBal As Decimal, ByVal GrossSale As Decimal, ByVal OrigDeposit As Decimal,
+    ByVal DocFee As Decimal, ByVal Life As Decimal, ByVal Accident As Decimal, ByVal Property1 As Decimal, ByVal IUI As Decimal,
+    ByVal InterestCharged As Decimal)
+
+        txtArNo.Text = vArNo
+        ArNo = vArNo
+
+        ReprintMailIndex = MailIndex
+        ReprintSaleNo = SaleNo
+
+        dteDate1.Value = Delivery
+        dteDate2.Value = FirstPay
+        FirstPayment = FirstPay
+        Select Case Val(PaidBy)
+            Case 10 : optLate16.Checked = True
+            Case 20 : optLate26.Checked = True
+            Case Else : optLate6.Checked = True
+        End Select
+        txtMonthsToFinance.Text = vMonths
+        vMonths = Val(txtMonthsToFinance.Text)
+        txtRate.Text = vAPR
+        APR = vAPR
+
+        txtPrevBalance.Text = CurrencyFormat(PrevBal)
+        txtGrossSale.Text = CurrencyFormat(GrossSale)
+        txtOrigDeposit.Text = CurrencyFormat(OrigDeposit)
+        txtSubTotal.Text = CurrencyFormat(GetPrice(PrevBal) + GetPrice(GrossSale) - GetPrice(OrigDeposit))
+        'SubTotal = GetPrice(txtSubTotal)
+
+        txtDocFee.Text = CurrencyFormat(DocFee)
+        DocFee = GetPrice(txtDocFee.Text)
+
+        chkLife = IIf(Life <> 0, 1, 0)
+        txtLifeInsurance.Text = CurrencyFormat(Life)
+        chkAccident = IIf(Accident <> 0, 1, 0)
+        txtAccidentInsurance.Text = CurrencyFormat(Accident)
+        chkProperty.Checked = IIf(Property1 <> 0, True, False)
+        txtPropertyInsurance.Text = CurrencyFormat(Property1)
+        chkUnemployment.Checked = IIf(IUI <> 0, True, False)
+        txtUnemploymentInsurance.Text = CurrencyFormat(IUI)
+
+        txtFinanceAmount.Text = CurrencyFormat(GetPrice(txtSubTotal.Text) + DocFee + Life + Accident + Property1 + IUI)
+        NewBalance = GetPrice(txtFinanceAmount.Text)
+        txtFinanceCharges.Text = CurrencyFormat(InterestCharged)
+        txtTotalBalance.Text = CurrencyFormat(GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text))
+
+        Payment = GetPrice(txtTotalBalance.Text) / Months
+        If Payment <> vPerMonth Then Payment = vPerMonth
+        LastPay = GetPrice(txtTotalBalance.Text) - Payment * (Months - 1)
+        CalculateLateCharge()
+    End Sub
+
+    Public Function DeveloperEx() As String
+        Dim S As String
+        S = ""
+        S = S & "DCk Mthly Pmt" & vbCrLf
+        S = S & "  Pmt BrkDn" & vbCrLf
+        DeveloperEx = S
+    End Function
 End Class

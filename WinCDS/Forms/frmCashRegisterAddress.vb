@@ -1,12 +1,12 @@
 ﻿Public Class frmCashRegisterAddress
-    Private mMailIndex As Long, MailRec As clsMailRec, MailShip As MailNew2
-    Private mAtype As Long
+    Private mMailIndex As Integer, MailRec As clsMailRec, MailShip As MailNew2
+    Private mAtype As Integer
 
-    Public Property MailIndex() As Long
+    Public Property MailIndex() As Integer
         Get
             MailIndex = mMailIndex
         End Get
-        Set(value As Long)
+        Set(value As Integer)
             Dim EmptyMailShip As MailNew2
             mMailIndex = value
             MailRec = New clsMailRec
@@ -20,12 +20,12 @@
                 End If
             End If
 
-            LoadAddressFromMailRec
+            LoadAddressFromMailRec()
         End Set
     End Property
 
     Private Sub LoadAddressFromMailRec()
-        If MailRec Is Nothing Then ClearForm : Exit Sub
+        If MailRec Is Nothing Then ClearForm() : Exit Sub
         If AddressType = 0 Then
             'chkBusiness.checked = IIf(MailRec.Business, 1, 0)
             chkBusiness.Checked = IIf(MailRec.Business, True, False)
@@ -67,13 +67,13 @@
         txtEmail.Text = ""
     End Sub
 
-    Public Property AddressType() As Long
+    Public Property AddressType() As Integer
         Get
             AddressType = mAtype
         End Get
-        Set(value As Long)
+        Set(value As Integer)
             mAtype = value
-            UpdateControls
+            UpdateControls()
         End Set
     End Property
 

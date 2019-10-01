@@ -30,8 +30,9 @@
     Public SalesPerson As String
     Public ArCashSls As Decimal
     Public Controll As Decimal
-    Public TaxCode as integer
+    Public TaxCode as Integer
     Public SpecialIns As String
+    Public OriginalPrint As String
 
     Public Sub GetMarginLine()
         MarginNo = RecNo(BillOSale.X)
@@ -295,7 +296,7 @@
         ' with a 'hidden' balance due remaining.  Hopefully, we can track down the error in the
         ' adjustments.
 
-        '  Dim SD As sSale, Amt As Currency
+        '  Dim SD As sSale, Amt as decimal
         '  Set SD = GetSaleData(tHold.LeaseNo)
         '  If tHold.Status <> "V" Then
         '    If tHold.Sale <> SD.SubTotal("gross") Or tHold.Deposit <> SD.SubTotal("paid") Then

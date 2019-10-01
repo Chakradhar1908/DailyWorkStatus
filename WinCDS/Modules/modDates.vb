@@ -121,17 +121,18 @@
         MonthAfter = MonthAdd(mDate, nMonths)
     End Function
 
-    Public Function Age(ByVal BDay As Date, Optional ByVal When As Date = #1/1/1901#) As Long
-        Dim Y As Long, Before As Boolean, T As String, Adj As Long
-        If When = #1/1/1901# Then When = Date
-  Y = DateDiff("yyyy", BDay, When)
-        T = Format(BDay, "mm/dd/" & Format(When, "yyyy"))
+    Public Function Age(ByVal BDay As Date, Optional ByVal When1 As Date = #1/1/1901#) As Integer
+        Dim Y As Integer, Before As Boolean, T As String, Adj As Integer
+
+        If When1 = #1/1/1901# Then When1 = Today
+        Y = DateDiff("yyyy", BDay, When1)
+        T = Format(BDay, "mm/dd/" & Format(When1, "yyyy"))
         Do While Not IsDate(T)    ' leap year fails...  "2/29/" + "2010" isn't a valid date
             Adj = Adj + 1
-            T = Format(BDay, "mm/dd/" & Format(DateAdd("yyyy", Adj, When), "yyyy"))
+            T = Format(BDay, "mm/dd/" & Format(DateAdd("yyyy", Adj, When1), "yyyy"))
             Adj = Adj + 1
         Loop
-        If DateDiff("d", T, When) < 0 Then Y = Y - 1
+        If DateDiff("d", T, When1) < 0 Then Y = Y - 1
         Age = Age - Adj
         Age = IIf(Y >= 0, Y, 0)
     End Function

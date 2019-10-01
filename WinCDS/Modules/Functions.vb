@@ -110,5 +110,47 @@ BadFile:
         'List(Idx) = Value
     End Sub
 
+    Public Function OpenCashDrawer(Optional ByVal PortNum As Long = -1, Optional ByVal ForceUSB7 As TriState = vbUseDefault) As Boolean
+        Dim USB7 As Boolean
+
+        USB7 = QueryStringQueryL(StoreSettings.CashDrawerConfig, "USB7") <> 0
+        Select Case ForceUSB7
+            Case vbTrue : USB7 = True
+            Case vbFalse : USB7 = False
+        End Select
+
+        'Cash Drawer
+        On Error GoTo HandleErr
+        If PortNum = -1 Then PortNum = CashDrawerCOMPort
+
+        If PortNum = 253 Then         ' 253 is the number we set aside to indicate USB
+            OpenAPGCashDrawer
+            '    Load frmOpenCashDrawer      ' form load fires the activex control
+            '    Unload frmOpenCashDrawer    ' simply loading it should open the drawer
+            OpenCashDrawer = True
+        ElseIf PortNum <> 0 Then  'Make sure Cash Drawer is Enabled
+            Dim MSComm1 As MSCommLib.MSComm
+    Set MSComm1 = MainMenu.MSComm1
+'    Set MSComm1 = CreateObject("MSCommlib.MSComm")  ' It'd be great if we could test this. :)
+    ' Remove the control from MainMenu if we ever figure out how to load one here.
+    MSComm1.CommPort = PortNum 'Choose COM port
+            MSComm1.Settings = "9600,N,8,1" 'Set default settings
+            MSComm1.PortOpen = True 'Open the port
+            If USB7 Then
+                MSComm1.Output = Chr(7) ' "7"
+            Else
+                MSComm1.Output = "AAAAAAAAAA" 'Write to the drawer
+            End If
+            MSComm1.PortOpen = False 'Close the port
+            OpenCashDrawer = True
+        End If
+        Exit Function
+HandleErr:
+        ' This shouldn't be a fatal error, but we have to the user know we tried.
+        OpenCashDrawer = False
+        MsgBox "Error " & Err.Number & " opening cash drawer: " & Err.Description, vbCritical
+  Err.Clear()
+    End Function
+
 End Module
 

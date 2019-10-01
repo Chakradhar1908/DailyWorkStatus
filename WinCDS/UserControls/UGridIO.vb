@@ -1151,7 +1151,7 @@ AnError:
     '    AxDataGrid1_RowColChange(AxDataGrid1, e)
     'End Sub
 
-    Public Sub MoveRow(I As Long)
+    Public Sub MoveRow(I As Integer)
         If I < 0 Then I = 0
         With AxDataGrid1
             .Bookmark = .RowBookmark(I)

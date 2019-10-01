@@ -37,14 +37,12 @@ Module modCDSPayTypes
     '::Configuration
     ':   DoPayType          whether a store supports a given payment type...  Any type can be enabled/disabled per location & store
 
-
     Public Enum cdsPayTypeMode
         cdsPTM_Standard = 1
         cdsPTM_Abbrev = 2
         cdsPTM_PayItem = 3
     End Enum
-
-    Private Const cdsPayTypeMode_Min as integer = cdsPayTypeMode.cdsPTM_Standard
+    Private Const cdsPayTypeMode_Min As Integer = cdsPayTypeMode.cdsPTM_Standard
     Private Const cdsPayTypeMode_Max as integer = cdsPayTypeMode.cdsPTM_PayItem
 
     Public Enum cdsPayTypes
@@ -240,7 +238,7 @@ Module modCDSPayTypes
         End Select
     End Function
 
-    Public Function DoExtraOutsideFinance(ByVal Idx As Long) As Boolean
+    Public Function DoExtraOutsideFinance(ByVal Idx As Integer) As Boolean
         DoExtraOutsideFinance = IsDevelopment()   ' Default is off except for CDS.
         Select Case Idx
             Case 2
@@ -252,6 +250,29 @@ Module modCDSPayTypes
             Case 5
                 If IsSidesFurniture Then DoExtraOutsideFinance = True
         End Select
+    End Function
+
+    Public Function PayTypeIsFinance(ByVal PayTypeString As String, Optional ByVal IncludeBackorder As Boolean = True) As Boolean
+        If IncludeBackorder Then
+            PayTypeIsFinance = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_BackOrder, cdsPayTypes.cdsPT_OutsideFinance, cdsPayTypes.cdsPT_StoreFinance, cdsPayTypes.cdsPT_OutsideFinance2, cdsPayTypes.cdsPT_OutsideFinance3, cdsPayTypes.cdsPT_OutsideFinance4, cdsPayTypes.cdsPT_OutsideFinance5)
+        Else
+            PayTypeIsFinance = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_OutsideFinance, cdsPayTypes.cdsPT_StoreFinance, cdsPayTypes.cdsPT_OutsideFinance2, cdsPayTypes.cdsPT_OutsideFinance3, cdsPayTypes.cdsPT_OutsideFinance4, cdsPayTypes.cdsPT_OutsideFinance5)
+        End If
+    End Function
+
+    Public Function PayTypeIsCC(ByVal PayTypeString As String) As Boolean
+        PayTypeIsCC = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_Visa, cdsPayTypes.cdsPT_MCard, cdsPayTypes.cdsPT_Disc, cdsPayTypes.cdsPT_amex)
+        '  PayTypeIsCC = IsIn(PayTypeIs(PayTypeString), cdsPT_Visa, cdsPT_MCard, cdsPT_Disc, cdsPT_amex)
+    End Function
+
+    Public Function PayTypeIsDebit(ByVal PayTypeString As String) As Boolean
+        PayTypeIsDebit = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_DebitCard)
+        '  PayTypeIsDebit = IsIn(PayTypeIs(PayTypeString), cdsPT_DebitCard)
+    End Function
+
+    Public Function PayTypeIsStoreCard(ByVal PayTypeString As String) As Boolean
+        PayTypeIsStoreCard = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_StoreCreditCard)
+        'PayTypeIsStoreCard = IsIn(PayTypeIs(PayTypeString), cdsPT_StoreCreditCard)
     End Function
 
 End Module

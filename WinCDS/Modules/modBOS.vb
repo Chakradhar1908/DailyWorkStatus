@@ -54,7 +54,7 @@
         '...
     End Function
 
-    Public Function QueryPaymentDescription(ByVal PmtType As Long) As String
+    Public Function QueryPaymentDescription(ByVal PmtType As Integer) As String
         '::::QueryPaymentDescription
         ':::SUMMARY
         ': Returns a text description of the payment type

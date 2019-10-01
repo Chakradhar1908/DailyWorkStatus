@@ -341,4 +341,20 @@ QueryValueExError:
         SaveCDSSetting = Value
     End Function
 
+    Public Function DeleteSystemKey(ByVal AppName As String, ByVal Section As String, ByVal vKEY As String) As String
+        '::::DeleteSystemKey
+        ':::SUMMARY
+        ': Used to Delete System Key.
+        ':::DESCRIPTION
+        ': This function is used to Delete System Key,after deleting Registered key.
+        ':::PARAMETERS
+        ': - AppName
+        ': - Section
+        ': - vKEY
+        ':::RETURN
+        ': String
+        DeleteRegKey HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY
+  DeleteSystemKey = ""
+    End Function
+
 End Module

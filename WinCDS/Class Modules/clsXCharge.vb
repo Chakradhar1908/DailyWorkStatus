@@ -6,7 +6,7 @@ Public Class clsXCharge
 
     Private mXCTran As Object
 
-    Public FormHandle As Long             ' some form's hWnd
+    Public FormHandle As Integer             ' some form's hWnd
     Public ShowStatus As Boolean
     Public ShowResult As Boolean
 
@@ -106,7 +106,7 @@ Public Class clsXCharge
                         R = MsgBox("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", vbExclamation + vbOKCancel, "Partial Approval on Credit Card")
                         If R = vbCancel Then
                             LogText("Partially Approved Transaction CANCELLED at users request", 1)
-                            Success = CancelTransaction
+                            Success = CancelTransaction()
                             ExecPurchase = Success
                             Exit Function
                         End If
@@ -128,7 +128,7 @@ Public Class clsXCharge
         'ActiveLog "clsXCharge::ExecDebitPurchase(Prompt=" & Prompt & ")", 5
         IsManuallyEntered = False
         If Prompt Then
-            If Not PromptDebit Then Exit Function
+            If Not PromptDebit() Then Exit Function
         Else
             GetPin(CC, Amount, Pin, key, Cancelled)
         End If
@@ -158,7 +158,7 @@ Public Class clsXCharge
                     RR = MsgBox("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", vbExclamation + vbOKCancel, "Partial Approval on Credit Card")
                     If RR = vbCancel Then
                         LogText("Partially Approved Transaction CANCELLED at users request", 1)
-                        Success = CancelDebitTransaction
+                        Success = CancelDebitTransaction()
                         ExecDebitPurchase = Success
                         Exit Function
                     End If
@@ -178,7 +178,7 @@ Public Class clsXCharge
     Public Function ExecGiftRedeem(Optional ByVal Prompt As Boolean = True) As Boolean
         LogStartFunction("XCGiftRedeem")
         IsManuallyEntered = False
-        If Prompt Then If Not PromptGift Then Exit Function
+        If Prompt Then If Not PromptGift() Then Exit Function
         If XCTran.XCGiftRedeem(FormHandle, TransactionFolder, "Gift Redeem",
       ShowStatus, ShowResult, CC, "M", CVV, Amount,
       Receipt, Clerk, "", ErrorMsg, Balance, AdditionalFunds) Then
@@ -233,7 +233,7 @@ Again:
         End If
     End Function
 
-    Private Sub LogText(ByVal Text As String, Optional ByVal Priority As Long = 4)
+    Private Sub LogText(ByVal Text As String, Optional ByVal Priority As Integer = 4)
         mLog = mLog & IIf(Len(mLog) > 0, vbCrLf, "") & Text
         ActiveLog("clsXCharge::" & Text, Priority)
         LogFile("XCharge.txt", Text)
@@ -255,7 +255,7 @@ Again:
         End Get
     End Property
 
-    Public ReadOnly Property TransactionFolder(Optional ByVal ForceMoto As Boolean=False , Optional ByVal StoreNo As Long = 0) As String
+    Public ReadOnly Property TransactionFolder(Optional ByVal ForceMoto As Boolean = False, Optional ByVal StoreNo As Integer = 0) As String
         Get
             Dim S As String
             If StoreNo = 0 Then StoreNo = StoresSld
@@ -331,9 +331,9 @@ Again:
 #End If
 
     Private Sub GetPin(ByRef CCNum As String, ByRef Amount As Decimal, ByRef vPIN As String, ByRef vKEY As String, Optional ByRef Cancelled As Boolean = False)
-        Dim PP As PINPad, HH As Long, Res As Long
-        Dim X As Long
-        PP = CreatePinPadObject
+        Dim PP As PINPad, HH As Integer, Res As Integer
+        Dim X As Integer
+        PP = CreatePinPadObject()
         If PP Is Nothing Then Exit Sub
         On Error Resume Next
         '  PP.Reset 0    ' BFH20081211 - wasn't closing.. trying some thing...
@@ -372,14 +372,14 @@ Again:
     End Function
 #End If
 
-    Public ReadOnly Property DefaultTransactionFolder(Optional ByVal ForceMoto As Boolean = False, Optional ByVal StoreNo As Long = -1) As String
+    Public ReadOnly Property DefaultTransactionFolder(Optional ByVal ForceMoto As Boolean = False, Optional ByVal StoreNo As Integer = -1) As String
         Get
             Const cLT As String = "LocalTran"
             Dim fXC As String, dLT As String
             Dim MotoDir As String
             If StoreNo <= 0 Then StoreNo = StoresSld
 
-            fXC = XChargeFolder
+            fXC = XChargeFolder()
             dLT = fXC & cLT
             MotoDir = dLT & "-MOTO"
 
@@ -440,7 +440,7 @@ Again:
         End If
     End Function
 
-    Private Sub PinPadResult(ByRef PP As PINPad, ByRef x As Long)
+    Private Sub PinPadResult(ByRef PP As PINPad, ByRef x As Integer)
         If x <> 0 Then MsgBox(PP.GetResultMessage(x), vbExclamation, "Pin Error (" & x & ")")
     End Sub
 End Class

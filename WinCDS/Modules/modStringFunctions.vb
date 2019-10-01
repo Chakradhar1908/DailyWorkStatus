@@ -315,7 +315,7 @@ Module modStringFunctions
         If bLCase Then ReduceString = LCase(ReduceString)
     End Function
 
-    Public Function SplitWord(ByVal Source As String, Optional ByVal N As Long = 1, Optional ByVal Space As String = " ", Optional ByVal TrimResult As Boolean = True, Optional ByVal IncludeRest As Boolean = False) As String
+    Public Function SplitWord(ByVal Source As String, Optional ByVal N As Integer = 1, Optional ByVal Space As String = " ", Optional ByVal TrimResult As Boolean = True, Optional ByVal IncludeRest As Boolean = False) As String
         '::::SplitWord
         ':::SUMMARY
         ': Return an indexed word from a string
@@ -336,7 +336,7 @@ Module modStringFunctions
         ':  String
         ':::SEE ALSO
         ': Split, CountWords
-        Dim S As Variant, I As Long
+        Dim S As Object, I As Integer
         N = N - 1
         If Source = "" Then Exit Function
         S = Split(Source, Space)

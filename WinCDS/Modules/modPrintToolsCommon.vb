@@ -1,15 +1,16 @@
 ﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Imports VBPrnDlgLib
 Imports VBRUN
-
 Module modPrintToolsCommon
     Public OutputObject As Object
     Public OutputToPrinter As Boolean
-    Public Const DYMO_PaperSize_30252 as integer = 121                           ' 6x1.5 labels
-    Public Const DYMO_PaperSize_30323 as integer = 126                           ' 6x3 labels
-    Public Const DYMO_PaperSize_30256 as integer = 129                           ' 2x4 shipping
-    Public Const DYMO_PaperSize_30270 as integer = 186                           ' continuous tape
+    Public Const DYMO_PaperSize_30252 As Integer = 121                           ' 6x1.5 labels
+    Public Const DYMO_PaperSize_30323 As Integer = 126                           ' 6x3 labels
+    Public Const DYMO_PaperSize_30256 As Integer = 129                           ' 2x4 shipping
+    Public Const DYMO_PaperSize_30270 As Integer = 186                           ' continuous tape
+    Public Const DYMO_PaperSize_ContinuousWide As Integer = DYMO_PaperSize_30270 ' We didn't know it's SKU for a while..
+    Public PageNumber As Integer
 
-    Public Const DYMO_PaperSize_ContinuousWide as integer = DYMO_PaperSize_30270 ' We didn't know it's SKU for a while..
     'Note: Printer code will be move to reporting software.
 
     '  Public Sub PrintCentered(ByVal Text As String, Optional ByVal yPos as integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
@@ -37,7 +38,7 @@ Module modPrintToolsCommon
     '      If Bold Then OO.FontBold = Ob
     '      If Italic Then OO.FontItalic = oI
     '  End Sub
-    Public Function NumLineBreaks(ByVal vStr As String) as integer
+    Public Function NumLineBreaks(ByVal vStr As String) As Integer
         Dim tmpLines As Object, tmpStart As Object
         NumLineBreaks = ((Len(vStr) - 1) \ 46 + 1)
 
@@ -49,7 +50,7 @@ Module modPrintToolsCommon
 
         If tmpLines > NumLineBreaks Then NumLineBreaks = tmpLines
     End Function
-    Public Function SetDymoPrinter(Optional ByRef PaperType as integer = 0) As Boolean
+    Public Function SetDymoPrinter(Optional ByRef PaperType As Integer = 0) As Boolean
         ' bfh20051202 - we need to have error handling b/c of papersize setting
         ' w/o it, if they set a non-dymo up as their dymo, it will error b/c
         ' they would be invalid property values (i.e., paper size doesn't not exist)
@@ -93,7 +94,7 @@ Module modPrintToolsCommon
         Next
     End Function
     Public Function NextPrintBreak(ByVal vStr As String, ByVal Start As Integer) As Integer
-        Dim tmpBreak as integer, Absolute As Boolean
+        Dim tmpBreak As Integer, Absolute As Boolean
         NextPrintBreak = Start + 46
         If InStr(1, Mid(vStr, Start, 46), "MasterCard") Then NextPrintBreak = Start + 54 : Absolute = True
 
@@ -108,7 +109,7 @@ Module modPrintToolsCommon
         If tmpBreak > 1 And tmpBreak < NextPrintBreak Then NextPrintBreak = tmpBreak : Absolute = True
 
         If Not Absolute Then
-            Dim A as integer, B as integer
+            Dim A As Integer, B As Integer
             A = InStr(NextPrintBreak, vStr, " ")
             If A - NextPrintBreak > 10 Then A = 0
             B = InStrRev(vStr, " ", NextPrintBreak)
@@ -125,11 +126,11 @@ Module modPrintToolsCommon
             End If
         End If
     End Function
-    Public Function FindDymoPrinter(Optional ByVal IgnorePrevious As Boolean = False, Optional ByVal SelectBox as integer = 1, Optional ByVal StoreNum as integer = 0, Optional ByVal Current As String = "") As String
+    Public Function FindDymoPrinter(Optional ByVal IgnorePrevious As Boolean = False, Optional ByVal SelectBox As Integer = 1, Optional ByVal StoreNum As Integer = 0, Optional ByVal Current As String = "") As String
         Dim LabelPrinter As String, IsDymo As Boolean, DymoOnly As Boolean
         Dim P As Object
         Dim DN As String, SelList() As Object
-        Dim Sel as integer
+        Dim Sel As Integer
         Const None As String = "No label printer."
 
 
@@ -227,7 +228,7 @@ CantSave:
             IsDymoPrinter = (Device Like "*DYMO*" Or Device Like "DYMO*" Or Device Like "*DYMO" Or Device Like "DYMO")
         End If
     End Function
-    Public Sub PrintInBox(ByVal PrintOb As Object, ByVal PrintText As String, ByVal Left As Integer, ByVal Top As Integer, ByVal Width As Integer, ByVal Height As Integer, Optional ByVal FontSize as integer = -1, Optional ByVal HAlign As AlignConstants = AlignConstants.vbAlignNone, Optional ByVal VAlign As AlignConstants = AlignConstants.vbAlignNone, Optional ByVal BorderStyle As BorderStyleConstants = 0)
+    Public Sub PrintInBox(ByVal PrintOb As Object, ByVal PrintText As String, ByVal Left As Integer, ByVal Top As Integer, ByVal Width As Integer, ByVal Height As Integer, Optional ByVal FontSize As Integer = -1, Optional ByVal HAlign As AlignConstants = AlignConstants.vbAlignNone, Optional ByVal VAlign As AlignConstants = AlignConstants.vbAlignNone, Optional ByVal BorderStyle As BorderStyleConstants = 0)
         If PrintText <> "" Then
             If FontSize = -1 Then FontSize = 300
             PrintOb.FontSize = BestFontFit(PrintOb, PrintText, FontSize, Width, Height)
@@ -268,12 +269,12 @@ CantSave:
 
         End If
     End Sub
-    Public Sub PrintToPosition(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position as integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+    Public Sub PrintToPosition(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
         If OutOb Is Nothing Then OutOb = OutputObject
         If IsNothing(OutOb) Then Exit Sub
         If Position = -1 Then Position = OutOb.CurrentX
 
-        Dim TruePos as integer
+        Dim TruePos As Integer
         TruePos = Position  ' Already set to exact position.
         If TruePos = 0 And (Alignment = AlignConstants.vbAlignTop Or Alignment = AlignConstants.vbAlignNone) Then TruePos = OutOb.ScaleWidth / 2
         If TruePos <> 0 Then
@@ -306,7 +307,7 @@ CantSave:
         IscPrinter = TypeName(Ob) = "cPrinter"
     End Function
 
-    Public Function BestFontFit(ByVal OutOb As Object, ByRef OutText As String, ByRef MaxFontSize as integer, ByRef MaxWidth as integer, ByRef MaxHeight as integer) As Double
+    Public Function BestFontFit(ByVal OutOb As Object, ByRef OutText As String, ByRef MaxFontSize As Integer, ByRef MaxWidth As Integer, ByRef MaxHeight As Integer) As Double
         On Error GoTo NoFit
         OutOb.FontSize = MaxFontSize
         Do While OutOb.TextHeight(OutText) > MaxHeight Or OutOb.TextWidth(OutText) > MaxWidth
@@ -358,20 +359,20 @@ NoFit:
     End Sub
 
     ' Generic method to send text to printer or print preview.
-    Public Sub PrintTo(Optional ByVal OutOb As Object, Optional ByVal OutText As Variant, Optional ByVal Position As Long = -1, Optional ByVal Alignment As AlignConstants = vbAlignLeft, Optional ByVal NewLine As Boolean = False)
-        If OutOb Is Nothing Then Set OutOb = OutputObject
-  If Position = -1 Then Position = OutOb.CurrentX Else Position = Position * 80
-        PrintToPosition OutOb, OutText, Position, Alignment, NewLine
-End Sub
+    Public Sub PrintTo(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As Object = Nothing, Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+        If OutOb Is Nothing Then OutOb = OutputObject
+        If Position = -1 Then Position = OutOb.CurrentX Else Position = Position * 80
+        PrintToPosition(OutOb, OutText, Position, Alignment, NewLine)
+    End Sub
 
-    '    Public Property Get LegalContractPrinter(Optional ByVal StoreNo As Long = 0) As String
+    '    Public Property Get LegalContractPrinter(Optional ByVal StoreNo as integer = 0) As String
     '    Dim F As String, F1 As String
     '  F1 = "Legal Contract Printer"
     '  If StoreNo = 0 Then StoreNo = StoresSld
     '  F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
     '  LegalContractPrinter = GetConfigTableValue(F, "")
     'End Property
-    '    Public Property Let LegalContractPrinter(Optional ByVal StoreNo As Long = 0, ByVal nValue As String)
+    '    Public Property Let LegalContractPrinter(Optional ByVal StoreNo as integer = 0, ByVal nValue As String)
     '    Dim F As String, F1 As String
     '  F1 = "Legal Contract Printer"
     '  If StoreNo = 0 Then StoreNo = StoresSld
@@ -379,7 +380,7 @@ End Sub
     '  SetConfigTableValue F, nValue
     '    End Property
 
-    Public Property LegalContractPrinter(Optional ByVal StoreNo As Long = 0) As String
+    Public Property LegalContractPrinter(Optional ByVal StoreNo As Integer = 0) As String
         Get
             Dim F As String, F1 As String
             F1 = "Legal Contract Printer"
@@ -396,7 +397,7 @@ End Sub
         End Set
     End Property
 
-    Public Function PrinterSetupDialog(ByVal Loc As Form, ByRef DeviceName As String, ByRef Port As String, Optional ByRef doSet As Boolean = True, Optional ByVal Flags As Long = cdlPDHidePrintToFile Or cdlPDNoPageNums Or cdlPDNoSelection Or cdlPDUseDevModeCopies Or cdlPDPrintSetup, Optional ByVal Min As Long, Optional ByVal Max As Long, Optional ByRef FromPage As Long, Optional ByRef ToPage As Long, Optional ByRef Copies As Long, Optional ByRef Orientation As Long = 0) As Boolean
+    Public Function PrinterSetupDialog(ByVal Loc As Form, ByRef DeviceName As String, ByRef Port As String, Optional ByRef doSet As Boolean = True, Optional ByVal Flags As Integer = VBPrinterConstants.cdlPDHidePrintToFile Or VBPrinterConstants.cdlPDNoPageNums Or VBPrinterConstants.cdlPDNoSelection Or VBPrinterConstants.cdlPDUseDevModeCopies Or VBPrinterConstants.cdlPDPrintSetup, Optional ByVal Min As Integer = 0, Optional ByVal Max As Integer = 0, Optional ByRef FromPage As Integer = 0, Optional ByRef ToPage As Integer = 0, Optional ByRef Copies As Integer = 0, Optional ByRef Orientation As Integer = 0) As Boolean
         Dim P As New PrinterDlg, Pri As Printer
 
         On Error Resume Next
@@ -409,20 +410,21 @@ End Sub
         P.Flags = Flags
 
         P.PrinterName = Printer.DeviceName
-        P.DriverName = Printer.DriverName
-        P.Port = Printer.Port
+        'P.DriverName = Printer.DriverName
+        'P.Port = Printer.Port
         P.CancelError = True
 
 
         On Error GoTo PrinterDialogCancelled
-        P.ShowPrinter Loc.hwnd
+        'P.ShowPrinter Loc.hwnd
+        P.ShowPrinter(Loc.Handle)
 
-  DeviceName = P.PrinterName
+        DeviceName = P.PrinterName
         Port = P.Port
-        If P.Flags And cdlPDPageNums Then
+        If P.Flags And VBPrinterConstants.cdlPDPageNums Then
             FromPage = P.FromPage
             ToPage = P.ToPage
-        ElseIf P.Flags And cdlPDSelection Then
+        ElseIf P.Flags And VBPrinterConstants.cdlPDSelection Then
             ' no change
         Else
             FromPage = P.Min
@@ -430,13 +432,13 @@ End Sub
         End If
         Copies = P.Copies
         Orientation = P.Orientation
-  
-  Set P = Nothing
-   
-On Error Resume Next
+
+        P = Nothing
+
+        On Error Resume Next
         If doSet Then
-            SetPrinter DeviceName
-    Printer.Orientation = Orientation
+            SetPrinter(DeviceName)
+            Printer.Orientation = Orientation
         End If
         PrinterSetupDialog = True
         Exit Function
@@ -448,14 +450,14 @@ PrinterDialogCancelled:
     Public Sub PrintOut(Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal Text As String = "",
    Optional ByVal XCenter As Boolean = False _
   , Optional ByVal FontName As String = "", Optional ByVal FontBold As Boolean = False, Optional ByVal FontSize As String = "" _
-  , Optional ByVal DrawWidth As Single = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Long = -1 _
-  , Optional ByVal Orientation As Long = -1, Optional ByVal OutObj As Object = Nothing)
+  , Optional ByVal DrawWidth As Single = -1, Optional ByVal NewPage As Boolean = False, Optional ByVal BlankLines As Integer = -1 _
+  , Optional ByVal Orientation As Integer = -1, Optional ByVal OutObj As Object = Nothing)
 
-        Dim I As Long
-        If Not OutputToPrinter And OutObj Is Nothing Then Set OutObj = OutputObject
-  If OutObj Is Nothing Then Set OutObj = Printer
-  If NewPage Then
-            If OutputToPrinter Then OutObj.NewPage Else frmPrintPreviewDocument.NewPage
+        Dim I As Integer
+        If Not OutputToPrinter And OutObj Is Nothing Then OutObj = OutputObject
+        If OutObj Is Nothing Then OutObj = Printer
+        If NewPage Then
+            If OutputToPrinter Then OutObj.NewPage Else frmPrintPreviewDocument.NewPage()
         End If
         If FontName <> "" Then OutObj.FontName = FontName
         If FontSize <> "" Then OutObj.FontSize = FontSize
@@ -467,15 +469,39 @@ PrinterDialogCancelled:
         If XCenter Then OutObj.CurrentX = IIf(X <= 0, Printer.Width / 2, X) - OutObj.TextWidth(Trim(Text)) / 2
         If Text <> "" Then
             If Not IscPrinter(OutObj) Then
-                OutObj.Print Text
-    Else
-                OutObj.PrintNL Text
-    End If
+                OutObj.Print(Text)
+            Else
+                OutObj.PrintNL(Text)
+            End If
         End If
 
         If (BlankLines <> -1) Then
-            For I = 1 To BlankLines : OutObj.Print "": Next
+            For I = 1 To BlankLines : OutObj.Print("") : Next
+        End If
+    End Sub
+
+    Public Sub PrintPageOverflowIndicator()
+        Dim Tx As Integer, Ty As Integer, Tds As Integer, Tdw As Integer
+
+        On Error Resume Next
+        If Not OutputToPrinter Then
+            Tx = OutputObject.CurrentX
+            Ty = OutputObject.CurrentY
+            Tds = OutputObject.DrawStyle
+            Tdw = OutputObject.DrawWidth
+            OutputObject.DrawStyle = vbDot
+            OutputObject.DrawWidth = 1
+            'OutputObject.Line(Printer.ScaleWidth, 0)-(Printer.ScaleWidth, Printer.ScaleHeight)
+            OutputObject.Line(Printer.ScaleWidth, 0, Printer.ScaleWidth, Printer.ScaleHeight)
+            'OutputObject.Line(0, Printer.ScaleHeight)-(Printer.ScaleWidth, Printer.ScaleHeight)
+            OutputObject.Line(0, Printer.ScaleHeight, Printer.ScaleWidth, Printer.ScaleHeight)
+            OutputObject.DrawStyle = Tds
+            OutputObject.DrawWidth = Tdw
+
+            OutputObject.CurrentX = Tx
+            OutputObject.CurrentY = Ty
         End If
     End Sub
 
 End Module
+

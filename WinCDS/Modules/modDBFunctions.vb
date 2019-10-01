@@ -148,5 +148,27 @@
         IfZeroThenNilString = IIf(T = 0, "", CStr(T))
     End Function
 
+    Public Function IfNullThenNullDate(ByVal T As Object) As Date
+        '::::IfNullThenNullDate
+        ':::SUMMARY
+        ': Null Handle Date Fields
+        ':::DESCRIPTION
+        ': Return a Date result from field, processing DBNull as NullDate() (1 /1 /2001, NullDate)
+        ':::PARAMETERS
+        ': - T - Typically a Recordset Field or value.
+        ':::RETURN
+        ': - Date
+        ':::ALIASES
+        ': - INTNDt
+        ':::SEE ALSO
+        ': - IfNullThenNilString, IfNullThenZeroCurrency, IfNullThenZero, IfNullThenZeroDouble
+        On Error Resume Next
+        If TypeName(T) = "Field" Then T = T.Value
+        If TypeName(T) = "String" Then
+            If Not IsDate(T) Then IfNullThenNullDate = NullDate : Exit Function
+            IfNullThenNullDate = DateValue(T)
+        End If
+        IfNullThenNullDate = IIf(IsNothing(T), NullDate, T)
+    End Function
 
 End Module

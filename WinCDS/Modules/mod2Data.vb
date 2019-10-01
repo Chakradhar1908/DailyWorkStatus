@@ -484,7 +484,7 @@ GetTax2StringFailure:
         Next
     End Sub
 
-    Public Function DepartmentFile(Optional ByVal StoreNum As Long = 0) As String
+    Public Function DepartmentFile(Optional ByVal StoreNum As Integer = 0) As String
         '::::DepartmentFile
         ':::SUMMARY
         ': This function is used to display Departments file.

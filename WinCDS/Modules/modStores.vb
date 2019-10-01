@@ -121,4 +121,71 @@ Module modStores
 
     End Property
 
+    Public Function ArNoFile(Optional ByVal StoreNum As Integer = 0) As String
+        '::::ArNoFile
+        ':::SUMMARY
+        ': Installment Autonumber File
+        ':::DESCRIPTION
+        ': Returns autonumber filename of next ArNo (Installment) Contract
+        ':::PARAMETERS
+        ': - StoreNum
+        ':::RETURN
+        ': String
+        If StoreNum = 0 Then StoreNum = StoresSld
+        If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
+        ArNoFile = NewOrderFolder(StoreNum) & "ArNo.Dat"
+    End Function
+
+    Public Function CustRecFile(Optional ByVal StoreNum As Long = 0) As String
+        '::::CustRecFile
+        ':::SUMMARY
+        ': Customer Record File
+        ':::DESCRIPTION
+        ': File Autonumber for Mail Table
+        ':::PARAMETERS
+        ': - StoreNum
+        ':::RETURN
+        ': String
+        If StoreNum = 0 Then StoreNum = StoresSld
+        If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
+        CustRecFile = NewOrderFolder(StoreNum) & "CustRec.Dat"
+    End Function
+
+    '    Public Property Get CashDrawerCOMPort() As Long
+    '' If you are using our Steel Cash Drawer, you need to select the COM Port to make the Drawer open when you tender cash, or indicate it is a USB Cash Drawer if so equipped..
+    '' If you do not know your COM port, you can usually find it quickest just by trying them until you find which one works. Start with COM Port 1 and move up.
+    '  CashDrawerCOMPort = Val(GetCDSSetting("Cash Drawer COM Port", 0))
+    '  If CashDrawerCOMPort <> 0 Then Exit Property
+
+    '  CashDrawerCOMPort = Val(GetCDSSetting("COM Port", 0, "Cash Drawer"))
+    '  If CashDrawerCOMPort <> 0 Then
+    '    CashDrawerCOMPort = CashDrawerCOMPort
+
+    '    DeleteSystemSetting RegistrySection, RegistryAppName & "\Cash Drawer", "COM Port"
+    '    DeleteSystemKey RegistrySection, RegistryAppName, "Cash Drawer"
+    '  End If
+    '    End Property
+    '    Public Property Let CashDrawerCOMPort(ByVal vData As Long)
+    '  SaveCDSSetting "Cash Drawer COM Port", vData
+    'End Property
+
+    Public Property CashDrawerCOMPort() As Long
+        Get
+            ' If you are using our Steel Cash Drawer, you need to select the COM Port to make the Drawer open when you tender cash, or indicate it is a USB Cash Drawer if so equipped..
+            ' If you do not know your COM port, you can usually find it quickest just by trying them until you find which one works. Start with COM Port 1 and move up.
+            CashDrawerCOMPort = Val(GetCDSSetting("Cash Drawer COM Port", 0))
+            If CashDrawerCOMPort <> 0 Then Exit Property
+
+            CashDrawerCOMPort = Val(GetCDSSetting("COM Port", 0, "Cash Drawer"))
+            If CashDrawerCOMPort <> 0 Then
+                CashDrawerCOMPort = CashDrawerCOMPort
+
+                DeleteSystemSetting(RegistrySection, RegistryAppName & "\Cash Drawer", "COM Port")
+                DeleteSystemKey(RegistrySection, RegistryAppName, "Cash Drawer")
+            End If
+        End Get
+        Set(value As Long)
+            SaveCDSSetting("Cash Drawer COM Port", value)
+        End Set
+    End Property
 End Module

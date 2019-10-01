@@ -99,7 +99,7 @@ Public Class sSale
             Dim IsPT As cdsPayTypes
 
             IsPT = PayTypeIs(tType)
-            '  Dim AddTax As Currency
+            '  Dim AddTax as decimal
             SubTotal = 0
             If ItemCount = 0 Then Exit Property
             tType = LCase(tType)

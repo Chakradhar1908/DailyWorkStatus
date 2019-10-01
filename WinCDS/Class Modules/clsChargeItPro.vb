@@ -8,7 +8,7 @@
     Private mInt As cipwin32.EasyIntegrator
 
     Dim a As cipwin32.EasyIntegrator
-    Public FormHandle As Long             ' some form's hWnd
+    Public FormHandle As Integer             ' some form's hWnd
     Public ShowStatus As Boolean
     Public ShowResult As Boolean
 
@@ -124,7 +124,7 @@
         LogText("------  " & TransactionName & "  ------")
     End Sub
 
-    Private Sub LogText(ByVal Text As String, Optional ByVal Priority As Long = 4)
+    Private Sub LogText(ByVal Text As String, Optional ByVal Priority As Integer = 4)
         mLog = mLog & IIf(Len(mLog) > 0, vbCrLf, "") & Text
         ActiveLog("clsChargeItPro::" & Text, Priority)
         LogFile("XCharge.txt", Text)
@@ -172,7 +172,7 @@
     Public ReadOnly Property RefId() As String
         Get
             Dim S As String, T As String
-            Dim C As Long
+            Dim C As Integer
 
             ' This is only set once (per object)
             If mRefID <> "" Then RefId = mRefID : Exit Property

@@ -7,8 +7,8 @@
         ' NOTE: Below code is not required. Because exit sub is used in the first line.   <----------
 
         'Const AdvStart = #6/9/2008#
-        'Dim Freq As Long
-        'Dim X As Long, Y As Long
+        'Dim Freq as integer
+        'Dim X as integer, Y as integer
 
         ''  If Not IsDevelopment Then Unload Me: Exit Sub
         ''  If IsDevelopment Then Unload Me: Exit Sub

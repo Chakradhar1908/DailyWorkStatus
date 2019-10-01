@@ -438,14 +438,14 @@
         ':::RETURN
         ': String - Returns the sale number
         Dim H As cHolding
-  Set H = New cHolding
-' Note: This only gets one (most recent?) sale, and there may be many.
-  If H.Load(mArNo, "ArNo") Then
+        H = New cHolding
+        ' Note: This only gets one (most recent?) sale, and there may be many.
+        If H.Load(mArNo, "ArNo") Then
             GetSaleNoFromArNo = H.LeaseNo
         Else
             GetSaleNoFromArNo = mArNo
         End If
-        DisposeDA H
-End Function
+        DisposeDA(H)
+    End Function
 
 End Module

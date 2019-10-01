@@ -7,7 +7,7 @@
     Public Result As MsgBoxResult
     Public Event Done(ByVal Result As MsgBoxResult, ByRef StayOpen As Boolean)
 
-    Public Sub Progress(Optional ByVal Value As Long = -1, Optional ByVal Max As Long = -1, Optional ByVal Cap As String = "#", Optional ByVal DoShow As Boolean = False, Optional ByVal vLockOn As Boolean = True, Optional ByVal vButtons As MsgBoxStyle = 0)
+    Public Sub Progress(Optional ByVal Value As Integer = -1, Optional ByVal Max As Integer = -1, Optional ByVal Cap As String = "#", Optional ByVal DoShow As Boolean = False, Optional ByVal vLockOn As Boolean = True, Optional ByVal vButtons As MsgBoxStyle = 0)
         Dim P As Object
         Result = 0
 

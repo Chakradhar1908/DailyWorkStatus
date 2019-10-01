@@ -89,7 +89,7 @@ BadConfigTable:
         SetConfigAutoNumber = SetConfigTableValue(AN_Name, Value)
     End Function
 
-    Public Function NextReceiptNumber() As Long
+    Public Function NextReceiptNumber() As Integer
         '::::NextReceiptNumber
         ':::SUMMARY
         ': Get next receipt number

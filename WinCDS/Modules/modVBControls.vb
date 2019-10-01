@@ -158,15 +158,17 @@ Fail:
         End If
     End Function
 
-    Public Sub EnableFrame(ByRef frm As Form, ByRef Fra As Frame, ByRef Enabled As Boolean, Optional ByRef ParentFrame As Frame = Nothing)
+    Public Sub EnableFrame(ByRef frm As Form, ByRef Fra As GroupBox, ByRef Enabled As Boolean, Optional ByRef ParentFrame As GroupBox = Nothing)
         Dim C As Control, OK As Boolean
         On Error Resume Next
         Fra.Enabled = Enabled
         For Each C In frm.Controls
             If ParentFrame Is Nothing Then
-                OK = (C.Container.Name = Fra.Name)
+                'OK = (C.Container.Name = Fra.Name)
+                OK = (C.Container Is Fra.Name)
             Else
-                OK = (C.Container = Fra) Or (C.Container = ParentFrame)  ' doesn't seem to work..
+                'OK = (C.Container = Fra) Or (C.Container = ParentFrame)  ' doesn't seem to work..
+                OK = (C.Container Is Fra) Or (C.Container Is ParentFrame)  ' doesn't seem to work..
             End If
             If Err.Number <> 0 Then
                 OK = False
