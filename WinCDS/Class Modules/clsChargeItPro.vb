@@ -1,4 +1,5 @@
-﻿Public Class clsChargeItPro
+﻿Imports cipwin32
+Public Class clsChargeItPro
     Private Const CONFIG_FILENAME As String = "ChargeItPro.cnf"
 
 #Const AllowDebit = True
@@ -169,7 +170,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property RefId() As String
+    Public Property RefId() As String
         Get
             Dim S As String, T As String
             Dim C As Integer
@@ -192,5 +193,42 @@
             RefId = S
             mRefID = RefId
         End Get
+        Set(value As String)
+            mRefID = value
+        End Set
     End Property
+
+    Public Function ExecVoid(Optional ByVal Prompt As Boolean = True, Optional ByVal TransID As String = "") As Boolean
+        LogStartFunction("CIP-Void")
+        CIP(True, True).TransFields.TransactionReference = TransID
+        CIP.TransFields.AmountTotal = Amount
+        '    ExecVoid = .GenericVoid
+        ExecVoid = CIP.CreditReturn
+
+        ApprovalCode = CIP.ResultsFields.ApprovalNumberResult
+        CC = CIP.ResultsFields.MaskedAccount
+        ExecVoid = CIP.ResultsFields.ResultStatus
+        ErrorMsg = CIP.ResultsFields.ResultMessage
+        TransIDResult = CIP.ResultsFields.UniqueTransID
+    End Function
+
+    Public Function ExecReturn(Optional ByVal Prompt As Boolean = True) As Boolean
+        LogStartFunction("CIP-Return")
+
+        Dim cP As EasyIntegrator
+        cP = CIP(True, True)
+        cP.TransFields.AmountTotal = Amount
+        ExecReturn = cP.CreditReturn()
+
+        ApprovalCode = cP.ResultsFields.ApprovalNumberResult
+        CC = cP.ResultsFields.MaskedAccount
+        ExecReturn = cP.ResultsFields.ResultStatus
+        ErrorMsg = cP.ResultsFields.ResultMessage
+        TransIDResult = cP.ResultsFields.UniqueTransID
+    End Function
+
+    Public Function ExecGiftReturn(Optional ByVal Prompt As Boolean = True) As Boolean
+        LogStartFunction("CIP-GiftReturn")
+    End Function
+
 End Class

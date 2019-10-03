@@ -24,14 +24,15 @@ Partial Class ARPaySetUp
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.fraARPaySetup = New System.Windows.Forms.GroupBox()
+        Me.cmdPrint = New System.Windows.Forms.CheckBox()
+        Me.lblContract = New System.Windows.Forms.Label()
+        Me.cmdApply = New System.Windows.Forms.Button()
         Me.fraJointLife = New System.Windows.Forms.Panel()
         Me.optJointLife1 = New System.Windows.Forms.RadioButton()
         Me.optJointLife0 = New System.Windows.Forms.RadioButton()
+        Me.cmdCancel = New System.Windows.Forms.Button()
         Me.lblAccountNo = New System.Windows.Forms.Label()
         Me.fraMath = New System.Windows.Forms.GroupBox()
-        Me.cmdPrint = New System.Windows.Forms.CheckBox()
-        Me.cmdApply = New System.Windows.Forms.Button()
-        Me.cmdCancel = New System.Windows.Forms.Button()
         Me.lblMathTotal = New System.Windows.Forms.Label()
         Me.lblMathLastPay = New System.Windows.Forms.Label()
         Me.lblMathAdd = New System.Windows.Forms.Label()
@@ -119,7 +120,11 @@ Partial Class ARPaySetUp
         '
         'fraARPaySetup
         '
+        Me.fraARPaySetup.Controls.Add(Me.cmdPrint)
+        Me.fraARPaySetup.Controls.Add(Me.lblContract)
+        Me.fraARPaySetup.Controls.Add(Me.cmdApply)
         Me.fraARPaySetup.Controls.Add(Me.fraJointLife)
+        Me.fraARPaySetup.Controls.Add(Me.cmdCancel)
         Me.fraARPaySetup.Controls.Add(Me.lblAccountNo)
         Me.fraARPaySetup.Controls.Add(Me.fraMath)
         Me.fraARPaySetup.Controls.Add(Me.fraCoupons)
@@ -181,17 +186,45 @@ Partial Class ARPaySetUp
         Me.fraARPaySetup.Controls.Add(Me.lblDelDate)
         Me.fraARPaySetup.Controls.Add(Me.dteDate2)
         Me.fraARPaySetup.Controls.Add(Me.dteDate1)
-        Me.fraARPaySetup.Location = New System.Drawing.Point(5, 5)
+        Me.fraARPaySetup.Location = New System.Drawing.Point(5, 2)
         Me.fraARPaySetup.Name = "fraARPaySetup"
-        Me.fraARPaySetup.Size = New System.Drawing.Size(323, 651)
+        Me.fraARPaySetup.Size = New System.Drawing.Size(323, 641)
         Me.fraARPaySetup.TabIndex = 0
         Me.fraARPaySetup.TabStop = False
+        '
+        'cmdPrint
+        '
+        Me.cmdPrint.Appearance = System.Windows.Forms.Appearance.Button
+        Me.cmdPrint.Location = New System.Drawing.Point(207, 587)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(40, 24)
+        Me.cmdPrint.TabIndex = 66
+        Me.cmdPrint.Text = "&Print"
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
+        'lblContract
+        '
+        Me.lblContract.AutoSize = True
+        Me.lblContract.Location = New System.Drawing.Point(223, 573)
+        Me.lblContract.Name = "lblContract"
+        Me.lblContract.Size = New System.Drawing.Size(50, 13)
+        Me.lblContract.TabIndex = 67
+        Me.lblContract.Text = "Contract "
+        '
+        'cmdApply
+        '
+        Me.cmdApply.Location = New System.Drawing.Point(246, 587)
+        Me.cmdApply.Name = "cmdApply"
+        Me.cmdApply.Size = New System.Drawing.Size(46, 24)
+        Me.cmdApply.TabIndex = 64
+        Me.cmdApply.Text = "&Apply"
+        Me.cmdApply.UseVisualStyleBackColor = True
         '
         'fraJointLife
         '
         Me.fraJointLife.Controls.Add(Me.optJointLife1)
         Me.fraJointLife.Controls.Add(Me.optJointLife0)
-        Me.fraJointLife.Location = New System.Drawing.Point(227, 311)
+        Me.fraJointLife.Location = New System.Drawing.Point(227, 296)
         Me.fraJointLife.Name = "fraJointLife"
         Me.fraJointLife.Size = New System.Drawing.Size(82, 39)
         Me.fraJointLife.TabIndex = 63
@@ -218,19 +251,26 @@ Partial Class ARPaySetUp
         Me.optJointLife0.Text = "Single Life"
         Me.optJointLife0.UseVisualStyleBackColor = True
         '
+        'cmdCancel
+        '
+        Me.cmdCancel.Location = New System.Drawing.Point(207, 608)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(85, 23)
+        Me.cmdCancel.TabIndex = 65
+        Me.cmdCancel.Text = "&Cancel"
+        Me.cmdCancel.UseVisualStyleBackColor = True
+        '
         'lblAccountNo
         '
-        Me.lblAccountNo.Location = New System.Drawing.Point(107, 624)
+        Me.lblAccountNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAccountNo.Location = New System.Drawing.Point(109, 602)
         Me.lblAccountNo.Name = "lblAccountNo"
-        Me.lblAccountNo.Size = New System.Drawing.Size(91, 23)
+        Me.lblAccountNo.Size = New System.Drawing.Size(81, 23)
         Me.lblAccountNo.TabIndex = 61
         Me.lblAccountNo.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'fraMath
         '
-        Me.fraMath.Controls.Add(Me.cmdPrint)
-        Me.fraMath.Controls.Add(Me.cmdApply)
-        Me.fraMath.Controls.Add(Me.cmdCancel)
         Me.fraMath.Controls.Add(Me.lblMathTotal)
         Me.fraMath.Controls.Add(Me.lblMathLastPay)
         Me.fraMath.Controls.Add(Me.lblMathAdd)
@@ -239,39 +279,12 @@ Partial Class ARPaySetUp
         Me.fraMath.Controls.Add(Me.lblMathMultiply)
         Me.fraMath.Controls.Add(Me.lblMathMonthly)
         Me.fraMath.Controls.Add(Me.ShapeContainer1)
-        Me.fraMath.Location = New System.Drawing.Point(204, 541)
+        Me.fraMath.Location = New System.Drawing.Point(204, 516)
         Me.fraMath.Name = "fraMath"
-        Me.fraMath.Size = New System.Drawing.Size(109, 104)
+        Me.fraMath.Size = New System.Drawing.Size(109, 51)
         Me.fraMath.TabIndex = 60
         Me.fraMath.TabStop = False
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cmdPrint.Location = New System.Drawing.Point(6, 57)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(52, 24)
-        Me.cmdPrint.TabIndex = 11
-        Me.cmdPrint.Text = "&Print"
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdApply
-        '
-        Me.cmdApply.Location = New System.Drawing.Point(52, 57)
-        Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(43, 23)
-        Me.cmdApply.TabIndex = 5
-        Me.cmdApply.Text = "&Apply"
-        Me.cmdApply.UseVisualStyleBackColor = True
-        '
-        'cmdCancel
-        '
-        Me.cmdCancel.Location = New System.Drawing.Point(6, 78)
-        Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(89, 23)
-        Me.cmdCancel.TabIndex = 6
-        Me.cmdCancel.Text = "&Cancel"
-        Me.cmdCancel.UseVisualStyleBackColor = True
+        Me.fraMath.Visible = False
         '
         'lblMathTotal
         '
@@ -342,7 +355,7 @@ Partial Class ARPaySetUp
         Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
         Me.ShapeContainer1.Name = "ShapeContainer1"
         Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape2, Me.LineShape1})
-        Me.ShapeContainer1.Size = New System.Drawing.Size(103, 85)
+        Me.ShapeContainer1.Size = New System.Drawing.Size(103, 32)
         Me.ShapeContainer1.TabIndex = 3
         Me.ShapeContainer1.TabStop = False
         '
@@ -366,7 +379,7 @@ Partial Class ARPaySetUp
         '
         Me.fraCoupons.Controls.Add(Me.optWeekly)
         Me.fraCoupons.Controls.Add(Me.optMonthly)
-        Me.fraCoupons.Location = New System.Drawing.Point(194, 479)
+        Me.fraCoupons.Location = New System.Drawing.Point(194, 464)
         Me.fraCoupons.Name = "fraCoupons"
         Me.fraCoupons.Size = New System.Drawing.Size(119, 50)
         Me.fraCoupons.TabIndex = 59
@@ -397,7 +410,7 @@ Partial Class ARPaySetUp
         'lblDeferred
         '
         Me.lblDeferred.AutoSize = True
-        Me.lblDeferred.Location = New System.Drawing.Point(266, 461)
+        Me.lblDeferred.Location = New System.Drawing.Point(266, 446)
         Me.lblDeferred.Name = "lblDeferred"
         Me.lblDeferred.Size = New System.Drawing.Size(45, 13)
         Me.lblDeferred.TabIndex = 58
@@ -406,7 +419,7 @@ Partial Class ARPaySetUp
         'cboDeferred
         '
         Me.cboDeferred.FormattingEnabled = True
-        Me.cboDeferred.Location = New System.Drawing.Point(194, 458)
+        Me.cboDeferred.Location = New System.Drawing.Point(194, 443)
         Me.cboDeferred.Name = "cboDeferred"
         Me.cboDeferred.Size = New System.Drawing.Size(68, 21)
         Me.cboDeferred.TabIndex = 57
@@ -414,14 +427,14 @@ Partial Class ARPaySetUp
         'lblAPR
         '
         Me.lblAPR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblAPR.Location = New System.Drawing.Point(253, 430)
+        Me.lblAPR.Location = New System.Drawing.Point(253, 415)
         Me.lblAPR.Name = "lblAPR"
         Me.lblAPR.Size = New System.Drawing.Size(39, 20)
         Me.lblAPR.TabIndex = 56
         '
         'txtRate
         '
-        Me.txtRate.Location = New System.Drawing.Point(194, 430)
+        Me.txtRate.Location = New System.Drawing.Point(194, 415)
         Me.txtRate.Name = "txtRate"
         Me.txtRate.Size = New System.Drawing.Size(47, 20)
         Me.txtRate.TabIndex = 55
@@ -430,7 +443,7 @@ Partial Class ARPaySetUp
         'chkUnemployment
         '
         Me.chkUnemployment.AutoSize = True
-        Me.chkUnemployment.Location = New System.Drawing.Point(194, 381)
+        Me.chkUnemployment.Location = New System.Drawing.Point(194, 366)
         Me.chkUnemployment.Name = "chkUnemployment"
         Me.chkUnemployment.Size = New System.Drawing.Size(15, 14)
         Me.chkUnemployment.TabIndex = 52
@@ -439,7 +452,7 @@ Partial Class ARPaySetUp
         'chkProperty
         '
         Me.chkProperty.AutoSize = True
-        Me.chkProperty.Location = New System.Drawing.Point(194, 361)
+        Me.chkProperty.Location = New System.Drawing.Point(194, 346)
         Me.chkProperty.Name = "chkProperty"
         Me.chkProperty.Size = New System.Drawing.Size(15, 14)
         Me.chkProperty.TabIndex = 51
@@ -448,7 +461,7 @@ Partial Class ARPaySetUp
         'chkAccident
         '
         Me.chkAccident.AutoSize = True
-        Me.chkAccident.Location = New System.Drawing.Point(194, 341)
+        Me.chkAccident.Location = New System.Drawing.Point(194, 326)
         Me.chkAccident.Name = "chkAccident"
         Me.chkAccident.Size = New System.Drawing.Size(15, 14)
         Me.chkAccident.TabIndex = 50
@@ -457,7 +470,7 @@ Partial Class ARPaySetUp
         'chkLife
         '
         Me.chkLife.AutoSize = True
-        Me.chkLife.Location = New System.Drawing.Point(194, 321)
+        Me.chkLife.Location = New System.Drawing.Point(194, 306)
         Me.chkLife.Name = "chkLife"
         Me.chkLife.Size = New System.Drawing.Size(15, 14)
         Me.chkLife.TabIndex = 49
@@ -467,7 +480,7 @@ Partial Class ARPaySetUp
         '
         Me.lblTotal.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.lblTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTotal.Location = New System.Drawing.Point(227, 271)
+        Me.lblTotal.Location = New System.Drawing.Point(227, 256)
         Me.lblTotal.Name = "lblTotal"
         Me.lblTotal.Size = New System.Drawing.Size(82, 20)
         Me.lblTotal.TabIndex = 48
@@ -476,7 +489,7 @@ Partial Class ARPaySetUp
         'lblTotalCaption
         '
         Me.lblTotalCaption.AutoSize = True
-        Me.lblTotalCaption.Location = New System.Drawing.Point(191, 272)
+        Me.lblTotalCaption.Location = New System.Drawing.Point(191, 257)
         Me.lblTotalCaption.Name = "lblTotalCaption"
         Me.lblTotalCaption.Size = New System.Drawing.Size(34, 13)
         Me.lblTotalCaption.TabIndex = 47
@@ -486,7 +499,7 @@ Partial Class ARPaySetUp
         '
         'txtBalDueLateCharge
         '
-        Me.txtBalDueLateCharge.Location = New System.Drawing.Point(227, 233)
+        Me.txtBalDueLateCharge.Location = New System.Drawing.Point(227, 218)
         Me.txtBalDueLateCharge.Name = "txtBalDueLateCharge"
         Me.txtBalDueLateCharge.Size = New System.Drawing.Size(82, 20)
         Me.txtBalDueLateCharge.TabIndex = 46
@@ -494,7 +507,7 @@ Partial Class ARPaySetUp
         'lblBalDueLateCharge
         '
         Me.lblBalDueLateCharge.AutoSize = True
-        Me.lblBalDueLateCharge.Location = New System.Drawing.Point(206, 217)
+        Me.lblBalDueLateCharge.Location = New System.Drawing.Point(206, 202)
         Me.lblBalDueLateCharge.Name = "lblBalDueLateCharge"
         Me.lblBalDueLateCharge.Size = New System.Drawing.Size(94, 13)
         Me.lblBalDueLateCharge.TabIndex = 45
@@ -502,7 +515,7 @@ Partial Class ARPaySetUp
         '
         'txtAddlPaymentsMade
         '
-        Me.txtAddlPaymentsMade.Location = New System.Drawing.Point(227, 194)
+        Me.txtAddlPaymentsMade.Location = New System.Drawing.Point(227, 179)
         Me.txtAddlPaymentsMade.Name = "txtAddlPaymentsMade"
         Me.txtAddlPaymentsMade.Size = New System.Drawing.Size(82, 20)
         Me.txtAddlPaymentsMade.TabIndex = 44
@@ -510,7 +523,7 @@ Partial Class ARPaySetUp
         'lblAddlPayments
         '
         Me.lblAddlPayments.AutoSize = True
-        Me.lblAddlPayments.Location = New System.Drawing.Point(206, 179)
+        Me.lblAddlPayments.Location = New System.Drawing.Point(206, 164)
         Me.lblAddlPayments.Name = "lblAddlPayments"
         Me.lblAddlPayments.Size = New System.Drawing.Size(112, 13)
         Me.lblAddlPayments.TabIndex = 43
@@ -521,7 +534,7 @@ Partial Class ARPaySetUp
         Me.chkRoundUp.AutoSize = True
         Me.chkRoundUp.Checked = True
         Me.chkRoundUp.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRoundUp.Location = New System.Drawing.Point(112, 596)
+        Me.chkRoundUp.Location = New System.Drawing.Point(112, 582)
         Me.chkRoundUp.Name = "chkRoundUp"
         Me.chkRoundUp.Size = New System.Drawing.Size(75, 17)
         Me.chkRoundUp.TabIndex = 42
@@ -530,15 +543,16 @@ Partial Class ARPaySetUp
         '
         'txtPaymentWillBe
         '
-        Me.txtPaymentWillBe.Location = New System.Drawing.Point(112, 570)
+        Me.txtPaymentWillBe.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPaymentWillBe.Location = New System.Drawing.Point(112, 551)
         Me.txtPaymentWillBe.Name = "txtPaymentWillBe"
-        Me.txtPaymentWillBe.Size = New System.Drawing.Size(78, 20)
+        Me.txtPaymentWillBe.Size = New System.Drawing.Size(78, 26)
         Me.txtPaymentWillBe.TabIndex = 41
         Me.txtPaymentWillBe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtTotalBalance
         '
-        Me.txtTotalBalance.Location = New System.Drawing.Point(112, 541)
+        Me.txtTotalBalance.Location = New System.Drawing.Point(112, 526)
         Me.txtTotalBalance.Name = "txtTotalBalance"
         Me.txtTotalBalance.Size = New System.Drawing.Size(78, 20)
         Me.txtTotalBalance.TabIndex = 40
@@ -546,7 +560,7 @@ Partial Class ARPaySetUp
         '
         'txtFinanceChargeSalesTax
         '
-        Me.txtFinanceChargeSalesTax.Location = New System.Drawing.Point(112, 521)
+        Me.txtFinanceChargeSalesTax.Location = New System.Drawing.Point(112, 506)
         Me.txtFinanceChargeSalesTax.Name = "txtFinanceChargeSalesTax"
         Me.txtFinanceChargeSalesTax.Size = New System.Drawing.Size(78, 20)
         Me.txtFinanceChargeSalesTax.TabIndex = 39
@@ -556,7 +570,7 @@ Partial Class ARPaySetUp
         '
         Me.lblAcctNo.AutoSize = True
         Me.lblAcctNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAcctNo.Location = New System.Drawing.Point(28, 631)
+        Me.lblAcctNo.Location = New System.Drawing.Point(28, 602)
         Me.lblAcctNo.Name = "lblAcctNo"
         Me.lblAcctNo.Size = New System.Drawing.Size(78, 13)
         Me.lblAcctNo.TabIndex = 38
@@ -566,7 +580,7 @@ Partial Class ARPaySetUp
         '
         Me.lblPaymentWillBe.AutoSize = True
         Me.lblPaymentWillBe.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentWillBe.Location = New System.Drawing.Point(3, 570)
+        Me.lblPaymentWillBe.Location = New System.Drawing.Point(3, 551)
         Me.lblPaymentWillBe.Name = "lblPaymentWillBe"
         Me.lblPaymentWillBe.Size = New System.Drawing.Size(103, 13)
         Me.lblPaymentWillBe.TabIndex = 37
@@ -575,7 +589,7 @@ Partial Class ARPaySetUp
         'lblTotalBalance
         '
         Me.lblTotalBalance.AutoSize = True
-        Me.lblTotalBalance.Location = New System.Drawing.Point(30, 548)
+        Me.lblTotalBalance.Location = New System.Drawing.Point(30, 533)
         Me.lblTotalBalance.Name = "lblTotalBalance"
         Me.lblTotalBalance.Size = New System.Drawing.Size(76, 13)
         Me.lblTotalBalance.TabIndex = 36
@@ -584,7 +598,7 @@ Partial Class ARPaySetUp
         'lblFinanceChargeSalesTax
         '
         Me.lblFinanceChargeSalesTax.AutoSize = True
-        Me.lblFinanceChargeSalesTax.Location = New System.Drawing.Point(49, 528)
+        Me.lblFinanceChargeSalesTax.Location = New System.Drawing.Point(49, 513)
         Me.lblFinanceChargeSalesTax.Name = "lblFinanceChargeSalesTax"
         Me.lblFinanceChargeSalesTax.Size = New System.Drawing.Size(57, 13)
         Me.lblFinanceChargeSalesTax.TabIndex = 1
@@ -592,7 +606,7 @@ Partial Class ARPaySetUp
         '
         'txtFinanceCharges
         '
-        Me.txtFinanceCharges.Location = New System.Drawing.Point(112, 501)
+        Me.txtFinanceCharges.Location = New System.Drawing.Point(112, 486)
         Me.txtFinanceCharges.Name = "txtFinanceCharges"
         Me.txtFinanceCharges.Size = New System.Drawing.Size(78, 20)
         Me.txtFinanceCharges.TabIndex = 35
@@ -600,23 +614,24 @@ Partial Class ARPaySetUp
         '
         'txtDeferredInt
         '
-        Me.txtDeferredInt.Location = New System.Drawing.Point(112, 481)
+        Me.txtDeferredInt.Location = New System.Drawing.Point(112, 466)
         Me.txtDeferredInt.Name = "txtDeferredInt"
         Me.txtDeferredInt.Size = New System.Drawing.Size(78, 20)
         Me.txtDeferredInt.TabIndex = 34
         Me.txtDeferredInt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtDeferredInt.Visible = False
         '
         'cboCashOption
         '
         Me.cboCashOption.FormattingEnabled = True
-        Me.cboCashOption.Location = New System.Drawing.Point(112, 456)
+        Me.cboCashOption.Location = New System.Drawing.Point(112, 441)
         Me.cboCashOption.Name = "cboCashOption"
         Me.cboCashOption.Size = New System.Drawing.Size(78, 21)
         Me.cboCashOption.TabIndex = 33
         '
         'txtFinanceAmount
         '
-        Me.txtFinanceAmount.Location = New System.Drawing.Point(112, 436)
+        Me.txtFinanceAmount.Location = New System.Drawing.Point(112, 421)
         Me.txtFinanceAmount.Name = "txtFinanceAmount"
         Me.txtFinanceAmount.Size = New System.Drawing.Size(78, 20)
         Me.txtFinanceAmount.TabIndex = 32
@@ -624,7 +639,7 @@ Partial Class ARPaySetUp
         '
         'txtMonthsToFinance
         '
-        Me.txtMonthsToFinance.Location = New System.Drawing.Point(112, 416)
+        Me.txtMonthsToFinance.Location = New System.Drawing.Point(112, 401)
         Me.txtMonthsToFinance.Name = "txtMonthsToFinance"
         Me.txtMonthsToFinance.Size = New System.Drawing.Size(78, 20)
         Me.txtMonthsToFinance.TabIndex = 31
@@ -633,7 +648,7 @@ Partial Class ARPaySetUp
         'lblFinanceCharges
         '
         Me.lblFinanceCharges.AutoSize = True
-        Me.lblFinanceCharges.Location = New System.Drawing.Point(16, 508)
+        Me.lblFinanceCharges.Location = New System.Drawing.Point(16, 493)
         Me.lblFinanceCharges.Name = "lblFinanceCharges"
         Me.lblFinanceCharges.Size = New System.Drawing.Size(90, 13)
         Me.lblFinanceCharges.TabIndex = 30
@@ -642,16 +657,17 @@ Partial Class ARPaySetUp
         'lblDeferredInt
         '
         Me.lblDeferredInt.AutoSize = True
-        Me.lblDeferredInt.Location = New System.Drawing.Point(9, 488)
+        Me.lblDeferredInt.Location = New System.Drawing.Point(9, 473)
         Me.lblDeferredInt.Name = "lblDeferredInt"
         Me.lblDeferredInt.Size = New System.Drawing.Size(97, 13)
         Me.lblDeferredInt.TabIndex = 29
         Me.lblDeferredInt.Text = "Deferment Interest:"
+        Me.lblDeferredInt.Visible = False
         '
         'lblCashOpt
         '
         Me.lblCashOpt.AutoSize = True
-        Me.lblCashOpt.Location = New System.Drawing.Point(38, 458)
+        Me.lblCashOpt.Location = New System.Drawing.Point(38, 443)
         Me.lblCashOpt.Name = "lblCashOpt"
         Me.lblCashOpt.Size = New System.Drawing.Size(68, 13)
         Me.lblCashOpt.TabIndex = 28
@@ -660,7 +676,7 @@ Partial Class ARPaySetUp
         'lblFinanceAmount
         '
         Me.lblFinanceAmount.AutoSize = True
-        Me.lblFinanceAmount.Location = New System.Drawing.Point(3, 437)
+        Me.lblFinanceAmount.Location = New System.Drawing.Point(3, 422)
         Me.lblFinanceAmount.Name = "lblFinanceAmount"
         Me.lblFinanceAmount.Size = New System.Drawing.Size(103, 13)
         Me.lblFinanceAmount.TabIndex = 27
@@ -669,7 +685,7 @@ Partial Class ARPaySetUp
         'lblMonthsToFinance
         '
         Me.lblMonthsToFinance.AutoSize = True
-        Me.lblMonthsToFinance.Location = New System.Drawing.Point(4, 416)
+        Me.lblMonthsToFinance.Location = New System.Drawing.Point(4, 401)
         Me.lblMonthsToFinance.Name = "lblMonthsToFinance"
         Me.lblMonthsToFinance.Size = New System.Drawing.Size(102, 13)
         Me.lblMonthsToFinance.TabIndex = 26
@@ -677,7 +693,7 @@ Partial Class ARPaySetUp
         '
         'txtUnemploymentInsurance
         '
-        Me.txtUnemploymentInsurance.Location = New System.Drawing.Point(112, 378)
+        Me.txtUnemploymentInsurance.Location = New System.Drawing.Point(112, 363)
         Me.txtUnemploymentInsurance.Name = "txtUnemploymentInsurance"
         Me.txtUnemploymentInsurance.Size = New System.Drawing.Size(78, 20)
         Me.txtUnemploymentInsurance.TabIndex = 25
@@ -685,7 +701,7 @@ Partial Class ARPaySetUp
         '
         'txtPropertyInsurance
         '
-        Me.txtPropertyInsurance.Location = New System.Drawing.Point(112, 358)
+        Me.txtPropertyInsurance.Location = New System.Drawing.Point(112, 343)
         Me.txtPropertyInsurance.Name = "txtPropertyInsurance"
         Me.txtPropertyInsurance.Size = New System.Drawing.Size(78, 20)
         Me.txtPropertyInsurance.TabIndex = 24
@@ -693,7 +709,7 @@ Partial Class ARPaySetUp
         '
         'txtAccidentInsurance
         '
-        Me.txtAccidentInsurance.Location = New System.Drawing.Point(112, 338)
+        Me.txtAccidentInsurance.Location = New System.Drawing.Point(112, 323)
         Me.txtAccidentInsurance.Name = "txtAccidentInsurance"
         Me.txtAccidentInsurance.Size = New System.Drawing.Size(78, 20)
         Me.txtAccidentInsurance.TabIndex = 23
@@ -701,7 +717,7 @@ Partial Class ARPaySetUp
         '
         'txtLifeInsurance
         '
-        Me.txtLifeInsurance.Location = New System.Drawing.Point(112, 318)
+        Me.txtLifeInsurance.Location = New System.Drawing.Point(112, 303)
         Me.txtLifeInsurance.Name = "txtLifeInsurance"
         Me.txtLifeInsurance.Size = New System.Drawing.Size(78, 20)
         Me.txtLifeInsurance.TabIndex = 22
@@ -709,7 +725,7 @@ Partial Class ARPaySetUp
         '
         'txtDocFee
         '
-        Me.txtDocFee.Location = New System.Drawing.Point(112, 298)
+        Me.txtDocFee.Location = New System.Drawing.Point(112, 283)
         Me.txtDocFee.Name = "txtDocFee"
         Me.txtDocFee.Size = New System.Drawing.Size(78, 20)
         Me.txtDocFee.TabIndex = 21
@@ -718,7 +734,7 @@ Partial Class ARPaySetUp
         'lblUnemploymentInsurance
         '
         Me.lblUnemploymentInsurance.AutoSize = True
-        Me.lblUnemploymentInsurance.Location = New System.Drawing.Point(7, 383)
+        Me.lblUnemploymentInsurance.Location = New System.Drawing.Point(7, 368)
         Me.lblUnemploymentInsurance.Name = "lblUnemploymentInsurance"
         Me.lblUnemploymentInsurance.Size = New System.Drawing.Size(99, 13)
         Me.lblUnemploymentInsurance.TabIndex = 20
@@ -727,7 +743,7 @@ Partial Class ARPaySetUp
         'lblPropertyInsurance
         '
         Me.lblPropertyInsurance.AutoSize = True
-        Me.lblPropertyInsurance.Location = New System.Drawing.Point(7, 362)
+        Me.lblPropertyInsurance.Location = New System.Drawing.Point(7, 347)
         Me.lblPropertyInsurance.Name = "lblPropertyInsurance"
         Me.lblPropertyInsurance.Size = New System.Drawing.Size(99, 13)
         Me.lblPropertyInsurance.TabIndex = 19
@@ -736,7 +752,7 @@ Partial Class ARPaySetUp
         'lblAccidentInsurance
         '
         Me.lblAccidentInsurance.AutoSize = True
-        Me.lblAccidentInsurance.Location = New System.Drawing.Point(4, 341)
+        Me.lblAccidentInsurance.Location = New System.Drawing.Point(4, 326)
         Me.lblAccidentInsurance.Name = "lblAccidentInsurance"
         Me.lblAccidentInsurance.Size = New System.Drawing.Size(102, 13)
         Me.lblAccidentInsurance.TabIndex = 18
@@ -745,7 +761,7 @@ Partial Class ARPaySetUp
         'lblLifeInsurance
         '
         Me.lblLifeInsurance.AutoSize = True
-        Me.lblLifeInsurance.Location = New System.Drawing.Point(29, 320)
+        Me.lblLifeInsurance.Location = New System.Drawing.Point(29, 305)
         Me.lblLifeInsurance.Name = "lblLifeInsurance"
         Me.lblLifeInsurance.Size = New System.Drawing.Size(77, 13)
         Me.lblLifeInsurance.TabIndex = 17
@@ -754,7 +770,7 @@ Partial Class ARPaySetUp
         'lblDocFee
         '
         Me.lblDocFee.AutoSize = True
-        Me.lblDocFee.Location = New System.Drawing.Point(3, 299)
+        Me.lblDocFee.Location = New System.Drawing.Point(3, 284)
         Me.lblDocFee.Name = "lblDocFee"
         Me.lblDocFee.Size = New System.Drawing.Size(103, 13)
         Me.lblDocFee.TabIndex = 16
@@ -762,7 +778,7 @@ Partial Class ARPaySetUp
         '
         'txtSubTotal
         '
-        Me.txtSubTotal.Location = New System.Drawing.Point(112, 257)
+        Me.txtSubTotal.Location = New System.Drawing.Point(112, 242)
         Me.txtSubTotal.Name = "txtSubTotal"
         Me.txtSubTotal.Size = New System.Drawing.Size(78, 20)
         Me.txtSubTotal.TabIndex = 15
@@ -770,7 +786,7 @@ Partial Class ARPaySetUp
         '
         'txtOrigDeposit
         '
-        Me.txtOrigDeposit.Location = New System.Drawing.Point(112, 237)
+        Me.txtOrigDeposit.Location = New System.Drawing.Point(112, 222)
         Me.txtOrigDeposit.Name = "txtOrigDeposit"
         Me.txtOrigDeposit.Size = New System.Drawing.Size(78, 20)
         Me.txtOrigDeposit.TabIndex = 14
@@ -778,7 +794,7 @@ Partial Class ARPaySetUp
         '
         'txtGrossSale
         '
-        Me.txtGrossSale.Location = New System.Drawing.Point(112, 217)
+        Me.txtGrossSale.Location = New System.Drawing.Point(112, 202)
         Me.txtGrossSale.Name = "txtGrossSale"
         Me.txtGrossSale.Size = New System.Drawing.Size(78, 20)
         Me.txtGrossSale.TabIndex = 13
@@ -786,7 +802,7 @@ Partial Class ARPaySetUp
         '
         'txtPrevBalance
         '
-        Me.txtPrevBalance.Location = New System.Drawing.Point(112, 197)
+        Me.txtPrevBalance.Location = New System.Drawing.Point(112, 182)
         Me.txtPrevBalance.Name = "txtPrevBalance"
         Me.txtPrevBalance.Size = New System.Drawing.Size(78, 20)
         Me.txtPrevBalance.TabIndex = 12
@@ -795,7 +811,7 @@ Partial Class ARPaySetUp
         'lblSubTotal
         '
         Me.lblSubTotal.AutoSize = True
-        Me.lblSubTotal.Location = New System.Drawing.Point(50, 260)
+        Me.lblSubTotal.Location = New System.Drawing.Point(50, 245)
         Me.lblSubTotal.Name = "lblSubTotal"
         Me.lblSubTotal.Size = New System.Drawing.Size(56, 13)
         Me.lblSubTotal.TabIndex = 11
@@ -804,7 +820,7 @@ Partial Class ARPaySetUp
         'lblOrigDeposit
         '
         Me.lblOrigDeposit.AutoSize = True
-        Me.lblOrigDeposit.Location = New System.Drawing.Point(22, 240)
+        Me.lblOrigDeposit.Location = New System.Drawing.Point(22, 225)
         Me.lblOrigDeposit.Name = "lblOrigDeposit"
         Me.lblOrigDeposit.Size = New System.Drawing.Size(84, 13)
         Me.lblOrigDeposit.TabIndex = 10
@@ -813,7 +829,7 @@ Partial Class ARPaySetUp
         'lblGrossSale
         '
         Me.lblGrossSale.AutoSize = True
-        Me.lblGrossSale.Location = New System.Drawing.Point(8, 220)
+        Me.lblGrossSale.Location = New System.Drawing.Point(8, 205)
         Me.lblGrossSale.Name = "lblGrossSale"
         Me.lblGrossSale.Size = New System.Drawing.Size(98, 13)
         Me.lblGrossSale.TabIndex = 9
@@ -822,7 +838,7 @@ Partial Class ARPaySetUp
         'lblPrevBal
         '
         Me.lblPrevBal.AutoSize = True
-        Me.lblPrevBal.Location = New System.Drawing.Point(13, 200)
+        Me.lblPrevBal.Location = New System.Drawing.Point(13, 185)
         Me.lblPrevBal.Name = "lblPrevBal"
         Me.lblPrevBal.Size = New System.Drawing.Size(93, 13)
         Me.lblPrevBal.TabIndex = 8
@@ -830,7 +846,7 @@ Partial Class ARPaySetUp
         '
         'txtArNo
         '
-        Me.txtArNo.Location = New System.Drawing.Point(112, 177)
+        Me.txtArNo.Location = New System.Drawing.Point(112, 162)
         Me.txtArNo.Name = "txtArNo"
         Me.txtArNo.Size = New System.Drawing.Size(78, 20)
         Me.txtArNo.TabIndex = 7
@@ -839,7 +855,7 @@ Partial Class ARPaySetUp
         '
         Me.chkAutoARNO.AutoSize = True
         Me.chkAutoARNO.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkAutoARNO.Location = New System.Drawing.Point(15, 179)
+        Me.chkAutoARNO.Location = New System.Drawing.Point(15, 164)
         Me.chkAutoARNO.Name = "chkAutoARNO"
         Me.chkAutoARNO.Size = New System.Drawing.Size(91, 17)
         Me.chkAutoARNO.TabIndex = 6
@@ -854,14 +870,14 @@ Partial Class ARPaySetUp
         Me.fraLateChargesApplied.Controls.Add(Me.lblLateChargesApplied)
         Me.fraLateChargesApplied.Location = New System.Drawing.Point(47, 68)
         Me.fraLateChargesApplied.Name = "fraLateChargesApplied"
-        Me.fraLateChargesApplied.Size = New System.Drawing.Size(207, 101)
+        Me.fraLateChargesApplied.Size = New System.Drawing.Size(207, 82)
         Me.fraLateChargesApplied.TabIndex = 5
         Me.fraLateChargesApplied.TabStop = False
         '
         'optLate26
         '
         Me.optLate26.AutoSize = True
-        Me.optLate26.Location = New System.Drawing.Point(11, 77)
+        Me.optLate26.Location = New System.Drawing.Point(11, 61)
         Me.optLate26.Name = "optLate26"
         Me.optLate26.Size = New System.Drawing.Size(177, 17)
         Me.optLate26.TabIndex = 3
@@ -872,7 +888,7 @@ Partial Class ARPaySetUp
         'optLate16
         '
         Me.optLate16.AutoSize = True
-        Me.optLate16.Location = New System.Drawing.Point(11, 58)
+        Me.optLate16.Location = New System.Drawing.Point(11, 44)
         Me.optLate16.Name = "optLate16"
         Me.optLate16.Size = New System.Drawing.Size(177, 17)
         Me.optLate16.TabIndex = 2
@@ -883,7 +899,7 @@ Partial Class ARPaySetUp
         'optLate6
         '
         Me.optLate6.AutoSize = True
-        Me.optLate6.Location = New System.Drawing.Point(11, 37)
+        Me.optLate6.Location = New System.Drawing.Point(11, 27)
         Me.optLate6.Name = "optLate6"
         Me.optLate6.Size = New System.Drawing.Size(164, 17)
         Me.optLate6.TabIndex = 1
@@ -895,7 +911,7 @@ Partial Class ARPaySetUp
         '
         Me.lblLateChargesApplied.AutoSize = True
         Me.lblLateChargesApplied.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLateChargesApplied.Location = New System.Drawing.Point(11, 16)
+        Me.lblLateChargesApplied.Location = New System.Drawing.Point(11, 11)
         Me.lblLateChargesApplied.Name = "lblLateChargesApplied"
         Me.lblLateChargesApplied.Size = New System.Drawing.Size(176, 13)
         Me.lblLateChargesApplied.TabIndex = 0
@@ -954,9 +970,10 @@ Partial Class ARPaySetUp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(333, 661)
+        Me.ClientSize = New System.Drawing.Size(333, 646)
         Me.Controls.Add(Me.fraARPaySetup)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.Name = "ARPaySetUp"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Payment Set Up"
@@ -1043,8 +1060,6 @@ Partial Class ARPaySetUp
     Friend WithEvents txtRate As TextBox
     Friend WithEvents fraMath As GroupBox
     Friend WithEvents lblMathMonthlyTotal As Label
-    Friend WithEvents cmdCancel As Button
-    Friend WithEvents cmdApply As Button
     Friend WithEvents lblMathMontlyMonths As Label
     Friend WithEvents lblMathMultiply As Label
     Friend WithEvents lblMathMonthly As Label
@@ -1061,4 +1076,7 @@ Partial Class ARPaySetUp
     Friend WithEvents optJointLife1 As RadioButton
     Friend WithEvents optJointLife0 As RadioButton
     Friend WithEvents cmdPrint As CheckBox
+    Friend WithEvents lblContract As Label
+    Friend WithEvents cmdApply As Button
+    Friend WithEvents cmdCancel As Button
 End Class

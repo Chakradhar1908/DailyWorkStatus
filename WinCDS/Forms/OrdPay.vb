@@ -53,7 +53,7 @@
 
     Private Function PaymentOnAccount() As Boolean
         Dim RealSaleDate As String
-        Dim Amount As Decimal, pType As String, Appr As String, CCPayment As Boolean, TypeCode As Long
+        Dim Amount As Decimal, pType As String, Appr As String, CCPayment As Boolean, TypeCode As Integer
         Dim TransID As String, BalanceReturned As Decimal
         RealSaleDate = BillOSale.dteSaleDate.Value
 
@@ -213,8 +213,8 @@ HandleErr:
         ' This function uses the global Holding object.
         ' It will be reworked once I've researched all the side effects.
 
-        If Receipt Then MakeMyReceipt : Receipt = False
-        If Email Then MakeEmail : Email = False
+        If Receipt Then MakeMyReceipt() : Receipt = False
+        If Email Then MakeEmail() : Email = False
 
         If StayOnOrder Then
             ' Clear temporary stuff..
@@ -266,9 +266,9 @@ HandleErr:
             ' No more to deliver
             'Unload BillOSale
             BillOSale.Close()
-            Unload ARPaySetUp
-                ARPaySetUp.Close()
-            Unload ArCard ' need for add on
+            'Unload ARPaySetUp
+            ARPaySetUp.Close()
+            'Unload ArCard ' need for add on
             ArCard.Close()
             'Unload AddOnAcc
             AddOnAcc.Close()
@@ -297,7 +297,8 @@ HandleErr:
 
         If OrderMode("D") Then
             BillOSale.UGridIO1.GetDBGrid.Refresh() 'bfh20060113 - refresh & doevents added for cosmetic fix
-            application.DoEvents
+            Application.DoEvents()
+
             If MessageBox.Show("Any More To Pay On?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 PayMethod = ""
                 BillOSale.cmdMainMenu.Enabled = True
@@ -352,7 +353,7 @@ HandleErr:
         Note = BillOSale.CustomerLast.Text
         Cashier = GetCashierName
 
-        If Account <> 10 Then Cash ' discount
+        If Account <> 10 Then Cash() ' discount
 
         On Error GoTo HandleErr
 
@@ -448,9 +449,9 @@ HandleErr:
             UndSls = "0.00"
             DelSls = "0.00"
             TaxRec1 = "0.00"
-            Audit 'puts a o entry in Audit
+            Audit() 'puts a o entry in Audit
             If Money > 0 Then Holding.LastPay = DateFormat(TransDate)
-        ElseIf OrderMode("D", "B") And Not PayTypeIsIn(cboAccount.SelectedText, cdspaytypes.cdsPT_MiscDiscount) Then
+        ElseIf OrderMode("D", "B") And Not PayTypeIsIn(cboAccount.SelectedText, cdsPayTypes.cdsPT_MiscDiscount) Then
             Holding.Deposit = GetPrice(Holding.Deposit) + Money
             LeaseNo = BillOSale.BillOfSale.Text
             Name1 = "PA " + BillOSale.CustomerLast.Text
@@ -467,7 +468,7 @@ HandleErr:
             UndSls = "0.00"
             DelSls = "0.00"
             TaxRec1 = "0.00"
-            If Money <> 0 Then Audit 'puts a o entry in Audit
+            If Money <> 0 Then Audit() 'puts a o entry in Audit
             If Money > 0 Then Holding.LastPay = DateFormat(TransDate)
         End If
 
@@ -526,7 +527,7 @@ HandleErr:
         MakeReceipt(
     TransDate, eReceiptTypes.ert_SaleNo, BillOSale.BillOfSale.Text,
     BillOSale.CustomerFirst.Text, BillOSale.CustomerLast.Text, BillOSale.CustomerAddress.Text, BillOSale.CustomerAddress2.Text, BillOSale.CustomerCity.Text, BillOSale.CustomerZip.Text,
-    PriorBal, PayMethod, Deposit, BillOSale.BalDue, Memo.Text, Approval)
+    PriorBal, PayMethod, Deposit, BillOSale.BalDue.Text, Memo.Text, Approval)
     End Sub
 
     Public Property Email() As Boolean
@@ -568,12 +569,12 @@ HandleErr:
         Resume Next
     End Sub
 
-    Public Function Audit() As Long
+    Public Function Audit() As Integer
         SalesJournal_AddRecordNew_Data(
     BillOSale.BillOfSale.Text, Name1, TransDate, Written, TaxCharged1,
     ArCashSls, Controll, UndSls, DelSls, TaxRec1,
     IIf(MailCheck.TaxCode = 0, 1, MailCheck.TaxCode), MailCheck.SalesPerson, 0, Cashier)
-        Audit = LastAuditID
+        Audit = LastAuditID()
     End Function
 
 End Class

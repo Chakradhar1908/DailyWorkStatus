@@ -137,7 +137,8 @@ IDEInUse:
         '  Else
         '  End If
 
-        MsgBox(M, Style, AltTitle)
+        'MsgBox(M, Style, AltTitle)
+        MessageBox.Show(M, AltTitle, MessageBoxButtons.OK)
     End Function
     Public Function DevErr(ByVal Text As String, Optional ByVal Style As VbMsgBoxStyle = MsgBoxStyle.DefaultButton1, Optional ByVal AltTitle As String = "Developer Error") As VbMsgBoxResult
         ' we purposefully do not provide a timeout on this function

@@ -5,13 +5,13 @@ Public Class OrdStatus
 
     '###STORECOUNT32
     'Private Const H_FRAONHAND_8 As Integer = 855
-    Private Const H_FRAONHAND_8 As Integer = 60
+    Private Const H_FRAONHAND_8 As Integer = 50
     'Private Const H_FRAONHAND_16 As Integer = 1455
-    Private Const H_FRAONHAND_16 As Integer = 105
+    Private Const H_FRAONHAND_16 As Integer = 95
     'Private Const H_FRAONHAND_24 As Integer = 2052
-    Private Const H_FRAONHAND_24 As Integer = 150
+    Private Const H_FRAONHAND_24 As Integer = 140
     'Private Const H_FRAONHAND_32 As Integer = 2652
-    Private Const H_FRAONHAND_32 As Integer = 220
+    Private Const H_FRAONHAND_32 As Integer = 210
 
     Private Sub OrdStatus_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim TotOO As String, I As Integer, X As Integer

@@ -1,6 +1,9 @@
 ﻿Public Class cHolding
     Private WithEvents mDataAccess As CDataAccess
     'Implements CDataAccess
+    Private mDataConvert As cDataConvert
+    'Implements cDataConvert
+
     Public Index as integer
     Public Status As String
     Public LeaseNo As String
@@ -14,6 +17,13 @@
     Public Salesman As String
     Public Comm As String
     Public ArNo As String
+    Private Const FILE_Name As String = "Holding.exe"
+    Private Const FILE_RecordSize As Integer = 39
+    Private Const FILE_Index As Integer = 1
+    Public MargStart As Integer
+    Private Const TABLE_NAME As String = "Holding"
+    Private Const TABLE_INDEX As String = "LeaseNo"
+    Public Posted As Integer
 
     Private Structure HoldNew
         <VBFixedString(8)> Dim LeaseNo As String
@@ -25,12 +35,37 @@
         <VBFixedString(7)> Dim MargStart As String
     End Structure
 
+    Public Sub New()
+        DataBase = GetDatabaseAtLocation()
+        CDataConvert_Init
+        CDataAccess_Init
+    End Sub
+
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
+
+    Public Sub CDataConvert_Init()
+        mDataConvert = New cDataConvert
+        With mDataConvert  '@NO-LINT-WITH
+            .SubClass = Me.mDataConvert
+            .DataBase = DataBase
+            .Table = TABLE_NAME
+            .Index = TABLE_INDEX
+        End With
+    End Sub
+
+    Public Sub CDataAccess_Init()
+        mDataAccess = New CDataAccess
+        mDataAccess.SubClass = Me.mDataAccess
+        mDataAccess.DataBase = DataBase
+        mDataAccess.Table = TABLE_NAME
+        mDataAccess.Index = TABLE_INDEX
+    End Sub
+
     Public Sub Dispose()
         On Error Resume Next
-        mDataAccess.Dispose
+        mDataAccess.Dispose()
     End Sub
     Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String = "") As Boolean
         ' Checks the database for a matching LeaseNo.
@@ -52,6 +87,7 @@
         ' Move to the first record if we can, and return success.
         If DataAccess.Records_Available Then Load = True
     End Function
+
     Public Function Save(Optional ByRef ErrDesc As String = "") As Boolean
         ErrDesc = ""
         Save = True
@@ -63,9 +99,11 @@
         End If
         If DataAccess.Record_Count = 0 Then
             DataAccess.Records_Add()      ' Record not found.  This means we're adding a new one.
+            cDataAccess_SetRecordSet(DataAccess.RS)
         End If
 
         DataAccess.Record_Update()      ' Then load our data into the recordset.
+        cDataAccess_SetRecordSet(DataAccess.RS)
         DataAccess.Records_Update()     ' And finally, tell the class to save the recordset.
         Exit Function
 
@@ -74,6 +112,7 @@ NoSave:
         Err.Clear()
         Save = False
     End Function
+
     Public Function Void() As Boolean
         ' Make sure this holding record is able to be voided.
         If Trim(LeaseNo) = "" Then Exit Function
@@ -184,5 +223,21 @@ NoSave:
         End If
         DisposeDA(GM, GM2)
     End Function
+
+    Private Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        RS("LeaseNo").Value = IfNullThenNilString(Trim(LeaseNo))
+        RS("Index").Value = Val(Index)
+        RS("Sale").Value = Sale
+        RS("Deposit").Value = Deposit
+        RS("Status").Value = IfNullThenNilString(Trim(Status))
+        RS("Comm").Value = Comm
+        RS("MargStart").Value = Val(MargStart)
+        RS("LastPay").Value = LastPay
+        RS("NonTaxable").Value = NonTaxable
+        RS("Salesman").Value = IfNullThenNilString(Trim(Salesman))
+        RS("fldPosted").Value = Posted
+        RS("ArNo").Value = IfNullThenNilString(Trim(ArNo))
+    End Sub
 
 End Class

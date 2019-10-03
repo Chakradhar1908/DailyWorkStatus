@@ -14,7 +14,7 @@
       Optional ByVal Approval As String = "", Optional ByVal NextPaymentDate As String = "", Optional ByVal Arrears As Decimal = 0,
       Optional ByVal CheckRevolving As Boolean = False,
       Optional ByVal REPRINT As Boolean = False)
-        Dim CustRec As Long
+        Dim CustRec As Integer
         CustRec = GetReceipt()
         MakeReceiptPart(True, CustRec, TransDate, ReceiptType, ItemNo, First, Last, Add1, Add2, City, Zip, PreviousBalance, PayType, Amount, Balance, Note, Approval, NextPaymentDate, Arrears, CheckRevolving, REPRINT)
         Printer.CurrentY = 7733
@@ -27,7 +27,7 @@
         GetReceipt = GetFileAutonumber(CustRecFile, 999)
     End Function
 
-    Private Sub MakeReceiptPart(ByVal FirstCopy As Boolean, ByVal RcptNo As Long,
+    Private Sub MakeReceiptPart(ByVal FirstCopy As Boolean, ByVal RcptNo As Integer,
       ByVal TransDate As String, ReceiptType As eReceiptTypes,
       ByVal ItemNo As String, ByVal First As String, ByVal Last As String,
       ByVal Add1 As String, ByVal Add2 As String, ByVal City As String, ByVal Zip As String,
@@ -38,7 +38,7 @@
       Optional ByVal CheckRevolving As Boolean = False,
       Optional ByVal REPRINT As Boolean = False)
 
-        Dim T As String, Y As Long, cy As Long
+        Dim T As String, Y As Integer, cy As Integer
         Y = IIf(FirstCopy, 400, 8200)
         Printer.FontName = "Arial"
         Printer.FontSize = 12
@@ -75,7 +75,7 @@
         End Select
         Printer.Print(ItemNo)
 
-        Dim BlankRows As Long, I As Long
+        Dim BlankRows As Integer, I As Integer
         BlankRows = 3
         I = 1
         Do Until I > BlankRows

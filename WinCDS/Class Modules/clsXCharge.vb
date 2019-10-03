@@ -443,4 +443,75 @@ Again:
     Private Sub PinPadResult(ByRef PP As PINPad, ByRef x As Integer)
         If x <> 0 Then MsgBox(PP.GetResultMessage(x), vbExclamation, "Pin Error (" & x & ")")
     End Sub
+
+    Public Function ExecReturn(Optional ByVal Prompt As Boolean = True) As Boolean
+        LogStartFunction("XCReturn")
+        IsManuallyEntered = False
+        If Prompt Then If Not PromptCC() Then Exit Function
+        Dim R As Boolean
+        If Not MCPAM Then
+            R = XCTran.XCReturn(FormHandle, TransactionFolder, "Return",
+      ShowStatus, ShowResult, Clerk, Receipt, Swipe,
+      ExpDate, Swipe, Amount,
+      ErrorMsg, ApprovalCode)
+        Else
+            R = XCTran.XCReturnEx(FormHandle, TransactionFolder, "Return",
+      ShowStatus, ShowResult, Clerk, Receipt, CC, ExpDate, Swipe,
+      Amount, MerchID, MarketType, AllowDuplicate,
+      ErrorMsg, ApprovalCode, XCTransIDResult)
+        End If
+        If R Then
+            LogText("ApprovalCode = " & ApprovalCode)
+            Success = True
+        Else
+            LogText("XCReturn Unsuccessfull - " & ErrorMsg)
+        End If
+        ExecReturn = Success
+    End Function
+
+    Public Function ExecDebitReturn(Optional ByVal Prompt As Boolean = True) As Boolean
+        Dim Cancelled As Boolean
+        LogStartFunction("XCDebitReturn")
+        IsManuallyEntered = False
+        If Prompt Then
+            If Not PromptDebit() Then Exit Function
+        Else
+            GetPin(CC, Amount, Pin, key, Cancelled)
+        End If
+        If Cancelled Or (Pin = "" And key = "") Then Exit Function
+
+        Dim R As Boolean
+        If Not MCPAM Then
+            R = XCTran.XCDebitReturn(FormHandle, TransactionFolder, "Debit Card Return",
+      ShowStatus, ShowResult, Clerk, Receipt, Amount,
+      "0.00", Amount, Track2, Track2, Pin, key, ErrorMsg, ApprovalCode)
+        Else
+            R = XCTran.XCDebitReturnEx(FormHandle, TransactionFolder, "Debit Card Return",
+      ShowStatus, ShowResult, Clerk, Receipt, Amount,
+      "0.00", Amount, Track2, Track2, Pin, key, MerchID, MarketType, AllowDuplicate, ErrorMsg, ApprovalCode, XCTransIDResult)
+        End If
+        If R Then
+            LogText("ApprovalCode = " & ApprovalCode)
+            Success = True
+        Else
+            LogText("XCDebitReturn Unsuccessfull - " & ErrorMsg)
+        End If
+        ExecDebitReturn = Success
+    End Function
+
+    Public Function ExecGiftReturn(Optional ByVal Prompt As Boolean = True) As Boolean
+        LogStartFunction("XCGiftReturn")
+        IsManuallyEntered = False
+        If Prompt Then If Not PromptGift() Then Exit Function
+        If XCTran.XCGiftReturn(FormHandle, TransactionFolder, "Gift Return",
+      ShowStatus, ShowResult, CC, "M", CVV, Amount,
+      Receipt, Clerk, "", ErrorMsg, Balance) Then
+            LogText("Balance = " & Balance)
+            Success = True
+        Else
+            LogText("XCGiftReturn Unsuccessfull - " & ErrorMsg)
+        End If
+        ExecGiftReturn = Success
+    End Function
+
 End Class

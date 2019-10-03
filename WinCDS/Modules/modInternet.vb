@@ -33,8 +33,58 @@ Catch1:
         Resume Finally1
     End Function
 
-    Public Function QueryStringQueryL(ByVal QueryString As String, ByVal key As String) As Long
+    Public Function QueryStringQueryL(ByVal QueryString As String, ByVal key As String) As Integer
         QueryStringQueryL = Val(QueryStringQuery(QueryString, key))
+    End Function
+
+    Public Function QueryStringQuery(ByVal QueryString As String, ByVal key As String) As String
+        QueryStringQuery = UrlDecode(QueryStringParse(QueryString).Item(key))
+    End Function
+
+    Public Function QueryStringParse(ByVal QueryString As String) As clsHashTable
+        Dim C As clsHashTable
+        Dim S() As String, T, TT As String
+        Dim F As Integer
+        Dim K As String, V As String
+        If Left(QueryString, 1) = "?" Then QueryString = Mid(QueryString, 2)
+        S = Split(QueryString, "&")
+
+        C = New clsHashTable
+
+        For Each T In S
+            TT = UrlDecode(T)
+            F = InStr(TT, "=")
+            If F > 0 Then
+                K = Left(TT, F - 1)
+                V = Mid(TT, F + 1)
+                C.Add(K, V)
+            End If
+        Next
+
+        QueryStringParse = C
+    End Function
+
+    Public Function UrlDecode(ByVal sText As String) As String
+        Dim sTemp As String
+        Dim sAns As String
+        Dim sChar As String
+        Dim lCtr As Integer
+        Dim C1 As String, C2 As String, C3 As String
+
+        For lCtr = 1 To Len(sText)
+
+            sChar = Mid(sText, lCtr, 1)
+
+            If sChar = "+" Then
+                Mid(sText, lCtr, 1) = " "
+            ElseIf sChar = "%" Then
+                C1 = Mid(sText, lCtr + 1, 2)
+                C2 = "&H" & C1
+                C3 = Chr(Val(C2))
+                sText = Replace(sText, "%" & C1, C3)
+            End If
+        Next
+        UrlDecode = sText
     End Function
 
 End Module

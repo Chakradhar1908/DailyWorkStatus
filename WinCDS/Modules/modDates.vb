@@ -69,13 +69,15 @@
         If CLng(D.ToString) = 0 Then D = Now
         DateStamp = Format(D, "YYYYMMDD")
     End Function
-    Public Function DateBefore(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
-        Dim R as integer
+    'Public Function DateBefore(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
+    Public Function DateBefore(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As DateInterval = DateInterval.Day) As Boolean
+        Dim R As Integer
         R = DateDiff(Unit, Check, Against)
         DateBefore = IIf(IncludeBound, R >= 0, R > 0)
     End Function
 
-    Public Function DateBetween(ByVal Check As Date, ByVal Lower As Date, ByVal Upper As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
+    'Public Function DateBetween(ByVal Check As Date, ByVal Lower As Date, ByVal Upper As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
+    Public Function DateBetween(ByVal Check As Date, ByVal Lower As Date, ByVal Upper As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As DateInterval = DateInterval.Day) As Boolean
         DateBetween = DateAfter(Check, Lower, IncludeBound, Unit) And DateBefore(Check, Upper, IncludeBound, Unit)
     End Function
 
@@ -135,6 +137,12 @@
         If DateDiff("d", T, When1) < 0 Then Y = Y - 1
         Age = Age - Adj
         Age = IIf(Y >= 0, Y, 0)
+    End Function
+
+    Public Function Timestamp(Optional ByVal D As Date = Nothing, Optional ByVal wSeconds As Boolean = False) As String
+        'If CLng(D) = 0 Then D = Now
+        If IsNothing(D) Then D = Now
+        Timestamp = Format(D, "HHmm" & IIf(wSeconds, "ss", ""))
     End Function
 
 End Module

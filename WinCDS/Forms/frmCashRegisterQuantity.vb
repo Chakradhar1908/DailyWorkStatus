@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.VisualBasic.Interaction
-
 Public Class frmCashRegisterQuantity
     Public DBG As String
     Public RefId As String
@@ -321,5 +320,217 @@ Again:
         'tmrSwipe.Interval = 2000
         'tmrSwipe.Enabled = True
     End Sub
+
+    Public Function DoReturn(ByVal Price As Decimal, ByVal PayType As String, ByVal TransID As String, ByVal SaleDate As String) As clsSaleItem
+        Dim CCFunctions() As Object
+        ArrAdd(CCFunctions, "")
+        If SwipeCreditCards() Then ArrAdd(CCFunctions, "3")    '  3 = Credit
+        ' Debit Cards don't do returns ---
+        '       Yes, I am serious.  We do not have any control over this.  It is dictated by the processors (Global Payments, TransFirst, etc).
+        '       There is really nothing for us to 'work on.'   As I stated, it is a 'rule' set by the processors.
+        '       Julia Chen | X-Charge Integrations Manager
+        '  If SwipeDebitCards Then ArrAdd CCFunctions, "9"     '  9 = Debit
+        If SwipeGiftCards() Then ArrAdd(CCFunctions, "12")     ' 12 = Store Credit / Gift Card
+
+        Dim AsCredit As Boolean, AsDebit As Boolean, AsGiftCard As Boolean
+        Dim PayDesc As String
+
+        AsCredit = IsIn(PayType, "3", "4", "5", "6")
+        AsDebit = IsIn(PayType, "9")
+        AsGiftCard = IsIn(PayType, "12")
+        If PayType = "3" Then
+            PayDesc = "CREDIT CARD"
+        Else
+            PayDesc = QueryPaymentDescription(Val(PayType))
+        End If
+
+        Cancelled = False
+        Quantity = 0
+        Total = 0
+
+        cboChargeType.Visible = False
+        lblItem.Visible = True
+
+        lblDescCap.Visible = False
+        lblDesc.Visible = False
+
+        lblStyle.Text = PayDesc
+
+        lblSwipe.Visible = False
+        cmdApply.Enabled = True
+        cmdApply.Visible = True
+        cmdSwipe.Visible = False
+        txtSwipe.Visible = False
+        txtPrice.ReadOnly = True
+
+        'txtPrice.ToolTipText = "Enter the payment amount here."
+        ToolTip1.SetToolTip(txtPrice, "Enter the payment amount here.")
+        lblPrice.Text = "Return:"
+        cmdTax.Visible = False
+        Taxable = False
+        lblQuan.Visible = False
+        txtQuantity.Visible = False
+
+        If IsInArray(PayType, CCFunctions) Then
+            cboChargeType.Visible = False
+            lblSwipe.Visible = True
+            lblSwipe.Text = "Click Swipe to Return"
+            lblDescCap.Visible = False
+            If SwipeOnThisForm Then txtSwipe.Visible = True
+            cmdApply.Visible = False
+            cmdSwipe.Visible = True
+        Else
+            If AsCredit Then
+                cboChargeType.Visible = True
+                LoadCreditCardTypes()
+            End If
+        End If
+
+        SelectContents(txtPrice.Text)
+        'cmdCancel.Move(cmdCancel.Left, cmdTax.Top)
+        cmdCancel.Location = New Point(cmdCancel.Left, cmdTax.Top)
+        'cmdApply.Move cmdApply.Left, cmdTax.Top
+        cmdApply.Location = New Point(cmdApply.Left, cmdTax.Top)
+        'txtSwipe.Move cmdApply.Left, cmdApply.Top
+        txtSwipe.Location = New Point(cmdApply.Left, cmdApply.Top)
+        'cmdSwipe.Move cmdApply.Left, cmdApply.Top
+        cmdSwipe.Location = New Point(cmdApply.Left, cmdApply.Top)
+        'lblPrice.Move lblPrice.Left, lblQuan.Top
+        lblPrice.Location = New Point(lblPrice.Left, lblQuan.Top)
+        'txtPrice.Move txtPrice.Left, txtQuantity.Top
+        txtPrice.Location = New Point(txtPrice.Left, txtQuantity.Top)
+        Height = Height - txtPrice.Height
+
+        txtPrice.Text = CurrencyFormat(Price)
+
+Again:
+        DoReturn = Nothing
+        txtSwipe.Text = ""
+        'Show vbModal                 ' Show on top of POS form.  Should this be a generic parent?
+        ShowDialog()
+
+        If Not Cancelled Then
+            DoReturn = New clsSaleItem
+            DoReturn.Style = "PAYMENT"
+
+            If IsInArray(PayType, CCFunctions) Then
+                If StoreSettings.CCProcessor = CCPROC_XC Then
+                    XC = New clsXCharge
+                    XC.FormHandle = 0
+                    XC.Clerk = "Cash Register"
+                    XC.Receipt = "000"
+                    XC.Amount = Total
+                    If PayType = "3" Then
+                        If Not XC.ExecReturn(True) Then GoTo Again
+                        Total = XC.Amount
+                        DoReturn.Balance = GetPrice(XC.BalanceAmountResult)
+                    ElseIf PayType = "9" Then
+                        If Not XC.ExecDebitReturn(True) Then GoTo Again
+                    ElseIf PayType = "12" Then
+                        If Not XC.ExecGiftReturn(True) Then GoTo Again
+                    End If
+                    DoReturn.Desc = XC.CCTypeName
+                    DoReturn.Extra1 = XC.XCC & "  Approval=" & XC.ApprovalCode
+                    DisposeDA(XC)
+                ElseIf StoreSettings.CCProcessor = CCPROC_XL Then
+                    XCXL = New clsXChargeXpressLink
+                    XCXL.Receipt = NextReceiptNumber()
+                    If IsFormLoaded("BillOSale") Then
+                        XCXL.Zip = BillOSale.CustomerZip.Text
+                        XCXL.Address = BillOSale.CustomerAddress.Text
+                    End If
+                    XCXL.Amount = Total
+                    If PayType = "3" Then
+                        If Not XCXL.ExecReturn(True) Then GoTo Again
+                        Total = XCXL.Amount
+                        DoReturn.Balance = GetPrice(XCXL.BalanceAmountResult)
+                    ElseIf PayType = "9" Then
+                        If Not XCXL.ExecDebitReturn() Then GoTo Again
+                    ElseIf PayType = "12" Then
+                        If Not XCXL.ExecGiftReturn() Then GoTo Again
+                    End If
+                    DoReturn.Desc = XCXL.CCTypeName
+                    DoReturn.Extra1 = XCXL.XCC & "  Approval=" & XCXL.ApprovalCode
+                    DisposeDA(XCXL)
+                ElseIf StoreSettings.CCProcessor = CCPROC_TC Then
+                    TC = New clsTransactionCentral
+                    TC.Clerk = "Cash Register"
+                    TC.Receipt = "000"
+                    TC.Amount = Total
+                    TC.TransID = TransID
+                    TC.RefId = RefId
+                    If txtSwipe.Text <> "" Then
+                        'ActiveLog "frmCashRegisterQuantity::DoReturn: txtSwipe=" & txtSwipe.Text, 9
+                        If Not CreditCardSwipeValid(txtSwipe.Text) Then
+                            MessageBox.Show("Could not get card data.", "Did not read card", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            GoTo Again
+                        End If
+                        TC.BlindSwipe(txtSwipe.Text)
+                    End If
+                    If PayType = "3" Then
+                        If Not TC.ExecBlindCredit(txtSwipe.Text = "") Then GoTo Again
+                    ElseIf PayType = "9" Then
+                        '          If Not TC.ExecDebitReturn(True) Then GoTo Again
+                    ElseIf PayType = "12" Then
+                        '          If Not TC.ExecGiftReturn(True) Then GoTo Again
+                    End If
+                    DoReturn.Desc = TC.CCTypeName
+                    DoReturn.Extra1 = TC.XCC & "  Approval=" & TC.ApprovalCode
+                    DoReturn.TransID = TC.TransID
+                    DisposeDA(TC)
+                ElseIf StoreSettings.CCProcessor = CCPROC_CM Then
+                    cM = New clsCredomatic
+                    cM.Amount = Total
+                    If txtSwipe.Text <> "" Then
+                        'ActiveLog "frmCashRegisterQuantity::DoReturn: txtSwipe=" & txtSwipe.Text, 9
+                        If Not CreditCardSwipeValid(txtSwipe.Text) Then
+                            MessageBox.Show("Could not get card data.", "Did not read card", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            GoTo Again
+                        End If
+                    End If
+                    If PayType = "3" Then
+                        If Not cM.ExecVoid(SaleDate) Then GoTo Again
+                    ElseIf PayType = "9" Then
+                        '          If Not cm.ExecDebitReturn(True) Then GoTo Again
+                    ElseIf PayType = "12" Then
+                        '          If Not cm.ExecGiftReturn(True) Then GoTo Again
+                    End If
+                    DoReturn.Desc = cM.CCTypeName
+                    DoReturn.Extra1 = cM.XCC & "  Approval=" & cM.ApprovalCode
+                    DoReturn.TransID = cM.TransID
+                    DisposeDA(cM)
+                ElseIf StoreSettings.CCProcessor = CCPROC_CI Then
+                    cP = New clsChargeItPro
+                    cP.FormHandle = 0
+                    cP.Clerk = "Cash Register"
+                    cP.Receipt = "000"
+                    cP.Amount = Total
+                    If PayType = "3" Then
+                        If Not cP.ExecReturn(True) Then GoTo Again
+                        Total = cP.Amount
+                        DoReturn.Balance = GetPrice(cP.BalanceAmountResult)
+                    ElseIf PayType = "9" Then
+                        If Not cP.ExecDebitReturn(True) Then GoTo Again
+                    ElseIf PayType = "12" Then
+                        If Not cP.ExecGiftReturn(True) Then GoTo Again
+                    End If
+                    DoReturn.Desc = cP.CCTypeName
+                    DoReturn.Extra1 = cP.XCC & "  Approval=" & cP.ApprovalCode
+                    DisposeDA(cP)
+                End If
+            Else
+                DoReturn.Desc = QueryPaymentDescription(PayType)
+            End If
+
+            DoReturn.Quantity = 1 'Quantity       ' Return the form's quantity value.  This is set to nonzero by cmdApply, or zero otherwise.
+            ' BFH20080108 Negated price because it came out wrong...  Did this affect anything else?  hard to imagine this went this long w/o being noticed...
+            DoReturn.Price = -Total             ' Also return the form's price value. This is also set by cmdApply.
+            DoReturn.DisplayPrice = -Total
+            DoReturn.NonTaxable = Not Taxable
+            Taxable = True
+        End If
+        'Unload Me
+        Me.Close()
+    End Function
 
 End Class

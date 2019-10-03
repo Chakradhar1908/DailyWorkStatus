@@ -2970,9 +2970,9 @@ HandleErr:
 
     Public ReadOnly Property LastLineUsed() As Integer
         Get
-            'For LastLineUsed = 0 To UGridIO1.MaxRows - 1  ' find last item used
-            '    If Trim(QueryStyle(LastLineUsed)) = "" Then Exit For
-            'Next
+            For LastLineUsed = 0 To UGridIO1.MaxRows - 1  ' find last item used
+                If Trim(QueryStyle(LastLineUsed)) = "" Then Exit For
+            Next
             LastLineUsed = LastLineUsed - 1 ' went 1 too far, go back..
         End Get
     End Property

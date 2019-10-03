@@ -110,7 +110,7 @@
       ByVal BOS As String, ByVal Name As String, ByVal TransDate As String,
       ByVal Written As Decimal, ByVal TaxCharged1 As Decimal, ByVal ArCashSls As Decimal,
       ByVal Controll As Decimal, ByVal UndSls As Decimal, ByVal DelSls As Decimal,
-      ByVal TaxRec1 As Decimal, ByVal TaxCode As Long, SalesPerson As String,
+      ByVal TaxRec1 As Decimal, ByVal TaxCode As Integer, SalesPerson As String,
       ByVal NonTaxable As Decimal, Optional ByVal Cashier As String = "", Optional ByVal Terminal As String = ""
       )
         '::::SalesJournal_AddRecordNew_Data
@@ -122,7 +122,7 @@
     UndSls, DelSls, TaxRec1, TaxCode, SalesPerson, NonTaxable, Cashier, Terminal)
     End Sub
 
-    Public Function LastAuditID() As Long
+    Public Function LastAuditID() As Integer
         '::::LastAuditID
         ':::SUMMARY
         ': Used to return Last Audit ID.

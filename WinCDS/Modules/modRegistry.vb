@@ -9,15 +9,16 @@
     Declare Function RegSetValueExString Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, ByVal lpValue As String, ByVal cbData as integer) as integer
     Declare Function RegQueryValueExString Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal lpReserved as integer, lpType as integer, ByVal lpData As String, lpcbData as integer) as integer
     Declare Function RegCreateKeyEx Lib "advapi32.dll" Alias "RegCreateKeyExA" (ByVal hKey as integer, ByVal lpSubKey As String, ByVal Reserved as integer, ByVal lpClass As String, ByVal dwOptions as integer, ByVal samDesired as integer, ByVal lpSecurityAttributes as integer, phkResult as integer, lpdwDisposition as integer) as integer
-    Declare Function RegSetValueExLong Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, lpValue as integer, ByVal cbData as integer) as integer
-    Public Const KEY_QUERY_VALUE as integer = &H1
-    Declare Function RegCloseKey Lib "advapi32.dll" (ByVal hKey as integer) as integer
-    Public Const REG_SZ as integer = REG_TYPE.vtString
-    Public Const KEY_ALL_ACCESS as integer = &H3F
-    Public Const ERROR_NONE as integer = 0
-    Public Const REG_DWORD as integer = REG_TYPE.vtDWord
-    Public Const KEY_SET_VALUE as integer = &H2
-    Public Const REG_OPTION_NON_VOLATILE as integer = 0
+    Declare Function RegSetValueExLong Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, lpValue as integer, ByVal cbData as integer) as Integer
+    Declare Function RegDeleteKey Lib "advapi32.dll" Alias "RegDeleteKeyA" (ByVal hKey As Integer, ByVal lpSubKey As String) As Integer
+    Public Const KEY_QUERY_VALUE As Integer = &H1
+    Declare Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Integer) As Integer
+    Public Const REG_SZ As Integer = REG_TYPE.vtString
+    Public Const KEY_ALL_ACCESS As Integer = &H3F
+    Public Const ERROR_NONE As Integer = 0
+    Public Const REG_DWORD As Integer = REG_TYPE.vtDWord
+    Public Const KEY_SET_VALUE As Integer = &H2
+    Public Const REG_OPTION_NON_VOLATILE As Integer = 0
 
     Public Enum REG_TYPE
         vtNone = &H0                      ' No value type - REG_NONE
@@ -158,7 +159,7 @@
         ': - vKEY
         DeleteRegValue(HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY)
     End Sub
-    Public Function QueryValue(ByVal hKey as integer, ByRef sKeyName As String, ByRef sValueName As String) As Object
+    Public Function QueryValue(ByVal hKey As Integer, ByRef sKeyName As String, ByRef sValueName As String) As Object
         '::::QueryValue
         ':::SUMMARY
         ': Query Registry Value
@@ -170,7 +171,7 @@
         ': - sValueName
         ':::RETURN
         ': Variant
-        Dim lRetVal as integer         'result of the API functions
+        Dim lRetVal As Integer         'result of the API functions
         Dim vValue As Object = Nothing        'setting of queried value
 
         'lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_QUERY_VALUE, hKey)
@@ -191,7 +192,7 @@
         ': - Setting
         SetKeyValue(HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY, Setting, REG_SZ)
     End Sub
-    Public Sub DeleteRegValue(ByVal hKey as integer, ByVal sSection As String, ByVal sKeyName As String)
+    Public Sub DeleteRegValue(ByVal hKey As Integer, ByVal sSection As String, ByVal sKeyName As String)
         '::::DeleteRegValue
         ':::SUMMARY
         ': Delete registry value
@@ -201,13 +202,13 @@
         ': - hKey
         ': - sSection
         ': - sKeyName
-        Dim lRetVal as integer         'result of the API functions
+        Dim lRetVal As Integer         'result of the API functions
 
         lRetVal = RegOpenKeyEx(hKey, sSection, 0, KEY_ALL_ACCESS, hKey)
         lRetVal = RegDeleteValue(hKey, sKeyName)
         RegCloseKey(hKey)
     End Sub
-    Public Function QueryValueEx(ByVal lhKey as integer, ByVal szValueName As String, ByRef vValue As Object) as integer
+    Public Function QueryValueEx(ByVal lhKey As Integer, ByVal szValueName As String, ByRef vValue As Object) As Integer
         '::::QueryValueEx
         ':::SUMMARY
         ': Return Registry Value
@@ -219,10 +220,10 @@
         ': - vValue
         ':::RETURN
         ': Long
-        Dim cch as integer
-        Dim lRc as integer
-        Dim lType as integer
-        Dim lValue as integer
+        Dim cch As Integer
+        Dim lRc As Integer
+        Dim lType As Integer
+        Dim lValue As Integer
         Dim sValue As String
         On Error GoTo QueryValueExError
 
@@ -257,7 +258,7 @@ QueryValueExExit:
 QueryValueExError:
         Resume QueryValueExExit
     End Function
-    Public Sub SetKeyValue(ByVal hKey as integer, ByVal sKeyName As String, ByVal sValueName As String, ByVal vValueSetting As Object, ByVal lValueType as integer)
+    Public Sub SetKeyValue(ByVal hKey As Integer, ByVal sKeyName As String, ByVal sValueName As String, ByVal vValueSetting As Object, ByVal lValueType As Integer)
         '::::SetKeyValue
         ':::SUMMARY
         ': Used to Set Key Value.
@@ -270,8 +271,8 @@ QueryValueExError:
         ': - lValueType
         ':::RETURN
 
-        Dim lRetVal as integer         'result of the SetValueEx function
-        Dim hKeyResult as integer         'handle of open key
+        Dim lRetVal As Integer         'result of the SetValueEx function
+        Dim hKeyResult As Integer         'handle of open key
 
         'open the specified key
         'lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_SET_VALUE, hKeyResult)
@@ -282,14 +283,14 @@ QueryValueExError:
         lRetVal = SetValueEx(hKeyResult, sValueName, lValueType, vValueSetting)
         'RegCloseKey(hKeyResult)
     End Sub
-    Private Sub CreateNewKey(ByRef sNewKeyName As String, ByRef lPredefinedKey as integer)
-        Dim hNewKey as integer         'handle to the new key
-        Dim lRetVal as integer         'result of the RegCreateKeyEx function
+    Private Sub CreateNewKey(ByRef sNewKeyName As String, ByRef lPredefinedKey As Integer)
+        Dim hNewKey As Integer         'handle to the new key
+        Dim lRetVal As Integer         'result of the RegCreateKeyEx function
 
         lRetVal = RegCreateKeyEx(lPredefinedKey, sNewKeyName, 0&, vbNullString, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, 0&, hNewKey, lRetVal)
         RegCloseKey(hNewKey)
     End Sub
-    Public Function SetValueEx(ByVal hKey as integer, ByRef sValueName As String, ByRef lType as integer, ByRef vValue As Object) as integer
+    Public Function SetValueEx(ByVal hKey As Integer, ByRef sValueName As String, ByRef lType As Integer, ByRef vValue As Object) As Integer
         '::::SetValueEx
         ':::SUMMARY
         ': Set Registry Value EX
@@ -301,7 +302,7 @@ QueryValueExError:
         ': - lType
         ': - vValue
         ':::RETURN
-        Dim lValue as integer
+        Dim lValue As Integer
         Dim sValue As String
 
         SetValueEx = 0
@@ -353,8 +354,25 @@ QueryValueExError:
         ': - vKEY
         ':::RETURN
         ': String
-        DeleteRegKey HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY
-  DeleteSystemKey = ""
+        DeleteRegKey(HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY)
+        DeleteSystemKey = ""
     End Function
+
+    Public Sub DeleteRegKey(ByVal hKey As Integer, ByVal sSection As String, ByVal sKeyName As String)
+        '::::DeleteRegKey
+        ':::SUMMARY
+        ': Delete a registry key.
+        ':::DESCRIPTION
+        ': Delete a registry key from anywhere
+        ':::PARAMETERS
+        ': - hKey
+        ': - sSection
+        ': - sKeyName
+        Dim lRetVal As Integer         'result of the API functions
+
+        lRetVal = RegOpenKeyEx(hKey, sSection, 0, KEY_ALL_ACCESS, hKey)
+        lRetVal = RegDeleteKey(hKey, sKeyName)
+        RegCloseKey(hKey)
+    End Sub
 
 End Module

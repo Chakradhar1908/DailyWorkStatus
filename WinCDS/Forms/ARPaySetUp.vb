@@ -1861,7 +1861,6 @@ ErrorHandler:
                 Working(False)
                 Exit Sub
             End If
-
         End If
 
         'no contract - Post to data base
@@ -3572,7 +3571,6 @@ Skip:
         If ArMode("REPRINT") Then Hide() : 
         Exit Sub
 
-
         If OrderMode("A") Then
             If cmdCancel.Text = "Cancel Set-Up" Then
                 Dim X As Integer
@@ -3620,7 +3618,6 @@ Skip:
         End If
 
         OrdSelect.ArStatus = ""
-
     End Sub
 
     Private Sub ARPaySetUp_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
@@ -4198,7 +4195,6 @@ Skip:
         If chkAutoARNO.Checked = False Then 'uncheck
             txtArNo.Text = ""
         End If
-
     End Sub
 
     Private Sub chkLife_Click(sender As Object, e As EventArgs) Handles chkLife.Click

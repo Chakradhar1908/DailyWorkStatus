@@ -178,30 +178,30 @@ Handler:
         frmCCManualEntry.Close()
     End Function
 
-    Public Function ProcessCCReturn(ByRef Amount As Currency, ByRef Approval As String, Optional ByRef TransID As String, Optional ByVal SaleDate As String, Optional ByVal RefId As String) As Boolean
+    Public Function ProcessCCReturn(ByRef Amount As Decimal, ByRef Approval As String, Optional ByRef TransID As String = "", Optional ByVal SaleDate As String = "", Optional ByVal RefId As String = "") As Boolean
         Dim Pmt As clsSaleItem, Tid As String
         If Amount < 0 Then Amount = -Amount
 
         If StoreSettings.CCProcessor = CCPROC_XC Then
-            Load frmCashRegisterQuantity
-    frmCashRegisterQuantity.RefId = RefId
-    Set Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", TransID, SaleDate)
-  ElseIf StoreSettings.CCProcessor = CCPROC_XL Then
-            Load frmCashRegisterQuantity
-    frmCashRegisterQuantity.RefId = RefId
-    Set Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", TransID, SaleDate)
-  ElseIf StoreSettings.CCProcessor = CCPROC_TC Then
-'    If TransID = "" Then Exit Function ' can't return a payment w/o a transid for TC
-    
-    Set Pmt = New clsSaleItem
-    
-    Dim TC As clsTransactionCentral
-    Set TC = New clsTransactionCentral
-    TC.Amount = Amount
+            'Load frmCashRegisterQuantity
+            frmCashRegisterQuantity.RefId = RefId
+            Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", TransID, SaleDate)
+        ElseIf StoreSettings.CCProcessor = CCPROC_XL Then
+            'Load frmCashRegisterQuantity
+            frmCashRegisterQuantity.RefId = RefId
+            Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", TransID, SaleDate)
+        ElseIf StoreSettings.CCProcessor = CCPROC_TC Then
+            '    If TransID = "" Then Exit Function ' can't return a payment w/o a transid for TC
+
+            Pmt = New clsSaleItem
+
+            Dim TC As clsTransactionCentral
+            TC = New clsTransactionCentral
+            TC.Amount = Amount
             TC.RefId = RefId
             If Left(TransID, 1) = "#" Then                      ' Refund an amount on a sale number...  good for blind credit on adjustments
-      Set Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", Tid, Date)
-      If Pmt Is Nothing Then Exit Function
+                Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", Tid, Today)
+                If Pmt Is Nothing Then Exit Function
                 Pmt.Desc = Trim("Payment Voided. " & TC.ApprovalCode)
             Else                                                ' Void an individual transaction.. good for void interface
                 TC.TransID = TransID
@@ -215,14 +215,14 @@ Handler:
                 End If
             End If
         ElseIf StoreSettings.CCProcessor = CCPROC_CI Then
-    Set Pmt = New clsSaleItem
-    
-    Dim CI As clsChargeItPro
-    Set CI = New clsChargeItPro
-    CI.Amount = Amount
+            Pmt = New clsSaleItem
+
+            Dim CI As clsChargeItPro
+            CI = New clsChargeItPro
+            CI.Amount = Amount
             If Left(TransID, 1) = "#" Then                      ' Refund an amount on a sale number...  good for blind credit on adjustments
-      Set Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", Tid, Date)
-      If Pmt Is Nothing Then Exit Function
+                Pmt = frmCashRegisterQuantity.DoReturn(Amount, "3", Tid, Today)
+                If Pmt Is Nothing Then Exit Function
                 Pmt.Desc = Trim("Payment Voided. " & CI.ApprovalCode)
             Else                                                ' Void an individual transaction.. good for void interface
                 CI.Amount = Amount
@@ -236,12 +236,12 @@ Handler:
                     Pmt.Desc = Trim("Payment Returned. " & CI.ApprovalCode)
                 End If
             End If
-            DisposeDA CI
-  ElseIf StoreSettings.CCProcessor = CCPROC_CM Then
+            DisposeDA(CI)
+        ElseIf StoreSettings.CCProcessor = CCPROC_CM Then
             Dim cM As clsCredomatic
-    Set cM = New clsCredomatic
-    DisposeDA cM
-  End If
+            cM = New clsCredomatic
+            DisposeDA(cM)
+        End If
         Approval = ""
         If Pmt Is Nothing Then Exit Function
 
@@ -249,16 +249,16 @@ Handler:
         TransID = Pmt.TransID
         ProcessCCReturn = True
 
-        DisposeDA Pmt
-End Function
+        DisposeDA(Pmt)
+    End Function
 
-    Public Function ProcessDebitReturn(ByRef Amount As Currency, ByRef Approval As String, Optional ByRef TransID As String, Optional ByVal RefId As String) As Boolean
+    Public Function ProcessDebitReturn(ByRef Amount As Decimal, ByRef Approval As String, Optional ByRef TransID As String = "", Optional ByVal RefId As String = "") As Boolean
         Dim Pmt As clsSaleItem
         If Amount < 0 Then Amount = -Amount
-        Load frmCashRegisterQuantity
-  frmCashRegisterQuantity.RefId = RefId
-  Set Pmt = frmCashRegisterQuantity.DoReturn(Amount, "9", TransID, "")
-  Approval = ""
+        'Load frmCashRegisterQuantity
+        frmCashRegisterQuantity.RefId = RefId
+        Pmt = frmCashRegisterQuantity.DoReturn(Amount, "9", TransID, "")
+        Approval = ""
         If Pmt Is Nothing Then Exit Function
 
         Approval = Pmt.Extra1
@@ -266,13 +266,13 @@ End Function
         ProcessDebitReturn = True
     End Function
 
-    Public Function ProcessGiftCardReturn(ByRef Amount As Currency, ByRef Approval As String, Optional ByVal RefId As String) As Boolean
+    Public Function ProcessGiftCardReturn(ByRef Amount As Decimal, ByRef Approval As String, Optional ByVal RefId As String = "") As Boolean
         Dim Pmt As clsSaleItem
         If Amount < 0 Then Amount = -Amount
-        Load frmCashRegisterQuantity
-  frmCashRegisterQuantity.RefId = RefId
-  Set Pmt = frmCashRegisterQuantity.DoReturn(Amount, "12", "", "")
-  Approval = ""
+        'Load frmCashRegisterQuantity
+        frmCashRegisterQuantity.RefId = RefId
+        Pmt = frmCashRegisterQuantity.DoReturn(Amount, "12", "", "")
+        Approval = ""
         If Pmt Is Nothing Then Exit Function
 
         Approval = Pmt.Extra1

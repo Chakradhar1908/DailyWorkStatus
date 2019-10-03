@@ -22,11 +22,24 @@
     Public TaxZone as integer
     Private WithEvents mDataAccess As CDataAccess
     'Implements CDataAccess
+    Private Const TABLE_NAME As String = "Mail"
     Private Const TABLE_INDEX = "Index"
+
+    Public Sub New()
+        CDataAccess_Init
+    End Sub
 
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
+
+    Public Sub CDataAccess_Init()
+        mDataAccess = New CDataAccess
+        mDataAccess.SubClass = Me.mDataAccess
+        mDataAccess.DataBase = GetDatabaseAtLocation()
+        mDataAccess.Table = TABLE_NAME
+        mDataAccess.Index = TABLE_INDEX
+    End Sub
 
     Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String = "") As Boolean
         ' Checks the database for a matching LeaseNo.

@@ -258,5 +258,4 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         If Right(GetXCTransactionFolder, 1) = "\" Then GetXCTransactionFolder = Left(GetXCTransactionFolder, Len(GetXCTransactionFolder) - 1)
     End Function
 
-
 End Module

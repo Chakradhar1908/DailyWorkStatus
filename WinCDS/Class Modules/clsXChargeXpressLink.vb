@@ -303,4 +303,53 @@ Public Class clsXChargeXpressLink
             Return False
         End Get
     End Property
+
+    Public Function ExecReturn(Optional ByVal Prompt As Boolean = True) As Boolean
+        LogStartFunction("XCXL-Return-" & DescribeState())
+#If aAllowCredit Then
+        Dim S As String, Res As clsHashTable
+        S = ""
+        S = S & ArgDefault()
+        S = S & ArgTransType("RETURN")
+        S = S & ArgAmount(Amount)
+
+        Res = eXpressLink(S)
+        If Res Is Nothing Then Exit Function
+        If Not Res.Item("SUCCESS") Then Exit Function
+        ExecReturn = True
+#End If
+    End Function
+
+    Public Function ExecDebitReturn() As Boolean ' Optional ByVal Prompt As Boolean = True
+        LogStartFunction("XCXL-DebitReturn-" & DescribeState())
+#If aAllowDebit Then
+        Dim S As String, Res As clsHashTable
+        S = ""
+        S = S & ArgDefault()
+        S = S & ArgTransType("DEBITRETURN")
+        S = S & ArgAmount(Amount)
+
+        Res = eXpressLink(S)
+        If Res Is Nothing Then Exit Function
+        If Not Res.Item("SUCCESS") Then Exit Function
+        ExecDebitReturn = True
+#End If
+    End Function
+
+    Public Function ExecGiftReturn() As Boolean 'Optional ByVal Prompt As Boolean = True
+        LogStartFunction("XCXL-GiftReturn-" & DescribeState())
+#If aAllowGift Then
+        Dim S As String, Res As clsHashTable
+        S = ""
+        S = S & ArgDefault()
+        S = S & ArgTransType("GIFTRETURN")
+        S = S & ArgAmount(Amount)
+
+        Res = eXpressLink(S)
+        If Res Is Nothing Then Exit Function
+        If Not Res.Item("SUCCESS") Then Exit Function
+        ExecGiftReturn = True
+#End If
+    End Function
+
 End Class

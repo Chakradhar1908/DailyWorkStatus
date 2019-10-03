@@ -136,7 +136,7 @@ Module modStores
         ArNoFile = NewOrderFolder(StoreNum) & "ArNo.Dat"
     End Function
 
-    Public Function CustRecFile(Optional ByVal StoreNum As Long = 0) As String
+    Public Function CustRecFile(Optional ByVal StoreNum As Integer = 0) As String
         '::::CustRecFile
         ':::SUMMARY
         ': Customer Record File
@@ -151,7 +151,7 @@ Module modStores
         CustRecFile = NewOrderFolder(StoreNum) & "CustRec.Dat"
     End Function
 
-    '    Public Property Get CashDrawerCOMPort() As Long
+    '    Public Property Get CashDrawerCOMPort() as integer
     '' If you are using our Steel Cash Drawer, you need to select the COM Port to make the Drawer open when you tender cash, or indicate it is a USB Cash Drawer if so equipped..
     '' If you do not know your COM port, you can usually find it quickest just by trying them until you find which one works. Start with COM Port 1 and move up.
     '  CashDrawerCOMPort = Val(GetCDSSetting("Cash Drawer COM Port", 0))
@@ -165,11 +165,11 @@ Module modStores
     '    DeleteSystemKey RegistrySection, RegistryAppName, "Cash Drawer"
     '  End If
     '    End Property
-    '    Public Property Let CashDrawerCOMPort(ByVal vData As Long)
+    '    Public Property Let CashDrawerCOMPort(ByVal vData as integer)
     '  SaveCDSSetting "Cash Drawer COM Port", vData
     'End Property
 
-    Public Property CashDrawerCOMPort() As Long
+    Public Property CashDrawerCOMPort() As Integer
         Get
             ' If you are using our Steel Cash Drawer, you need to select the COM Port to make the Drawer open when you tender cash, or indicate it is a USB Cash Drawer if so equipped..
             ' If you do not know your COM port, you can usually find it quickest just by trying them until you find which one works. Start with COM Port 1 and move up.
@@ -184,7 +184,7 @@ Module modStores
                 DeleteSystemKey(RegistrySection, RegistryAppName, "Cash Drawer")
             End If
         End Get
-        Set(value As Long)
+        Set(value As Integer)
             SaveCDSSetting("Cash Drawer COM Port", value)
         End Set
     End Property

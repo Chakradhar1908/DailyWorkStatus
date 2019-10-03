@@ -161,8 +161,9 @@ Module modCDSPayTypes
         End Select
         If Upper Then PayTypeName = UCase(PayTypeName)
     End Function
+
     Private Function PayTypeList()
-        Dim I as integer, N as integer
+        Dim I As Integer, N As Integer
         Static Loaded As Boolean, A()       ' Runtime cache.
 
         If Not Loaded Then
@@ -170,7 +171,7 @@ Module modCDSPayTypes
                 If PayTypeName(I, , , True) <> "" Then
                     N = N + 1
                     ReDim Preserve A(0 To N - 1)
-                    A(N) = I
+                    A(N - 1) = I
                 End If
             Next
         End If

@@ -56,8 +56,8 @@ Public Class sSale
             SaleDate = .dteSaleDate.Value
             DelDate = .lblDelDate.Text  ' .dteDelivery.Value
             PorD = .PorD
-            StopStart = IfNullThenNilString(.dtpDelWindow)
-            StopEnd = IfNullThenNilString(.dtpDelWindow2)
+            StopStart = IfNullThenNilString(.dtpDelWindow.Value)
+            StopEnd = IfNullThenNilString(.dtpDelWindow2.Value)
             Status = .SaleStatus.Text
 
             SalesCode = Trim(.vGetSalesCode)
@@ -92,9 +92,10 @@ Public Class sSale
             Next
         End With
     End Function
+
     Public ReadOnly Property SubTotal(Optional ByVal tType As String = "") As Decimal
         Get
-            Dim I as integer, Style As String, Status As String
+            Dim I As Integer, Style As String, Status As String
             Dim Cost As Decimal, Txbl As Boolean, IsDel As Boolean
             Dim IsPT As cdsPayTypes
 
@@ -104,78 +105,78 @@ Public Class sSale
             If ItemCount = 0 Then Exit Property
             tType = LCase(tType)
             For I = ItemCount To 1 Step -1
-                Style = Items(I).Style
-                Status = Items(I).Status
+                Style = Items(I - 1).Style
+                Status = Items(I - 1).Status
                 IsDel = IsDelivered(Status)
                 Select Case Style
                     Case "SUBTOTAL", "SUB", "--- Adj ---"
         ' Subtotals aren't real money, discounts are adjusted into item price.
                     Case "PAYMENT"
                         If IsIn(tType, "paid") Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "") Then
-                            SubTotal = SubTotal - Items(I).Price
-                        ElseIf IsPT <> cdsPayTypes.cdsPT_NONE And IsPT = Items(I).Quantity Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal - Items(I - 1).Price
+                        ElseIf IsPT <> cdsPayTypes.cdsPT_NONE And IsPT = Items(I - 1).Quantity Then
+                            SubTotal = SubTotal + Items(I - 1).Price
                         End If
                     Case "SALESTAX", "TAX1", "TAX2"
                         If IsIn(tType, "", "gross", "tax", "tax1", "tax2") Then
                             If tType = "tax1" Then
-                                If Style = "TAX1" Then SubTotal = SubTotal + Items(I).Price
+                                If Style = "TAX1" Then SubTotal = SubTotal + Items(I - 1).Price
                             ElseIf tType = "tax2" Then
-                                If Style = "TAX2" Then SubTotal = SubTotal + Items(I).Price
+                                If Style = "TAX2" Then SubTotal = SubTotal + Items(I - 1).Price
                             Else
-                                SubTotal = SubTotal + Items(I).Price
+                                SubTotal = SubTotal + Items(I - 1).Price
                             End If
                         ElseIf IsIn(tType, "delivered") And IsDel Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "undelivered") And Not IsDel Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         End If
                     Case "LAB", "DEL", "STAIN"
                         '        BFH20120322 - the 'Nontaxable' must be set manually, not figured out here
                         '        Txbl = Switch(Style = "LAB", StoreSettings.bLaborTaxable, Style = "DEL", StoreSettings.bDeliveryTaxable, Style = "STAIN", True, True, False)
-                        Txbl = Not Items(I).NonTaxable
+                        Txbl = Not Items(I - 1).NonTaxable
                         If IsIn(tType, "nontaxable", "taxable") Then
                             If tType = "taxable" And Txbl Or tType = "nontaxable" And Not Txbl Then
-                                SubTotal = SubTotal + Items(I).Price
+                                SubTotal = SubTotal + Items(I - 1).Price
                             End If
                         ElseIf IsIn(tType, "", "gross", "written") Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "stain", "lab", "del") Then
-                            If LCase(Style) = tType Then SubTotal = SubTotal + Items(I).Price
+                            If LCase(Style) = tType Then SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "delivered") And IsDel Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "undelivered") And Not IsDel Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         End If
                     Case Else  ' including notes, discount, etc
                         If IsIn(tType, "", "gross", "written") Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "taxable") Then
-                            If Not Items(I).NonTaxable Then
-                                SubTotal = SubTotal + Items(I).Price
+                            If Not Items(I - 1).NonTaxable Then
+                                SubTotal = SubTotal + Items(I - 1).Price
                             End If
                         ElseIf IsIn(tType, "nontaxable", "gross") Then
-                            If Items(I).NonTaxable Then
-                                SubTotal = SubTotal + Items(I).Price
+                            If Items(I - 1).NonTaxable Then
+                                SubTotal = SubTotal + Items(I - 1).Price
                             End If
                         ElseIf IsIn(tType, "gm") Then
-                            If Items(I).Landed = 0 Then Items(I).LoadPricing
-                            Cost = Cost + Items(I).Landed
-                            SubTotal = SubTotal + Items(I).Price
+                            If Items(I - 1).Landed = 0 Then Items(I - 1).LoadPricing()
+                            Cost = Cost + Items(I - 1).Landed
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "layaway") Then
-                            If Items(I).Status = "LAW" Or Items(I).Status = "SSLAW" Then
-                                SubTotal = SubTotal + Items(I).Price
+                            If Items(I - 1).Status = "LAW" Or Items(I - 1).Status = "SSLAW" Then
+                                SubTotal = SubTotal + Items(I - 1).Price
                             End If
                         ElseIf IsIn(tType, "items") Then
-                            If IsItem(Items(I).Style) Then
-                                SubTotal = SubTotal + Items(I).Price
+                            If IsItem(Items(I - 1).Style) Then
+                                SubTotal = SubTotal + Items(I - 1).Price
                             End If
                         ElseIf IsIn(tType, "delivered") And IsDel Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         ElseIf IsIn(tType, "undelivered") And Not IsDel Then
-                            SubTotal = SubTotal + Items(I).Price
+                            SubTotal = SubTotal + Items(I - 1).Price
                         End If
                 End Select
 NextItem:
@@ -183,13 +184,13 @@ NextItem:
 
             ' add tax not used...
             '  For I = 1 To ItemCount
-            '    If Items(I).Style = "DEL" And StoreSettings.DeliveryTaxable = SS_Taxable_ALWAYS Then
-            '      AddTax = AddTax + Items(I).Price * Val(StoreSettings.SalesTax)
+            '    If items(I-1).Style = "DEL" And StoreSettings.DeliveryTaxable = SS_Taxable_ALWAYS Then
+            '      AddTax = AddTax + items(I-1).Price * Val(StoreSettings.SalesTax)
             '    End If
-            '    If Items(I).Style = "LAB" And StoreSettings.LaborTaxable = SS_Taxable_ALWAYS Then
-            '      AddTax = AddTax + Items(I).Price * Val(StoreSettings.SalesTax)
+            '    If items(I-1).Style = "LAB" And StoreSettings.LaborTaxable = SS_Taxable_ALWAYS Then
+            '      AddTax = AddTax + items(I-1).Price * Val(StoreSettings.SalesTax)
             '    End If
-            '    If IsIn(Items(I).Style, "TAX1", "TAX2") Then
+            '    If IsIn(items(I-1).Style, "TAX1", "TAX2") Then
             '      AddTax = 0
             '    End If
             '  Next
@@ -300,7 +301,7 @@ NextItem:
         For I = 1 To ItemCount
             Application.DoEvents()
 
-            With Items(I)
+            With Items(I - 1)
                 Select Case .Style
                     Case "PAYMENT", "CHANGE"    ' Save as payment.
                         ' Deal with description...
@@ -330,7 +331,7 @@ NextItem:
                         Dim xGM As CGrossMargin
                         xGM = SaveNewMarginRecord(Holding.LeaseNo, "NOTES", .Desc, .Quantity, .Price,
             "", "", "", 0, 0, 0, PorD, "", DelStat, Holding.Salesman,
-            Items(I).Location, SaleDate, DDelDat, Store, SaleName, ShipDte, "", SaleIndex,
+            Items(I - 1).Location, SaleDate, DDelDat, Store, SaleName, ShipDte, "", SaleIndex,
             , , , , , , , SalesSplit)
                         If .Vendor <> "" Then .MakePo(Me, xGM)
                         DisposeDA(xGM)
@@ -354,11 +355,11 @@ NextItem:
             , , , , , , , SalesSplit)
                         TaxZone = 0
                     Case "TAX2"
-                        AddNewMarginRecord(Holding.LeaseNo, "TAX2", .Desc, Items(I).Quantity, .Price,
+                        AddNewMarginRecord(Holding.LeaseNo, "TAX2", .Desc, Items(I - 1).Quantity, .Price,
             "", "", "", 0, 0, 0, "", "", DelStat, Holding.Salesman,
-            Items(I).Location, SaleDate, DDelDat, Store, SaleName, ShipDte, "", SaleIndex,
+            Items(I - 1).Location, SaleDate, DDelDat, Store, SaleName, ShipDte, "", SaleIndex,
             , , , , , , , SalesSplit)
-                        TaxZone = Items(I).Quantity
+                        TaxZone = Items(I - 1).Quantity
                     Case "SUBTOTAL", "SUB"
                         AddNewMarginRecord(Holding.LeaseNo, "SUB", "Sub Total =", 0, .Price,
             "", "", "", 0, 0, 0, "", "", DelStat, Holding.Salesman,
@@ -428,9 +429,9 @@ ProcessSaleError:
             mSaleNo = value
         End Set
     End Property
-    Public Function PrintInvoice(Optional ByVal CopyID As String = COPY_CUSTOMER, Optional ByVal Copies as integer = 1, Optional ByVal vLoadSaleNo As String = "") As Boolean
-        Dim I as integer, cHold As cHolding
-        Dim Pages as integer, Page as integer
+    Public Function PrintInvoice(Optional ByVal CopyID As String = COPY_CUSTOMER, Optional ByVal Copies As Integer = 1, Optional ByVal vLoadSaleNo As String = "") As Boolean
+        Dim I As Integer, cHold As cHolding
+        Dim Pages As Integer, Page As Integer
 
         On Error GoTo PrintInvoiceError
 
@@ -485,16 +486,16 @@ PrintInvoiceError:
 
         ProcessSalePOs = Nothing
     End Sub
-    Public Property Store() as integer
+    Public Property Store() As Integer
         Get
             Store = mStore
             If Store <= 0 Then Store = StoresSld
         End Get
-        Set(value as integer)
+        Set(value As Integer)
             mStore = value
         End Set
     End Property
-    Public ReadOnly Property Item(ByVal Index as integer) As clsSaleItem
+    Public ReadOnly Property Item(ByVal Index As Integer) As clsSaleItem
         Get
             Item = Nothing
             If Index < LBound(Items) Or Index > UBound(Items) Then Exit Property
@@ -505,7 +506,7 @@ PrintInvoiceError:
     Public Function AddGenericItem(
 ByVal Style As String, ByVal Desc As String, Optional ByVal Quantity As Double = 0,
 Optional ByVal Price As Decimal = 0, Optional ByVal DisplayPrice As Decimal = 0,
-Optional ByVal Location as integer = 0, Optional ByVal Status As String = "",
+Optional ByVal Location As Integer = 0, Optional ByVal Status As String = "",
 Optional ByVal NonTaxable As Boolean = False, Optional ByVal SSVendor As String = "",
 Optional ByVal TransID As String = "") As Boolean
         Dim I As clsSaleItem
@@ -543,13 +544,15 @@ Optional ByVal TransID As String = "") As Boolean
         End If
         If Val(StoreSettings.SalesTax) <> 0 Then
             If SubTotal("tax") = 0 Then
-                If MsgBox("Sale tax not applied.  Apply Sales tax now?", vbQuestion + vbYesNo, "Apply Sales Tax") = vbYes Then
+                'If MsgBox("Sale tax not applied.  Apply Sales tax now?", vbQuestion + vbYesNo, "Apply Sales Tax") = vbYes Then
+                If MessageBox.Show("Sale tax not applied.  Apply Sales tax now?", "Apply Sales Tax", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     Exit Function
                 End If
             End If
         End If
-        If WantCheckDisposal And SaleHasBedding And Not SaleHasDisposal Then
-            If MsgBox("Bedding is indicated on the sale, but no disposal has been charged." & vbCrLf2 & "Did you charge a disposal fee?", vbQuestion + vbOKCancel) = vbCancel Then
+        If WantCheckDisposal() And SaleHasBedding() And Not SaleHasDisposal() Then
+            'If MsgBox("Bedding is indicated on the sale, but no disposal has been charged." & vbCrLf2 & "Did you charge a disposal fee?", vbQuestion + vbOKCancel) = vbCancel Then
+            If MessageBox.Show("Bedding is indicated on the sale, but no disposal has been charged." & vbCrLf2 & "Did you charge a disposal fee?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.Cancel Then
                 Exit Function
             End If
         End If
@@ -568,19 +571,19 @@ Optional ByVal TransID As String = "") As Boolean
             If Count("items") = Count("deltw") Then DeliverOnProcess = True
         End Get
     End Property
-    Public ReadOnly Property Count(Optional ByVal tType As String = "") as integer
+    Public ReadOnly Property Count(Optional ByVal tType As String = "") As Integer
         Get
-            Dim I as integer
+            Dim I As Integer
             If ItemCount = 0 Then Exit Property
             tType = Trim(LCase(tType))
 
             If tType = "" Then Count = ItemCount : Exit Property
 
             For I = 1 To ItemCount
-                With Items(I)
-                    Select Case Items(I).Style
+                With Items(I - 1)
+                    Select Case Items(I - 1).Style
                         Case "STAIN", "LAB", "DEL"
-                            If LCase(Items(I).Style) = tType Then Count = Count + 1
+                            If LCase(Items(I - 1).Style) = tType Then Count = Count + 1
                         Case "TAX1", "TAX2"
                             If IsIn(tType, "tax") Then Count = Count + 1
                         Case "PAYMENT"
@@ -588,20 +591,20 @@ Optional ByVal TransID As String = "") As Boolean
                         Case "--- Adj ---"
                             If IsIn(tType, "adj") Then Count = Count + 1
                         Case Else
-                            If IsIn(tType, "items") And IsItem(Items(I).Style) Then Count = Count + 1
-                            If LCase(Items(I).Status) = tType Then Count = Count + 1
+                            If IsIn(tType, "items") And IsItem(Items(I - 1).Style) Then Count = Count + 1
+                            If LCase(Items(I - 1).Status) = tType Then Count = Count + 1
                     End Select
                 End With
             Next
         End Get
     End Property
 
-    Private Sub DiscountVendorAndDept(ByVal I as integer, ByRef V As String, ByRef vN As String, ByRef Dept as integer, ByRef vLoc as integer)
-        Dim J as integer
+    Private Sub DiscountVendorAndDept(ByVal I As Integer, ByRef V As String, ByRef vN As String, ByRef Dept As Integer, ByRef vLoc As Integer)
+        Dim J As Integer
         Dim SD As String
         On Error Resume Next
         For J = I To 1 Step -1
-            If IsItem(QueryStyle(J)) And Not (WantCheckDisposal And GetDeptNoFromStyle(QueryStyle(J)) = DisposalDepartment) Then
+            If IsItem(QueryStyle(J)) And Not (WantCheckDisposal() And GetDeptNoFromStyle(QueryStyle(J)) = DisposalDepartment()) Then
                 V = QueryMfg(J)
                 vN = GetVendorNoFromName(V)
                 SD = GetDeptFromStyleNo(QueryStyle(J))
@@ -646,7 +649,7 @@ Optional ByVal TransID As String = "") As Boolean
     End Function
     Public ReadOnly Property IsCreditSale() As Boolean
         Get
-            Dim I as integer
+            Dim I As Integer
             Dim RV As Decimal
             For I = 1 To ItemCount
                 If Item(I).Style = "PAYMENT" Then
@@ -665,7 +668,7 @@ Optional ByVal TransID As String = "") As Boolean
 
     Public ReadOnly Property HasNonItemsOnSale(Optional ByVal STAIN As Boolean = True, Optional ByVal Delivery As Boolean = True, Optional ByVal Labor As Boolean = True) As Boolean
         Get
-            Dim I as integer
+            Dim I As Integer
             For I = 1 To ItemCount
                 If STAIN And Item(I).Style = "STAIN" Then HasNonItemsOnSale = True : Exit Property
                 If Labor And Item(I).Style = "LAB" Then HasNonItemsOnSale = True : Exit Property
@@ -676,7 +679,7 @@ Optional ByVal TransID As String = "") As Boolean
     End Property
     Public ReadOnly Property AllItemsAreDelivered() As Boolean
         Get
-            Dim I as integer
+            Dim I As Integer
             For I = 1 To ItemCount
                 If IsItem(Item(I).Style) And Not IsDelivered(Item(I).Status) Then AllItemsAreDelivered = False : Exit Property
             Next
@@ -686,7 +689,7 @@ Optional ByVal TransID As String = "") As Boolean
     End Property
     Public ReadOnly Property IsStoreFinanceSale() As Boolean
         Get
-            Dim I as integer
+            Dim I As Integer
             For I = 1 To ItemCount
                 If Item(I).Style = "NOTES" Then
                     If Left(Item(I).Desc, 13) = "STORE FINANCE" Then IsStoreFinanceSale = True : Exit Property
@@ -698,7 +701,7 @@ Optional ByVal TransID As String = "") As Boolean
     Public ReadOnly Property GetStoreFinanceArNo() As String
         Get
             GetStoreFinanceArNo = ""
-            Dim I as integer
+            Dim I As Integer
             For I = 1 To ItemCount
                 If Item(I).Style = "NOTES" Then
                     If Left(Item(I).Desc, 13) = "STORE FINANCE" Then
@@ -771,7 +774,7 @@ Optional ByVal TransID As String = "") As Boolean
 
     End Function
     Private Function PrintInvoices(ByVal vSaleNo As String)
-        Dim Copies as integer, CopyID As String, S As sSale
+        Dim Copies As Integer, CopyID As String, S As sSale
         For Copies = 1 To Val(StoreSettings.PrintCopies)
             If Copies <= 4 Then CopyID = StoreSettings.SalesCopyID(FitRange(0, Copies - 1, 3))
             S = New sSale
@@ -779,9 +782,9 @@ Optional ByVal TransID As String = "") As Boolean
             DisposeDA(S)
         Next
     End Function
-    Public Function LoadSaleNo(ByVal vSaleNo As String, Optional ByVal vStore as integer = 0) As Boolean
+    Public Function LoadSaleNo(ByVal vSaleNo As String, Optional ByVal vStore As Integer = 0) As Boolean
         Dim Hold As cHolding, Gross As CGrossMargin, cM As clsMailRec
-        Dim Taxed As Boolean, Y as integer, ClearingStart as integer
+        Dim Taxed As Boolean, Y As Integer, ClearingStart As Integer
         Dim TaxThisItem As Boolean
 
         If vStore = 0 Then vStore = StoresSld
@@ -861,11 +864,11 @@ DoneClearing:
 
         LoadSaleNo = True
     End Function
-    Private Function GetMaxPages(ByVal Items as integer) as integer
+    Private Function GetMaxPages(ByVal Items As Integer) As Integer
         GetMaxPages = (Items \ 17) + 1
     End Function
-    Private Function GetMaxItemIndex() as integer
-        Dim I as integer, X as integer
+    Private Function GetMaxItemIndex() As Integer
+        Dim I As Integer, X As Integer
         X = 0
         For I = 1 To ItemCount
             X = X + ((Len(QueryDesc(I)) - 1) \ 46 + 1)
@@ -873,7 +876,7 @@ DoneClearing:
         GetMaxItemIndex = X
     End Function
 
-    Public Function QueryDesc(ByVal Index as integer)
+    Public Function QueryDesc(ByVal Index As Integer)
         QueryDesc = Left(Items(Index).Desc, Setup_2Data_DescMaxLen)
     End Function
 
@@ -1433,18 +1436,18 @@ DoneClearing:
     Public Function AddSaleItem(ByVal Itm As clsSaleItem) As Boolean
         ItemCount = ItemCount + 1
         ReDim Preserve Items(0 To ItemCount - 1)
-        Items(ItemCount) = Itm
+        Items(ItemCount - 1) = Itm
         AddSaleItem = True
     End Function
 
     Public Function SaleHasBedding() As Boolean
-        Dim DeptChk as integer
+        Dim DeptChk As Integer
         If IsSleepCity Then DeptChk = 0
         If IsBarrs Then DeptChk = 6
         Dim SD As String
-        Dim I as integer, S As String, D as integer
+        Dim I As Integer, S As String, D As Integer
         For I = 1 To ItemCount
-            S = Items(I).Style
+            S = Items(I - 1).Style
             SD = GetDeptFromStyleNo(S)
             If SD = "" Then Exit Function
             D = CLng(SD)
@@ -1457,14 +1460,14 @@ DoneClearing:
 
 
     Public Function SaleHasDisposal() As Boolean
-        Dim DeptChk as integer
+        Dim DeptChk As Integer
         Dim SD As String
-        DeptChk = DisposalDepartment
+        DeptChk = DisposalDepartment()
         '  If IsSleepCity Then DeptChk = 10
         '  If IsBarrs Then DeptChk = 10
-        Dim I as integer, S As String, D as integer
+        Dim I As Integer, S As String, D As Integer
         For I = 1 To ItemCount
-            S = Items(I).Style
+            S = Items(I - 1).Style
             SD = GetDeptFromStyleNo(S)
             If SD = "" Then Exit Function
             D = CLng(SD)

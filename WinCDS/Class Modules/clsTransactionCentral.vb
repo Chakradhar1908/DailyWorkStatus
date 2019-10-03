@@ -556,4 +556,38 @@ Again:
 #End If
     End Function
 
+    Public Function ExecBlindCredit(Optional ByVal Prompt As Boolean = True) As Boolean
+        LogStartFunction("TransCentral-BlindCredit")
+#If aAllowCredit Then
+        IsManuallyEntered = False
+        If Prompt Then If Not PromptCC() Then Exit Function
+
+        '  If Prompt Then If Not PromptCC Then Exit Function
+        If RefId = "" Then RefId = "" & Random(10000000)  ' gives a better transaction rate
+
+        Dim S As String, A As String, Res As clsHashTable
+        CCQSStart(S, A)
+        S = S & A & "TransID=" & TransID
+        S = S & A & "Amount=" & CurrencyFormat(Amount, , , True)
+        S = S & A & "CardNumber=" & URLEncode(CC)
+        S = S & A & "CardHolderName=" & IIf(CardHolderName <> "", CardHolderName, DetectCustomerName)
+        S = S & A & "Expiration=" & ExpirationMonth & ExpirationYear
+        S = S & A & "CVV2=" & CVV2
+        S = S & A & "RefID=" & RefId
+        S = S & A & "Address="
+        S = S & A & "ZipCode=" & IIf(Zip <> "", Zip, DetectCustomerZipCode)
+        S = S & A & "UserID="
+
+        ExecBlindCredit = DoTransaction("BlindCredit", S, Res)
+        If Not ExecBlindCredit Then
+            LogText("Blind Credit unsuccessful")
+            Exit Function
+        End If
+
+        TransID = Res.Item("TransID")
+        If Val(TransID) = 0 Then TransID = Res.Item("CreditID")
+        ExecBlindCredit = Val(TransID) <> 0
+#End If
+    End Function
+
 End Class

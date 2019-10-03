@@ -219,6 +219,12 @@
     <Compile Include="Forms\frmEmail.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmINet.Designer.vb">
+      <DependentUpon>frmINet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmINet.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmItemView.Designer.vb">
       <DependentUpon>frmItemView.vb</DependentUpon>
     </Compile>
@@ -493,6 +499,7 @@
     <Compile Include="Modules\mod2DataTransfers.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
     <Compile Include="Modules\modAmericanHeritageInsurance.vb" />
+    <Compile Include="Modules\modAPGCashDrawer.vb" />
     <Compile Include="Modules\modAPI.vb" />
     <Compile Include="Modules\modAR.vb" />
     <Compile Include="Modules\modArrays.vb" />
@@ -563,6 +570,7 @@
     <Compile Include="Modules\modSupportForms.vb" />
     <Compile Include="Modules\modTextFiles.vb" />
     <Compile Include="Modules\modTimeDuration.vb" />
+    <Compile Include="Modules\modURLHelper.vb" />
     <Compile Include="Modules\modValidation.vb" />
     <Compile Include="Modules\modVBControls.vb" />
     <Compile Include="Modules\modVBErros.vb" />
@@ -658,6 +666,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmINet.resx">
+      <DependentUpon>frmINet.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmItemView.resx">
       <DependentUpon>frmItemView.vb</DependentUpon>
@@ -802,6 +813,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="APG554QFAX21Lib">
+      <Guid>{A0469C45-C46A-4411-BF03-0DFA22448477}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Axcipwin32">
       <Guid>{33DDE9A4-E91D-419D-9497-3D4CE75B35DC}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -810,10 +830,26 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxInetCtlsObjects">
+      <Guid>{48E59290-9880-11CF-9754-00AA00C00908}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxMSComCtl2">
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxMSCommLib">
+      <Guid>{648A5603-2C6E-101B-82B6-000000000014}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
@@ -851,6 +887,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="InetCtlsObjects">
+      <Guid>{48E59290-9880-11CF-9754-00AA00C00908}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -873,6 +918,15 @@
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="MSCommLib">
+      <Guid>{648A5603-2C6E-101B-82B6-000000000014}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>

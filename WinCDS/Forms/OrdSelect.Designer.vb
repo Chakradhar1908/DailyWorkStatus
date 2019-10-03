@@ -62,15 +62,15 @@ Partial Class OrdSelect
         Me.fraOpt.Controls.Add(Me.optDelivery)
         Me.fraOpt.Controls.Add(Me.optStain)
         Me.fraOpt.Controls.Add(Me.optEnterStyle)
-        Me.fraOpt.Location = New System.Drawing.Point(12, -1)
+        Me.fraOpt.Location = New System.Drawing.Point(7, -1)
         Me.fraOpt.Name = "fraOpt"
-        Me.fraOpt.Size = New System.Drawing.Size(248, 229)
+        Me.fraOpt.Size = New System.Drawing.Size(248, 214)
         Me.fraOpt.TabIndex = 0
         Me.fraOpt.TabStop = False
         '
         'txtPayMemo
         '
-        Me.txtPayMemo.Location = New System.Drawing.Point(81, 201)
+        Me.txtPayMemo.Location = New System.Drawing.Point(77, 188)
         Me.txtPayMemo.Name = "txtPayMemo"
         Me.txtPayMemo.Size = New System.Drawing.Size(161, 20)
         Me.txtPayMemo.TabIndex = 14
@@ -78,7 +78,7 @@ Partial Class OrdSelect
         'lblPayMemo
         '
         Me.lblPayMemo.AutoSize = True
-        Me.lblPayMemo.Location = New System.Drawing.Point(12, 201)
+        Me.lblPayMemo.Location = New System.Drawing.Point(8, 188)
         Me.lblPayMemo.Name = "lblPayMemo"
         Me.lblPayMemo.Size = New System.Drawing.Size(63, 13)
         Me.lblPayMemo.TabIndex = 13
@@ -87,7 +87,7 @@ Partial Class OrdSelect
         'chkPayAll
         '
         Me.chkPayAll.AutoSize = True
-        Me.chkPayAll.Location = New System.Drawing.Point(158, 170)
+        Me.chkPayAll.Location = New System.Drawing.Point(154, 159)
         Me.chkPayAll.Name = "chkPayAll"
         Me.chkPayAll.Size = New System.Drawing.Size(58, 17)
         Me.chkPayAll.TabIndex = 12
@@ -97,7 +97,7 @@ Partial Class OrdSelect
         'optPayment
         '
         Me.optPayment.AutoSize = True
-        Me.optPayment.Location = New System.Drawing.Point(158, 145)
+        Me.optPayment.Location = New System.Drawing.Point(154, 135)
         Me.optPayment.Name = "optPayment"
         Me.optPayment.Size = New System.Drawing.Size(66, 17)
         Me.optPayment.TabIndex = 11
@@ -108,7 +108,7 @@ Partial Class OrdSelect
         'optNoTax2
         '
         Me.optNoTax2.AutoSize = True
-        Me.optNoTax2.Location = New System.Drawing.Point(158, 95)
+        Me.optNoTax2.Location = New System.Drawing.Point(154, 87)
         Me.optNoTax2.Name = "optNoTax2"
         Me.optNoTax2.Size = New System.Drawing.Size(90, 17)
         Me.optNoTax2.TabIndex = 10
@@ -119,7 +119,7 @@ Partial Class OrdSelect
         'optTax2
         '
         Me.optTax2.AutoSize = True
-        Me.optTax2.Location = New System.Drawing.Point(158, 70)
+        Me.optTax2.Location = New System.Drawing.Point(154, 63)
         Me.optTax2.Name = "optTax2"
         Me.optTax2.Size = New System.Drawing.Size(84, 17)
         Me.optTax2.TabIndex = 9
@@ -130,7 +130,7 @@ Partial Class OrdSelect
         'optNoTax
         '
         Me.optNoTax.AutoSize = True
-        Me.optNoTax.Location = New System.Drawing.Point(158, 45)
+        Me.optNoTax.Location = New System.Drawing.Point(154, 39)
         Me.optNoTax.Name = "optNoTax"
         Me.optNoTax.Size = New System.Drawing.Size(58, 17)
         Me.optNoTax.TabIndex = 8
@@ -141,7 +141,7 @@ Partial Class OrdSelect
         'optTax1
         '
         Me.optTax1.AutoSize = True
-        Me.optTax1.Location = New System.Drawing.Point(158, 20)
+        Me.optTax1.Location = New System.Drawing.Point(154, 15)
         Me.optTax1.Name = "optTax1"
         Me.optTax1.Size = New System.Drawing.Size(52, 17)
         Me.optTax1.TabIndex = 7
@@ -152,7 +152,7 @@ Partial Class OrdSelect
         'optCarpet
         '
         Me.optCarpet.AutoSize = True
-        Me.optCarpet.Location = New System.Drawing.Point(15, 170)
+        Me.optCarpet.Location = New System.Drawing.Point(15, 159)
         Me.optCarpet.Name = "optCarpet"
         Me.optCarpet.Size = New System.Drawing.Size(56, 17)
         Me.optCarpet.TabIndex = 6
@@ -163,7 +163,7 @@ Partial Class OrdSelect
         'optStoreCredit
         '
         Me.optStoreCredit.AutoSize = True
-        Me.optStoreCredit.Location = New System.Drawing.Point(15, 145)
+        Me.optStoreCredit.Location = New System.Drawing.Point(15, 135)
         Me.optStoreCredit.Name = "optStoreCredit"
         Me.optStoreCredit.Size = New System.Drawing.Size(114, 17)
         Me.optStoreCredit.TabIndex = 5
@@ -174,7 +174,7 @@ Partial Class OrdSelect
         'optNotes
         '
         Me.optNotes.AutoSize = True
-        Me.optNotes.Location = New System.Drawing.Point(15, 120)
+        Me.optNotes.Location = New System.Drawing.Point(15, 111)
         Me.optNotes.Name = "optNotes"
         Me.optNotes.Size = New System.Drawing.Size(53, 17)
         Me.optNotes.TabIndex = 4
@@ -185,7 +185,7 @@ Partial Class OrdSelect
         'optLabor
         '
         Me.optLabor.AutoSize = True
-        Me.optLabor.Location = New System.Drawing.Point(15, 95)
+        Me.optLabor.Location = New System.Drawing.Point(15, 87)
         Me.optLabor.Name = "optLabor"
         Me.optLabor.Size = New System.Drawing.Size(92, 17)
         Me.optLabor.TabIndex = 3
@@ -196,7 +196,7 @@ Partial Class OrdSelect
         'optDelivery
         '
         Me.optDelivery.AutoSize = True
-        Me.optDelivery.Location = New System.Drawing.Point(15, 70)
+        Me.optDelivery.Location = New System.Drawing.Point(15, 63)
         Me.optDelivery.Name = "optDelivery"
         Me.optDelivery.Size = New System.Drawing.Size(100, 17)
         Me.optDelivery.TabIndex = 2
@@ -207,7 +207,7 @@ Partial Class OrdSelect
         'optStain
         '
         Me.optStain.AutoSize = True
-        Me.optStain.Location = New System.Drawing.Point(15, 45)
+        Me.optStain.Location = New System.Drawing.Point(15, 39)
         Me.optStain.Name = "optStain"
         Me.optStain.Size = New System.Drawing.Size(100, 17)
         Me.optStain.TabIndex = 1
@@ -218,7 +218,7 @@ Partial Class OrdSelect
         'optEnterStyle
         '
         Me.optEnterStyle.AutoSize = True
-        Me.optEnterStyle.Location = New System.Drawing.Point(15, 20)
+        Me.optEnterStyle.Location = New System.Drawing.Point(15, 15)
         Me.optEnterStyle.Name = "optEnterStyle"
         Me.optEnterStyle.Size = New System.Drawing.Size(116, 17)
         Me.optEnterStyle.TabIndex = 0
@@ -229,7 +229,7 @@ Partial Class OrdSelect
         'cmdOk
         '
         Me.cmdOk.AutoSize = True
-        Me.cmdOk.Location = New System.Drawing.Point(12, 235)
+        Me.cmdOk.Location = New System.Drawing.Point(7, 216)
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.Size = New System.Drawing.Size(54, 34)
         Me.cmdOk.TabIndex = 1
@@ -239,7 +239,7 @@ Partial Class OrdSelect
         'cmdCancel
         '
         Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Location = New System.Drawing.Point(93, 235)
+        Me.cmdCancel.Location = New System.Drawing.Point(88, 219)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
         Me.cmdCancel.TabIndex = 2
@@ -248,7 +248,7 @@ Partial Class OrdSelect
         '
         'cmdProcessSale
         '
-        Me.cmdProcessSale.Location = New System.Drawing.Point(170, 235)
+        Me.cmdProcessSale.Location = New System.Drawing.Point(165, 219)
         Me.cmdProcessSale.Name = "cmdProcessSale"
         Me.cmdProcessSale.Size = New System.Drawing.Size(90, 23)
         Me.cmdProcessSale.TabIndex = 3
@@ -258,9 +258,9 @@ Partial Class OrdSelect
         'lstOptions
         '
         Me.lstOptions.FormattingEnabled = True
-        Me.lstOptions.Location = New System.Drawing.Point(275, 11)
+        Me.lstOptions.Location = New System.Drawing.Point(261, 5)
         Me.lstOptions.Name = "lstOptions"
-        Me.lstOptions.Size = New System.Drawing.Size(94, 212)
+        Me.lstOptions.Size = New System.Drawing.Size(121, 212)
         Me.lstOptions.TabIndex = 4
         '
         'OrdSelect
@@ -269,7 +269,7 @@ Partial Class OrdSelect
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.cmdCancel
-        Me.ClientSize = New System.Drawing.Size(378, 269)
+        Me.ClientSize = New System.Drawing.Size(388, 253)
         Me.ControlBox = False
         Me.Controls.Add(Me.cmdOk)
         Me.Controls.Add(Me.lstOptions)

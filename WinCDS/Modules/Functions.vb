@@ -79,7 +79,7 @@ Module Functions
         FileOpen(FNum, fName, OpenMode.Output)
         Print(FNum, CStr(GetFileAutonumber))
         'Close #FNum
-        FileClose(fName)
+        FileClose(FNum)
         Application.DoEvents()
 
         Exit Function
@@ -93,13 +93,15 @@ BadFile:
                 Application.DoEvents()
                 Resume
             Case 76 ' Path not found
-                If MsgBox("Can't access " & fName & ", try again?", vbCritical + vbYesNo, "File Error") = vbYes Then
+                'If MsgBox("Can't access " & fName & ", try again?", vbCritical + vbYesNo, "File Error") = vbYes Then
+                If MessageBox.Show("Can't access " & fName & ", try again?", "File Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes Then
                     Resume
                 Else
                     End
                 End If
             Case Else  ' An error we didn't foresee.
-                MsgBox("An unforseen error [" & Err.Number & "] occurred accessing " & fName & "." & vbCrLf & "Your sale could not be completed." & vbCrLf & Err.Description, vbCritical, "BOS Number Error")
+                'MsgBox("An unforseen error [" & Err.Number & "] occurred accessing " & fName & "." & vbCrLf & "Your sale could not be completed." & vbCrLf & Err.Description, vbCritical, "BOS Number Error")
+                MessageBox.Show("An unforseen error [" & Err.Number & "] occurred accessing " & fName & "." & vbCrLf & "Your sale could not be completed." & vbCrLf & Err.Description, "BOS Number Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End
         End Select
     End Function
@@ -110,7 +112,7 @@ BadFile:
         'List(Idx) = Value
     End Sub
 
-    Public Function OpenCashDrawer(Optional ByVal PortNum As Long = -1, Optional ByVal ForceUSB7 As TriState = vbUseDefault) As Boolean
+    Public Function OpenCashDrawer(Optional ByVal PortNum As Integer = -1, Optional ByVal ForceUSB7 As TriState = vbUseDefault) As Boolean
         Dim USB7 As Boolean
 
         USB7 = QueryStringQueryL(StoreSettings.CashDrawerConfig, "USB7") <> 0
@@ -124,16 +126,16 @@ BadFile:
         If PortNum = -1 Then PortNum = CashDrawerCOMPort
 
         If PortNum = 253 Then         ' 253 is the number we set aside to indicate USB
-            OpenAPGCashDrawer
+            OpenAPGCashDrawer()
             '    Load frmOpenCashDrawer      ' form load fires the activex control
             '    Unload frmOpenCashDrawer    ' simply loading it should open the drawer
             OpenCashDrawer = True
         ElseIf PortNum <> 0 Then  'Make sure Cash Drawer is Enabled
             Dim MSComm1 As MSCommLib.MSComm
-    Set MSComm1 = MainMenu.MSComm1
-'    Set MSComm1 = CreateObject("MSCommlib.MSComm")  ' It'd be great if we could test this. :)
-    ' Remove the control from MainMenu if we ever figure out how to load one here.
-    MSComm1.CommPort = PortNum 'Choose COM port
+            MSComm1 = MainMenu.MSComm1
+            '    Set MSComm1 = CreateObject("MSCommlib.MSComm")  ' It'd be great if we could test this. :)
+            ' Remove the control from MainMenu if we ever figure out how to load one here.
+            MSComm1.CommPort = PortNum 'Choose COM port
             MSComm1.Settings = "9600,N,8,1" 'Set default settings
             MSComm1.PortOpen = True 'Open the port
             If USB7 Then
@@ -148,8 +150,8 @@ BadFile:
 HandleErr:
         ' This shouldn't be a fatal error, but we have to the user know we tried.
         OpenCashDrawer = False
-        MsgBox "Error " & Err.Number & " opening cash drawer: " & Err.Description, vbCritical
-  Err.Clear()
+        MessageBox.Show("Error " & Err.Number & " opening cash drawer: " & Err.Description)
+        Err.Clear()
     End Function
 
 End Module
