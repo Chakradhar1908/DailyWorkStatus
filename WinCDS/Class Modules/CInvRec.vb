@@ -178,9 +178,11 @@
             DataAccess.Records_Add()
         End If
         ' Then load our data into the recordset.
-        DataAccess.Record_Update
+        DataAccess.Record_Update()
+        cDataAccess_SetRecordSet(DataAccess.RS)
         ' And finally, tell the class to save the recordset.
-        DataAccess.Records_Update
+        DataAccess.Records_Update()
+        mDataAccess_RecordUpdated()
     End Sub
 
     Public Function DataAccess() As CDataAccess
@@ -225,5 +227,104 @@
             QueryTotalOnOrder = QueryTotalOnOrder + QueryOnOrder(I)
         Next
     End Function
+
+    Private Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        If RS("Style").Value <> Trim(Style) Then ChangeKits = True
+        RS("Style").Value = IfNullThenNilString(Trim(Style))
+        RS("Vendor").Value = IfNullThenNilString(Trim(Vendor))
+        If RS("Rn").Value <> Val(RN) And Val(RN) <> 0 Then ChangeKits = True
+        RS("Rn").Value = RN
+        RS("RDate").Value = RDate
+
+        RS("Dept").Value = DeptNo
+        RS("VendorNo").Value = IfNullThenNilString(VendorNo)
+
+        RS("Desc").Value = IfNullThenNilString(Left(Trim(Desc), Setup_2Data_DescMaxLen))
+
+        RS("MinStk").Value = MinStk
+        RS("Freight").Value = Freight
+        RS("FreightType").Value = FreightType
+        RS("GM").Value = GM
+        RS("MarkUp").Value = MarkUp
+
+        ' If any of these change, we need to update dependent kits.
+        ' Note, this will only keep the databases synchronized if all cost changes use this method.
+        If RS("Landed").Value <> Landed Then ChangeKits = True
+        If RS("OnSale").Value <> OnSale Then ChangeKits = True
+        If RS("List").Value <> List Then ChangeKits = True
+
+        RS("Cost").Value = Cost
+        RS("Landed").Value = Landed
+        RS("OnSale").Value = OnSale
+        RS("List").Value = List
+        RS("Spiff").Value = Spiff
+
+        RS("Comments").Value = IfNullThenNilString(Trim(Left(Comments, Setup_2Data_CommMaxLen)))
+        RS("Available").Value = Available
+        RS("OnHand").Value = OnHand
+
+        Dim I As Integer
+        For I = 1 To Setup_MaxStores_DB
+            RS("Loc" & I & "Bal").Value = QueryStock(I)
+            RS("OnOrder" & I).Value = IfNegativeThenZero(QueryOnOrder(I))
+        Next
+
+        RS("Sales1").Value = Sales1
+        RS("Sales2").Value = Sales2
+        RS("Sales3").Value = Sales3
+        RS("Sales4").Value = Sales4
+
+        RS("Psales1").Value = Val(Psales1)
+        RS("Psales2").Value = Val(Psales2)
+        RS("Psales3").Value = Val(Psales3)
+        RS("Psales4").Value = Val(Psales4)
+
+        RS("POSold").Value = Val(PoSold)
+        RS("GMROI").Value = Left(Trim(GMROI), 50)
+        RS("Fabric").Value = Left(Trim(Fabric), 50)
+        RS("SKU").Value = Left(Trim(SKU), 50)
+        RS("Cubes").Value = Val(Cubes)
+
+        RS("Distributors").Value = Left(Distributors, 200)
+    End Sub
+
+    Private Sub mDataAccess_RecordUpdated()
+        If ChangeKits Then
+            If Not POMode("REC") Then UpdatePOsWithOldCost    ' BFH20071223
+
+            ' Update any kits that depend on this item.
+            ' First, collect a list of affected kits.
+            ' Then consult the kit area of the program for cost/gm calculations.
+            ChangeKits = False
+            Dim Kit As cInvKit
+            Kit = New cInvKit
+            Kit.DataAccess.Records_OpenSQL("SELECT * FROM InvKit WHERE " & RN & " in (Item1Rec, Item2Rec, Item3Rec, Item4Rec, Item5Rec, Item6Rec, Item7Rec, Item8Rec, Item9Rec, Item10Rec)")
+            Do While Kit.DataAccess.Records_Available
+                Kit.RecalculateCost
+                Kit.Save
+                ' Change this to a yes/no box, and automatically print tags.
+                ' Move tag-printing into the Kit class.
+                'If MsgBox("The kit " & Kit.KitStyleNo & " has been updated.  Would you like to reprint its floor tag?", vbInformation + vbYesNo, "Alert") = vbYes Then
+                'If PackagePrice.FindKits(Kit.KitStyleNo) Then
+                ' PackagePrice.cmdPrint.Value = True
+                'SelectPrinter.Show vbModal
+                'Else
+                ' MsgBox "Unable to load kit " & Kit.KitStyleNo & ".", vbCritical, "Error"
+                'End If
+                'End If
+            Loop
+            DisposeDA(Kit)
+        End If
+    End Sub
+
+    Private Sub UpdatePOsWithOldCost()
+        Dim SQL As String
+        SQL = ""
+        SQL = SQL & "UPDATE [PO]"
+        SQL = SQL & " SET Cost=(Quantity * " & (Cost) & ")"
+        SQL = SQL & " WHERE Style='" & Style & "' AND PrintPO <> 'V' and Posted <> 'X' AND Left([Name],5)='Stock'"
+        ExecuteRecordsetBySQL(SQL, , GetDatabaseInventory)
+    End Sub
 
 End Class

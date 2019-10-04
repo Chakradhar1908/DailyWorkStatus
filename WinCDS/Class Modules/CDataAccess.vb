@@ -98,10 +98,12 @@ Public Class CDataAccess
         RaiseEvent RecordUpdated()
         Exit Sub
     End Sub
+
     Friend Function Records_OpenIndexAt(ByRef Index As String, Optional ByRef OrderBy As String = "") As Boolean
         Records_OpenIndexAt = Me.Records_OpenSQL(SQL:=Me.getIndexSQL(CStr(Index), OrderBy))
         mUpdated = False
     End Function
+
     Friend Function Records_OpenSQL(ByRef SQL As String) As Boolean
         On Error Resume Next
         Mrs = GetRecordsetBySQL _
@@ -230,11 +232,17 @@ HandleErr:
         Mrs.MovePrevious()
         mSubClass.getRecordset(Mrs)
     End Sub
-    Friend Sub Records_AddAndClose()
+
+    Friend Sub Records_AddAndClose1()
         Records_Add()
+        'Records_Close()
+    End Sub
+
+    Friend Sub Records_AddAndClose2()
         Records_Close()
     End Sub
-    Friend Function Records_MoveAbsolute(ByRef Index as integer) As Boolean
+
+    Friend Function Records_MoveAbsolute(ByRef Index As Integer) As Boolean
         On Error GoTo BadMove
         Mrs.AbsolutePosition = Index
         mSubClass.getRecordset(Mrs)

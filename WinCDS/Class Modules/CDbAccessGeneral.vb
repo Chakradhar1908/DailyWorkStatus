@@ -113,6 +113,7 @@ AnError:
         Mrs = Nothing
         Err.Clear()
     End Sub
+
     Public Function dbOpen(Optional ByVal DBName As String = "") As Boolean
         ' --> Below databse connection code has been commented. It will be implemented in app.config file. <--
 
@@ -337,6 +338,7 @@ AnError:
         GetRecord = False
         Exit Function
     End Function
+
     Public ReadOnly Property RS() As ADODB.Recordset
         Get
             RS = Mrs

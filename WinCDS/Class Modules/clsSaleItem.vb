@@ -121,7 +121,11 @@ Public Class clsSaleItem
             .TransID = TransID
 
             On Error GoTo SaveError
-            .DataAccess.Records_AddAndClose
+            '.DataAccess.Records_AddAndClose()
+            .DataAccess.Records_AddAndClose1()
+            cGM.cDataAccess_SetRecordSet(.DataAccess.RS)
+            .DataAccess.Records_AddAndClose2()
+            cGM.mDataAccess_RecordUpdated()
             MarginNo = .MarginLine
             On Error GoTo HandleErr
 

@@ -151,9 +151,10 @@
 
         DisposeDA(C)
     End Function
+
     Public Function CreateDetailRecord(ByRef InvData As CInvRec, ByVal SaleNo As String,
-      ByVal Name As String, ByVal Qty As Double, ByVal Status As String, ByVal Loc as integer,
-      ByVal DelDate As String, ByVal PoNo as integer, Optional ByVal MarginLine as integer = 0) As CInventoryDetail
+      ByVal Name As String, ByVal Qty As Double, ByVal Status As String, ByVal Loc As Integer,
+      ByVal DelDate As String, ByVal PoNo As Integer, Optional ByVal MarginLine As Integer = 0) As CInventoryDetail
         '::::CreateDetailRecord
         ':::SUMMARY
         ':This function is used  to create a record in detail table of Inventory.
@@ -235,15 +236,17 @@
         Exit Function
 
 GeneralErr:
-        MsgBox("Error in CreateDetailRecord: " & Err.Description)
+        MessageBox.Show("Error in CreateDetailRecord: " & Err.Description)
         Err.Clear()
         Resume Next
 
 HandleErr:
-        MsgBox("ERROR in Detail BOS2.PrintRec: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        'MsgBox("ERROR in Detail BOS2.PrintRec: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BOS2.PrintRec: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Err.Clear()
         Resume Next
     End Function
+
     Public Sub UpdateQuarterlySales(ByRef InvData As CInvRec, ByVal Qty As Double, ByVal SaleDate As Date)
         '::::UpdateQuarterlySales
         ':::SUMMARY
@@ -255,7 +258,10 @@ HandleErr:
         ':-Qty-Represents the Quantity of items.
         ':-SaleDate-Represents the SaleDate of Item.
         ':::RETURN
-        Select Case Format(SaleDate, "Q")
+        'Select Case Format(SaleDate, "Q")
+        'MessageBox.Show(DatePart(DateInterval.Quarter, SaleDate))
+
+        Select Case DatePart(DateInterval.Quarter, SaleDate)
             Case 1 : InvData.Sales1 = InvData.Sales1 + Qty
             Case 2 : InvData.Sales2 = InvData.Sales2 + Qty
             Case 3 : InvData.Sales3 = InvData.Sales3 + Qty
@@ -478,6 +484,29 @@ HandleErr:
         End If
 
         DisposeDA(M)
+    End Function
+
+    ' directly reversible from Calculate GM
+    Public Function CalculateSalePrice(ByVal Landed As Decimal, ByVal GM As Double) As Decimal
+        '::::CalculateSalePrice
+        ':::SUMMARY
+        ': Reverse calculates Sale price.
+        ':::DESCRIPTION
+        ': Calculate sale price based on Landed and a given GM.
+        ':::PARAMETERS
+        ':-Landed-Denotes the landed cost of item.
+        ':-GM-Denotes the gross margin.
+        ':::RETURN
+        ':Currency-Returns the sales price in a currency.
+        ':::SEE ALSO
+        ':CalculateOnSale
+
+        If GM >= 100 Or GM <= 0 Then CalculateSalePrice = Landed : Exit Function
+        If GM <= 10 Then
+            CalculateSalePrice = Landed * GM   ' BFH20060420 this clause added to reflect InvenA
+        Else
+            CalculateSalePrice = Landed / (1 - GM / 100)
+        End If
     End Function
 
 End Module

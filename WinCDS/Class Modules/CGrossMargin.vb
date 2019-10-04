@@ -210,7 +210,8 @@ Public Class CGrossMargin
     Public Function cDataAccess_SuperClass() As CDataAccess
         cDataAccess_SuperClass = mDataAccess
     End Function
-    Private Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
+
+    Public Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
         Dim ST As String ' shortened style..
         On Error Resume Next
         ST = Trim(Left(Style, Setup_2Data_StyleMaxLen))
@@ -283,6 +284,7 @@ Public Class CGrossMargin
         RS("PackSaleGM").Value = Math.Round(PackSaleGM, 2)
         RS("TransID").Value = Trim(TransID)
     End Sub
+
     Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
         On Error Resume Next
         MarginLine = RS("MarginLine").Value
@@ -342,9 +344,11 @@ Public Class CGrossMargin
         PackSaleGM = Math.Round(IfNullThenZeroDouble(RS("PackSaleGM")), 2)
         TransID = IfNullThenNilString(RS("TransID"))
     End Sub
-    Private Sub mDataAccess_RecordUpdated()
+
+    Public Sub mDataAccess_RecordUpdated()
         MarginLine = mDataAccess.Value("MarginLine")
     End Sub
+
     Public Function Save() As Boolean
         On Error GoTo NoSave
         ' This instructs the class (in one simple call) to save its data members to the database.

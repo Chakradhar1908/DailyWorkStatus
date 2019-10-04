@@ -61,6 +61,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const CCPROC_CM As String = "Credomatic"
     Public Const CCPROC_CI As String = "ChargeItPro"
     Public Const Setup_MaxKitItems As Integer = 10
+    Public Const Setup_2Data_CommMaxLen As Integer = 138
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get

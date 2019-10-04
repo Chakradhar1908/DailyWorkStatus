@@ -219,4 +219,62 @@
             End Select
         End If
     End Function
+
+    Public Sub RecalculateCost()
+        ' Loads all the Items and recalculates the cost, retaining the old GM.
+        ' This is used when an item in the kit changes price.
+        Dim InvData As CInvRec, El As Object
+        Dim TotLanded As Decimal, TotOnSale As Decimal, TotList As Decimal
+        Dim I As Integer, Q As Double
+
+        InvData = New CInvRec
+
+        ' We could do this with an aggregate query.. It would be quicker and easier, but not have error handling.
+        For I = 1 To Setup_MaxKitItems
+            El = ItemRec(I)
+            Q = Quantity(I)
+
+            If El > 0 Then
+                DisposeDA(InvData)
+                InvData = New CInvRec
+                If InvData.Load(CStr(El), "#RN") Then
+                    TotLanded = TotLanded + InvData.Landed * Q
+                    TotOnSale = TotOnSale + InvData.OnSale * Q
+                    TotList = TotList + InvData.List * Q
+                Else
+                    ' Failed to load the 2Data record.  This could have a bad effect on the total price.
+                End If
+            End If
+        Next
+        DisposeDA(InvData)
+
+        ' TotalCost is the sum of all items' costs.
+        ' The new package price should be TotalCost*SaleGM/100?
+        Landed = TotLanded
+        OnSale = TotOnSale
+        List = TotList
+        PackPrice = MerchandisePrice(CalculateSalePrice(TotLanded, SaleGM))
+        SaleGM = CalculateGM(PackPrice, TotLanded)    ' Since merchandising can change the final price, update GM to reflect it.
+
+        DisposeDA(InvData)
+    End Sub
+
+    Public Function Save() As Boolean
+        On Error GoTo NoSave
+        ' This instructs the class (in one simple call) to save its data members to the database.
+        If DataAccess.Record_Count = 0 Then
+            ' Record not found.  This means we're adding a new one.
+            DataAccess.Records_Add()
+        End If
+        ' Then load our data into the recordset.
+        DataAccess.Record_Update()
+        ' And finally, tell the class to save the recordset.
+        DataAccess.Records_Update()
+        Exit Function
+
+NoSave:
+        Err.Clear()
+        Save = False
+    End Function
+
 End Class

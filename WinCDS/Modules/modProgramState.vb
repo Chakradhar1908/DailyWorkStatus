@@ -333,4 +333,10 @@
         InvenMode = IsInArray(Inven, A)
     End Function
 
+    Public Function POMode(ParamArray List() As Object) As Boolean
+        Dim A() As Object
+        A = List
+        POMode = IsInArray(PurchaseOrder, A)
+    End Function
+
 End Module

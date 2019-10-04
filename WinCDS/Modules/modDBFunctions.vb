@@ -171,4 +171,26 @@
         IfNullThenNullDate = IIf(IsNothing(T), NullDate, T)
     End Function
 
+    Public Function IfNegativeThenZero(ByVal T As Object) As Double
+        '::::IfNegativeThenZero
+        ':::SUMMARY
+        ': Null And Negative Handle Number Fields
+        ':::DESCRIPTION
+        ': Return a string result from field, processing DBNull AND < 0 as 0 (Double)
+        ':::PARAMETERS
+        ': - T - Typically a Recordset Field or value.
+        ':::RETURN
+        ': Double - Returns field value as string or ""
+        ':::SEE ALSO
+        ': - IfNullThenNilString
+        ': - IfNullThenBoolean, IfNullThenZeroCurrency, IfNullThenZeroLong, IfNullThenZeroDouble
+        On Error GoTo BadNumber
+        If IsNothing(T) Then IfNegativeThenZero = 0 : Exit Function
+        If T < 0 Then IfNegativeThenZero = 0 : Exit Function
+        IfNegativeThenZero = T
+        Exit Function
+BadNumber:
+        IfNegativeThenZero = 0
+    End Function
+
 End Module

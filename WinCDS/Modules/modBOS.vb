@@ -108,4 +108,58 @@
         '...
     End Function
 
+    Public Function MerchandisePrice(ByVal Price As Decimal) As Decimal
+        '::::MerchandisePrice
+        ':::SUMMARY
+        ': Return a 'merchandised' price
+        ':::DESCRIPTION
+        ': Given a price of 100.00, will create a 'merchandised' price of '99.95'.  Can round up or
+        ': down depending on how close the price is to the threshhold.
+        ':
+        ': Used only when the corresponding setting is enabled in the store setup.
+        ':
+        ': Does nothing if price is below 75$ (customized for some stores)
+        ':
+        ':::EXAMPLES
+        ': - MerchandisePrice(100)    ==  99.95
+        ': - MerchandisePrice(101)    == 105.50
+        ': - MerchandisePrice(105)    == 105.50
+        ': - MerchandisePrice(105.50) == 105.50
+        ': - MerchandisePrice(106)    == 109.95
+        ':::PARAMETERS
+        ': - Price - The price to be merchandised.
+        ':::RETURN
+        ': Currency - Returns the Merchandised price.
+        Dim Dollars As Integer
+        If StoreSettings.CalculateList = 2 Then
+            MerchandisePrice = RoundUp(Price)
+            Exit Function
+        End If
+        If StoreSettings.bNoMerchandisePrice Then
+            MerchandisePrice = Price
+            Exit Function
+        End If
+        If Price > 0 And Price < 70 And IsGrizzlys() Then
+            MerchandisePrice = Int(Price) + 0.95
+            Exit Function
+        End If
+        If Price < 75 Then
+            MerchandisePrice = Price
+            Exit Function
+        End If
+
+        Dollars = Int(Price)
+        Select Case Right(Dollars, 1)
+            Case 0
+                ' Go down to the last 9.95.
+                MerchandisePrice = Int(Dollars / 10) * 10 - 0.05
+            Case 1, 2, 3, 4, 5
+                ' Go up to 5.5
+                MerchandisePrice = Int(Dollars / 10) * 10 + 5.5
+            Case Else
+                ' Go up to 9.95
+                MerchandisePrice = Int(Dollars / 10) * 10 + 9.95
+        End Select
+    End Function
+
 End Module
