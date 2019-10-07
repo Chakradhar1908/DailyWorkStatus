@@ -69,7 +69,7 @@
         End If
         tStr = IIf((Index = "") _
             , "" _
-            , " WHERE " & Label & " " & Operators & " """ & ProtectSQL(Index) & """")
+            , " WHERE " & Label & " " & Operators & "'" & ProtectSQL(Index) & "'")
         ' [" & Table & "].  ' removed 20030904
         If InStr(Table, " join ") < 1 Then Table = "[" & Table & "]"
         getSQLByTableLabelIndex = Operation & " *" _

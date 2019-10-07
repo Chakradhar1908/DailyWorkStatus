@@ -74,12 +74,18 @@ Public Class sSale
 
                 If Taxed Then
                     For Y = 0 To X - 1
-                        If IsItem(Item(Y + 1).Style) Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "LAB" And StoreSettings.bLaborTaxable Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "DEL" And StoreSettings.bDeliveryTaxable Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "STAIN" Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "NOTES" Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "DISCOUNT" Then Items(Y + 1).NonTaxable = False
+                        'If IsItem(Item(Y + 1).Style) Then Items(Y + 1).NonTaxable = False
+                        If IsItem(Item(Y + 1).Style) Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "LAB" And StoreSettings.bLaborTaxable Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "LAB" And StoreSettings.bLaborTaxable Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "DEL" And StoreSettings.bDeliveryTaxable Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "DEL" And StoreSettings.bDeliveryTaxable Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "STAIN" Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "STAIN" Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "NOTES" Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "NOTES" Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "DISCOUNT" Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "DISCOUNT" Then Items(Y).NonTaxable = False
                     Next
                     Taxed = False
                 End If
@@ -498,8 +504,9 @@ PrintInvoiceError:
     Public ReadOnly Property Item(ByVal Index As Integer) As clsSaleItem
         Get
             Item = Nothing
-            If Index < LBound(Items) Or Index > UBound(Items) Then Exit Property
-            Item = Items(Index)
+            'If Index < LBound(Items) Or Index > UBound(Items) Then Exit Property
+            If Index < LBound(Items) Or Index > (UBound(Items) + 1) Then Exit Property
+            Item = Items(Index - 1)
         End Get
     End Property
 
@@ -782,6 +789,7 @@ Optional ByVal TransID As String = "") As Boolean
             DisposeDA(S)
         Next
     End Function
+
     Public Function LoadSaleNo(ByVal vSaleNo As String, Optional ByVal vStore As Integer = 0) As Boolean
         Dim Hold As cHolding, Gross As CGrossMargin, cM As clsMailRec
         Dim Taxed As Boolean, Y As Integer, ClearingStart As Integer
@@ -834,11 +842,16 @@ Optional ByVal TransID As String = "") As Boolean
 
                 If Taxed Then
                     For Y = ClearingStart To ItemCount - 1
-                        If IsItem(Item(Y + 1).Style) Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "LAB" And StoreSettings.bLaborTaxable Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "DEL" And StoreSettings.bDeliveryTaxable Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "STAIN" Then Items(Y + 1).NonTaxable = False
-                        If Item(Y + 1).Style = "NOTES" Then Items(Y + 1).NonTaxable = False
+                        'If IsItem(Item(Y + 1).Style) Then Items(Y + 1).NonTaxable = False
+                        If IsItem(Item(Y + 1).Style) Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "LAB" And StoreSettings.bLaborTaxable Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "LAB" And StoreSettings.bLaborTaxable Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "DEL" And StoreSettings.bDeliveryTaxable Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "DEL" And StoreSettings.bDeliveryTaxable Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "STAIN" Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "STAIN" Then Items(Y).NonTaxable = False
+                        'If Item(Y + 1).Style = "NOTES" Then Items(Y + 1).NonTaxable = False
+                        If Item(Y + 1).Style = "NOTES" Then Items(Y).NonTaxable = False
 
                         If IsADJ(Item(Y + 1).Style) Then GoTo DoneClearing
                     Next
@@ -877,7 +890,8 @@ DoneClearing:
     End Function
 
     Public Function QueryDesc(ByVal Index As Integer)
-        QueryDesc = Left(Items(Index).Desc, Setup_2Data_DescMaxLen)
+        'QueryDesc = Left(Items(Index).Desc, Setup_2Data_DescMaxLen)
+        QueryDesc = Left(Items(Index - 1).Desc, Setup_2Data_DescMaxLen)
     End Function
 
     'Note: Move to reporting software to generate this report.
@@ -1477,25 +1491,29 @@ DoneClearing:
             End If
         Next
     End Function
-    Public Function QueryStyle(ByVal Index as integer)
-        QueryStyle = Left(Items(Index).Style, Setup_2Data_StyleMaxLen)
+    Public Function QueryStyle(ByVal Index As Integer)
+        'QueryStyle = Left(Items(Index).Style, Setup_2Data_StyleMaxLen)
+        QueryStyle = Left(Items(Index - 1).Style, Setup_2Data_StyleMaxLen)
     End Function
-    Public Function QueryMfg(ByVal Index as integer)
-        QueryMfg = Items(Index).Vendor
+    Public Function QueryMfg(ByVal Index As Integer)
+        'QueryMfg = Items(Index).Vendor
+        QueryMfg = Items(Index - 1).Vendor
     End Function
     Public Function QueryLoc(ByVal Index as integer)
-        QueryLoc = Items(Index).Location
+        'QueryLoc = Items(Index).Location
+        QueryLoc = Items(Index - 1).Location
     End Function
 
     Public ReadOnly Property NoItemsOnSale() As Boolean
         Get
-            Dim I as integer
+            Dim I As Integer
             For I = 1 To ItemCount
                 If IsItem(Item(I).Style) Then Exit Property
             Next
             NoItemsOnSale = True
         End Get
     End Property
+
     Public ReadOnly Property PoNo(SaleItem As clsSaleItem) As Integer
         Get
             Dim tPO As String

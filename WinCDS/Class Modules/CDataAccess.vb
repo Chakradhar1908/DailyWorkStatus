@@ -92,6 +92,7 @@ Public Class CDataAccess
             tmpDBAG.dbClose()
             DisposeDA(tmpDBAG)
         Else
+            'SetRecordsetByTableLabelIndex(File:=DataBase, RS:=Mrs, Table:=Table, Label:=Index, Index:="-1")
             SetRecordsetByTableLabelIndex(File:=DataBase, RS:=Mrs, Table:=Table, Label:=Index, Index:="-1")
         End If
         mUpdated = False

@@ -20,7 +20,6 @@ D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSCommLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDBGrid.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 D:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.InetCtlsObjects.dll
@@ -104,3 +103,4 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

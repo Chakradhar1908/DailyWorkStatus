@@ -218,7 +218,12 @@ Public Class CGrossMargin
 
         ' MarginLine can't be updated.
         If MarginLine <> 0 And MarginLine <> RS("MarginLine").Value Then
-            RS("MarginLine").Value = MarginLine
+            'If IsNothing(MarginLine) Then
+            '    RS("MarginLine").Value = -1
+            'Else
+            '    RS("MarginLine").Value = MarginLine
+            'End If
+
         End If
 
         RS("SaleNo").Value = Trim(SaleNo)              ' SHOULD BE USED INSTEAD OF ID
