@@ -149,4 +149,31 @@ NoSave:
         DetailID = mDataAccess.Value("DetailID")
     End Sub
 
+    Public Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+        Dim I As Long
+        On Error Resume Next
+        DetailID = RS("DetailID").Value
+        Style = IfNullThenNilString(RS("Style").Value)
+        Lease1 = IfNullThenNilString(RS("SaleNo").Value)
+        Name = IfNullThenNilString(RS("Name").Value)
+        Misc = IfNullThenNilString(Trim(RS("Misc").Value))
+        DDate1 = RS("Ddate1").Value
+        If IsNothing(RS("Ddate1").Value) Then DDate1 = ""
+        Trans = IfNullThenNilString(RS("Trans").Value)
+        AmtS1 = RS("AmtSold").Value
+        Ns1 = RS("NewStock").Value
+        SO1 = RS("SpecOrd").Value
+        LAW = RS("LAW").Value
+
+        For I = 1 To Setup_MaxStores_DB
+            SetLocationQuantity(I, RS("Loc" & I).Value)
+        Next
+
+        Store = RS("Store").Value
+        InvRn = IfNullThenZero(RS("InvRn").Value)
+        MarginRn = IfNullThenZero(RS("MarginRn").Value)
+        ItemCost = IfNullThenZeroCurrency(RS("ItemCost").Value)
+        Notes = IfNullThenNilString(RS("Notes").Value)
+    End Sub
+
 End Class

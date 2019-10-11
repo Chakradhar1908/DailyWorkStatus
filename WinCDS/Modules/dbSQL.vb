@@ -93,6 +93,7 @@
         cDB.UpdateRecordSet(RS)   ' This must be called to update the database.
         cDB.dbClose()              ' used to close recordset
     End Sub
+
     Public Function GetField_BlankDefault(ByRef RS As ADODB.Recordset, ByRef Field As String) As String
         '::::GetField_BlankDefault
         ':::SUMMARY
@@ -105,8 +106,9 @@
         ':::RETURN
         ': String - Returns the result as a String.
         Dim Result As String = ""
-        GetField_BlankDefault = IIf(IsNothing(RS(Field)), "", RS(Field))
+        GetField_BlankDefault = IIf(IsNothing(RS(Field).Value), "", RS(Field).Value)
     End Function
+
     Public Function GetEmptyRecordsetByTable(ByRef Table As String, Optional ByRef Always As Boolean = True, Optional ByRef File As String = "", Optional ByRef QuietErrors As Boolean = False) As ADODB.Recordset
         '::::GetEmptyRecordsetByTable
         ':::SUMMARY

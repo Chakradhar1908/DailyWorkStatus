@@ -20,8 +20,8 @@ Public Class clsSaleItem
 
     Public Extra1 As String ' BFH20060602
     Public Extra2 As String
-
     Public Balance As Decimal    ' BFH20110629 - for partial approval support, mc/visa gift card balance, will show a NOTE line on receipt
+
     Public Sub LoadPricing(Optional ByVal vStyle As String = "")
         Dim InvData As CInvRec
         InvData = New CInvRec
@@ -34,6 +34,7 @@ Public Class clsSaleItem
         End With
         DisposeDA(InvData)
     End Sub
+
     Public Sub AddItemGrossMargin(ByVal Sale As sSale)
         Dim A As String, B As String
         Dim cGM As CGrossMargin, CI As CInvRec, Found As Boolean
@@ -125,8 +126,13 @@ Public Class clsSaleItem
             .DataAccess.Records_AddAndClose1()
             cGM.cDataAccess_SetRecordSet(.DataAccess.RS)
             .DataAccess.Records_AddAndClose2()
-            cGM.mDataAccess_RecordUpdated()
-            MarginNo = .MarginLine
+            'MarginNo = .MarginLine       -------> This line replaced with the below block using GetRecordSetBySQL.
+            Dim rsMax As New ADODB.Recordset
+            rsMax = GetRecordsetBySQL("Select max(MarginLine) from GrossMargin", True, GetDatabaseAtLocation)
+            If Not rsMax.EOF And Not rsMax.BOF Then
+                MarginNo = rsMax(0).Value
+            End If
+
             On Error GoTo HandleErr
 
             If .Detail <> 0 Then SetDetailMarginLine(DetailNo, MarginNo)
@@ -251,10 +257,12 @@ ErrHandler:
     Public Sub LoadVendor(Optional ByVal vStyle As String = "", Optional ByRef VendorNo As String = "", Optional ByRef DeptNo As String = "")
         Vendor = GetVendorByStyle(Style, VendorNo, DeptNo)
     End Sub
-    Private Function SetDetailMarginLine(ByVal DetailNo as integer, ByVal MarginNo as integer) As Boolean
+
+    Private Function SetDetailMarginLine(ByVal DetailNo As Integer, ByVal MarginNo As Integer) As Boolean
         Dim InvDetail As CInventoryDetail
         InvDetail = New CInventoryDetail
         If InvDetail.Load(DetailNo, "#DetailID") Then
+            InvDetail.cDataAccess_GetRecordSet(InvDetail.DataAccess.RS)
             InvDetail.MarginRn = MarginNo
             InvDetail.Save()
         End If

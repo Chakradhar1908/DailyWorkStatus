@@ -350,7 +350,7 @@
             GetCashierName = GetLastLoginName
             If IsIn(GetCashierName, SECURITY_NAME_BACKDOOR, SECURITY_NAME_DEMO, SECURITY_NAME_EVERYBODY) Then GetCashierName = ""
             If GetCashierName = "" Then
-                GetCashierName = GetLocalComputerName()
+                'GetCashierName = GetLocalComputerName()
                 If GetCashierName <> "" And SecurityLevel = ComputerSecurityLevels.seclevOfficeComputer Then GetCashierName = "[Office PC]"
                 If GetCashierName <> "" Then GetCashierName = "[" & GetCashierName & "]"
             End If

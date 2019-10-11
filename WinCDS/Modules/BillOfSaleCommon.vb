@@ -68,11 +68,11 @@
     Public Function AddNewMarginRecord(ByVal SaleNo As String, ByVal Style As String, ByVal Desc As String,
   Optional ByVal Quantity As Double = 0, Optional ByVal SellPrice As Decimal = 0,
   Optional ByVal Vendor As String = "", Optional ByVal DeptNo As String = "", Optional ByVal VendorNo As String = "", Optional ByVal Cost As Decimal = 0,
-  Optional ByVal ItemFreight As Decimal = 0, Optional ByVal RN as integer = 0,
+  Optional ByVal ItemFreight As Decimal = 0, Optional ByVal RN As Integer = 0,
   Optional ByVal PorD As String = "", Optional ByVal Commission As String = "", Optional ByVal Status As String = "", Optional ByVal Salesman As String = "",
   Optional ByVal Location As String = "", Optional ByVal SellDte As String = "", Optional ByVal DDelDat As String = "", Optional ByVal Store As String = "",
   Optional ByVal Name As String = "", Optional ByVal ShipDte As String = "", Optional ByVal Phone As String = "", Optional ByVal Index As String = "",
-  Optional ByVal GM As String = "", Optional ByVal Detail as integer = 0, Optional ByVal SS As String = "", Optional ByVal DelPrint As String = "", Optional ByVal PullPrint As String = "",
+  Optional ByVal GM As String = "", Optional ByVal Detail As Integer = 0, Optional ByVal SS As String = "", Optional ByVal DelPrint As String = "", Optional ByVal PullPrint As String = "",
   Optional ByVal CommPd As Date = Nothing, Optional ByVal TransID As String = "", Optional ByVal SalesSplit As String = "100.0 0.0 0.0"
   ) As Boolean
         '::::AddNewMarginRecord
@@ -91,6 +91,7 @@
         AddNewMarginRecord = True
 
     End Function
+
     Public Function SaveNewMarginRecord(ByVal SaleNo As String, ByVal Style As String, ByVal Desc As String,
   Optional ByVal Quantity As Double = 0, Optional ByVal SellPrice As Decimal = 0,
   Optional ByVal Vendor As String = "", Optional ByVal DeptNo As String = "", Optional ByVal VendorNo As String = "", Optional ByVal Cost As Decimal = 0,
@@ -110,6 +111,7 @@
                 C.Load(SaleNo, "SaleNo")
                 If C.DataAccess.Record_Count > 0 Then
                     C.DataAccess.Records_MoveAbsolute(1)
+                    C.cDataAccess_GetRecordSet(C.DataAccess.RS)
                 End If
             End If
         End If

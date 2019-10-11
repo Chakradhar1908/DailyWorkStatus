@@ -16,7 +16,7 @@ Module modGrossMargin
             SelectPrinter.Close()
         End If
     End Function
-    Public Function DescSetSoldTagPrinted(ByVal Desc As String, Optional ByVal SaleNo As String = "", Optional ByVal StyleNo As String = "", Optional ByVal StoreNo as integer = 0) As String
+    Public Function DescSetSoldTagPrinted(ByVal Desc As String, Optional ByVal SaleNo As String = "", Optional ByVal StyleNo As String = "", Optional ByVal StoreNo As Integer = 0) As String
         Dim S As String
 
         If DescHasSoldTagPrinted(Desc) Then
@@ -39,6 +39,7 @@ Module modGrossMargin
 
         ExecuteRecordsetBySQL(S, , GetDatabaseAtLocation(StoreNo))
     End Function
+
     Public Sub SalePackageUpdate(ByVal SaleNo As String, Optional ByVal StoreNo as integer = 0, Optional ByVal TempTable As Boolean = False, Optional ByVal AllowCache As Boolean = True)
         Dim RS As ADODB.Recordset, ML as integer, S As String
         Dim IsPackage As Boolean, GM As Double, SellPrice As Decimal
@@ -51,19 +52,19 @@ Module modGrossMargin
 
         RS = GetRecordsetBySQL("SELECT Style,MarginLine,Cost,ItemFreight,SellPrice,GM FROM " & sTable & " WHERE SaleNo='" & ProtectSQL(SaleNo) & "' ORDER BY MarginLine", , GetDatabaseAtLocation(StoreNo))
         Do While Not RS.EOF
-            ML = IfNullThenZero(RS("MarginLine"))
+            ML = IfNullThenZero(RS("MarginLine").Value)
             'Debug.Print "SalePackageUpdate ML=" & ML
             'If ML = 29751 Then Stop
             If ML <> 0 Then
-                Sty = IfNullThenNilString(RS("Style"))
+                Sty = IfNullThenNilString(RS("Style").Value)
                 IsPackage = PrepareMLForPackages(StoreNo, ML, SaleNo, GM, SellPrice, AllowCache)
                 If IsItem(Sty) Or IsIn(Sty, "NOTES", "STAIN", "DEL", "LAB") Then
                     If Not IsItem(Sty) Then
-                        SellPrice = IfNullThenZeroCurrency(RS("SellPrice"))
+                        SellPrice = IfNullThenZeroCurrency(RS("SellPrice").Value)
                         GM = 100 'IfNullThenZeroDouble(RS("GM"))
                     End If
-                    TotLanded = TotLanded + IfNullThenZeroCurrency(RS("Cost")) + IfNullThenZeroCurrency(RS("ItemFreight"))
-                    TotSellPr = TotSellPr + IfNullThenZeroCurrency(RS("SellPrice"))
+                    TotLanded = TotLanded + IfNullThenZeroCurrency(RS("Cost").Value) + IfNullThenZeroCurrency(RS("ItemFreight").Value)
+                    TotSellPr = TotSellPr + IfNullThenZeroCurrency(RS("SellPrice").Value)
 
                     If IsPackage Then
                         S = "UPDATE " & sTable & " SET IsPackage=1, PackSellGM=" & FormatGM(GM) & ", PackSell=" & SQLCurrency(SellPrice) & " WHERE MarginLine=" & ML
@@ -94,12 +95,14 @@ Module modGrossMargin
         If IsSleepCity Then WantCheckDisposal = True
         If IsBarrs Then WantCheckDisposal = True
     End Function
-    Public Function DisposalDepartment() as integer
+
+    Public Function DisposalDepartment() As Integer
         DisposalDepartment = -1
         If Not WantCheckDisposal() Then Exit Function
         If IsSleepCity Then DisposalDepartment = 10
         If IsBarrs Then DisposalDepartment = 10
     End Function
+
     Public Function PrepareMLForPackages(ByVal S as integer, ByVal ML as integer, ByVal SaleNo As String, Optional ByRef GM As Double = 0, Optional ByRef SellPrice As Decimal = 0, Optional ByVal Cache As Boolean = False) As Boolean
         Dim G As CGrossMargin, I as integer, Pkg As Boolean, Cnt as integer, TotLand As Decimal, TotCost As Decimal, TotSell As Decimal, PKGM As Double
         If Cache And SaleNo = PrepareMLForPackages_SaleNo And Not PrepareMLForPackages_cGM Is Nothing Then
@@ -124,6 +127,7 @@ Module modGrossMargin
         PrepareMLForPackages = False
 
         Do While G.DataAccess.Records_Available
+            G.cDataAccess_GetRecordSet(G.DataAccess.RS)
             If IsItem(G.Style) Then
                 If G.MarginLine = ML Then
                     GM = G.GM

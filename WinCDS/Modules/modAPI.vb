@@ -149,10 +149,11 @@ Module modAPI
 
 
     Public Function GetLocalComputerName() As String
+        'On Error Resume Next
         Dim sBuffer As String
         Dim lReturn As Integer
         sBuffer = Space(255)
-        lReturn = GetComputerName(sBuffer, Len(sBuffer))
+        'lReturn = GetComputerName(sBuffer, Len(sBuffer))
         GetLocalComputerName = Trim(Left(sBuffer, InStr(sBuffer, vbNullChar) - 1))
     End Function
     Public Function DrawRectangle(ByVal hwnd As Integer, ByVal L As Integer, ByVal T As Integer, ByVal W As Integer, ByVal H As Integer, ByVal Color As Integer, Optional ByVal Transparency As Integer = 75, Optional ByVal Invalidate1st As Boolean = True) As Boolean

@@ -45,17 +45,17 @@ Public Class CGrossMargin
     Public SellPrice As Decimal
     Public Salesman As String
     Public Status As String
-    Public Location as integer
+    Public Location As Integer
     Public SellDte As String
     Public DDelDat As String
     Public RN As String
-    Public Store as integer
+    Public Store As Integer
     Public Name As String
     Public ShipDte As String
     Public GM As String
     Public Phone As String
     Public Index As String
-    Public Detail as integer
+    Public Detail As Integer
     Public SS As String
     Public DelPrint As String
     Public PullPrint As String
@@ -88,6 +88,7 @@ Public Class CGrossMargin
         CDataConvert_Init()
         CDataAccess_Init()
     End Sub
+
     Public Sub CDataConvert_Init()
         mDataConvert = New cDataConvert
         With mDataConvert
@@ -97,6 +98,7 @@ Public Class CGrossMargin
             .Index = TABLE_INDEX
         End With
     End Sub
+
     Public Sub CDataAccess_Init()
         mDataAccess = New CDataAccess
         With mDataAccess
@@ -108,15 +110,18 @@ Public Class CGrossMargin
     End Sub
 
     ' These are needed for the practice.frm WHY?, to know about friend.count
-    Public Function Count() as integer
+    Public Function Count() As Integer
         Count = mDataConvert.Count
     End Function
+
     Public Sub ConvertData()
-        mDataConvert.ConvertData
+        mDataConvert.ConvertData()
     End Sub
+
     Public Function CDataConvert_SuperClass() As cDataConvert
         CDataConvert_SuperClass = mDataConvert
     End Function
+
     Private Sub cDataConvert_FileOpen()
         'Open(NewOrderFolder() & FILE_Name) For Random Shared As FILE_Index Len = FILE_RecordSize
         FileOpen(FILE_Index, NewOrderFolder() & FILE_Name, OpenMode.Random,, OpenShare.Shared, FILE_RecordSize)
@@ -124,12 +129,13 @@ Public Class CGrossMargin
     '    Private Property Get cDataConvert_FileRecords() as integer
     '  cDataConvert_FileRecords = LOF(FILE_Index) / FILE_RecordSize
     'End Property
-    Private ReadOnly Property cDataConvert_FileRecords() as integer
+    Private ReadOnly Property cDataConvert_FileRecords() As Integer
         Get
             cDataConvert_FileRecords = LOF(FILE_Index) / FILE_RecordSize
         End Get
     End Property
-    Private Sub cDataConvert_SetRecordSet(Index as integer, RS As ADODB.Recordset)
+
+    Private Sub cDataConvert_SetRecordSet(Index As Integer, RS As ADODB.Recordset)
         Dim tDataStruct As New GrossMargin
         'Get( #FILE_Index, Index + 1, tDataStruct)
 
@@ -170,12 +176,13 @@ Public Class CGrossMargin
     Private Sub cDataConvert_FileClose()
         FileClose(FILE_Index)
     End Sub
+
     Private Sub cDataConvert_ConvertExceptions(RS As ADODB.Recordset)
         ' This gets passed a filtered recordset containing things that failed to insert.
         ' We're going to assume they're all data errors.  In this case, duplicates.
 
         ' Print a list of all the GM data, so the store can fix whatever's wrong.
-        Dim DataArr() As Object, FieldNameArr() As String, FieldAlignArr() as integer, FieldWidthArr() as integer, I as integer
+        Dim DataArr() As Object, FieldNameArr() As String, FieldAlignArr() As Integer, FieldWidthArr() As Integer, I As Integer
         DataArr = RS.GetRows()
         ReDim FieldNameArr(RS.Fields.Count - 1)
         ReDim FieldAlignArr(RS.Fields.Count - 1)
@@ -200,13 +207,16 @@ Public Class CGrossMargin
         '            Resume REPRINT
         '        End If
     End Sub
+
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
+
     Public Sub Dispose()
         On Error Resume Next
-        mDataAccess.Dispose
+        mDataAccess.Dispose()
     End Sub
+
     Public Function cDataAccess_SuperClass() As CDataAccess
         cDataAccess_SuperClass = mDataAccess
     End Function
@@ -223,7 +233,11 @@ Public Class CGrossMargin
             'Else
             '    RS("MarginLine").Value = MarginLine
             'End If
-
+            'Dim rsMax As New ADODB.Recordset
+            'rsMax = GetRecordsetBySQL("Select max(MarginLine) from GrossMargin", True, GetDatabaseAtLocation)
+            'If Not rsMax.EOF And Not rsMax.BOF Then
+            '    RS("MarginLine").Value = rsMax(0).Value + 1
+            'End If
         End If
 
         RS("SaleNo").Value = Trim(SaleNo)              ' SHOULD BE USED INSTEAD OF ID
@@ -290,18 +304,18 @@ Public Class CGrossMargin
         RS("TransID").Value = Trim(TransID)
     End Sub
 
-    Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+    Public Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
         On Error Resume Next
         MarginLine = RS("MarginLine").Value
-        SaleNo = Trim(IfNullThenNilString(RS("SaleNo")))
+        SaleNo = Trim(IfNullThenNilString(RS("SaleNo").Value))
         'If MarginLine = "53664" And SaleNo = "25775" Then Stop
         Quantity = RS("Quantity").Value
-        Style = Trim(IfNullThenNilString(RS("Style")))
-        Vendor = Trim(IfNullThenNilString(RS("Vendor")))
-        Desc = Trim(IfNullThenNilString(RS("Desc")))
-        PorD = Trim(IfNullThenNilString(RS("PorD")))
+        Style = Trim(IfNullThenNilString(RS("Style").Value))
+        Vendor = Trim(IfNullThenNilString(RS("Vendor").Value))
+        Desc = Trim(IfNullThenNilString(RS("Desc").Value))
+        PorD = Trim(IfNullThenNilString(RS("PorD").Value))
         DeptNo = RS("DeptNo").Value
-        VendorNo = Format(RS("VendorNo"), "000")
+        VendorNo = Format(RS("VendorNo").Value, "000")
         'Code = rs("Code")
         Commission = RS("Commission").Value
         Cost = GetPrice(RS("Cost").Value)
@@ -311,43 +325,43 @@ Public Class CGrossMargin
         Status = Left(GetField_BlankDefault(RS, "Status"), 10)  ' USE THIS TO convert a null to blank
         Location = RS("Location").Value
         SellDte = RS("SellDate").Value
-        DDelDat = IfNullThenNilString(RS("DelDate"))
-        RN = IfNullThenZero(RS("Rn"))
-        Store = IfNullThenZero(RS("Store"))
-        Name = Trim(IfNullThenNilString(RS("Name")))
+        DDelDat = IfNullThenNilString(RS("DelDate").Value)
+        RN = IfNullThenZero(RS("Rn").Value)
+        Store = IfNullThenZero(RS("Store").Value)
+        Name = Trim(IfNullThenNilString(RS("Name").Value))
         ShipDte = RS("ShipDate").Value
-        GM = IfNullThenNilString(RS("GM"))
-        Phone = CleanAni(IfNullThenNilString(RS("Tele")))
+        GM = IfNullThenNilString(RS("GM").Value)
+        Phone = CleanAni(IfNullThenNilString(RS("Tele").Value))
         Index = RS("MailIndex").Value
         Detail = RS("Detail").Value
         'Access
-        SS = IfNullThenNilString(RS("SS"))
-        DelPrint = IfNullThenNilString(RS("DelPrint"))
-        PullPrint = IfNullThenNilString(RS("PullPrint"))
+        SS = IfNullThenNilString(RS("SS").Value)
+        DelPrint = IfNullThenNilString(RS("DelPrint").Value)
+        PullPrint = IfNullThenNilString(RS("PullPrint").Value)
         CommPd = RS("CommPd").Value
-        If IsNothing(RS("CommPd")) Then
+        If IsNothing(RS("CommPd").Value) Then
             CommPd = Nothing    ' MJK 20131026
         End If
         If IsNothing(CommPd) Then CommPd = Nothing          ' This doesn't work; CommPd can't be null.
-        Spiff = IfNullThenZeroCurrency(RS("Spiff"))
-        SalesSplit = IfNullThenNilString(RS("SalesSplit"))
+        Spiff = IfNullThenZeroCurrency(RS("Spiff").Value)
+        SalesSplit = IfNullThenNilString(RS("SalesSplit").Value)
 
-        If IsDate(IfNullThenNilString(RS("StopStart"))) Then
+        If IsDate(IfNullThenNilString(RS("StopStart").Value)) Then
             StopStart = Trim(Format(TimeValue(RS("StopStart").Value), "h:mm ampm"))
         Else
             StopStart = ""
         End If
-        If IsDate(IfNullThenNilString(RS("StopEnd"))) Then
+        If IsDate(IfNullThenNilString(RS("StopEnd").Value)) Then
             StopEnd = Trim(Format(TimeValue(RS("StopEnd").Value), "h:mm ampm"))
         Else
             StopEnd = ""
         End If
 
-        IsPackage = Val(IfNullThenNilString(RS("IsPackage"))) <> 0
-        PackSell = IfNullThenZeroCurrency(RS("PackSell"))
-        PackSellGM = Math.Round(IfNullThenZeroDouble(RS("PackSellGM")), 2)
-        PackSaleGM = Math.Round(IfNullThenZeroDouble(RS("PackSaleGM")), 2)
-        TransID = IfNullThenNilString(RS("TransID"))
+        IsPackage = Val(IfNullThenNilString(RS("IsPackage").Value)) <> 0
+        PackSell = IfNullThenZeroCurrency(RS("PackSell").Value)
+        PackSellGM = Math.Round(IfNullThenZeroDouble(RS("PackSellGM").Value), 2)
+        PackSaleGM = Math.Round(IfNullThenZeroDouble(RS("PackSaleGM").Value), 2)
+        TransID = IfNullThenNilString(RS("TransID").Value)
     End Sub
 
     Public Sub mDataAccess_RecordUpdated()
@@ -360,11 +374,18 @@ Public Class CGrossMargin
         If DataAccess.Record_Count = 0 Then
             ' Record not found.  This means we're adding a new one.
             DataAccess.Records_Add()
+            cDataAccess_SetRecordSet(DataAccess.RS)
         End If
         ' Then load our data into the recordset.
         DataAccess.Record_Update()
+        cDataAccess_SetRecordSet(DataAccess.RS)
         ' And finally, tell the class to save the recordset.
         DataAccess.Records_Update()
+        Dim rsMax As New ADODB.Recordset
+        rsMax = GetRecordsetBySQL("Select max(MarginLine) from GrossMargin", True, GetDatabaseAtLocation)
+        If Not rsMax.EOF And Not rsMax.BOF Then
+            MarginLine = rsMax(0).Value
+        End If
         Save = True
         Exit Function
 
@@ -372,6 +393,7 @@ NoSave:
         Err.Clear()
         Save = False
     End Function
+
     Public Function Load(ByVal KeyVal As String, Optional ByRef KeyName As String = "") As Boolean
         ' Checks the database for a matching record.
         ' Returns True if the load was successful, false otherwise.
@@ -390,8 +412,12 @@ NoSave:
         End If
 
         ' Move to the first record if we can, and return success.
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
+
     Public Function Void(ByRef VoidDate As Date) As Boolean
         Void = False
         If MarginLine = 0 Then Exit Function ' Can't void unsaved records.
@@ -612,23 +638,29 @@ NoSave:
 
         'PrinterError:
     End Sub
+
     Public Function WrittenInPeriod(ByRef StartDate As Date, ByRef EndDate As Date) As Boolean
         WrittenInPeriod = DateInRange(SellDte, StartDate, EndDate) And Trim(Style) <> "" 'And Trim(Style) <> "NOTES" And Trim(Style) <> "STAIN"
     End Function
+
     Public Function DeliveredInPeriod(ByRef StartDate As Date, ByRef EndDate As Date) As Boolean
         DeliveredInPeriod = DateInRange(DDelDat, StartDate, EndDate) And (IsDelivered(Status) Or Status = "VDDEL")
     End Function
+
     Public Function VoidedInPeriod(ByRef StartDate As Date, ByRef EndDate As Date) As Boolean
         VoidedInPeriod = DateInRange(ShipDte, StartDate, EndDate) And IsVoid(Status)
     End Function
+
     Public Function LoadMailRecord() As clsMailRec
         LoadMailRecord = modMail.LoadMailRecord(Index, GetStoreNumber(DataAccess.DataBase))
     End Function
+
     Public Function LoadHoldingRecord() As cHolding
         LoadHoldingRecord = New cHolding
         LoadHoldingRecord.DataAccess.DataBase = DataAccess.DataBase
         If Not LoadHoldingRecord.Load(SaleNo, "LeaseNo") Then DisposeDA(LoadHoldingRecord)
     End Function
+
     Public Function LoadInventoryRecord() As CInvRec
         LoadInventoryRecord = Nothing
         If Not IsItem(Style) Then Exit Function
@@ -637,10 +669,12 @@ NoSave:
             DisposeDA(LoadInventoryRecord)
         End If
     End Function
+
     Public Function LoadInstallmentTransactionRecords() As cTransaction
         LoadInstallmentTransactionRecords = New cTransaction
         If Not LoadInstallmentTransactionRecords.Load("NewSale " & SaleNo, "Type") Then DisposeDA(LoadInstallmentTransactionRecords)
     End Function
+
     Public Function LoadInstallmentRecord() As cInstallment
         Dim T As cTransaction, ArNo As String
 
@@ -654,5 +688,4 @@ NoSave:
         LoadInstallmentRecord = New cInstallment
         If Not LoadInstallmentRecord.Load(ArNo, "ArNo") Then DisposeDA(LoadInstallmentRecord)
     End Function
-
 End Class

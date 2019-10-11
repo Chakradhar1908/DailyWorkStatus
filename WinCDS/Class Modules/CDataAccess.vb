@@ -184,6 +184,7 @@ HandleErr:
     End Function
     Public Sub getRecordset(ByRef RS As ADODB.Recordset) : End Sub
     Public Sub SetRecordSet(ByRef RS As ADODB.Recordset) : End Sub
+
     Friend Sub Records_MoveNext()
         On Error Resume Next
         Mrs.MoveNext()
@@ -217,6 +218,7 @@ HandleErr:
         mCurrentIndex = -1
         mUpdated = False
     End Function
+
     Friend Property CurrentIndex() As String
         Get
             CurrentIndex = mCurrentIndex
@@ -225,9 +227,11 @@ HandleErr:
             mCurrentIndex = value
         End Set
     End Property
+
     Friend Function RS() As ADODB.Recordset
         RS = Mrs
     End Function
+
     Friend Sub Records_MovePrevious()
         On Error Resume Next
         Mrs.MovePrevious()
