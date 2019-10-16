@@ -355,18 +355,18 @@ Public Class BillOSale
         Dim I As Integer, X As Integer, DoAll As Boolean
 
         If LeaseNo = "" Then
-            MsgBox("SOLD tags only allowed for completed sales.")
+            MessageBox.Show("SOLD tags only allowed for completed sales.")
             Exit Sub
         End If
 
 TryAgain:
-        '        For I = 0 To UGridIO1.LastRowUsed
-        '            If IsNotIn(QueryStatus(I), "ST") Then GoTo NextItem
-        '            If Not IsItem(QueryStyle(I)) Then GoTo NextItem
-        '            If DoAll Or Not DescHasSoldTagPrinted(QueryDesc(I)) Then X = X + PrintSoldTags(QueryStyle(I), CustomerLast.Text, LeaseNo, 1)
-        '            SetDesc(I, DescSetSoldTagPrinted(QueryDesc(I), LeaseNo, QueryStyle(I))) ' this gets the new value and updates it in the GM table if possible
-        'NextItem:
-        '        Next
+        For I = 0 To UGridIO1.LastRowUsed
+            If IsNotIn(QueryStatus(I), "ST") Then GoTo NextItem
+            If Not IsItem(QueryStyle(I)) Then GoTo NextItem
+            If DoAll Or Not DescHasSoldTagPrinted(QueryDesc(I)) Then X = X + PrintSoldTags(QueryStyle(I), CustomerLast.Text, LeaseNo, 1)
+            SetDesc(I, DescSetSoldTagPrinted(QueryDesc(I), LeaseNo, QueryStyle(I))) ' this gets the new value and updates it in the GM table if possible
+NextItem:
+        Next
 
         If Not DoAll And X = 0 Then
             If MsgBox("Re-print all SOLD tags?", vbYesNo + vbQuestion, "Confirm Reprint") = vbYes Then
@@ -731,12 +731,14 @@ TryAgain:
     Private Sub BillOSale_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         ' This is replacement for form_unload event of vb 6.0
         ' This event is replacement for form_queryunload event also.
+        ' Here both form_unload and form_queryunload event code is combined. Because, in vb.net there are no separte events. For both, formclosing is the event.
 
+        'If UnloadMode = vbFormControlMenu Then Cancel = True  -This line is from Form_queryunload event of vb6.0
         If e.CloseReason = CloseReason.UserClosing Then
             e.Cancel = True
         End If
 
-        On Error Resume Next
+        On Error Resume Next   'From here, this code is of form unload event of vb6.0. 
         DisposeDA(Marginn)
         'VerifyMailRecUnique MailRec, vbTrue  ' clear it if it was saved..
         MailRec = 0
@@ -750,7 +752,6 @@ TryAgain:
         'Unload InvDefault
         InvDefault.Close()
         '  Unload InvCkStyle
-
     End Sub
 
     Private Sub BillOSale_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
@@ -961,7 +962,7 @@ TryAgain:
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(5, "Description", 250, False, False)
             '.AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
-            .AddColumn(6, "Price", 70, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            .AddColumn(6, "Price", 72, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .AddColumn(8, "TransID", 0, True, False, , False)
             .MaxCols = 9
@@ -982,7 +983,6 @@ TryAgain:
             X = 0
             .Col = 0
             .Row = 0
-
         End With
 
         '  VerifyMailRecUnique MailRec, vbTrue  ' clear it if it was saved..
@@ -2153,14 +2153,12 @@ HandleErr:
                 ' Sale was in a different store.  We have to switch to view it.
                 StoresSld = StoreNo
                 If Not ReturnToOriginalStore Then
-                    MsgBox("This sale was made in store " & StoreNo & "." & vbCrLf &
-               "Your current login has been changed to store " & StoreNo & "." & vbCrLf &
-               "You may want to change it back before making new sales.",
-               vbExclamation, "Current Store Changed")
+                    MessageBox.Show("This sale was made in store " & StoreNo & "." & vbCrLf &
+                    "Your current login has been changed to store " & StoreNo & "." & vbCrLf &
+                    "You may want to change it back before making new sales.", "Current Store Changed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
-                    MsgBox("This sale was made in store " & StoreNo & ", not in your current store (store " & OldStoreNo & ")" & vbCrLf &
-               "Please note that you must log into the correct store to view this sale normally.",
-               vbExclamation, "Sale store different than login store")
+                    MessageBox.Show("This sale was made in store " & StoreNo & ", not in your current store (store " & OldStoreNo & ")" & vbCrLf &
+                    "Please note that you must log into the correct store to view this sale normally.", "Sale store different than login store", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             End If
 
@@ -2181,7 +2179,7 @@ HandleErr:
             cmdProcessSale.Enabled = False
             ScanDn.Enabled = False
             ScanUp123.Enabled = False
-            'UGridIO1.GetDBGrid.AllowUpdate = False
+            UGridIO1.GetDBGrid.AllowUpdate = False
             cmdMainMenu.Text = "Back"
             '  BFH20160130
             '  Because this whole feature was completely added on, and was not thought out...
@@ -2198,8 +2196,8 @@ HandleErr:
 
         If ReturnToOriginalStore And OldStoreNo <> StoresSld Then
             StoresSld = OldStoreNo
-            '    main_StoreChange OldStoreNo
-            '    frmSetup .LoadStore
+            'main_StoreChange OldStoreNo
+            'frmSetup .LoadStore
         End If
     End Sub
 
@@ -2424,7 +2422,7 @@ HandleErr:
         Row = UGridIO1.Row
 
         Recalculate()  'checks for wrong price
-        SetPrice(Row, "")
+        'SetPrice(Row, "")
         UGridIO1.Row = Row
         UGridIO1.Col = Col
 
@@ -2435,24 +2433,24 @@ HandleErr:
         Dim Col As Integer, Row As Integer
         Dim OldValue As String, NewVal As String
 
-        'With UGridIO1
-        '    Col = .Col
-        '    Row = .Row
+        With UGridIO1
+            Col = .Col
+            Row = .Row
 
-        '    OldValue = LastQuant
-        '    NewVal = LastGridText(Index, 4) '.GetValue(Index, 4)
-        '    If NewVal = "" Then Exit Function
-        '    If Trim(.GetValue(Index, 3)) = "SS" And Val(OldValue) <> 0 Then
-        '        'Issue# 126@Mantis. Below two lines are commented, to rectify the wrong calculation of qty * price of SS items.
-        '        'NP = GetPrice(.GetValue(Index, 6)) / Val(OldValue) * Val(NewVal)
-        '        '.SetValue Index, 6, Format(NP, "###,###.00")
-        '        .Refresh(True)
-        '        .Row = Row
-        '    End If
+            OldValue = LastQuant
+            NewVal = LastGridText(Index, 4) '.GetValue(Index, 4)
+            If NewVal = "" Then Exit Function
+            If Trim(.GetValue(Index, 3)) = "SS" And Val(OldValue) <> 0 Then
+                'Issue# 126@Mantis. Below two lines are commented, to rectify the wrong calculation of qty * price of SS items.
+                'NP = GetPrice(.GetValue(Index, 6)) / Val(OldValue) * Val(NewVal)
+                '.SetValue Index, 6, Format(NP, "###,###.00")
+                .Refresh(True)
+                .Row = Row
+            End If
 
-        '    .Row = Row
-        '    .Col = Col
-        'End With
+            .Row = Row
+            .Col = Col
+        End With
 
         DeleteLine = ""
     End Function
@@ -3836,10 +3834,10 @@ HandleErr:
                     Dim LastRow As Integer = UGridIO1.LastRowUsed
                     Dim StainDelLabNotes As String = UGridIO1.GetValue(LastRow, BillColumns.eStyle)
                     If StainDelLabNotes = "STAIN" Or StainDelLabNotes = "DEL" Or StainDelLabNotes = "LAB" Or StainDelLabNotes = "NOTES" Or StainDelLabNotes = "PAYMENT" Then
-                        If UGridIO1.GetValue(LastRow, BillColumns.ePrice) = "" Then
-                            SetPrice(LastRow, NewVal)
-                            NewVal = Format(NewVal, "##,##0.00")
-                        End If
+                        'If UGridIO1.GetValue(LastRow, BillColumns.ePrice) = "" Then
+                        SetPrice(LastRow, NewVal)
+                        'End If
+                        NewVal = Format(NewVal, "##,##0.00")
                     End If
             End Select
         End With
@@ -3910,13 +3908,13 @@ HandleErr:
         Email.Text = Trim(Email.Text)
         If Email.Text = "" Then Exit Sub
         If InStr(Email.Text, "Then@") = 0 Or InStr(Email.Text, ".") = 0 Or Len(Email.Text) < 5 Then
-            MsgBox("Invalid email address.  Email address must be in 'user@company.com' format.")
+            MessageBox.Show("Invalid email address.  Email address must be in 'user@company.com' format.")
             'Cancel = True
             e.Cancel = True
-                        Exit Sub
-                    End If
-                    If InStr(Email.Text, " ") <> 0 Then
-            MsgBox("Invalid email address.  Email address must not contain spaces.")
+            Exit Sub
+        End If
+        If InStr(Email.Text, " ") <> 0 Then
+            MessageBox.Show("Invalid email address.  Email address must not contain spaces.")
             'Cancel = True
             e.Cancel = True
             Exit Sub
@@ -4114,7 +4112,7 @@ HandleErr:
         End If
 
         'Added this line to connect and execute Axdatagrid1RowColumnChange sub. Because AxDataGrid1_RowColChange event in vb 6 is auto executing
-        'but Is not auto executing in vb.net.
+        'but is not auto executing in vb.net for first instance.
         UGridIO1.Axdatagrid1RowColumnChange(Nothing, -1)
 
     End Sub

@@ -193,4 +193,23 @@ BadNumber:
         IfNegativeThenZero = 0
     End Function
 
+    Public Function IfNullThenBoolean(ByVal T As Object, Optional ByVal DefaultValue As Boolean = False) As Boolean
+        '::::IfNullThenBoolean
+        ':::SUMMARY
+        ': Null Handle Boolean Fields
+        ':::DESCRIPTION
+        ': Return a Boolean result from field, processing DBNull as False
+        ': - NOTE: If the value cannot be parsed as a boolean, error handling will return the default value.
+        ':::PARAMETERS
+        ': - T - Typically a Recordset Field or value.
+        ': - DefaultValue - What is returned if is null or Boolean conversion fails
+        ':::RETURN
+        ': Boolean
+        ':::SEE ALSO
+        ': - IfNullThenNilString, IfNullThenZeroCurrency, IfNullThenZeroLong, IfNullThenZeroDouble
+        On Error Resume Next
+        IfNullThenBoolean = DefaultValue
+        IfNullThenBoolean = IIf(IsNothing(T), DefaultValue, T)
+    End Function
+
 End Module

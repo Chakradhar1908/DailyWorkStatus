@@ -569,6 +569,103 @@ HandleErr:
         Resume Next
     End Sub
 
+    Private Sub OrdPay_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdOk)
+        SetButtonImage(cmdCancel)
+        'SetCustomFrame(Me, ncBasicDialog)  -> Not required. It is just for formatting like colors, font etc.
+        ColorDatePicker(dtePayDate)
+        Left = 2800
+
+        If OrderMode("D") Then          ' D (payment) changed to only current date BFH20100129
+            dtePayDate.Value = Today
+        ElseIf OrderMode("B") Then      ' B (deliver) added, bfh20061120
+            dtePayDate.Value = IIf(TransDate = "", DateFormat(GetLastDeliveryDate), TransDate)
+        Else
+            dtePayDate.Value = Today
+        End If
+        TransDate = dtePayDate.Value
+
+        X = MailCheck.X
+        Top = IIf(X > 8, 1000, 3500)
+
+        ' These lines refer to the global Holding object.
+        ' They'll be reworked after I've researched all the side effects.
+        If OrderMode("B") And g_Holding.Status <> "D" Then
+            cmdCancel.Text = "Cancel Delivery"
+            X = InvDel.X + 1
+        End If
+        If OrderMode("B") And g_Holding.Status = "D" Then   'after payment is made
+            If g_Holding.Sale > g_Holding.Deposit Then
+                cmdCancel.Enabled = False                            'on a delivered sale
+            End If
+        End If
+
+        Setup
+    End Sub
+
+    Private Sub Setup()
+        DeliveredAuditRecord = 0
+        DeliveredPayment = 0
+
+        If Order >= "A" Then
+            lblSaleTitle.Text = "Bill Of Sale:"
+            lblSaleNo.Text = BillOSale.BillOfSale.Text
+            lblName.Text = Trim(BillOSale.CustomerFirst.Text) & " " & Trim(BillOSale.CustomerLast.Text)
+            lblAddress.Text = BillOSale.CustomerAddress.Text
+            lblCity.Text = BillOSale.CustomerCity.Text & " " & BillOSale.CustomerZip.Text
+
+            If OrderMode("B") Then
+                dtePayDate.Value = InvDel.TransDate
+                TransDate = dtePayDate.Value
+            End If
+
+            txtAmount.SelectionStart = 0
+            If DoPayType(cdsPayTypes.cdsPT_Cash) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_Cash), cdsPayTypes.cdsPT_Cash)
+            cboAccount.SelectedIndex = 0
+            If DoPayType(cdsPayTypes.cdsPT_Check) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_Check), cdsPayTypes.cdsPT_Check)
+
+            If DoPayType(cdsPayTypes.cdsPT_Visa) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_Visa), cdsPayTypes.cdsPT_Visa)
+            If DoPayType(cdsPayTypes.cdsPT_MCard) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_MCard), cdsPayTypes.cdsPT_MCard)
+            If DoPayType(cdsPayTypes.cdsPT_Disc) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_Disc), cdsPayTypes.cdsPT_Disc)
+            If DoPayType(cdsPayTypes.cdsPT_amex) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_amex), cdsPayTypes.cdsPT_amex)
+            If DoPayType(cdsPayTypes.cdsPT_BackOrder) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_BackOrder), cdsPayTypes.cdsPT_BackOrder)
+            If DoPayType(cdsPayTypes.cdsPT_OutsideFinance) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_OutsideFinance), cdsPayTypes.cdsPT_OutsideFinance)
+            If DoPayType(cdsPayTypes.cdsPT_OutsideFinance2) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_OutsideFinance2), cdsPayTypes.cdsPT_OutsideFinance2)
+            If DoPayType(cdsPayTypes.cdsPT_OutsideFinance3) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_OutsideFinance3), cdsPayTypes.cdsPT_OutsideFinance3)
+            If DoPayType(cdsPayTypes.cdsPT_OutsideFinance4) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_OutsideFinance4), cdsPayTypes.cdsPT_OutsideFinance4)
+            If DoPayType(cdsPayTypes.cdsPT_OutsideFinance5) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_OutsideFinance5), cdsPayTypes.cdsPT_OutsideFinance5)
+            If DoPayType(cdsPayTypes.cdsPT_DebitCard) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_DebitCard), cdsPayTypes.cdsPT_DebitCard)
+            If DoPayType(cdsPayTypes.cdsPT_CompanyCheck) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_CompanyCheck), cdsPayTypes.cdsPT_CompanyCheck)
+
+            If Order <> "B" Then  'deliver sale audit doens't work
+                If DoPayType(cdsPayTypes.cdsPT_MiscDiscount) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_MiscDiscount), cdsPayTypes.cdsPT_MiscDiscount)
+            End If
+
+            If Installment And OrderMode("B") Then
+                If MailCheck.OrigStatus <> "F" Then
+                    If DoPayType(cdsPayTypes.cdsPT_StoreFinance) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_StoreFinance), cdsPayTypes.cdsPT_StoreFinance)
+                End If
+            End If
+
+            If Installment And OrderMode("D") Then
+                If DoPayType(cdsPayTypes.cdsPT_StoreFinance) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_StoreFinance), cdsPayTypes.cdsPT_StoreFinance)
+            End If
+
+            If DoPayType(cdsPayTypes.cdsPT_StoreCreditCard) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_StoreCreditCard), cdsPayTypes.cdsPT_StoreCreditCard)
+            If DoPayType(cdsPayTypes.cdsPT_ECheck) Then AddAccountCode(PayListItem(cdsPayTypes.cdsPT_ECheck), cdsPayTypes.cdsPT_ECheck)
+
+        End If
+
+        If BillOSale.IsGridFull Then
+            MessageBox.Show("The bill of sale is near the maximum number of lines." & vbCrLf &
+             "You need to either deliver or void this sale.", "Maximum Lines Approaching", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            DoControls(True)
+            '      chkPayAll.value = 1
+            '      chkPayAll.Enabled = False
+            '      txtAmount.Enabled = False
+        End If
+    End Sub
+
     Public Function Audit() As Integer
         SalesJournal_AddRecordNew_Data(
     BillOSale.BillOfSale.Text, Name1, TransDate, Written, TaxCharged1,
@@ -576,5 +673,11 @@ HandleErr:
     IIf(MailCheck.TaxCode = 0, 1, MailCheck.TaxCode), MailCheck.SalesPerson, 0, Cashier)
         Audit = LastAuditID()
     End Function
+
+    Private Sub AddAccountCode(ByVal Code As String, ByVal AccountVal As cdsPayTypes)
+        'cboAccount.AddItem Code
+        'cboAccount.itemData(cboAccount.NewIndex) = AccountVal
+        cboAccount.Items.Add(New ItemDataClass(Code, AccountVal))
+    End Sub
 
 End Class

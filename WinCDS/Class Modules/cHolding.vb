@@ -85,7 +85,10 @@
         End If
 
         ' Move to the first record if we can, and return success.
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
 
     Public Function Save(Optional ByRef ErrDesc As String = "") As Boolean
@@ -239,5 +242,24 @@ NoSave:
         RS("fldPosted").Value = Posted
         RS("ArNo").Value = IfNullThenNilString(Trim(ArNo))
     End Sub
+
+    Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        LeaseNo = IfNullThenNilString(Trim(RS("LeaseNo").Value))
+        InitialLease = IfNullThenNilString(LeaseNo)
+        Index = RS("Index").Value
+        Sale = RS("Sale").Value
+        Deposit = RS("Deposit").Value
+        Status = IfNullThenNilString(Trim(RS("Status").Value))
+        Comm = RS("Comm").Value
+        MargStart = RS("MargStart").Value
+        LastPay = IfNullThenNilString(RS("LastPay").Value)
+        NonTaxable = RS("NonTaxable").Value
+        Salesman = IfNullThenNilString(Trim(RS("Salesman").Value))
+        Posted = IfNullThenZero(RS("fldPosted").Value)
+        ArNo = IfNullThenNilString(Trim(RS("ArNo").Value))
+        '    AutoMargStart = rs("AutoMargStart")
+    End Sub
+
 
 End Class

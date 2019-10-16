@@ -70,19 +70,27 @@ AnError:
         Mrs.ActiveConnection = mConnection
 
         Mrs.CursorLocation = ADODB.CursorLocationEnum.adUseClient
-        Mrs.CursorType = ADODB.CursorTypeEnum.adOpenKeyset
+        'Mrs.CursorType = ADODB.CursorTypeEnum.adOpenKeyset
         '.Mode = adModeReadWrite '?????
         '       .Properties("Update Resync") = adResyncAutoIncrement
-        Mrs.LockType = ADODB.LockTypeEnum.adLockOptimistic ' adLockBatchOptimistic
-        Mrs.Source = mSQL
-        Mrs.Open()
+        'Mrs.LockType = ADODB.LockTypeEnum.adLockOptimistic ' adLockBatchOptimistic
+        'Mrs.Source = mSQL
+        'Mrs.Open()
+
+        Mrs.Open(mSQL, mConnection, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic)
 
         If ((Mrs.RecordCount = 0) Or CreateNew) Then
             Mrs.AddNew()
         Else
             '.Edit ' for DAO only
         End If
-        RaiseEvent SetRecordEvent(Mrs)
+
+        If ARPaySetUp.DBAccess_SetRecordEvent = True Then
+            ARPaySetUp.mDBAccess_SetRecordEvent(Mrs)
+        ElseIf ARPaySetUp.DBAccessTransactions_SetRecordEvent = True Then
+            ARPaySetUp.mDBAccessTransactions_SetRecordEvent(Mrs)
+        End If
+        'RaiseEvent SetRecordEvent(Mrs)
         'Recordset_DebugPrint(mrs)
         Mrs.Update() ' .UpdateBatch
         RaiseEvent RecordUpdated(Mrs)
@@ -92,7 +100,7 @@ AnError:
 
 AnError:
         ' If (GetVendorNameSucceeded = True) Then
-        MsgBox("SetRecord Failed [" & Err.Number & "]:  Error Updating Database" & Err.Description)
+        MessageBox.Show("SetRecord Failed [" & Err.Number & "]:  Error Updating Database" & Err.Description)
         SetRecord = False
         Exit Function
     End Function

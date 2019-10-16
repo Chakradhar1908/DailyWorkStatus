@@ -503,5 +503,12 @@ PrinterDialogCancelled:
         End If
     End Sub
 
+    Public Sub Printer_Location(ByRef X As Single, ByRef Y As Single, ByRef FontSize As Single, Optional ByRef Prt As String = "")
+        Printer.CurrentX = X
+        Printer.CurrentY = Y
+        Printer.FontSize = FontSize
+        If Len(Prt) <> 0 Then Printer.Print(Prt)
+    End Sub
+
 End Module
 

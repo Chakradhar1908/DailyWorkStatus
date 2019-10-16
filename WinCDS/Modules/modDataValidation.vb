@@ -326,4 +326,21 @@ AnError:
 
     End Function
 
+    Public Function DressEmail(ByVal S As String) As String
+        DressEmail = S
+    End Function
+
+    Public Function CleanEmail(ByVal S As String) As String
+        '::::CleanEmail
+        ':::SUMMARY
+        ':This function is used to clear all the email addresses which are no longer used.
+        ':::DESCRIPTION
+        ':Clears all the email addresses which are no longer used and returns the result as a string.
+        ':::PARAMETERS
+        ':-S-This parameter is directly assigned to CleanEmail.
+        ':::RETURN
+        ':String-Returns the result as a string.
+        CleanEmail = S
+    End Function
+
 End Module

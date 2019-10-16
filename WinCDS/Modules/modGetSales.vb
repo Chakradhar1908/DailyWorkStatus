@@ -1,5 +1,6 @@
 ﻿Module modGetSales
-    Private Sm As Object, SmLoc as integer    ' cache
+    Private Sm As Object, SmLoc As Integer    ' cache
+
     Public Function getSalesNumber(ByVal EmployeeName As String, Optional ByVal Store as integer = 0, Optional ByVal OnEmpty As String = "") As String
         '::::getSalesNumber
         ':::SUMMARY
@@ -21,14 +22,17 @@
         Sm = GetSalesmanDatabase(Store)
 
         For I = LBound(Sm, 1) To UBound(Sm, 1)
-            If Sm(I, 1) = EmployeeName Then
-                getSalesNumber = Sm(I, 2)
+            'If Sm(I, 1) = EmployeeName Then
+            If Sm(I, 0) = EmployeeName Then
+                'getSalesNumber = Sm(I, 2)
+                getSalesNumber = Sm(I, 1)
                 Exit Function
             End If
         Next
         getSalesNumber = OnEmpty
     End Function
-    Public Function getSalesName(ByVal EmployeeNumber As String, Optional ByVal Store as integer = 0) As String
+
+    Public Function getSalesName(ByVal EmployeeNumber As String, Optional ByVal Store As Integer = 0) As String
         '::::getSalesName
         ':::SUMMARY
         ': Query The Sales Name
@@ -40,20 +44,23 @@
         ':::RETURN
         ': String
 
-        Dim I as integer
+        Dim I As Integer
         On Error Resume Next
         If Store = 0 Then Store = StoresSld
         If SmLoc <> Store Then GetSalesmanDatabase(Store)
         Sm = GetSalesmanDatabase(Store)
 
         For I = LBound(Sm, 1) To UBound(Sm, 1)
-            If Sm(I, 2) = EmployeeNumber Then
-                getSalesName = Sm(I, 1) & " "
+            'If Sm(I, 2) = EmployeeNumber Then
+            If Sm(I, 1) = EmployeeNumber Then
+                'getSalesName = Sm(I, 1) & " "
+                getSalesName = Sm(I, 0) & " "
                 Exit Function
             End If
         Next
         getSalesName = ""
     End Function
+
     ' This loads the Cache, and always loads the specified store
     Public Function GetSalesmanDatabase(Optional ByVal Store as integer = 0, Optional ByVal SalesOnly As Boolean = False, Optional ByVal IncludeDisabled As Boolean = False) As Object
         '::::GetSalesmanDatabase
@@ -66,7 +73,7 @@
         ': - SalesOnly
         ': - IncludeDisabled
         Const FCount as integer = 8
-        Dim Emp As clsEmployee, E as integer, Tmp(0, 0) As String, Tmp2 As Object
+        Dim Emp As clsEmployee, E As Integer, Tmp(0, 0) As String, Tmp2(0, 0) As String
 
         If Store < 0 Then Store = 1
         If Store < 1 Or Store > Setup_MaxStores Then Store = StoresSld
@@ -102,7 +109,9 @@
         If E = 0 Then GoTo HandleErr
 
         'ReDim Tmp2(LBound(Tmp, 2) To UBound(Tmp, 2), 1 To FCount)
+        'ReDim Tmp2(0 To UBound(Tmp, 2), 0 To FCount - 1)
         ReDim Tmp2(0 To UBound(Tmp, 2), 0 To FCount - 1)
+        'For E = LBound(Tmp, 2) To UBound(Tmp, 2)
         For E = LBound(Tmp, 2) To UBound(Tmp, 2)
             Tmp2(E, 0) = Tmp(0, E)
             Tmp2(E, 1) = Tmp(1, E)
@@ -120,8 +129,8 @@
         Exit Function
 
 HandleErr:
-        '  MsgBox "Can't load Salesman database. Try restarting the program." & vbCrLf & "If this problem persists, please contact CDS.", vbCritical, "Error"
-        'ReDim Tmp(0, 1 To 7)
+        'MsgBox "Can't load Salesman database. Try restarting the program." & vbCrLf & "If this problem persists, please contact CDS.", vbCritical, "Error"
+        ReDim Tmp(0, 7)
         Tmp(0, 1) = "HOUSE"
         Tmp(0, 2) = "99"
         Tmp(0, 3) = ""
@@ -130,9 +139,10 @@ HandleErr:
         Tmp(0, 6) = ""
         Tmp(0, 7) = ""
         GetSalesmanDatabase = Tmp
-        '  Sm = GetSalesmanDatabase
+        'Sm = GetSalesmanDatabase
     End Function
-    Public Function TranslateSalesman(ByVal Salesman As String, Optional ByVal Num as integer = -1, Optional ByVal Store as integer = 0) As String
+
+    Public Function TranslateSalesman(ByVal Salesman As String, Optional ByVal Num As Integer = -1, Optional ByVal Store As Integer = 0) As String
         '::::TranslateSalesman
         ':::SUMMARY
         ': Translate from Salesman Number List to Salesman Name (by Index)
@@ -157,7 +167,8 @@ HandleErr:
         If Num < LBound(E) Or Num > UBound(E) Then Exit Function
         TranslateSalesman = getSalesName(CStr(E(Num)), Store)
     End Function
-    Public Function TranslateSalesmen(ByVal Salesmen As String, Optional ByVal Store as integer = 0) As String
+
+    Public Function TranslateSalesmen(ByVal Salesmen As String, Optional ByVal Store As Integer = 0) As String
         '::::TranslateSalesmen
         ':::SUMMARY
         ': Translate an entire list of employee numbers to salesmen
@@ -180,6 +191,7 @@ HandleErr:
             TranslateSalesmen = TranslateSalesmen & IIf(Len(TranslateSalesmen) > 0, ", ", "") & Trim(getSalesName(CStr(L), Store))
         Next
     End Function
+
     Public Function QueryUserGroupPrivString(ByVal StoreNum As String, ByVal GroupAbbr As String) As String
         '::::QueryUserGroupPrivString
         ':::SUMMARY

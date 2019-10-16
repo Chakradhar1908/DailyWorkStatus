@@ -61,7 +61,10 @@
         End If
 
         ' Move to the first record if we can, and return success.
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
 
     Public Function ShipTo(Optional ByVal StoreNo As Integer = 0) As clsMailShipTo
@@ -72,5 +75,64 @@
         If StoreNo <> 0 Then ShipTo.DataAccess.DataBase = GetDatabaseAtLocation(StoreNo)
         ShipTo.Load(Index)
     End Function
+
+    Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        Index = RS("Index").Value
+        Last = IfNullThenNilString(Trim(RS("Last").Value))
+        First = IfNullThenNilString(Trim(RS("First").Value))
+        Address = IfNullThenNilString(Trim(RS("Address").Value))
+        AddAddress = IfNullThenNilString(Trim(RS("AddAddress").Value))
+        City = IfNullThenNilString(Trim(RS("City").Value))
+        Zip = IfNullThenNilString(Trim(RS("Zip").Value))
+        Tele = CleanAni(IfNullThenNilString(RS("Tele").Value))
+        Tele2 = CleanAni(IfNullThenNilString(RS("Tele2").Value))
+        PhoneLabel1 = IfNullThenNilString(Trim(RS("PhoneLabel1").Value))
+        PhoneLabel2 = IfNullThenNilString(Trim(RS("PhoneLabel2").Value))
+        Special = IfNullThenNilString(Trim(RS("Special").Value))
+        MailType = IfNullThenNilString(Trim(RS("Type").Value))
+        TypeIndex = IfNullThenZero(RS("TypeIndex").Value)
+        CustType = IfNullThenNilString(Trim(RS("CustType").Value))
+        Email = IfNullThenNilString(Trim(RS("Email").Value))
+        Blank = IfNullThenNilString(Trim(RS("Blank").Value))
+        Business = IfNullThenBoolean(RS("Business").Value)
+        CreditCard = IfNullThenNilString(Trim(RS("CreditCard").Value))
+        ExpDate = IfNullThenNilString(Trim(RS("ExpDate").Value))
+        TaxZone = IfNullThenZero(RS("TaxZone").Value)
+
+        If PhoneLabel1 = "" Then PhoneLabel1 = "Telephone"
+        If PhoneLabel2 = "" Then PhoneLabel2 = "Telephone 2"
+    End Sub
+
+    Private Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        If Index <= 0 Then
+            ' Poor man's autonumber.. MailIndex is too tied in to everything else to replace right now.
+            Index = MailTableRecordMax("index") + 1
+        Else
+            RS("Index").Value = Index
+        End If
+
+        RS("Last").Value = IfNullThenNilString(Trim(Last))
+        RS("First").Value = IfNullThenNilString(Trim(First))
+        RS("Address").Value = IfNullThenNilString(Trim(Address))
+        RS("AddAddress").Value = IfNullThenNilString(Trim(AddAddress))
+        RS("City").Value = IfNullThenNilString(Trim(City))
+        RS("Zip").Value = IfNullThenNilString(Trim(Zip))
+        RS("Tele").Value = CleanAni(IfNullThenNilString(Tele))
+        RS("Tele2").Value = CleanAni(IfNullThenNilString(Tele2))
+        RS("PhoneLabel1").Value = IfNullThenNilString(Trim(PhoneLabel1))
+        RS("PhoneLabel2").Value = IfNullThenNilString(Trim(PhoneLabel2))
+        RS("Special").Value = IfNullThenNilString(Trim(Special))
+        RS("Type").Value = IfNullThenNilString(Trim(MailType))
+        RS("TypeIndex").Value = TypeIndex
+        RS("CustType").Value = IfNullThenNilString(Trim(CustType))
+        RS("Email").Value = IfNullThenNilString(Trim(Email))
+        RS("Blank").Value = IfNullThenNilString(Trim(Blank))
+        RS("Business").Value = Business
+        RS("CreditCard").Value = IfNullThenNilString(Trim(CreditCard))
+        RS("ExpDate").Value = IfNullThenNilString(Trim(ExpDate))
+        RS("TaxZone").Value = TaxZone
+    End Sub
 
 End Class

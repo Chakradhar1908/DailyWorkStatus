@@ -352,4 +352,64 @@ Module modStringFunctions
         If TrimResult Then SplitWord = Trim(SplitWord)
     End Function
 
+    Public Function WrapLongTextByPrintWidth(ByVal OutputObj As Object, ByVal Inp As String, Optional ByVal MaxWidth As Integer = 0, Optional ByVal NL As String = vbCrLf) As String
+        '::::WrapLongTextByPrintWidth
+        ':::SUMMARY
+        ': Wraps a string based on Print Width
+        ':::DESCRIPTION
+        ': Determines where to put line-breaks on long strings based on print width.
+        ':::PARAMETERS
+        ': - OutputObj
+        ': - Inp
+        ': - Optional
+        ': - MaxWidth
+        ': - nl
+        ':::RETURN
+        ':  String - The string with appropriate line breaks (if any)
+        ':::SEE ALSO
+        ':  TruncateLongTextByPrintWidth
+        Dim LastSpace As Integer
+        Dim A As String, B As String, Out As String, NewInp As String, L As Object, LL As Object
+        On Error Resume Next
+
+        If MaxWidth <= 0 Then MaxWidth = OutputObj.ScaleWidth - OutputObj.CurrentX
+        If MaxWidth <= OutputObj.TextWidth("M") Then WrapLongTextByPrintWidth = WrapLongText(Inp, 100) : Exit Function
+
+        Inp = Replace(Inp, vbLf, "")    ' make life easier
+        Inp = Replace(Inp, vbTab, "")
+        Do While InStr(Inp, "  ") > 0
+            Inp = Replace(Inp, "  ", " ")
+        Loop
+        Do While InStr(Inp, vbCr & vbCr) > 0
+            Inp = Replace(Inp, vbCr & vbCr, vbCr)
+        Loop
+
+        For Each L In Split(Inp, vbCr)
+            A = L
+            LL = 0
+            Do While OutputObj.TextWidth(A) > MaxWidth
+                LastSpace = LastWhiteSpace(A)
+                If LastSpace <= 0 Then Exit Do
+                A = Left(A, LastSpace - 1)
+                If OutputObj.TextWidth(A) <= MaxWidth Then
+                    Out = Out & IIf(Len(Out) > 0, NL, "") & A
+                    LL = LL + Len(A) + 1
+                    A = Trim(Mid(L, LL))
+                End If
+            Loop
+            If OutputObj.TextWidth(A) > MaxWidth Then  '### no breaks..
+                Do While Len(A) > 0
+                    B = A
+                    Do While OutputObj.TextWidth(B) > MaxWidth
+                        B = Left(B, Len(B) - 1)
+                    Loop
+                    Out = Out & IIf(Len(Out) > 0, NL, "") & B
+                    A = Mid(A, Len(B) + 1)
+                Loop
+            End If
+            If Len(A) > 0 Then Out = Out & IIf(Len(Out) > 0, NL, "") & A
+        Next
+        WrapLongTextByPrintWidth = Out
+    End Function
+
 End Module

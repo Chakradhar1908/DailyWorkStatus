@@ -1006,7 +1006,7 @@ Partial Class BillOSale
         Me.fraBOS2.Controls.Add(Me.BalDue)
         Me.fraBOS2.Controls.Add(Me.cmdPrint)
         Me.fraBOS2.Controls.Add(Me.cmdChangePrice)
-        Me.fraBOS2.Location = New System.Drawing.Point(8, 408)
+        Me.fraBOS2.Location = New System.Drawing.Point(5, 182)
         Me.fraBOS2.Name = "fraBOS2"
         Me.fraBOS2.Size = New System.Drawing.Size(875, 382)
         Me.fraBOS2.TabIndex = 88

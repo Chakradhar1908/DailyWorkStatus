@@ -150,7 +150,7 @@ NoSave:
     End Sub
 
     Public Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
-        Dim I As Long
+        Dim I as integer
         On Error Resume Next
         DetailID = RS("DetailID").Value
         Style = IfNullThenNilString(RS("Style").Value)

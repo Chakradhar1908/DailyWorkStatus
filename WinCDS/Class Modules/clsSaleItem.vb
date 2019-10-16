@@ -22,6 +22,32 @@ Public Class clsSaleItem
     Public Extra2 As String
     Public Balance As Decimal    ' BFH20110629 - for partial approval support, mc/visa gift card balance, will show a NOTE line on receipt
 
+    Public Sub Clear()
+        TransID = ""
+        Style = ""
+        Quantity = 0
+        DisplayPrice = 0
+        Price = 0
+        NonTaxable = False
+        Desc = ""
+
+        Status = ""
+        Location = 0
+
+        Vendor = ""
+        VendorNo = ""
+
+        Cost = 0
+        Landed = 0
+        Freight = 0
+
+        Extra1 = ""
+        Extra2 = ""
+
+        TransID = ""
+        Balance = 0
+    End Sub
+
     Public Sub LoadPricing(Optional ByVal vStyle As String = "")
         Dim InvData As CInvRec
         InvData = New CInvRec

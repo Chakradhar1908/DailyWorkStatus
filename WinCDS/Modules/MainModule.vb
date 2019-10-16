@@ -7,6 +7,9 @@ Module MainModule
     Public Const WinCDS_ProjectFilename As String = "WinCDS.vbp"
     Public Const WinCDSEXE_Base As String = "WinCDS"
     Public Const WinCDSEXE As String = WinCDSEXE_Base & ".exe"
+    Public gblLastDeliveryDate As Date        ' This will make the last delivery date persist without keeping whole forms loaded.
+    Public gblLastDeliveryDateEpoch As Date   ' This will make the last delivery date reset daily
+    Public PrvKill As Boolean
 
     Public Sub HideSplash()
         If frmSplashIsLoaded Then frmSplash.Hide()
@@ -599,6 +602,25 @@ TestClearFailed:
 
     Public Sub Domain_exit()
         dbClose
+    End Sub
+
+    Public Function GetLastDeliveryDate() As Date
+        On Error Resume Next
+        'If CDbl(gblLastDeliveryDateEpoch) = 0 Or DateAfter(Now, DateAdd("d", 1, gblLastDeliveryDateEpoch)) Then
+        If IsNothing(gblLastDeliveryDateEpoch) Or DateAfter(Now, DateAdd("d", 1, gblLastDeliveryDateEpoch)) Then
+            SetLastDeliveryDate()
+            'ElseIf CDbl(gblLastDeliveryDate) = 0 Then
+        ElseIf isnothing(gblLastDeliveryDate) Then
+            SetLastDeliveryDate
+        End If
+        GetLastDeliveryDate = gblLastDeliveryDate
+    End Function
+
+    Public Sub SetLastDeliveryDate(Optional ByVal Whenn As Date = NullDate)
+        On Error Resume Next
+        If Whenn = NullDate Then Whenn = Now
+        gblLastDeliveryDateEpoch = Today
+        gblLastDeliveryDate = Whenn
     End Sub
 
 End Module

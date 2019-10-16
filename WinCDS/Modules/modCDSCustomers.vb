@@ -282,4 +282,17 @@
             IsRogers = CheckStoreName("Roger")
         End Get
     End Property
+
+    Public ReadOnly Property IsWoodPeckers() As Boolean
+        Get
+            IsWoodPeckers = CheckStoreName("Woodpeckers")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsStudioD() As Boolean
+        Get
+            IsStudioD = CheckStoreName("Studio D")
+        End Get
+    End Property
+
 End Module

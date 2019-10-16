@@ -194,24 +194,26 @@ NoGood:
     End Sub
 
     Public Sub DoPrintFile(ByVal FileName As String, Optional ByVal LeftMarginWidth as integer = -1, Optional ByVal TopMarginHeight as integer = -1, Optional ByVal PrintWidth as integer = -1, Optional ByVal PrintHeight as integer = -1, Optional ByVal DontEndDoc As Boolean = False, Optional ByVal AllowMultiplePages As Boolean = True)
-        '--> Printing will move to Crystal Reports or Any othr reporting tools.  <--
-        '      Dim RTF As String, OF As String, OE As Boolean
 
-        '      With RichTextBox
-        '          RTF = .TextRTF
-        '          OE = .Enabled
-        '  OF = File
+        Dim RTF As String, OF1 As String, OE As Boolean
+
+        With RichTextBox
+            'RTF = .TextRTF
+            RTF = .Rtf
+            OE = .Enabled
+            OF1 = File
 
 
-        '  File = FileName
-        '          FileRead False
-        '  .Enabled = False
-        '          FilePrint LeftMarginWidth, TopMarginHeight, PrintWidth, PrintHeight, DontEndDoc, AllowMultiplePages
+            File = FileName
+            FileRead(False)
+            .Enabled = False
+            FilePrint(LeftMarginWidth, TopMarginHeight, PrintWidth, PrintHeight, DontEndDoc, AllowMultiplePages)
 
-        '  .TextRTF = RTF
-        '          .Enabled = OE
-        '          File = OF
-        'End With
+            '.TextRTF = RTF
+            .Rtf = RTF
+            .Enabled = OE
+            File = OF1
+        End With
     End Sub
 
     Private Sub mRichTextBox_TextChanged(sender As Object, e As EventArgs) Handles mRichTextBox.TextChanged

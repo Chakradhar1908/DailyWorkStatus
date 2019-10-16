@@ -70,6 +70,9 @@ Public Class ARPaySetUp
 
     Private sBOS2_ProcessSale As Boolean, sBOS2_NextSale As Boolean, sBOS2_Clear As Boolean, sBOS2_MainMenu As Boolean, sBOS2_Notes_Open As Boolean
     Private LastCheckedArNo As String
+    Public FromARPaySetUpForm As Boolean
+    Public DBAccess_SetRecordEvent As Boolean
+    Public DBAccessTransactions_SetRecordEvent As Boolean
 
     Private ReadOnly Property IStorename() As String
         Get
@@ -1589,7 +1592,7 @@ Public Class ARPaySetUp
         Loop
     End Sub
 
-    Private Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset)
+    Public Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset)
         On Error GoTo ErrorHandler
         'called to write the record to info file
 
@@ -1675,7 +1678,7 @@ ErrorHandler:
         Resume Next
     End Sub
 
-    Private Sub mDBAccessTransactions_SetRecordEvent(RS As ADODB.Recordset)   ' called to write the record
+    Public Sub mDBAccessTransactions_SetRecordEvent(RS As ADODB.Recordset)   ' called to write the record
         '    RS("ArNo") = mArNo
         RS("ArNo").Value = ArNo
         If BillOSale.Index = 0 Then BillOSale.Index = MailRec 'this is for Add on sales from old account set up
@@ -2135,7 +2138,11 @@ ErrorHandler:
         End If
 
         mDBAccess_Init(Trim(ArNo))
+        'FromARPaySetUpForm = True
+        DBAccess_SetRecordEvent = True
         mDBAccess.SetRecord()
+        'FromARPaySetUpForm = False
+        DBAccess_SetRecordEvent = False
         mDBAccess.dbClose()
         mDBAccess = Nothing
 
@@ -2152,14 +2159,18 @@ ErrorHandler:
         Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text)) - GetPrice(txtOrigDeposit.Text)
 
         mDBAccessTransactions_Init("-1")
+        DBAccessTransactions_SetRecordEvent = True
         mDBAccessTransactions.SetRecord()
+        DBAccessTransactions_SetRecordEvent = False
 
         If GetPrice(txtDocFee.Text) <> 0 Then  'doc fee
             TransType = arPT_Doc
             Charges = GetPrice(txtDocFee.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(txtDocFee), "40320", "Doc Fee"
         End If
 
@@ -2168,7 +2179,9 @@ ErrorHandler:
             Charges = GetPrice(txtLifeInsurance.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(txtLifeInsurance), "40330", "Life Ins."  ' 40330 == life single, 40340 == life joint
         End If
 
@@ -2177,7 +2190,9 @@ ErrorHandler:
             Charges = GetPrice(txtAccidentInsurance.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(txtAccidentInsurance), "40350", "Acc. Ins."
         End If
 
@@ -2186,7 +2201,9 @@ ErrorHandler:
             Charges = GetPrice(txtPropertyInsurance.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(txtPropertyInsurance), "40360", "Prop. Ins."
         End If
 
@@ -2195,7 +2212,9 @@ ErrorHandler:
             Charges = GetPrice(txtUnemploymentInsurance.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text)) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(txtUnemploymentInsurance), "40360", "IUI Ins."
         End If
 
@@ -2204,7 +2223,9 @@ ErrorHandler:
             Charges = GetPrice(txtFinanceCharges.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text)) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(txtFinanceCharges), "40370", "Interest Chg."
         End If
 
@@ -2213,7 +2234,9 @@ ErrorHandler:
             Charges = GetPrice(FinanceChargeSalesTax)
             Credits = "0"
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax)) - GetPrice(txtOrigDeposit.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
             '    Cash BillOSale.BillOfSale, GetPrice(FinanceChargeSalesTax), "40380", "Int. Sls Tax"
         End If
 
@@ -2222,7 +2245,9 @@ ErrorHandler:
             Charges = 0
             Credits = GetPrice(txtAddlPaymentsMade.Text)
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax) - GetPrice(txtOrigDeposit.Text) - GetPrice(txtAddlPaymentsMade.Text))
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
         End If
 
         If GetPrice(txtBalDueLateCharge.Text) > 0 Then  'old account latecharge balance
@@ -2230,7 +2255,9 @@ ErrorHandler:
             Charges = GetPrice(txtBalDueLateCharge.Text)
             Credits = 0
             Balance = (GetPrice(txtPrevBalance.Text) + GetPrice(txtGrossSale.Text) + txtDocFee.Text + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text) + GetPrice(txtFinanceCharges.Text) + GetPrice(FinanceChargeSalesTax) - GetPrice(txtOrigDeposit.Text) - GetPrice(txtAddlPaymentsMade.Text)) + GetPrice(txtBalDueLateCharge.Text)
+            DBAccessTransactions_SetRecordEvent = True
             mDBAccessTransactions.SetRecord()
+            DBAccessTransactions_SetRecordEvent = False
         End If
 
         ' BFH20060911
