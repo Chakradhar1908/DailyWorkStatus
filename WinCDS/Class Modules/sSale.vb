@@ -322,18 +322,23 @@ NextItem:
                             Holding.Deposit = 0
                             Holding.Save()
                         End If
-                        'AddNewMarginRecord(Holding.LeaseNo, "PAYMENT", DDDD, .Quantity, DDDA,
-                        '"", "", "", 0, 0, 0, "", "", DelStat, Holding.Salesman,
-                        '0, SaleDate, DDelDat, Store, SaleName, ShipDte, "",
-                        'SaleIndex, "0", 0, "", "", "",0, .TransID, SalesSplit)
+                        AddNewMarginRecord(Holding.LeaseNo, "PAYMENT", DDDD, .Quantity, DDDA,
+                        "", "", "", 0, 0, 0, "", "", DelStat, Holding.Salesman,
+                        0, SaleDate, DDelDat, Store, SaleName, ShipDte, "",
+                        SaleIndex, "0", 0, "", "", "", Nothing, .TransID, SalesSplit)
                         '          Dim Memo As String
                         'On Error Resume Next
                         '          Memo = Mid(split(.Desc, "/")(2), 6)
                         '          AddNewCashJournalRecord .Quantity, .Price, ProcessSale, Trim(SaleName & " " & Memo), DateFormat(SaleDate)
                         If Not PayTypeIsOutsideFinance(.Quantity) Then
-                            AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateFormat(SaleDate))
+                            'AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Date.ParseExact(DateFormat(SaleDate), "MM/dd/yyyy", Nothing))
+                            If IsDate(SaleDate) Then
+                                AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateTime.Parse(SaleDate))
+                            Else
+                                AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Nothing)
+                            End If
                         End If
-                    Case "NOTES"
+                            Case "NOTES"
                         Dim xGM As CGrossMargin
                         xGM = SaveNewMarginRecord(Holding.LeaseNo, "NOTES", .Desc, .Quantity, .Price,
             "", "", "", 0, 0, 0, PorD, "", DelStat, Holding.Salesman,

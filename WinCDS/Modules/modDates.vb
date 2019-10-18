@@ -22,7 +22,7 @@
     End Function
     Public Function DateFormat(ByVal dteDate As Object, Optional ByVal Separator As String = "") As String
         Dim S As String
-        S = DateFormatString
+        S = DateFormatString()
         If Separator <> "" Then S = Replace(S, "/", Separator)
 
         If IsNothing(dteDate) Then dteDate = ""

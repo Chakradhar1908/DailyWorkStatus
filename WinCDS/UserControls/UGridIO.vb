@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
-
 Public Class UGridIO
 #Const BackColors = False
 #Const BackColorsInDevelopment = False
@@ -116,15 +115,16 @@ Public Class UGridIO
     End Property
 
     '------> NOTE: HELPCONTEXTID PROPERTY IS NOT AVAILABLE IN .NET  <-----------
-    '    'Public Property GridHelpContextID() as integer
-    '    '    Get
+    'Public Property GridHelpContextID() As Integer
+    'Get
     '    '        GridHelpContextID = DBGrid1.HelpContextID
-    '    '    End Get
+
+    'End Get
     '    '    Set(value as integer)
     '    '        DBGrid1.HelpContextID = value
     '    '        'PropertyChanged("GridHelpContextID")
     '    '    End Set
-    '    'End Property
+    'End Property
 
     Public Property Text() As String
         Get
@@ -139,7 +139,6 @@ Public Class UGridIO
         'Dim Col As MSDBGrid.Column
         Dim Col As MSDataGridLib.Column
         Col = GetColumn(ColOrder)
-
         With Col
             .Caption = Title
             .Width = ColWidth
@@ -181,11 +180,10 @@ Public Class UGridIO
     'Public Function GetDBGrid() As AxMSDBGrid.AxDBGrid
     '    GetDBGrid = AxDataGrid1
     'End Function
-
     Public Sub Clear()
         Dim C As Integer, R As Integer
 
-        'AxDataGrid1.ClearFields()
+        AxDataGrid1.ClearFields()
         On Error Resume Next
         For R = 0 To mMaxRows - 1
             For C = 0 To mMaxCols - 1
@@ -218,6 +216,7 @@ Public Class UGridIO
         AxDataGrid1.Select()
     End Sub
 
+    'NOTE::: This visiblechanged event is for both usercontrol_hide and usercontrol_show events of vb 6.0.
     Private Sub UGridIO_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         'This visiblechanged event is for both usercontrol_hide and usercontrol_show events of vb 6.0.
         If Me.Visible = True Then
@@ -259,10 +258,10 @@ Public Class UGridIO
         With AxDataGrid1
             Col = .Col
             Row = .Row
-            Fro = .FirstRow
+            Fro = .FirstRow - 1
 
             RowColChange_Active = False
-            '     mRefresh = True
+            ' mRefresh = True
             ' Update the current field in the array, if needed.
             If CurrentCellModified() Then
                 ' This is good, but not good enough.
@@ -275,7 +274,7 @@ Public Class UGridIO
             '     .col = col
             If (PreserveRow) Then
                 If Row <> -1 And .Row <> (Val(Fro) + Row) Then
-                    .FirstRow = Fro
+                    .FirstRow = Fro + 1
                     .Row = Row
                     'Debug.Print "Moving grid to row " & Fro & "+" & Row & "."
                 End If
@@ -302,11 +301,9 @@ Public Class UGridIO
 
     Public Property Col() As Integer
         Get
-            'Return AxDataGrid1.Col
             Return AxDataGrid1.Col
         End Get
         Set(value As Integer)
-            'AxDataGrid1.Col = value
             AxDataGrid1.Col = value
         End Set
     End Property
@@ -425,40 +422,40 @@ Public Class UGridIO
         Exit Sub
 softError:
         '    Debug.Print "C: " & DBGrid1.Bookmark & ", " & bm & ", " & TopRow & ", " & BottomRow
-        MsgBox("SetValueDisplay Bookmark error: Row=" & Row)
+        MessageBox.Show("SetValueDisplay Bookmark error: Row=" & Row)
         ' Resume Next
         Exit Sub
 AnError:
         '   Debug.Print "B: " & DBGrid1.Bookmark & ", " & bm & ", " & TopRow & ", " & BottomRow
-        MsgBox("SetValueDisplay Bookmark error: Row=" & Row)
+        MessageBox.Show("SetValueDisplay Bookmark error: Row=" & Row)
         ' Resume Next
         Exit Sub
     End Sub
 
-    'Public Sub SetValueDisplayNew(Row As Integer, Col As Integer, Value As String)
-    '    SetValue(Row, Col, Value)
-    '    Dim vRow As Object
-    '    vRow = Format(Row, "#")
+    Public Sub SetValueDisplayNew(Row As Integer, Col As Integer, Value As String)
+        SetValue(Row, Col, Value)
+        Dim vRow As Object
+        vRow = Format(Row, "#")
 
-    '    With AxDataGrid1
-    '        Dim TopRow As Object, BottomRow As Object
-    '        TopRow = .FirstRow
-    '        BottomRow = .RowBookmark(.VisibleRows - 1)
-    '        Dim S As Object
-    '        Dim T As Object
+        With AxDataGrid1
+            Dim TopRow As Object, BottomRow As Object
+            TopRow = .FirstRow
+            BottomRow = .RowBookmark(.VisibleRows - 1)
+            Dim S As Object
+            Dim T As Object
 
-    '        T = .Bookmark
-    '        S = .FirstRow
-    '        StoreUserData(Row, Col, Value)
-    '        If (Val(TopRow) <= Val(vRow)) And (Val(vRow) <= Val(BottomRow)) Then
-    '            .Bookmark = vRow
-    '            .Bookmark = T
-    '            '    .FirstRow = s:
-    '        End If
-    '        '  If (Val(TopRow) <= Val(s)) And (Val(s) <= Val(BottomRow)) Then
-    '        '.FirstRow = s:
-    '    End With
-    'End Sub
+            T = .Bookmark
+            S = .FirstRow
+            StoreUserData(Row, Col, Value)
+            If (Val(TopRow) <= Val(vRow)) And (Val(vRow) <= Val(BottomRow)) Then
+                .Bookmark = vRow
+                .Bookmark = T
+                '    .FirstRow = s:
+            End If
+            '  If (Val(TopRow) <= Val(s)) And (Val(s) <= Val(BottomRow)) Then
+            '.FirstRow = s:
+        End With
+    End Sub
 
     Private Function StoreUserData(bookm As Object, colm As Integer, userval As Object) As Boolean
         Dim Index As Integer
@@ -469,7 +466,7 @@ AnError:
         Else
             StoreUserData = True
             GridArray(colm, Index) = userval
-            'If bookm = Row And colm = Col Then mCurrentCellModified = False
+            If bookm = Row And colm = Col Then mCurrentCellModified = False
         End If
     End Function
 
@@ -543,13 +540,6 @@ AnError:
         End Get
     End Property
 
-    'Public Sub MoveRow(I As Integer)
-    '    If I < 0 Then I = 0
-    '    With AxDataGrid1
-    '        .Bookmark = .RowBookmark(I)
-    '    End With
-    'End Sub
-
     Public Sub MoveRowDown(Optional Value As Integer = 1)
         'AxDataGrid1.Scroll(0, Value)
         AxDataGrid1.Scroll(0, Value)
@@ -576,17 +566,17 @@ AnError:
         RaiseEvent AfterColUpdate(e.colIndex)
     End Sub
 
-    'Private Sub AxDataGrid1_AfterDelete(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterDelete
-    '    RaiseEvent AfterDelete()
-    'End Sub
+    Private Sub AxDataGrid1_AfterDelete(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterDelete
+        RaiseEvent AfterDelete()
+    End Sub
 
-    'Private Sub AxDataGrid1_AfterInsert(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterInsert
-    '    RaiseEvent AfterInsert()
-    'End Sub
+    Private Sub AxDataGrid1_AfterInsert(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterInsert
+        RaiseEvent AfterInsert()
+    End Sub
 
-    'Private Sub AxDataGrid1_AfterUpdate(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterUpdate
-    '    RaiseEvent AfterUpdate()
-    'End Sub
+    Private Sub AxDataGrid1_AfterUpdate(sender As Object, e As EventArgs) Handles AxDataGrid1.AfterUpdate
+        RaiseEvent AfterUpdate()
+    End Sub
 
     Private Sub AxDataGrid1_BeforeColEdit(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeColEditEvent) Handles AxDataGrid1.BeforeColEdit
         RaiseEvent BeforeColEdit(e.colIndex, e.keyAscii, e.cancel)
@@ -597,25 +587,25 @@ AnError:
         If Not e.cancel Then mCurrentCellModified = True
     End Sub
 
-    'Private Sub AxDataGrid1_BeforeDelete(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeDeleteEvent) Handles AxDataGrid1.BeforeDelete
-    '    RaiseEvent BeforeDelete(e.cancel)
-    'End Sub
+    Private Sub AxDataGrid1_BeforeDelete(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeDeleteEvent) Handles AxDataGrid1.BeforeDelete
+        RaiseEvent BeforeDelete(e.cancel)
+    End Sub
 
-    'Private Sub AxDataGrid1_BeforeInsert(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeInsertEvent) Handles AxDataGrid1.BeforeInsert
-    '    RaiseEvent BeforeInsert(e.cancel)
-    'End Sub
+    Private Sub AxDataGrid1_BeforeInsert(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeInsertEvent) Handles AxDataGrid1.BeforeInsert
+        RaiseEvent BeforeInsert(e.cancel)
+    End Sub
 
-    'Private Sub AxDataGrid1_BeforeUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeUpdateEvent) Handles AxDataGrid1.BeforeUpdate
-    '    RaiseEvent BeforeUpdate(e.cancel)
-    'End Sub
+    Private Sub AxDataGrid1_BeforeUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_BeforeUpdateEvent) Handles AxDataGrid1.BeforeUpdate
+        RaiseEvent BeforeUpdate(e.cancel)
+    End Sub
 
-    'Private Sub AxDataGrid1_ButtonClick(sender As Object, e As AxMSDataGridLib.DDataGridEvents_ButtonClickEvent) Handles AxDataGrid1.ButtonClick
-    '    RaiseEvent ButtonClick(e.colIndex)
-    'End Sub
+    Private Sub AxDataGrid1_ButtonClick(sender As Object, e As AxMSDataGridLib.DDataGridEvents_ButtonClickEvent) Handles AxDataGrid1.ButtonClick
+        RaiseEvent ButtonClick(e.colIndex)
+    End Sub
 
-    'Private Sub AxDataGrid1_Change(sender As Object, e As EventArgs) Handles AxDataGrid1.Change
-    '    RaiseEvent Change()
-    'End Sub
+    Private Sub AxDataGrid1_Change(sender As Object, e As EventArgs) Handles AxDataGrid1.Change
+        RaiseEvent Change()
+    End Sub
 
     'Private Sub AxDataGrid1_ClickEvent(sender As Object, e As EventArgs) Handles AxDataGrid1.ClickEvent
     '    mKeyPressed = False
@@ -641,10 +631,10 @@ AnError:
         End If
     End Sub
 
-    'Private Sub AxDataGrid1_KeyPressEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyPressEvent) Handles AxDataGrid1.KeyPressEvent
-    '    RaiseEvent Key_Press(e.keyAscii)
-    '    mKeyPressed = True
-    'End Sub
+    Private Sub AxDataGrid1_KeyPressEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_KeyPressEvent) Handles AxDataGrid1.KeyPressEvent
+        RaiseEvent Key_Press(e.keyAscii)
+        mKeyPressed = True
+    End Sub
 
     Private Sub ProcessTabKeys()
         '-----------> NOTE: ProcessTabKey name has been changed to ProcessTabKeys. Because ProcessTabKey is a keyword in vb.net <------------
@@ -676,17 +666,17 @@ AnError:
     '    RaiseEvent MouseMoveOverCell(AxDataGrid1.ColContaining(e.x), AxDataGrid1.RowContaining(e.y))
     'End Sub
 
-    'Private Sub AxDataGrid1_OnAddNew(sender As Object, e As EventArgs) Handles AxDataGrid1.OnAddNew
-    '    RaiseEvent OnAddNew()
-    'End Sub
+    Private Sub AxDataGrid1_OnAddNew(sender As Object, e As EventArgs) Handles AxDataGrid1.OnAddNew
+        RaiseEvent OnAddNew()
+    End Sub
 
-    'Private Sub AxDataGrid1_SelChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_SelChangeEvent) Handles AxDataGrid1.SelChange
-    '    RaiseEvent SelChange(e.cancel)
-    'End Sub
+    Private Sub AxDataGrid1_SelChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_SelChangeEvent) Handles AxDataGrid1.SelChange
+        RaiseEvent SelChange(e.cancel)
+    End Sub
 
-    'Private Sub AxDataGrid1_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles AxDataGrid1.Validating
-    '    RaiseEvent ValidateEvent(e.Cancel)
-    'End Sub
+    Private Sub AxDataGrid1_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles AxDataGrid1.Validating
+        RaiseEvent ValidateEvent(e.Cancel)
+    End Sub
 
 
 
@@ -865,6 +855,7 @@ AnError:
         End Set
     End Property
 
+    '---------NOTE: FONT, FONTNAME AND FONTSIZE PROPERTIES ARE NOT USED IN IMPLEMENTATION AREA(BILLOSALE FORM). SO COMMENTED.
     'Public Property Font() As Font
     '    Get
     '        'On Error Resume Next
@@ -924,13 +915,13 @@ AnError:
         End With
     End Function
 
-    'Public Function ColContaining(ByVal X As Single) As Integer
-    '    ColContaining = AxDataGrid1.ColContaining(X)
-    'End Function
+    Public Function ColContaining(ByVal X As Single) As Integer
+        ColContaining = AxDataGrid1.ColContaining(X)
+    End Function
 
-    'Public Function RowContaining(ByVal Y As Single) As Integer
-    '    RowContaining = AxDataGrid1.RowContaining(Y)
-    'End Function
+    Public Function RowContaining(ByVal Y As Single) As Integer
+        RowContaining = AxDataGrid1.RowContaining(Y)
+    End Function
 
     Public Function ColLeft(ByVal Col As Integer) As Single
         Dim I As Integer
@@ -957,52 +948,54 @@ AnError:
         '  RowTop = DBGrid1.RowTop(RowNum)
     End Function
 
-    'Public Sub AdjustControlToCell(Ctrl As Control, ByVal RowNum As Integer, ByVal ColNum As Integer, Left As Integer, Top As Integer)
-    '    Dim L As Single, T As Single, W As Single, H As Single
-    '    Dim C As MSDBGrid.Column
+    Public Sub AdjustControlToCell(Ctrl As Control, ByVal RowNum As Integer, ByVal ColNum As Integer, Left As Integer, Top As Integer)
+        Dim L As Single, T As Single, W As Single, H As Single
+        'Dim C As MSDBGrid.Column
+        Dim C As MSDataGridLib.Column
 
-    '    C = AxDataGrid1.Columns(ColNum)
-    '    L = C.Left + Left
-    '    T = AxDataGrid1.RowTop(RowNum) + Top
-    '    W = C.Width
-    '    H = AxDataGrid1.RowHeight
-    '    C = Nothing
+        C = AxDataGrid1.Columns(ColNum)
+        L = C.Left + Left
+        T = AxDataGrid1.RowTop(RowNum) + Top
+        W = C.Width
+        H = AxDataGrid1.RowHeight
+        C = Nothing
 
-    '    On Error Resume Next
-    '    'Ctrl.Move(L, T)
-    '    Ctrl.Location = New Point(L, T)
-    '    Ctrl.Width = W
-    '    Ctrl.Height = H  ' An error I got using .Move L,T,W,H.. --> 'Height' property is read-only
-    'End Sub
+        On Error Resume Next
+        'Ctrl.Move(L, T)
+        Ctrl.Location = New Point(L, T)
+        Ctrl.Width = W
+        Ctrl.Height = H  ' An error I got using .Move L,T,W,H.. --> 'Height' property is read-only
+    End Sub
 
-    '    Public Sub ColorColumns(Optional ByVal WP As Integer = 0, Optional ByVal LP As Integer = 0)
-    '        Dim C As MSDBGrid.Column
-    '        Dim L As Integer, T As Integer, W As Integer, H As Integer, I As Integer
-    '        Dim R As Boolean
+    Public Sub ColorColumns(Optional ByVal WP As Integer = 0, Optional ByVal LP As Integer = 0)
+        'Dim C As MSDBGrid.Column
+        Dim C As MSDataGridLib.Column
+        Dim L As Integer, T As Integer, W As Integer, H As Integer, I As Integer
+        Dim R As Boolean
 
-    '        If ColoringColumns Then Exit Sub
-    '        ColoringColumns = True
+        If ColoringColumns Then Exit Sub
+        ColoringColumns = True
 
-    '        On Error Resume Next
-    '        For I = 1 To MaxCols
-    '            If ColumnBackColor(I) <> vbWhite Then
-    '                C = AxDataGrid1.Columns(I)
-    '                If C Is Nothing Then GoTo NoColumn
+        On Error Resume Next
+        For I = 1 To MaxCols
+            If ColumnBackColor(I) <> vbWhite Then
+                C = AxDataGrid1.Columns(I)
+                If C Is Nothing Then GoTo NoColumn
 
-    '                'L = C.Left / vb6.TwipsPerPixelX
-    '                'T = CInt(DBGrid1.RowTop(0) / Screen.TwipsPerPixelY)
-    '                'W = C.Width / Screen.TwipsPerPixelX - 1
-    '                'H = DBGrid1.Height / Screen.TwipsPerPixelY - 5
-    '                C = Nothing
+                'L = C.Left / VB6.TwipsPerPixelX
+                'T = CInt(DBGrid1.RowTop(0) / Screen.TwipsPerPixelY)
+                'W = C.Width / Screen.TwipsPerPixelX - 1
+                'H = DBGrid1.Height / Screen.TwipsPerPixelY - 5
+                C = Nothing
 
-    '                R = DrawRectangle(AxDataGrid1.hWnd, L, T, W, H, ColumnBackColor(I), 25)
-    '                '      R = DrawRectangle(hwnd, L, T, W, H, ColumnBackColor(I), 25)
-    '                Debug.Print(IIf(R, "SUCCESS: ", "FAILED:  ") & "i=" & I & ", Col=" & DescribeColor(ColumnBackColor(I)) & ", hwnd = " & Hwnd & ", (" & L & "x" & T & ")... " & W & "," & H)
-    '            End If
-    'NoColumn:
-    '        Next
-    '        ColoringColumns = False
-    '    End Sub
+                R = DrawRectangle(AxDataGrid1.hWnd, L, T, W, H, ColumnBackColor(I), 25)
+                'R = DrawRectangle(hwnd, L, T, W, H, ColumnBackColor(I), 25)
+                Debug.Print(IIf(R, "SUCCESS: ", "FAILED:  ") & "i=" & I & ", Col=" & DescribeColor(ColumnBackColor(I)) & ", hwnd = " & Hwnd & ", (" & L & "x" & T & ")... " & W & "," & H)
+            End If
+NoColumn:
+        Next
+        ColoringColumns = False
+    End Sub
 
     Public Property ColumnBackColor(ByVal N As Integer, Optional ByVal newCol As Integer = 0) As Integer
         Get
@@ -1018,18 +1011,18 @@ AnError:
         End Set
     End Property
 
-    'Public Sub HookForm()
-    '    Dim ug As UGridIO_PaintDelegate
+    Public Sub HookForm()
+        Dim ug As UGridIO_PaintDelegate
 
-    '    ug = AddressOf UGridIO_Paint
-    '    UGridIO_AddHook(AxDataGrid1.hWnd, Me)
-    '    PrevProc = SetWindowLong(AxDataGrid1.hWnd, GWL_WNDPROC, ug.ToString)
-    'End Sub
+        ug = AddressOf UGridIO_Paint
+        UGridIO_AddHook(AxDataGrid1.hWnd, Me)
+        PrevProc = SetWindowLong(AxDataGrid1.hWnd, GWL_WNDPROC, ug.ToString)
+    End Sub
 
-    'Public Sub UnHookForm()
-    '    SetWindowLong(AxDataGrid1.hWnd, GWL_WNDPROC, PrevProc)
-    '    UGridIO_AddHook(AxDataGrid1.hWnd, Nothing)
-    'End Sub
+    Public Sub UnHookForm()
+        SetWindowLong(AxDataGrid1.hWnd, GWL_WNDPROC, PrevProc)
+        UGridIO_AddHook(AxDataGrid1.hWnd, Nothing)
+    End Sub
 
     Public Sub SampleData()
         '   ReDim Preserve GridArray(0 To mMaxCols - 1, 0 To mMaxRows - 1) As String
@@ -1041,36 +1034,35 @@ AnError:
         Next
     End Sub
 
-    'Private Sub AxDataGrid1_DblClick(sender As Object, e As EventArgs) Handles AxDataGrid1.DblClick
-    '    RaiseEvent DblClick()
-    'End Sub
+    Private Sub AxDataGrid1_DblClick(sender As Object, e As EventArgs) Handles AxDataGrid1.DblClick
+        RaiseEvent DblClick()
+    End Sub
 
-    'Private Sub AxDataGrid1_Leave(sender As Object, e As EventArgs) Handles AxDataGrid1.Leave
-    '    ' This should automatically fire the usercontrol's LostFocus event.
-    '    mLostFocus = True
-    '    '  Dim Cancel As Boolean
-    '    '  RaiseEvent RowColChange(mLastRow, mLastCol, mLastRow, mLastCol, Cancel)
-    '    '  RaiseEvent UserControl.LostFocus
-    'End Sub
+    Private Sub AxDataGrid1_Leave(sender As Object, e As EventArgs) Handles AxDataGrid1.Leave
+        ' This should automatically fire the usercontrol's LostFocus event.
+        mLostFocus = True
+        '  Dim Cancel As Boolean
+        '  RaiseEvent RowColChange(mLastRow, mLastCol, mLastRow, mLastCol, Cancel)
+        '  RaiseEvent UserControl.LostFocus
+    End Sub
 
-    'Private Sub AxDataGrid1_ScrollEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_ScrollEvent) Handles AxDataGrid1.ScrollEvent
-    '    Dim BM As Object
+    Private Sub AxDataGrid1_ScrollEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_ScrollEvent) Handles AxDataGrid1.ScrollEvent
+        Dim BM As Object
 
-    '    On Error Resume Next
-    '    If e.cancel = False Then
-    '        mRefresh = False
-    '        BM = AxDataGrid1.FirstRow
-    '        mRefresh = True
-    '        AxDataGrid1.Refresh()
-    '        AxDataGrid1.FirstRow = BM
-    '    End If
-    'End Sub
+        On Error Resume Next
+        If e.cancel = False Then
+            mRefresh = False
+            BM = AxDataGrid1.FirstRow
+            mRefresh = True
+            AxDataGrid1.Refresh()
+            AxDataGrid1.FirstRow = BM
+        End If
+    End Sub
 
     Public Sub AxDataGrid1_RowColChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_RowColChangeEvent) Handles AxDataGrid1.RowColChange
         '---------> NOTE: RowColChange event will execute automatically as per WinCDS new sale requirement, 
         '---------> which Is happening in existing WinCDS of vb 6.0. But in vb.net, it will executing for user action only.
         '---------> So, created a new sub function and pulled this code in to it to execute automatically by calling it from cmdApplyBillOSale_Click event of BillOSale form.
-
         Dim Cancel As Boolean
         Dim OldCol As Object
         'Debug.Print "DBGrid1_RowColChange: ", LastRow, LastCol, DBGrid1.row, DBGrid1.FirstRow
@@ -1100,11 +1092,10 @@ AnError:
             End If
             Loading = False
         End If
-
     End Sub
 
     Public Sub Update()
-        '    Refresh(True)
+        Refresh(True)
     End Sub
 
     Private Sub DBGrid1UnboundReadData()
@@ -1150,12 +1141,10 @@ AnError:
     'Public Sub Axdatagrid1RowColChange(sender As Object, Optional e As AxMSDataGridLib.DDataGridEvents_RowColChangeEvent = New AxMSDataGridLib.DDataGridEvents_RowColChangeEvent(lastRow:=LastRowUsed, 1) Handles AxDataGrid1.RowColChange
     '    AxDataGrid1_RowColChange(AxDataGrid1, e)
     'End Sub
-
     Public Sub MoveRow(I As Integer)
         If I < 0 Then I = 0
         With AxDataGrid1
             .Bookmark = .RowBookmark(I)
         End With
     End Sub
-
 End Class

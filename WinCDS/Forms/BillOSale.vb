@@ -78,6 +78,7 @@ Public Class BillOSale
     Dim offY As Integer, offX As Integer
     Dim SplitKits As TriState
     Dim NewVal As String
+    Dim Margin As New CGrossMargin
 
     Private Sub cboPhone1_Enter(sender As Object, e As EventArgs) Handles cboPhone1.Enter
         ' This event is replacement for Gotfocus of vb6.0
@@ -369,13 +370,13 @@ NextItem:
         Next
 
         If Not DoAll And X = 0 Then
-            If MsgBox("Re-print all SOLD tags?", vbYesNo + vbQuestion, "Confirm Reprint") = vbYes Then
+            If MessageBox.Show("Re-print all SOLD tags?", "Confirm Reprint", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                 DoAll = True
                 GoTo TryAgain
             End If
         End If
 
-        MsgBox("Complete!")
+        MessageBox.Show("Complete!")
     End Sub
 
     Public Function QueryStatus(ByVal RowNum As Integer) As String
@@ -529,7 +530,7 @@ NextItem:
             Desc = Trim(UGridIO1.GetValue(Xx, BillColumns.eDescription))
 
             If PriceError Then
-                MsgBox("There Is a Mistake On The Price Entered!", vbCritical)
+                MessageBox.Show("There Is a Mistake On The Price Entered!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 SetPrice(Xx, 0)
                 UGridIO1.Row = Xx
                 PriceFocus()
@@ -635,10 +636,10 @@ NextItem:
 
     Public Sub PriceFocus(Optional ByVal nRow As Integer = -1)
         GridFocus(BillColumns.ePrice, nRow) ' 6
-        If nRow = -1 Then nRow = CurrentLine
-        If UGridIO1.GetValue(nRow, BillColumns.ePrice) = "" Then
-            SetPrice(nRow, "")
-        End If
+        'If nRow = -1 Then nRow = CurrentLine
+        'If UGridIO1.GetValue(nRow, BillColumns.ePrice) = "" Then
+        '    SetPrice(nRow, "")
+        'End If
     End Sub
 
     Public Sub GridFocus(ByVal ColNum As Integer, Optional ByVal RowNum As Integer = -1)
@@ -1104,7 +1105,7 @@ NextItem:
     End Property
 
     Public Sub GridMove(ByVal MoveAmount As Object)
-        'If (MoveAmount > 15) Then UGridIO1.MoveRowDown(Val(MoveAmount - 15))
+        If (MoveAmount > 15) Then UGridIO1.MoveRowDown(Val(MoveAmount - 15))
     End Sub
 
     Private WriteOnly Property MfgSet() As String
@@ -1117,11 +1118,11 @@ NextItem:
     End Property
 
     Public Function GetGrid() As UGridIO
-        'GetGrid = UGridIO1
+        GetGrid = UGridIO1
     End Function
 
     Public Sub GridRefresh()
-        'UGridIO1.Refresh(True)
+        UGridIO1.Refresh(True)
     End Sub
 
     Public Sub MfgFocus(Optional ByVal nRow As Integer = -1)
@@ -1148,13 +1149,13 @@ NextItem:
 
     End Property
 
-    Private Sub UGridIO1_Change()
-        'LastGridTextAlt = UGridIO1.Text
+    Private Sub UGridIO1_Change() Handles UGridIO1.Change
+        LastGridTextAlt = UGridIO1.Text
 
-        'If UGridIO1.Col = BillColumns.eDescription Then
-        '    '  Debug.Print "BOS TEXT: " & UGridIO1.Text
-        '    FormatHelper(UGridIO1.Text)
-        'End If
+        If UGridIO1.Col = BillColumns.eDescription Then
+            '  Debug.Print "BOS TEXT: " & UGridIO1.Text
+            FormatHelper(UGridIO1.Text)
+        End If
     End Sub
 
     Private WriteOnly Property LastGridTextAlt() As String
@@ -1171,7 +1172,7 @@ NextItem:
         Exit Sub
 
         If OrderMode("A") Then
-            If MsgBox("Do you want to delete this line?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
+            If MessageBox.Show("Do you want to delete this line?", "", MessageBoxButtons.YesNo) <> DialogResult.Yes Then Exit Sub
             DeleteLine = "Y"
 
             ' cases to handle:
@@ -1317,7 +1318,7 @@ NextItem:
                     QuickShowPOForStyle(Style)
                     '        DescribePO , RS("PoID")
                 Else
-                    MsgBox("Could not find PoNo")
+                    MessageBox.Show("Could not find PoNo")
                 End If
 
                 DisposeDA(RS, tMargin)
@@ -1371,7 +1372,7 @@ NextItem:
                 End Select
                 If Val(L) <> Val(Loc) Then AdjustItemLocation(L, Loc)
             Case "SSLAW"
-                If MsgBox("Convert to Special Order?", vbQuestion + vbYesNo) = vbYes Then
+                If MessageBox.Show("Convert to Special Order?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     MailCheck.GetMarginLine()
                     tMargin.Load(CStr(MailCheck.MarginNo), "#MarginLine")
 
@@ -1405,7 +1406,7 @@ NextItem:
         If IsIn(S, "ST", "DELTW") Then
             cInv = New CInvRec
             If Not cInv.Load(Style, "Style") Then
-                MsgBox("Couldn't find this style in the database.", vbCritical, "Couldn't adjust item")
+                MessageBox.Show("Couldn't find this style in the database.", "Couldn't adjust item", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 DisposeDA(cInv)
                 Exit Function
             Else
@@ -1418,7 +1419,7 @@ NextItem:
 
         Margin = New CGrossMargin
         If Not Margin.Load(MailCheck.MarginNo, "#MarginLine") Then
-            MsgBox("Couldn't load sale data.", vbCritical, "Couldn't adjust item")
+            MessageBox.Show("Couldn't load sale data.", "Couldn't adjust item", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Function
         Else
             Margin.Location = NewLoc
@@ -1428,7 +1429,7 @@ NextItem:
         If IsIn(S, "ST", "SO", "DELTW") And Margin.Detail <> 0 Then
             Detail = GetDetail(Margin.Detail)
             If Detail Is Nothing Then
-                MsgBox("Couldn't load detail record.", vbCritical, "Couldn't adjust item")
+                MessageBox.Show("Couldn't load detail record.", "Couldn't adjust item", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 DisposeDA(Detail)
             Else
                 Detail.SetLocationQuantity(OldLoc, 0)
@@ -1490,7 +1491,7 @@ NextItem:
         Exit Function
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertPOToST: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertPOToST: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
     End Function
 
@@ -1536,7 +1537,7 @@ HandleErr:
         Exit Function
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertSTToPO: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertSTToPO: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
     End Function
 
@@ -1575,7 +1576,7 @@ HandleErr:
         RS = GetRecordsetBySQL(SQL, , GetDatabaseInventory)
         If RS.RecordCount = 0 Then
             RS = Nothing
-            If MsgBox("Item " & Style & " is not on order. Create a new PO?", vbExclamation + vbYesNo, "No POs") = vbYes Then
+            If MessageBox.Show("Item " & Style & " is not on order. Create a new PO?", "No POs", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                 ' make a PO
                 ConvertSSToPO = MakePo(tMargin) ' returns new PO#
                 SetPoNoOnDetailLine(tMargin.Detail, ConvertSSToPO)
@@ -1615,7 +1616,7 @@ HandleErr:
 
         Margin = New CGrossMargin
         If Not Margin.Load(MailCheck.MarginNo, "#MarginLine") Then
-            MsgBox("Couldn't load sale data.", vbCritical)
+            MessageBox.Show("Couldn't load sale data.")
             DisposeDA(Margin)
             Exit Sub
         End If
@@ -1666,7 +1667,7 @@ HandleErr:
         Exit Sub
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertToSo: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertToSo: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
     End Sub
 
@@ -1706,7 +1707,7 @@ HandleErr:
         Exit Sub
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertToPO: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertToPO: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
     End Sub
 
@@ -1720,20 +1721,20 @@ HandleErr:
         Margin = New CGrossMargin
         If Not Margin.Load(MailCheck.MarginNo, "#MarginLine") Then
             DisposeDA(Margin)
-            MsgBox("Error in ConvertSTToDELTW: Can't load Margin record #" & MailCheck.MarginNo, vbCritical, "Error")
+            MessageBox.Show("Error in ConvertSTToDELTW: Can't load Margin record #" & MailCheck.MarginNo, "Error")
             Exit Sub
         End If
         InvData = New CInvRec
         If Not InvData.Load(Margin.RN, "#Rn") Then
             DisposeDA(Margin, InvData)
-            MsgBox("Error in ConvertSTToDELTW: Invalid Record Number.", vbCritical, "Error")
+            MessageBox.Show("Error in ConvertSTToDELTW: Invalid Record Number.", "Error")
             Exit Sub
         End If
 
         Available = InvData.QueryStock(Margin.Location)
 
         If Available <= 1 Then
-            If MsgBox("You are attempting to take the last item or have no stock leaving a negative balance!   Available: " & Available, vbInformation + vbOKCancel) = vbCancel Then
+            If MessageBox.Show("You are attempting to take the last item or have no stock leaving a negative balance!" & vbCrLf & "Available:  " & Available, "", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
                 DisposeDA(Margin, InvData)
                 Exit Sub
             End If
@@ -1759,9 +1760,8 @@ HandleErr:
         Exit Sub
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertSTToLAW: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertSTToLAW: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
-
     End Sub
 
     Private Sub ConvertSTToLAW()
@@ -1774,20 +1774,20 @@ HandleErr:
         Margin = New CGrossMargin
         If Not Margin.Load(MailCheck.MarginNo, "#MarginLine") Then
             DisposeDA(Margin)
-            MsgBox("Error in ConvertSTToLAW: Can't load Margin record #" & MailCheck.MarginNo, vbCritical, "Error")
+            MessageBox.Show("Error in ConvertSTToLAW: Can't load Margin record #" & MailCheck.MarginNo, "Error")
             Exit Sub
         End If
         InvData = New CInvRec
         If Not InvData.Load(Margin.RN, "#Rn") Then
             DisposeDA(Margin, InvData)
-            MsgBox("Error in ConvertSTToLAW: Invalid Record Number.", vbCritical, "Error")
+            MessageBox.Show("Error in ConvertSTToLAW: Invalid Record Number.", "Error")
             Exit Sub
         End If
 
         Available = InvData.QueryStock(Margin.Location)
 
         If Available <= 1 Then
-            If MsgBox("You are attempting to take the last item or have no stock leaving a negative balance!   Available: " & Available, vbInformation + vbOKCancel) = vbCancel Then
+            If MessageBox.Show("You are attempting to take the last item or have no stock leaving a negative balance!   Available: " & Available, "", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
                 DisposeDA(Margin, InvData)
                 Exit Sub
             End If
@@ -1817,7 +1817,7 @@ HandleErr:
         Exit Sub
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertSTToLAW: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertSTToLAW: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
     End Sub
 
@@ -1899,10 +1899,10 @@ HandleErr:
         Dim I As Integer, X As Integer
 
         X = 0
-        'For I = 0 To UGridIO1.MaxRows - 1
-        '    If Not IsInventoryItemComplete(I) Then Exit For
-        '    X = X + ((Len(QueryDesc(I)) - 1) \ 46 + 1)
-        'Next
+        For I = 0 To UGridIO1.MaxRows - 1
+            If Not IsInventoryItemComplete(I) Then Exit For
+            X = X + ((Len(QueryDesc(I)) - 1) \ 46 + 1)
+        Next
         GetMaxItemIndex = X
     End Function
 
@@ -1915,25 +1915,25 @@ HandleErr:
         Dim N As Integer, X As Integer, P As Integer, F As Integer
 
         X = 0
-        'For T = 0 To UGridIO1.MaxRows - 1
-        '    N = NumLineBreaks(QueryDesc(T))
-        '    For U = 1 To N
-        '        X = X + 1
+        For T = 0 To UGridIO1.MaxRows - 1
+            N = NumLineBreaks(QueryDesc(T))
+            For U = 1 To N
+                X = X + 1
 
-        '        P = (X \ 17)
-        '        F = (X Mod 17)
-        '        If Page = P And F > Line Then
-        '            Item = T
-        '            ItemLine = U - 1
-        '            Exit Sub
-        '        ElseIf Page = P - 1 And Line = 16 And F = 0 Then
-        '            Item = T
-        '            ItemLine = U - 1
-        '            Exit Sub
-        '        End If
-        '    Next
-        'Next
-        MsgBox("Could not Match Item Line.  Page " & (Page + 1) & ", Line " & (Line + 1), vbCritical, "Invoice Printing Error")
+                P = (X \ 17)
+                F = (X Mod 17)
+                If Page = P And F > Line Then
+                    Item = T
+                    ItemLine = U - 1
+                    Exit Sub
+                ElseIf Page = P - 1 And Line = 16 And F = 0 Then
+                    Item = T
+                    ItemLine = U - 1
+                    Exit Sub
+                End If
+            Next
+        Next
+        MessageBox.Show("Could not Match Item Line.  Page " & (Page + 1) & ", Line " & (Line + 1), "Invoice Printing Error")
     End Sub
 
     Private Sub ConvertToStock()
@@ -1946,14 +1946,14 @@ HandleErr:
 
         Margin = New CGrossMargin
         If Not Margin.Load(MailCheck.MarginNo, "#MarginLine") Then
-            MsgBox("Error in ConvertToStock: Can't load Margin record #" & MailCheck.MarginNo, vbCritical, "Error")
+            MessageBox.Show("Error in ConvertToStock: Can't load Margin record #" & MailCheck.MarginNo, "Error")
             DisposeDA(Margin)
             Exit Sub
         End If
 
         InvData = New CInvRec
         If Not InvData.Load(Margin.RN, "#Rn") Then
-            MsgBox("Error in ConvertToStock: Invalid Record Number.", vbCritical, "Error")
+            MessageBox.Show("Error in ConvertToStock: Invalid Record Number.", "Error")
             DisposeDA(Margin, InvData)
             Exit Sub
         End If
@@ -1961,7 +1961,7 @@ HandleErr:
         Available = InvData.QueryStock(Margin.Location)
 
         If Available <= 1 Then
-            If MsgBox("You are attempting to take the last item or have no stock leaving a negative balance!" & vbCrLf & "Available: " & Available, vbInformation + vbOKCancel) = vbCancel Then
+            If MessageBox.Show("You are attempting to take the last item or have no stock leaving a negative balance!" & vbCrLf & "Available: " & Available, "", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
                 DisposeDA(Margin, InvData)
                 Exit Sub
             End If
@@ -1993,7 +1993,7 @@ HandleErr:
         Exit Sub
 
 HandleErr:
-        MsgBox("ERROR in Detail BillOSale.ConvertToStock: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
+        MessageBox.Show("ERROR in Detail BillOSale.ConvertToStock: " & Err.Description & ", " & Err.Source & ", " & Err.Number)
         Resume Next
     End Sub
 
@@ -2088,7 +2088,7 @@ ExitHere:
             Dim Mail2 As MailNew2
             If Val(Mail.Index) <> 0 Then
                 ' Save changes if any
-                'Dim RS2 As ADODB.Recordset
+                'Dim RS2 As ADODB.Recordset   -> This line moved to above If Block.
                 RS2 = getRecordsetByTableLabelIndexNumber("MailShipTo", "Index", CStr(Mail.Index), True)
                 CopyMailRecordsetToMailNew2(RS2, Mail2)
                 Mail2.Index = Mail.Index
@@ -2348,7 +2348,7 @@ HandleErr:
                         '            ' Problem: IsInventoryItemComplete only checks that we have a style number.
                         '          End If
                         If MaxLines - LinesUsed() <= LinePadRequired() Then
-                            MsgBox("This sale has almost reached the maximum number of lines." & vbCrLf &
+                            MessageBox.Show("This sale has almost reached the maximum number of lines." & vbCrLf &
                                      "You can add tax if required and complete the sale." & vbCrLf &
                                      "Then you can enter a new sale for the balance of the merchandise.")
                         End If
@@ -2509,8 +2509,8 @@ HandleErr:
         fraHover.Text = Style
         fraHover.Width = picHover.Width + 2 * picHover.Left
         fraHover.Height = picHover.Height + 1.5 * picHover.Top
-        'X = UGridIO1.Left + UGridIO1.ColLeft(Col) + 1500 ' + UGridIO1.GetDBGrid.Columns(0).Width * 1.25
-        'Y = UGridIO1.Top + UGridIO1.RowTop(Row) + 250 '+ UGridIO1.GetDBGrid.RowHeight * 1.5
+        X = UGridIO1.Left + UGridIO1.ColLeft(Col) + 1500 ' + UGridIO1.GetDBGrid.Columns(0).Width * 1.25
+        Y = UGridIO1.Top + UGridIO1.RowTop(Row) + 250 '+ UGridIO1.GetDBGrid.RowHeight * 1.5
         'Debug.Print "X=" & X & ", y=" & Y
         'fraHover.Move(X, Y)
         fraHover.Location = New Point(X, Y)
@@ -2522,8 +2522,8 @@ HandleErr:
         HoverPic()
         tmrHover.Enabled = False
         If Start Then
-            'tmrHover.Interval = 1500
-            'tmrHover.Enabled = True
+            tmrHover.Interval = 1500
+            tmrHover.Enabled = True
         Else
             tmrHover.Tag = ""
         End If
@@ -2531,19 +2531,19 @@ HandleErr:
 
     Private Sub FormatHelper(ByVal Text As String, Optional ByVal Row As Integer = -1)
         'Debug.Print "." & GetTickCount
-        'If Row < 0 Then Row = UGridIO1.Row
+        If Row < 0 Then Row = UGridIO1.Row
         If Len(Text) <= 46 Then
             txtFormatHelper.Visible = False
             picFormatHelper.Visible = False
             txtFormatHelper.Text = ""
             txtFormatHelper.Left = -10000
-            '    UGridIO1.Refresh
+            'UGridIO1.Refresh
         Else
             If txtFormatHelper.Text = Text And txtFormatHelper.Visible Then Exit Sub
             txtFormatHelper.BackColor = Color.White
             txtFormatHelper.Text = WrapLongText(Text, 46, , False)
-            'txtFormatHelper.Top = fraBOS2.Top + UGridIO1.RowTop(Row) - 120 - txtFormatHelper.Height
-            'txtFormatHelper.Left = fraBOS2.Left + UGridIO1.ColLeft(BillColumns.eDescription) + 360
+            txtFormatHelper.Top = fraBOS2.Top + UGridIO1.RowTop(Row) - 120 - txtFormatHelper.Height
+            txtFormatHelper.Left = fraBOS2.Left + UGridIO1.ColLeft(BillColumns.eDescription) + 360
             txtFormatHelper.Visible = True
             'picFormatHelper.Move txtFormatHelper.Left + 40, txtFormatHelper.Top + 40, txtFormatHelper.Width, txtFormatHelper.Height
             picFormatHelper.Location = New Point(txtFormatHelper.Left + 40, txtFormatHelper.Top + 40)
@@ -2589,7 +2589,7 @@ HandleErr:
         On Error GoTo HandleErr
 
         If Not InvData.Load(CStr(RN), "#Rn") Then
-            MsgBox("Could not locate item # " & RN & ".", vbExclamation, "Error!")
+            MessageBox.Show("Could not locate item # " & RN & ".", "Error!")
         Else
 
             'Mfg = InvData.Vendor
@@ -2637,10 +2637,10 @@ HandleErr:
 
     Public Property PriceEnabled() As Boolean
         Get
-            'PriceEnabled = UGridIO1.GetColumn(BillColumns.ePrice).Locked
+            PriceEnabled = UGridIO1.GetColumn(BillColumns.ePrice).Locked
         End Get
         Set(value As Boolean)
-            'UGridIO1.GetColumn(BillColumns.ePrice).Locked = Not value
+            UGridIO1.GetColumn(BillColumns.ePrice).Locked = Not value
         End Set
     End Property
 
@@ -2674,8 +2674,8 @@ HandleErr:
         If tmrFormat.Tag = "" & Row Then Exit Sub
         tmrFormat.Enabled = False
 
-        'tmrFormat.Interval = 100
-        'tmrFormat.Enabled = True
+        tmrFormat.Interval = 100
+        tmrFormat.Enabled = True
         tmrFormat.Tag = Row
         '  Debug.Print "Row=" & Row
     End Sub
@@ -2716,11 +2716,11 @@ HandleErr:
         Ns = AccountHasRecentSaleNotes(LeaseNo)
         NA = AccountHasRecentARNotes(Val(Index))
         If Ns And NA Then
-            MsgBox("This account has recent AR and Sales Notes.", vbInformation)
+            MessageBox.Show("This account has recent AR and Sales Notes.")
         ElseIf Ns Then
-            MsgBox("This account has recent Sales Notes.", vbInformation)
+            MessageBox.Show("This account has recent Sales Notes.")
         ElseIf NA Then
-            MsgBox("This account has recent AR Notes.", vbInformation)
+            MessageBox.Show("This account has recent AR Notes.")
         Else
             ' No recent notes.
         End If
@@ -2764,12 +2764,12 @@ HandleErr:
     Private Function AllItemsAreDelivered() As Boolean
         Dim I As Integer
 
-        'For I = 0 To (UGridIO1.MaxRows - 1)
-        '    If IsItem(QueryStyle(I)) And QueryStatus(I) <> "DELTW" Then
-        '        AllItemsAreDelivered = False
-        '        Exit Function
-        '    End If
-        'Next
+        For I = 0 To (UGridIO1.MaxRows - 1)
+            If IsItem(QueryStyle(I)) And QueryStatus(I) <> "DELTW" Then
+                AllItemsAreDelivered = False
+                Exit Function
+            End If
+        Next
         AllItemsAreDelivered = True
     End Function
 
@@ -2777,9 +2777,9 @@ HandleErr:
         Dim I As Integer
 
         NoItemsOnSale = False
-        'For I = 0 To (UGridIO1.MaxRows - 1)
-        '    If IsItem(QueryStyle(I)) Then Exit Function
-        'Next
+        For I = 0 To (UGridIO1.MaxRows - 1)
+            If IsItem(QueryStyle(I)) Then Exit Function
+        Next
         NoItemsOnSale = True
     End Function
 
@@ -2787,28 +2787,25 @@ HandleErr:
         Dim I As Integer, T As String
 
         HasNonItemsOnSale = True
-        'For I = 0 To (UGridIO1.MaxRows - 1)
-        '    T = Trim(QueryStyle(I))
-        '    If STAIN And T = "STAIN" Then Exit Function
-        '    If Delivery And T = "DEL" Then Exit Function
-        '    If Labor And T = "LAB" Then Exit Function
-        'Next
+        For I = 0 To (UGridIO1.MaxRows - 1)
+            T = Trim(QueryStyle(I))
+            If STAIN And T = "STAIN" Then Exit Function
+            If Delivery And T = "DEL" Then Exit Function
+            If Labor And T = "LAB" Then Exit Function
+        Next
 
         HasNonItemsOnSale = False
     End Function
 
     Public Sub HiLiteRow(Optional ByVal N As Integer = -1)
         On Error Resume Next
-        'UGridIO1.GetDBGrid.ClearSelCols()
+        UGridIO1.GetDBGrid.ClearSelCols()
 
-        ' Note: SelBookmarks property is not available for dbgrid control. So commented below lines.
-        'Do While UGridIO1.GetDBGrid.SelBookmarks.Count >= 1
-        '    UGridIO1.GetDBGrid.SelBookmarks.Remove(0)
-        'Loop
-        'If N < 0 Then Exit Sub
-        'UGridIO1.GetDBGrid.SelBookmarks.Add(" " & N)
-
-
+        Do While UGridIO1.GetDBGrid.SelBookmarks.Count >= 1
+            UGridIO1.GetDBGrid.SelBookmarks.Remove(0)
+        Loop
+        If N < 0 Then Exit Sub
+        UGridIO1.GetDBGrid.SelBookmarks.Add(" " & N)
     End Sub
 
     Public Sub AddMarginRow(ByRef Margin As CGrossMargin)
@@ -2843,7 +2840,7 @@ HandleErr:
         If Not PollingSaleDate Then
             PollingSaleDate = True
             If Not RequestManagerApproval("Change Sale Date", True) Then
-                MsgBox("You do not have access to change the delivery date.", vbExclamation, "Permission Denied")
+                MessageBox.Show("You do not have access to change the delivery date.", "Permission Denied")
                 CustomerFirst.Select()
                 PollingSaleDate = False
                 Exit Sub
@@ -2926,20 +2923,20 @@ HandleErr:
         ' "Date" Datepicker.
         TransDate = DateFormat(dteSaleDate.Value)
         If CDate(TransDate) < Today Then
-            If MsgBox("Are you sure you want to change the date of the sale?" & vbCrLf &
-              "This is not the delivery date.", vbYesNo + vbQuestion) = vbNo Then
+            If MessageBox.Show("Are you sure you want to change the date of the sale?" & vbCrLf &
+              "This is not the delivery date.", "", MessageBoxButtons.YesNo) = DialogResult.No Then
                 dteSaleDate.Value = Today
                 TransDate = Today
             End If
         ElseIf IsWilkenfeld() Then
             If CDate(TransDate) > DateAdd("d", 1, Date.Today) Then
-                MsgBox("You can't set the sale date later than tomorrow.", vbCritical)
+                MessageBox.Show("You can't set the sale date later than tomorrow.")
                 TransDate = Today
                 dteSaleDate.Value = Today
             End If
         Else
             If CDate(TransDate) > Today Then
-                MsgBox("You can't set the sale date later than today.", vbCritical)
+                MessageBox.Show("You can't set the sale date later than today.")
                 TransDate = Today
                 dteSaleDate.Value = Today
             End If
@@ -2963,7 +2960,6 @@ HandleErr:
                 TotalPaymentsByType = TotalPaymentsByType + IfNullThenZeroCurrency(QueryPrice(I))
             End If
         Next
-
     End Function
 
     Public ReadOnly Property LastLineUsed() As Integer
@@ -2979,9 +2975,9 @@ HandleErr:
         Get
             Dim I As Integer
             LastLineWithItem = -1
-            'For I = 0 To UGridIO1.MaxRows - 1
-            '    If IsItem(QueryStyle(I)) Then LastLineWithItem = I
-            'Next
+            For I = 0 To UGridIO1.MaxRows - 1
+                If IsItem(QueryStyle(I)) Then LastLineWithItem = I
+            Next
         End Get
     End Property
 
@@ -2990,13 +2986,13 @@ HandleErr:
 
         If StoreSettings.CCProcessor <> CCPROC_TC Then Exit Sub
         If Not IsIn(Quan, "3", "4", "5", "6") Then Exit Sub
-        If Price = 0 Then MsgBox("This payment has already been reversed.", vbExclamation)
+        If Price = 0 Then MessageBox.Show("This payment has already been reversed.")
         If QueryTransID(X) = "" Then
-            MsgBox("You cannot reverse this payment.  It has no Transaction ID.", vbInformation, ProgramMessageTitle)
+            MessageBox.Show("You cannot reverse this payment.  It has no Transaction ID.", ProgramMessageTitle)
             Exit Sub
         End If
 
-        If MsgBox("Do you really want to reverse this payment?", vbQuestion + vbOKCancel, "Cancel Payment") = vbCancel Then
+        If MessageBox.Show("Do you really want to reverse this payment?", "Cancel Payment", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
             RefundPayment(X)
         End If
     End Sub
@@ -3067,14 +3063,14 @@ HandleErr:
             frmBOSDiscount.ShowDialog(Me)
             DescFocus()
         Else
-            MsgBox("Invalid password or permission.", vbCritical, "Give Discounts")
+            MessageBox.Show("Invalid password or permission.", "Give Discounts", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Sub
 
     Private Sub cmdEmail_Click(sender As Object, e As EventArgs) Handles cmdEmail.Click
         If IsDate(cmdEmail.Tag) Then
             If Math.Abs(DateDiff("s", cmdEmail.Tag, Now)) < 10 Then
-                MsgBox("Please wait a few moments for the email process to finish." & vbCrLf & " You will be notified of any success or failure.", vbExclamation, "Please Wait!")
+                MessageBox.Show("Please wait a few moments for the email process to finish." & vbCrLf & " You will be notified of any success or failure.", "Please Wait!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
         End If
@@ -3134,8 +3130,8 @@ HandleErr:
         End If
     End Function
 
-    Public Sub cmdProcessSale_Click(sender As Object, e As EventArgs)
-        'UGridIO1.Refresh()
+    Public Sub cmdProcessSale_Click(sender As Object, e As EventArgs) Handles cmdProcessSale.Click
+        UGridIO1.Refresh()
         cmdProcessSale.Enabled = False
         'DoEvents()
         Application.DoEvents()
@@ -3153,8 +3149,8 @@ HandleErr:
         Exit Sub
 
 NewProcessSaleError:
-        MsgBox("Error #1 processing sale." & vbCrLf & "Please contact " & AdminContactName & " at " & AdminContactPhone & " with the details of this error immediately.", vbCritical, "Error")
-        MsgBox("Error: " & Err.Description, vbInformation, "Error Description")
+        MessageBox.Show("Error #1 processing sale." & vbCrLf & "Please contact " & AdminContactName & " at " & AdminContactPhone & " with the details of this error immediately.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        MessageBox.Show("Error: " & Err.Description, "Error Description", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Exit Sub
     End Sub
 
@@ -3187,7 +3183,7 @@ NewProcessSaleError:
 
     Private Sub cmdNextSale_Click(sender As Object, e As EventArgs)
         If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
-            If MsgBox("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", vbExclamation + vbOKCancel + vbDefaultButton2, "Credit Card Transaction Already Processed") = vbCancel Then
+            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
                 Exit Sub
             End If
         End If
@@ -3196,7 +3192,7 @@ NewProcessSaleError:
         'Unload OrdPay
         OrdPay.Close()
 
-        'Margin.DDelDat = ""
+        Margin.DDelDat = ""
         OrdSelect.ArStatus = ""
         OrdSelect.TaxApplied = ""
         g_Holding.Status = ""
@@ -3204,7 +3200,7 @@ NewProcessSaleError:
 
         If OrderMode("A") Then
             If Not PrintBill Then
-                If MsgBox("Bill Of Sale Not Printed Or Posted!", vbExclamation + vbOKOnly, "Sale Not Completed") = vbOK Then
+                If MessageBox.Show("Bill Of Sale Not Printed Or Posted!", "Sale Not Completed") = DialogResult.OK Then
                     Exit Sub
                 Else
                 End If
@@ -3222,11 +3218,8 @@ NewProcessSaleError:
             Me.Close()
             'Unload OrdSelect
             OrdSelect.Close()
-
             'Unload OrdStatus
             OrdStatus.Close()
-
-
             'Unload ArApp
             ArApp.Close()
 
@@ -3246,9 +3239,7 @@ NewProcessSaleError:
             cmdNextSale.Enabled = True
             'Unload ArApp
             ArApp.Close()
-
             'Unload BillOSale
-
             'Unload Me
             Me.Close()
             Show()
@@ -3265,7 +3256,7 @@ NewProcessSaleError:
 
     Private Sub cmdMainMenu_Click(sender As Object, e As EventArgs)
         If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
-            If MsgBox("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", vbExclamation + vbOKCancel + vbDefaultButton2, "Credit Card Transaction Already Processed") = vbCancel Then
+            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
                 Exit Sub
             End If
         End If
@@ -3276,7 +3267,7 @@ NewProcessSaleError:
         End If
 
         If OrderMode("A") And Not PrintBill Then
-            If MsgBox("Bill Of Sale Not Printed Or Posted!  Press Cancel to abort sale.", vbExclamation + vbOKCancel, "Sale Not Completed") = vbOK Then
+            If MessageBox.Show("Bill Of Sale Not Printed Or Posted!  Press Cancel to abort sale.", "Sale Not Completed", MessageBoxButtons.OKCancel) = DialogResult.OK Then
                 cmdProcessSale.Enabled = True
                 cmdProcessSale.Select()
                 Exit Sub
@@ -3298,13 +3289,10 @@ NewProcessSaleError:
         If OrderMode("A", "B") Then
             'Unload InvDel
             InvDel.Close()
-
             'Unload OrdPay
             OrdPay.Close()
-
             'Unload AddOnAcc
             AddOnAcc.Close()
-
             'Unload ARPaySetUp
             ARPaySetUp.Close()
         End If
@@ -3385,7 +3373,7 @@ NewProcessSaleError:
     End Sub
 
     Public Sub ClearGrid()
-        'UGridIO1.Clear()
+        UGridIO1.Clear()
         'frmSalesList.SafeSalesClear = True
         frmSalesList.SalesCode = ""
         X = 0
@@ -3415,7 +3403,6 @@ NewProcessSaleError:
         Dim I As Integer
 
         HasTax1 = False
-        '---> NOTE: COMMENTED THE BELOW LINE. AFTER COMPLETION OF THE CODE, REMOVE THE COMMENT.
         If StoreSettings.SalesTax = 0# Then HasTax1 = True : Exit Function
         For I = 0 To UGridIO1.MaxRows - 1
             If Trim(QueryStyle(I)) = "TAX1" Then HasTax1 = True : Exit Function
@@ -3456,7 +3443,7 @@ NewProcessSaleError:
     End Function
 
     Public Function FirstEmptyRow() As Integer
-        'FirstEmptyRow = UGridIO1.FirstEmptyRow
+        FirstEmptyRow = UGridIO1.FirstEmptyRow
     End Function
 
     Public Function RefundPayment(ByVal I As Integer) As Boolean
@@ -3489,7 +3476,7 @@ NewProcessSaleError:
 
     Private Sub cmdClear_Click(sender As Object, e As EventArgs)
         If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
-            If MsgBox("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", vbExclamation + vbOKCancel + vbDefaultButton2, "Credit Card Transaction Already Processed") = vbCancel Then
+            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
                 Exit Sub
             End If
         End If
@@ -3627,7 +3614,7 @@ HandleErr:
             If IsKit And IsItem(QueryStyle(I)) And QueryPrice(I) <> 0 Then
                 If SplitKits <> vbTrue Then
                     Dim R As MsgBoxResult
-                    R = MsgBox("Set Individual Kit Item Prices?", vbQuestion + vbYesNoCancel, "On-The-Fly Kit")
+                    R = MessageBox.Show("Set Individual Kit Item Prices?", "On-The-Fly Kit", MessageBoxButtons.YesNoCancel)
                     Select Case R
                         Case vbNo : Exit Function
                         Case vbYes : SplitKits = vbTrue
@@ -3658,9 +3645,6 @@ HandleErr:
                     End If
                     DisposeDA(C)
                 Next
-
-
-
             End If
         Next
         CheckSplitKits = True
@@ -3677,8 +3661,8 @@ HandleErr:
 
     Private ReadOnly Property LastGridText(Optional ByVal Row As Integer = -1, Optional ByVal Col As Integer = -1) As String
         Get
-            'If Row = -1 Then Row = UGridIO1.Row
-            'If Col = -1 Then Col = UGridIO1.Col
+            If Row = -1 Then Row = UGridIO1.Row
+            If Col = -1 Then Col = UGridIO1.Col
             If Row <> LGTRow Or Col <> LGTCol Then
                 Exit Property
             End If
@@ -3770,11 +3754,7 @@ HandleErr:
         End Set
     End Property
 
-    Private Sub UGridIO1_AfterDelete()
-        Recalculate()
-        If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
-        UGridIO1.Refresh(True)
-    End Sub
+
 
     'Public Event ColEdit(ByVal ColIndex As Integer)
     'Private Sub UGRIDIO1_ColEdit(ByVal ColIndex As Integer) Handles UGridIO1.ColEdit
@@ -3976,7 +3956,7 @@ HandleErr:
     Private Sub cmdApplyBillOSale_Click(sender As Object, e As EventArgs) Handles cmdApplyBillOSale.Click
         If CustomerLast.Text <> "" And CustomerLast.Text <> "CASH & CARRY" And OrderMode("A") And (IsUFO() Or StoreSettings.bRequireAdvertising) And Not IsInternetSale Then
             If cboAdvertisingType.SelectedIndex < 2 Then
-                MsgBox("You must select advertising type!", vbCritical)
+                MessageBox.Show("You must select advertising type!")
                 Exit Sub
             End If
         End If
@@ -3984,7 +3964,7 @@ HandleErr:
         If Not MailMode("ADD/Edit", "Book") And Not OrderMode("A") And Not ArMode("S", "A") Then
             If StoreSettings.bManualBillofSaleNo And Not IsInternetSale Then
                 If Trim(txtSaleNo.Text) = "" Then  'manual bill of sale
-                    MsgBox("Please enter a Bill of Sale Number!", vbExclamation, "No BoS Number")
+                    MessageBox.Show("Please enter a Bill of Sale Number!", "No BoS Number")
                     txtSaleNo.Select()
                     Exit Sub
                 End If
@@ -3993,7 +3973,7 @@ HandleErr:
                 'If Trim(Holding.LeaseNo) = Trim(txtSaleNo) = True Then
                 If Not Visible Or cmdProcessSale.Enabled Then
                     If g_Holding.Load(Trim(txtSaleNo.Text)) Then
-                        MsgBox("This Sale Number has been used!", vbExclamation)
+                        MessageBox.Show("This Sale Number has been used!")
                         txtSaleNo.Text = ""
                         txtSaleNo.Select()
                         Exit Sub
@@ -4003,7 +3983,7 @@ HandleErr:
         End If
 
         If Trim(CustomerLast.Text) = "" And ArMode("S", "A") Then
-            MsgBox("Last Name field must be filled in to set up an Installment Contract!", vbExclamation)
+            MessageBox.Show("Last Name field must be filled in to set up an Installment Contract!")
             Exit Sub
         End If
 
@@ -4024,7 +4004,7 @@ HandleErr:
 
         If Trim(CustomerLast.Text) = "" Or Trim(CustomerLast.Text) = "CASH & CARRY" Then
             If Trim(CustomerFirst.Text) <> "" Or Trim(CustomerAddress.Text) <> "" Or Trim(AddAddress.Text) <> "" Or Trim(CustomerCity.Text) <> "" Or Trim(CustomerZip.Text) <> "" Or Trim(CustomerPhone1.Text) <> "" Then
-                If MsgBox("Software requires a LAST NAME to save the customer." & vbCrLf & "If you leave the last name blank, sale will be treated as CASH & CARRY." & vbCrLf2 & "Would you like to add a last name?", vbYesNo + vbQuestion, "Last Name") = vbYes Then
+                If MessageBox.Show("Software requires a LAST NAME to save the customer." & vbCrLf & "If you leave the last name blank, sale will be treated as CASH & CARRY." & vbCrLf2 & "Would you like to add a last name?", "Last Name", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     On Error Resume Next
                     CustomerLast.Select()
                     Exit Sub
@@ -4120,33 +4100,33 @@ HandleErr:
     Private Sub UGridIO1_KeyPress(sender As Object, e As KeyPressEventArgs)
         ResetLastLoginExpiry()
 
-        'Select Case UGridIO1.Col
-        '    Case BillColumns.eStyle
-        '    Case BillColumns.eManufacturer
-        '        'KeyAscii = Asc(UCase(Chr(KeyAscii)))
-        '        e.KeyChar = UCase(e.KeyChar)
-        '        'If KeyAscii = Asc(",") Then KeyAscii = Asc(";") :                 '   change , to ;
-        '        If e.KeyChar = "," Then e.KeyChar = ";"
+        Select Case UGridIO1.Col
+            Case BillColumns.eStyle
+            Case BillColumns.eManufacturer
+                'KeyAscii = Asc(UCase(Chr(KeyAscii)))
+                e.KeyChar = UCase(e.KeyChar)
+                'If KeyAscii = Asc(",") Then KeyAscii = Asc(";") :                 '   change , to ;
+                If e.KeyChar = "," Then e.KeyChar = ";"
 
-        '    Case BillColumns.eStatus
-        '        'KeyAscii = Asc(UCase(Chr(KeyAscii)))
-        '        e.KeyChar = UCase(e.KeyChar)
-        '    Case BillColumns.eDescription
-        '        If Len(UGridIO1.GetDBGrid.Text) >= Setup_2Data_DescMaxLen Then
-        '            'If KeyAscii > 26 Then ' ignore control codes
-        '            If e.KeyChar > Convert.ToChar(26) Then
-        '                UGridIO1.GetDBGrid.Text = Microsoft.VisualBasic.Left(UGridIO1.GetDBGrid.Text, Setup_2Data_DescMaxLen - 1) ' + the new character will be MAX
-        '            End If
-        '        End If
+            Case BillColumns.eStatus
+                'KeyAscii = Asc(UCase(Chr(KeyAscii)))
+                e.KeyChar = UCase(e.KeyChar)
+            Case BillColumns.eDescription
+                If Len(UGridIO1.GetDBGrid.Text) >= Setup_2Data_DescMaxLen Then
+                    'If KeyAscii > 26 Then ' ignore control codes
+                    If e.KeyChar > Convert.ToChar(26) Then
+                        UGridIO1.GetDBGrid.Text = Microsoft.VisualBasic.Left(UGridIO1.GetDBGrid.Text, Setup_2Data_DescMaxLen - 1) ' + the new character will be MAX
+                    End If
+                End If
 
-        '        'KeyAscii = Asc(UCase(Chr(KeyAscii)))
-        '        e.KeyChar = UCase(e.KeyChar)
-        '        'If KeyAscii = Asc(",") Then KeyAscii = Asc(";") :                 '   change , to ;
-        '        If e.KeyChar = "," Then e.KeyChar = ";"
+                'KeyAscii = Asc(UCase(Chr(KeyAscii)))
+                e.KeyChar = UCase(e.KeyChar)
+                'If KeyAscii = Asc(",") Then KeyAscii = Asc(";") :                 '   change , to ;
+                If e.KeyChar = "," Then e.KeyChar = ";"
 
-        '    Case BillColumns.eLoc
-        '    Case BillColumns.ePrice
-        'End Select
+            Case BillColumns.eLoc
+            Case BillColumns.ePrice
+        End Select
     End Sub
 
     Private Sub UGridIO1_Leave(sender As Object, e As EventArgs)
@@ -4164,11 +4144,11 @@ HandleErr:
     Private Sub tmrFormat_Tick(sender As Object, e As EventArgs) Handles tmrFormat.Tick
         'Debug.Print "tmrHover_Timer()  "
         tmrFormat.Enabled = False
-        'FormatHelper(UGridIO1.GetValue(tmrFormat.Tag, 5), tmrFormat.Tag)
+        FormatHelper(UGridIO1.GetValue(tmrFormat.Tag, 5), tmrFormat.Tag)
         '  Debug.Print "Display=" & tmrFormat.Tag
     End Sub
 
-    Private Sub Notes_Open_Click(sender As Object, e As EventArgs)
+    Private Sub Notes_Open_Click(sender As Object, e As EventArgs) Handles Notes_Open.Click
         frmNotes.DoNotes(0, BillOfSale.Text)
         Exit Sub
     End Sub
@@ -4176,24 +4156,24 @@ HandleErr:
     Private Sub tmrHover_Tick(sender As Object, e As EventArgs) Handles tmrHover.Tick
         'Debug.Print "tmrHover_Timer()  "
         tmrHover.Enabled = False
-        'HoverPic(True, UGridIO1.GetValue(Val(tmrHover.Tag), 0), 0, Val(tmrHover.Tag))
+        HoverPic(True, UGridIO1.GetValue(Val(tmrHover.Tag), 0), 0, Val(tmrHover.Tag))
     End Sub
 
-    Private Sub UGridIO1_DoubleClick(sender As Object, e As EventArgs)
-        'X = UGridIO1.Row
-        'Select Case UGridIO1.Col
-        '    Case BillColumns.eStyle
-        '        Style_DblClick()
-        '    Case BillColumns.eManufacturer
-        '    Case BillColumns.eDescription
-        '    Case BillColumns.eStatus
-        '        Status_DblClick()
-        '    Case BillColumns.ePrice
-        '        'Pop up a discount window?  -- Disabled until we decide how we want it to go.
-        '        'Dim Discount As String
-        '        'If Not CheckAccess("Give Discounts", True, False, True) Then Exit Sub
-        '        'Discount = InputBox("Enter discount percentage:", , "0")
-        'End Select
+    Private Sub UGridIO1_DoubleClick(sender As Object, e As EventArgs) Handles UGridIO1.DoubleClick
+        X = UGridIO1.Row
+        Select Case UGridIO1.Col
+            Case BillColumns.eStyle
+                Style_DblClick()
+            Case BillColumns.eManufacturer
+            Case BillColumns.eDescription
+            Case BillColumns.eStatus
+                Status_DblClick()
+            Case BillColumns.ePrice
+                'Pop up a discount window?  -- Disabled until we decide how we want it to go.
+                'Dim Discount As String
+                'If Not CheckAccess("Give Discounts", True, False, True) Then Exit Sub
+                'Discount = InputBox("Enter discount percentage:", , "0")
+        End Select
     End Sub
 
     Private Sub UGridIO1_MouseMoveOverCell(ByVal Col As Integer, ByVal Row As Integer)
@@ -4223,6 +4203,12 @@ HandleErr:
 
     Public Sub SetMfgNo(ByVal RowNum As Integer, ByVal CellVal As String, Optional ByVal NoDisplay As Boolean = False)
         SetGridField(RowNum, BillColumns.eManufacturerNo, CellVal, NoDisplay)
+    End Sub
+
+    Private Sub UGridIO1_AfterDelete() Handles UGridIO1.AfterDelete
+        Recalculate()
+        If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
+        UGridIO1.Refresh(True)
     End Sub
 
     Public Property StyleEnabled() As Boolean
@@ -4286,19 +4272,19 @@ HandleErr:
         If Trim(QueryPrice(RowNum)) = "" Then IsRowEmpty = True
     End Function
 
-    'Public Function MaxRow() As Integer
-    '    For MaxRow = 0 To UGridIO1.MaxRows
-    '        If IsRowEmpty(MaxRow) Then Exit Function
-    '    Next
-    'End Function
+    Public Function MaxRow() As Integer
+        For MaxRow = 0 To UGridIO1.MaxRows
+            If IsRowEmpty(MaxRow) Then Exit Function
+        Next
+    End Function
 
-    'Private Function IsRowComplete() As Boolean
-    '    IsRowComplete = False
-    '    If (UGridIO1.MaxRows = 1) Then IsRowComplete = True : Exit Function
-    '    If Style = "" Then Exit Function
-    '    If Price = "" Then Exit Function
-    '    IsRowComplete = True
-    'End Function
+    Private Function IsRowComplete() As Boolean
+        IsRowComplete = False
+        If (UGridIO1.MaxRows = 1) Then IsRowComplete = True : Exit Function
+        If Style = "" Then Exit Function
+        If Price = "" Then Exit Function
+        IsRowComplete = True
+    End Function
 
     Private WriteOnly Property MfgNoSet As String
         'Get
@@ -4308,6 +4294,4 @@ HandleErr:
             SetMfgNo(CurrentLine, value, True)
         End Set
     End Property
-
-
 End Class

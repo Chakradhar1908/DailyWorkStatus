@@ -1195,7 +1195,7 @@ Partial Class BillOSale
         '
         Me.ugrFake.Activated = False
         Me.ugrFake.Col = 0
-        Me.ugrFake.firstrow = 3
+        Me.ugrFake.firstrow = 106
         Me.ugrFake.Loading = False
         Me.ugrFake.Location = New System.Drawing.Point(14, 491)
         Me.ugrFake.MaxCols = 2
