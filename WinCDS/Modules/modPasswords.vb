@@ -337,6 +337,7 @@
             UpdatePermissionMonitor(TargetZone, NewLogin, NewPriv)
         End If
     End Function
+
     Public ReadOnly Property GetCashierName() As String
         Get
             '::::GetCashierName
@@ -350,12 +351,14 @@
             GetCashierName = GetLastLoginName
             If IsIn(GetCashierName, SECURITY_NAME_BACKDOOR, SECURITY_NAME_DEMO, SECURITY_NAME_EVERYBODY) Then GetCashierName = ""
             If GetCashierName = "" Then
-                'GetCashierName = GetLocalComputerName()
+                'GetCashierName = GetLocalComputerName() -> GetLocalComputerName() throwing memory error. So replace this line with the below line to store local computer name as cashier name.
+                GetCashierName = GetCDSSetting("Terminal", GetLocalComputerName)
                 If GetCashierName <> "" And SecurityLevel = ComputerSecurityLevels.seclevOfficeComputer Then GetCashierName = "[Office PC]"
                 If GetCashierName <> "" Then GetCashierName = "[" & GetCashierName & "]"
             End If
         End Get
     End Property
+
     Private Sub UpdatePermissionMonitor(ByVal Zone As String, Optional ByVal ManagerName As String = "", Optional ByVal ManagerPerms As String = "")
         If IsFormLoaded("frmPermissionMonitor") Then
             frmPermissionMonitor.txtUser.Text = LastLoginName

@@ -230,6 +230,7 @@
             InvenModeIs = Inven
         End Get
     End Property
+
     Public Property Terminal() As String
         Get
             If mTerminal = "" Then mTerminal = GetCDSSetting("Terminal", GetLocalComputerName)

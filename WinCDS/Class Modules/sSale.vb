@@ -331,14 +331,14 @@ NextItem:
                         '          Memo = Mid(split(.Desc, "/")(2), 6)
                         '          AddNewCashJournalRecord .Quantity, .Price, ProcessSale, Trim(SaleName & " " & Memo), DateFormat(SaleDate)
                         If Not PayTypeIsOutsideFinance(.Quantity) Then
-                            'AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Date.ParseExact(DateFormat(SaleDate), "MM/dd/yyyy", Nothing))
+                            'AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateFormat(SaleDate))
                             If IsDate(SaleDate) Then
                                 AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateTime.Parse(SaleDate))
                             Else
                                 AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Nothing)
                             End If
                         End If
-                            Case "NOTES"
+                    Case "NOTES"
                         Dim xGM As CGrossMargin
                         xGM = SaveNewMarginRecord(Holding.LeaseNo, "NOTES", .Desc, .Quantity, .Price,
             "", "", "", 0, 0, 0, PorD, "", DelStat, Holding.Salesman,
@@ -401,6 +401,7 @@ NextItem:
               0, SaleDate, DDelDat, Store, SaleName, ShipDte, "", SaleIndex,
               , , , , , , , SalesSplit)
                         End If
+
                     Case "--- Adj ---"
                         AddNewMarginRecord(Holding.LeaseNo, "--- Adj ---", .Desc, 0, 0,
             "", "", "", 0, 0, 0, "", "", DelStat, Holding.Salesman,

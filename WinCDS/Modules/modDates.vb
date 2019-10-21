@@ -17,9 +17,11 @@
         R = DateDiff(Unit, Check, Against)
         DateAfter = IIf(IncludeBound, R <= 0, R < 0)
     End Function
+
     Public Function DateEqual(ByVal Check1 As Date, ByVal Check2 As Date, Optional ByVal Unit As String = "d") As Boolean
         DateEqual = DateDiff(Unit, Check1, Check2) = 0
     End Function
+
     Public Function DateFormat(ByVal dteDate As Object, Optional ByVal Separator As String = "") As String
         Dim S As String
         S = DateFormatString()
@@ -30,12 +32,15 @@
             DateFormat = Space(Len(S))
         Else
             DateFormat = Format(dteDate, S)
+            'DateFormat = dteDate.ToString("MM/dd/yyyy HH:mm:ss")
         End If
         'DateFormat = "05/14/2019"
     End Function
+
     Public Function DateFormatString() As String
         DateFormatString = "MM/dd/yyyy"
     End Function
+
     Public Function GetDay(ByVal dteDay As Date) As String
         GetDay = Nothing
         'If dteDay = 0 Then Exit Function

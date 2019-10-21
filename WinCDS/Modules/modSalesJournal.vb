@@ -58,8 +58,8 @@
         If NewAudit.Salesman = "" Then NewAudit.Salesman = "99" ' BFH20060519 - can't be zero length..?
         NewAudit.NonTaxable = NonTaxable
         NewAudit.Cashier = IIf(Cashier = "", GetCashierName, Cashier)
-        'NewAudit.Terminal = IIf(mTerminal = "", Terminal, mTerminal)
-        NewAudit.Terminal = ""
+        NewAudit.Terminal = IIf(mTerminal = "", Terminal, mTerminal)
+        'NewAudit.Terminal = ""
         SalesJournal_AddRecordNew(NewAudit)
         AddNewAuditRecord = True
     End Function

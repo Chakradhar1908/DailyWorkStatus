@@ -267,8 +267,12 @@ HandleErr:
         Dim InvDetail As CInventoryDetail
         On Error GoTo ErrHandler
 
-        InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name,
-      Quantity, Status, Val(Location), DateFormat(Sale.SaleDate), Sale.PoNo(Me))
+        If IsDate(Sale.SaleDate) Then
+            InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), Sale.SaleDate, Sale.PoNo(Me))
+        Else
+            InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), Nothing, Sale.PoNo(Me))
+        End If
+
         CreateDetail = InvDetail.DetailID
         DisposeDA(InvDetail)
 
