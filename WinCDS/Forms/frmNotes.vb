@@ -1,6 +1,7 @@
-﻿Public Class frmNotes
-    Private NoteType as integer, Reference As String
-    Public Sub DoNotes(ByVal vNoteType as integer, ByVal vReference As String)
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Public Class frmNotes
+    Private NoteType As Integer, Reference As String
+    Public Sub DoNotes(ByVal vNoteType As Integer, ByVal vReference As String)
         Dim S As String, RS As ADODB.Recordset
         NoteType = vNoteType
         Reference = vReference

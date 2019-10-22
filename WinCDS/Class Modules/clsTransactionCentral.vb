@@ -1,4 +1,5 @@
-﻿Public Class clsTransactionCentral
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Public Class clsTransactionCentral
 #Const aAllowCredit = True
 #Const aDoesPinPad = False
 #Const aAllowDebit = False
@@ -59,7 +60,7 @@
     Public Address As String
     Public CVV As String
 
-    Public CommunicationRetries as integer
+    Public CommunicationRetries As Integer
 
     Private IsManuallyEntered As Boolean  ' Is the CCNum privately entered?
 
@@ -155,8 +156,8 @@
         A = "&"
         S = S & A & "RegKey=" & RegKey
     End Sub
-    Private Function DoTransaction(ByVal Action As String, ByVal QS As String, ByRef Res As clsHashTable, Optional ByVal ProgressBar As Boolean = True, Optional ByVal ForceRetries as integer = -1) As Boolean
-        Dim R As String, I as integer, FL As String
+    Private Function DoTransaction(ByVal Action As String, ByVal QS As String, ByRef Res As clsHashTable, Optional ByVal ProgressBar As Boolean = True, Optional ByVal ForceRetries As Integer = -1) As Boolean
+        Dim R As String, I As Integer, FL As String
         LogStartFunction("Transaction Central: " & Action)
         If ForceRetries = -1 Then ForceRetries = CommunicationRetries
 
@@ -351,7 +352,7 @@
         End Get
     End Property
     Private Function ParseResponse(ByVal Body As String, ByRef Returns As clsHashTable) As Boolean
-        Dim A As Integer, B as integer, Ck As Boolean, X as integer
+        Dim A As Integer, B As Integer, Ck As Boolean, X As Integer
         Dim ResultType As String, ResponseType As String
         Dim FieldName As String, FieldValue As String
 
@@ -379,7 +380,7 @@
         If A <> 0 Then Body = NLTrim(Mid(Body, 1, A - 1))
 
         ' Just the fields should remain...
-        Dim Detail As Boolean, dR as integer
+        Dim Detail As Boolean, dR As Integer
 
         Do While True
             A = InStr(Body, ">")
@@ -438,7 +439,7 @@ Failure:
 #If aAllowCredit Then
 
         IsManuallyEntered = False
-        If Prompt Then If Not PromptCC Then Exit Function
+        If Prompt Then If Not PromptCC() Then Exit Function
 
         Dim S As String, A As String, Res As clsHashTable
         If RefId = "" Then RefId = "" & Random(10000000) ' gives a better transaction rate

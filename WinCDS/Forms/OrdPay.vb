@@ -1,4 +1,5 @@
-﻿Public Class OrdPay
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Public Class OrdPay
     Dim Status As String             ' Used by cmdOK, needs to be saved between clicks..
     Dim OrgHoldingStatus As String   ' Original Holding Status.
     Dim PayMethod As String
@@ -35,11 +36,11 @@
     Private LockOn As Boolean         ' Used to simulate Modal state
 
     Public Sub FinanceOnAccount(ByVal ArNo As String)
-        Dim X as integer, GM As CGrossMargin, objHolding As cHolding
+        Dim X As Integer, GM As CGrossMargin, objHolding As cHolding
         ' Prepare the Holding object to accept info.
 
         FinanceArNo = ArNo
-        PaymentOnAccount
+        PaymentOnAccount()
         FinanceArNo = ""
         objHolding = New cHolding
         objHolding.Load(g_Holding.LeaseNo)  ' Load the most current info.
@@ -600,7 +601,7 @@ HandleErr:
             End If
         End If
 
-        Setup
+        Setup()
     End Sub
 
     Private Sub Setup()

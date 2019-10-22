@@ -1,4 +1,5 @@
 ﻿Imports VBA
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class InvenA
     Public Balance(40) As Integer
     Public OnOrder(40) As Integer

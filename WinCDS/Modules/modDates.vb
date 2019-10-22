@@ -1,4 +1,5 @@
-﻿Module modDates
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Module modDates
     Public Const NullDate As Date = #1/1/2001#
     Public Const NullDateString As String = "1/1/2001"
     Public Function DateInRange(ByVal TestDate As String, ByVal StartDate As Date, ByVal EndDate As Date) As Boolean

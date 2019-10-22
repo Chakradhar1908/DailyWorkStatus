@@ -1,7 +1,7 @@
-﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Public Class CGrossMargin
     Dim printer As New Printer
-
     Public Structure GrossMargin
         <VBFixedString(8)> Dim SaleNo As String
         <VBFixedString(5)> Dim Quantity As String

@@ -1,18 +1,19 @@
-﻿Public Class MailCheck
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Public Class MailCheck
     Public CustomerTele As String
     Public NameFound As String
     Public Customer As String
-    Public MarginNo as integer
+    Public MarginNo As Integer
     Public HidePriorSales As Boolean                         ' Option for showing prior sales numbers.
     Dim RecNo(MaxLines) As Object
     Public SaleNo As String
-    Private Const FRM_W1 as integer = 8100
-    Private Const FRM_W2 as integer = 3735
-    Private Const FRM_H1 as integer = 3360
+    Private Const FRM_W1 As Integer = 8100
+    Private Const FRM_W2 As Integer = 3735
+    Private Const FRM_H1 As Integer = 3360
     Dim CustomerLast As String
-    Public ServiceCallNo as integer
+    Public ServiceCallNo As Integer
     Dim tMail As MailNew
-    Public Event CustomerFound(ByVal MailIndex as integer, ByRef Cancel As Boolean)
+    Public Event CustomerFound(ByVal MailIndex As Integer, ByRef Cancel As Boolean)
     Public Event CustomerNotFound(ByRef Ignore As Boolean, ByRef DoUnload As Boolean)
     Public Event SaleNotFound()
     Public Event SaleFound(ByVal Holding As cHolding, ByRef Cancel As Boolean)
@@ -22,15 +23,15 @@
     Public GrossSale As Decimal
     Public CheckOut As String
     Public OldTele As String
-    Public FirstRec as integer
-    Public LastRec as integer
-    Public X as integer                         ' Wacky link to bos2 grid line.
+    Public FirstRec As Integer
+    Public LastRec As Integer
+    Public X As Integer                         ' Wacky link to bos2 grid line.
     Dim Margin As CGrossMargin
     Public Lease As String
     Public SalesPerson As String
     Public ArCashSls As Decimal
     Public Controll As Decimal
-    Public TaxCode as Integer
+    Public TaxCode As Integer
     Public SpecialIns As String
     Public OriginalPrint As String
 
@@ -54,7 +55,7 @@
         Dim tHold As cHolding
         Dim FailMsg As String
 
-        SetOrigSize
+        SetOrigSize()
 
         If SelectFromBox Then
             If Not IsNumeric(CustomerTele) Then
@@ -62,7 +63,7 @@
                 Exit Sub
             End If
             If OrderMode("E") = True And optName.Checked = True And mLine <> "" And Microsoft.VisualBasic.Left(mLine, 3) = "   " Then
-                Dim SN As String, T as integer
+                Dim SN As String, T As Integer
                 mLine = Trim(mLine)
                 T = InStr(mLine, " ")
                 SN = Trim(Microsoft.VisualBasic.Left(mLine, T))
@@ -145,7 +146,7 @@
                 Me.Close()
                 Exit Sub
             End If
-            GetCust     ' Load mail data into BillOSale.
+            GetCust()     ' Load mail data into BillOSale.
         Else
             'Does Not Find Customer in mailing list
             If OrderMode("A") Or MailMode("ADD/Edit") Or ArMode("S", "A") Then
@@ -184,7 +185,7 @@
                 tMail.Email = ""
                 tMail.TaxZone = 0
 
-                GetCust
+                GetCust()
             Else
                 ' If we require an existing account, fail.
                 Cancel = False : C2 = False
@@ -218,7 +219,7 @@
                 Service.LoadCustomer(CLng(tMail.Index), True)
                 ServiceCallNo = 0  ' The selected item is only the default once.
                 MainMenu.Hide()
-                Service.Show
+                Service.Show()
                 Exit Sub
             End If
 
@@ -463,7 +464,7 @@
 
         If Trim(BillOSale.cboPhone1.Text = "") Then BillOSale.cboPhone1.Text = "Telephone"
         If Trim(BillOSale.cboPhone2.Text = "") Then BillOSale.cboPhone2.Text = "Telephone 2"
-        GetCust2
+        GetCust2()
 
         If OrderMode("C") Then
             'ZOrder 1  ' Do nothing.. stoopid form misbehaving.
@@ -585,7 +586,7 @@
             LastRec = MarginNo
             X = X + 1
         Loop
-        cTa.Records_Close
+        cTa.Records_Close()
         BillOSale.LastRecord = X
 
         BillOSale.GridRefresh()
@@ -600,7 +601,7 @@
         End If
 
         If Not SkipCustInfo Then
-            FindCust
+            FindCust()
             GetCust()
         End If
 
@@ -637,7 +638,7 @@ HandleErr:
             BillOSale.CustomerAddress2.Text = ""
             BillOSale.CustomerCity2.Text = ""
             BillOSale.CustomerZip2.Text = ""
-            BillOSale.CustomerPhone3.Text  = ""
+            BillOSale.CustomerPhone3.Text = ""
             BillOSale.cboPhone3.Text = ""
         End If
         If Trim(BillOSale.cboPhone3.Text = "") Then BillOSale.cboPhone3.Text = "Telephone 3"

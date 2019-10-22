@@ -1,4 +1,5 @@
-﻿Module BillOfSaleCommon
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Module BillOfSaleCommon
     Public Enum BillColumns
         eStyle = 0
         eManufacturer
@@ -17,7 +18,7 @@
         eNoItems = 2
         eSSNoVendor = 3
     End Enum
-    Public Function PrintSale(ByVal SaleNo As String, Optional ByVal Store as integer = 0, Optional ByVal CopyID As String = "", Optional ByVal Copies as integer = 1) As Boolean
+    Public Function PrintSale(ByVal SaleNo As String, Optional ByVal Store As Integer = 0, Optional ByVal CopyID As String = "", Optional ByVal Copies As Integer = 1) As Boolean
         '::::PrintSale
         ':::SUMMARY
         ': Print a given sale at a given location.
@@ -31,7 +32,7 @@
         ':::RETURN
         ':Boolean-Denotes whether it is true or false.
 
-        Dim S As sSale, X as integer
+        Dim S As sSale, X As Integer
         S = New sSale
         If Copies < 0 Then Exit Function
         If Store <= 0 Then Store = StoresSld
@@ -95,11 +96,11 @@
     Public Function SaveNewMarginRecord(ByVal SaleNo As String, ByVal Style As String, ByVal Desc As String,
   Optional ByVal Quantity As Double = 0, Optional ByVal SellPrice As Decimal = 0,
   Optional ByVal Vendor As String = "", Optional ByVal DeptNo As String = "", Optional ByVal VendorNo As String = "", Optional ByVal Cost As Decimal = 0,
-  Optional ByVal ItemFreight As Decimal = 0, Optional ByVal RN as integer = 0,
+  Optional ByVal ItemFreight As Decimal = 0, Optional ByVal RN As Integer = 0,
   Optional ByVal PorD As String = "", Optional ByVal Commission As String = "", Optional ByVal Status As String = "", Optional ByVal Salesman As String = "",
   Optional ByVal Location As String = "", Optional ByVal SellDte As String = "", Optional ByVal DDelDat As String = "", Optional ByVal Store As String = "",
   Optional ByVal Name As String = "", Optional ByVal ShipDte As String = "", Optional ByVal Phone As String = "", Optional ByVal Index As String = "",
-  Optional ByVal GM As String = "", Optional ByVal Detail as integer = 0, Optional ByVal SS As String = "", Optional ByVal DelPrint As String = "", Optional ByVal PullPrint As String = "",
+  Optional ByVal GM As String = "", Optional ByVal Detail As Integer = 0, Optional ByVal SS As String = "", Optional ByVal DelPrint As String = "", Optional ByVal PullPrint As String = "",
   Optional ByVal CommPd As Date = Nothing, Optional ByVal TransID As String = "", Optional ByVal SalesSplit As String = "100.0 0.0 0.0"
   ) As CGrossMargin
         Dim C As CGrossMargin
@@ -270,7 +271,7 @@ HandleErr:
             Case 4 : InvData.Sales4 = InvData.Sales4 + Qty
         End Select
     End Sub
-    Private Sub UpdateDetailLocation(ByRef InvDetail As CInventoryDetail, ByVal Location as integer, ByVal Qty As Double)
+    Private Sub UpdateDetailLocation(ByRef InvDetail As CInventoryDetail, ByVal Location As Integer, ByVal Qty As Double)
         InvDetail.SetLocationQuantity(Location, Qty)
     End Sub
 
@@ -338,7 +339,7 @@ HandleErr:
                 '      ElseIf IsIn(X, "DS", "NS") Then
                 '        StartingInventory = StartingInventory - IfNullThenZeroDouble(RS("AmtSold"))
                 '      End If
-                RS.MoveNext
+                RS.MoveNext()
             Loop
         End If
         If StartingInventory < 0 Then StartingInventory = 0
@@ -409,7 +410,7 @@ HandleErr:
 
             EndingInventory = StartingInventory + NewItems - AmtSold
 
-            RS.MoveNext
+            RS.MoveNext()
         Loop
 
         DD = DateDiff("d", LastD, DEnd) + 1

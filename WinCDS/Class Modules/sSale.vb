@@ -1,5 +1,6 @@
 ﻿Imports stdole
 Imports VBRUN
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class sSale
     Private mStore As Integer
     Private mSaleNo As String
@@ -331,12 +332,12 @@ NextItem:
                         '          Memo = Mid(split(.Desc, "/")(2), 6)
                         '          AddNewCashJournalRecord .Quantity, .Price, ProcessSale, Trim(SaleName & " " & Memo), DateFormat(SaleDate)
                         If Not PayTypeIsOutsideFinance(.Quantity) Then
-                            'AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateFormat(SaleDate))
-                            If IsDate(SaleDate) Then
-                                AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateTime.Parse(SaleDate))
-                            Else
-                                AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Nothing)
-                            End If
+                            AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateFormat(SaleDate))
+                            'If IsDate(SaleDate) Then
+                            '    AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateTime.Parse(Format(SaleDate, "MM/dd/yyyy")))
+                            'Else
+                            '    AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Nothing)
+                            'End If
                         End If
                     Case "NOTES"
                         Dim xGM As CGrossMargin

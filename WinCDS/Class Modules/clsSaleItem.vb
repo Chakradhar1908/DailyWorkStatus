@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Interaction
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class clsSaleItem
     Public TransID As String
     Public Style As String
@@ -267,11 +268,12 @@ HandleErr:
         Dim InvDetail As CInventoryDetail
         On Error GoTo ErrHandler
 
-        If IsDate(Sale.SaleDate) Then
-            InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), Sale.SaleDate, Sale.PoNo(Me))
-        Else
-            InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), Nothing, Sale.PoNo(Me))
-        End If
+        InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), DateFormat(Sale.SaleDate), Sale.PoNo(Me))
+        'If IsDate(Sale.SaleDate) Then
+        '    InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), Format(Sale.SaleDate, "MM/dd/yyyy"), Sale.PoNo(Me))
+        'Else
+        '    InvDetail = CreateDetailRecord(CI, Sale.SaleNo, Sale.Name, Quantity, Status, Val(Location), Nothing, Sale.PoNo(Me))
+        'End If
 
         CreateDetail = InvDetail.DetailID
         DisposeDA(InvDetail)

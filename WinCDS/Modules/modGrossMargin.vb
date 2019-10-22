@@ -1,11 +1,10 @@
-﻿
-Module modGrossMargin
+﻿Module modGrossMargin
     Private Const SoldTagFlag As String = "tg"
     Private PrepareMLForPackages_SaleNo As String, PrepareMLForPackages_cGM As CGrossMargin
     Public Function DescHasSoldTagPrinted(ByVal Desc As String) As Boolean
         DescHasSoldTagPrinted = Left(Desc, Len(SoldTagFlag)) = SoldTagFlag
     End Function
-    Public Function PrintSoldTags(ByVal Style As String, Optional ByVal LastName As String = "", Optional ByVal SaleNo As String = "", Optional ByRef Q as integer = 1) As Boolean
+    Public Function PrintSoldTags(ByVal Style As String, Optional ByVal LastName As String = "", Optional ByVal SaleNo As String = "", Optional ByRef Q As Integer = 1) As Boolean
         Dim UnloadAfter As Boolean
         If Not IsFormLoaded("SelectPrinter") Then UnloadAfter = True
 
@@ -40,8 +39,8 @@ Module modGrossMargin
         ExecuteRecordsetBySQL(S, , GetDatabaseAtLocation(StoreNo))
     End Function
 
-    Public Sub SalePackageUpdate(ByVal SaleNo As String, Optional ByVal StoreNo as integer = 0, Optional ByVal TempTable As Boolean = False, Optional ByVal AllowCache As Boolean = True)
-        Dim RS As ADODB.Recordset, ML as integer, S As String
+    Public Sub SalePackageUpdate(ByVal SaleNo As String, Optional ByVal StoreNo As Integer = 0, Optional ByVal TempTable As Boolean = False, Optional ByVal AllowCache As Boolean = True)
+        Dim RS As ADODB.Recordset, ML As Integer, S As String
         Dim IsPackage As Boolean, GM As Double, SellPrice As Decimal
         Dim TotLanded As Decimal, TotSellPr As Decimal
         Dim sTable As String, Sty As String
@@ -103,8 +102,8 @@ Module modGrossMargin
         If IsBarrs Then DisposalDepartment = 10
     End Function
 
-    Public Function PrepareMLForPackages(ByVal S as integer, ByVal ML as integer, ByVal SaleNo As String, Optional ByRef GM As Double = 0, Optional ByRef SellPrice As Decimal = 0, Optional ByVal Cache As Boolean = False) As Boolean
-        Dim G As CGrossMargin, I as integer, Pkg As Boolean, Cnt as integer, TotLand As Decimal, TotCost As Decimal, TotSell As Decimal, PKGM As Double
+    Public Function PrepareMLForPackages(ByVal S As Integer, ByVal ML As Integer, ByVal SaleNo As String, Optional ByRef GM As Double = 0, Optional ByRef SellPrice As Decimal = 0, Optional ByVal Cache As Boolean = False) As Boolean
+        Dim G As CGrossMargin, I As Integer, Pkg As Boolean, Cnt As Integer, TotLand As Decimal, TotCost As Decimal, TotSell As Decimal, PKGM As Double
         If Cache And SaleNo = PrepareMLForPackages_SaleNo And Not PrepareMLForPackages_cGM Is Nothing Then
             G = PrepareMLForPackages_cGM
             G.DataAccess.RS.MoveFirst()
@@ -191,9 +190,9 @@ FoundNotPackage:
         End If
     End Function
 
-    Public Function SaleToHTML(ByVal SaleNo As String, Optional ByVal StoreNo as integer = 0, Optional ByRef GetEmailAddr As String = "", Optional ByRef GetEmailName As String = "", Optional ByRef CustomerCopy As Boolean = True) As String
+    Public Function SaleToHTML(ByVal SaleNo As String, Optional ByVal StoreNo As Integer = 0, Optional ByRef GetEmailAddr As String = "", Optional ByRef GetEmailName As String = "", Optional ByRef CustomerCopy As Boolean = True) As String
         Dim S As String, G As CGrossMargin, H As cHolding, C As clsMailRec, C2 As MailNew2
-        Dim P As Decimal, N as integer, Alt As Boolean
+        Dim P As Decimal, N As Integer, Alt As Boolean
         Dim Terms As String
         On Error Resume Next
 
