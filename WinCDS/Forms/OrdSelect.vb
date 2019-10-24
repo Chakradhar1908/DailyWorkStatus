@@ -9,9 +9,9 @@
     Public SalesTax1 As Decimal
     Public SalesTax2 As Decimal
     Public Store As Decimal
-    Dim TaxRate As Decimal
-    Dim Rate As Decimal
-    Dim Num As Decimal
+    Dim TaxRate As Object
+    Dim Rate As Object
+    Dim Num As Object
     Public TaxApplied As String
     Public ArStatus As String
 
@@ -259,10 +259,10 @@
             If optNoTax2.Checked = True Then Which = optNoTax2.Name
 
             If Not CheckAccess("Give Discounts", False, True, False) Then
-                If MsgBox("You are not authorized to give discounts.  Request approval?", vbExclamation + vbYesNo + vbDefaultButton2, "Not Authorized") = vbYes Then
+                If MessageBox.Show("You are not authorized to give discounts.  Request approval?", "Not Authorized", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                     If Not RequestManagerApproval("Give Discounts", True) Then
                         optTax1.Select()
-                        MsgBox("You are not authorized to give discounts.", vbCritical, "Not Authorized")
+                        MessageBox.Show("You are not authorized to give discounts.", "Not Authorized", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                         Exit Sub
                     End If
                 Else
@@ -283,7 +283,7 @@
                 On Error Resume Next
                 M = lstOptions.Text
                 If M = "" Then
-                    MsgBox("Please select an option from the list.", vbExclamation, "No Rate Selected")
+                    MessageBox.Show("Please select an option from the list.", "No Rate Selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
                 M = Split(M, " ")(0)
@@ -370,7 +370,7 @@
             frmCCAd.Advertize()
             OkToProcess = True
             If LastListItemText = "" Then
-                If MsgBox("Payment Type Not Selected!", vbExclamation) = vbOK Then
+                If MessageBox.Show("Payment Type Not Selected!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) = DialogResult.OK Then
                     ShowListbox()
                     '        OrdSelect.Width = 5650
                     '        lstOptions.Width = 2000
@@ -624,13 +624,22 @@
     End Sub
 
     Private Sub lstOptions_Click(sender As Object, e As EventArgs) Handles lstOptions.Click
-        'LastListClick = lstOptions.ListIndex
-        LastListClick = lstOptions.SelectedIndex
-        'LastListItemData = lstOptions.itemData(LastListClick)
-        LastListItemData = CType(lstOptions.SelectedItem, ItemDataClass).ItemData
-        'LastListItemText = lstOptions.List(LastListClick)
-        LastListItemText = lstOptions.Items(lstOptions.SelectedIndex).ToString
-        'HideListbox()
+        Try
+            'LastListClick = lstOptions.ListIndex
+            LastListClick = lstOptions.SelectedIndex
+            LastListItemText = lstOptions.SelectedItem.ToString
+            'LastListItemData = lstOptions.itemData(LastListClick)
+            LastListItemData = CType(lstOptions.SelectedItem, ItemDataClass).ItemData
+
+            'idc = lstOptions.Items(lstOptions.SelectedIndex)
+            'LastListItemData = idc.ItemData
+            'LastListItemText = lstOptions.List(LastListClick)
+            'LastListItemText = lstOptions.Items(lstOptions.SelectedIndex).ToString
+
+            'HideListbox()
+        Catch ex As Exception
+            LastListItemData = 0
+        End Try
     End Sub
 
     Private Sub lstOptions_DoubleClick(sender As Object, e As EventArgs) Handles lstOptions.DoubleClick

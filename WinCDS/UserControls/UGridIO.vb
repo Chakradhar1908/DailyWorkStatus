@@ -68,8 +68,11 @@ Public Class UGridIO
         AxDataGrid1.Text = ""
     End Sub
 
-    Sub ConnectData()
+    Public Sub ConnectData()
         Dim c As New ADODB.Connection
+
+        'If MaxCols = 0 Then MaxCols = 2
+        'If MaxRows = 0 Then MaxRows = 10
         c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\CDSData\Store1\NewOrder\cdsdata.mdb"
         c.CursorLocation = ADODB.CursorLocationEnum.adUseClient
         c.Open()
@@ -79,8 +82,12 @@ Public Class UGridIO
         r.CursorLocation = ADODB.CursorLocationEnum.adUseClient
         r.Open("select * from temptable", c, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic)
         AxDataGrid1.DataSource = r
+        'AxDataGrid1.Row = 0
+        'AxDataGrid1.Col = 1
+        'AxDataGrid1.Text = ""
         'c.Close()
     End Sub
+
     Public ReadOnly Property Hwnd() As Integer
         Get
             uhwnd = Me.Handle
@@ -183,14 +190,23 @@ Public Class UGridIO
     Public Sub Clear()
         Dim C As Integer, R As Integer
 
-        AxDataGrid1.ClearFields()
-        On Error Resume Next
-        For R = 0 To mMaxRows - 1
-            For C = 0 To mMaxCols - 1
-                SetValue(R, C, "")
-            Next
-        Next
-        Refresh()
+        'AxDataGrid1.ClearFields()
+
+        'On Error Resume Next
+        'For R = 0 To mMaxRows - 1
+        '    For C = 0 To mMaxCols - 1
+        '        'SetValue(R, C, "")
+        '        AxDataGrid1.Row = R
+        '        AxDataGrid1.Col = C
+        '        AxDataGrid1.Text = ""
+        '    Next
+        'Next
+        'Refresh()
+        '-----------------
+        'AxDataGrid1.Row = 0
+        'AxDataGrid1.Col = 0
+        'AxDataGrid1.Text = ""
+        ConnectData()
     End Sub
 
     Public Property Activated() As Boolean
@@ -294,7 +310,7 @@ Public Class UGridIO
         '      ReDim Preserve GridArray(0 To mMaxCols - 1, 0 To mMaxRows - 1) As String
         '    End If
         ' col = 7
-        On Error Resume Next
+        'On Error Resume Next
         GridArray(Col, Row) = Value
         If Col = Me.Col And Row = Me.Row Then mCurrentCellModified = False
     End Sub

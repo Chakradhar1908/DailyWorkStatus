@@ -280,8 +280,10 @@ Public Class CGrossMargin
         RS("DelPrint").Value = DelPrint
         RS("PullPrint").Value = PullPrint
         RS("CommPd").Value = CommPd
-        If IsNothing(CommPd) Then
-            RS("CommPd").Value = DBNull.Value
+        'If IsNothing(CommPd) Then -> Replaced this line with the below line.But both lines are not working to assign null to CommPd column. Because date is value type and value type will not allow to assign null.
+        If CommPd = #1/1/0001 12:00:00 AM# Then
+            'RS("CommPd").Value = DBNull.Value
+            RS("CommPd").Value = Nothing
         End If
         RS("Spiff").Value = Spiff
         RS("SalesSplit").Value = Trim(SalesSplit)

@@ -3254,51 +3254,6 @@ NewProcessSaleError:
         ProcessSalePOs = Nothing
     End Sub
 
-    Private Sub cmdMainMenu_Click(sender As Object, e As EventArgs)
-        If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
-            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
-                Exit Sub
-            End If
-        End If
-
-        If SelectPrinter.SmallTags Then ' small tag was printed
-            printer.EndDoc()
-            SelectPrinter.SmallTags = False
-        End If
-
-        If OrderMode("A") And Not PrintBill Then
-            If MessageBox.Show("Bill Of Sale Not Printed Or Posted!  Press Cancel to abort sale.", "Sale Not Completed", MessageBoxButtons.OKCancel) = DialogResult.OK Then
-                cmdProcessSale.Enabled = True
-                cmdProcessSale.Select()
-                Exit Sub
-            Else
-            End If
-        End If
-
-        ClearBillOfSale()
-        'Unload MailCheck
-        MailCheck.Close()
-        If cmdMainMenu.Text = "Back" Then
-            ' Go back to delivery calendar (or whatever else)
-        Else
-            MainMenu.Show()
-        End If
-        'Unload Me
-        Me.Close()
-
-        If OrderMode("A", "B") Then
-            'Unload InvDel
-            InvDel.Close()
-            'Unload OrdPay
-            OrdPay.Close()
-            'Unload AddOnAcc
-            AddOnAcc.Close()
-            'Unload ARPaySetUp
-            ARPaySetUp.Close()
-        End If
-        modProgramState.Order = ""
-    End Sub
-
     Public Sub ClearBillOfSale()
         Dim I As Integer
 
@@ -3473,23 +3428,6 @@ NewProcessSaleError:
             RefundPayment = True
         End If
     End Function
-
-    Private Sub cmdClear_Click(sender As Object, e As EventArgs)
-        If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
-            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
-                Exit Sub
-            End If
-        End If
-
-        '  ClearBillOfSale
-        ClearGrid()
-        CurrentLine = 0
-        NewStyleLine = 0
-
-        '  Unload Me
-        '  Me.Show
-        StyleAddBegin(0)
-    End Sub
 
     Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
         Dim X As String, Xs()
@@ -4229,6 +4167,27 @@ HandleErr:
         End Set
     End Property
 
+    Private Sub cmdClear_Click_1(sender As Object, e As EventArgs) Handles cmdClear.Click
+        If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
+            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
+                Exit Sub
+            End If
+        End If
+
+        'ClearBillOfSale
+        ClearGrid()
+        CurrentLine = 0
+        NewStyleLine = 0
+
+        '  Unload Me
+        '  Me.Show
+        StyleAddBegin(0)
+        'UGridIO1.AxDataGrid1.Row = 0
+        'UGridIO1.AxDataGrid1.Col = 1
+        'UGridIO1.AxDataGrid1.Text = ""
+        'UGridIO1.ConnectData()
+    End Sub
+
     Public Property LocEnabled() As Boolean
         Get
             LocEnabled = UGridIO1.GetColumn(BillColumns.eLoc).Locked
@@ -4294,4 +4253,53 @@ HandleErr:
             SetMfgNo(CurrentLine, value, True)
         End Set
     End Property
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        End
+    End Sub
+
+    Private Sub cmdMainMenu_Click(sender As Object, e As EventArgs) Handles cmdMainMenu.Click
+        If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
+            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
+                Exit Sub
+            End If
+        End If
+
+        If SelectPrinter.SmallTags Then ' small tag was printed
+            printer.EndDoc()
+            SelectPrinter.SmallTags = False
+        End If
+
+        If OrderMode("A") And Not PrintBill Then
+            If MessageBox.Show("Bill Of Sale Not Printed Or Posted!  Press Cancel to abort sale.", "Sale Not Completed", MessageBoxButtons.OKCancel) = DialogResult.OK Then
+                cmdProcessSale.Enabled = True
+                cmdProcessSale.Select()
+                Exit Sub
+            Else
+            End If
+        End If
+
+        ClearBillOfSale()
+        'Unload MailCheck
+        MailCheck.Close()
+        If cmdMainMenu.Text = "Back" Then
+            ' Go back to delivery calendar (or whatever else)
+        Else
+            MainMenu.Show()
+        End If
+        'Unload Me
+        Me.Close()
+
+        If OrderMode("A", "B") Then
+            'Unload InvDel
+            InvDel.Close()
+            'Unload OrdPay
+            OrdPay.Close()
+            'Unload AddOnAcc
+            AddOnAcc.Close()
+            'Unload ARPaySetUp
+            ARPaySetUp.Close()
+        End If
+        modProgramState.Order = ""
+    End Sub
 End Class
