@@ -891,6 +891,17 @@ NextItem:
         End If
 
         LoadSalesSplitBoxes()
+
+        '----------IMP NOTE-----------
+        '--------This code block is to show MailCheck form. After completion of Main menu form, remove this code block. Because after completion of Main menu
+        '--------this code will be available in modMainMenu and this form will connect from modMainMenu code.
+        'MailCheck.optTelephone.Checked = True
+        'MailCheck.HidePriorSales = True
+        'MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+        'MailCheck.HidePriorSales = False
+        ''Unload MailCheck
+        'MailCheck.Close()
+        '-----------------
     End Sub
 
     Public Sub BillOSale2_Show()
@@ -963,7 +974,7 @@ NextItem:
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(5, "Description", 250, False, False)
             '.AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
-            .AddColumn(6, "Price", 72, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            .AddColumn(6, "Price", 63, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .AddColumn(8, "TransID", 0, True, False, , False)
             .MaxCols = 9
@@ -3181,79 +3192,6 @@ NewProcessSaleError:
         cmdSoldTags.Enabled = TurnBackOn
     End Function
 
-    Private Sub cmdNextSale_Click(sender As Object, e As EventArgs)
-        If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
-            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
-                Exit Sub
-            End If
-        End If
-
-        'Next Sale
-        'Unload OrdPay
-        OrdPay.Close()
-
-        Margin.DDelDat = ""
-        OrdSelect.ArStatus = ""
-        OrdSelect.TaxApplied = ""
-        g_Holding.Status = ""
-        'PrintBill = False
-
-        If OrderMode("A") Then
-            If Not PrintBill Then
-                If MessageBox.Show("Bill Of Sale Not Printed Or Posted!", "Sale Not Completed") = DialogResult.OK Then
-                    Exit Sub
-                Else
-                End If
-            End If
-
-            PrintBill = False
-            'Unload MailCheck
-            MailCheck.Close()
-
-            'Unload BillOSale
-            'BillOSale.Close()
-            BalDue.Text = 0
-            Sale = 0
-            'Unload Me
-            Me.Close()
-            'Unload OrdSelect
-            OrdSelect.Close()
-            'Unload OrdStatus
-            OrdStatus.Close()
-            'Unload ArApp
-            ArApp.Close()
-
-            StyleAddEnd()
-            NewStyleLine = 0
-            SalesTax1 = 0
-            SalesTax2 = 0
-            OrdSelect.SalesTax1 = 0
-            OrdSelect.SalesTax2 = 0
-            Written = 0
-            Mail.Index = ""
-            X = 0
-            Show()
-            MailCheck.optTelephone.Checked = True
-            MailCheck.HidePriorSales = True
-        Else
-            cmdNextSale.Enabled = True
-            'Unload ArApp
-            ArApp.Close()
-            'Unload BillOSale
-            'Unload Me
-            Me.Close()
-            Show()
-            Me.Show()
-            MailCheck.optSaleNo.Checked = True
-        End If
-        frmSalesList.SalesCode = ""
-        'MailCheck.Show vbModal
-        MailCheck.ShowDialog()
-        MailCheck.HidePriorSales = False
-
-        ProcessSalePOs = Nothing
-    End Sub
-
     Public Sub ClearBillOfSale()
         Dim I As Integer
 
@@ -3328,7 +3266,23 @@ NewProcessSaleError:
     End Sub
 
     Public Sub ClearGrid()
-        UGridIO1.Clear()
+        Dim r As Integer
+        Dim UsedRows As Integer
+
+        'UGridIO1.Clear()
+        UsedRows = UGridIO1.LastRowUsed
+        For r = 0 To UsedRows
+            SetStyle(r, "")
+            SetMfg(r, "")
+            SetLoc(r, "")
+            SetStatus(r, "")
+            SetQuan(r, "")
+            SetDesc(r, "")
+            SetPrice(r, "")
+            SetMfgNo(r, "")
+            SetTransID(r, "")
+        Next
+        OrdSelect.Hide()
         'frmSalesList.SafeSalesClear = True
         frmSalesList.SalesCode = ""
         X = 0
@@ -4182,10 +4136,6 @@ HandleErr:
         '  Unload Me
         '  Me.Show
         StyleAddBegin(0)
-        'UGridIO1.AxDataGrid1.Row = 0
-        'UGridIO1.AxDataGrid1.Col = 1
-        'UGridIO1.AxDataGrid1.Text = ""
-        'UGridIO1.ConnectData()
     End Sub
 
     Public Property LocEnabled() As Boolean
@@ -4301,5 +4251,78 @@ HandleErr:
             ARPaySetUp.Close()
         End If
         modProgramState.Order = ""
+    End Sub
+
+    Private Sub cmdNextSale_Click(sender As Object, e As EventArgs) Handles cmdNextSale.Click
+        If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
+            If MessageBox.Show("This sale has an already processed Credit Card Transaction." & vbCrLf & "If you leave this sale without processing it, you will have to manually remove the charges." & vbCrLf & "Click Cancel to Process this sale first.", "Credit Card Transaction Already Processed", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
+                Exit Sub
+            End If
+        End If
+
+        'Next Sale
+        'Unload OrdPay
+        OrdPay.Close()
+
+        Margin.DDelDat = ""
+        OrdSelect.ArStatus = ""
+        OrdSelect.TaxApplied = ""
+        g_Holding.Status = ""
+        'PrintBill = False
+
+        If OrderMode("A") Then
+            If Not PrintBill Then
+                If MessageBox.Show("Bill Of Sale Not Printed Or Posted!", "Sale Not Completed") = DialogResult.OK Then
+                    Exit Sub
+                Else
+                End If
+            End If
+
+            PrintBill = False
+            'Unload MailCheck
+            MailCheck.Close()
+
+            'Unload BillOSale
+            'BillOSale.Close()
+            BalDue.Text = 0
+            Sale = 0
+            'Unload Me
+            Me.Close()
+            'Unload OrdSelect
+            OrdSelect.Close()
+            'Unload OrdStatus
+            OrdStatus.Close()
+            'Unload ArApp
+            ArApp.Close()
+
+            StyleAddEnd()
+            NewStyleLine = 0
+            SalesTax1 = 0
+            SalesTax2 = 0
+            OrdSelect.SalesTax1 = 0
+            OrdSelect.SalesTax2 = 0
+            Written = 0
+            Mail.Index = ""
+            X = 0
+            Show()
+            MailCheck.optTelephone.Checked = True
+            MailCheck.HidePriorSales = True
+        Else
+            cmdNextSale.Enabled = True
+            'Unload ArApp
+            ArApp.Close()
+            'Unload BillOSale
+            'Unload Me
+            Me.Close()
+            Show()
+            Show()
+            MailCheck.optSaleNo.Checked = True
+        End If
+        frmSalesList.SalesCode = ""
+        'MailCheck.Show vbModal
+        MailCheck.ShowDialog()
+        MailCheck.HidePriorSales = False
+
+        ProcessSalePOs = Nothing
     End Sub
 End Class

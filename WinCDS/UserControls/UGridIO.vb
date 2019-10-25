@@ -71,8 +71,6 @@ Public Class UGridIO
     Public Sub ConnectData()
         Dim c As New ADODB.Connection
 
-        'If MaxCols = 0 Then MaxCols = 2
-        'If MaxRows = 0 Then MaxRows = 10
         c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\CDSData\Store1\NewOrder\cdsdata.mdb"
         c.CursorLocation = ADODB.CursorLocationEnum.adUseClient
         c.Open()
@@ -82,9 +80,6 @@ Public Class UGridIO
         r.CursorLocation = ADODB.CursorLocationEnum.adUseClient
         r.Open("select * from temptable", c, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic)
         AxDataGrid1.DataSource = r
-        'AxDataGrid1.Row = 0
-        'AxDataGrid1.Col = 1
-        'AxDataGrid1.Text = ""
         'c.Close()
     End Sub
 
@@ -190,23 +185,15 @@ Public Class UGridIO
     Public Sub Clear()
         Dim C As Integer, R As Integer
 
-        'AxDataGrid1.ClearFields()
+        AxDataGrid1.ClearFields()
 
-        'On Error Resume Next
-        'For R = 0 To mMaxRows - 1
-        '    For C = 0 To mMaxCols - 1
-        '        'SetValue(R, C, "")
-        '        AxDataGrid1.Row = R
-        '        AxDataGrid1.Col = C
-        '        AxDataGrid1.Text = ""
-        '    Next
-        'Next
-        'Refresh()
-        '-----------------
-        'AxDataGrid1.Row = 0
-        'AxDataGrid1.Col = 0
-        'AxDataGrid1.Text = ""
-        ConnectData()
+        On Error Resume Next
+        For R = 0 To mMaxRows - 1
+            For C = 0 To mMaxCols - 1
+                SetValue(R, C, "")
+            Next
+        Next
+        Refresh()
     End Sub
 
     Public Property Activated() As Boolean
@@ -1084,7 +1071,6 @@ NoColumn:
         'Debug.Print "DBGrid1_RowColChange: ", LastRow, LastCol, DBGrid1.row, DBGrid1.FirstRow
 
         If Loading Then Exit Sub
-
         mLastRow = e.lastRow - 1
         mLastCol = e.lastCol
         mLostFocus = False
