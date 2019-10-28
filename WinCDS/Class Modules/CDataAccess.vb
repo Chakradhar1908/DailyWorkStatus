@@ -1,5 +1,4 @@
 ﻿Imports WinCDS
-
 Public Class CDataAccess
     Private mSubClass As CDataAccess
     Private mDatabase As String
@@ -56,7 +55,7 @@ Public Class CDataAccess
             mIndex = value
         End Set
     End Property
-    Friend Function Record_Count() as integer
+    Friend Function Record_Count() As Integer
         On Error Resume Next
         Record_Count = Mrs.RecordCount
     End Function

@@ -895,9 +895,9 @@ NextItem:
         '----------IMP NOTE-----------
         '--------This code block is to show MailCheck form. After completion of Main menu form, remove this code block. Because after completion of Main menu
         '--------this code will be available in modMainMenu and this form will connect from modMainMenu code.
-        'MailCheck.optTelephone.Checked = True
         'MailCheck.HidePriorSales = True
         'MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+        'MailCheck.optTelephone.Checked = True
         'MailCheck.HidePriorSales = False
         ''Unload MailCheck
         'MailCheck.Close()
@@ -2081,6 +2081,9 @@ ExitHere:
             Dim idc As ItemDataClass
             idc = cboAdvertisingType.Items(cboAdvertisingType.SelectedIndex)
             Mail.CustType = idc.ItemData
+
+            'NOTE: IF THE ABOVE CODE TO GET ITEMDATA IS NOT WORK, USE THE BELOW LINE. THIS LINE WILL WORK BECAUSE IT IS ALREADY USING IN OrdSelect form.
+            'LastListItemData = CType(lstOptions.SelectedItem, ItemDataClass).ItemData
         End If
 
         Mail.Email = Email.Text

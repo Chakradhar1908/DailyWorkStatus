@@ -92,6 +92,7 @@
     <Compile Include="Class Modules\cArTreehouse.vb" />
     <Compile Include="Class Modules\CDataAccess.vb" />
     <Compile Include="Class Modules\CDbAccessGeneral.vb" />
+    <Compile Include="Class Modules\CDbTypeAhead.vb" />
     <Compile Include="Class Modules\cFTP.vb" />
     <Compile Include="Class Modules\cHolding.vb" />
     <Compile Include="Class Modules\cInstallment.vb" />
@@ -490,6 +491,7 @@
     </Compile>
     <Compile Include="ItemDataClass.vb" />
     <Compile Include="Modules\BillOfSaleCommon.vb" />
+    <Compile Include="Modules\CDbTypeAheadNew.vb" />
     <Compile Include="Modules\dbaseloModule.vb" />
     <Compile Include="Modules\dbSQL.vb" />
     <Compile Include="Modules\Functions.vb" />
