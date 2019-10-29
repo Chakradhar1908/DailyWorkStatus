@@ -135,6 +135,7 @@ Partial Class BillOSale
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.rtb = New WinCDS.RichTextBoxNew()
         Me.ugrFake = New WinCDS.UGridIO()
+        Me.Button2 = New System.Windows.Forms.Button()
         CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraTimeWindow.SuspendLayout()
@@ -1215,11 +1216,21 @@ Partial Class BillOSale
         Me.ugrFake.Size = New System.Drawing.Size(848, 99)
         Me.ugrFake.TabIndex = 104
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(647, 46)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(28, 32)
+        Me.Button2.TabIndex = 106
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'BillOSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(895, 881)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.fraBOS2)
         Me.Controls.Add(Me.ugrFake)
@@ -1436,4 +1447,5 @@ Partial Class BillOSale
     Friend WithEvents rtbStorePolicy As RichTextBoxNew
     Friend WithEvents rtb As RichTextBoxNew
     Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
 End Class

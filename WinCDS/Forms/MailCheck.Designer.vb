@@ -159,6 +159,7 @@ Partial Class MailCheck
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "MailCheck"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "MailCheck"
         Me.fraInputType.ResumeLayout(False)
         Me.fraInputType.PerformLayout()

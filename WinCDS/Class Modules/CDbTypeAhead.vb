@@ -15,7 +15,7 @@
 
     Public Event Refresh()
     Public Event BuildLine(RS As ADODB.Recordset, returnLine As String)
-    Public Event BuildKeyedLine(RS As ADODB.Recordset, returnLine As String, returnKey As Integer)
+    Public Event BuildKeyedLine(RS As ADODB.Recordset, ByRef returnLine As String, ByRef returnKey As Integer)
 
     Public Sub New()
         Table = ""

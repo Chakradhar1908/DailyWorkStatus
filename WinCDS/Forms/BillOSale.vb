@@ -79,6 +79,7 @@ Public Class BillOSale
     Dim SplitKits As TriState
     Dim NewVal As String
     Dim Margin As New CGrossMargin
+    Dim I As Integer
 
     Private Sub cboPhone1_Enter(sender As Object, e As EventArgs) Handles cboPhone1.Enter
         ' This event is replacement for Gotfocus of vb6.0
@@ -891,17 +892,6 @@ NextItem:
         End If
 
         LoadSalesSplitBoxes()
-
-        '----------IMP NOTE-----------
-        '--------This code block is to show MailCheck form. After completion of Main menu form, remove this code block. Because after completion of Main menu
-        '--------this code will be available in modMainMenu and this form will connect from modMainMenu code.
-        'MailCheck.HidePriorSales = True
-        'MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
-        'MailCheck.optTelephone.Checked = True
-        'MailCheck.HidePriorSales = False
-        ''Unload MailCheck
-        'MailCheck.Close()
-        '-----------------
     End Sub
 
     Public Sub BillOSale2_Show()
@@ -3649,8 +3639,6 @@ HandleErr:
         End Set
     End Property
 
-
-
     'Public Event ColEdit(ByVal ColIndex As Integer)
     'Private Sub UGRIDIO1_ColEdit(ByVal ColIndex As Integer) Handles UGridIO1.ColEdit
     '    If ColIndex = BillColumns.ePrice Then
@@ -3675,6 +3663,7 @@ HandleErr:
             'MessageBox.Show(UGridIO1.Text)
         End If
     End Sub
+
     Private Sub UGridIO1_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO1.BeforeColUpdate
         'Dim NewVal As String
 
@@ -4327,5 +4316,25 @@ HandleErr:
         MailCheck.HidePriorSales = False
 
         ProcessSalePOs = Nothing
+    End Sub
+
+    Public Sub ShowMailCheckForm()
+        '----------IMP NOTE-----------
+        '--------This code block is to show MailCheck form. After completion of Main menu form, remove this code block. Because after completion of Main menu
+        '--------this code will be available in modMainMenu and this form will connect from modMainMenu code.
+
+        'MailCheck.MailCheck_Load(MailCheck, New EventArgs)
+        'MailCheck.optTelephone.Checked = True
+        MailCheck.HidePriorSales = True
+        MailCheck.ShowDialog(Me)  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+        'MailCheck.optTelephone.Checked = True
+        MailCheck.HidePriorSales = False
+        'Unload MailCheck
+        MailCheck.Close()
+        '-----------------
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        ShowMailCheckForm()
     End Sub
 End Class

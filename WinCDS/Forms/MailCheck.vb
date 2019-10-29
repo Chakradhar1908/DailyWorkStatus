@@ -237,7 +237,7 @@ Public Class MailCheck
 
             If Customer <> "Old" Then
                 If optTelephone.Checked = True Then
-                    BillOSale.CustomerPhone1 = DressAni(CleanAni(InputBox.Text))
+                    BillOSale.CustomerPhone1.Text = DressAni(CleanAni(InputBox.Text))
                 ElseIf optName.Checked = True Then
                     BillOSale.CustomerLast.Text = Trim(InputBox.Text)
                 End If
@@ -736,7 +736,7 @@ HandleErr:
         Resume Next
     End Sub
 
-    Private Sub MailCheck_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub MailCheck_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Height = FRM_H1
         Width = FRM_W2
 
@@ -762,6 +762,7 @@ HandleErr:
         , ExtraSort:="First, LeaseNo"
         )
 
+        optTelephone.Checked = True
         Setup()
     End Sub
 
@@ -1028,15 +1029,15 @@ HandleErr:
         InputBox.Select()
     End Sub
 
-    Private Sub objSourceTelephone_BuildKeyedLine(RS As Recordset, returnLine As String, returnKey As Integer) Handles objSourceTelephone.BuildKeyedLine
+    Private Sub objSourceTelephone_BuildKeyedLine(RS As Recordset, ByRef returnLine As String, ByRef returnKey As Integer) Handles objSourceTelephone.BuildKeyedLine
         Dim Index As String
         Dim LastName As String
         Dim FirstName As String
         Dim Address As String
         Dim Telephone As String
-        Dim LeaseNo As String
+        Dim LeaseNo As String = ""
         ' bfh20060117
-        Dim HoldStatus As String
+        Dim HoldStatus As String = ""
         Dim Balance As Decimal
 
         Index = IfNullThenZero(RS("Mail.Index").Value)
@@ -1044,6 +1045,8 @@ HandleErr:
         FirstName = IfNullThenNilString(RS("First").Value)
         Address = IfNullThenNilString(RS("Address").Value)
         Telephone = IfNullThenNilString(RS("Tele").Value)
+
+        On Error Resume Next  '-This error handler is for Leaseno, status, sale and deposit columns. Recordset is returning DBNull if these columns are blank in database. Ifnullthennilstring will not handle it.
         LeaseNo = IfNullThenNilString(RS("LeaseNo").Value)
         ' bfh20060117
         HoldStatus = IfNullThenNilString(RS("Status").Value)
@@ -1076,13 +1079,14 @@ HandleErr:
         returnKey = Index
     End Sub
 
-    Private Sub objSourceName_BuildKeyedLine(RS As Recordset, returnLine As String, returnKey As Integer) Handles objSourceName.BuildKeyedLine
+    Private Sub objSourceName_BuildKeyedLine(RS As Recordset, ByRef returnLine As String, ByRef returnKey As Integer) Handles objSourceName.BuildKeyedLine
         Dim Index As String : Index = IfNullThenZero(RS("Mail.Index").Value)
         Dim LastName As String : LastName = IfNullThenNilString(RS("Last").Value)
         Dim FirstName As String : FirstName = IfNullThenNilString(RS("First").Value)
         Dim Address As String : Address = IfNullThenNilString(RS("Address").Value)
         Dim Telephone As String : Telephone = IfNullThenNilString(RS("Tele").Value)
-        On Error Resume Next
+
+        On Error Resume Next '-This error handler is for Leaseno, status, sale and deposit columns. Recordset is returning DBNull if these columns are blank in database. Ifnullthennilstring will not handle it.
         Dim LeaseNo As String = "" : LeaseNo = IfNullThenNilString(RS("LeaseNo").Value)
         ' bfh20060117
         Dim HoldStatus As String = "" : HoldStatus = IfNullThenNilString(RS("Status").Value)
