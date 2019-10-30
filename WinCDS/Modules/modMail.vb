@@ -305,6 +305,7 @@ Module modMail
         getMailRecordsetByServiceCall = cDBa.getRecordset(Always:=False)  ' if 'SetNew:=False' by default
         cDBa.dbClose()
     End Function
+
     Public Sub CopyMailRecordsetToMailNew(ByRef RS As ADODB.Recordset, ByRef tMailNew As MailNew)
         '::::CopyMailRecordsetToMailNew
         ':::SUMMARY
@@ -320,25 +321,25 @@ Module modMail
         On Error Resume Next
         tMailNew.Index = RS("Index").Value
         MailRec = tMailNew.Index
-        tMailNew.Last = IfNullThenNilString(RS("Last"))
-        tMailNew.First = IfNullThenNilString(RS("First"))
-        tMailNew.Address = IfNullThenNilString(RS("address"))
-        tMailNew.AddAddress = IfNullThenNilString(RS("addaddress"))
-        tMailNew.City = IfNullThenNilString(RS("City"))
-        tMailNew.Zip = IfNullThenNilString(RS("Zip"))
-        tMailNew.Tele = IfNullThenNilString(DressAni(CleanAni(RS("Tele").ToString)))
-        tMailNew.Tele2 = IfNullThenNilString(DressAni(CleanAni(RS("Tele2").ToString)))
-        tMailNew.PhoneLabel1 = Trim(IfNullThenNilString(RS("PhoneLabel1")))
-        tMailNew.PhoneLabel2 = Trim(IfNullThenNilString(RS("PhoneLabel2")))
-        tMailNew.Special = IfNullThenNilString(RS("Special"))
-        tMailNew.Type = IfNullThenNilString(RS("Type"))
-        tMailNew.Zip = IfNullThenNilString(RS("Zip"))
-        tMailNew.CustType = IfNullThenNilString(RS("CustType"))
-        tMailNew.Blank = IfNullThenNilString(RS("Blank"))
+        tMailNew.Last = IfNullThenNilString(RS("Last").Value)
+        tMailNew.First = IfNullThenNilString(RS("First").Value)
+        tMailNew.Address = IfNullThenNilString(RS("address").Value)
+        tMailNew.AddAddress = IfNullThenNilString(RS("addaddress").Value)
+        tMailNew.City = IfNullThenNilString(RS("City").Value)
+        tMailNew.Zip = IfNullThenNilString(RS("Zip").Value)
+        tMailNew.Tele = IfNullThenNilString(DressAni(CleanAni(RS("Tele").Value)))
+        tMailNew.Tele2 = IfNullThenNilString(DressAni(CleanAni(RS("Tele2").Value)))
+        tMailNew.PhoneLabel1 = Trim(IfNullThenNilString(RS("PhoneLabel1").Value))
+        tMailNew.PhoneLabel2 = Trim(IfNullThenNilString(RS("PhoneLabel2").Value))
+        tMailNew.Special = IfNullThenNilString(RS("Special").Value)
+        tMailNew.Type = IfNullThenNilString(RS("Type").Value)
+        tMailNew.Zip = IfNullThenNilString(RS("Zip").Value)
+        tMailNew.CustType = IfNullThenNilString(RS("CustType").Value)
+        tMailNew.Blank = IfNullThenNilString(RS("Blank").Value)
 
         ' Use this for Access Version
-        tMailNew.AddAddress = IfNullThenNilString(RS("AddAddress"))
-        tMailNew.Email = IfNullThenNilString(RS("Email"))
+        tMailNew.AddAddress = IfNullThenNilString(RS("AddAddress").Value)
+        tMailNew.Email = IfNullThenNilString(RS("Email").Value)
         tMailNew.Business = RS("Business").Value
 
         tMailNew.TaxZone = RS("TaxZone").Value

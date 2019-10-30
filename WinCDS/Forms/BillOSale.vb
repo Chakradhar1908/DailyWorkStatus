@@ -736,9 +736,9 @@ NextItem:
         ' Here both form_unload and form_queryunload event code is combined. Because, in vb.net there are no separte events. For both, formclosing is the event.
 
         'If UnloadMode = vbFormControlMenu Then Cancel = True  -This line is from Form_queryunload event of vb6.0
-        If e.CloseReason = CloseReason.UserClosing Then
-            e.Cancel = True
-        End If
+        'If e.CloseReason = CloseReason.UserClosing Then -> These three lines are replacement for the above line. But commented, because while closing of billosale form, for any reason, it is taking as CloseReason.UserClosing only.
+        '    e.Cancel = True
+        'End If
 
         On Error Resume Next   'From here, this code is of form unload event of vb6.0. 
         DisposeDA(Marginn)
@@ -911,14 +911,16 @@ NextItem:
     Private Sub LoadFakeGrid(Optional ByVal Visible As Boolean = False)
         With ugrFake
             .AddColumn(0, "Style Number", 100, True, False)
-            .AddColumn(1, "Manufacturer", 150, False, False)
+            .AddColumn(1, "Manufacturer", 250, False, False)
             .AddColumn(2, "Loc", 30, True, False)
-            .AddColumn(3, "Status", 60, False, False)
+            .AddColumn(3, "Status", 50, False, False)
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
-            .AddColumn(5, "Description", 200, False, False)
-            .AddColumn(6, "Price", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            .AddColumn(5, "Description", 250, False, False)
+            .AddColumn(6, "Price", 70, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
-            .MaxCols = 8
+            .AddColumn(8, "TransID", 0, True, False, , False) '->This column is not there in vb6 wincds. Added here because, it will showing as Column9 at runtime.
+            .AddColumn(9, "Col9", 0, True, False,, False)
+            .MaxCols = 9
             .MaxRows = 20
             .Initialize()
             .GetDBGrid.AllowUpdate = False
@@ -964,7 +966,7 @@ NextItem:
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(5, "Description", 250, False, False)
             '.AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
-            .AddColumn(6, "Price", 63, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            .AddColumn(6, "Price", 57, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .AddColumn(8, "TransID", 0, True, False, , False)
             .MaxCols = 9
@@ -1035,12 +1037,14 @@ NextItem:
     Public Sub Arrange(Optional ByVal TALL As TriState = vbUseDefault, Optional ByVal BoS2 As TriState = vbUseDefault)
         Const FRM_SHORT_H = 6750
         'Const FRM_TALL_H = 9280
-        Const FRM_TALL_H = 700
+        'Const FRM_TALL_H = 700
+        Const FRM_TALL_H = 660
 
-        'If BoS2 <> vbUseDefault Then                 ----------> Remove the if block comment later.
-        '    fraBOS2.Visible = BoS2
-        '    fraBOS2.Left = IIf(BoS2, 0, -15000)
-        'End If
+        If BoS2 <> vbUseDefault Then                 '----------> Remove the if block comment later.
+            fraBOS2.Visible = BoS2
+            'fraBOS2.Left = IIf(BoS2, 0, -15000)
+            fraBOS2.Left = IIf(BoS2, 0, -900)
+        End If
 
         If TALL <> vbUseDefault Then
             'Me.Height = IIf(TALL = vbTrue, FRM_TALL_H, FRM_SHORT_H)
@@ -4275,11 +4279,12 @@ HandleErr:
             MailCheck.Close()
 
             'Unload BillOSale
-            'BillOSale.Close()
+            Me.Hide()
             BalDue.Text = 0
             Sale = 0
             'Unload Me
-            Me.Close()
+            'Me.Close()
+            Me.Hide()
             'Unload OrdSelect
             OrdSelect.Close()
             'Unload OrdStatus
@@ -4297,7 +4302,7 @@ HandleErr:
             Mail.Index = ""
             X = 0
             Show()
-            MailCheck.optTelephone.Checked = True
+            'MailCheck.optTelephone.Checked = True -> Commeneted this line, because in vb.net, mailcheck form load event must execute before this line.
             MailCheck.HidePriorSales = True
         Else
             cmdNextSale.Enabled = True
@@ -4312,7 +4317,7 @@ HandleErr:
         End If
         frmSalesList.SalesCode = ""
         'MailCheck.Show vbModal
-        MailCheck.ShowDialog()
+        MailCheck.ShowDialog(Me)
         MailCheck.HidePriorSales = False
 
         ProcessSalePOs = Nothing

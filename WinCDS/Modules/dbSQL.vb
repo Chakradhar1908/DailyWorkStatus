@@ -159,6 +159,7 @@
         End If
         dbGetRec = Nothing
     End Function
+
     Public Sub ExecuteRecordsetBySQL(ByVal SQL As String, Optional ByVal Always As Boolean = False, Optional ByVal File As String = "", Optional ByVal QuietErrors As Boolean = False, Optional ByVal ErrMsg As String = "")
         '::::GetRecordsetBySQL
         ':::SUMMARY
@@ -180,6 +181,7 @@
         End If
         dbGetRec = Nothing
     End Sub
+
     Public Function getRecordsetByTableLabelIndexNumber(ByVal Table As String, ByVal Label As String, ByVal Index As String, Optional ByVal Always As Boolean = False, Optional ByVal File As String = "") As ADODB.Recordset
         '::::getRecordsetByTableLabelIndexNumber
         ':::SUMMARY
@@ -190,6 +192,7 @@
         ':::RETURN
         getRecordsetByTableLabelIndexNumber = GetRecordsetBySQL(getSQLByTableLabelIndexNumber(Table, Label, Index), Always, File)
     End Function
+
     ' Save the recordset
     Public Sub SetMailRecordsetByTableLabelIndex(ByRef RS As ADODB.Recordset, ByRef Table As String, ByRef Label As String, ByRef Index As String, Optional ByRef File As String = "")
         '::::SetMailRecordsetByTableLabelIndex
@@ -204,9 +207,6 @@
         cDB.UpdateRecordSet(RS)   ' This must be called to update the database
         cDB.dbClose()              ' used to close recordset
     End Sub
-
-
-
 
     Public Function getSQLByTableLabelIndexNumber(
           ByVal Table As String _

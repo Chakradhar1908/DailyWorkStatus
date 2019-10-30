@@ -131,11 +131,12 @@ Partial Class BillOSale
         Me.lblGrossSalesCaption = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.lblGrossSales = New System.Windows.Forms.Label()
+        Me.ugrFake = New WinCDS.UGridIO()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.rtb = New WinCDS.RichTextBoxNew()
-        Me.ugrFake = New WinCDS.UGridIO()
-        Me.Button2 = New System.Windows.Forms.Button()
         CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraTimeWindow.SuspendLayout()
@@ -1008,9 +1009,9 @@ Partial Class BillOSale
         Me.fraBOS2.Controls.Add(Me.BalDue)
         Me.fraBOS2.Controls.Add(Me.cmdPrint)
         Me.fraBOS2.Controls.Add(Me.cmdChangePrice)
-        Me.fraBOS2.Location = New System.Drawing.Point(5, 182)
+        Me.fraBOS2.Location = New System.Drawing.Point(-900, 182)
         Me.fraBOS2.Name = "fraBOS2"
-        Me.fraBOS2.Size = New System.Drawing.Size(875, 382)
+        Me.fraBOS2.Size = New System.Drawing.Size(875, 408)
         Me.fraBOS2.TabIndex = 88
         Me.fraBOS2.TabStop = False
         '
@@ -1021,7 +1022,7 @@ Partial Class BillOSale
         Me.fraBOS2Commands.Controls.Add(Me.cmdMainMenu)
         Me.fraBOS2Commands.Controls.Add(Me.cmdNextSale)
         Me.fraBOS2Commands.Controls.Add(Me.cmdProcessSale)
-        Me.fraBOS2Commands.Location = New System.Drawing.Point(203, 276)
+        Me.fraBOS2Commands.Location = New System.Drawing.Point(203, 327)
         Me.fraBOS2Commands.Name = "fraBOS2Commands"
         Me.fraBOS2Commands.Size = New System.Drawing.Size(414, 60)
         Me.fraBOS2Commands.TabIndex = 104
@@ -1059,7 +1060,7 @@ Partial Class BillOSale
         'lblBalDueCaption
         '
         Me.lblBalDueCaption.AutoSize = True
-        Me.lblBalDueCaption.Location = New System.Drawing.Point(654, 294)
+        Me.lblBalDueCaption.Location = New System.Drawing.Point(654, 339)
         Me.lblBalDueCaption.Name = "lblBalDueCaption"
         Me.lblBalDueCaption.Size = New System.Drawing.Size(87, 13)
         Me.lblBalDueCaption.TabIndex = 91
@@ -1067,7 +1068,7 @@ Partial Class BillOSale
         '
         'BalDue
         '
-        Me.BalDue.Location = New System.Drawing.Point(645, 310)
+        Me.BalDue.Location = New System.Drawing.Point(645, 355)
         Me.BalDue.Multiline = True
         Me.BalDue.Name = "BalDue"
         Me.BalDue.Size = New System.Drawing.Size(136, 41)
@@ -1076,9 +1077,10 @@ Partial Class BillOSale
         'BillOfSale
         '
         Me.BillOfSale.AutoSize = True
+        Me.BillOfSale.Font = New System.Drawing.Font("Arial", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BillOfSale.Location = New System.Drawing.Point(760, 14)
         Me.BillOfSale.Name = "BillOfSale"
-        Me.BillOfSale.Size = New System.Drawing.Size(0, 13)
+        Me.BillOfSale.Size = New System.Drawing.Size(0, 24)
         Me.BillOfSale.TabIndex = 93
         '
         'tmrHover
@@ -1120,7 +1122,7 @@ Partial Class BillOSale
         Me.fraButtons.Controls.Add(Me.cmdPrintLabel)
         Me.fraButtons.Controls.Add(Me.cmdCancel)
         Me.fraButtons.Controls.Add(Me.cmdApplyBillOSale)
-        Me.fraButtons.Location = New System.Drawing.Point(682, 3)
+        Me.fraButtons.Location = New System.Drawing.Point(666, 346)
         Me.fraButtons.Name = "fraButtons"
         Me.fraButtons.Size = New System.Drawing.Size(198, 129)
         Me.fraButtons.TabIndex = 102
@@ -1149,7 +1151,7 @@ Partial Class BillOSale
         'lblGrossSalesCaption
         '
         Me.lblGrossSalesCaption.AutoSize = True
-        Me.lblGrossSalesCaption.Location = New System.Drawing.Point(713, 325)
+        Me.lblGrossSalesCaption.Location = New System.Drawing.Point(686, 325)
         Me.lblGrossSalesCaption.Name = "lblGrossSalesCaption"
         Me.lblGrossSalesCaption.Size = New System.Drawing.Size(66, 13)
         Me.lblGrossSalesCaption.TabIndex = 103
@@ -1172,6 +1174,37 @@ Partial Class BillOSale
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(647, 46)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(28, 32)
+        Me.Button2.TabIndex = 106
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'lblGrossSales
+        '
+        Me.lblGrossSales.AutoSize = True
+        Me.lblGrossSales.Location = New System.Drawing.Point(748, 325)
+        Me.lblGrossSales.Name = "lblGrossSales"
+        Me.lblGrossSales.Size = New System.Drawing.Size(0, 13)
+        Me.lblGrossSales.TabIndex = 108
+        '
+        'ugrFake
+        '
+        Me.ugrFake.Activated = False
+        Me.ugrFake.Col = 1
+        Me.ugrFake.firstrow = 1
+        Me.ugrFake.Loading = False
+        Me.ugrFake.Location = New System.Drawing.Point(7, 490)
+        Me.ugrFake.MaxCols = 2
+        Me.ugrFake.MaxRows = 10
+        Me.ugrFake.Name = "ugrFake"
+        Me.ugrFake.Row = 0
+        Me.ugrFake.Size = New System.Drawing.Size(831, 157)
+        Me.ugrFake.TabIndex = 107
+        '
         'UGridIO1
         '
         Me.UGridIO1.Activated = False
@@ -1183,12 +1216,12 @@ Partial Class BillOSale
         Me.UGridIO1.MaxRows = 10
         Me.UGridIO1.Name = "UGridIO1"
         Me.UGridIO1.Row = 0
-        Me.UGridIO1.Size = New System.Drawing.Size(775, 257)
+        Me.UGridIO1.Size = New System.Drawing.Size(775, 306)
         Me.UGridIO1.TabIndex = 104
         '
         'rtbStorePolicy
         '
-        Me.rtbStorePolicy.Location = New System.Drawing.Point(85, 302)
+        Me.rtbStorePolicy.Location = New System.Drawing.Point(85, 347)
         Me.rtbStorePolicy.Name = "rtbStorePolicy"
         Me.rtbStorePolicy.Size = New System.Drawing.Size(57, 48)
         Me.rtbStorePolicy.TabIndex = 106
@@ -1196,44 +1229,21 @@ Partial Class BillOSale
         '
         'rtb
         '
-        Me.rtb.Location = New System.Drawing.Point(17, 302)
+        Me.rtb.Location = New System.Drawing.Point(17, 347)
         Me.rtb.Name = "rtb"
         Me.rtb.Size = New System.Drawing.Size(53, 48)
         Me.rtb.TabIndex = 105
         Me.rtb.Visible = False
-        '
-        'ugrFake
-        '
-        Me.ugrFake.Activated = False
-        Me.ugrFake.Col = 0
-        Me.ugrFake.firstrow = 106
-        Me.ugrFake.Loading = False
-        Me.ugrFake.Location = New System.Drawing.Point(14, 491)
-        Me.ugrFake.MaxCols = 2
-        Me.ugrFake.MaxRows = 10
-        Me.ugrFake.Name = "ugrFake"
-        Me.ugrFake.Row = -1
-        Me.ugrFake.Size = New System.Drawing.Size(848, 99)
-        Me.ugrFake.TabIndex = 104
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(647, 46)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(28, 32)
-        Me.Button2.TabIndex = 106
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
         '
         'BillOSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(895, 881)
+        Me.Controls.Add(Me.ugrFake)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.fraBOS2)
-        Me.Controls.Add(Me.ugrFake)
         Me.Controls.Add(Me.lblGrossSalesCaption)
         Me.Controls.Add(Me.dteDelivery)
         Me.Controls.Add(Me.fraButtons)
@@ -1309,6 +1319,7 @@ Partial Class BillOSale
         Me.Controls.Add(Me.lblDelWeekday)
         Me.Controls.Add(Me.dteSaleDate)
         Me.Controls.Add(Me.lblDateCaption)
+        Me.Controls.Add(Me.lblGrossSales)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Location = New System.Drawing.Point(100, 0)
         Me.MaximizeBox = False
@@ -1443,9 +1454,10 @@ Partial Class BillOSale
     Friend WithEvents cmdNextSale As Button
     Friend WithEvents cmdProcessSale As Button
     Friend WithEvents UGridIO1 As UGridIO
-    Friend WithEvents ugrFake As UGridIO
     Friend WithEvents rtbStorePolicy As RichTextBoxNew
     Friend WithEvents rtb As RichTextBoxNew
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
+    Friend WithEvents ugrFake As UGridIO
+    Friend WithEvents lblGrossSales As Label
 End Class

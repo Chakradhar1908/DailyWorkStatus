@@ -43,6 +43,7 @@ Module modVBControls
             .CalendarTrailingForeColor = Color.Blue
         End With
     End Function
+
     Public Function SelectComboBoxItemData(ByRef Cbo As ComboBox, ByVal iData As Integer) As Boolean
         Dim I As Integer
         'For I = 0 To Cbo.Items.Count - 1
@@ -53,48 +54,39 @@ Module modVBControls
         '    End If
         'Next
 
-        Dim idc As ItemDataClass
         For I = 0 To Cbo.Items.Count - 1
-            idc = Cbo.Items(I)
-            If idc.ItemData = iData Then
+            If CType(Cbo.Items(I), ItemDataClass).ItemData = iData Then
                 Cbo.SelectedIndex = I
                 SelectComboBoxItemData = True
                 Exit Function
             End If
         Next
     End Function
+
     Public Function AddItemToComboBox(ByVal Cbo As ComboBox, ByVal Item As String, Optional ByVal itemData As Integer = 0, Optional ByVal vIndex As Integer = -1) As Boolean
         AddItemToComboBox = ComboBoxAdd(Cbo, Item, itemData, vIndex) <> -1
     End Function
-    Public Function ComboBoxAdd(ByVal Cbo As ComboBox, ByVal Item As String, Optional ByVal itemData As Integer = 0, Optional ByVal vIndex As Integer = -1) As Integer
-        Dim idc As ItemDataClass
 
+    Public Function ComboBoxAdd(ByVal Cbo As ComboBox, ByVal Item As String, Optional ByVal itemData As Integer = 0, Optional ByVal vIndex As Integer = -1) As Integer
+        'Dim idc As ItemDataClass
         On Error GoTo Fail
-        idc = New ItemDataClass(Item, itemData)
+        'idc = New ItemDataClass(Item, itemData)
         If vIndex = -1 Then
             'Cbo.AddItem Item
             If itemData <> 0 Then
-                'idc.Itemname = Item
-                'idc.ItemData = itemData
-                'Cbo.Items.Add(New ItemDataClass(Item, itemData))
-                Cbo.Items.Add(idc.Itemname)
+                Cbo.Items.Add(New ItemDataClass(Item, itemData))
             Else
-                'Cbo.Items.Add(New ItemDataClass(Item, itemData))
-                Cbo.Items.Add(idc.Itemname)
+                Cbo.Items.Add(Item)
             End If
-
         Else
             'Cbo.AddItem(Item, vIndex)
             If itemData <> 0 Then
-                'Cbo.Items.Insert(vIndex, New ItemDataClass(Item, itemData))
-                Cbo.Items.Insert(vIndex, idc.Itemname)
+                Cbo.Items.Insert(vIndex, New ItemDataClass(Item, itemData))
             Else
-                'Cbo.Items.Insert(vIndex, New ItemDataClass(Item, itemData))
-                Cbo.Items.Insert(vIndex, idc.Itemname)
+                Cbo.Items.Insert(vIndex, Item)
             End If
         End If
-        'If itemData <> 0 Then Cbo.itemData(Cbo.NewIndex) = itemData
-        'ComboBoxAdd = Cbo.NewIndex
+
         ComboBoxAdd = Cbo.Items.Count - 1
         Exit Function
 Fail:

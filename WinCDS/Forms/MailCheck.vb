@@ -444,7 +444,7 @@ Public Class MailCheck
         BillOSale.cboPhone1.Text = tMail.PhoneLabel1
         OldTele = tMail.Tele
 
-        BillOSale.CustomerPhone2 = DressAni(CleanAni(tMail.Tele2))
+        BillOSale.CustomerPhone2.Text = DressAni(CleanAni(tMail.Tele2))
         BillOSale.cboPhone2.Text = tMail.PhoneLabel2
         BillOSale.txtSpecInst.Text = tMail.Special
         On Error Resume Next
@@ -464,7 +464,7 @@ Public Class MailCheck
         BillOSale.Email.Text = Trim(tMail.Email)
         BillOSale.Email.Tag = ""
 
-        BillOSale.lblGrossSalesCaption.Text = CurrencyFormat(GetGrossSales(tMail.Index))
+        BillOSale.lblGrossSales.Text = CurrencyFormat(GetGrossSales(tMail.Index))
 
 
         If Val(tMail.TaxZone) <= BillOSale.cboTaxZone.Items.Count Then
