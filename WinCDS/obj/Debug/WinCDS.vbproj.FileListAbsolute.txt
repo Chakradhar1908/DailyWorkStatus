@@ -57,6 +57,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegister.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterAddress.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterQuantity.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCCManualEntry.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCrippleBugNotify.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmail.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmINet.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmItemView.resources

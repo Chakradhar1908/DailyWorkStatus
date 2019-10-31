@@ -45,6 +45,8 @@ Public Class MailCheck
     Private WithEvents objSource As CDbTypeAhead
     Public Event Cancelled(ByRef PreventUnload As Boolean, ByRef PreventMainMenu As Boolean)
     Private LastIndex As String                              ' For printing BillOSale Numbers.
+    'Public ItemdataValue As Object
+    'Public SelectedItemValue As String
 
     Public Sub GetMarginLine()
         MarginNo = RecNo(BillOSale.X)
@@ -927,6 +929,8 @@ HandleErr:
         'MousePointer = vbHourglass
         Me.Cursor = Cursors.WaitCursor
         'LookUpCustomer(lstMatches.itemData(lstMatches.ListIndex), True, lstMatches.List(lstMatches.ListIndex))
+        'ItemdataValue = CType(lstMatches.SelectedItem, ItemDataClass).ItemData
+        'SelectedItemValue = lstMatches.SelectedItem.ToString
         LookUpCustomer(CType(lstMatches.SelectedItem, ItemDataClass).ItemData, True, lstMatches.SelectedItem.ToString)
         'MousePointer = vbNormal
         Me.Cursor = Cursors.Default

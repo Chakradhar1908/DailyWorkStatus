@@ -73,7 +73,7 @@
         Get
             If IsFormLoaded("BillOSale") Then LastLoginExpired = False : Exit Property
             If Not IsDate(GetLastLoginExpiry) Then LastLoginExpiry = DateAdd("s", -1, Now)
-            LastLoginExpired = DateAfter(Now, GetLastLoginExpiry, , "s")
+            LastLoginExpired = DateAfter2(Now, GetLastLoginExpiry, , "s")
         End Get
 
     End Property

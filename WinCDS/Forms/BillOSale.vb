@@ -4279,12 +4279,12 @@ HandleErr:
             MailCheck.Close()
 
             'Unload BillOSale
-            Me.Hide()
+            'Me.Close()
             BalDue.Text = 0
             Sale = 0
             'Unload Me
-            'Me.Close()
-            Me.Hide()
+            Me.Close()
+            'Me.Hide()
             'Unload OrdSelect
             OrdSelect.Close()
             'Unload OrdStatus
@@ -4301,9 +4301,21 @@ HandleErr:
             Written = 0
             Mail.Index = ""
             X = 0
-            Show()
+
+            'Me.Show()
+            'Dim f As BillOSale
+            'If IsNothing(f) Then
+            '    f = New BillOSale
+            '    f.Show()
+            'Else
+            '    f.Close()
+            '    f = New BillOSale
+            '    f.Show()
+            'End If
+            MainMenu4.Button1_Click(Button1, New EventArgs)
+            'BillOSale_Load(Me, New EventArgs)
             'MailCheck.optTelephone.Checked = True -> Commeneted this line, because in vb.net, mailcheck form load event must execute before this line.
-            MailCheck.HidePriorSales = True
+            'MailCheck.HidePriorSales = True
         Else
             cmdNextSale.Enabled = True
             'Unload ArApp
@@ -4315,12 +4327,16 @@ HandleErr:
             Show()
             MailCheck.optSaleNo.Checked = True
         End If
-        frmSalesList.SalesCode = ""
+        'frmSalesList.SalesCode = ""
         'MailCheck.Show vbModal
-        MailCheck.ShowDialog(Me)
-        MailCheck.HidePriorSales = False
+        'MailCheck.ShowDialog()
+        'MailCheck.HidePriorSales = False
 
         ProcessSalePOs = Nothing
+        'Me.Close()
+        'Dim f As New BillOSale
+        'f.ShowDialog()
+        'MailCheck.LookUpCustomer(MailCheck.ItemdataValue, True, MailCheck.SelectedItemValue)
     End Sub
 
     Public Sub ShowMailCheckForm()

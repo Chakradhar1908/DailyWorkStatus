@@ -12,11 +12,18 @@ Module modDates
     ' answers the question, 'Is the date <check> after <against>?'
     ' be sure to adjust IncludeBound and Unit accordingly
 
-    'Public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
+    'public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
     Public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As DateInterval = DateInterval.Day) As Boolean
         Dim R As Integer
         R = DateDiff(Unit, Check, Against)
         DateAfter = IIf(IncludeBound, R <= 0, R < 0)
+    End Function
+
+    Public Function DateAfter2(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
+        'Public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As DateInterval = DateInterval.Day) As Boolean
+        Dim R As Long
+        R = DateDiff(Unit, Check, Against)
+        DateAfter2 = IIf(IncludeBound, R <= 0, R < 0)
     End Function
 
     Public Function DateEqual(ByVal Check1 As Date, ByVal Check2 As Date, Optional ByVal Unit As String = "d") As Boolean
@@ -149,6 +156,19 @@ Module modDates
         'If CLng(D) = 0 Then D = Now
         If IsNothing(D) Then D = Now
         Timestamp = Format(D, "HHmm" & IIf(wSeconds, "ss", ""))
+    End Function
+
+    'NOTE: COMMENTED THE BELOW FUNCTION DateAfter. Because with this name already another function with Unit parameter as DateInterval is there.
+    'Need to confirm which one to use. Already the other function with this name is implemented in the project.
+    ' answers the question, 'Is the date <check> after <against>?'
+    ' be sure to adjust IncludeBound and Unit accordingly
+    'Public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
+    '    Dim R As Long
+    '    R = DateDiff(Unit, Check, Against)
+    '    DateAfter = IIf(IncludeBound, R <= 0, R < 0)
+    'End Function
+    Public Function YearAdd(ByVal mDate As Date, ByVal Value As Long) As Date
+        YearAdd = DateAdd("yyyy", Value, mDate)
     End Function
 
 End Module

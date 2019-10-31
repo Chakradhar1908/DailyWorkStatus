@@ -217,6 +217,12 @@
     <Compile Include="Forms\frmCCManualEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmCrippleBugNotify.Designer.vb">
+      <DependentUpon>frmCrippleBugNotify.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCrippleBugNotify.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmEmail.Designer.vb">
       <DependentUpon>frmEmail.vb</DependentUpon>
     </Compile>
@@ -549,6 +555,7 @@
     <Compile Include="Modules\modInternet.vb" />
     <Compile Include="Modules\modItemCost.vb" />
     <Compile Include="Modules\modJET.vb" />
+    <Compile Include="Modules\modKillBug.vb" />
     <Compile Include="Modules\modMACAddress.vb" />
     <Compile Include="Modules\modMail.vb" />
     <Compile Include="Modules\modMainMenu.vb" />
@@ -668,6 +675,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCCManualEntry.resx">
       <DependentUpon>frmCCManualEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCrippleBugNotify.resx">
+      <DependentUpon>frmCrippleBugNotify.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>

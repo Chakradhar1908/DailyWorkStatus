@@ -113,6 +113,10 @@ Partial Class BillOSale
         Me.cmdMainMenu = New System.Windows.Forms.Button()
         Me.cmdClear = New System.Windows.Forms.Button()
         Me.fraBOS2 = New System.Windows.Forms.GroupBox()
+        Me.ugrFake = New WinCDS.UGridIO()
+        Me.UGridIO1 = New WinCDS.UGridIO()
+        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
+        Me.rtb = New WinCDS.RichTextBoxNew()
         Me.fraBOS2Commands = New System.Windows.Forms.GroupBox()
         Me.Notes_Open = New System.Windows.Forms.Button()
         Me.fraHover = New System.Windows.Forms.GroupBox()
@@ -133,10 +137,6 @@ Partial Class BillOSale
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.lblGrossSales = New System.Windows.Forms.Label()
-        Me.ugrFake = New WinCDS.UGridIO()
-        Me.UGridIO1 = New WinCDS.UGridIO()
-        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
-        Me.rtb = New WinCDS.RichTextBoxNew()
         CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraTimeWindow.SuspendLayout()
@@ -1015,6 +1015,50 @@ Partial Class BillOSale
         Me.fraBOS2.TabIndex = 88
         Me.fraBOS2.TabStop = False
         '
+        'ugrFake
+        '
+        Me.ugrFake.Activated = False
+        Me.ugrFake.Col = 1
+        Me.ugrFake.firstrow = 1
+        Me.ugrFake.Loading = False
+        Me.ugrFake.Location = New System.Drawing.Point(6, 606)
+        Me.ugrFake.MaxCols = 2
+        Me.ugrFake.MaxRows = 10
+        Me.ugrFake.Name = "ugrFake"
+        Me.ugrFake.Row = 0
+        Me.ugrFake.Size = New System.Drawing.Size(831, 157)
+        Me.ugrFake.TabIndex = 107
+        '
+        'UGridIO1
+        '
+        Me.UGridIO1.Activated = False
+        Me.UGridIO1.Col = 0
+        Me.UGridIO1.firstrow = 1
+        Me.UGridIO1.Loading = False
+        Me.UGridIO1.Location = New System.Drawing.Point(6, 18)
+        Me.UGridIO1.MaxCols = 2
+        Me.UGridIO1.MaxRows = 10
+        Me.UGridIO1.Name = "UGridIO1"
+        Me.UGridIO1.Row = 0
+        Me.UGridIO1.Size = New System.Drawing.Size(775, 306)
+        Me.UGridIO1.TabIndex = 104
+        '
+        'rtbStorePolicy
+        '
+        Me.rtbStorePolicy.Location = New System.Drawing.Point(85, 347)
+        Me.rtbStorePolicy.Name = "rtbStorePolicy"
+        Me.rtbStorePolicy.Size = New System.Drawing.Size(57, 48)
+        Me.rtbStorePolicy.TabIndex = 106
+        Me.rtbStorePolicy.Visible = False
+        '
+        'rtb
+        '
+        Me.rtb.Location = New System.Drawing.Point(17, 347)
+        Me.rtb.Name = "rtb"
+        Me.rtb.Size = New System.Drawing.Size(53, 48)
+        Me.rtb.TabIndex = 105
+        Me.rtb.Visible = False
+        '
         'fraBOS2Commands
         '
         Me.fraBOS2Commands.Controls.Add(Me.Notes_Open)
@@ -1191,59 +1235,15 @@ Partial Class BillOSale
         Me.lblGrossSales.Size = New System.Drawing.Size(0, 13)
         Me.lblGrossSales.TabIndex = 108
         '
-        'ugrFake
-        '
-        Me.ugrFake.Activated = False
-        Me.ugrFake.Col = 1
-        Me.ugrFake.firstrow = 1
-        Me.ugrFake.Loading = False
-        Me.ugrFake.Location = New System.Drawing.Point(7, 490)
-        Me.ugrFake.MaxCols = 2
-        Me.ugrFake.MaxRows = 10
-        Me.ugrFake.Name = "ugrFake"
-        Me.ugrFake.Row = 0
-        Me.ugrFake.Size = New System.Drawing.Size(831, 157)
-        Me.ugrFake.TabIndex = 107
-        '
-        'UGridIO1
-        '
-        Me.UGridIO1.Activated = False
-        Me.UGridIO1.Col = 0
-        Me.UGridIO1.firstrow = 1
-        Me.UGridIO1.Loading = False
-        Me.UGridIO1.Location = New System.Drawing.Point(6, 15)
-        Me.UGridIO1.MaxCols = 2
-        Me.UGridIO1.MaxRows = 10
-        Me.UGridIO1.Name = "UGridIO1"
-        Me.UGridIO1.Row = 0
-        Me.UGridIO1.Size = New System.Drawing.Size(775, 306)
-        Me.UGridIO1.TabIndex = 104
-        '
-        'rtbStorePolicy
-        '
-        Me.rtbStorePolicy.Location = New System.Drawing.Point(85, 347)
-        Me.rtbStorePolicy.Name = "rtbStorePolicy"
-        Me.rtbStorePolicy.Size = New System.Drawing.Size(57, 48)
-        Me.rtbStorePolicy.TabIndex = 106
-        Me.rtbStorePolicy.Visible = False
-        '
-        'rtb
-        '
-        Me.rtb.Location = New System.Drawing.Point(17, 347)
-        Me.rtb.Name = "rtb"
-        Me.rtb.Size = New System.Drawing.Size(53, 48)
-        Me.rtb.TabIndex = 105
-        Me.rtb.Visible = False
-        '
         'BillOSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(895, 881)
         Me.Controls.Add(Me.ugrFake)
+        Me.Controls.Add(Me.fraBOS2)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.fraBOS2)
         Me.Controls.Add(Me.lblGrossSalesCaption)
         Me.Controls.Add(Me.dteDelivery)
         Me.Controls.Add(Me.fraButtons)

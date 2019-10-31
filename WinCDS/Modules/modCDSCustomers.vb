@@ -295,4 +295,45 @@
         End Get
     End Property
 
+    Public ReadOnly Property IsLoft() As Boolean
+        Get
+            IsLoft = CheckStoreName("Loft Home")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsFurnitureWorld() As Boolean
+        Get
+            IsFurnitureWorld = CheckStoreName("Furniture World")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsPayless() As Boolean
+        Get
+            IsPayless = CheckStoreName("Payless")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsClassicInteriors() As Boolean
+        Get
+            IsClassicInteriors = CheckStoreName("Classic Interior")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsHouseOfBedroomsKids() As Boolean
+        Get
+            IsHouseOfBedroomsKids = CheckStoreName("House of Bedrooms kids")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsHouseOfBedrooms() As Boolean
+        Get
+            IsHouseOfBedrooms = CheckStoreName("House of Bedrooms") And Not CheckStoreName("House of Bedrooms kids")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsTenPenny() As Boolean
+        Get
+            IsTenPenny = CheckStoreName("Tenpenny")
+        End Get
+    End Property
 End Module

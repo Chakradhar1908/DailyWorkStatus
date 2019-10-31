@@ -139,7 +139,7 @@ Retry:
         Do While BackupSemaforeFile(ItExists:=True)
             Application.DoEvents()
 
-            If DateAfter(Now, BackingUpAlert, True, "s") Then
+            If DateAfter2(Now, BackingUpAlert, True, "s") Then
                 MsgBox("Please wait a moment..." & vbCrLf2 & "An Administrator is currently backing up the database..." & vbCrLf2 & "This should only take an additional moment.", vbOKOnly + vbCritical, "Operation Delayed")
             End If
         Loop

@@ -82,7 +82,7 @@ Module modSupportForms
         'MsgBox = VBA.MsgBox(Prompt, Buttons, Title, Helpfile, Context)   ' good for comparing original with ours in debugging
         On Error Resume Next
         If IsNothing(SuppressMessagesUntil) Then
-            If Not DateAfter(Now, SuppressMessagesUntil, , "n") Then
+            If Not DateAfter2(Now, SuppressMessagesUntil, , "n") Then
                 LogFile("Suppressed.txt", "(v" & WinCDSBuildNumber() & ") [" & Title & "]: " & Replace(Replace(Prompt, vbCr, "/"), vbLf, ""), False)
                 'Debug.Print "Suppressed MsgBox: " & Prompt
                 ActiveLog("MsgBox::SUPPRESSED: [" & Title & "]: " & Prompt, 7)
@@ -119,7 +119,7 @@ Module modSupportForms
 
         On Error Resume Next
         If IsNothing(SuppressMessagesUntil) Then
-            If Not DateAfter(Now, SuppressMessagesUntil, , "n") Then
+            If Not DateAfter2(Now, SuppressMessagesUntil, , "n") Then
                 Exit Function
             Else
                 SuppressMessagesUntil = ""

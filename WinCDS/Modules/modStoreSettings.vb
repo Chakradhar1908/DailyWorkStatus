@@ -269,7 +269,7 @@
                         Do While True
                             Application.DoEvents()
 
-                            If DateAfter(Now, NextTry, True, "s") Then
+                            If DateAfter2(Now, NextTry, True, "s") Then
                                 Tries = Tries + 1
                                 If Tries > 3 Then
                                     MsgBox("Could not open store settings file:" & vbCrLf & StoreFile(nStoreNo), vbCritical, "Error Reading Settings")

@@ -97,7 +97,7 @@ Debug.Print Err.Description
 
     Private Function EndTime(Optional ByVal Duration As Integer = 0) As Boolean
         If Duration = 0 Then
-            EndTime = DateAfter(Now, mEndTime, , "s") : Exit Function
+            EndTime = DateAfter2(Now, mEndTime, , "s") : Exit Function
         Else
             mEndTime = DateAdd("s", Duration, Now)
             EndTime = False
