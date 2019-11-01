@@ -188,4 +188,19 @@ Module modStores
             SaveCDSSetting("Cash Drawer COM Port", value)
         End Set
     End Property
+
+    Public Function BOSDiscountFile(Optional ByVal StoreNum As Integer = 0) As String
+        '::::BOSDiscountFile
+        ':::SUMMARY
+        ': Bill of Sale Discount File
+        ':::DESCRIPTION
+        ': Filename of current Bill of Sale Discounts
+        ':::PARAMETERS
+        ': - StoreNum
+        ':::RETURN
+        ': String
+        If StoreNum = 0 Then StoreNum = StoresSld
+        If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
+        BOSDiscountFile = NewOrderFolder(StoreNum) & "BoSDscnt.Dat"
+    End Function
 End Module

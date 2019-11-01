@@ -21,7 +21,7 @@ Module modDates
 
     Public Function DateAfter2(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
         'Public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As DateInterval = DateInterval.Day) As Boolean
-        Dim R As Long
+        Dim R As Double
         R = DateDiff(Unit, Check, Against)
         DateAfter2 = IIf(IncludeBound, R <= 0, R < 0)
     End Function
@@ -163,11 +163,11 @@ Module modDates
     ' answers the question, 'Is the date <check> after <against>?'
     ' be sure to adjust IncludeBound and Unit accordingly
     'Public Function DateAfter(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
-    '    Dim R As Long
+    '    Dim R as integer
     '    R = DateDiff(Unit, Check, Against)
     '    DateAfter = IIf(IncludeBound, R <= 0, R < 0)
     'End Function
-    Public Function YearAdd(ByVal mDate As Date, ByVal Value As Long) As Date
+    Public Function YearAdd(ByVal mDate As Date, ByVal Value As Integer) As Date
         YearAdd = DateAdd("yyyy", Value, mDate)
     End Function
 

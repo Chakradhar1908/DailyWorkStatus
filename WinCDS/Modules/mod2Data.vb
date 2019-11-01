@@ -500,4 +500,94 @@ GetTax2StringFailure:
         DepartmentFile = StoreFolder(StoreNum) & "DEPT.DAT"
     End Function
 
+    Public Sub LoadDiscountTypesIntoComboBox(ByRef Cbo As ComboBox, Optional ByVal StoreNum As Integer = 0, Optional ByVal NoneSelected As String = "-", Optional ByVal DisableWhenEmpty As Boolean = True)
+        '::::LoadDiscountTypesIntoComboBox
+        ':::SUMMARY
+        ': Loads types of Discounts into ComboBox.
+        ':::DESCRIPTION
+        ': This function is used to display Types of Discounts into Combo Box.
+        ':::PARAMETERS
+        ': - cbo - Indiactes the Combo Box.
+        ': - StoreNum - Indicates the Store Number.
+        ': - NoneSelected -  Indicates that nothing is selected.
+        ': - DisableWhenEmpty - Indicates whether it is true or false.
+        ':::RETURN
+        Dim N As Integer, I As Integer
+        N = DiscountTypeCount()
+
+        Cbo.Items.Clear()
+
+        If NoneSelected <> "-" Then
+            'Cbo.AddItem NoneSelected, 0
+            'Cbo.itemData(Cbo.NewIndex) = 0
+            Cbo.Items.Insert(0, New ItemDataClass(NoneSelected, 0))
+        End If
+        If N = 0 Then
+            Cbo.Enabled = IIf(DisableWhenEmpty, False, True)
+        Else
+            Cbo.Enabled = True
+            For I = 1 To N
+                'Cbo.AddItem DiscountType(I)
+                'Cbo.itemData(Cbo.NewIndex) = I
+                Cbo.Items.Add(New ItemDataClass(DiscountType(I), I))
+            Next
+            Cbo.SelectedIndex = 0
+        End If
+    End Sub
+
+    Public Function DiscountType(ByVal Index As Integer, Optional ByRef vName As String = "", Optional ByRef vType As String = "", Optional ByRef vPercent As String = "", Optional ByRef vExtra As String = "") As String
+        '::::DiscountType
+        ':::SUMMARY
+        ': Used to display the type of Discount.
+        ':::DESCRIPTION
+        ': This function is used to display every term related to DiscountType.
+        ':::PARAMETERS
+        ':::RETURN
+        ': String - Returns the result as a String.
+        Dim T As Object, S As String, X() As String, N As Integer
+        On Error Resume Next
+        T = GetDiscounts()
+        S = T(Index - 1)
+        If S <> "" Then
+            X = Split(S, ":")
+            N = UBound(X) - LBound(X) + 1
+            If N >= 1 Then vName = X(0)
+            If N >= 2 Then vType = X(1)
+            If N >= 3 Then vPercent = X(2)
+            If N >= 4 Then vExtra = X(3)
+            DiscountType = X(0)
+            If DiscountType = "" Then DiscountType = S
+        Else
+            DiscountType = ""
+        End If
+    End Function
+
+    Public Function DiscountTypeCount() As Integer
+        '::::DiscountTypeCount
+        ':::SUMMARY
+        ': Used to count of types of Discount.
+        ':::DESCRIPTION
+        ': This function is used to count types of Discount.
+        ':::PARAMETERS
+        ':::RETURN
+        ': Long - Returns the result as a Long.
+        On Error Resume Next
+        Dim T As Object
+        T = GetDiscounts()
+        DiscountTypeCount = UBound(T) - LBound(T) + 1
+    End Function
+
+    Public Function GetDiscounts() As Object
+        '::::GetDiscounts
+        ':::SUMMARY
+        ': Used to get Discounts.
+        ':::DESCRIPTION
+        ': This function is used to display Discounts.
+        ':::PARAMETERS
+        ':::RETURN
+        Dim X As String
+        X = ReadFile(BOSDiscountFile)
+        X = Replace(X, vbLf, "")
+        GetDiscounts = Split(X, vbCr)
+    End Function
 End Module

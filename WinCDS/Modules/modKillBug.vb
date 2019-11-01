@@ -1,6 +1,6 @@
 ﻿Module modKillBug
-    Private Const KILLBUG_NOTIFY_DEVELOPER As Long = 30
-    Private Const KILLBUG_NOTIFY_USER As Long = 7
+    Private Const KILLBUG_NOTIFY_DEVELOPER as integer = 30
+    Private Const KILLBUG_NOTIFY_USER as integer = 7
 
     Private InformCripple As Boolean
     Private mKillInit As Boolean

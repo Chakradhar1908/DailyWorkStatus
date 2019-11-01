@@ -853,6 +853,7 @@ HandleErr:
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
         Dim Prev As Boolean, PrevMM As Boolean
+
         RaiseEvent Cancelled(Prev, PrevMM)
         If Prev Then Exit Sub
 

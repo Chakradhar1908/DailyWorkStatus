@@ -20,7 +20,6 @@ D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSCommLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDBGrid.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 D:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.InetCtlsObjects.dll
@@ -53,6 +52,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.BillOSale.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.Calendar.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.EditPO.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBarcode.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBOSDiscount.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegister.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterAddress.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterQuantity.resources

@@ -4323,8 +4323,9 @@ HandleErr:
             'Unload BillOSale
             'Unload Me
             Me.Close()
-            Show()
-            Show()
+            'Show()
+            'Show()
+            MainMenu4.Button1_Click(Button1, New EventArgs)
             MailCheck.optSaleNo.Checked = True
         End If
         'frmSalesList.SalesCode = ""

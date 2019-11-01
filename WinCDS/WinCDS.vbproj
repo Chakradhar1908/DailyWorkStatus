@@ -664,6 +664,9 @@
     <EmbeddedResource Include="Forms\frmBarcode.resx">
       <DependentUpon>frmBarcode.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBOSDiscount.resx">
+      <DependentUpon>frmBOSDiscount.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashRegister.resx">
       <DependentUpon>frmCashRegister.vb</DependentUpon>
     </EmbeddedResource>
