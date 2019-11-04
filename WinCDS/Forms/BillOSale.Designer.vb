@@ -113,7 +113,6 @@ Partial Class BillOSale
         Me.cmdMainMenu = New System.Windows.Forms.Button()
         Me.cmdClear = New System.Windows.Forms.Button()
         Me.fraBOS2 = New System.Windows.Forms.GroupBox()
-        Me.ugrFake = New WinCDS.UGridIO()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.rtb = New WinCDS.RichTextBoxNew()
@@ -123,6 +122,7 @@ Partial Class BillOSale
         Me.picHover = New System.Windows.Forms.PictureBox()
         Me.lblBalDueCaption = New System.Windows.Forms.Label()
         Me.BalDue = New System.Windows.Forms.TextBox()
+        Me.ugrFake = New WinCDS.UGridIO()
         Me.BillOfSale = New System.Windows.Forms.Label()
         Me.tmrHover = New System.Windows.Forms.Timer(Me.components)
         Me.tmrFormat = New System.Windows.Forms.Timer(Me.components)
@@ -443,7 +443,7 @@ Partial Class BillOSale
         Me.Email.ForeColor = System.Drawing.Color.Blue
         Me.Email.Location = New System.Drawing.Point(444, 154)
         Me.Email.Name = "Email"
-        Me.Email.Size = New System.Drawing.Size(251, 22)
+        Me.Email.Size = New System.Drawing.Size(203, 22)
         Me.Email.TabIndex = 33
         '
         'CustomerAddress
@@ -697,7 +697,7 @@ Partial Class BillOSale
         'Sales2
         '
         Me.Sales2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Sales2.Location = New System.Drawing.Point(222, 458)
+        Me.Sales2.Location = New System.Drawing.Point(219, 458)
         Me.Sales2.Name = "Sales2"
         Me.Sales2.Size = New System.Drawing.Size(127, 22)
         Me.Sales2.TabIndex = 62
@@ -705,7 +705,7 @@ Partial Class BillOSale
         'Sales3
         '
         Me.Sales3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Sales3.Location = New System.Drawing.Point(444, 460)
+        Me.Sales3.Location = New System.Drawing.Point(436, 458)
         Me.Sales3.Name = "Sales3"
         Me.Sales3.Size = New System.Drawing.Size(127, 22)
         Me.Sales3.TabIndex = 63
@@ -714,7 +714,7 @@ Partial Class BillOSale
         '
         Me.SalesSplit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SalesSplit1.FormattingEnabled = True
-        Me.SalesSplit1.Location = New System.Drawing.Point(141, 458)
+        Me.SalesSplit1.Location = New System.Drawing.Point(145, 458)
         Me.SalesSplit1.Name = "SalesSplit1"
         Me.SalesSplit1.Size = New System.Drawing.Size(64, 24)
         Me.SalesSplit1.TabIndex = 64
@@ -723,7 +723,7 @@ Partial Class BillOSale
         '
         Me.SalesSplit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SalesSplit2.FormattingEnabled = True
-        Me.SalesSplit2.Location = New System.Drawing.Point(355, 458)
+        Me.SalesSplit2.Location = New System.Drawing.Point(356, 458)
         Me.SalesSplit2.Name = "SalesSplit2"
         Me.SalesSplit2.Size = New System.Drawing.Size(70, 24)
         Me.SalesSplit2.TabIndex = 65
@@ -732,7 +732,7 @@ Partial Class BillOSale
         '
         Me.SalesSplit3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SalesSplit3.FormattingEnabled = True
-        Me.SalesSplit3.Location = New System.Drawing.Point(577, 459)
+        Me.SalesSplit3.Location = New System.Drawing.Point(573, 458)
         Me.SalesSplit3.Name = "SalesSplit3"
         Me.SalesSplit3.Size = New System.Drawing.Size(70, 24)
         Me.SalesSplit3.TabIndex = 66
@@ -758,7 +758,7 @@ Partial Class BillOSale
         'lblSales3
         '
         Me.lblSales3.AutoSize = True
-        Me.lblSales3.Location = New System.Drawing.Point(445, 443)
+        Me.lblSales3.Location = New System.Drawing.Point(435, 443)
         Me.lblSales3.Name = "lblSales3"
         Me.lblSales3.Size = New System.Drawing.Size(42, 13)
         Me.lblSales3.TabIndex = 69
@@ -1015,20 +1015,6 @@ Partial Class BillOSale
         Me.fraBOS2.TabIndex = 88
         Me.fraBOS2.TabStop = False
         '
-        'ugrFake
-        '
-        Me.ugrFake.Activated = False
-        Me.ugrFake.Col = 1
-        Me.ugrFake.firstrow = 1
-        Me.ugrFake.Loading = False
-        Me.ugrFake.Location = New System.Drawing.Point(6, 606)
-        Me.ugrFake.MaxCols = 2
-        Me.ugrFake.MaxRows = 10
-        Me.ugrFake.Name = "ugrFake"
-        Me.ugrFake.Row = 0
-        Me.ugrFake.Size = New System.Drawing.Size(831, 157)
-        Me.ugrFake.TabIndex = 107
-        '
         'UGridIO1
         '
         Me.UGridIO1.Activated = False
@@ -1117,6 +1103,20 @@ Partial Class BillOSale
         Me.BalDue.Name = "BalDue"
         Me.BalDue.Size = New System.Drawing.Size(136, 41)
         Me.BalDue.TabIndex = 92
+        '
+        'ugrFake
+        '
+        Me.ugrFake.Activated = False
+        Me.ugrFake.Col = 1
+        Me.ugrFake.firstrow = 1
+        Me.ugrFake.Loading = False
+        Me.ugrFake.Location = New System.Drawing.Point(8, 488)
+        Me.ugrFake.MaxCols = 2
+        Me.ugrFake.MaxRows = 10
+        Me.ugrFake.Name = "ugrFake"
+        Me.ugrFake.Row = 0
+        Me.ugrFake.Size = New System.Drawing.Size(831, 157)
+        Me.ugrFake.TabIndex = 107
         '
         'BillOfSale
         '

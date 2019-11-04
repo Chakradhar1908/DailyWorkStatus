@@ -757,4 +757,18 @@ Public Class OrdStatus
         End If
     End Function
 
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
+        If Mode = "Adj" Then
+            Quan.Text = 0
+            'Unload Me
+            Me.Close()
+            Exit Sub
+        End If
+
+        Dim X As Integer
+        X = BillOSale.X
+        BillOSale.RowClear(X)
+        'Unload OrdStatus
+        Me.Close()
+    End Sub
 End Class

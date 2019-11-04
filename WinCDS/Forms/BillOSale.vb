@@ -959,12 +959,12 @@ NextItem:
 
         With UGridIO1
             .AddColumn(0, "Style Number", 100, True, False)
-            .AddColumn(1, "Manufacturer", 200, False, False)
+            .AddColumn(1, "Manufacturer", 100, False, False)
             .AddColumn(2, "Loc", 30, True, False)
             .AddColumn(3, "Status", 50, False, False)
             '.AddColumn(4, "Quant.", 50, False, False, MSDBGrid.AlignmentConstants.dbgRight)
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
-            .AddColumn(5, "Description", 250, False, False)
+            .AddColumn(5, "Description", 350, False, False)
             '.AddColumn(6, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
             .AddColumn(6, "Price", 57, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)

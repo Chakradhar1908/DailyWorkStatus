@@ -964,6 +964,7 @@ Partial Class OrdStatus
         '
         'cmdApply
         '
+        Me.cmdApply.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdApply.Location = New System.Drawing.Point(57, 307)
         Me.cmdApply.Name = "cmdApply"
         Me.cmdApply.Size = New System.Drawing.Size(203, 32)
@@ -973,6 +974,7 @@ Partial Class OrdStatus
         '
         'cmdCancel
         '
+        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdCancel.Location = New System.Drawing.Point(135, 266)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
@@ -982,8 +984,10 @@ Partial Class OrdStatus
         '
         'OrdStatus
         '
+        Me.AcceptButton = Me.cmdApply
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmdCancel
         Me.ClientSize = New System.Drawing.Size(316, 342)
         Me.ControlBox = False
         Me.Controls.Add(Me.cmdApply)

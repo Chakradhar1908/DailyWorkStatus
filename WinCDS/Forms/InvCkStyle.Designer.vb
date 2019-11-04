@@ -139,6 +139,7 @@ Partial Class InvCkStyle
         '
         'cmdCancel
         '
+        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.Location = New System.Drawing.Point(142, 168)
         Me.cmdCancel.Name = "cmdCancel"
@@ -187,6 +188,7 @@ Partial Class InvCkStyle
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmdCancel
         Me.ClientSize = New System.Drawing.Size(432, 233)
         Me.ControlBox = False
         Me.Controls.Add(Me.lstStyles)

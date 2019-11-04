@@ -19,6 +19,9 @@
         cmdCancel.Text = "&Cancel"
         'cmdCancel.Cancel = True
         Me.CancelButton = cmdCancel
+        'cmbDiscountType_Click(cmbDiscountType, New EventArgs)
+        cmbDiscountType_SelectedIndexChanged(cmbDiscountType, New EventArgs)
+        cmbDiscountType.Select()
     End Sub
 
     Public Function DoDiscountTypeSetup(ByVal Index As Integer, Optional ByRef DoDelete As Boolean = False) As String
@@ -61,7 +64,7 @@
             txtFlatRate.Text = "$0.00"
         Else
             txtFlatRate.SelectionStart = 0
-            txtFlatRate.SelectionLength = Len(txtFlatRate) + 1
+            txtFlatRate.SelectionLength = Len(txtFlatRate.Text) + 1
             txtDiscountAmount.Text = "0"
         End If
     End Sub
@@ -88,11 +91,11 @@
             SetupResult = BuildDiscountDef()
             Hide()
         End If
-
     End Sub
 
     Private Sub SelectDiscountType(ByVal I As Integer)
         Dim D As String, N As String, T As String, P As String, E As String
+
         D = DiscountType(I, N, T, P, E)
         txtDiscountType.Text = N
         txtDiscountAmount.Text = Val(P)
@@ -258,6 +261,10 @@
 
     Private Sub cmbDiscountType_Click(sender As Object, e As EventArgs) Handles cmbDiscountType.Click
         'SelectDiscountType cmbDiscountType.itemData(cmbDiscountType.ListIndex)
+        'SelectDiscountType(CType(cmbDiscountType.SelectedItem, ItemDataClass).ItemData)
+    End Sub
+
+    Private Sub cmbDiscountType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbDiscountType.SelectedIndexChanged
         SelectDiscountType(CType(cmbDiscountType.SelectedItem, ItemDataClass).ItemData)
     End Sub
 
