@@ -102,6 +102,7 @@
     <Compile Include="Class Modules\clsAdvertisingType.vb" />
     <Compile Include="Class Modules\clsChargeItPro.vb" />
     <Compile Include="Class Modules\clsCredomatic.vb" />
+    <Compile Include="Class Modules\clsDeliveryDateDesc.vb" />
     <Compile Include="Class Modules\clsEmployee.vb" />
     <Compile Include="Class Modules\clsHashTable.vb" />
     <Compile Include="Class Modules\clsMailRec.vb" />
@@ -155,6 +156,12 @@
       <DependentUpon>Calendar.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Calendar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CalendarInstr.Designer.vb">
+      <DependentUpon>CalendarInstr.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CalendarInstr.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\EditPO.Designer.vb">
@@ -221,6 +228,12 @@
       <DependentUpon>frmCrippleBugNotify.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCrippleBugNotify.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDeliveryMap.Designer.vb">
+      <DependentUpon>frmDeliveryMap.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDeliveryMap.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmEmail.Designer.vb">
@@ -339,6 +352,12 @@
     </Compile>
     <Compile Include="Class Modules\cDataConvert.vb" />
     <Compile Include="Class Modules\CGrossMargin.vb" />
+    <Compile Include="Forms\frmTransferSetup.Designer.vb">
+      <DependentUpon>frmTransferSetup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTransferSetup.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmYardage.Designer.vb">
       <DependentUpon>frmYardage.vb</DependentUpon>
     </Compile>
@@ -509,6 +528,7 @@
     <Compile Include="Modules\mod2Data.vb" />
     <Compile Include="Modules\mod2DataTransfers.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
+    <Compile Include="Modules\modAddresses.vb" />
     <Compile Include="Modules\modAmericanHeritageInsurance.vb" />
     <Compile Include="Modules\modAPGCashDrawer.vb" />
     <Compile Include="Modules\modAPI.vb" />
@@ -538,6 +558,7 @@
     <Compile Include="Modules\modDepartments.vb" />
     <Compile Include="Modules\modDevelopment.vb" />
     <Compile Include="Modules\modDiagnosticTools.vb" />
+    <Compile Include="Modules\modDispatchTrack.vb" />
     <Compile Include="Modules\modDownloadURL.vb" />
     <Compile Include="Modules\modEasing.vb" />
     <Compile Include="Modules\modEmail.vb" />
@@ -578,10 +599,12 @@
     <Compile Include="Modules\modSplit.vb" />
     <Compile Include="Modules\modStores.vb" />
     <Compile Include="Modules\modStoreSettings.vb" />
+    <Compile Include="Modules\modStoreTransfers.vb" />
     <Compile Include="Modules\modStringFunctions.vb" />
     <Compile Include="Modules\modSupportForms.vb" />
     <Compile Include="Modules\modTextFiles.vb" />
     <Compile Include="Modules\modTimeDuration.vb" />
+    <Compile Include="Modules\modTimeZone.vb" />
     <Compile Include="Modules\modURLHelper.vb" />
     <Compile Include="Modules\modValidation.vb" />
     <Compile Include="Modules\modVBControls.vb" />
@@ -658,6 +681,9 @@
     <EmbeddedResource Include="Forms\Calendar.resx">
       <DependentUpon>Calendar.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CalendarInstr.resx">
+      <DependentUpon>CalendarInstr.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>
     </EmbeddedResource>
@@ -681,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCrippleBugNotify.resx">
       <DependentUpon>frmCrippleBugNotify.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDeliveryMap.resx">
+      <DependentUpon>frmDeliveryMap.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>
@@ -729,6 +758,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSendMail.resx">
       <DependentUpon>frmSendMail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmTransferSetup.resx">
+      <DependentUpon>frmTransferSetup.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmYardage.resx">
       <DependentUpon>frmYardage.vb</DependentUpon>
@@ -857,6 +889,14 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxMapPoint">
+      <Guid>{51C0A9CA-F7B7-4F5A-96F4-43927C6FA50F}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxMSComCtl2">
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -906,8 +946,26 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="DAO">
+      <Guid>{00025E04-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="InetCtlsObjects">
       <Guid>{48E59290-9880-11CF-9754-00AA00C00908}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="MapPoint">
+      <Guid>{51C0A9CA-F7B7-4F5A-96F4-43927C6FA50F}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>

@@ -21,4 +21,19 @@ Done:
 
     End Function
 
+    Public Function ProtectXML(ByVal Str As String) As String
+        Str = Replace(Str, "&", "&amp;")
+        Str = Replace(Str, "<", "&lt;")
+        Str = Replace(Str, ">", "&gt;")
+        ProtectXML = Str
+    End Function
+
+    Public Function ProtectCDATA(ByVal Str As String, Optional ByVal AddCDATATags As Boolean = False) As String
+        ProtectCDATA = Replace(Str, "]]>", "]]&gt;")
+        If AddCDATATags Then ProtectCDATA = "<![CDATA[" & ProtectCDATA & "]]>"
+    End Function
+
+    Public Function XMLCurrency(ByVal Curr As String) As String
+        XMLCurrency = CurrencyFormat(GetPrice(Curr), , , True)
+    End Function
 End Module

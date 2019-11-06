@@ -37,7 +37,8 @@
     Public Const LICENSE_STORES_31 As String = "94801"
     Public Const LICENSE_STORES_32 As String = "01024"
     Public Const LICENSE_INSTALLMENT As String = "I589423"
-    Private mActiveLocations as Integer
+    Private mActiveLocations As Integer
+    Public Const LICENSE_DISPATCHTRACK As String = "DDT34892"
     '    Public Property Get LicensedNoOfStores() as integer :     
     '    LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense) 
     'End Function

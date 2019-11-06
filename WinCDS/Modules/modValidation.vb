@@ -161,4 +161,32 @@
         IsTax = (Trim(Style) = styTX1 Or Trim(Style) = styTX2)
     End Function
 
+    Public Function IsDeliverable(ByVal Status As String, ByVal Style As String, Optional ByVal RequireXXREC As Boolean = False) As Boolean
+        '::::IsDeliverable
+        ':::SUMMARY
+        ': Is Deliverable (Margin Line)
+        ':::DESCRIPTION
+        ': Returns whether a Status / Style combination can be delivered
+        ':::PARAMETERS
+        ': - Status
+        ': - Style
+        ': - RequireXXREC
+        ':::RETURN
+        ': Boolean - Returns True.
+        Select Case Trim(Status)
+            Case "ST", "FND", "LAW", "POREC", "SOREC", "SSREC"
+                IsDeliverable = True
+            Case "PO", "SO", "SS"
+                IsDeliverable = Not RequireXXREC
+            Case "DEL", "VOID"
+                IsDeliverable = False
+            Case ""
+                IsDeliverable = IsDLS(Style) Or IsNote(Style)
+            Case Else
+                IsDeliverable = False
+        End Select
+        If Left(Status, 3) = staPFDEL Then IsDeliverable = False
+        If Left(Status, 2) = staPFVoi Then IsDeliverable = False
+        If Left(Status, 1) = staPFRet Then IsDeliverable = False
+    End Function
 End Module

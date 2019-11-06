@@ -623,4 +623,7 @@ TestClearFailed:
         gblLastDeliveryDate = Whenn
     End Sub
 
+    Public Function UIOutputFolder() As String
+        UIOutputFolder = IIf(IsDevelopment, LocalDesktopFolder, DevOutputFolder)
+    End Function
 End Module

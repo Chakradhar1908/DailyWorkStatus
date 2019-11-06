@@ -84,6 +84,7 @@
         LeaseNoExists = objHolding.Load(LeaseNo)
         DisposeDA(objHolding)
     End Function
+
     Public Function GetLeaseNumber(Optional ByVal ForceAutomatic As Boolean = False, Optional ByVal Specified As String = "") As String
         ' This Function gets a Sale Number.
         ' It still uses a file, but now checks for duplicates and
@@ -110,12 +111,14 @@
             GetLeaseNumber = GetNextLeaseNumber(GetLeaseNumber)
         End If
     End Function
+
     Public Function HoldingStatusRepresents(ByVal HS As String) As String
         Dim K As Object
         For Each K In HoldingStatusList()
             If UCase(DescribeHoldingStatus(K)) = UCase(HS) Then HoldingStatusRepresents = K : Exit Function
         Next
     End Function
+
     Public Function HoldingStatusList() As Object
         'HoldingStatusList = Array(SlSt_Open, SlSt_Dlvd, SlSt_LyWy, SlSt_Ly30, SlSt_Ly60, SlSt_Ly90, SlSt_Ly12, SlSt_OpCr, SlSt_ClCr, SlSt_OpFi, SlSt_ClFi, SlSt_BkOr, SlSt_Void)
         HoldingStatusList = New String() {SlSt_Open, SlSt_Dlvd, SlSt_LyWy, SlSt_Ly30, SlSt_Ly60, SlSt_Ly90, SlSt_Ly12, SlSt_OpCr, SlSt_ClCr, SlSt_OpFi, SlSt_ClFi, SlSt_BkOr, SlSt_Void}
@@ -191,6 +194,21 @@ BadFile:
                 'Debug.Print(Err, error)
                 '      Resume
         End Select
+    End Function
+
+    Public Function HoldNew_GetBalance(ByVal LeaseNo As String, Optional ByVal StoreNo As Integer = 0) As String
+        Dim objHolding As cHolding
+        objHolding = New cHolding
+        If StoreNo < 0 Or StoreNo <> StoresSld Then
+            objHolding.DataAccess.DataBase = GetDatabaseAtLocation(StoreNo)
+        End If
+        If objHolding.Load(Trim(LeaseNo), "LeaseNo") Then
+            HoldNew_GetBalance = Format(objHolding.Sale - objHolding.Deposit, "###,##0.00")
+        Else  ' Can't find sale!
+            MessageBox.Show("Could not find holding record for Sale No: " & LeaseNo & vbCrLf & "Balance will be $0.00", "Sale Number Not Located in Holding", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            HoldNew_GetBalance = "0"
+        End If
+        DisposeDA(objHolding)
     End Function
 
 End Module

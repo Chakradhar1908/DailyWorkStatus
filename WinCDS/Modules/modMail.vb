@@ -529,4 +529,68 @@ HandleErr:
         DisposeDA(RS)
     End Sub
 
+    Public Function GetMailByLeaseNo(ByVal LeaseNo As String) As clsMailRec
+        '::::GetMailByLeaseNo
+        ':::SUMMARY
+        ': Gets Mail with Lease number.
+        ':::DESCRIPTION
+        ': This function is useful to get Mail with Lease number.
+        ':::PARAMETERS
+        ': - LeaseNo - Indicates the Lease number.
+        ':::RETURN
+        ': clsMailRec
+        Dim R As ADODB.Recordset, I As Integer
+        R = GetRecordsetBySQL("SELECT * FROM GrossMargin WHERE SaleNo='" & LeaseNo & "'", , GetDatabaseAtLocation)
+        If R.EOF Then Exit Function
+        I = R("MailIndex").Value
+        GetMailByLeaseNo = New clsMailRec
+        GetMailByLeaseNo.Load(I, "#index")
+    End Function
+
+    Public Function GetMailLastNameByIndex(ByVal Index As Integer, Optional ByVal StoreNo As Integer = 0, Optional ByVal ShipToIfAvailable As Boolean = False) As String
+        '::::GetMailLastByIndex
+        ':::SUMMARY
+        ': Gets a MailLastName with Index.
+        ':::DESCRIPTION
+        ': This function is useful to get MailLastName with Index.
+        ':::PARAMETERS
+        ': - Index - Indicates the Index value.
+        ': - StoreNo - Indicates the storenumber.
+        ': - ShipToIfAVailable - Indicates Boolean value.
+        ':::RETURN
+        ': STRING - Returns Mail City string.
+        Dim X As MailNew, Y As MailNew2
+        On Error Resume Next
+        If ShipToIfAvailable Then GetMailNew2ByIndex(Index, Y, StoreNo)
+        If Val(Y.Index) <> 0 Then GetMailLastNameByIndex = Y.ShipToLast
+        If GetMailLastNameByIndex = "" Then
+            GetMailNewByIndex(Index, X, StoreNo)
+            GetMailLastNameByIndex = X.Last
+        End If
+    End Function
+
+    Public Function GetMailCityByIndex(ByVal Index As Integer, Optional ByVal StoreNo As Integer = 0, Optional ByVal ShipToIfAvailable As Boolean = False) As String
+        '::::GetMailCityByIndex
+        ':::SUMMARY
+        ': Gets a Mailcity.
+        ':::DESCRIPTION
+        ': This function is used to get Mail City with Index value.
+        ':::PARAMETERS
+        ': - Index - Indicates the Index value.
+        ': - StoreNo - Indicates the storenumber.
+        ': - ShipToIfAvailable - Indicates Boolean value.
+        ':::RETURN
+        ': STRING - Returns Mail City string.
+
+
+        Dim X As MailNew, Y As MailNew2
+        On Error Resume Next
+        If ShipToIfAvailable Then GetMailNew2ByIndex(Index, Y, StoreNo)
+        If Val(Y.Index) <> 0 Then GetMailCityByIndex = Y.City2
+        If GetMailCityByIndex = "" Then
+            GetMailNewByIndex(Index, X, StoreNo)
+            GetMailCityByIndex = X.City
+        End If
+    End Function
+
 End Module

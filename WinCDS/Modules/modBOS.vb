@@ -15,6 +15,7 @@
         If Style = "LAB" And Not StoreSettings.bLaborTaxable Then IsItemNontaxable = True
         If Style = "TAX1" Or Style = "TAX2" Then IsItemNontaxable = True
     End Function
+
     Public Function DescribeTimeWindow(ByVal twA, ByVal twB) As String
         '::::DescribeTimeWindow
         ':::SUMMARY
@@ -38,6 +39,7 @@
             DescribeTimeWindow = Format(twA, "h:mm ampm") & " to " & Format(twB, "h:mm ampm")
         End If
     End Function
+
     Public Function DetectSaleNo() As String
         '::::DetectSaleNo
         ':::SUMMARY
@@ -76,7 +78,6 @@
             Case 12 : QueryPaymentDescription = "STORE CARD"
             Case Else : QueryPaymentDescription = ""
                 ' Returns "" for invalid payment type.
-
         End Select
     End Function
 
@@ -162,4 +163,123 @@
         End Select
     End Function
 
+    Public Function NonItemStyleString(Optional ByVal AllowSLD As Boolean = False, Optional ByVal AllowNOTES As Boolean = False) As String
+        '::::NonItemStyleString
+        ':::SUMMARY
+        ': Returns a SQL IN() ready string of Non-item styles
+        ':::DESCRIPTION
+        ': A helper function for writing SQL statements, this will return a configurable formatted clause
+        ': to place within a SQL `...` IN (`...`) block.
+        ':::PARAMETERS
+        ': - AllowSLD - STAIN/LAB/DEL included
+        ': - AllowNOTES - NOTES included
+        ':::RETURN
+        ': String - The IN (`...`) clause ready for inclusion in a SQL.
+        NonItemStyleString = "'" & Join(NonItemStyles(AllowSLD, AllowNOTES), "', '") & "'"
+    End Function
+
+    Public Function NonItemStyles(Optional ByVal AllowSLD As Boolean = False, Optional ByVal AllowNOTES As Boolean = False) As Object
+        '::::NonItemStyles
+        ':::SUMMARY
+        ': Returns a list of 'non-item' styles.
+        ':::DESCRIPTION
+        ': Returns an array of 'non-item' styles, partially configurable.
+        ':
+        ': Some Examples of non-item styles returned in the array are:
+        ':   - TAX1, TAX2, PAYMENT, SUB, VOID, ...
+        ':
+        ': Can Optionally include/exclude the SLD styles or NOTES.
+        ':::PARAMETERS
+        ': - AllowSLD - Stain/Labor/Delivery
+        ': - AllowNOTES - NOTES
+        ':::RETURN
+        ': Variant - Returns a String() of non-item styles.
+
+        'If AllowSLD And AllowNOTES Then NonItemStyles = Array("TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---")
+        If AllowSLD And AllowNOTES Then NonItemStyles = New String() {"TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---"}
+        'If AllowSLD And Not AllowNOTES Then NonItemStyles = Array("NOTES", "TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---")
+        If AllowSLD And Not AllowNOTES Then NonItemStyles = New String() {"NOTES", "TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---"}
+        'If Not AllowSLD And AllowNOTES Then NonItemStyles = Array("STAIN", "DEL", "LAB", "TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---")
+        If Not AllowSLD And AllowNOTES Then NonItemStyles = New String() {"STAIN", "DEL", "LAB", "TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---"}
+        'If Not AllowSLD And Not AllowNOTES Then NonItemStyles = Array("STAIN", "DEL", "LAB", "NOTES", "TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---")
+        If Not AllowSLD And Not AllowNOTES Then NonItemStyles = New String() {"STAIN", "DEL", "LAB", "NOTES", "TAX1", "TAX2", "SUB", "PAYMENT", "VOID", "Style", "--- Adj ---"}
+    End Function
+
+    Public Function GetWinCDSCity(ByVal CityState As String) As String
+        '::::GetWinCDSCity
+        ':::SUMMARY
+        ': Get City from a CitySTZip field
+        ':::DESCRIPTION
+        ': Given a CityStZip field, returns the City
+        ':::PARAMETERS
+        ': - CityState - The field to be parsed.
+        ':::RETURN
+        ': String - Returns the city
+        CitySTZip(CityState)
+        GetWinCDSCity = CityState
+    End Function
+
+    Public Function GetWinCDSState(ByVal CityState As String) As String
+        '::::GetWinCDSState
+        ':::SUMMARY
+        ': Get State from a CitySTZip field
+        ':::DESCRIPTION
+        ': Given a CityStZip field, returns the State
+        ':::PARAMETERS
+        ': - CityState - The field to be parsed
+        ':::RETURN
+        ': String - Returns the state
+        Dim S As String
+        CitySTZip(CityState, S)
+        GetWinCDSState = S
+    End Function
+
+    Public Function GetWinCDSZip(ByVal CityState As String) As String
+        '::::GetWinCDSZip
+        ':::SUMMARY
+        ': Get Zip from a CitySTZip field
+        ':::DESCRIPTION
+        ': Given a CityStZip field, returns the Zip
+        ':::PARAMETERS
+        ': - CityState - The field to be parsed
+        ':::RETURN
+        ': String - Returns the zip
+        Dim Z As String
+        CitySTZip(CityState, , Z)
+        GetWinCDSZip = Z
+    End Function
+
+    'to split "Toledo, OH" to "Toledo" and "OH"
+    Public Sub CitySTZip(ByRef City As String, Optional ByRef ST As String = "", Optional ByRef Zip As String = "")
+        '::::CitySTZip
+        ':::SUMMARY
+        ': Parse a CitySTZip field into constituent parts
+        ':::DESCRIPTION
+        ': Given a text field containing City, ST, and Zip, split the field into individual components
+        ':
+        ':Returns results ByRef
+        ':::PARAMETERS
+        ': - City - Indicates the City Name given by User. ByRef.
+        ': - ST - Indicates the State Name given by User. ByRef.
+        ': - Zip - Indicates the Zip Code given by User. ByRef.
+        Dim X As Integer
+        ST = ""
+        Zip = ""
+        City = Replace(City, ",", " ")
+        City = CleanAddress(City, False, True)
+        On Error Resume Next
+        If Len(City) < 2 Then Exit Sub
+        If InStr(City, " ") <= 0 Then Exit Sub
+        X = InStrRev(City, " ")
+        Zip = Trim(Mid(City, X + 1))
+        If Not IsNumeric(Zip) Then
+            Zip = ""
+        Else
+            City = Trim(Left(City, X - 1))
+        End If
+        X = InStrRev(City, " ")
+        ST = Trim(Mid(City, X + 1))
+        ST = CleanState(ST)
+        City = Trim(Left(City, X - 1))
+    End Sub
 End Module

@@ -176,4 +176,11 @@ NoSave:
         Notes = IfNullThenNilString(RS("Notes").Value)
     End Sub
 
+    Public Function GetFirstLocationWithPositiveQuantity() As Integer
+        Dim I As Integer
+        For I = 1 To Setup_MaxStores
+            If GetLocationQuantity(I) Then GetFirstLocationWithPositiveQuantity = I : Exit Function
+        Next
+    End Function
+
 End Class

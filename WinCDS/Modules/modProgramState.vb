@@ -7,20 +7,7 @@
     Private mTerminal As String
     Private mPO As String
     Private mReports As String
-    '    Public Property Get StoresSld() as integer
-    '    If mStoresSld <= 0 Then mStoresSld = 1
-    '  StoresSld = mStoresSld
-    'End Property
 
-    '    Public Property Let StoresSld(ByVal nStore as integer)
-    '  mStoresSld = FitRange(1, nStore, Setup_MaxStores)
-
-    '  If ssMaxStore < 1 Then
-    '    License = LICENSE_STORES_1
-    ''    MsgBox "Store setup was not completed properly.  The program will not behave properly until this is fixed.", vbCritical, "Error!"
-    '    Exit Property
-    '    End If
-    '    End Property
     Public Property StoresSld() As Integer
         Get
             If mStoresSld <= 0 Then mStoresSld = 1
@@ -36,13 +23,13 @@
             End If
         End Set
     End Property
+
     Public Function OrderMode(ParamArray List()) As Boolean
         Dim A()
         A = List
         OrderMode = IsInArray(Order, A)
     End Function
-    'Public Property Get Order() As String :   Order = mOrder: End Property
-    'Public Property Let Order(ByVal vData As String) :  mOrder = vData: UpdatePermStatus: DescribeOrderMode: End Property
+
     Public Property Order() As String
         Get
             Order = mOrder
@@ -53,6 +40,7 @@
             DescribeOrderMode
         End Set
     End Property
+
     Public Function DescribeOrderMode(Optional ByVal nOrderMode As String = "") As String
         If nOrderMode = "" Then nOrderMode = OrderModeIs
         Select Case nOrderMode
@@ -85,34 +73,39 @@
             Case Else : DescribeOrderMode = "" : DevNotifyUnknownMode("Order", nOrderMode)
         End Select
     End Function
+
     Public ReadOnly Property OrderModeIs() As String
         Get
             OrderModeIs = Order
         End Get
     End Property
+
     Public Function DevNotifyUnknownMode(ByVal Ty As String, ByVal X As String)
         Dim S As String
         '  If True Then Exit Function                        ' Enable to disable
         DevNotifyUnknownMode = Nothing
 
-        If Not IsDevelopment Then Exit Function
-        If Not IsIDE Then Exit Function
+        If Not IsDevelopment() Then Exit Function
+        If Not IsIDE() Then Exit Function
         If Not IsCDSComputer("laptop") Then Exit Function
 
         S = "modProgramState.DevNotifyUnknownMode: " & Ty & ": " & X '& vbCrLf & "modProgramState.DevNotifyUnknownMode"
         Debug.Print(S)
         '  DevErr S
     End Function
+
     Public Function MailMode(ParamArray List()) As Boolean
         Dim A()
         A = List
         MailMode = IsInArray(Mail, A)
     End Function
+
     Public Function ArMode(ParamArray List()) As Boolean
         Dim A()
         A = List
         ArMode = IsInArray(ArSelect, A)
     End Function
+
     Public Property Mail() As String
         Get
             Mail = mMail
@@ -123,6 +116,7 @@
             DescribeMailMode()
         End Set
     End Property
+
     Public Function DescribeMailMode(Optional ByVal nMailMode As String = "") As String
         If nMailMode = "" Then nMailMode = MailModeIs
         Select Case nMailMode
@@ -133,6 +127,7 @@
             Case Else : DescribeMailMode = "" : DevNotifyUnknownMode("Mail", nMailMode)
         End Select
     End Function
+
     Public ReadOnly Property MailModeIs() As String
         Get
             MailModeIs = Mail
@@ -149,6 +144,7 @@
             DescribeArMode()
         End Set
     End Property
+
     Public Function DescribeArMode(Optional ByVal nARMode As String = "") As String
         'If nARMode = "" Then nARMode = ArModeIs
         Select Case nARMode
@@ -196,6 +192,7 @@
         A = List
         OrderMode = IsInArray(Order, A)
     End Function
+
     Public Function DescribeInvenMode(Optional ByVal nInvenMode As String = "") As String
         If nInvenMode = "" Then nInvenMode = InvenModeIs
         Select Case nInvenMode
@@ -225,6 +222,7 @@
             Case Else : DescribeInvenMode = "" : DevNotifyUnknownMode("Inven", nInvenMode)
         End Select
     End Function
+
     Public ReadOnly Property InvenModeIs() As String
         Get
             InvenModeIs = Inven
@@ -241,6 +239,7 @@
             SaveCDSSetting("Terminal", value)
         End Set
     End Property
+
     Public Function ClearProgramState() As Boolean
         Inven = ""
         Order = ""
@@ -249,6 +248,7 @@
         PurchaseOrder = ""
         Reports = ""
     End Function
+
     Public Property PurchaseOrder() As String
         Get
             PurchaseOrder = mPO
@@ -256,7 +256,7 @@
         Set(value As String)
             mPO = value
             UpdatePermStatus()
-            DescribePOMode
+            DescribePOMode()
         End Set
     End Property
 
@@ -276,11 +276,13 @@
             Case Else : DescribePOMode = "" : DevNotifyUnknownMode("PO", nPOMode)
         End Select
     End Function
+
     Public ReadOnly Property POModeIs() As String
         Get
             POModeIs = PurchaseOrder
         End Get
     End Property
+
     Public Property Reports() As String
         Get
             Reports = mReports
@@ -288,9 +290,10 @@
         Set(value As String)
             mReports = value
             UpdatePermStatus()
-            DescribeReportsMode
+            DescribeReportsMode()
         End Set
     End Property
+
     Public Function DescribeReportsMode(Optional ByVal nReportsMode As String = "") As String
         If nReportsMode = "" Then nReportsMode = ReportsModeIs
         Select Case nReportsMode
@@ -317,11 +320,13 @@
             Case Else : DescribeReportsMode = "" : DevNotifyUnknownMode("Reports", nReportsMode)
         End Select
     End Function
+
     Public ReadOnly Property ReportsModeIs() As String
         Get
             ReportsModeIs = Reports
         End Get
     End Property
+
     Public Function ReportsMode(ParamArray List() As Object) As Boolean
         Dim A() As Object
         A = List
@@ -340,4 +345,9 @@
         POMode = IsInArray(PurchaseOrder, A)
     End Function
 
+    Public ReadOnly Property StoreNum() As Integer
+        Get
+            StoreNum = StoresSld
+        End Get
+    End Property
 End Module

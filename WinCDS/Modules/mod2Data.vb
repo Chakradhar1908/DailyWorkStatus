@@ -590,4 +590,64 @@ GetTax2StringFailure:
         X = Replace(X, vbLf, "")
         GetDiscounts = Split(X, vbCr)
     End Function
+
+    Public Function GetCubesOnSale(ByVal SaleNo As String, Optional ByVal OnDate As String = "", Optional ByVal Loc As Integer = 0) As Double
+        '::::GetCubesOnSale
+        ':::SUMMARY
+        ':::DESCRIPTION
+        ':::PARAMETERS
+        ':::RETURN
+        Dim C As CGrossMargin, D As CInvRec
+        C = New CGrossMargin
+
+        If SaleNo = "" Then Exit Function
+        If Loc = 0 Then Loc = StoresSld
+        C.DataAccess.DataBase = GetDatabaseAtLocation(Loc)
+        C.DataAccess.Records_OpenSQL("SELECT * FROM GrossMargin WHERE SaleNo='" & SaleNo & "' AND NOT Style IN ('STAIN', 'DEL', 'LAB', 'TAX1', 'TAX2', 'NOTES', 'SUB', 'PAYMENT', 'VOID', 'Style', '--- Adj ---', '') AND NOT Status IN ('VOID','VD')")
+
+        Do
+            D = New CInvRec
+            If Not IsItem(C.Style) Or IsVoid(C.Status) Or IsReturned(C.Status) Then GoTo Skip
+            If Not D.Load(C.Style, "Style") Then GoTo Skip
+            If Not IsDate(C.DDelDat) Then GoTo Skip
+            If IsDate(OnDate) Then
+                If DateDiff("d", DateValue(OnDate), C.DDelDat) <> 0 Then GoTo Skip
+            End If
+
+            GetCubesOnSale = GetCubesOnSale + C.Quantity * D.Cubes
+Skip:
+            DisposeDA(D)
+        Loop While C.DataAccess.Records_Available
+
+        DisposeDA(C)
+    End Function
+
+    Public Function GetCubesByStyle(ByVal Style As String, Optional ByVal Qty As Double = 1) As Double
+        '::::GetCubesByStyle
+        ':::SUMMARY
+        ':::DESCRIPTION
+        ':::PARAMETERS
+        ':::RETURN
+        Dim C As CInvRec
+        C = New CInvRec
+        If C.Load(Style, "Style") Then GetCubesByStyle = C.Cubes * Qty
+        DisposeDA(C)
+    End Function
+
+    Public Function GetDescByStyle(ByVal Style As String) As String
+        '::::GetDescByStyle
+        ':::SUMMARY
+        ': Used to gets description of each item.
+        ':::DESCRIPTION
+        ': This function is used to get description
+        ':::PARAMETERS
+        ': - Style - Indicates the Style.
+        ':::RETURN
+        ': String - Returns description as a string.
+        Dim X As CInvRec
+        X = New CInvRec
+        If X.Load(Style, "Style") Then GetDescByStyle = X.Desc
+        DisposeDA(X)
+    End Function
+
 End Module

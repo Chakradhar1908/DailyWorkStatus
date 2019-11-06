@@ -336,4 +336,10 @@
             IsTenPenny = CheckStoreName("Tenpenny")
         End Get
     End Property
+
+    Public ReadOnly Property IsFurnitureStoreOfKansas() As Boolean
+        Get
+            IsFurnitureStoreOfKansas = CheckStoreName("Furniture Store of Kansas", "The Furniture Store of Kansas")
+        End Get
+    End Property
 End Module

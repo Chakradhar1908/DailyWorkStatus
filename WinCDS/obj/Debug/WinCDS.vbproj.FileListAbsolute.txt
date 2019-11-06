@@ -8,6 +8,7 @@ D:\WinCDS\WinCDS\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
 D:\WinCDS\WinCDS\bin\Debug\Interop.APG554QFAX21Lib.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.cipwin32.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.InetCtlsObjects.dll
+D:\WinCDS\WinCDS\bin\Debug\Interop.MapPoint.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.MSComCtl2.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.MSCommLib.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.MSDataGridLib.dll
@@ -15,15 +16,17 @@ D:\WinCDS\WinCDS\bin\Debug\Interop.MSDBGrid.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.MSFlexGridLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.cipwin32.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.InetCtlsObjects.dll
+D:\WinCDS\WinCDS\bin\Debug\AxInterop.MapPoint.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSComCtl2.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSCommLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDBGrid.dll
 D:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 D:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
+D:\WinCDS\WinCDS\obj\Debug\Interop.DAO.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.InetCtlsObjects.dll
+D:\WinCDS\WinCDS\obj\Debug\Interop.MapPoint.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSComCtl2.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSCommLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.MSDataGridLib.dll
@@ -39,6 +42,7 @@ D:\WinCDS\WinCDS\obj\Debug\Interop.WMPLib.dll
 D:\WinCDS\WinCDS\obj\Debug\Interop.XCTransaction2.dll
 D:\WinCDS\WinCDS\obj\Debug\AxInterop.cipwin32.dll
 D:\WinCDS\WinCDS\obj\Debug\AxInterop.InetCtlsObjects.dll
+D:\WinCDS\WinCDS\obj\Debug\AxInterop.MapPoint.dll
 D:\WinCDS\WinCDS\obj\Debug\AxInterop.MSComCtl2.dll
 D:\WinCDS\WinCDS\obj\Debug\AxInterop.MSCommLib.dll
 D:\WinCDS\WinCDS\obj\Debug\AxInterop.MSDataGridLib.dll
@@ -51,6 +55,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.ArCard.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.ARPaySetUp.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.BillOSale.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.Calendar.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.CalendarInstr.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.EditPO.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBarcode.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBOSDiscount.resources
@@ -59,6 +64,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterAddress.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterQuantity.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCCManualEntry.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCrippleBugNotify.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDeliveryMap.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmail.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmINet.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmItemView.resources
@@ -75,6 +81,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmRevolving.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSalesList.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSelectOption.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSendMail.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmTransferSetup.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmYardage.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.InvCkStyle.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.InvDefault.resources

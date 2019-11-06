@@ -50,6 +50,7 @@ Module modPrintToolsCommon
 
         If tmpLines > NumLineBreaks Then NumLineBreaks = tmpLines
     End Function
+
     Public Function SetDymoPrinter(Optional ByRef PaperType As Integer = 0) As Boolean
         ' bfh20051202 - we need to have error handling b/c of papersize setting
         ' w/o it, if they set a non-dymo up as their dymo, it will error b/c
@@ -74,6 +75,7 @@ Module modPrintToolsCommon
                 End If
         End Select
     End Function
+
     Public Function SetPrinter(ByVal PrinterName As String) As Boolean
         Dim P As Object
         For Each P In Printers
@@ -93,6 +95,7 @@ Module modPrintToolsCommon
             End If
         Next
     End Function
+
     Public Function NextPrintBreak(ByVal vStr As String, ByVal Start As Integer) As Integer
         Dim tmpBreak As Integer, Absolute As Boolean
         NextPrintBreak = Start + 46
@@ -126,6 +129,7 @@ Module modPrintToolsCommon
             End If
         End If
     End Function
+
     Public Function FindDymoPrinter(Optional ByVal IgnorePrevious As Boolean = False, Optional ByVal SelectBox As Integer = 1, Optional ByVal StoreNum As Integer = 0, Optional ByVal Current As String = "") As String
         Dim LabelPrinter As String, IsDymo As Boolean, DymoOnly As Boolean
         Dim P As Object
@@ -206,6 +210,7 @@ CantSave:
         MsgBox("We could not save your settings." & vbCrLf & "ERR (" & Err.Number & "): " & Err.Description, vbCritical, "Couldn't save")
         Resume Next
     End Function
+
     Public Function IsDymoPrinter(Optional ByVal Device As Object = Nothing) As Boolean
         Dim T As String
         If IsNothing(Device) Then Device = Printer
@@ -228,6 +233,7 @@ CantSave:
             IsDymoPrinter = (Device Like "*DYMO*" Or Device Like "DYMO*" Or Device Like "*DYMO" Or Device Like "DYMO")
         End If
     End Function
+
     Public Sub PrintInBox(ByVal PrintOb As Object, ByVal PrintText As String, ByVal Left As Integer, ByVal Top As Integer, ByVal Width As Integer, ByVal Height As Integer, Optional ByVal FontSize As Integer = -1, Optional ByVal HAlign As AlignConstants = AlignConstants.vbAlignNone, Optional ByVal VAlign As AlignConstants = AlignConstants.vbAlignNone, Optional ByVal BorderStyle As BorderStyleConstants = 0)
         If PrintText <> "" Then
             If FontSize = -1 Then FontSize = 300
@@ -269,6 +275,7 @@ CantSave:
 
         End If
     End Sub
+
     Public Sub PrintToPosition(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
         If OutOb Is Nothing Then OutOb = OutputObject
         If IsNothing(OutOb) Then Exit Sub
@@ -303,6 +310,7 @@ CantSave:
             End If
         End If
     End Sub
+
     Public Function IscPrinter(ByVal Ob As Object) As Boolean
         IscPrinter = TypeName(Ob) = "cPrinter"
     End Function
@@ -510,5 +518,59 @@ PrinterDialogCancelled:
         If Len(Prt) <> 0 Then Printer.Print(Prt)
     End Sub
 
-End Module
+    Public Sub PrintAligned(ByVal Text As String, Optional ByVal Align As Byte = AlignmentConstants.vbLeftJustify, Optional ByVal Location As Integer = 0, Optional ByVal yPos As Integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
+        Dim List() As String, X As Integer
+        Dim Ob As Boolean, oI As Boolean
+        Dim OO As Object
+        OO = OutputObject
 
+        Ob = OO.FontBold
+        oI = OO.FontItalic
+        If Bold Then OO.FontBold = True
+        If Italic Then OO.FontItalic = True
+        If yPos > 0 Then OO.CurrentY = yPos
+
+        If InStr(Text, vbCrLf) Then 'Multi-line string
+            'ReDim List(UBound(List) + 1)
+            'List() = Split(Text, vbCrLf)
+            List = Split(Text, vbCrLf)
+            For X = LBound(List) To UBound(List)
+                Select Case Align
+                    Case AlignmentConstants.vbLeftJustify, AlignConstants.vbAlignLeft '0
+                        OO.CurrentX = Location
+                    Case AlignmentConstants.vbRightJustify, AlignConstants.vbAlignRight '1
+                        OO.CurrentX = Printer.ScaleWidth - OO.TextWidth(List(X)) + Location
+                    Case AlignmentConstants.vbCenter '2
+                        OO.CurrentX = (Printer.Width - OO.TextWidth(List(X))) / 2 + Location 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+                    Case Else
+                        Debug.Print("UNKNOWN ALIGNMENT CONSTANT IN modPrintToolsCommon.PrintAligned: " & CStr(Align))
+                End Select
+                OutputObject.Print(List(X))
+            Next
+        Else 'Single-line string
+            Select Case Align
+                Case AlignmentConstants.vbLeftJustify, AlignConstants.vbAlignLeft '0
+                    OO.CurrentX = Location
+                Case AlignmentConstants.vbRightJustify, AlignConstants.vbAlignRight '1
+                    If Location <= 0 Then
+                        OO.CurrentX = Printer.ScaleWidth - OO.TextWidth(Text)
+                    Else
+                        OO.CurrentX = (Location) - OO.TextWidth(Text)
+                    End If
+                Case AlignmentConstants.vbCenter '2
+                    OO.CurrentX = (Printer.Width - OO.TextWidth(Text)) / 2 + Location 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+                Case Else
+                    Debug.Print("UNKNOWN ALIGNMENT CONSTANT IN modPrintToolsCommon.PrintAligned: " & CStr(Align))
+            End Select
+            If Not IscPrinter(OutputObject) Then
+                OutputObject.Print(Text)
+            Else
+                OutputObject.PrintNL(Text)
+            End If
+        End If
+
+        If Bold Then OO.FontBold = Ob         ' this is to preserve the original settings
+        If Italic Then OO.FontItalic = oI
+    End Sub
+
+End Module

@@ -343,4 +343,28 @@ AnError:
         CleanEmail = S
     End Function
 
+    Public Function CleanAddress(ByVal Add As String, Optional ByVal UpperCase As Boolean = True, Optional ByVal RemovePunctuation As Boolean = True) As String
+        '::::CleanAddress
+        ':::SUMMARY
+        ':This function  is used to Remove any extra spaces in Address.
+        ':::DESCRIPTION
+        ': This Function is used to remove punctuation marks, extra space in Address.
+        ':::PARAMETERS
+        ':-Add-Denotes the Current Address.
+        ':-Uppercase-Checks whether the Address is in Capitals letters or not.
+        ':-RemovePunctuation-Chceks whether the Punctuation marks are present in Address or not.
+        ':::RETURN
+        ':String-Returns the Result as a string.
+
+        If UpperCase Then Add = UCase(Add)
+        If RemovePunctuation Then
+            Add = Replace(Add, ".", "")
+            Add = Replace(Add, ";", "")
+            Add = Replace(Add, ",", "")
+            Add = Replace(Add, "/", "")
+        End If
+        Add = Trim(Add)
+        Do While InStr(Add, "  ") > 0 : Add = Replace(Add, "  ", " ") : Loop
+        CleanAddress = Add
+    End Function
 End Module

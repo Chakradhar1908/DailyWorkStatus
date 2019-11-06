@@ -438,7 +438,7 @@ HandleErr:
         End With
         DisposeDA(CSI)
     End Function
-    Private Sub TagItemForRepair(ByVal Item as integer)
+    Private Sub TagItemForRepair(ByVal Item As Integer)
         Dim CSI As clsServiceItemParts
         Dim X As CGrossMargin
 
@@ -476,6 +476,7 @@ HandleErr:
         cmdOrderParts.Enabled = True
         DisposeDA(CSI)
     End Sub
+
     Private Sub UpdateTelephoneLabels(ByVal Lbl1 As String, ByVal Lbl2 As String, ByVal Lbl3 As String)
         If Trim(Lbl1) = "" Then Lbl1 = "Tele: "
         If Trim(Lbl2) = "" Then Lbl2 = "Tele2: "
@@ -491,6 +492,47 @@ HandleErr:
         lblTele2.Left = lblCapTele2.Left + lblCapTele2.Width + 60
         lblCapTele3.Left = lblTele2.Left + lblTele2.Width + 100
         lblTele3.Left = lblCapTele3.Left + lblCapTele3.Width + 60
+    End Sub
+
+    Public Sub QuickShowServiceCall(ByVal sC As String, Optional ByVal StoreNo As Integer = 0, Optional ByVal ReturnToOriginalStore As Boolean = True)
+        Dim OldMMOrder As String, OldStoreNo As Integer
+        If StoreNo = 0 Then StoreNo = StoresSld
+        OldStoreNo = StoresSld
+        If Microsoft.VisualBasic.Left(sC, 2) = "SO" Then sC = Mid(sC, 3)
+
+        If sC <> "" Then
+            If StoreNo <> StoresSld Then
+                ' Sale was in a different store.  We have to switch to view it.
+                StoresSld = StoreNo
+                '      main_StoreChange StoreNo
+                '      frmSetup .LoadStore
+                If Not ReturnToOriginalStore Then
+                    MessageBox.Show("This service call was made in store " & StoreNo & "." & vbCrLf &
+               "Your current login has been changed to store " & StoreNo & "." & vbCrLf &
+               "You may want to change it back before continuing.", "Current Store Changed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+                Else
+                    MessageBox.Show("This service call was made in store " & StoreNo & ", not in your current store (store " & OldStoreNo & ")" & vbCrLf &
+               "Please note that you must log into the correct store to view this call normally.", "Service Call Store Different Than Login Store", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+            End If
+
+            ' This displays the Inventory Detail's matching customer record in a disabled BillOSale.  No edits allowed.
+            OldMMOrder = Order
+            Order = "S"
+
+            LoadServiceCall(sC)
+            cmdMenu.Text = "B&ack"
+            Show()
+
+            Order = OldMMOrder
+        End If
+
+        If ReturnToOriginalStore And OldStoreNo <> StoresSld Then
+            StoresSld = OldStoreNo
+            '    main_StoreChange OldStoreNo
+            '    frmSetup .LoadStore
+        End If
     End Sub
 
 End Class

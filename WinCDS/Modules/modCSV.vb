@@ -1,6 +1,6 @@
 ﻿Module modCSV
-    Public Function CSVField(ByVal Line As String, ByVal FieldNo as integer, Optional ByVal vDefault As String = "") As String
-        Dim I as integer, X As Integer
+    Public Function CSVField(ByVal Line As String, ByVal FieldNo As Integer, Optional ByVal vDefault As String = "") As String
+        Dim I As Integer, X As Integer
 
         CSVField = ""
         If FieldNo <= 0 Then Err.Raise(-1, , "CSV Fields start at 1, not zero") ' FieldNo = 1
@@ -48,4 +48,25 @@ Final:
     '  Next
     'End Function
 
+    Public Function CSVLine(ParamArray Strs()) As String
+        Dim El, NotFirst As Boolean
+        For Each El In Strs
+            CSVLine = CSVLine & IIf(NotFirst, ",", "") & ProtectCSV(El)
+            NotFirst = True
+        Next
+        '  CSVLine = CSVLine & vbCrLf
+    End Function
+
+    Public Function CSVCurrency(ByVal Curr As String) As String
+        CSVCurrency = CurrencyFormat(GetPrice(Curr), False, False, True)  ' Prevent $ and ,  --  This is the same as SQLCurrency
+    End Function
+
+    Public Function ProtectCSV(ByVal Str As String) As String
+        Dim Protect As Boolean
+        If InStr(Str, """") > 0 Then Protect = True
+        If InStr(Str, ",") > 0 Then Protect = True
+
+        If Protect Then Str = """" & Replace(Str, """", """""") & """"
+        ProtectCSV = Str
+    End Function
 End Module

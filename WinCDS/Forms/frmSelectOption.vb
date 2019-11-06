@@ -10,11 +10,12 @@
         SelOpt_MultiList = 2
         SelOpt_ToItem = &H8
     End Enum
+
     Public Function SelectOptionArray(ByVal selTitle As String, ByVal selType As ESelOpts, ByRef selOptions() As Object, Optional ByVal SelectButtonCaption As String = "&Print", Optional ByVal PreSelChk As String = "x") 'as integer
         Dim Opt
         Dim Preselected As Boolean, WithSelection As Boolean
         Dim ToItem As Boolean
-        Dim FirstSelected as integer
+        Dim FirstSelected As Integer
 
 
 
@@ -140,11 +141,12 @@
         mSelected = 0
         mOptionMode = 0
     End Function
+
     Private Function RearrangeControls()
         'Dim Opt As OptionButton
         Dim Opt As RadioButton
-        Dim X as integer, Y as integer
-        Dim TH as integer
+        Dim X As Integer, Y As Integer
+        Dim TH As Integer
 
         Select Case mOptionMode
             Case ESelOpts.SelOpt_List                            ' Listbox
@@ -170,7 +172,7 @@
                 'NOTE -->   THE ABOVE CODE BLOCK WILL BE REPLACED WITH THE BELOW ONE.  <--
                 Dim rindex As Integer
                 For Each Opt In Controls
-                    If Opt.name Like "optSelection" Then
+                    If Opt.Name Like "optSelection" Then
                         If Microsoft.VisualBasic.Right(Opt.Name, 1) > 0 Then
                             rindex = CInt(Microsoft.VisualBasic.Right(Opt.Name, 1)) - 1
                             Opt.Location = New Point(60, 60 + Opt.Height * rindex)

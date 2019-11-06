@@ -169,4 +169,18 @@ Module modSupportForms
         End If
     End Function
 
+    Public Function SelectOptionX(ByVal nTitle As String, ByVal selType As frmSelectOption.ESelOpts, ByVal SelectButtonCaption As String, ByVal PreSelChk As String, ParamArray selOptions() As Object)
+        '::::SelectOptionX
+        ':::SUMMARY
+        ': Raise a select option dialog
+        ':::DESCRIPTION
+        ': Present a user with a list of options and require them to select one to continue (modal/blocking).
+        ':::PARAMETERS
+        ':::RETURN
+        ':::SEE ALSO
+        ': - SelectOption, SelectOptionArray
+        Dim T()
+        T = selOptions
+        SelectOptionX = frmSelectOption.SelectOptionArray(nTitle, selType, T, SelectButtonCaption, PreSelChk)
+    End Function
 End Module
