@@ -62,6 +62,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Basic 2005 Power Packs\3.0\Microsoft.VisualBasic.PowerPacks.dll</HintPath>
     </Reference>
+    <Reference Include="OptimRoute">
+      <HintPath>C:\Windows\SysWOW64\OptimRoute.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -122,6 +125,8 @@
     <Compile Include="Class Modules\CSearchNew.vb" />
     <Compile Include="Class Modules\cTransaction.vb" />
     <Compile Include="Class Modules\sSale.vb" />
+    <Compile Include="Class Modules\TSPNetwork.vb" />
+    <Compile Include="Class Modules\TSPNode.vb" />
     <Compile Include="Forms\AddOnAcc.Designer.vb">
       <DependentUpon>AddOnAcc.vb</DependentUpon>
     </Compile>
@@ -276,6 +281,12 @@
       <DependentUpon>frmNotes.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmNotes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmOptimize.Designer.vb">
+      <DependentUpon>frmOptimize.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmOptimize.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmPermissionMonitor.Designer.vb">
@@ -584,6 +595,7 @@
     <Compile Include="Modules\modNeoCaption.vb" />
     <Compile Include="Modules\modNumbers.vb" />
     <Compile Include="Modules\modOnDemand.vb" />
+    <Compile Include="Modules\modOptimization.vb" />
     <Compile Include="Modules\modPasswords.vb" />
     <Compile Include="Modules\modPatches.vb" />
     <Compile Include="Modules\modPath.vb" />
@@ -728,6 +740,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmNotes.resx">
       <DependentUpon>frmNotes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmOptimize.resx">
+      <DependentUpon>frmOptimize.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPermissionMonitor.resx">
       <DependentUpon>frmPermissionMonitor.vb</DependentUpon>
@@ -1138,6 +1153,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Store1Logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

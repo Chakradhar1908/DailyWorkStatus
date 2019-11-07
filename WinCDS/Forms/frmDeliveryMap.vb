@@ -1,7 +1,16 @@
 ﻿Imports MapPoint
 Imports MapPoint.GeoCountry
+Imports MapPoint.GeoTimeConstants
 Imports Microsoft.VisualBasic.Compatibility.VB6
+
 Public Class frmDeliveryMap
+    Private Printed As Boolean
+    Public HasOptimizer As Boolean
+    Dim Network As TSPNetwork
+    Dim WithEvents Opt As OptimRoute.RouteOptimizer
+    Dim IOpt As OptimRoute.IRouteOptimizer, IOptCont As OptimRoute.IRouteContainer
+    Dim HiddenMapControl As Application, HiddenMap As Map, XYMap As Map
+
     Public Function CreateRoute(ByVal StoreNum As Integer, ByVal DeliveryDate As String) As Route
         ' StoreNum gets us the store address, for the start and end points.
         ' Customers gets us mailing/delivery addresses.  We auto-generate the route and the user change it.
@@ -39,7 +48,8 @@ Public Class frmDeliveryMap
         End If
 
         LoadAllStops(DeliveryDate, FirstStore, LastStore)
-        'SelectAllStops
+        SelectAllStops()
+
         If UseOrderList Then
             'cmdSplit.Value = True
             cmdSplit.PerformClick()
@@ -47,7 +57,7 @@ Public Class frmDeliveryMap
             Exit Function
         End If
 
-        'RouteThisTruck
+        RouteThisTruck()
         Show()
     End Function
 
@@ -61,7 +71,7 @@ Public Class frmDeliveryMap
                 If FR.ResultsQuality > 1 Then
                     ' Choose an option, or cancel?
                     Dim AddrArray() As Object
-                    'ReDim AddrArray(1 To FR.Count)
+                    ReDim AddrArray(1 To FR.Count)
                     For I = 1 To FR.Count
                         AddrArray(I) = FR.Item(I).Name
                     Next
@@ -118,8 +128,8 @@ BadWpt:
                     LastSale = Sales.SaleNo
                     Cubes = GetCubesOnSale(Sales.SaleNo, DeliveryDate)
                     'Li = lvwAllStops.ListItems.Add(, K, "Sale " & Sales.SaleNo & ", " & GetMailLastNameByIndex(Sales.Index, I, True) & " (L" & I & ", " & Format(Cubes, "0.00") & ")", , "stop")
-                    Li = lvwAllStops.Items.Add("Sale " & Sales.SaleNo & ", " & GetMailLastNameByIndex(Sales.Index, I, True) & " (L" & I & ", " & Support.Format(Cubes, "##,##0.00"), K)
-                    'SetStopInfoByLI(Li, I, "Sale", Sales.SaleNo, GetMailLastNameByIndex(Sales.Index, I, True), Sales.Index, Sales.StopStart, Sales.StopEnd, Cubes)
+                    Li = lvwAllStops.Items.Add(K, "Sale " & Sales.SaleNo & ", " & GetMailLastNameByIndex(Sales.Index, I, True) & " (L" & I & ", " & Support.Format(Cubes, "0.00"), 2)
+                    SetStopInfoByLI(Li, I, "Sale", Sales.SaleNo, GetMailLastNameByIndex(Sales.Index, I, True), Sales.Index, Sales.StopStart, Sales.StopEnd, Cubes)
                 End If
             Loop
             DisposeDA(Sales)
@@ -136,8 +146,8 @@ BadWpt:
             Do While Service.DataAccess.Records_Available
                 K = "LOC " & I & " - SC#" & Service.ServiceOrderNo
                 'Li = lvwAllStops.ListItems.Add(, K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", , "service")
-                Li = lvwAllStops.Items.Add("Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")")
-                'SetStopInfoByLI(Li, I, "Service", Service.ServiceOrderNo, Service.LastName, Service.MailIndex, Service.StopStart, Service.StopEnd, 0)
+                Li = lvwAllStops.Items.Add(K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", 1)
+                SetStopInfoByLI(Li, I, "Service", Service.ServiceOrderNo, Service.LastName, Service.MailIndex, Service.StopStart, Service.StopEnd, 0)
             Loop
             DisposeDA(Service)
         Next
@@ -145,104 +155,251 @@ BadWpt:
         DisposeDA(Li)
     End Sub
 
-    '    Private Sub SelectAllStops(Optional ByVal Remove As Boolean = False)
-    '        Dim I As Long, Li As ListViewItem
-    '        If Remove Then
-    '            'For I = lvwThisTruck.ListItems.Count To 1 Step -1
-    '            For I = lvwThisTruck.Items.Count To 1 Step -1
-    '                SelectStop lvwThisTruck.ListItems(I).key, True
-    '                    lvwThisTruck.Items.Add()
-    '            Next
-    '                Else
-    '            For I = 1 To lvwAllStops.ListItems.Count
-    '      Set Li = lvwAllStops.ListItems(I)
-    '      If Not Li.Ghosted Then SelectStop Li.key
-    '    Next
-    '        End If
-    '    End Sub
+    Private Sub SelectAllStops(Optional ByVal Remove As Boolean = False)
+        Dim I As Integer, Li As ListViewItem
+        If Remove Then
+            'For I = lvwThisTruck.ListItems.Count To 1 Step -1
+            For I = lvwThisTruck.Items.Count To 1 Step -1
+                'SelectStop lvwThisTruck.ListItems(I).key, True
+                SelectStop(lvwThisTruck.Items(I).ImageKey, True)
+            Next
+        Else
+            'For I = 1 To lvwAllStops.ListItems.Count
+            For I = 1 To lvwAllStops.Items.Count
+                'Set Li = lvwAllStops.ListItems(I)
+                Li = lvwAllStops.Items(I)
+                'If Not Li.Ghosted Then SelectStop Li.key ----COMMENTED THIS LINE. BECAUSE GHOSTED PROPERTY IS NOT IN VB.NET. NEED TO FIND AN ALTERNATIVE.
+            Next
+        End If
+    End Sub
 
-    '    Public Sub RouteThisTruck(Optional ByVal DontRoute As Boolean = False)
-    '        Dim I As Long, R As Variant, M As Map
-    '        Dim FR As FindResults, Pin As Pushpin, WP As Waypoint
+    Public Sub RouteThisTruck(Optional ByVal DontRoute As Boolean = False)
+        Dim I As Long, R As Object, M As Map
+        Dim FR As FindResults, Pin As Pushpin, WP As Waypoint
 
-    '        DoControls False
+        DoControls(False)
 
-    '  If Not DontRoute Then
-    '    Set Network = New TSPNetwork
-    '    Network.Setup GetOptimizationSetting("StartTime"), GetOptimizationSetting("CostPerMile"), GetOptimizationSetting("CostPerHour"), GetOptimizationSetting("TimePerStop"), HiddenMap
-    '  End If
+        If Not DontRoute Then
+            Network = New TSPNetwork
+            Network.Setup(GetOptimizationSetting("StartTime"), GetOptimizationSetting("CostPerMile"), GetOptimizationSetting("CostPerHour"), GetOptimizationSetting("TimePerStop"), HiddenMap)
+        End If
 
-    '        DoControls False, True
-    '  If DontRoute Then
-    '            R = Network.GetResultSet        ' they might have already built this!
-    '        Else
-    '            R = OptimizeStops               ' this could take a while...
-    '        End If
-    '        If IsEmpty(R) Then
-    '            DoControls True
-    '    Exit Sub
-    '        End If
-    '        DoControls False
+        DoControls(False, True)
+        If DontRoute Then
+            R = Network.GetResultSet        ' they might have already built this!
+        Else
+            R = OptimizeStops               ' this could take a while...
+        End If
+        'If IsEmpty(R) Then
+        If IsNothing(R) Then
+            DoControls(True)
+            Exit Sub
+        End If
+        DoControls(False)
 
-    '  If Network.Count <= 1 Then
-    '            MsgBox "No stops selected.", vbExclamation, "Nothing To Do"
-    '    DoControls True
-    '    Exit Sub
-    '        End If
+        If Network.Count <= 1 Then
+            MessageBox.Show("No stops selected.", "Nothing To Do", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            DoControls(True)
+            Exit Sub
+        End If
 
-    '        If mapDelivery.ActiveMap Is Nothing Then
-    '            DoControls True
-    '    Exit Sub
-    '        End If
+        If mapDelivery.ActiveMap Is Nothing Then
+            DoControls(True)
+            Exit Sub
+        End If
 
-    '        mapDelivery.Visible = False
-    '        ProgressForm 0, 1, "Drawing Map..."
-    '  Set M = mapDelivery.ActiveMap
+        mapDelivery.Visible = False
+        ProgressForm(0, 1, "Drawing Map...")
+        M = mapDelivery.ActiveMap
 
-    '  M.ActiveRoute.Clear()
+        M.ActiveRoute.Clear()
 
-    '        For I = LBound(R) To UBound(R)
-    '    Set FR = M.FindAddressResults(R(I, tspRS_Address), R(I, tspRS_City), , R(I, tspRS_State), R(I, tspRS_Zip), geoCountryUnitedStates)
-    '    If FR.Count < 1 Then
-    '                Err.Raise -1, , "Bad Address after optimization: " & R(I, tspRS_Address) & " | " & R(I, tspRS_City) & ", " & R(I, tspRS_State) & " | " & R(I, 13)
-    '    End If
-    '    Set Pin = M.AddPushpin(FR(1), R(I, tspRS_Name))
-    '    Set WP = M.ActiveRoute.Waypoints.Add(Pin, Pin.Name)
-    '    If I <> UBound(R) Then
-    '                WP.StopTime = (R(I, tspRS_StopTime) + R(I + 1, tspRS_Delay)) / 60 * geoOneHour
-    '            Else
-    '                WP.StopTime = 0
-    '            End If
-    '        Next
+        For I = LBound(R) To UBound(R)
+            FR = M.FindAddressResults(R(I, tspRS.tspRS_Address), R(I, tspRS.tspRS_City), , R(I, tspRS.tspRS_State), R(I, tspRS.tspRS_Zip), geoCountryUnitedStates)
+            If FR.Count < 1 Then
+                Err.Raise(-1, , "Bad Address after optimization: " & R(I, tspRS.tspRS_Address) & " | " & R(I, tspRS.tspRS_City) & ", " & R(I, tspRS.tspRS_State) & " | " & R(I, 13))
+            End If
+            Pin = M.AddPushpin(FR(1), R(I, tspRS.tspRS_Name))
+            WP = M.ActiveRoute.Waypoints.Add(Pin, Pin.Name)
+            If I <> UBound(R) Then
+                WP.StopTime = (R(I, tspRS.tspRS_StopTime) + R(I + 1, tspRS.tspRS_Delay)) / 60 * geoOneHour
+            Else
+                WP.StopTime = 0
+            End If
+        Next
 
-    '        M.ActiveRoute.Waypoints(1).PreferredDeparture = DateAdd("n", R(1, tspRS_Delay) * 2, TimeValue(Network.StartTime))
-    '        M.ActiveRoute.Calculate()
-    '        M.ActiveRoute.Directions.Location.GoTo()
-    '        M.Saved = True
-    '        mapDelivery.Visible = True
+        M.ActiveRoute.Waypoints(1).PreferredDeparture = DateAdd("n", R(1, tspRS.tspRS_Delay) * 2, TimeValue(Network.StartTime))
+        M.ActiveRoute.Calculate()
+        M.ActiveRoute.Directions.Location.GoTo()
+        M.Saved = True
+        mapDelivery.Visible = True
 
-    '        ProgressForm()
+        ProgressForm()
 
-    '        DoControls True
-    'End Sub
+        DoControls(True)
+    End Sub
 
-    '    Private Sub SetStopInfoByLI(ByRef Li As ListViewItem, ByVal Location As Long, ByVal StopType As String, ByVal StopID As String, ByVal StopName As String, ByVal StopMail As Long, ByVal StopStart As String, ByVal StopEnd As String, ByVal Cubes As Double)
-    '        Dim CI As clsMailRec
-    '        Li.SubItems(1) = "" & Location
-    '        Li.SubItems(2) = StopType
-    '        Li.SubItems(3) = StopID
-    '        Li.SubItems(4) = StopName
-    '        Li.SubItems(5) = StopMail
-    '  Set CI = New clsMailRec
-    '  CI.DataAccess.DataBase = GetDatabaseAtLocation(Location)
-    '        If CI.Load(StopMail, "#Index") Then
-    '            Li.SubItems(6) = CI.Address
-    '            Li.SubItems(7) = CI.City & " " & CI.Zip
-    '        End If
-    '        Li.SubItems(8) = StopStart
-    '        Li.SubItems(9) = StopEnd
-    '        Li.SubItems(10) = Format(Cubes, "0.00")
-    '        DisposeDA CI
-    'End Sub
+    Private Sub SetStopInfoByLI(ByRef Li As ListViewItem, ByVal Location As Long, ByVal StopType As String, ByVal StopID As String, ByVal StopName As String, ByVal StopMail As Long, ByVal StopStart As String, ByVal StopEnd As String, ByVal Cubes As Double)
+        Dim CI As clsMailRec
+        'Li.SubItems(1) = "" & Location
+        Li.SubItems.Add("" & Location)
+        'Li.SubItems(2) = StopType
+        Li.SubItems.Add(StopType)
+        'Li.SubItems(3) = StopID
+        Li.SubItems.Add(StopID)
+        'Li.SubItems(4) = StopName
+        Li.SubItems.Add(StopName)
+        'Li.SubItems(5) = StopMail
+        Li.SubItems.Add(StopMail)
+
+
+        CI = New clsMailRec
+        CI.DataAccess.DataBase = GetDatabaseAtLocation(Location)
+        If CI.Load(StopMail, "#Index") Then
+            'Li.SubItems(6) = CI.Address
+            Li.SubItems.Add(CI.Address)
+            'Li.SubItems(7) = CI.City & " " & CI.Zip
+            Li.SubItems.Add(CI.City & " " & CI.Zip)
+        End If
+        'Li.SubItems(8) = StopStart
+        Li.SubItems.Add(StopStart)
+        'Li.SubItems(9) = StopEnd
+        Li.SubItems.Add(StopEnd)
+        'Li.SubItems(10) = Format(Cubes, "0.00")
+        Li.SubItems.Add(Support.Format(Cubes, "0.00"))
+        DisposeDA(CI)
+    End Sub
+
+    Private Sub SelectStop(ByVal key As String, Optional ByVal Remove As Boolean = False)
+        Dim Li As ListViewItem, LI2 As ListViewItem
+        On Error Resume Next
+        'Li = lvwAllStops.ListItems(key)
+        Li = lvwAllStops.Items.Item(key)
+
+        If Li Is Nothing Then Exit Sub
+
+        'LI2 = lvwThisTruck.ListItems(key)
+        LI2 = lvwThisTruck.Items.Item(key)
+
+        If Not LI2 Is Nothing Then  ' already in, watch for remove
+            If Remove Then
+                'lvwThisTruck.ListItems.Remove LI2.key
+                lvwThisTruck.Items.RemoveByKey(LI2.ImageKey)
+                'Li.Ghosted = False ----> COMMENTED THIS LINE BECAUSE GHOSTED PROPERTY IS NOT AVAILABLE IN VB.NET. NEED TO FIND REPLACEMENT.
+                'Li.StateImageIndex = 0  ---> ADDED THIS LINE AS A REPLACEMENT GHOSTED PROPERTY. NEED TO TEST BY ADDING ONE MORE DISABLED TYPE OF IMAGE TO IMAGELIST CONTROL.
+            End If
+        Else
+            If Not Remove Then
+                'lvwThisTruck.ListItems.Add , Li.key, Li.Text, , IIf(LCase(Left(Li.Text, 4)) = "sale", "stop", "service")
+                lvwThisTruck.Items.Add(Li.ImageKey, Li.Text, IIf(LCase(Microsoft.VisualBasic.Left(Li.Text, 4)) = "sale", 2, 1))
+                'Li.Ghosted = True  - COMMENTED THIS LINE BECAUSE GHOSTED PROPERTY IS NOT AVAILABLE IN VB.NET. NEED TO FIND A REPLACEMENT FOR THIS PROPERTY.
+                'Li.StateImageIndex = 0  ---> ADDED THIS LINE AS A REPLACEMENT GHOSTED PROPERTY. NEED TO TEST BY ADDING ONE MORE DISABLED TYPE OF IMAGE TO IMAGELIST CONTROL.
+            End If
+        End If
+        UpdateCubes
+    End Sub
+
+    Private Sub DoControls(ByVal Enabled As Boolean, Optional ByVal Working As Boolean = False)
+        'MousePointer = IIf(Enabled, vbDefault, vbHourglass)
+        Me.Cursor = IIf(Enabled, Cursors.Default, Cursors.WaitCursor)
+        cmdAddAll.Enabled = Enabled
+        cmdDetails.Enabled = Enabled
+        cmdDone.Enabled = Enabled
+        cmdPrint.Enabled = Enabled
+        cmdRemoveAll.Enabled = Enabled
+        cmdShow.Enabled = Enabled
+        cmdSplit.Enabled = Enabled
+        cmbPrintType.Enabled = Enabled
+        cmdConfigure.Enabled = Enabled
+        cmdAdjust.Enabled = Enabled
+        cmdManifest.Enabled = Enabled
+
+        cmdCancel.Visible = Working
+        cmdConfigure.Visible = Not Working
+        cmdAdjust.Visible = Not Working
+    End Sub
+
+    Private Function OptimizeStops() As Object
+        Dim I As Integer, LC As Long, Ty As String, ID As String, Nm As String, MI As Long
+        Dim WF As String, WT As String
+        Dim CI As clsMailRec, Shipping As MailNew2
+        Dim StopTime As Long, WFrom As Date, WTo As Date
+
+        Network.AddLocation(StoreSettings.Name, StoreSettings.Address, GetWinCDSCity(StoreSettings.City), GetWinCDSState(StoreSettings.City), GetWinCDSZip(StoreSettings.City))
+        For I = 1 To lvwThisTruck.Items.Count
+            GetStopInfo(lvwThisTruck.Items(I).ImageKey, LC, Ty, ID, Nm, MI, WF, WT)
+            CI = New clsMailRec
+            CI.DataAccess.DataBase = GetDatabaseAtLocation(LC)
+            If CI.Load(MI, "#Index") Then
+                modMail.Mail2_GetAtIndex(CStr(CI.Index), Shipping, LC)
+                StopTime = GetOptimizationSetting("TimePerStop")
+                WFrom = IIf(IsDate(WF), WF, #12:00:00 AM#)
+                WTo = IIf(IsDate(WT), WT, #11:59:59 PM#)
+                If DateAfter(WFrom, WTo, True, "n") Then    ' make sure it's ok
+                    WFrom = #12:00:00 AM#
+                    WTo = #11:59:59 PM#
+                End If
+
+                If Shipping.Address2 <> "" Then
+                    Network.AddLocation(Ty & " " & ID & ", " & Shipping.ShipToLast, Shipping.Address2, GetWinCDSCity(Shipping.City2), GetWinCDSState(Shipping.City2), Shipping.Zip2, StopTime, WFrom, WTo)
+                Else
+                    Network.AddLocation(Ty & " " & ID & ", " & CI.Last, CI.Address, GetWinCDSCity(CI.City), GetWinCDSState(CI.City), CI.Zip, StopTime, WFrom, WTo)
+                End If
+            End If
+            DisposeDA(CI)
+        Next
+
+        Network.Solve
+        OptimizeStops = Network.GetResultSet
+        'Unload frmOptimize
+        frmOptimize.Close()
+    End Function
+
+    Private Sub UpdateCubes()
+        Dim I As Integer, X As Double, LC As Long, Ty As String, ID As String, Cb As Double
+        X = 0
+        'For I = 1 To lvwAllStops.ListItems.Count
+        For I = 1 To lvwAllStops.Items.Count
+            'GetStopInfo lvwAllStops.ListItems(I).key, LC, Ty, ID, , , , , Cb
+            GetStopInfo(lvwAllStops.Items(I).ImageKey, LC, Ty, ID, , , , , Cb)
+            If Ty = "Sale" Then
+                    X = X + Cb
+                End If
+            Next
+        lblAllStopsCubes.Text = "Total Cubes: " & Support.Format(X, "0.00")
+
+        X = 0
+        'For I = 1 To lvwThisTruck.ListItems.Count
+        For I = 1 To lvwThisTruck.Items.Count
+            'GetStopInfo lvwThisTruck.ListItems(I).key, LC, Ty, ID, , , , , Cb
+            GetStopInfo(lvwThisTruck.Items(I).ImageKey, LC, Ty, ID, , , , , Cb)
+            If Ty = "Sale" Then
+                X = X + Cb
+            End If
+        Next
+        lblCurrentTruckCubes.Text = "Total Cubes: " & Support.Format(X, "0.00")
+    End Sub
+
+    Private Sub GetStopInfo(ByVal key As String, Optional ByRef Location As Long = 0, Optional ByRef StopType As String = "", Optional ByRef StopID As String = "", Optional ByRef StopName As String = "", Optional ByRef StopMail As Long = 0, Optional ByRef StopStart As String = "", Optional ByRef StopEnd As String = "", Optional ByRef Cubes As Double = 0#)
+        Dim Li As ListViewItem
+
+        On Error Resume Next
+        'Li = lvwAllStops.ListItems(key)
+        Li = lvwAllStops.Items.Item(key)
+
+        If Li Is Nothing Then Exit Sub
+
+        Location = Val(Li.SubItems(1).Text)
+        'StopType = Li.SubItems(2)
+        StopType = Li.SubItems.Item(2).Text
+        'StopID = Li.SubItems(3)
+        StopID = Li.SubItems(3).Text
+        'StopName = Li.SubItems(4)
+        StopName = Li.SubItems(4).Text
+        StopMail = Val(Li.SubItems(5).Text)
+        StopStart = Li.SubItems(8).Text
+        StopEnd = Li.SubItems(9).Text
+        Cubes = Val(Li.SubItems(10))
+    End Sub
 
 End Class

@@ -120,4 +120,24 @@ NoArray:
         Next
     End Function
 
+    Public Function CopyArr(ByRef Arr)
+        Dim X(), I As Long, N As Long, M As Long
+        N = LBound(Arr)
+        M = UBound(Arr)
+        ReDim X(N To M)
+        For I = N To M
+            X(I) = Arr(I)
+        Next
+        CopyArr = X
+    End Function
+
+    Public Function RevArrSub(ByRef Arr, ByRef IxFrom As Long, ByRef Length As Long)
+        Dim X(), I As Long
+        X = CopyArr(Arr)
+        For I = 1 To Length
+            X(IxFrom + I - 1) = Arr(IxFrom + Length - I)
+        Next
+        RevArrSub = X
+    End Function
+
 End Module
