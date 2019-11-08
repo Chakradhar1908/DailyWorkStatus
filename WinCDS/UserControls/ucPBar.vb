@@ -14,9 +14,9 @@ Public Class ucPBar
     Private mHasCaption As Boolean
 
     Private Const d_Max As Integer = 100
-    Private Const d_Min As Integer = 0
-    Private Const d_Value As Integer = 0
-    Private Const d_Style As Integer = 0
+    Private Const d_Min As Integer = 1
+    Private Const d_Value As Integer = 1
+    Private Const d_Style As Integer = 1
     Private Const d_ShowDuration As Boolean = False
     Private Const d_ShowRemaining As Boolean = True
 
@@ -212,7 +212,7 @@ Public Class ucPBar
         A = ForeColorNew
         'B = FillColor
 
-        Dim TxFont As Font = New Font("Arial", FontStyle.Regular)
+        Dim TxFont As Font = New Font("Arial", Me.Font.Size, FontStyle.Regular)
 
         Rng = Max - Min
         If Rng <= 0 Then Exit Sub ' prevent divbyzero, jic
@@ -332,7 +332,6 @@ Public Class ucPBar
         End If
 
         If WithRefresh Then Refresh()
-
     End Sub
 
 End Class

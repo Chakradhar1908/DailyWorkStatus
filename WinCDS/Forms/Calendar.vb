@@ -516,7 +516,7 @@ HandleErr:
         grid.Rows = 2
         grid.Cols = DayCount
         'grid.Font.Name = "Courier New"
-        grid.Font = New Font("Courier New", FontStyle.Regular)
+        grid.Font = New Font("Courier New", grid.Font.Size, FontStyle.Regular)
         grid.Row = 0
         For I = 0 To DayCount - 1
             grid.Col = I
@@ -873,4 +873,3 @@ Skip:
     End Sub
 
 End Class
-

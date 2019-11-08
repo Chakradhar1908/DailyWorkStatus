@@ -36,6 +36,7 @@ Public Class CalendarInstr
 
             SaleEntry = Microsoft.VisualBasic.Left(SalePD & " " & SaleNm & New String(" ", 50), 20) & " " & SaleNo
             'N = tvwList.Nodes.Add(, , , SaleEntry)
+            tvwList.Nodes.Add(SaleEntry)
 
             SpInstr = ""
             SpRS = GetRecordsetBySQL("SELECT Special FROM GrossMargin LEFT JOIN Mail ON Mail.Index = GrossMargin.MailIndex WHERE SaleNo='" & SaleNo & "'", , GetDatabaseAtLocation())
@@ -52,6 +53,7 @@ Public Class CalendarInstr
                 SpInstr = Replace(SpInstr, vbCr & vbCr, vbCr)
                 For Each L In Split(SpInstr, vbCr)
                     'tvwList.Nodes.Add(N, tvwChild, , L)
+                    tvwList.Nodes(0).Nodes.Add(L)
                 Next
             End If
 

@@ -61,8 +61,8 @@ Public Class frmDeliveryMap
         Show()
     End Function
 
-    Private Function AddWaypoint(ByRef M As Map, Optional ByVal Street As String = "", Optional ByVal City As String = "", Optional ByVal OtherCity As String = "", Optional ByVal State As String = "", Optional ByVal Zip As String = "", Optional ByVal Country As Long = 0, Optional ByVal PointName As String = "", Optional ByVal DoSelect As Boolean = False) As Waypoint
-        Dim FR As FindResults, Pin As Pushpin, I As Long, L As Location
+    Private Function AddWaypoint(ByRef M As Map, Optional ByVal Street As String = "", Optional ByVal City As String = "", Optional ByVal OtherCity As String = "", Optional ByVal State As String = "", Optional ByVal Zip As String = "", Optional ByVal Country As Integer = 0, Optional ByVal PointName As String = "", Optional ByVal DoSelect As Boolean = False) As Waypoint
+        Dim FR As FindResults, Pin As Pushpin, I As Integer, L As Location
         On Error GoTo BadWpt
         FR = M.FindAddressResults(Street, City, OtherCity, State, Zip, Country)
         On Error GoTo 0
@@ -71,9 +71,11 @@ Public Class frmDeliveryMap
                 If FR.ResultsQuality > 1 Then
                     ' Choose an option, or cancel?
                     Dim AddrArray() As Object
-                    ReDim AddrArray(1 To FR.Count)
+                    'ReDim AddrArray(1 To FR.Count)
+                    ReDim AddrArray(0 To FR.Count - 1)
                     For I = 1 To FR.Count
-                        AddrArray(I) = FR.Item(I).Name
+                        'AddrArray(I) = FR.Item(I).Name
+                        AddrArray(I - 1) = FR.Item(I).Name
                     Next
                     I = SelectOptionArray("Clarify " & PointName & " Address", 0, AddrArray)
                     If I < 0 Then I = 0
@@ -94,10 +96,10 @@ BadWpt:
         MessageBox.Show("Couldn't route the following address:" & vbCrLf2 & Street & vbCrLf & City & ", " & State & " " & Zip & vbCrLf2 & "NOTE: You cannot route to a PO box.", "Bad Address", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
     End Function
 
-    Private Sub LoadAllStops(ByVal DeliveryDate As String, ByVal FirstStore As Long, ByVal LastStore As Long)
+    Private Sub LoadAllStops(ByVal DeliveryDate As String, ByVal FirstStore As Integer, ByVal LastStore As Integer)
         Dim WP As Waypoint
         Dim GMDB As String, SQL As String
-        Dim I As Long, K As String
+        Dim I As Integer, K As String
         Dim Sales As CGrossMargin, LastSale As String
         '  Dim Cust As clsMailRec, Shipping As MailNew2
         Dim Service As clsServiceOrder
@@ -174,7 +176,7 @@ BadWpt:
     End Sub
 
     Public Sub RouteThisTruck(Optional ByVal DontRoute As Boolean = False)
-        Dim I As Long, R As Object, M As Map
+        Dim I As Integer, R As Object, M As Map
         Dim FR As FindResults, Pin As Pushpin, WP As Waypoint
 
         DoControls(False)
@@ -188,7 +190,7 @@ BadWpt:
         If DontRoute Then
             R = Network.GetResultSet        ' they might have already built this!
         Else
-            R = OptimizeStops               ' this could take a while...
+            R = OptimizeStops()               ' this could take a while...
         End If
         'If IsEmpty(R) Then
         If IsNothing(R) Then
@@ -239,7 +241,7 @@ BadWpt:
         DoControls(True)
     End Sub
 
-    Private Sub SetStopInfoByLI(ByRef Li As ListViewItem, ByVal Location As Long, ByVal StopType As String, ByVal StopID As String, ByVal StopName As String, ByVal StopMail As Long, ByVal StopStart As String, ByVal StopEnd As String, ByVal Cubes As Double)
+    Private Sub SetStopInfoByLI(ByRef Li As ListViewItem, ByVal Location As Integer, ByVal StopType As String, ByVal StopID As String, ByVal StopName As String, ByVal StopMail As Integer, ByVal StopStart As String, ByVal StopEnd As String, ByVal Cubes As Double)
         Dim CI As clsMailRec
         'Li.SubItems(1) = "" & Location
         Li.SubItems.Add("" & Location)
@@ -296,7 +298,7 @@ BadWpt:
                 'Li.StateImageIndex = 0  ---> ADDED THIS LINE AS A REPLACEMENT GHOSTED PROPERTY. NEED TO TEST BY ADDING ONE MORE DISABLED TYPE OF IMAGE TO IMAGELIST CONTROL.
             End If
         End If
-        UpdateCubes
+        UpdateCubes()
     End Sub
 
     Private Sub DoControls(ByVal Enabled As Boolean, Optional ByVal Working As Boolean = False)
@@ -320,10 +322,10 @@ BadWpt:
     End Sub
 
     Private Function OptimizeStops() As Object
-        Dim I As Integer, LC As Long, Ty As String, ID As String, Nm As String, MI As Long
+        Dim I As Integer, LC As Integer, Ty As String, ID As String, Nm As String, MI As Integer
         Dim WF As String, WT As String
         Dim CI As clsMailRec, Shipping As MailNew2
-        Dim StopTime As Long, WFrom As Date, WTo As Date
+        Dim StopTime As Integer, WFrom As Date, WTo As Date
 
         Network.AddLocation(StoreSettings.Name, StoreSettings.Address, GetWinCDSCity(StoreSettings.City), GetWinCDSState(StoreSettings.City), GetWinCDSZip(StoreSettings.City))
         For I = 1 To lvwThisTruck.Items.Count
@@ -349,23 +351,23 @@ BadWpt:
             DisposeDA(CI)
         Next
 
-        Network.Solve
+        Network.Solve()
         OptimizeStops = Network.GetResultSet
         'Unload frmOptimize
         frmOptimize.Close()
     End Function
 
     Private Sub UpdateCubes()
-        Dim I As Integer, X As Double, LC As Long, Ty As String, ID As String, Cb As Double
+        Dim I As Integer, X As Double, LC As Integer, Ty As String, ID As String, Cb As Double
         X = 0
         'For I = 1 To lvwAllStops.ListItems.Count
         For I = 1 To lvwAllStops.Items.Count
             'GetStopInfo lvwAllStops.ListItems(I).key, LC, Ty, ID, , , , , Cb
             GetStopInfo(lvwAllStops.Items(I).ImageKey, LC, Ty, ID, , , , , Cb)
             If Ty = "Sale" Then
-                    X = X + Cb
-                End If
-            Next
+                X = X + Cb
+            End If
+        Next
         lblAllStopsCubes.Text = "Total Cubes: " & Support.Format(X, "0.00")
 
         X = 0
@@ -380,7 +382,7 @@ BadWpt:
         lblCurrentTruckCubes.Text = "Total Cubes: " & Support.Format(X, "0.00")
     End Sub
 
-    Private Sub GetStopInfo(ByVal key As String, Optional ByRef Location As Long = 0, Optional ByRef StopType As String = "", Optional ByRef StopID As String = "", Optional ByRef StopName As String = "", Optional ByRef StopMail As Long = 0, Optional ByRef StopStart As String = "", Optional ByRef StopEnd As String = "", Optional ByRef Cubes As Double = 0#)
+    Private Sub GetStopInfo(ByVal key As String, Optional ByRef Location As Integer = 0, Optional ByRef StopType As String = "", Optional ByRef StopID As String = "", Optional ByRef StopName As String = "", Optional ByRef StopMail As Integer = 0, Optional ByRef StopStart As String = "", Optional ByRef StopEnd As String = "", Optional ByRef Cubes As Double = 0#)
         Dim Li As ListViewItem
 
         On Error Resume Next

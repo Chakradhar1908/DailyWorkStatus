@@ -1,6 +1,9 @@
 ﻿Module modOptimization
-    Public Const DEFAULT_STOP_TIME As Long = 10
-    Public Const tspRS_MAX As Long = 14
+    Public Const DEFAULT_STOP_TIME As Integer = 10
+    Public Const tspRS_MAX As Integer = 14
+    Public Const MULTI_DAY_PENALTY As Integer = 1000000
+    Private Const MySubSection As String = "Optimization"
+    Public Const MISSED_WINDOW_PENALTY As Integer = 100000
     Public Enum tspRS
         tspRS_ID = 0
         tspRS_Name = 1
@@ -20,7 +23,7 @@
     End Enum
 
     Public Function GetOptimizationSetting(ByVal K As String) As String
-        Dim A As String, B As Currency
+        Dim A As String, B As Decimal
         A = GetCDSSetting(K, , MySubSection)
         Select Case K
             Case "StartTime"
@@ -35,8 +38,8 @@
             Case "Trucks"
                 GetOptimizationSetting = Val(A)
                 If Val(GetOptimizationSetting) <= 0 Then GetOptimizationSetting = 1
-            Case Else : Err.Raise -1, , "GetOptimizationSetting -- Invalid Optimzation Setting: " & K
-  End Select
+            Case Else : Err.Raise(-1, , "GetOptimizationSetting -- Invalid Optimzation Setting: " & K)
+        End Select
     End Function
 
 End Module

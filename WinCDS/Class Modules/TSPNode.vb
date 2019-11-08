@@ -1,14 +1,14 @@
 ﻿Public Class TSPNode
-    Private Const Radius As Long = 2
-    Private Const DIAMETER As Long = 2 * Radius + 1
-    Private Const DEFAULT_DELAY_INCREMENT As Long = 15
+    Private Const Radius As Integer = 2
+    Private Const DIAMETER As Integer = 2 * Radius + 1
+    Private Const DEFAULT_DELAY_INCREMENT As Integer = 15
 
-    Public X As Long, Y As Long
+    Public X As Integer, Y As Integer
 
     Public Address As String
     Public City As String, State As String, Zip As String
 
-    Public StopTime As Long
+    Public StopTime As Integer
     Private mWindowFrom As Date, mWindowTo As Date
 
     Public Visited As Boolean
@@ -33,7 +33,7 @@
         End Set
     End Property
 
-    Public Sub Setup(Optional ByVal new_Name As String = "", Optional ByVal vX As Integer = 0, Optional ByVal vY As Integer = 0, Optional ByVal nStopTime As Long, Optional ByVal nWindowFrom As Date = #12:00:00 AM#, Optional ByVal nWindowTo As Date = #11:59:59 PM#, Optional ByVal nAddress As String = "", Optional ByVal nCity As String = "", Optional ByVal nSt As String = "", Optional ByVal nZip As String = "")
+    Public Sub Setup(Optional ByVal new_Name As String = "", Optional ByVal vX As Integer = 0, Optional ByVal vY As Integer = 0, Optional ByVal nStopTime As Integer = 0, Optional ByVal nWindowFrom As Date = #12:00:00 AM#, Optional ByVal nWindowTo As Date = #11:59:59 PM#, Optional ByVal nAddress As String = "", Optional ByVal nCity As String = "", Optional ByVal nSt As String = "", Optional ByVal nZip As String = "")
         Name = new_Name
         X = vX
         Y = vY
@@ -45,5 +45,69 @@
         State = nSt
         Zip = nZip
     End Sub
+
+    Public Sub DrawNode(ByVal vPic As PictureBox, Optional ByVal XOff As Integer = 0, Optional ByVal YOff As Integer = 0, Optional ByVal XScale As Single = 1.0#, Optional ByVal YScale As Single = 1.0#)
+        Dim Sz As Integer
+        'The below variable declaration is to draw line and also to print text in picturebox. Because vb.net does not have picturebox.line method.
+        Dim Bmp As Bitmap = New Bitmap(vPic.Image)
+        Dim G As Graphics = Graphics.FromImage(Bmp)
+        Dim P As Pen = New Pen(Color.Black)
+
+        Sz = 20
+        vPic.ForeColor = Color.Yellow
+        'vPic.Line((X - XOff) * XScale - Sz, (Y - YOff) * YScale - Sz)-((X - XOff) * XScale + Sz, (Y - YOff) * YScale + Sz), , BF
+        G.DrawLine(P, (X - XOff) * XScale - Sz, (Y - YOff) * YScale - Sz, (X - XOff) * XScale + Sz, (Y - YOff) * YScale + Sz)
+
+        'vPic.CurrentX = (X - XOff) * XScale + Sz
+        'vPic.CurrentY = (Y - YOff) * YScale + Sz
+        'vPic.ForeColor = vbRed
+        'vPic.FontName = "Arial"
+        'vPic.FontSize = 8
+        'vPic.Print Name
+        G = vPic.CreateGraphics
+        G.DrawString(Name, New Font("Arial", 8, FontStyle.Regular), Brushes.Yellow, (X - XOff) * XScale + Sz, (Y - YOff) * YScale + Sz)
+    End Sub
+
+    Public Function HasWindow() As Boolean
+        HasWindow = DateDiff("n", #12:00:00 AM#, WindowFrom) <> 0 Or DateDiff("n", #11:59:59 PM#, WindowTo)
+    End Function
+
+    Public Function IsBeforeWindow(ByVal T As Date) As Boolean
+        IsBeforeWindow = DateDiff("n", TimeValue(T), WindowFrom) > 0
+    End Function
+
+    Public Function TimeToWindow(ByVal T As Date) As Integer
+        If IsInWindow(T) Then
+            TimeToWindow = 0
+        ElseIf IsBeforeWindow(T) Then
+            TimeToWindow = DateDiff("n", TimeValue(T), WindowFrom)
+        Else
+            TimeToWindow = DateDiff("n", TimeValue(T), WindowTo)
+        End If
+    End Function
+
+    Public Function IsInWindow(ByVal T As Date) As Boolean
+        IsInWindow = DateDiff("n", T, WindowFrom) <= 0 And DateDiff("n", T, WindowTo) >= 0
+    End Function
+
+    Public Function TimeRemainingInWindow(ByVal T As Date) As Integer
+        If IsAfterWindow(T) Then
+            TimeRemainingInWindow = 0
+        Else
+            TimeRemainingInWindow = DateDiff("n", TimeValue(T), WindowTo)
+        End If
+    End Function
+
+    Public Function WindowMissPenalty(ByVal T As Date) As Single
+        If DateDiff("n", T, WindowFrom) > 0 Or DateDiff("n", T, WindowTo) < 0 Then
+            WindowMissPenalty = MISSED_WINDOW_PENALTY
+        Else
+            WindowMissPenalty = 0
+        End If
+    End Function
+
+    Public Function IsAfterWindow(ByVal T As Date) As Boolean
+        IsAfterWindow = DateDiff("n", WindowTo, TimeValue(T)) > 0
+    End Function
 
 End Class

@@ -4,6 +4,7 @@ D:\WinCDS\WinCDS\bin\Debug\WinCDS.pdb
 D:\WinCDS\WinCDS\bin\Debug\WinCDS.xml
 D:\WinCDS\WinCDS\bin\Debug\Microsoft.SqlServer.GridControl.dll
 D:\WinCDS\WinCDS\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+D:\WinCDS\WinCDS\bin\Debug\OptimRoute.dll
 D:\WinCDS\WinCDS\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
 D:\WinCDS\WinCDS\bin\Debug\Interop.APG554QFAX21Lib.dll
 D:\WinCDS\WinCDS\bin\Debug\Interop.cipwin32.dll
@@ -71,6 +72,7 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmItemView.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmKitLevels.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.FrmMsg2.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmNotes.resources
+D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmOptimize.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPermissionMonitor.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPrintPreviewDocument.resources
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.frmProgress.resources
