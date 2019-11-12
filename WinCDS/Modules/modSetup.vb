@@ -62,6 +62,15 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const CCPROC_CI As String = "ChargeItPro"
     Public Const Setup_MaxKitItems As Integer = 10
     Public Const Setup_2Data_CommMaxLen As Integer = 138
+    Public Const FONTTTF_C39_WIDE As String = "C39WIDE.TTF"
+    Public Const FONTTTF_C39_ONEINCH As String = "C39ONE.TTF"
+    Public Const FONTTTF_C39_SLIM As String = "C39SLIM.TTF"
+    Public Const FONTTTF_C39_HALFINCH As String = "C39HALF.TTF"
+    Public Const FONTTTF_C39_QUARTERINCH As String = "C39QRTR.TTF"
+    Public Const FONTTTF_C39_SMALL_HIGH As String = "C39SHIGH.TTF"
+    Public Const FONTTTF_C39_SMALL_MEDIUM As String = "C39SMED.TTF"
+    Public Const FONTTTF_C39_SMALL_LOW As String = "C39SLOW.TTF"
+    Public Const FONTTTF_C128_REGULAR As String = "CODE128.TTF"
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get

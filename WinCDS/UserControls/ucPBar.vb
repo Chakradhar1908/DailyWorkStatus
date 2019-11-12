@@ -14,9 +14,9 @@ Public Class ucPBar
     Private mHasCaption As Boolean
 
     Private Const d_Max As Integer = 100
-    Private Const d_Min As Integer = 1
-    Private Const d_Value As Integer = 1
-    Private Const d_Style As Integer = 1
+    Private d_Min As Integer
+    Private d_Value As Integer
+    Private d_Style As Integer
     Private Const d_ShowDuration As Boolean = False
     Private Const d_ShowRemaining As Boolean = True
 
@@ -180,27 +180,27 @@ Public Class ucPBar
         RaiseEvent DblClick()
     End Sub
 
-    Private Sub New()
+    'Private Sub New()
 
-        ' This call is required by the designer.
-        InitializeComponent()
+    ' This call is required by the designer.
+    'InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        Min = d_Min
-        Max = d_Max
-        Value = d_Value
-        Style = d_Style
+    ' Add any initialization after the InitializeComponent() call.
+    'Min = d_Min
+    'Max = d_Max
+    'Value = d_Value
+    'Style = d_Style
 
-        StartTime = Now
+    'StartTime = Now
 
-        BorderStyle = d_BorderStyle
-        HasCaption = d_HasCaption
+    'BorderStyle = d_BorderStyle
+    'HasCaption = d_HasCaption
 
-        ForeColorNew = d_ForeColor
-        'FillColor = d_FillColor  -> Commeneted, because in vb.net fillcolor property is not there.
-        BackColorNew = d_BackColor
-        FontName = d_FontName
-    End Sub
+    'ForeColorNew = d_ForeColor
+    ''FillColor = d_FillColor  -> Commeneted, because in vb.net fillcolor property is not there.
+    'BackColorNew = d_BackColor
+    'FontName = d_FontName
+    'End Sub
 
     Private Sub ucPBar_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
         Redraw()

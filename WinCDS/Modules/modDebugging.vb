@@ -95,10 +95,12 @@ NextEntry:
     Public Function IsIDE() As Boolean
         'IsIDE = False
         'Exit Function
-
+        Dim a, b As Integer
         ' works on a very simple princicple... debug statements don't get compiled...
         On Error GoTo IDEInUse
-        Debug.Print("1 \ 0") 'division by zero error
+        a = 1
+        Debug.Print(a \ 0) 'division by zero error
+
         IsIDE = False
         Exit Function
 IDEInUse:

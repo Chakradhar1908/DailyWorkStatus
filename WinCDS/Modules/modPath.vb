@@ -400,4 +400,68 @@ Fail:
         If Not NoLCase Then GetFileExt = LCase(GetFileExt)
     End Function
 
+    Public Function ParentDirectory(ByVal FN As String) As String
+        '::::ParentDirectory
+        ':::SUMMARY
+        ':Returns the parent folder of the one passed
+        ':::DESCRIPTION
+        ':Returns a path to the parent of the directory given.
+        ':::REMARKS
+        ':This must be smart/aware.
+        ': - If the path is not absolute, nothing can be done.  Returns passed (could be improved).
+        ': - If the path is root already, we cannot go higher (returns passed).
+        ': - If the path is a file (as opposed to a directory), return the parent of the path the file is in.
+        ': - Otherwise, return equivalent of [...]\Dir\..\
+        ': - Maintains trailing backslash of parent directory.  Includes trailing backslash if pointed to a file.
+        ':::EXAMPLES
+        ': -ParentDirectory("C:\CDSData\Store1\")
+        ':     - Returns "C:\CDSData\"
+        ':     - Passed Parameter had trailing backslash, so it is preserved in result.
+        ': -ParentDirectory("C:\WinCDS\Backups")
+        ':     - Returns "C:\WinCDS"
+        ':     - Passed Parameter did NOT have trailing backslash, so form is preserved in result.
+        ': -ParentDirectory("C:\WinCDS\WinCDS\WinCDS.vbp"
+        ':     - Returns "C:\WinCDS\"
+        ':     - WinCDS.vbp is a file.  The directory is \WinCDS\WinCDS\, so function returns \WinCDS
+        ':     - Passed parameter was a file, so result contains trailing backslash.
+        ':
+        ':::PARAMETERS
+        ': - sPath - The Path to convert.
+        ':::RETURN
+        ':  Returns a string containing the clean path.
+        ':::SEE ALSO
+        ':  GetFilePath, CleanPath, FolderExists, FileExists
+        ':::Aliases
+        ': ParentFolder, ParentDir
+        Dim X
+        If Not IsPathAbsolute(FN) Then ParentDirectory = FN : Exit Function
+        If IsDriveRoot(FN) Then ParentDirectory = FN : Exit Function
+        If FileExists(FN) Then FN = GetFilePath(FN)
+        If Right(FN, 1) = DIRSEP Then FN = Left(FN, Len(FN) - 1)
+        X = Split(FN, DIRSEP)
+        'ReDim Preserve X(LBound(X) To UBound(X) - 1)
+        ReDim Preserve X(0 To UBound(X) - 1)
+        ParentDirectory = Join(X, DIRSEP)
+        If Right(ParentDirectory, 1) <> DIRSEP Then ParentDirectory = ParentDirectory & DIRSEP
+    End Function
+
+    Public Function IsPathAbsolute(ByVal Path As String) As Boolean
+        '::::IsPathAbsolute
+        ':::SUMMARY
+        ':Determines whether the path specified is an absolute path.
+        ':::DESCRIPTION
+        ':Predicate returns true when the path is absolute.
+        ':Absolute paths are those that refer to the root path and have no relative path components.
+        ':::PARAMETERS
+        ': - sPath - The path to test
+        ':::RETURN
+        ':  Returns True/False if the path points to an absolute path.
+        ':::SEE ALSO
+        ':  FolderExists, CleanDir, IsDriveRoot, MakePathAbsolute
+        ':
+        '::Aliases
+        ':  IsAbsolutePath
+        IsPathAbsolute = (Mid(Path, 2, 2) = ":\") And Not IsInStr(Path, "\.\") And Not IsInStr(Path, "\..\")
+    End Function
+
 End Module

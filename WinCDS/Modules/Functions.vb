@@ -154,5 +154,48 @@ HandleErr:
         Err.Clear()
     End Function
 
+    Public Function InitLineBorderForm(ByVal LineControlArray As Object, ByVal vFrm As Form, Optional ByVal BorderWidth As Long = 2) As Boolean
+        InitLineBorderForm = InitLineBorder(LineControlArray, 0, 0, vFrm.Width, vFrm.Height, BorderWidth)
+    End Function
+
+    Public Function InitLineBorder(ByVal LineControlArray As Object, ByVal L As Long, ByVal T As Long, ByVal W As Long, ByVal H As Long, Optional ByVal BorderWidth As Integer = 2) As Boolean
+        Dim I As Long, lW As Long, BC
+
+
+        If False Then
+            lW = 15
+            'BC = Array(vbRed, vbBlue, vbGreen, vbCyan)
+            BC = New String() {vbRed, vbBlue, vbGreen, vbCyan}
+        Else
+            'lW = LineControlArray(0).BorderWidth * Screen.TwipsPerPixelX  'lin(0).BorderWidth
+            lW = LineControlArray(0).BorderWidth
+            'BC = Array(&H80000014, &H80000015, &H80000016, &H80000010)
+            BC = New String() {&H80000014, &H80000015, &H80000016, &H80000010}
+        End If
+
+        For I = 0 To (BorderWidth * 4 - 1)
+            If LineControlArray.UBound < I Then
+                'Load(LineControlArray(I))  Load method is not supported in vb.net
+                LineControlArray(I).Visible = True
+            End If
+            LineControlArray(I).Bordercolor = BC((I \ 2) Mod 4)
+        Next
+
+        For I = 0 To (BorderWidth - 1)
+            On Error Resume Next
+            'Load LineControlArray(0 + (I * 4))   -> Load method is not supported in vb.net
+            'Load LineControlArray(1 + (I * 4))
+            'Load LineControlArray(2 + (I * 4))
+            'Load LineControlArray(3 + (I * 4))
+            On Error GoTo 0
+            MoveControl(LineControlArray(0 + (I * 4)), L + lW * I, T, L + lW * I, T + H)                      ' left
+            MoveControl(LineControlArray(1 + (I * 4)), L, T + lW * I, L + W, T + lW * I)                      ' top
+            MoveControl(LineControlArray(2 + (I * 4)), L + W - lW * (I + 1), T, L + W - lW * (I + 1), T + H)  ' right
+            MoveControl(LineControlArray(3 + (I * 4)), L, T + H - (I + 1) * lW, L + W, T + H - (I + 1) * lW) ' bottom
+        Next
+
+        InitLineBorder = True
+    End Function
+
 End Module
 

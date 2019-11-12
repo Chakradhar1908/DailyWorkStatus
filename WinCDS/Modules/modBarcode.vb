@@ -292,4 +292,21 @@ Module modBarcode
         Exit Function
     End Function
 
+    Public Function BarCodeFontFile(Optional ByVal Alt As BarCodeFonts = BarCodeFonts.bcfDefault) As String
+        Select Case Alt
+            Case BarCodeFonts.bcfWide : BarCodeFontFile = FONTTTF_C39_WIDE
+            Case BarCodeFonts.bcfOneInch : BarCodeFontFile = FONTTTF_C39_ONEINCH
+            Case BarCodeFonts.bcfSlim : BarCodeFontFile = FONTTTF_C39_SLIM
+            Case BarCodeFonts.bcfHalfInch : BarCodeFontFile = FONTTTF_C39_HALFINCH
+            Case BarCodeFonts.bcfQuarterInch : BarCodeFontFile = FONTTTF_C39_QUARTERINCH
+            Case BarCodeFonts.bcfSmallHigh : BarCodeFontFile = FONTTTF_C39_SMALL_HIGH
+            Case BarCodeFonts.bcfSmallMedium : BarCodeFontFile = FONTTTF_C39_SMALL_MEDIUM
+            Case BarCodeFonts.bcfSmallLow : BarCodeFontFile = FONTTTF_C39_SMALL_LOW
+
+            Case BarCodeFonts.bcf128Regular : BarCodeFontFile = FONTTTF_C128_REGULAR
+
+            Case Else : BarCodeFontFile = FONTTTF_C39_ONEINCH
+        End Select
+    End Function
+
 End Module

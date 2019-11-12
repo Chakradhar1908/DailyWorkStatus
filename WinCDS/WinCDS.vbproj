@@ -507,6 +507,12 @@
     <Compile Include="Forms\Practice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\PracticeOnDemandControl.Designer.vb">
+      <DependentUpon>PracticeOnDemandControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PracticeOnDemandControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\RestoreInv.Designer.vb">
       <DependentUpon>RestoreInv.vb</DependentUpon>
     </Compile>
@@ -578,6 +584,7 @@
     <Compile Include="Modules\modExternalIP.vb" />
     <Compile Include="Modules\modFileSize.vb" />
     <Compile Include="Modules\modFinancing.vb" />
+    <Compile Include="Modules\modFontInstall.vb" />
     <Compile Include="Modules\modFTP.vb" />
     <Compile Include="Modules\modGetSales.vb" />
     <Compile Include="Modules\modGrossMargin.vb" />
@@ -617,6 +624,7 @@
     <Compile Include="Modules\modTextFiles.vb" />
     <Compile Include="Modules\modTimeDuration.vb" />
     <Compile Include="Modules\modTimeZone.vb" />
+    <Compile Include="Modules\modUpgrade.vb" />
     <Compile Include="Modules\modURLHelper.vb" />
     <Compile Include="Modules\modValidation.vb" />
     <Compile Include="Modules\modVBControls.vb" />
@@ -965,6 +973,15 @@
       <Guid>{00025E04-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>3</VersionMajor>
       <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="GIF89Lib">
+      <Guid>{28D47522-CF84-11D1-834C-00A0249F0C28}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>

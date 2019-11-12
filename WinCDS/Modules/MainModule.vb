@@ -626,4 +626,51 @@ TestClearFailed:
     Public Function UIOutputFolder() As String
         UIOutputFolder = IIf(IsDevelopment, LocalDesktopFolder, DevOutputFolder)
     End Function
+
+    Public Function FXWallpaperFolder() As String
+        FXWallpaperFolder = FXFolder() & "Wallpapers\"
+        If Not DirExists(FXWallpaperFolder) Then FXWallpaperFolder = PXFolder() :
+        Exit Function
+    End Function
+
+    Public Function TagLayoutFolder() As String
+        TagLayoutFolder = FXFolder() & "TagLayouts\"
+        If Not DirExists(TagLayoutFolder) Then TagLayoutFolder = PXFolder() :
+        Exit Function
+    End Function
+
+    Public Function PRFolder(Optional ByVal Data As Boolean = False, Optional ByVal LocalOnly As Boolean = False) As String
+        PRFolder = AccountingFolder("Payroll", Data, LocalOnly)
+    End Function
+
+    Public Function GLFolder(Optional ByVal Data As Boolean = False, Optional ByVal LocalOnly As Boolean = False) As String
+        GLFolder = AccountingFolder("GenLedger", Data, LocalOnly)
+    End Function
+
+    Public Function APFolder(Optional ByVal Data As Boolean = False, Optional ByVal LocalOnly As Boolean = False) As String
+        APFolder = AccountingFolder("Payable", Data, LocalOnly)
+    End Function
+
+    Public Function BKFolder(Optional ByVal Data As Boolean = False, Optional ByVal LocalOnly As Boolean = False) As String
+        BKFolder = AccountingFolder("Banking", Data, LocalOnly)
+    End Function
+
+    Private Function AccountingFolder(ByVal Modulee As String, Optional ByVal Data As Boolean = False, Optional ByVal LocalOnly As Boolean = False) As String
+        Dim S As String
+        If Not IsServer() And Not LocalOnly Then
+            S = GetStation() & Modulee & DIRSEP
+            If DirExists(S) Then AccountingFolder = S : GoTo Finish
+            S = GetStation(, False) & Modulee & DIRSEP
+            If DirExists(S) Then AccountingFolder = S : GoTo Finish
+            S = ProgramFilesFolder() & Modulee & DIRSEP
+            If DirExists(S) Then AccountingFolder = S : GoTo Finish
+        Else
+            S = GetStation(LocalOnly) & Modulee & DIRSEP
+            If DirExists(S) Then AccountingFolder = S : GoTo Finish
+            AccountingFolder = IIf(LocalOnly, LocalProgramFilesFolder, ProgramFilesFolder) & Modulee & DIRSEP
+        End If
+Finish:
+        If Data Then AccountingFolder = AccountingFolder & "Data\"
+    End Function
+
 End Module

@@ -134,8 +134,8 @@ Module modSupportForms
         End If
 
 
-        'If BarColor <> vbInactiveBorder Then PR.prg.FillColor = BarColor
-        'If BackColor <> vbInactiveBorder Then PR.prg.BackColor = BackColor
+        'If BarColor <> vbInactiveBorder Then PR.prg.FillColor = BarColor -> Commented because, FillColor property is not available for user control.
+        'If BackColor <> vbInactiveBorder Then PR.prg.BackColorNew = BackColor -> Commented because, conversion from vbInactiveBorder of BackColor parameter to Color type of BackColorNew is not possible.
 
         If IsWin5() And Not IsIDE() And IsIn(Style, ProgressBarStyle.prgSpin, ProgressBarStyle.prgIndefinite) Then Style = ProgressBarStyle.prgStatic ' WinxP is too slow to do this
         If Not Gif89Installed() And Not IsIn(Style, ProgressBarStyle.prgStatic, ProgressBarStyle.prg3DFloat, ProgressBarStyle.prgDefault) Then Style = ProgressBarStyle.prgDefault

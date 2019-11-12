@@ -23,6 +23,7 @@ Partial Class FrmProgress3
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.lblCaption = New System.Windows.Forms.Label()
+        Me.gif = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'lblCaption
@@ -34,11 +35,21 @@ Partial Class FrmProgress3
         Me.lblCaption.TabIndex = 0
         Me.lblCaption.Text = "Label1"
         '
+        'gif
+        '
+        Me.gif.AutoSize = True
+        Me.gif.Location = New System.Drawing.Point(70, 141)
+        Me.gif.Name = "gif"
+        Me.gif.Size = New System.Drawing.Size(18, 13)
+        Me.gif.TabIndex = 1
+        Me.gif.Text = "gif"
+        '
         'FrmProgress3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.gif)
         Me.Controls.Add(Me.lblCaption)
         Me.Name = "FrmProgress3"
         Me.Text = "frmProgress3"
@@ -48,4 +59,5 @@ Partial Class FrmProgress3
     End Sub
 
     Friend WithEvents lblCaption As Label
+    Friend WithEvents gif As Label
 End Class

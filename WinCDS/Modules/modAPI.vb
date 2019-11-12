@@ -1,4 +1,4 @@
-﻿'Imports System.Runtime.InteropServices
+﻿Imports System.Runtime.InteropServices
 Imports stdole
 
 Module modAPI
@@ -25,7 +25,12 @@ Module modAPI
     Private Declare Function VerQueryValue Lib "Version" Alias "VerQueryValueA" (pBlock As Object, ByVal lpSubBlock As String, lplpBuffer As Object, puLen As Integer) As Integer
     Private Declare Sub MoveMemory Lib "kernel32" Alias "RtlMoveMemory" (Dest As Object, ByVal Source As Integer, ByVal Length As Integer)
     Private Declare Function GetShortPathName Lib "kernel32" Alias "GetShortPathNameA" (ByVal lpszLongPath As String, ByVal lpszShortPath As String, ByVal cchBuffer As Integer) As Integer
-    Public Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Integer
+
+    Public Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (ByRef lpVersionInformation As OSVERSIONINFO) As Integer
+    '<DllImport("kernel32")>
+    'Private Function GetVersionEx(ByRef osvi As OSVERSIONINFO) As Boolean
+    'End Function
+
     Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Integer)
     Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" (ByVal nSize As Integer, ByVal lpBuffer As String) As Integer
     'Public Declare Function LockWindowUpdate Lib "USER32" (ByVal hwnd As Integer) As Integer  -> This is for vb6.0.
@@ -33,6 +38,84 @@ Module modAPI
     'Public Function LockWindowUpdate(ByVal hWndLock As IntPtr) As Boolean
     'End Function
     Public Declare Function LockWindowUpdate Lib "user32.dll" (ByVal hWndLock As IntPtr) As Boolean
+    Private Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Integer) As Integer
+    Private Declare Function GetSystemDirectory Lib "kernel32" Alias "GetSystemDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Integer) As Integer
+    Private Declare Function SHGetFolderPath Lib "shfolder" Alias "SHGetFolderPathA" (ByVal hwndOwner As Integer, ByVal nFolder As Integer, ByVal hToken As Integer, ByVal dwFlags As Integer, ByVal pszPath As String) As Integer
+    Public Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As Integer) As Boolean
+    End Function
+
+    'The below line is commented, because it is for vb6.0. Replaced with the next line for vb.net.
+    'Public Declare Function SetWindowPos Lib "USER32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cX As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+
+    '<DllImport("user32.dll", SetLastError:=True)>
+    'Private Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As SetWindowPosFlags) As Boolean
+    'End Function
+
+    'NOTE: THIS ENUM "SetWindowPosFlags" is used in the above commented SetWindowPos api.
+    '<Flags>
+    'Private Enum SetWindowPosFlags As UInteger
+    '    ''' <summary>If the calling thread and the thread that owns the window are attached to different input queues,
+    '    ''' the system posts the request to the thread that owns the window. This prevents the calling thread from
+    '    ''' blocking its execution while other threads process the request.</summary>
+    '    ''' <remarks>SWP_ASYNCWINDOWPOS</remarks>
+    '    SynchronousWindowPosition = &H4000
+    '    ''' <summary>Prevents generation of the WM_SYNCPAINT message.</summary>
+    '    ''' <remarks>SWP_DEFERERASE</remarks>
+    '    DeferErase = &H2000
+    '    ''' <summary>Draws a frame (defined in the window's class description) around the window.</summary>
+    '    ''' <remarks>SWP_DRAWFRAME</remarks>
+    '    DrawFrame = &H20
+    '    ''' <summary>Applies new frame styles set using the SetWindowLong function. Sends a WM_NCCALCSIZE message to
+    '    ''' the window, even if the window's size is not being changed. If this flag is not specified, WM_NCCALCSIZE
+    '    ''' is sent only when the window's size is being changed.</summary>
+    '    ''' <remarks>SWP_FRAMECHANGED</remarks>
+    '    FrameChanged = &H20
+    '    ''' <summary>Hides the window.</summary>
+    '    ''' <remarks>SWP_HIDEWINDOW</remarks>
+    '    HideWindow = &H80
+    '    ''' <summary>Does not activate the window. If this flag is not set, the window is activated and moved to the
+    '    ''' top of either the topmost or non-topmost group (depending on the setting of the hWndInsertAfter
+    '    ''' parameter).</summary>
+    '    ''' <remarks>SWP_NOACTIVATE</remarks>
+    '    DoNotActivate = &H10
+    '    ''' <summary>Discards the entire contents of the client area. If this flag is not specified, the valid
+    '    ''' contents of the client area are saved and copied back into the client area after the window is sized or
+    '    ''' repositioned.</summary>
+    '    ''' <remarks>SWP_NOCOPYBITS</remarks>
+    '    DoNotCopyBits = &H100
+    '    ''' <summary>Retains the current position (ignores X and Y parameters).</summary>
+    '    ''' <remarks>SWP_NOMOVE</remarks>
+    '    IgnoreMove = &H2
+    '    ''' <summary>Does not change the owner window's position in the Z order.</summary>
+    '    ''' <remarks>SWP_NOOWNERZORDER</remarks>
+    '    DoNotChangeOwnerZOrder = &H200
+    '    ''' <summary>Does not redraw changes. If this flag is set, no repainting of any kind occurs. This applies to
+    '    ''' the client area, the nonclient area (including the title bar and scroll bars), and any part of the parent
+    '    ''' window uncovered as a result of the window being moved. When this flag is set, the application must
+    '    ''' explicitly invalidate or redraw any parts of the window and parent window that need redrawing.</summary>
+    '    ''' <remarks>SWP_NOREDRAW</remarks>
+    '    DoNotRedraw = &H8
+    '    ''' <summary>Same as the SWP_NOOWNERZORDER flag.</summary>
+    '    ''' <remarks>SWP_NOREPOSITION</remarks>
+    '    DoNotReposition = &H200
+    '    ''' <summary>Prevents the window from receiving the WM_WINDOWPOSCHANGING message.</summary>
+    '    ''' <remarks>SWP_NOSENDCHANGING</remarks>
+    '    DoNotSendChangingEvent = &H400
+    '    ''' <summary>Retains the current size (ignores the cx and cy parameters).</summary>
+    '    ''' <remarks>SWP_NOSIZE</remarks>
+    '    IgnoreResize = &H1
+    '    ''' <summary>Retains the current Z order (ignores the hWndInsertAfter parameter).</summary>
+    '    ''' <remarks>SWP_NOZORDER</remarks>
+    '    IgnoreZOrder = &H4
+    '    ''' <summary>Displays the window.</summary>
+    '    ''' <remarks>SWP_SHOWWINDOW</remarks>
+    '    ShowWindow = &H40
+    'End Enum
+    '    <DllImport(
+    '"user32.dll",
+    'CharSet:=CharSet.Auto,
+    'CallingConvention:=CallingConvention.StdCall
+    ')>
 
     Private Const RDW_INTERNALPAINT As Integer = &H2
     Private Const RDW_UPDATENOW As Integer = &H100
@@ -135,6 +218,55 @@ Module modAPI
         Dim dwFileDateMS As Integer            ' e.g. 0
         Dim dwFileDateLS As Integer            ' e.g. 0
     End Structure
+
+    Public Enum FolderEnum
+        feCDBurnArea = 59               ' \Docs & Settings\User\Local Settings\Application Data\Microsoft\CD Burning
+        feCommonAppData = 35            ' \Docs & Settings\All Users\Application Data
+        feCommonAdminTools = 47         ' \Docs & Settings\All Users\Start Menu\Programs\Administrative Tools
+        feCommonDesktop = 25            ' \Docs & Settings\All Users\Desktop
+        feCommonDocs = 46               ' \Docs & Settings\All Users\Documents
+        feCommonPics = 54               ' \Docs & Settings\All Users\Documents\Pictures
+        feCommonMusic = 53              ' \Docs & Settings\All Users\Documents\Music
+        feCommonStartMenu = 22          ' \Docs & Settings\All Users\Start Menu
+        feCommonStartMenuPrograms = 23  ' \Docs & Settings\All Users\Start Menu\Programs
+        feCommonTemplates = 45          ' \Docs & Settings\All Users\Templates
+        feCommonVideos = 55             ' \Docs & Settings\All Users\Documents\My Videos
+        feLocalAppData = 28             ' \Docs & Settings\User\Local Settings\Application Data
+        feLocalCDBurning = 59           ' \Docs & Settings\User\Local Settings\Application Data\Microsoft\CD Burning
+        feLocalHistory = 34             ' \Docs & Settings\User\Local Settings\History
+        feLocalTempInternetFiles = 32   ' \Docs & Settings\User\Local Settings\Temporary Internet Files
+        feProgramFiles = 38             ' \Program Files
+        feProgramFilesCommon = 43       ' \Program Files\Common Files
+        'feRecycleBin = 10               ' ???
+        feUser = 40                     ' \Docs & Settings\User
+        feUserAdminTools = 48           ' \Docs & Settings\User\Start Menu\Programs\Administrative Tools
+        feUserAppData = 26              ' \Docs & Settings\User\Application Data
+        feUserCache = 32                ' \Docs & Settings\User\Local Settings\Temporary Internet Files
+        feUserCookies = 33              ' \Docs & Settings\User\Cookies
+        feUserDesktop = 16              ' \Docs & Settings\User\Desktop
+        feUserDocs = 5                  ' \Docs & Settings\User\My Documents
+        feUserFavorites = 6             ' \Docs & Settings\User\Favorites
+        feUserMusic = 13                ' \Docs & Settings\User\My Documents\My Music
+        feUserNetHood = 19              ' \Docs & Settings\User\NetHood
+        feUserPics = 39                 ' \Docs & Settings\User\My Documents\My Pictures
+        feUserPrintHood = 27            ' \Docs & Settings\User\PrintHood
+        feUserRecent = 8                ' \Docs & Settings\User\Recent
+        feUserSendTo = 9                ' \Docs & Settings\User\SendTo
+        feUserStartMenu = 11            ' \Docs & Settings\User\Start Menu
+        feUserStartMenuPrograms = 2     ' \Docs & Settings\User\Start Menu\Programs
+        feUserStartup = 7               ' \Docs & Settings\User\Start Menu\Programs\Startup
+        feUserTemplates = 21            ' \Docs & Settings\User\Templates
+        feUserVideos = 14               ' \Docs & Settings\User\My Documents\My Videos
+        feWindows = 36                  ' \Windows
+        feWindowsFonts = 20             ' \Windows\Fonts
+        feWindowsResources = 56         ' \Windows\Resources
+        feWindowsSystem = 37            ' \Windows\System32
+
+        feWindowsSysWow64 = 111137            ' \Windows\SysWOW64
+    End Enum
+
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Public Structure OSVERSIONINFO 'windows-defined type OSVERSIONINFO
         Dim OSVSize As Integer         'size, in bytes, of this data structure
         Dim dwVerMajor As Integer         'ie NT 3.51, dwVerMajor = 3; NT 4.0, dwVerMajor = 4.
@@ -509,5 +641,68 @@ Module modAPI
             GetTempDir = Tmp
         End If
     End Function
+
+    Public Function GetWinVerMajor() As Integer
+        Dim OSV As OSVERSIONINFO
+        Dim R As Integer
+        Dim Pos As Integer
+        Dim sVer As String
+        Dim sBuild As String
+
+        Try
+            OSV.OSVSize = Len(OSV)
+            If GetVersionEx(OSV) = 1 Then
+                If OSV.PlatformID <> VER_PLATFORM_WIN32_NT Then Exit Function
+                GetWinVerMajor = OSV.dwVerMajor
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Function
+
+    Public Function GetWindowsDir(Optional ByVal AddTrailingDirSep As Boolean = False) As String
+        Dim Buffer As String, RET As Integer, X As Integer
+        Buffer = Space(255)
+        RET = GetWindowsDirectory(Buffer, 255)
+        X = InStr(Buffer, Chr(0))
+        If X > 0 Then Buffer = Left(Buffer, X - 1)
+        GetWindowsDir = Buffer
+
+        If AddTrailingDirSep Then GetWindowsDir = GetWindowsDir & DIRSEP
+    End Function
+
+    Public Function GetWindowsSystemDir(Optional ByVal No64 As Boolean = False) As String
+        Dim Buffer As String, RET As Integer, X As Integer
+        Buffer = Space(255)
+        RET = GetSystemDirectory(Buffer, 255)
+        X = InStr(Buffer, Chr(0))
+        If X > 0 Then Buffer = Left(Buffer, X - 1)
+        GetWindowsSystemDir = Buffer
+        If No64 Then Exit Function
+        Dim T As String
+        T = ParentDirectory(GetWindowsSystemDir) & "SysWOW64"
+        If DirExists(T) Then GetWindowsSystemDir = T
+    End Function
+
+    Public Function SpecialFolder(ByRef pFe As FolderEnum) As String
+        Const MAX_PATH = 260
+        Dim strPath As String
+        Dim strBuffer As String
+
+        strBuffer = Space(MAX_PATH)
+        If SHGetFolderPath(0, pFe, 0, 0, strBuffer) = 0 Then strPath = Left(strBuffer, InStr(strBuffer, vbNullChar) - 1)
+        If Right(strPath, 1) = "\" Then strPath = Left(strPath, Len(strPath) - 1)
+        SpecialFolder = strPath
+    End Function
+
+    Public Sub SetAlwaysOnTop(ByRef frm As Form, Optional ByRef OnTop As Boolean = True)
+        If OnTop Then
+            'SetWindowPos(frm.hwnd, -1, 0, 0, 0, 0, &H1 Or &H2)
+            SetWindowPos(frm.Handle, New IntPtr(-1), 0, 0, 0, 0, &H1 Or &H2)
+        Else
+            'SetWindowPos(frm.hwnd, -2, 0, 0, 0, 0, &H1 Or &H2)
+            SetWindowPos(frm.Handle, New IntPtr(-2), 0, 0, 0, 0, &H1 Or &H2)
+        End If
+    End Sub
 
 End Module
