@@ -50,6 +50,7 @@
         End If
         ' Then load our data into the recordset.
         DataAccess.Record_Update()
+        cDataAccess_SetRecordSet(DataAccess.RS)
         ' And finally, tell the class to save the recordset.
         DataAccess.Records_Update()
         Exit Function
