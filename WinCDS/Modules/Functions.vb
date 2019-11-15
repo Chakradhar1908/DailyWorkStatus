@@ -161,7 +161,7 @@ HandleErr:
     Public Function InitLineBorder(ByVal LineControlArray As Object, ByVal L As Long, ByVal T As Long, ByVal W As Long, ByVal H As Long, Optional ByVal BorderWidth As Integer = 2) As Boolean
         Dim I As Long, lW As Long, BC
 
-
+        On Error Resume Next
         If False Then
             lW = 15
             'BC = Array(vbRed, vbBlue, vbGreen, vbCyan)
@@ -169,6 +169,7 @@ HandleErr:
         Else
             'lW = LineControlArray(0).BorderWidth * Screen.TwipsPerPixelX  'lin(0).BorderWidth
             lW = LineControlArray(0).BorderWidth
+
             'BC = Array(&H80000014, &H80000015, &H80000016, &H80000010)
             BC = New String() {&H80000014, &H80000015, &H80000016, &H80000010}
         End If
@@ -187,7 +188,7 @@ HandleErr:
             'Load LineControlArray(1 + (I * 4))
             'Load LineControlArray(2 + (I * 4))
             'Load LineControlArray(3 + (I * 4))
-            On Error GoTo 0
+            On Error Resume Next
             MoveControl(LineControlArray(0 + (I * 4)), L + lW * I, T, L + lW * I, T + H)                      ' left
             MoveControl(LineControlArray(1 + (I * 4)), L, T + lW * I, L + W, T + lW * I)                      ' top
             MoveControl(LineControlArray(2 + (I * 4)), L + W - lW * (I + 1), T, L + W - lW * (I + 1), T + H)  ' right

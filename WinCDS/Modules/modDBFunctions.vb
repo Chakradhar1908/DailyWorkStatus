@@ -13,11 +13,16 @@
         ': - INTNS
         ':::SEE ALSO
         ': - IfNullThenBoolean, IfNullThenZeroCurrency, IfNullThenZeroLong, IfNullThenZeroDouble
-
-        'If IsMissing(T) Then T = ""
-        If IsNothing(T) Then T = ""
-        'IfNullThenNilString = IIf(IsNull(T), "", T)
-        IfNullThenNilString = IIf(IsNothing(T), "", T)
+        Try
+            'If IsMissing(T) Then T = ""
+            If IsNothing(T) Then T = ""
+            'IfNullThenNilString = IIf(IsNull(T), "", T)
+            IfNullThenNilString = IIf(IsNothing(T), "", T)
+        Catch ex As System.InvalidCastException
+            IfNullThenNilString = ""
+        Catch ex As Exception
+            IfNullThenNilString = ""
+        End Try
     End Function
     Public Function IfNullThenZero(ByVal T As Object) as integer
         '::::IfNullThenZero

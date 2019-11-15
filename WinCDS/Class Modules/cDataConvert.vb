@@ -86,7 +86,9 @@ Public Class cDataConvert
         Dim O As Object = New cPODetail
         Dim p As Object = New cPOReceived
 
-        Dim PR As frmProgress
+        'NOTE: Commented below line because frmProgress form is using ucPBar custom control to show the progree of delivery calendar data while loading.
+        'The ucPBar custom control's most of the code is not working in vb.net. Need to find an alternative in vb.net later.
+        'Dim PR As frmProgress
 
         mSubClass.FileOpen()
         maxIndex = mSubClass.FileRecords()
@@ -99,9 +101,11 @@ Public Class cDataConvert
         ' tmp patch - BFH20050705
         '  DoForce = True
         On Error Resume Next
-        PR = New frmProgress
-        PR.AltPrg = Practice.ConversionPrg
-        PR.Progress(0, maxIndex, "Processing...", True, True)
+
+        'Refer the above note for the below three lines commented code reason.
+        'PR = New frmProgress
+        'PR.AltPrg = Practice.ConversionPrg
+        'PR.Progress(0, maxIndex, "Processing...", True, True)
         On Error GoTo 0
 
         For I = 0 To maxIndex - 1
@@ -128,14 +132,16 @@ Public Class cDataConvert
                 End If
             End If
             On Error Resume Next
-            PR.Progress(I)
+            'PR.Progress(I)
             On Error GoTo 0
             Application.DoEvents()
         Next
 
         On Error Resume Next
-        PR.ProgressClose()
-        PR = Nothing
+
+        'Refer the above note in this sub at top for the below two lines commented code reason.
+        'PR.ProgressClose()
+        'PR = Nothing
         On Error GoTo 0
 
         SetRecordsetByTableLabelIndex(File:=DataBase, RS:=RS, Table:=Table, Label:=Index, Index:="-1")

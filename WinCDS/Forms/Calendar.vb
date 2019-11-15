@@ -135,7 +135,7 @@ Public Class Calendar
         Do While Not CD.EOF
             Y = Printer.CurrentY
 
-            X = IfNullThenNilString(CD("PD"))
+            X = IfNullThenNilString(CD("PD").Value)
             If X = "" Then X = "D"
             '    If X = "D" Then
             PrintAligned(X, , 100, Y)
@@ -149,7 +149,7 @@ Public Class Calendar
             End If
             DisposeDA(R)
 
-            PrintAligned(DressAni(CleanAni(IfNullThenNilString(CD("Tele")))), , 6000, Y)
+            PrintAligned(DressAni(CleanAni(IfNullThenNilString(CD("Tele").Value))), , 6000, Y)
             RD = GetRecordsetBySQL("SELECT Sale - Deposit AS BalDue FROM Holding WHERE LeaseNo='" & CD("SaleNo").Value & "'", , GetDatabaseAtLocation())
             If Not RD.EOF Then
                 PrintAligned(FormatCurrency(RD("BalDue").Value), , 7800, Y)
