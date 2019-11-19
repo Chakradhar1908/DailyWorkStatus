@@ -36,7 +36,7 @@ Public Class CalendarInstr
 
             SaleEntry = Microsoft.VisualBasic.Left(SalePD & " " & SaleNm & New String(" ", 50), 20) & " " & SaleNo
             'N = tvwList.Nodes.Add(, , , SaleEntry)
-            tvwList.Nodes.Add(SaleEntry)
+            N = tvwList.Nodes.Add(SaleEntry)
 
             SpInstr = ""
             SpRS = GetRecordsetBySQL("SELECT Special FROM GrossMargin LEFT JOIN Mail ON Mail.Index = GrossMargin.MailIndex WHERE SaleNo='" & SaleNo & "'", , GetDatabaseAtLocation())
@@ -53,7 +53,8 @@ Public Class CalendarInstr
                 SpInstr = Replace(SpInstr, vbCr & vbCr, vbCr)
                 For Each L In Split(SpInstr, vbCr)
                     'tvwList.Nodes.Add(N, tvwChild, , L)
-                    tvwList.Nodes(0).Nodes.Add(L)
+                    'tvwList.Nodes(0).Nodes.Add(L)
+                    N.Nodes.Add(L)
                 Next
             End If
 
@@ -63,4 +64,20 @@ Public Class CalendarInstr
         RS = Nothing
     End Sub
 
+    Private Sub CalendarInstr_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdExit, "ok")
+    End Sub
+
+    Private Sub cmdExit_Click(sender As Object, e As EventArgs) Handles cmdExit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub CalendarInstr_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        fraDate.Width = Me.Width - fraDate.Left - 20
+        fraDate.Height = Me.Height - fraDate.Top - cmdExit.Height - 60
+        tvwList.Width = fraDate.Width - tvwList.Left - 10
+        tvwList.Height = fraDate.Height - 20
+        cmdExit.Left = Me.Width / 2 - cmdExit.Width / 2
+        cmdExit.Top = fraDate.Top + fraDate.Height + 10
+    End Sub
 End Class

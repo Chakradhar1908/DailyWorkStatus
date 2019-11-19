@@ -321,6 +321,196 @@ BadWpt:
         cmdAdjust.Visible = Not Working
     End Sub
 
+    Private Sub frmDeliveryMap_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ActiveLog("frmDeliveryMap::Form_Load...", 8)
+        SetButtonImage(cmdDone)
+        SetButtonImage(cmdPrint)
+        SetButtonImage(cmdSplit, "back")
+        SetButtonImage(cmdCancel)
+        SetButtonImage(cmdConfigure, "calendar")
+        SetButtonImage(cmdAdjust, "plus")
+        On Error Resume Next
+        LoadHiddenMap()
+
+        mapDelivery.NewMap(MapPointPTT)
+        mapDelivery.Toolbars.Item("Standard").Visible = True
+        mapDelivery.PaneState = GeoPaneState.geoPaneRoutePlanner
+
+        LoadPrintTypes()
+        ActiveLog("frmDeliveryMap::...Form_Load", 8)
+    End Sub
+
+    Public Sub LoadPrintTypes()
+        cmbPrintType.Items.Clear()
+        cmbPrintType.Items.Add("Strips")
+        cmbPrintType.Items.Add("Turns")
+        cmbPrintType.Items.Add("Full")
+        cmbPrintType.Items.Add("Map")
+        cmbPrintType.Items.Add("CSV")
+        cmbPrintType.Text = "Strips"
+    End Sub
+
+    Private Sub LoadHiddenMap()
+        ActiveLog("frmDeliveryMap::LoadHiddenMap...", 6)
+        HiddenMapControl = CreateObject("Mappoint.Application")
+        HiddenMap = HiddenMapControl.NewMap(MapPointPTT)
+        ActiveLog("frmDeliveryMap::LoadHiddenMap - Complete", 6)
+        '  Set XYMap = HiddenMapControl.NewMap(MapPointPTT)
+    End Sub
+
+    Public ReadOnly Property MapPointPTT() As String
+        Get
+            'Dim Sources(1 To 5) As String, sC as integer
+            Dim Sources(0 To 4) As String, sC As Integer
+            'Dim EndPoints(1 To 7) As String, Ep as integer
+            Dim EndPoints(0 To 6) As String, Ep As Integer
+            Dim F As String
+
+            'Sources(1) = SpecialFolder(FolderEnum.feProgramFiles)
+            'Sources(2) = Replace(Sources(1), " (x86)", "")
+            'Sources(3) = SpecialFolder(FolderEnum.feUserAppData) & "\"
+            'Sources(4) = ParentDirectory(SpecialFolder(FolderEnum.feUserAppData) & "\")
+            'Sources(5) = SpecialFolder(FolderEnum.feCommonAppData) & "\"
+
+            Sources(0) = SpecialFolder(FolderEnum.feProgramFiles)
+            Sources(1) = Replace(Sources(1), " (x86)", "")
+            Sources(2) = SpecialFolder(FolderEnum.feUserAppData) & "\"
+            Sources(3) = ParentDirectory(SpecialFolder(FolderEnum.feUserAppData) & "\")
+            Sources(4) = SpecialFolder(FolderEnum.feCommonAppData) & "\"
+
+            'EndPoints(1) = "Microsoft MapPoint\Templates\"
+            'EndPoints(2) = "Microsoft\Microsoft MapPoint\16.0\Templates\"
+            'EndPoints(3) = "Microsoft\Microsoft MapPoint\17.0\Templates\"
+            'EndPoints(4) = "Microsoft\Microsoft MapPoint\18.0\Templates\"
+            'EndPoints(5) = "Microsoft\Microsoft MapPoint\19.0\Templates\"
+            'EndPoints(6) = "Microsoft\Microsoft MapPoint\20.0\Templates\"
+            'EndPoints(7) = "Local\VirtualStore\Program Files (x86)\Microsoft MapPoint\Templates\"
+
+            EndPoints(0) = "Microsoft MapPoint\Templates\"
+            EndPoints(1) = "Microsoft\Microsoft MapPoint\16.0\Templates\"
+            EndPoints(2) = "Microsoft\Microsoft MapPoint\17.0\Templates\"
+            EndPoints(3) = "Microsoft\Microsoft MapPoint\18.0\Templates\"
+            EndPoints(4) = "Microsoft\Microsoft MapPoint\19.0\Templates\"
+            EndPoints(5) = "Microsoft\Microsoft MapPoint\20.0\Templates\"
+            EndPoints(6) = "Local\VirtualStore\Program Files (x86)\Microsoft MapPoint\Templates\"
+
+            F = "New North American Map.ptt"
+
+            For sC = LBound(Sources) To UBound(Sources)
+                For Ep = LBound(EndPoints) To UBound(EndPoints)
+                    MapPointPTT = Sources(sC) & EndPoints(Ep) & F
+                    '      Debug.Print MapPointPTT
+                    If FileExists(MapPointPTT) Then Exit Property
+                Next
+            Next
+
+            If Not FileExists(MapPointPTT) Then
+                MapPointPTT = InputBox("Enter North American Template File:", "Template File Not Found", MapPointPTT)
+            End If
+
+            If Not FileExists(MapPointPTT) Then MapPointPTT = ""
+        End Get
+    End Property
+
+    Private Sub frmDeliveryMap_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        Dim H As Integer, L As Integer
+        On Error Resume Next
+        'fraMapContainer.Move 120, 120, ScaleWidth - cmdDone.Width - 240, ScaleHeight - 240
+        fraMapContainer.Location = New Point(120, 120)
+        fraMapContainer.Size = New Size(Width - cmdDone.Width - 240, Height - 240)
+        'fraSplitLoads.Move fraMapContainer.Left, fraMapContainer.Top, fraMapContainer.Width, fraMapContainer.Height
+        fraSplitLoads.Location = New Point(fraMapContainer.Left, fraMapContainer.Top)
+        fraSplitLoads.Size = New Size(fraMapContainer.Width, fraMapContainer.Height)
+        'mapDelivery.Move 60, 60, fraMapContainer.Width - 120, fraMapContainer.Height - 120
+        mapDelivery.Location = New Point(60, 60)
+        mapDelivery.Size = New Size(fraMapContainer.Width - 120, fraMapContainer.Height - 120)
+        H = cmdDone.Height
+        L = Width - cmdDone.Width - 60
+        'cmdDone.Move L, ScaleHeight - H - 60
+        cmdDone.Location = New Point(L, Height - H - 60)
+        'cmdPrint.Move L, cmdDone.Top - H
+        cmdPrint.Location = New Point(L, cmdDone.Top - H)
+        'cmbPrintType.Move L, cmdPrint.Top - cmbPrintType.Height - 120
+        cmbPrintType.Location = New Point(L, cmdPrint.Top - cmbPrintType.Height - 120)
+
+        'cmdSplit.Move L, cmdDone.Top - 2200
+        cmdSplit.Location = New Point(L, cmdDone.Top - 2200)
+        'cmdConfigure.Move L, cmdSplit.Top - H - 60
+        cmdConfigure.Location = New Point(L, cmdSplit.Top - H - 60)
+        'cmdCancel.Move L, cmdConfigure.Top
+        cmdCancel.Location = New Point(L, cmdConfigure.Top)
+        'cmdAdjust.Move L, cmdConfigure.Top - H - 60
+        cmdAdjust.Location = New Point(L, cmdConfigure.Top - H - 60)
+    End Sub
+
+    Private Sub frmDeliveryMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'This code block is from FORM QUERYUNLOAD event of vb6.0
+        Select Case e.CloseReason
+            'Case vbFormControlMenu, vbFormCode
+            Case e.CloseReason = CloseReason.UserClosing
+                If Not Printed And Not IsDevelopment() Then
+                    If MessageBox.Show("Do you want to print the route first?", "Print Route - WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                        'cmdPrint.Value = True
+                        cmdPrint.PerformClick()
+                        If Not Printed Then e.Cancel = True
+                    End If
+                End If
+        End Select
+
+        'The below code is from FORM UNLOAD event of vb6.0
+        On Error Resume Next
+        HiddenMap = Nothing
+        HiddenMapControl.ActiveMap.Saved = True
+        HiddenMapControl.Application.Quit()
+        HiddenMapControl = Nothing
+
+        mapStops.ActiveMap.Saved = True
+        mapStops.CloseMap()
+
+        mapDelivery.ActiveMap.Saved = True
+        mapDelivery.CloseMap()
+        If Not mapDelivery.ActiveMap Is Nothing Then e.Cancel = 1
+
+        'Unload frmOptimizeRoute
+        frmOptimizeRoute.Close()
+        'Unload frmOptimizeConfig
+        frmOptimizeConfig.Close()
+        'Unload frmOptimize
+        frmOptimize.Close()
+        Calendar.Show()
+    End Sub
+
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        Dim GPA As GeoPrintArea
+        On Error GoTo PrintFailure
+        Select Case LCase(cmbPrintType.Text)
+            Case "turns" : GPA = GeoPrintArea.geoPrintTurnByTurn
+            Case "full" : GPA = GeoPrintArea.geoPrintFullPage
+            Case "dirs" : GPA = GeoPrintArea.geoPrintDirections
+            Case "map" : GPA = GeoPrintArea.geoPrintMap
+            Case "csv"
+                Dim F As String
+                F = DevOutputFolder() & "route.csv"
+                Network.SaveNetwork(F)
+                MessageBox.Show("Route saved to: " & F)
+                Printed = True
+                TruckIsRouted
+                Exit Sub
+            Case Else : GPA = GeoPrintArea.geoPrintStripMaps
+        End Select
+        mapDelivery.ActiveMap.PrintOut(, Me.Text, , GPA)
+        Printed = True
+        TruckIsRouted
+        Exit Sub
+PrintFailure:
+        MessageBox.Show(Err.Description, "Printer Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    End Sub
+
+    Private Sub TruckIsRouted()
+        'lvwThisTruck.ListItems.Clear
+        lvwThisTruck.Items.Clear()
+    End Sub
+
     Private Function OptimizeStops() As Object
         Dim I As Integer, LC As Integer, Ty As String, ID As String, Nm As String, MI As Integer
         Dim WF As String, WT As String

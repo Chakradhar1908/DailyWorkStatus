@@ -154,12 +154,12 @@ HandleErr:
         Err.Clear()
     End Function
 
-    Public Function InitLineBorderForm(ByVal LineControlArray As Object, ByVal vFrm As Form, Optional ByVal BorderWidth As Long = 2) As Boolean
+    Public Function InitLineBorderForm(ByVal LineControlArray As Object, ByVal vFrm As Form, Optional ByVal BorderWidth as integer = 2) As Boolean
         InitLineBorderForm = InitLineBorder(LineControlArray, 0, 0, vFrm.Width, vFrm.Height, BorderWidth)
     End Function
 
-    Public Function InitLineBorder(ByVal LineControlArray As Object, ByVal L As Long, ByVal T As Long, ByVal W As Long, ByVal H As Long, Optional ByVal BorderWidth As Integer = 2) As Boolean
-        Dim I As Long, lW As Long, BC
+    Public Function InitLineBorder(ByVal LineControlArray As Object, ByVal L as integer, ByVal T as integer, ByVal W as integer, ByVal H as integer, Optional ByVal BorderWidth As Integer = 2) As Boolean
+        Dim I as integer, lW as integer, BC
 
         On Error Resume Next
         If False Then

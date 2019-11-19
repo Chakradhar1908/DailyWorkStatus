@@ -1026,4 +1026,28 @@ NONENONE:
         CalculateSolutionTimeWindowCost2 = X + ExtraDays * MULTI_DAY_PENALTY
     End Function
 
+    ' Save the network into a file.
+    Public Sub SaveNetwork(Optional ByVal FN As String = "")
+        '  Dim xml_serializer As New XmlSerializer(GetType(TspNetwork))
+        '  Dim stream_writer As New StreamWriter(file_name)
+        '  xml_serializer.Serialize(stream_writer, Me)
+        '  stream_writer.Close()
+        Dim R As Object, I As Integer, L As String, J As Integer
+
+        If FN = "" Then FN = UIOutputFolder() & "Route.csv"
+        WriteFile(FN, "# Network Node List - " & Today, True)
+        WriteFile(FN, "")
+        WriteFile(FN, "ID,Name,X,Y,WFr,WTo,Dist,Delay,Arrival,StopDur,Depart,Address,City,ST,Zip")
+
+        R = GetResultSet()
+
+        For I = LBound(R) To UBound(R)
+            L = ""
+            For J = 0 To 14
+                L = L & IIf(L = "", "", ",") & """" & Replace(R(I, J), """", """""") & """"
+            Next
+            WriteFile(FN, L)
+        Next
+    End Sub
+
 End Class

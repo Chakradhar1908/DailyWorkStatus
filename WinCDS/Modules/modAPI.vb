@@ -45,7 +45,7 @@ Module modAPI
     End Function
 
     'The below line is commented, because it is for vb6.0. Replaced with the next line for vb.net.
-    'Public Declare Function SetWindowPos Lib "USER32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cX As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+    'Public Declare Function SetWindowPos Lib "USER32" (ByVal hwnd as integer, ByVal hWndInsertAfter as integer, ByVal X as integer, ByVal Y as integer, ByVal cX as integer, ByVal cy as integer, ByVal wFlags as integer) as integer
 
     '<DllImport("user32.dll", SetLastError:=True)>
     'Private Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As SetWindowPosFlags) As Boolean

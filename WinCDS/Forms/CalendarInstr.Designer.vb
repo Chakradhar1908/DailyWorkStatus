@@ -31,7 +31,7 @@ Partial Class CalendarInstr
         'fraDate
         '
         Me.fraDate.Controls.Add(Me.tvwList)
-        Me.fraDate.Location = New System.Drawing.Point(12, 12)
+        Me.fraDate.Location = New System.Drawing.Point(8, 10)
         Me.fraDate.Name = "fraDate"
         Me.fraDate.Size = New System.Drawing.Size(396, 209)
         Me.fraDate.TabIndex = 0
@@ -40,14 +40,14 @@ Partial Class CalendarInstr
         '
         'tvwList
         '
-        Me.tvwList.Location = New System.Drawing.Point(10, 16)
+        Me.tvwList.Location = New System.Drawing.Point(8, 16)
         Me.tvwList.Name = "tvwList"
-        Me.tvwList.Size = New System.Drawing.Size(369, 184)
+        Me.tvwList.Size = New System.Drawing.Size(380, 184)
         Me.tvwList.TabIndex = 0
         '
         'cmdExit
         '
-        Me.cmdExit.Location = New System.Drawing.Point(123, 227)
+        Me.cmdExit.Location = New System.Drawing.Point(153, 223)
         Me.cmdExit.Name = "cmdExit"
         Me.cmdExit.Size = New System.Drawing.Size(75, 39)
         Me.cmdExit.TabIndex = 1
@@ -59,7 +59,7 @@ Partial Class CalendarInstr
         Me.AcceptButton = Me.cmdExit
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(622, 264)
         Me.Controls.Add(Me.cmdExit)
         Me.Controls.Add(Me.fraDate)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow

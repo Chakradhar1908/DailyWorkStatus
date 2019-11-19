@@ -17,26 +17,31 @@
     Public Sub Add(ByVal key As String, ByVal Value As Object)
         Dim Ndx as integer, Create As Boolean
 
-        If key = "" Then key = AutoIndex
+        Try
+            If key = "" Then key = AutoIndex
 
-        ' get the index to the slot where the value is
-        ' (allocate a new slot if necessary)
-        Create = True
-        Ndx = GetSlotIndex(key, Create)
+            ' get the index to the slot where the value is
+            ' (allocate a new slot if necessary)
+            Create = True
+            Ndx = GetSlotIndex(key, Create)
 
-        If Create Then
-            ' the item was actually added
-            'If IsObject(Value) Then
-            If Not Value Is Nothing Then
-                slotTable(Ndx).Value = Value
+            If Create Then
+                ' the item was actually added
+                'If IsObject(Value) Then
+                If Not Value Is Nothing Then
+                    slotTable(Ndx).Value = Value
+                Else
+                    slotTable(Ndx).Value = Value
+                End If
             Else
-                slotTable(Ndx).Value = Value
+                ' raise error "This key is already associated with an item of this
+                ' collection"
+                Err.Raise(457)
             End If
-        Else
-            ' raise error "This key is already associated with an item of this
-            ' collection"
-            Err.Raise(457)
-        End If
+
+        Catch ex As NullReferenceException
+            Exit Sub
+        End Try
     End Sub
     Public ReadOnly Property Count() as integer
         Get
@@ -144,39 +149,43 @@
     End Function
 
     Private Function GetSlotIndex(ByVal key As String, Optional ByVal Create As Boolean = False, Optional ByRef HCode as integer = 0, Optional ByRef LastNdx as integer = 0) as integer
-        Dim Ndx as integer
+        Dim Ndx as Integer
 
-        ' raise error if invalid key
-        If Len(key) = 0 Then Err.Raise(1001, , "Invalid key")
+        Try
+            ' raise error if invalid key
+            If Len(key) = 0 Then Err.Raise(1001, , "Invalid key")
 
-        ' keep case-unsensitiveness into account
-        If m_IgnoreCase Then key = UCase(key)
-        ' get the index in the hashTbl() array
-        HCode = HashCode(key) Mod m_HashSize
-        ' get the pointer to the slotTable() array
-        Ndx = hashTbl(HCode)
+            ' keep case-unsensitiveness into account
+            If m_IgnoreCase Then key = UCase(key)
+            ' get the index in the hashTbl() array
+            HCode = HashCode(key) Mod m_HashSize
+            ' get the pointer to the slotTable() array
+            Ndx = hashTbl(HCode)
 
-        ' exit if there is no item with that hash code
-        Do While Ndx
-            ' compare key with actual value
-            If slotTable(Ndx).key = key Then Exit Do
-            ' remember last pointer
-            LastNdx = Ndx
-            ' check the next item
-            Ndx = slotTable(Ndx).NextItem
-        Loop
+            ' exit if there is no item with that hash code
+            Do While Ndx
+                ' compare key with actual value
+                If slotTable(Ndx).key = key Then Exit Do
+                ' remember last pointer
+                LastNdx = Ndx
+                ' check the next item
+                Ndx = slotTable(Ndx).NextItem
+            Loop
 
-        ' create a new item if not there
-        If Ndx = 0 And Create Then
-            Ndx = GetFreeSlot()
-            PrepareSlot(Ndx, key, HCode, LastNdx)
-        Else
-            ' signal that no item has been created
-            Create = False
-        End If
-        ' this is the return value
-        GetSlotIndex = Ndx
+            ' create a new item if not there
+            If Ndx = 0 And Create Then
+                Ndx = GetFreeSlot()
+                PrepareSlot(Ndx, key, HCode, LastNdx)
+            Else
+                ' signal that no item has been created
+                Create = False
+            End If
+            ' this is the return value
+            GetSlotIndex = Ndx
 
+        Catch ex As DivideByZeroException
+            Exit Function
+        End Try
     End Function
     Private Function HashCode(ByVal key As String) as integer
         Dim lastEl as integer, I as integer
