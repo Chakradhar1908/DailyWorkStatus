@@ -65,6 +65,7 @@ Public Class frmDeliveryMap
         Dim FR As FindResults, Pin As Pushpin, I As Integer, L As Location
         On Error GoTo BadWpt
         FR = M.FindAddressResults(Street, City, OtherCity, State, Zip, Country)
+
         On Error GoTo 0
         If FR.Count > 0 Then
             If FR.Count > 1 Then
