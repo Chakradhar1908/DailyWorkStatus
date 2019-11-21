@@ -1,9 +1,11 @@
-﻿Module modOptimization
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Module modOptimization
     Public Const DEFAULT_STOP_TIME As Integer = 10
     Public Const tspRS_MAX As Integer = 14
     Public Const MULTI_DAY_PENALTY As Integer = 1000000
     Private Const MySubSection As String = "Optimization"
     Public Const MISSED_WINDOW_PENALTY As Integer = 100000
+
     Public Enum tspRS
         tspRS_ID = 0
         tspRS_Name = 1

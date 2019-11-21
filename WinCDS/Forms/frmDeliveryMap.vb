@@ -125,6 +125,7 @@ BadWpt:
             Sales.DataAccess.Records_OpenSQL(SQL)
 
             Do While Sales.DataAccess.Records_Available
+                Sales.cDataAccess_GetRecordSet(Sales.DataAccess.RS)
                 K = "LOC " & I & " - " & Sales.SaleNo
 
                 If LastSale <> Sales.SaleNo Then
@@ -147,6 +148,7 @@ BadWpt:
             Service.DataAccess.Records_OpenSQL(SQL)
 
             Do While Service.DataAccess.Records_Available
+                Service.cDataAccess_GetRecordSet(Service.DataAccess.RS)
                 K = "LOC " & I & " - SC#" & Service.ServiceOrderNo
                 'Li = lvwAllStops.ListItems.Add(, K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", , "service")
                 Li = lvwAllStops.Items.Add(K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", 1)
@@ -168,10 +170,11 @@ BadWpt:
             Next
         Else
             'For I = 1 To lvwAllStops.ListItems.Count
-            For I = 1 To lvwAllStops.Items.Count
+            For I = 0 To lvwAllStops.Items.Count - 1
                 'Set Li = lvwAllStops.ListItems(I)
                 Li = lvwAllStops.Items(I)
                 'If Not Li.Ghosted Then SelectStop Li.key ----COMMENTED THIS LINE. BECAUSE GHOSTED PROPERTY IS NOT IN VB.NET. NEED TO FIND AN ALTERNATIVE.
+                If Li.StateImageIndex = 0 Or Li.StateImageIndex = -1 Then SelectStop(Li.Name)
             Next
         End If
     End Sub
@@ -289,14 +292,14 @@ BadWpt:
                 'lvwThisTruck.ListItems.Remove LI2.key
                 lvwThisTruck.Items.RemoveByKey(LI2.ImageKey)
                 'Li.Ghosted = False ----> COMMENTED THIS LINE BECAUSE GHOSTED PROPERTY IS NOT AVAILABLE IN VB.NET. NEED TO FIND REPLACEMENT.
-                'Li.StateImageIndex = 0  ---> ADDED THIS LINE AS A REPLACEMENT GHOSTED PROPERTY. NEED TO TEST BY ADDING ONE MORE DISABLED TYPE OF IMAGE TO IMAGELIST CONTROL.
+                Li.StateImageIndex = 0 '---> ADDED THIS LINE As A REPLACEMENT for GHOSTED Property. NEED To TEST BY ADDING ONE MORE DISABLED TYPE Of IMAGE To IMAGELIST CONTROL.
             End If
         Else
             If Not Remove Then
                 'lvwThisTruck.ListItems.Add , Li.key, Li.Text, , IIf(LCase(Left(Li.Text, 4)) = "sale", "stop", "service")
-                lvwThisTruck.Items.Add(Li.ImageKey, Li.Text, IIf(LCase(Microsoft.VisualBasic.Left(Li.Text, 4)) = "sale", 2, 1))
+                lvwThisTruck.Items.Add(Li.Name, Li.Text, IIf(LCase(Microsoft.VisualBasic.Left(Li.Text, 4)) = "sale", 2, 1))
                 'Li.Ghosted = True  - COMMENTED THIS LINE BECAUSE GHOSTED PROPERTY IS NOT AVAILABLE IN VB.NET. NEED TO FIND A REPLACEMENT FOR THIS PROPERTY.
-                'Li.StateImageIndex = 0  ---> ADDED THIS LINE AS A REPLACEMENT GHOSTED PROPERTY. NEED TO TEST BY ADDING ONE MORE DISABLED TYPE OF IMAGE TO IMAGELIST CONTROL.
+                Li.StateImageIndex = 1 '---> ADDED THIS LINE As A REPLACEMENT for GHOSTED Property. NEED To TEST BY ADDING ONE MORE DISABLED TYPE Of IMAGE To IMAGELIST CONTROL.
             End If
         End If
         UpdateCubes()
@@ -552,9 +555,10 @@ PrintFailure:
         Dim I As Integer, X As Double, LC As Integer, Ty As String, ID As String, Cb As Double
         X = 0
         'For I = 1 To lvwAllStops.ListItems.Count
-        For I = 1 To lvwAllStops.Items.Count
+        'For I = 1 To lvwAllStops.Items.Count
+        For I = 0 To lvwAllStops.Items.Count - 1
             'GetStopInfo lvwAllStops.ListItems(I).key, LC, Ty, ID, , , , , Cb
-            GetStopInfo(lvwAllStops.Items(I).ImageKey, LC, Ty, ID, , , , , Cb)
+            GetStopInfo(lvwAllStops.Items(I).Name, LC, Ty, ID, , , , , Cb)
             If Ty = "Sale" Then
                 X = X + Cb
             End If
@@ -563,9 +567,10 @@ PrintFailure:
 
         X = 0
         'For I = 1 To lvwThisTruck.ListItems.Count
-        For I = 1 To lvwThisTruck.Items.Count
+        'For I = 1 To lvwThisTruck.Items.Count
+        For I = 0 To lvwThisTruck.Items.Count - 1
             'GetStopInfo lvwThisTruck.ListItems(I).key, LC, Ty, ID, , , , , Cb
-            GetStopInfo(lvwThisTruck.Items(I).ImageKey, LC, Ty, ID, , , , , Cb)
+            GetStopInfo(lvwThisTruck.Items(I).Name, LC, Ty, ID, , , , , Cb)
             If Ty = "Sale" Then
                 X = X + Cb
             End If

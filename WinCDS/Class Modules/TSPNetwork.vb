@@ -31,6 +31,29 @@ Public Class TSPNetwork
     Private mDoCancel As Boolean
     Private mMaxFails As Integer
     Private Const MAX_LONG As Integer = 2147483647
+    Private mTimes As Integer
+
+    Public Sub New()
+        Clear()
+        StartTime = #9:00:00 AM#
+        CostPerMile = 0.25
+        CostPerHour = 10.0#
+        Times = 10
+        MaxFails = 50
+    End Sub
+
+    Public Sub Clear()
+        Nodes = New Collection
+    End Sub
+
+    Public Property Times() As Integer
+        Get
+            Times = IIf(mTimes <= 1, 1, mTimes)
+        End Get
+        Set(value As Integer)
+            mTimes = value
+        End Set
+    End Property
 
     Public Sub Setup(Optional ByVal nStartTime As Date = #9:00:00 AM#, Optional ByVal nCostPerMile As Double = 0.45, Optional ByVal nCostPerHour As Double = 10.0#, Optional ByRef nDefaultStopTime As Integer = DEFAULT_STOP_TIME, Optional ByRef nMap As Object = Nothing)
         StartTime = nStartTime
@@ -155,7 +178,7 @@ NONENONE:
     Public Sub AddLocation(Optional ByVal Name As String = "", Optional ByVal Address As String = "", Optional ByRef City As String = "", Optional ByRef State As String = "", Optional ByRef Zip As String = "", Optional ByVal StopTime As Integer = -1, Optional ByVal WindowFrom As Date = #12:00:00 AM#, Optional ByVal WindowTo As Date = #11:59:59 PM#)
         Dim N As New TSPNode
         If Name = "" Then Name = "Node " & Count + 1
-        If DateAfter(WindowFrom, WindowTo, , "n") Then
+        If DateAfter2(WindowFrom, WindowTo, , "n") Then
             Err.Raise(-1, , "The delivery window is invalid.  From must be before to!")
         End If
 

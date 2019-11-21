@@ -247,7 +247,7 @@ Partial Class frmDeliveryMap
         Me.mapStops.Location = New System.Drawing.Point(9, 293)
         Me.mapStops.Name = "mapStops"
         Me.mapStops.OcxState = CType(resources.GetObject("mapStops.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.mapStops.Size = New System.Drawing.Size(56, 56)
+        Me.mapStops.Size = New System.Drawing.Size(192, 192)
         Me.mapStops.TabIndex = 21
         '
         'lblmapStops
@@ -295,7 +295,7 @@ Partial Class frmDeliveryMap
         Me.mapDelivery.Location = New System.Drawing.Point(6, 19)
         Me.mapDelivery.Name = "mapDelivery"
         Me.mapDelivery.OcxState = CType(resources.GetObject("mapDelivery.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.mapDelivery.Size = New System.Drawing.Size(53, 49)
+        Me.mapDelivery.Size = New System.Drawing.Size(192, 192)
         Me.mapDelivery.TabIndex = 0
         '
         'frmDeliveryMap
