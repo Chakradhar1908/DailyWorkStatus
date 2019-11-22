@@ -28,9 +28,10 @@ Partial Class frmOptimize
         '
         'picNetwork
         '
+        Me.picNetwork.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.picNetwork.Location = New System.Drawing.Point(0, 0)
         Me.picNetwork.Name = "picNetwork"
-        Me.picNetwork.Size = New System.Drawing.Size(100, 50)
+        Me.picNetwork.Size = New System.Drawing.Size(278, 219)
         Me.picNetwork.TabIndex = 0
         Me.picNetwork.TabStop = False
         '
@@ -38,10 +39,12 @@ Partial Class frmOptimize
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(279, 226)
         Me.Controls.Add(Me.picNetwork)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
         Me.Name = "frmOptimize"
-        Me.Text = "frmOptimize"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
+        Me.Text = "Route Optimzier"
         CType(Me.picNetwork, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -420,31 +420,31 @@ BadWpt:
         Dim H As Integer, L As Integer
         On Error Resume Next
         'fraMapContainer.Move 120, 120, ScaleWidth - cmdDone.Width - 240, ScaleHeight - 240
-        fraMapContainer.Location = New Point(120, 120)
-        fraMapContainer.Size = New Size(Width - cmdDone.Width - 240, Height - 240)
+        fraMapContainer.Location = New Point(12, 5)
+        fraMapContainer.Size = New Size(Width - cmdDone.Width - 20, Height - 20)
         'fraSplitLoads.Move fraMapContainer.Left, fraMapContainer.Top, fraMapContainer.Width, fraMapContainer.Height
         fraSplitLoads.Location = New Point(fraMapContainer.Left, fraMapContainer.Top)
         fraSplitLoads.Size = New Size(fraMapContainer.Width, fraMapContainer.Height)
         'mapDelivery.Move 60, 60, fraMapContainer.Width - 120, fraMapContainer.Height - 120
-        mapDelivery.Location = New Point(60, 60)
-        mapDelivery.Size = New Size(fraMapContainer.Width - 120, fraMapContainer.Height - 120)
+        mapDelivery.Location = New Point(6, 2)
+        mapDelivery.Size = New Size(fraMapContainer.Width - 20, fraMapContainer.Height - 20)
         H = cmdDone.Height
-        L = Width - cmdDone.Width - 60
+        L = Width - cmdDone.Width - 6
         'cmdDone.Move L, ScaleHeight - H - 60
-        cmdDone.Location = New Point(L, Height - H - 60)
+        cmdDone.Location = New Point(L, Height - H - 50)
         'cmdPrint.Move L, cmdDone.Top - H
         cmdPrint.Location = New Point(L, cmdDone.Top - H)
         'cmbPrintType.Move L, cmdPrint.Top - cmbPrintType.Height - 120
-        cmbPrintType.Location = New Point(L, cmdPrint.Top - cmbPrintType.Height - 120)
+        cmbPrintType.Location = New Point(L, cmdPrint.Top - cmbPrintType.Height - 12)
 
         'cmdSplit.Move L, cmdDone.Top - 2200
-        cmdSplit.Location = New Point(L, cmdDone.Top - 2200)
+        cmdSplit.Location = New Point(L, cmdDone.Top - 200)
         'cmdConfigure.Move L, cmdSplit.Top - H - 60
-        cmdConfigure.Location = New Point(L, cmdSplit.Top - H - 60)
+        cmdConfigure.Location = New Point(L, cmdSplit.Top - H - 6)
         'cmdCancel.Move L, cmdConfigure.Top
         cmdCancel.Location = New Point(L, cmdConfigure.Top)
         'cmdAdjust.Move L, cmdConfigure.Top - H - 60
-        cmdAdjust.Location = New Point(L, cmdConfigure.Top - H - 60)
+        cmdAdjust.Location = New Point(L, cmdConfigure.Top - H - 6)
     End Sub
 
     Private Sub frmDeliveryMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -522,8 +522,8 @@ PrintFailure:
         Dim StopTime As Integer, WFrom As Date, WTo As Date
 
         Network.AddLocation(StoreSettings.Name, StoreSettings.Address, GetWinCDSCity(StoreSettings.City), GetWinCDSState(StoreSettings.City), GetWinCDSZip(StoreSettings.City))
-        For I = 1 To lvwThisTruck.Items.Count
-            GetStopInfo(lvwThisTruck.Items(I).ImageKey, LC, Ty, ID, Nm, MI, WF, WT)
+        For I = 0 To lvwThisTruck.Items.Count - 1
+            GetStopInfo(lvwThisTruck.Items(I).Name, LC, Ty, ID, Nm, MI, WF, WT)
             CI = New clsMailRec
             CI.DataAccess.DataBase = GetDatabaseAtLocation(LC)
             If CI.Load(MI, "#Index") Then
@@ -531,7 +531,7 @@ PrintFailure:
                 StopTime = GetOptimizationSetting("TimePerStop")
                 WFrom = IIf(IsDate(WF), WF, #12:00:00 AM#)
                 WTo = IIf(IsDate(WT), WT, #11:59:59 PM#)
-                If DateAfter(WFrom, WTo, True, "n") Then    ' make sure it's ok
+                If DateAfter2(WFrom, WTo, True, "n") Then    ' make sure it's ok
                     WFrom = #12:00:00 AM#
                     WTo = #11:59:59 PM#
                 End If

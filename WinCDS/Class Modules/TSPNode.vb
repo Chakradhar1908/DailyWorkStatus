@@ -49,15 +49,24 @@
     Public Sub DrawNode(ByVal vPic As PictureBox, Optional ByVal XOff As Integer = 0, Optional ByVal YOff As Integer = 0, Optional ByVal XScale As Single = 1.0#, Optional ByVal YScale As Single = 1.0#)
         Dim Sz As Integer
         'The below variable declaration is to draw line and also to print text in picturebox. Because vb.net does not have picturebox.line method.
-        Dim Bmp As Bitmap = New Bitmap(vPic.Image)
-        Dim G As Graphics = Graphics.FromImage(Bmp)
-        Dim P As Pen = New Pen(Color.Black)
+        Dim Bmp As Bitmap
+        Dim G As Graphics
+        Dim P As Pen
+        Dim PictureInPicturebox As Boolean
 
+        If Not vPic.Image Is Nothing Then
+            Bmp = New Bitmap(vPic.Image)
+            G = Graphics.FromImage(Bmp)
+            P = New Pen(Color.Black)
+            PictureInPicturebox = True
+        End If
         Sz = 20
         vPic.ForeColor = Color.Yellow
         'vPic.Line((X - XOff) * XScale - Sz, (Y - YOff) * YScale - Sz)-((X - XOff) * XScale + Sz, (Y - YOff) * YScale + Sz), , BF
-        G.DrawLine(P, (X - XOff) * XScale - Sz, (Y - YOff) * YScale - Sz, (X - XOff) * XScale + Sz, (Y - YOff) * YScale + Sz)
 
+        If PictureInPicturebox = True Then
+            G.DrawLine(P, (X - XOff) * XScale - Sz, (Y - YOff) * YScale - Sz, (X - XOff) * XScale + Sz, (Y - YOff) * YScale + Sz)
+        End If
         'vPic.CurrentX = (X - XOff) * XScale + Sz
         'vPic.CurrentY = (Y - YOff) * YScale + Sz
         'vPic.ForeColor = vbRed

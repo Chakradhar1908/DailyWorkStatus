@@ -57,15 +57,16 @@ Partial Class frmDeliveryMap
         '
         'cmdSplit
         '
-        Me.cmdSplit.Location = New System.Drawing.Point(601, 143)
+        Me.cmdSplit.Location = New System.Drawing.Point(601, 147)
         Me.cmdSplit.Name = "cmdSplit"
-        Me.cmdSplit.Size = New System.Drawing.Size(75, 33)
+        Me.cmdSplit.Size = New System.Drawing.Size(75, 45)
         Me.cmdSplit.TabIndex = 1
         Me.cmdSplit.Text = "&Split Loads"
         Me.cmdSplit.UseVisualStyleBackColor = True
         '
         'lvwAllStops
         '
+        Me.lvwAllStops.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lvwAllStops.HideSelection = False
         Me.lvwAllStops.Location = New System.Drawing.Point(8, 76)
         Me.lvwAllStops.Name = "lvwAllStops"
@@ -103,18 +104,18 @@ Partial Class frmDeliveryMap
         '
         'cmdDone
         '
-        Me.cmdDone.Location = New System.Drawing.Point(601, 263)
+        Me.cmdDone.Location = New System.Drawing.Point(601, 311)
         Me.cmdDone.Name = "cmdDone"
-        Me.cmdDone.Size = New System.Drawing.Size(75, 39)
+        Me.cmdDone.Size = New System.Drawing.Size(75, 45)
         Me.cmdDone.TabIndex = 5
         Me.cmdDone.Text = "&Done"
         Me.cmdDone.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(601, 220)
+        Me.cmdPrint.Location = New System.Drawing.Point(601, 263)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(75, 37)
+        Me.cmdPrint.Size = New System.Drawing.Size(75, 48)
         Me.cmdPrint.TabIndex = 6
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
@@ -139,9 +140,9 @@ Partial Class frmDeliveryMap
         '
         'cmdAdjust
         '
-        Me.cmdAdjust.Location = New System.Drawing.Point(598, 54)
+        Me.cmdAdjust.Location = New System.Drawing.Point(598, 37)
         Me.cmdAdjust.Name = "cmdAdjust"
-        Me.cmdAdjust.Size = New System.Drawing.Size(78, 36)
+        Me.cmdAdjust.Size = New System.Drawing.Size(75, 45)
         Me.cmdAdjust.TabIndex = 9
         Me.cmdAdjust.Text = "Ad&just Route"
         Me.cmdAdjust.UseVisualStyleBackColor = True
@@ -159,7 +160,7 @@ Partial Class frmDeliveryMap
         '
         Me.cmbPrintType.FormattingEnabled = True
         Me.cmbPrintType.Items.AddRange(New Object() {"Strips", "Full", "Turns", "Dirs", "Map"})
-        Me.cmbPrintType.Location = New System.Drawing.Point(601, 187)
+        Me.cmbPrintType.Location = New System.Drawing.Point(601, 233)
         Me.cmbPrintType.Name = "cmbPrintType"
         Me.cmbPrintType.Size = New System.Drawing.Size(75, 21)
         Me.cmbPrintType.TabIndex = 11
@@ -167,18 +168,18 @@ Partial Class frmDeliveryMap
         '
         'cmdConfigure
         '
-        Me.cmdConfigure.Location = New System.Drawing.Point(601, 98)
+        Me.cmdConfigure.Location = New System.Drawing.Point(598, 90)
         Me.cmdConfigure.Name = "cmdConfigure"
-        Me.cmdConfigure.Size = New System.Drawing.Size(75, 41)
+        Me.cmdConfigure.Size = New System.Drawing.Size(75, 45)
         Me.cmdConfigure.TabIndex = 12
         Me.cmdConfigure.Text = "Con&figure Optimization"
         Me.cmdConfigure.UseVisualStyleBackColor = True
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(598, 98)
+        Me.cmdCancel.Location = New System.Drawing.Point(598, 89)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 39)
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 45)
         Me.cmdCancel.TabIndex = 13
         Me.cmdCancel.Text = "&Cancel Process"
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -237,9 +238,10 @@ Partial Class frmDeliveryMap
         Me.fraSplitLoads.Controls.Add(Me.cmdAddAll)
         Me.fraSplitLoads.Location = New System.Drawing.Point(12, 5)
         Me.fraSplitLoads.Name = "fraSplitLoads"
-        Me.fraSplitLoads.Size = New System.Drawing.Size(580, 367)
+        Me.fraSplitLoads.Size = New System.Drawing.Size(580, 354)
         Me.fraSplitLoads.TabIndex = 18
         Me.fraSplitLoads.TabStop = False
+        Me.fraSplitLoads.Visible = False
         '
         'mapStops
         '
@@ -249,6 +251,7 @@ Partial Class frmDeliveryMap
         Me.mapStops.OcxState = CType(resources.GetObject("mapStops.OcxState"), System.Windows.Forms.AxHost.State)
         Me.mapStops.Size = New System.Drawing.Size(192, 192)
         Me.mapStops.TabIndex = 21
+        Me.mapStops.Visible = False
         '
         'lblmapStops
         '
@@ -283,7 +286,7 @@ Partial Class frmDeliveryMap
         'fraMapContainer
         '
         Me.fraMapContainer.Controls.Add(Me.mapDelivery)
-        Me.fraMapContainer.Location = New System.Drawing.Point(682, 8)
+        Me.fraMapContainer.Location = New System.Drawing.Point(636, 0)
         Me.fraMapContainer.Name = "fraMapContainer"
         Me.fraMapContainer.Size = New System.Drawing.Size(68, 83)
         Me.fraMapContainer.TabIndex = 19
@@ -302,16 +305,16 @@ Partial Class frmDeliveryMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(753, 390)
+        Me.ClientSize = New System.Drawing.Size(709, 374)
         Me.Controls.Add(Me.fraMapContainer)
         Me.Controls.Add(Me.fraSplitLoads)
-        Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdConfigure)
         Me.Controls.Add(Me.cmbPrintType)
         Me.Controls.Add(Me.cmdAdjust)
         Me.Controls.Add(Me.cmdPrint)
         Me.Controls.Add(Me.cmdDone)
         Me.Controls.Add(Me.cmdSplit)
+        Me.Controls.Add(Me.cmdCancel)
         Me.Name = "frmDeliveryMap"
         Me.Text = "Delivery Map"
         Me.fraSplitLoads.ResumeLayout(False)

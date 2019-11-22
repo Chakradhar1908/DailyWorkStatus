@@ -120,8 +120,8 @@ NoArray:
         Next
     End Function
 
-    Public Function CopyArr(ByRef Arr)
-        Dim X(), I As Integer, N As Integer, M As Integer
+    Public Function CopyArr(ByRef Arr As Object)
+        Dim X() As Object, I As Integer, N As Integer, M As Integer
         N = LBound(Arr)
         M = UBound(Arr)
         'ReDim X(N To M)
@@ -133,7 +133,7 @@ NoArray:
     End Function
 
     Public Function RevArrSub(ByRef Arr As Object, ByRef IxFrom As Integer, ByRef Length As Integer)
-        Dim X(), I As Integer
+        Dim X() As Object, I As Integer
         X = CopyArr(Arr)
         For I = 1 To Length
             X(IxFrom + I - 1) = Arr(IxFrom + Length - I)
