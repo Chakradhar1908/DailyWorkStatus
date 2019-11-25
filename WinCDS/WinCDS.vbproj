@@ -764,6 +764,9 @@
     <EmbeddedResource Include="Forms\frmOptimize.resx">
       <DependentUpon>frmOptimize.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmOptimizeRoute.resx">
+      <DependentUpon>frmOptimizeRoute.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPermissionMonitor.resx">
       <DependentUpon>frmPermissionMonitor.vb</DependentUpon>
     </EmbeddedResource>
@@ -1185,6 +1188,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\small-up.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\small-down.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

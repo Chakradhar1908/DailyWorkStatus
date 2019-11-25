@@ -7,4 +7,15 @@
         SetAlwaysOnTop(Me)
         'HelpContextID = 59650
     End Sub
+
+    Private Sub frmOptimize_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        On Error Resume Next
+        picNetwork.Width = Width - 24
+        picNetwork.Height = Height - 24
+        Network.DrawNetwork(picNetwork)
+    End Sub
+
+    Private Sub frmOptimize_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Network = Nothing
+    End Sub
 End Class

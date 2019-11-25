@@ -2,6 +2,7 @@
 Imports MapPoint.GeoCountry
 Imports MapPoint.GeoTimeConstants
 Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports VBRUN
 
 Public Class frmDeliveryMap
     Private Printed As Boolean
@@ -515,6 +516,206 @@ PrintFailure:
         lvwThisTruck.Items.Clear()
     End Sub
 
+    Private Sub cmdDetails_Click(sender As Object, e As EventArgs) Handles cmdDetails.Click
+        If lvwAllStops.View = View.SmallIcon Then
+            lvwAllStops.View = View.Details
+            lvwAllStops.Width = fraSplitLoads.Width - 24
+            lblThisTruck.Visible = False
+            cmdDetails.Text = "Tru&ck"
+        Else
+            lvwAllStops.View = View.SmallIcon
+            lvwAllStops.Width = 337
+            lblThisTruck.Visible = True
+            cmdDetails.Text = "Deta&ils"
+        End If
+    End Sub
+
+    Private Sub cmdManifest_Click(sender As Object, e As EventArgs) Handles cmdManifest.Click
+        Dim whenn As Date, CD As ADODB.Recordset, RD As ADODB.Recordset, X As String, Y As Long
+        Dim I As Integer, LC As Long, Ty As String, ID As String, Nm As String
+
+        whenn = Today
+        whenn = DateAdd("d", Calendar.grid.Col, Today)
+
+        OutputToPrinter = True
+        OutputObject = Printer
+
+        PrintManifestHeader(whenn)
+
+        For I = 0 To lvwThisTruck.Items.Count - 1
+            'GetStopInfo lvwThisTruck.ListItems(I).key, LC, Ty, ID, Nm
+            GetStopInfo(lvwThisTruck.Items(I).Name, LC, Ty, ID, Nm)
+            Y = Printer.CurrentY
+
+            PrintAligned(Ty, , 100, Y)
+            PrintAligned(ID, , 700, Y)
+            PrintAligned(Nm, , 2000, Y)
+            '    PrintAligned DressAni(CleanAni(IfNullThenNilString(CD("Tele")))), , 4000, Y
+            RD = GetRecordsetBySQL("SELECT Tele FROM GrossMargin WHERE SaleNo='" & ID & "'", , GetDatabaseAtLocation(LC))
+            If Not RD.EOF Then
+                PrintAligned(DressAni(CleanAni(IfNullThenNilString(RD("Tele").Value))), , 4000, Y)
+            End If
+            RD = Nothing
+            RD = GetRecordsetBySQL("SELECT Sale - Deposit AS BalDue FROM Holding WHERE LeaseNo='" & ID & "'", , GetDatabaseAtLocation(LC))
+            If Not RD.EOF Then
+                PrintAligned(FormatCurrency(RD("BalDue").Value), , 5800, Y)
+            End If
+            RD = Nothing
+            PrintAligned("_______", , 7100, Y)
+            PrintAligned("_______", , 8100, Y)
+            PrintAligned("")
+
+            If Printer.CurrentY > Printer.ScaleHeight + 500 Then
+                Printer.NewPage()
+                PrintManifestHeader(whenn)
+            End If
+        Next
+        Printer.EndDoc()
+    End Sub
+
+    Private Sub PrintManifestHeader(ByVal whenn As Date)
+        Dim Y As Long
+
+        Printer.FontSize = 20
+        Printer.FontBold = True
+        PrintAligned(StoreSettings.Name, AlignmentConstants.vbCenter)
+        PrintAligned(StoreSettings.Address, AlignmentConstants.vbCenter)
+        Printer.FontSize = 14
+        PrintAligned("")
+        PrintAligned("Delivery Manifest for " & whenn, AlignmentConstants.vbCenter)
+        PrintAligned("")
+        Y = Printer.CurrentY
+        Printer.FontSize = 10
+        Printer.FontBold = False
+        PrintAligned("Type", , 100, Y, True)
+        PrintAligned("SaleNo", , 700, Y, True)
+        PrintAligned("Name", , 2000, Y, True)
+        '  PrintAligned "Tele", , 4000, Y, True
+        PrintAligned("BalDue", , 5800, Y, True)
+        PrintAligned("Complete", , 7100, Y, True)
+        PrintAligned("Partial", , 8100, Y, True)
+        'Printer.Line(100, Printer.CurrentY)-(Printer.ScaleWidth - 100, Printer.CurrentY)
+        Printer.Line(100, Printer.CurrentY, Printer.ScaleWidth - 100, Printer.CurrentY)
+    End Sub
+
+    Private Sub cmdRemoveAll_Click(sender As Object, e As EventArgs) Handles cmdRemoveAll.Click
+        SelectAllStops(True)
+    End Sub
+
+    Private Sub cmdAddAll_Click(sender As Object, e As EventArgs) Handles cmdAddAll.Click
+        SelectAllStops()
+    End Sub
+
+    Private Sub cmdShow_Click(sender As Object, e As EventArgs) Handles cmdShow.Click
+        DoControls(False)
+        If mapStops.Visible Then
+            mapStops.Visible = False
+            mapStops.ActiveMap.Saved = True
+            mapStops.CloseMap()
+            cmdShow.Text = "Locate Sto&ps on Map"
+            'cmdShow.Cancel = False
+            Me.CancelButton = Nothing
+        Else
+            'mapStops.Move 120, 3840, fraSplitLoads.Width - 240, fraSplitLoads.Height - 4120
+            mapStops.Location = New Point(12, 384)
+            mapStops.Size = New Size(fraSplitLoads.Width - 24, fraSplitLoads.Height - 412)
+            mapStops.NewMap(MapPointPTT)
+            mapStops.Toolbars.Item("Standard").Visible = False
+            mapStops.PaneState = GeoPaneState.geoPaneRoutePlanner
+            mapStops.Visible = True
+            MapAllStops(, True)
+
+            ' Start point
+            Dim SI As StoreInfo, StoreCity As String, StoreState As String, StoreZip As String
+            SI = StoreSettings()
+            StoreCity = SI.City
+            CitySTZip(StoreCity, StoreState, StoreZip)
+            AddWaypoint(mapStops.ActiveMap, SI.Address, StoreCity, , StoreState, StoreZip, geoCountryUnitedStates, SI.Name, True)
+
+            cmdShow.Text = "Hide Sto&ps"
+            'cmdShow.Cancel = True
+            Me.CancelButton = cmdShow
+            On Error Resume Next
+            Dim R() As Object, RI As Long
+            ReDim R(0 To Network.Count - 1)
+            For RI = 1 To Network.Count
+                R(RI - 1) = mapStops.ActiveMap.FindPushpin(Network.Node(RI - 1).Name).Location
+            Next
+            mapStops.ActiveMap.Union(R).GoTo()
+        End If
+        DoControls(True)
+    End Sub
+
+    Private Sub MapAllStops(Optional ByVal DontRoute As Boolean = False, Optional ByVal DoSelect As Boolean = False)
+        Dim I As Integer, Li As ListViewItem
+        Dim LC As Long, Ty As String, ID As String, Nm As String, MI As Long
+        Dim wpStore As Waypoint
+        Dim SI As StoreInfo
+
+        ProgressForm(-2, 1, "Displaying your stops, please wait...")
+
+        mapStops.ActiveMap.ActiveRoute.Clear()
+
+        '  SI = GetStoreInformation(StoresSld)
+        '  Set wpStore = AddWaypoint(mapStops.ActiveMap, SI.Address, GetWinCDSCity(SI.City), , GetWinCDSState(SI.City), GetWinCDSZip(SI.City), geoCountryUnitedStates, SI.Name)
+
+        For I = 0 To lvwAllStops.Items.Count - 1
+            'GetStopInfo lvwAllStops.ListItems(I).key, LC, Ty, ID, Nm, MI
+            GetStopInfo(lvwAllStops.Items(I).Name, LC, Ty, ID, Nm, MI)
+            LoadWaypointForCustomerIndex(mapStops.ActiveMap, GetDatabaseAtLocation(LC), MI, Ty & " " & ID, DoSelect)
+        Next
+
+        ' End point - Add the same waypoint we started at.
+        '  mapStops.ActiveMap.ActiveRoute.Waypoints.Add wpStore.Anchor, "End"
+
+        '  Dim R()
+        '  ReDim R(mapStops.ActiveMap.ActiveRoute.Waypoints.Count - 1)
+        '  For I = 1 To mapStops.ActiveMap.ActiveRoute.Waypoints.Count
+        '    Set R(I - 1) = mapStops.ActiveMap.ActiveRoute.Waypoints(I)
+        '  Next I
+        'On Error Resume Next
+        '  mapStops.ActiveMap.Union(R).Goto
+
+        '  mapStops.ActiveMap.ActiveRoute.Waypoints(1).Location.Goto
+        '  mapStops.ActiveMap.Selection.Location.Goto
+        ProgressForm()
+    End Sub
+
+    Private Sub LoadWaypointForCustomerIndex(ByRef M As Map, ByVal dB As String, ByVal MailIndex As Long, ByVal WayPointName As String, Optional ByVal DoSelect As Boolean = False)
+        Dim Cust As clsMailRec, Shipping As MailNew2
+        Dim WP As Waypoint
+        Cust = New clsMailRec
+        Cust.DataAccess.DataBase = dB
+        If Cust.Load(MailIndex, "#Index") Then
+            ' What about shipping addresses?
+            modMail.Mail2_GetAtIndex(CStr(Cust.Index), Shipping, StoresSld)
+            If Shipping.Address2 <> "" Then
+                WP = AddWaypoint(M, Shipping.Address2, GetWinCDSCity(Shipping.City2), , GetWinCDSState(Shipping.City2), Shipping.Zip2, geoCountryUnitedStates, WayPointName & ", " & Shipping.ShipToLast, DoSelect)
+            Else
+                WP = AddWaypoint(M, Cust.Address, GetWinCDSCity(Cust.City), , GetWinCDSState(Cust.City), Cust.Zip, geoCountryUnitedStates, WayPointName & ", " & Cust.Last, DoSelect)
+            End If
+            If Not WP Is Nothing Then
+                WP.StopTime = geoOneHour * 0.5  ' default 30 minute stops?
+            End If
+        Else
+            ' Couldn't load the customer, don't make a waypoint.
+        End If
+        DisposeDA(Cust)
+    End Sub
+
+    Private Sub cmdAdjust_Click(sender As Object, e As EventArgs) Handles cmdAdjust.Click
+        If Network Is Nothing Then
+            MessageBox.Show("Please route the stops first before trying to change their order.")
+            Exit Sub
+        End If
+
+        'Load frmOptimizeRoute
+        'frmOptimizeRoute.Show()
+        frmOptimizeRoute.Network = Network
+        frmOptimizeRoute.LoadStops
+        frmOptimizeRoute.Show()
+    End Sub
+
     Private Function OptimizeStops() As Object
         Dim I As Integer, LC As Integer, Ty As String, ID As String, Nm As String, MI As Integer
         Dim WF As String, WT As String
@@ -601,3 +802,4 @@ PrintFailure:
     End Sub
 
 End Class
+

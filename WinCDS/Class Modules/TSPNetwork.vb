@@ -1089,4 +1089,10 @@ NONENONE:
         Next
     End Sub
 
+    Public ReadOnly Property BestCost() As Single
+        Get
+            BestCost = m_BestCost
+        End Get
+    End Property
+
 End Class

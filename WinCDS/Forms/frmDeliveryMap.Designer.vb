@@ -43,16 +43,16 @@ Partial Class frmDeliveryMap
         Me.lblCurrentTruckCubes = New System.Windows.Forms.Label()
         Me.lblInstructions = New System.Windows.Forms.Label()
         Me.fraSplitLoads = New System.Windows.Forms.GroupBox()
-        Me.mapStops = New AxMapPoint.AxMappointControl()
         Me.lblmapStops = New System.Windows.Forms.Label()
         Me.lblThisTruck = New System.Windows.Forms.Label()
         Me.lblAllStops = New System.Windows.Forms.Label()
         Me.fraMapContainer = New System.Windows.Forms.GroupBox()
         Me.mapDelivery = New AxMapPoint.AxMappointControl()
+        Me.mapStops = New AxMapPoint.AxMappointControl()
         Me.fraSplitLoads.SuspendLayout()
-        CType(Me.mapStops, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraMapContainer.SuspendLayout()
         CType(Me.mapDelivery, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.mapStops, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cmdSplit
@@ -243,16 +243,6 @@ Partial Class frmDeliveryMap
         Me.fraSplitLoads.TabStop = False
         Me.fraSplitLoads.Visible = False
         '
-        'mapStops
-        '
-        Me.mapStops.Enabled = True
-        Me.mapStops.Location = New System.Drawing.Point(9, 293)
-        Me.mapStops.Name = "mapStops"
-        Me.mapStops.OcxState = CType(resources.GetObject("mapStops.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.mapStops.Size = New System.Drawing.Size(192, 192)
-        Me.mapStops.TabIndex = 21
-        Me.mapStops.Visible = False
-        '
         'lblmapStops
         '
         Me.lblmapStops.Location = New System.Drawing.Point(6, 248)
@@ -301,6 +291,16 @@ Partial Class frmDeliveryMap
         Me.mapDelivery.Size = New System.Drawing.Size(192, 192)
         Me.mapDelivery.TabIndex = 0
         '
+        'mapStops
+        '
+        Me.mapStops.Enabled = True
+        Me.mapStops.Location = New System.Drawing.Point(9, 293)
+        Me.mapStops.Name = "mapStops"
+        Me.mapStops.OcxState = CType(resources.GetObject("mapStops.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.mapStops.Size = New System.Drawing.Size(192, 192)
+        Me.mapStops.TabIndex = 21
+        Me.mapStops.Visible = False
+        '
         'frmDeliveryMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -319,9 +319,9 @@ Partial Class frmDeliveryMap
         Me.Text = "Delivery Map"
         Me.fraSplitLoads.ResumeLayout(False)
         Me.fraSplitLoads.PerformLayout()
-        CType(Me.mapStops, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraMapContainer.ResumeLayout(False)
         CType(Me.mapDelivery, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.mapStops, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

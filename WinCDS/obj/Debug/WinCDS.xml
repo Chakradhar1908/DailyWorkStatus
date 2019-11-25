@@ -22,6 +22,16 @@ WinCDS
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.small_down">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.small_up">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.Store1Logo">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
