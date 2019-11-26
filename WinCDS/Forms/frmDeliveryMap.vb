@@ -98,6 +98,18 @@ BadWpt:
         MessageBox.Show("Couldn't route the following address:" & vbCrLf2 & Street & vbCrLf & City & ", " & State & " " & Zip & vbCrLf2 & "NOTE: You cannot route to a PO box.", "Bad Address", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
     End Function
 
+    Private Function AddWaypointToHiddenMap(Optional ByVal Street As String = "", Optional ByVal City As String = "", Optional ByVal OtherCity As String = "", Optional ByVal State As String = "", Optional ByVal Zip As String = "", Optional ByVal Country As Integer = 0, Optional ByVal PointName As String = "") As Waypoint
+        Dim FR As FindResults, Pin As Pushpin, I As Integer
+
+        FR = HiddenMap.FindAddressResults(Street, City, OtherCity, State, Zip, Country)
+        If FR.Count = 0 Then
+            MessageBox.Show("Cannot re-locate address: " & PointName, "Bad Address", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            Pin = HiddenMap.AddPushpin(FR(1), PointName)
+            AddWaypointToHiddenMap = HiddenMap.ActiveRoute.Waypoints.Add(Pin)
+        End If
+    End Function
+
     Private Sub LoadAllStops(ByVal DeliveryDate As String, ByVal FirstStore As Integer, ByVal LastStore As Integer)
         Dim WP As Waypoint
         Dim GMDB As String, SQL As String
@@ -165,7 +177,8 @@ BadWpt:
         Dim I As Integer, Li As ListViewItem
         If Remove Then
             'For I = lvwThisTruck.ListItems.Count To 1 Step -1
-            For I = lvwThisTruck.Items.Count To 1 Step -1
+            'For I = lvwThisTruck.Items.Count  To 1 Step -1
+            For I = lvwThisTruck.Items.Count - 1 To 0 Step -1
                 'SelectStop lvwThisTruck.ListItems(I).key, True
                 SelectStop(lvwThisTruck.Items(I).ImageKey, True)
             Next
@@ -244,6 +257,40 @@ BadWpt:
         ProgressForm()
 
         DoControls(True)
+    End Sub
+
+    Private Sub RouteThisTruckWithoutWaypoints(Optional ByVal DontRoute As Boolean = False)
+        Dim I As Integer, Li As ListViewItem
+        Dim LC As Integer, Ty As String, ID As String, Nm As String, MI As Integer
+        Dim wpStore As Waypoint
+
+        mapDelivery.ActiveMap.ActiveRoute.Clear()
+
+        wpStore = AddWaypoint(mapDelivery.ActiveMap, StoreSettings.Address, GetWinCDSCity(StoreSettings.City), , GetWinCDSState(StoreSettings.City), GetWinCDSZip(StoreSettings.City), geoCountryUnitedStates, StoreSettings.Name)
+
+        'For I = 1 To lvwThisTruck.ListItems.Count
+        For I = 0 To lvwThisTruck.Items.Count - 1
+            GetStopInfo(lvwThisTruck.Items(I).Name, LC, Ty, ID, Nm, MI)
+            LoadWaypointForCustomerIndex(mapDelivery.ActiveMap, GetDatabaseAtLocation(LC), MI, Ty & " " & ID)
+        Next
+
+        ' End point - Add the same waypoint we started at.
+        mapDelivery.ActiveMap.ActiveRoute.Waypoints.Add(wpStore.Anchor, "End")
+
+        RouteCurrentWaypoints(mapDelivery.ActiveMap, DontRoute)
+    End Sub
+
+    Private Sub RouteCurrentWaypoints(ByRef M As Map, Optional ByVal DontRoute As Boolean = False)
+        If M.ActiveRoute.Waypoints.Count <= 0 Then Exit Sub
+
+        On Error Resume Next
+        If Not DontRoute Then
+            M.ActiveRoute.Waypoints.Optimize()  ' MS optimization, disregards most time stops.
+            M.ActiveRoute.Calculate()
+        End If
+
+        M.ActiveRoute.Directions.Location.GoTo()
+        M.Saved = True
     End Sub
 
     Private Sub SetStopInfoByLI(ByRef Li As ListViewItem, ByVal Location As Integer, ByVal StopType As String, ByVal StopID As String, ByVal StopName As String, ByVal StopMail As Integer, ByVal StopStart As String, ByVal StopEnd As String, ByVal Cubes As Double)
@@ -499,13 +546,13 @@ BadWpt:
                 Network.SaveNetwork(F)
                 MessageBox.Show("Route saved to: " & F)
                 Printed = True
-                TruckIsRouted
+                TruckIsRouted()
                 Exit Sub
             Case Else : GPA = GeoPrintArea.geoPrintStripMaps
         End Select
         mapDelivery.ActiveMap.PrintOut(, Me.Text, , GPA)
         Printed = True
-        TruckIsRouted
+        TruckIsRouted()
         Exit Sub
 PrintFailure:
         MessageBox.Show(Err.Description, "Printer Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -531,8 +578,8 @@ PrintFailure:
     End Sub
 
     Private Sub cmdManifest_Click(sender As Object, e As EventArgs) Handles cmdManifest.Click
-        Dim whenn As Date, CD As ADODB.Recordset, RD As ADODB.Recordset, X As String, Y As Long
-        Dim I As Integer, LC As Long, Ty As String, ID As String, Nm As String
+        Dim whenn As Date, CD As ADODB.Recordset, RD As ADODB.Recordset, X As String, Y As Integer
+        Dim I As Integer, LC As Integer, Ty As String, ID As String, Nm As String
 
         whenn = Today
         whenn = DateAdd("d", Calendar.grid.Col, Today)
@@ -574,7 +621,7 @@ PrintFailure:
     End Sub
 
     Private Sub PrintManifestHeader(ByVal whenn As Date)
-        Dim Y As Long
+        Dim Y As Integer
 
         Printer.FontSize = 20
         Printer.FontBold = True
@@ -636,7 +683,7 @@ PrintFailure:
             'cmdShow.Cancel = True
             Me.CancelButton = cmdShow
             On Error Resume Next
-            Dim R() As Object, RI As Long
+            Dim R() As Object, RI As Integer
             ReDim R(0 To Network.Count - 1)
             For RI = 1 To Network.Count
                 R(RI - 1) = mapStops.ActiveMap.FindPushpin(Network.Node(RI - 1).Name).Location
@@ -648,7 +695,7 @@ PrintFailure:
 
     Private Sub MapAllStops(Optional ByVal DontRoute As Boolean = False, Optional ByVal DoSelect As Boolean = False)
         Dim I As Integer, Li As ListViewItem
-        Dim LC As Long, Ty As String, ID As String, Nm As String, MI As Long
+        Dim LC As Integer, Ty As String, ID As String, Nm As String, MI As Integer
         Dim wpStore As Waypoint
         Dim SI As StoreInfo
 
@@ -681,7 +728,7 @@ PrintFailure:
         ProgressForm()
     End Sub
 
-    Private Sub LoadWaypointForCustomerIndex(ByRef M As Map, ByVal dB As String, ByVal MailIndex As Long, ByVal WayPointName As String, Optional ByVal DoSelect As Boolean = False)
+    Private Sub LoadWaypointForCustomerIndex(ByRef M As Map, ByVal dB As String, ByVal MailIndex As Integer, ByVal WayPointName As String, Optional ByVal DoSelect As Boolean = False)
         Dim Cust As clsMailRec, Shipping As MailNew2
         Dim WP As Waypoint
         Cust = New clsMailRec
@@ -712,8 +759,36 @@ PrintFailure:
         'Load frmOptimizeRoute
         'frmOptimizeRoute.Show()
         frmOptimizeRoute.Network = Network
-        frmOptimizeRoute.LoadStops
+        frmOptimizeRoute.LoadStops()
         frmOptimizeRoute.Show()
+    End Sub
+
+    Private Sub cmdConfigure_Click(sender As Object, e As EventArgs) Handles cmdConfigure.Click
+        frmOptimizeConfig.ShowDialog()
+        RouteThisTruck()
+    End Sub
+
+    Private Sub cmdSplit_Click(sender As Object, e As EventArgs) Handles cmdSplit.Click
+        If fraSplitLoads.Visible Then
+            fraMapContainer.Visible = True
+            fraSplitLoads.Visible = False
+            cmdSplit.Text = "&Split Loads"
+            SetButtonImage(cmdSplit, "back")
+            RouteThisTruck()
+        Else
+            fraMapContainer.Visible = False
+            fraSplitLoads.Visible = True
+            cmdSplit.Text = "Route Stop&s"
+            SetButtonImage(cmdSplit, "forward")
+        End If
+    End Sub
+
+    Private Sub cmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click
+        Me.Close()
+    End Sub
+
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
+        Network.Cancel()
     End Sub
 
     Private Function OptimizeStops() As Object
@@ -750,6 +825,46 @@ PrintFailure:
         OptimizeStops = Network.GetResultSet
         'Unload frmOptimize
         frmOptimize.Close()
+    End Function
+
+    Private Sub lblAllStops_DoubleClick(sender As Object, e As EventArgs) Handles lblAllStops.DoubleClick
+        lvwAllStops.View = IIf(lvwAllStops.View = View.List, View.Details, View.List)
+    End Sub
+
+    Private Sub lvwAllStops_DoubleClick(sender As Object, e As EventArgs) Handles lvwAllStops.DoubleClick
+        'SelectStop(lvwAllStops.SelectedItem.key)
+        Dim i As Integer
+        For i = 0 To lvwAllStops.Items.Count - 1
+            If lvwAllStops.Items(i).Selected = True Then
+                SelectStop(lvwAllStops.Items(i).Name)
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub lvwThisTruck_DoubleClick(sender As Object, e As EventArgs) Handles lvwThisTruck.DoubleClick
+        On Error Resume Next
+        'SelectStop lvwThisTruck.SelectedItem.key, True
+        Dim i As Integer
+        For i = 0 To lvwThisTruck.Items.Count - 1
+            If lvwThisTruck.Items(i).Selected = True Then
+                SelectStop(lvwThisTruck.Items(i).Name)
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub mapDelivery_RouteAfterCalculate(sender As Object, e As AxMapPoint._IMappointCtrlEvents_RouteAfterCalculateEvent) Handles mapDelivery.RouteAfterCalculate
+        ' The route has changed..
+        Printed = False
+    End Sub
+
+    Private Function IsStopSelected(ByVal key As String) As Boolean
+        Dim Li As ListViewItem
+        On Error Resume Next
+        'Li = lvwThisTruck.ListItems(key)
+        Li = lvwThisTruck.Items.Item(key)
+        IsStopSelected = Not (Li Is Nothing)
     End Function
 
     Private Sub UpdateCubes()
@@ -801,5 +916,94 @@ PrintFailure:
         Cubes = Val(Li.SubItems(10))
     End Sub
 
+    Private Sub Opt_GetNodeXY(NodeID As Integer, NodeKey As String, ByRef X As Integer, ByRef Y As Integer) Handles Opt.GetNodeXY
+        Dim Ky As String, W As Waypoint
+
+        Debug.Print("GetNodeXY: ID=" & NodeID & ", Key=" & NodeKey)
+        Ky = IOpt.NodeKey(NodeID)
+        W = mapDelivery.ActiveMap.ActiveRoute.Waypoints(Ky)
+        X = mapDelivery.ActiveMap.LocationToX(W.Location)
+        Y = mapDelivery.ActiveMap.LocationToY(W.Location)
+    End Sub
+
+    'This event is replacement for Sub opt_GetTransferStats of vb6.0
+    Private Sub Opt_TransferStats(NodeFromID As Integer, NodeToID As Integer, ByRef Mileage As Integer, ByRef MileageCost As Double, ByRef DriveTime As Integer, ByRef DriveTimeCost As Double, ByRef TotalCost As Double) Handles Opt.TransferStats
+        Dim FK As String, Tk As String, X As Integer
+
+        Debug.Print("GetTransferStats: " & NodeFromID & "->" & NodeToID)
+        FK = IOpt.NodeKey(NodeFromID)
+        Tk = IOpt.NodeKey(NodeToID)
+        CalculateLegDistance(FK, Tk, Mileage, DriveTime, MileageCost)
+        DriveTimeCost = IOpt.DefaultDriverHourlyWage * DriveTime / 60.0#
+        TotalCost = DriveTimeCost + MileageCost
+    End Sub
+
+    'Note: This event is replacement for OLEDragDrop event of vb6.0
+    Private Sub lvwAllStops_DragDrop(sender As Object, e As DragEventArgs) Handles lvwAllStops.DragDrop
+        'SelectStop Data.GetData(ccCFText), True
+        SelectStop(e.Data.GetData(DataFormats.Text), True)
+    End Sub
+
+    'Note: This event is replacement for Private Sub lvwAllStops_OLESetData event of vb6.0
+    Private Sub lvwAllStops_DragEnter(sender As Object, e As DragEventArgs) Handles lvwAllStops.DragEnter
+        'Data.SetData lvwAllStops.SelectedItem.key, ccCFText
+        Dim i As Integer
+        For i = 0 To lvwAllStops.Items.Count - 1
+            If lvwAllStops.Items(i).Selected = True Then
+                SelectStop(lvwAllStops.Items(i).Name)
+                e.Data.SetData(DataFormats.Text, lvwAllStops.Items(i).Name)
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub lvwThisTruck_DragDrop(sender As Object, e As DragEventArgs) Handles lvwThisTruck.DragDrop
+        'SelectStop Data.GetData(ccCFText)
+        SelectStop(e.Data.GetData(DataFormats.Text))
+    End Sub
+
+    Private Sub lvwThisTruck_DragEnter(sender As Object, e As DragEventArgs) Handles lvwThisTruck.DragEnter
+        'Data.SetData lvwThisTruck.SelectedItem.key, ccCFText
+        Dim i As Integer
+        For i = 0 To lvwThisTruck.Items.Count - 1
+            If lvwThisTruck.Items(i).Selected = True Then
+                SelectStop(lvwThisTruck.Items(i).Name)
+                e.Data.SetData(DataFormats.Text, lvwThisTruck.Items(i).Name)
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub CalculateLegDistance(ByVal NodeKeyFrom As String, ByVal NodeKeyTo As String, ByVal Distance As Integer, ByVal DrivingTime As Integer, ByVal Cost As Double)
+        Dim Pin As Pushpin, wpFrom As Waypoint, wpTo As Waypoint, sA As StreetAddress
+        Dim tL As Location
+        If NodeKeyFrom = NodeKeyTo Then Exit Sub
+        HiddenMap.Saved = True ' avoid 'save' prompt
+        HiddenMap.ActiveRoute.Clear()
+        wpFrom = mapDelivery.ActiveMap.ActiveRoute.Waypoints(NodeKeyFrom).Anchor
+        '    Set sa = wpFrom.Location.StreetAddress
+        HiddenMap.ActiveRoute.Waypoints.Add(wpFrom.Anchor, wpFrom.Name)
+        '    AddWaypointToHiddenMap sa.Street, sa.City, sa.OtherCity, sa.City, sa.PostalCode, sa.Country, wpFrom.Name
+
+        wpTo = mapDelivery.ActiveMap.ActiveRoute.Waypoints(NodeKeyTo)
+        '    Set sa = wpFrom.Location.StreetAddress
+        HiddenMap.ActiveRoute.Waypoints.Add(wpTo.Anchor, wpTo.Name)
+        '    AddWaypointToHiddenMap sa.Street, sa.City, sa.OtherCity, sa.City, sa.PostalCode, sa.Country, wpTo.Name
+
+        HiddenMap.ActiveRoute.Waypoints.Optimize()
+        HiddenMap.ActiveRoute.Calculate()
+        DrivingTime = HiddenMap.ActiveRoute.DrivingTime
+        Distance = HiddenMap.ActiveRoute.Distance
+        Cost = HiddenMap.ActiveRoute.Cost
+        HiddenMap.Saved = True ' avoid 'save' prompt
+    End Sub
+
+    Private Sub Opt_GetTimeCost(Mins As Integer, ByRef Cost As Double) Handles Opt.GetTimeCost
+        Debug.Print("opt_GetTimeCost")
+    End Sub
+
+    Private Sub Opt_GetOvertimeCost(FinishTime As Integer, ExtraMinutes As Integer, ByRef Cost As Double) Handles Opt.GetOvertimeCost
+        Debug.Print("opt_GetOvertimeCost")
+    End Sub
 End Class
 

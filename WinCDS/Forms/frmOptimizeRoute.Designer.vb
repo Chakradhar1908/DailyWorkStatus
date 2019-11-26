@@ -41,7 +41,7 @@ Partial Class frmOptimizeRoute
         Me.lvw.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvw.TabIndex = 0
         Me.lvw.UseCompatibleStateImageBehavior = False
-        Me.lvw.View = System.Windows.Forms.View.Details
+        Me.lvw.View = System.Windows.Forms.View.Tile
         '
         'cmdOK
         '

@@ -168,7 +168,7 @@ Partial Class frmDeliveryMap
         '
         'cmdConfigure
         '
-        Me.cmdConfigure.Location = New System.Drawing.Point(598, 90)
+        Me.cmdConfigure.Location = New System.Drawing.Point(598, 88)
         Me.cmdConfigure.Name = "cmdConfigure"
         Me.cmdConfigure.Size = New System.Drawing.Size(75, 45)
         Me.cmdConfigure.TabIndex = 12

@@ -1095,4 +1095,27 @@ NONENONE:
         End Get
     End Property
 
+    Public Sub Cancel()
+        If Running Then mDoCancel = True
+    End Sub
+
+    Public Sub ForceManualSwap(ByRef A As Integer, ByRef B As Integer)
+        Dim Node1 As Integer, Node2 As Integer, I As Integer, Temp As Integer
+        If A = B Then Exit Sub
+        For I = 0 To Count - 1
+            If m_BestSolution(I) = A Then Node1 = I
+            If m_BestSolution(I) = B Then Node2 = I
+        Next
+
+        ' Try swapping them.
+        Temp = m_BestSolution(Node1)
+        m_BestSolution(Node1) = m_BestSolution(Node2)
+        m_BestSolution(Node2) = Temp
+
+        m_BestCost = CalculateSolutionCost(m_BestSolution)
+        m_BestSolutionDelays = CopyArr(m_TestSolutionDelays)
+        m_BestSolutionEndTime = c_BestEndTime
+        ReportSolutionCostProgress()
+    End Sub
+
 End Class
