@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.WinCDS.frmOptimizeRoute
+            Me.MainForm = Global.WinCDS.MainMenu4
         End Sub
     End Class
 End Namespace

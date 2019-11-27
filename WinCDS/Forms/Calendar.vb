@@ -226,9 +226,11 @@ Public Class Calendar
         ProgressForm()
 
         ActiveLog("Calendar::OpenMap - Showing Map Form...", 4)
+        Me.Cursor = Cursors.AppStarting
         frmDeliveryMap.Show
         ActiveLog("Calendar::OpenMap - Showed Map Form...", 3)
         frmDeliveryMap.CreateRoute(IIf(chkMultiple.Checked = True, 0, StoresSld), DateValue(Mid(grid.get_TextMatrix(0, grid.Col), 6))) '  DateAdd("d", grid.Col, Date)
+        Me.Cursor = Cursors.Default
     End Sub
 
     Private Sub cmdMenu_Click(sender As Object, e As EventArgs) Handles cmdMenu.Click
@@ -432,12 +434,19 @@ HandleErr:
     Private Sub Calendar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim AllStores As Boolean
 
-        SetButtonImage(cmdMenu, "menu")
-        SetButtonImage(cmdManifest, "calendar")
-        SetButtonImage(cmdPrint, "print")
-        SetButtonImage(cmdInstr, "zoom")
-        SetButtonImage(cmdMap, "map")
-        SetButtonImage(cmdDDT, "south")
+        'SetButtonImage(cmdMenu, "menu")
+        'SetButtonImage(cmdManifest, "calendar")
+        'SetButtonImage(cmdPrint, "print")
+        'SetButtonImage(cmdInstr, "zoom")
+        'SetButtonImage(cmdMap, "map")
+        'SetButtonImage(cmdDDT, "south")
+
+        SetButtonImage(cmdMenu, 9)
+        SetButtonImage(cmdManifest, 18)
+        SetButtonImage(cmdPrint, 19)
+        SetButtonImage(cmdInstr, 20)
+        SetButtonImage(cmdMap, 21)
+        SetButtonImage(cmdDDT, 13)
 
         AllowInstr = True
         AllowMap = CheckAllowMap()  ' Poor man's component-installation check.

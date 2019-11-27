@@ -3,8 +3,8 @@
     Private SetupIndex As Integer, SetupResult As String
 
     Private Sub frmBOSDiscount_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetButtonImage(cmdOK)
-        SetButtonImage(cmdCancel)
+        SetButtonImage(cmdOK, 2)
+        SetButtonImage(cmdCancel, 3)
         'SetCustomFrame Me, ncBasicDialog -This line is not required. It is using to set the font and color properties using modNeoCaption module.
 
         SetupIndex = 0

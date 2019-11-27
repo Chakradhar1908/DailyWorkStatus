@@ -375,12 +375,12 @@ BadWpt:
 
     Private Sub frmDeliveryMap_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActiveLog("frmDeliveryMap::Form_Load...", 8)
-        SetButtonImage(cmdDone)
-        SetButtonImage(cmdPrint)
-        SetButtonImage(cmdSplit, "back")
-        SetButtonImage(cmdCancel)
-        SetButtonImage(cmdConfigure, "calendar")
-        SetButtonImage(cmdAdjust, "plus")
+        SetButtonImage(cmdDone, 2)
+        SetButtonImage(cmdPrint, 19)
+        SetButtonImage(cmdSplit, 8)
+        SetButtonImage(cmdCancel, 3)
+        SetButtonImage(cmdConfigure, 18)
+        SetButtonImage(cmdAdjust, 0)
         On Error Resume Next
         LoadHiddenMap()
 
@@ -773,13 +773,15 @@ PrintFailure:
             fraMapContainer.Visible = True
             fraSplitLoads.Visible = False
             cmdSplit.Text = "&Split Loads"
-            SetButtonImage(cmdSplit, "back")
+            'SetButtonImage(cmdSplit, "back")
+            SetButtonImage(cmdSplit, 8)
             RouteThisTruck()
         Else
             fraMapContainer.Visible = False
             fraSplitLoads.Visible = True
             cmdSplit.Text = "Route Stop&s"
-            SetButtonImage(cmdSplit, "forward")
+            'SetButtonImage(cmdSplit, "forward")
+            SetButtonImage(cmdSplit, 1)
         End If
     End Sub
 

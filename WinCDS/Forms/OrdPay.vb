@@ -571,8 +571,10 @@ HandleErr:
     End Sub
 
     Private Sub OrdPay_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetButtonImage(cmdOk)
-        SetButtonImage(cmdCancel)
+        'SetButtonImage(cmdOk)
+        'SetButtonImage(cmdCancel)
+        SetButtonImage(cmdOk, 2)
+        SetButtonImage(cmdCancel, 3)
         'SetCustomFrame(Me, ncBasicDialog)  -> Not required. It is just for formatting like colors, font etc.
         ColorDatePicker(dtePayDate)
         Left = 2800

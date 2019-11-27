@@ -141,9 +141,12 @@
     End Sub
 
     Private Sub frmYardage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetButtonImage(cmdOK)
-        SetButtonImage(cmdClear)
-        SetButtonImage(cmdCancel)
+        'SetButtonImage(cmdOK)
+        'SetButtonImage(cmdClear)
+        'SetButtonImage(cmdCancel)
+        SetButtonImage(cmdOK, 2)
+        SetButtonImage(cmdClear, 22)
+        SetButtonImage(cmdCancel, 3)
         'SetCustomFrame Me, ncBasicTool -> This line not required. It is to change the color and font of the form and the controls.
 
         ClearForm()

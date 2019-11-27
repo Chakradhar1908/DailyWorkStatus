@@ -33,8 +33,8 @@
         'Must be left rem for tab off style to work
         Width = FRMW_1
         lstResults.Items.Clear()
-        SetButtonImage(cmdApply)
-
+        'SetButtonImage(cmdApply)
+        SetButtonImage(cmdApply, 2)
     End Sub
 
     Private Sub InvDefault_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize

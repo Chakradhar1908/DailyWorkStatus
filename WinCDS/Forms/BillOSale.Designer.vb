@@ -924,9 +924,9 @@ Partial Class BillOSale
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(91, 16)
+        Me.cmdCancel.Location = New System.Drawing.Point(94, 11)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(65, 40)
+        Me.cmdCancel.Size = New System.Drawing.Size(65, 58)
         Me.cmdCancel.TabIndex = 8
         Me.cmdCancel.Text = "&Cancel"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdCancel, " Cancels the sale ")
@@ -934,9 +934,9 @@ Partial Class BillOSale
         '
         'cmdApplyBillOSale
         '
-        Me.cmdApplyBillOSale.Location = New System.Drawing.Point(20, 16)
+        Me.cmdApplyBillOSale.Location = New System.Drawing.Point(23, 11)
         Me.cmdApplyBillOSale.Name = "cmdApplyBillOSale"
-        Me.cmdApplyBillOSale.Size = New System.Drawing.Size(65, 40)
+        Me.cmdApplyBillOSale.Size = New System.Drawing.Size(65, 58)
         Me.cmdApplyBillOSale.TabIndex = 7
         Me.cmdApplyBillOSale.Text = "&OK"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdApplyBillOSale, "Processes the mailing list section ")
@@ -1177,9 +1177,9 @@ Partial Class BillOSale
         Me.fraPrintType.Controls.Add(Me.opt30323)
         Me.fraPrintType.Controls.Add(Me.opt30252)
         Me.fraPrintType.Controls.Add(Me.lblPrintType)
-        Me.fraPrintType.Location = New System.Drawing.Point(7, 65)
+        Me.fraPrintType.Location = New System.Drawing.Point(7, 69)
         Me.fraPrintType.Name = "fraPrintType"
-        Me.fraPrintType.Size = New System.Drawing.Size(112, 56)
+        Me.fraPrintType.Size = New System.Drawing.Size(112, 51)
         Me.fraPrintType.TabIndex = 10
         Me.fraPrintType.TabStop = False
         '

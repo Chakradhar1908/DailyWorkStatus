@@ -60,26 +60,26 @@ Partial Class MailCheck
         Me.fraInputType.Controls.Add(Me.optName)
         Me.fraInputType.Controls.Add(Me.optSaleNo)
         Me.fraInputType.Controls.Add(Me.optTelephone)
-        Me.fraInputType.Location = New System.Drawing.Point(12, 60)
+        Me.fraInputType.Location = New System.Drawing.Point(12, 46)
         Me.fraInputType.Name = "fraInputType"
-        Me.fraInputType.Size = New System.Drawing.Size(219, 94)
+        Me.fraInputType.Size = New System.Drawing.Size(219, 105)
         Me.fraInputType.TabIndex = 2
         Me.fraInputType.TabStop = False
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(159, 46)
+        Me.cmdCancel.Location = New System.Drawing.Point(159, 42)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(50, 39)
+        Me.cmdCancel.Size = New System.Drawing.Size(50, 52)
         Me.cmdCancel.TabIndex = 5
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'cmdOK
         '
-        Me.cmdOK.Location = New System.Drawing.Point(103, 46)
+        Me.cmdOK.Location = New System.Drawing.Point(103, 42)
         Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(50, 39)
+        Me.cmdOK.Size = New System.Drawing.Size(50, 52)
         Me.cmdOK.TabIndex = 4
         Me.cmdOK.Text = "&OK"
         Me.cmdOK.UseVisualStyleBackColor = True

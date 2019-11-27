@@ -27,12 +27,12 @@ Partial Class MainMenu4
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.imlMiniButtons = New System.Windows.Forms.ImageList(Me.components)
         Me.imlStandardButtons = New System.Windows.Forms.ImageList(Me.components)
-        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
-        Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.txtPassword = New System.Windows.Forms.TextBox()
         Me.cmdEnterPassword = New System.Windows.Forms.Button()
         Me.MSComm1 = New AxMSCommLib.AxMSComm()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.rtbn = New WinCDS.RichTextBoxNew()
+        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -53,23 +53,31 @@ Partial Class MainMenu4
         '
         'imlStandardButtons
         '
-        Me.imlStandardButtons.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imlStandardButtons.ImageSize = New System.Drawing.Size(16, 16)
+        Me.imlStandardButtons.ImageStream = CType(resources.GetObject("imlStandardButtons.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imlStandardButtons.TransparentColor = System.Drawing.Color.Transparent
-        '
-        'rtbStorePolicy
-        '
-        Me.rtbStorePolicy.Location = New System.Drawing.Point(91, 165)
-        Me.rtbStorePolicy.Name = "rtbStorePolicy"
-        Me.rtbStorePolicy.Size = New System.Drawing.Size(150, 150)
-        Me.rtbStorePolicy.TabIndex = 1
-        '
-        'rtbn
-        '
-        Me.rtbn.Location = New System.Drawing.Point(228, 211)
-        Me.rtbn.Name = "rtbn"
-        Me.rtbn.Size = New System.Drawing.Size(150, 150)
-        Me.rtbn.TabIndex = 2
+        Me.imlStandardButtons.Images.SetKeyName(0, "StandardButton-Add.gif")
+        Me.imlStandardButtons.Images.SetKeyName(1, "StandardButton-ForwardMenu.gif")
+        Me.imlStandardButtons.Images.SetKeyName(2, "StandardButton-OK.gif")
+        Me.imlStandardButtons.Images.SetKeyName(3, "StandardButton-Cancel.gif")
+        Me.imlStandardButtons.Images.SetKeyName(4, "StandardButton-Back.gif")
+        Me.imlStandardButtons.Images.SetKeyName(5, "StandardButton-Foward.gif")
+        Me.imlStandardButtons.Images.SetKeyName(6, "StandardButton-Next.gif")
+        Me.imlStandardButtons.Images.SetKeyName(7, "StandardButton-Previous.gif")
+        Me.imlStandardButtons.Images.SetKeyName(8, "StandardButton-BackMenu.gif")
+        Me.imlStandardButtons.Images.SetKeyName(9, "StandardButton-Reload.gif")
+        Me.imlStandardButtons.Images.SetKeyName(10, "StandardButton-Delete.gif")
+        Me.imlStandardButtons.Images.SetKeyName(11, "StandardButton-Minus.gif")
+        Me.imlStandardButtons.Images.SetKeyName(12, "StandardButton-Refresh.gif")
+        Me.imlStandardButtons.Images.SetKeyName(13, "StandardButton-Down.gif")
+        Me.imlStandardButtons.Images.SetKeyName(14, "StandardButton-Left.gif")
+        Me.imlStandardButtons.Images.SetKeyName(15, "StandardButton-Right.gif")
+        Me.imlStandardButtons.Images.SetKeyName(16, "StandardButton-Up.gif")
+        Me.imlStandardButtons.Images.SetKeyName(17, "poorder.gif")
+        Me.imlStandardButtons.Images.SetKeyName(18, "StandardButton-Calendar.gif")
+        Me.imlStandardButtons.Images.SetKeyName(19, "StandardButton-Print.gif")
+        Me.imlStandardButtons.Images.SetKeyName(20, "StandardButton-Preview.gif")
+        Me.imlStandardButtons.Images.SetKeyName(21, "StandardButton-Compass.gif")
+        Me.imlStandardButtons.Images.SetKeyName(22, "StandardButton-Clear.gif")
         '
         'txtPassword
         '
@@ -104,6 +112,20 @@ Partial Class MainMenu4
         Me.Button1.TabIndex = 6
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
+        '
+        'rtbn
+        '
+        Me.rtbn.Location = New System.Drawing.Point(228, 211)
+        Me.rtbn.Name = "rtbn"
+        Me.rtbn.Size = New System.Drawing.Size(150, 150)
+        Me.rtbn.TabIndex = 2
+        '
+        'rtbStorePolicy
+        '
+        Me.rtbStorePolicy.Location = New System.Drawing.Point(91, 165)
+        Me.rtbStorePolicy.Name = "rtbStorePolicy"
+        Me.rtbStorePolicy.Size = New System.Drawing.Size(150, 150)
+        Me.rtbStorePolicy.TabIndex = 1
         '
         'MainMenu4
         '

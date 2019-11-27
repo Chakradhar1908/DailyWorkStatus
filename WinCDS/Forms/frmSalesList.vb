@@ -100,8 +100,10 @@
     End Sub
 
     Private Sub frmSalesList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetButtonImage(cmdApply)
-        SetButtonImage(cmdClear)
+        'SetButtonImage(cmdApply)
+        'SetButtonImage(cmdClear)
+        SetButtonImage(cmdApply, 2)
+        SetButtonImage(cmdClear, 22)
         'SetCustomFrame(Me, ncBasicDialog)
 
         On Error GoTo HandleErr

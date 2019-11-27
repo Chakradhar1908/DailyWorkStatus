@@ -774,8 +774,8 @@ NextItem:
 
     Private Sub BillOSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UpdateForm()
-        SetButtonImage(cmdApplyBillOSale, "ok")
-        SetButtonImage(cmdCancel)
+        SetButtonImage(cmdApplyBillOSale, 2)
+        SetButtonImage(cmdCancel, 3)
         ColorDatePicker(dteSaleDate)
         ColorDatePicker(dteDelivery)
 
@@ -932,11 +932,16 @@ NextItem:
 
     Private Sub LoadBOS2()
         UGridIO1.Loading = True
-        SetButtonImage(cmdProcessSale, "ok")
-        SetButtonImage(cmdNextSale, "next")
-        SetButtonImage(cmdMainMenu, "menu")
-        SetButtonImage(cmdClear, "cancel")
-        SetButtonImage(Notes_Open, "notes")
+        'SetButtonImage(cmdProcessSale, "ok")
+        'SetButtonImage(cmdNextSale, "next")
+        'SetButtonImage(cmdMainMenu, "menu")
+        'SetButtonImage(cmdClear, "cancel")
+        'SetButtonImage(Notes_Open, "notes")
+        SetButtonImage(cmdProcessSale, 2)
+        SetButtonImage(cmdNextSale, 5)
+        SetButtonImage(cmdMainMenu, 9)
+        SetButtonImage(cmdClear, 3)
+        SetButtonImage(Notes_Open, 17)
 
         If CustomerLast.Text = "CASH & CARRY" Then  'added 01-31-2003 to prevent a cash&Carry
             Index = 0 '""

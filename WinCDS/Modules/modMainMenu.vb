@@ -15,7 +15,8 @@ Module modMainMenu
             frmSplashIsLoaded = IsFormLoaded(frmSplashType)
         End Get
     End Property
-    Public Sub SetButtonImage(ByRef cmd As Button, Optional ByVal ImageName As String = "", Optional ByVal MiniButton As Boolean = False)
+
+    Public Sub SetButtonImage(ByRef cmd As Button, Optional ByVal ImageIndex As Integer = -1, Optional ByVal MiniButton As Boolean = False)
         '::::SetButtonImage
         ':::SUMMARY
         ': Set image on CmdButton control
@@ -34,57 +35,63 @@ Module modMainMenu
         ': - MiniButton - Indicates whether it is true or false.
         Dim T As String
         'If cmd.Style <> vbButtonGraphical Then
-        If cmd.Image Is Nothing Then
-            Debug.Print("Bad button")
-            If IsDevelopment() Then
-                Err.Raise(-1, "Development Code", "Not a graphical button: " & cmd.Name)
-                Stop
-            End If
-        End If
+        'If cmd.Image Is Nothing Then
+        '    Debug.Print("Bad button")
+        '    If IsDevelopment() Then
+        '        Err.Raise(-1, "Development Code", "Not a graphical button: " & cmd.Name)
+        '        Stop
+        '    End If
+        'End If
         'cmd.UseMaskColor = True
         'cmd.MaskColor = vbWhite
-        If ImageName = "" Then
-            T = LCase(cmd.Name)
-            If LCase(Left(T, 3)) = "cmd" Then T = Mid(T, 4)
-            If IsIn(T, "ok", "apply", "post", "done", "close", "process") Then
-                ImageName = "ok"
-            ElseIf T Like "*preview" Then
-                ImageName = "preview"
-            ElseIf T = "cancel" Then
-                ImageName = "cancel"
-            ElseIf T = "clear" Then
-                ImageName = "clear"
-            ElseIf IsIn(T, "config", "settings", "setup", "options", "save") Then
-                ImageName = "config"
-            ElseIf T = "print" Then
-                ImageName = "print"
-            ElseIf T Like "*menu*" Then
-                ImageName = "menu"
-            ElseIf T Like "*next*" Then
-                ImageName = "next"
-            ElseIf T Like "*prev*" Then
-                ImageName = "previous"
-            ElseIf T Like "*del*" Then
-                ImageName = "delete"
-            ElseIf T Like "*calendar*" Then
-                ImageName = "calendar"
-            ElseIf T Like "*refresh*" Then
-                ImageName = "refresh"
-            ElseIf T Like "*down*" Then
-                ImageName = "south"
-            ElseIf T Like "*up*" Then
-                ImageName = "north"
-            Else
-                ImageName = "ok"
-            End If
-        End If
+        'If ImageName = "" Then
+        '    T = LCase(cmd.Name)
+        '    If LCase(Left(T, 3)) = "cmd" Then T = Mid(T, 4)
+        '    If IsIn(T, "ok", "apply", "post", "done", "close", "process") Then
+        '        ImageName = "ok"
+        '    ElseIf T Like "*preview" Then
+        '        ImageName = "preview"
+        '    ElseIf T = "cancel" Then
+        '        ImageName = "cancel"
+        '    ElseIf T = "clear" Then
+        '        ImageName = "clear"
+        '    ElseIf IsIn(T, "config", "settings", "setup", "options", "save") Then
+        '        ImageName = "config"
+        '    ElseIf T = "print" Then
+        '        ImageName = "print"
+        '    ElseIf T Like "*menu*" Then
+        '        ImageName = "menu"
+        '    ElseIf T Like "*next*" Then
+        '        ImageName = "next"
+        '    ElseIf T Like "*prev*" Then
+        '        ImageName = "previous"
+        '    ElseIf T Like "*del*" Then
+        '        ImageName = "delete"
+        '    ElseIf T Like "*calendar*" Then
+        '        ImageName = "calendar"
+        '    ElseIf T Like "*refresh*" Then
+        '        ImageName = "refresh"
+        '    ElseIf T Like "*down*" Then
+        '        ImageName = "south"
+        '    ElseIf T Like "*up*" Then
+        '        ImageName = "north"
+        '    Else
+        '        ImageName = "ok"
+        '    End If
+        'End If
 
         If MiniButton Then
             'cmd.Picture = MiniButtonImage(LCase(ImageName))
-            cmd.Image = MiniButtonImage(LCase(ImageName))
+            'cmd.Image = MiniButtonImage(LCase(ImageName))
+            cmd.Image = MiniButtonImage(ImageIndex)
         Else
             'cmd.Picture = StandardButtonImage(LCase(ImageName))
-            cmd.Image = StandardButtonImage(LCase(ImageName))
+            'cmd.Image = StandardButtonImage(LCase(ImageName))
+            'cmd.Image = StandardButtonImage(ImageIndex)
+            cmd.Image = MainMenu.imlStandardButtons.Images(ImageIndex)
+            cmd.ImageAlign = ContentAlignment.MiddleCenter
+            cmd.TextAlign = ContentAlignment.BottomCenter
+            cmd.TextImageRelation = TextImageRelation.ImageAboveText
         End If
     End Sub
     Public Function MiniButtonImage(ByVal ImageName As String) As StdPicture
@@ -109,7 +116,7 @@ Module modMainMenu
             MiniButtonImage = MiniButtonImageList.Images("none")
         End If
     End Function
-    Public Function StandardButtonImage(ByVal ImageName As String) As StdPicture
+    Public Function StandardButtonImage(ByVal ImageIndex As Integer) As StdPicture
         '::::StandardButtonImage
         ':::SUMMARY
         ': Used to check whether the StandardButtonImage is Nothing or not.
@@ -121,14 +128,16 @@ Module modMainMenu
         ': StdPicture - Returns the result as StdPicture object.
 
         On Error Resume Next
-        ImageName = LCase(ImageName)
+        'ImageName = LCase(ImageName)
         'StandardButtonImage = StandardButtonImageList.ListImages(ImageName).Picture
-        StandardButtonImage = StandardButtonImageList.Images(ImageName)
-        If StandardButtonImage Is Nothing Then
-            If IsDevelopment() Then MsgBox("Not a valid standard image name: " & ImageName, vbCritical, "Development Error")
-            'StandardButtonImage = StandardButtonImageList.ListImages("none").Picture
-            StandardButtonImage = StandardButtonImageList.Images("none")
-        End If
+        'StandardButtonImage = StandardButtonImageList.Images(ImageName)
+        StandardButtonImage = StandardButtonImageList.Images.Item(ImageIndex)
+
+        'If StandardButtonImage Is Nothing Then
+        '    If IsDevelopment() Then MsgBox("Not a valid standard image name: " & ImageName, vbCritical, "Development Error")
+        '    'StandardButtonImage = StandardButtonImageList.ListImages("none").Picture
+        '    StandardButtonImage = StandardButtonImageList.Images("none")
+        'End If
     End Function
     Public Function MiniButtonImageList() As ImageList
         '::::MiniButtonImageList

@@ -65,7 +65,8 @@ Public Class CalendarInstr
     End Sub
 
     Private Sub CalendarInstr_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetButtonImage(cmdExit, "ok")
+        'SetButtonImage(cmdExit, "ok")
+        SetButtonImage(cmdExit, 2)
     End Sub
 
     Private Sub cmdExit_Click(sender As Object, e As EventArgs) Handles cmdExit.Click

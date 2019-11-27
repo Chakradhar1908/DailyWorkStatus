@@ -4,9 +4,10 @@
     Private mSwipe As String
 
     Public Function GetManualCCEntry(Optional ByRef CCNumber As String = "", Optional ByRef ExpDate As String = "0", Optional ByRef CardHolderName As String = "O", Optional ByRef CVV2 As String = "O", Optional ByRef ZipCode As String = "O", Optional ByRef Swipe As String = "") As Boolean
-        SetButtonImage(cmdOK)
-        SetButtonImage(cmdCancel)
-
+        'SetButtonImage(cmdOK)
+        'SetButtonImage(cmdCancel)
+        SetButtonImage(cmdOK, 2)
+        SetButtonImage(cmdCancel, 3)
         mCancelled = False
         mSwipe = ""
 

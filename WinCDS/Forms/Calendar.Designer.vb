@@ -24,13 +24,13 @@ Partial Class Calendar
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Calendar))
         Me.fraButtons = New System.Windows.Forms.GroupBox()
-        Me.cmdMenu = New System.Windows.Forms.Button()
-        Me.cmdManifest = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.cmdInstr = New System.Windows.Forms.Button()
-        Me.cmdMap = New System.Windows.Forms.Button()
-        Me.cmdDDT = New System.Windows.Forms.Button()
         Me.chkMultiple = New System.Windows.Forms.CheckBox()
+        Me.cmdDDT = New System.Windows.Forms.Button()
+        Me.cmdMap = New System.Windows.Forms.Button()
+        Me.cmdInstr = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdManifest = New System.Windows.Forms.Button()
+        Me.cmdMenu = New System.Windows.Forms.Button()
         Me.lblDayLabel = New System.Windows.Forms.Label()
         Me.txtDayLabel = New System.Windows.Forms.TextBox()
         Me.cmdApply = New System.Windows.Forms.Button()
@@ -49,65 +49,11 @@ Partial Class Calendar
         Me.fraButtons.Controls.Add(Me.cmdPrint)
         Me.fraButtons.Controls.Add(Me.cmdManifest)
         Me.fraButtons.Controls.Add(Me.cmdMenu)
-        Me.fraButtons.Location = New System.Drawing.Point(12, 230)
+        Me.fraButtons.Location = New System.Drawing.Point(12, 366)
         Me.fraButtons.Name = "fraButtons"
-        Me.fraButtons.Size = New System.Drawing.Size(649, 66)
+        Me.fraButtons.Size = New System.Drawing.Size(649, 86)
         Me.fraButtons.TabIndex = 2
         Me.fraButtons.TabStop = False
-        '
-        'cmdMenu
-        '
-        Me.cmdMenu.Location = New System.Drawing.Point(6, 16)
-        Me.cmdMenu.Name = "cmdMenu"
-        Me.cmdMenu.Size = New System.Drawing.Size(93, 44)
-        Me.cmdMenu.TabIndex = 0
-        Me.cmdMenu.Text = "&Menu"
-        Me.cmdMenu.UseVisualStyleBackColor = True
-        '
-        'cmdManifest
-        '
-        Me.cmdManifest.Location = New System.Drawing.Point(99, 16)
-        Me.cmdManifest.Name = "cmdManifest"
-        Me.cmdManifest.Size = New System.Drawing.Size(93, 44)
-        Me.cmdManifest.TabIndex = 1
-        Me.cmdManifest.Text = "Print Mani&fest"
-        Me.cmdManifest.UseVisualStyleBackColor = True
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(192, 16)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(93, 44)
-        Me.cmdPrint.TabIndex = 2
-        Me.cmdPrint.Text = "&Print"
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdInstr
-        '
-        Me.cmdInstr.Location = New System.Drawing.Point(285, 16)
-        Me.cmdInstr.Name = "cmdInstr"
-        Me.cmdInstr.Size = New System.Drawing.Size(93, 44)
-        Me.cmdInstr.TabIndex = 3
-        Me.cmdInstr.Text = "&View Sp Instr"
-        Me.cmdInstr.UseVisualStyleBackColor = True
-        '
-        'cmdMap
-        '
-        Me.cmdMap.Location = New System.Drawing.Point(378, 16)
-        Me.cmdMap.Name = "cmdMap"
-        Me.cmdMap.Size = New System.Drawing.Size(93, 44)
-        Me.cmdMap.TabIndex = 4
-        Me.cmdMap.Text = "M&aps"
-        Me.cmdMap.UseVisualStyleBackColor = True
-        '
-        'cmdDDT
-        '
-        Me.cmdDDT.Location = New System.Drawing.Point(471, 16)
-        Me.cmdDDT.Name = "cmdDDT"
-        Me.cmdDDT.Size = New System.Drawing.Size(93, 44)
-        Me.cmdDDT.TabIndex = 5
-        Me.cmdDDT.Text = "&Dispatch"
-        Me.cmdDDT.UseVisualStyleBackColor = True
         '
         'chkMultiple
         '
@@ -118,10 +64,64 @@ Partial Class Calendar
         Me.chkMultiple.Text = "Route Multiple Stores"
         Me.chkMultiple.UseVisualStyleBackColor = True
         '
+        'cmdDDT
+        '
+        Me.cmdDDT.Location = New System.Drawing.Point(471, 16)
+        Me.cmdDDT.Name = "cmdDDT"
+        Me.cmdDDT.Size = New System.Drawing.Size(93, 62)
+        Me.cmdDDT.TabIndex = 5
+        Me.cmdDDT.Text = "&Dispatch"
+        Me.cmdDDT.UseVisualStyleBackColor = True
+        '
+        'cmdMap
+        '
+        Me.cmdMap.Location = New System.Drawing.Point(378, 16)
+        Me.cmdMap.Name = "cmdMap"
+        Me.cmdMap.Size = New System.Drawing.Size(93, 62)
+        Me.cmdMap.TabIndex = 4
+        Me.cmdMap.Text = "M&aps"
+        Me.cmdMap.UseVisualStyleBackColor = True
+        '
+        'cmdInstr
+        '
+        Me.cmdInstr.Location = New System.Drawing.Point(285, 16)
+        Me.cmdInstr.Name = "cmdInstr"
+        Me.cmdInstr.Size = New System.Drawing.Size(93, 62)
+        Me.cmdInstr.TabIndex = 3
+        Me.cmdInstr.Text = "&View Sp Instr"
+        Me.cmdInstr.UseVisualStyleBackColor = True
+        '
+        'cmdPrint
+        '
+        Me.cmdPrint.Location = New System.Drawing.Point(192, 16)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(93, 62)
+        Me.cmdPrint.TabIndex = 2
+        Me.cmdPrint.Text = "&Print"
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
+        'cmdManifest
+        '
+        Me.cmdManifest.Location = New System.Drawing.Point(99, 16)
+        Me.cmdManifest.Name = "cmdManifest"
+        Me.cmdManifest.Size = New System.Drawing.Size(93, 62)
+        Me.cmdManifest.TabIndex = 1
+        Me.cmdManifest.Text = "Print Mani&fest"
+        Me.cmdManifest.UseVisualStyleBackColor = True
+        '
+        'cmdMenu
+        '
+        Me.cmdMenu.Location = New System.Drawing.Point(6, 16)
+        Me.cmdMenu.Name = "cmdMenu"
+        Me.cmdMenu.Size = New System.Drawing.Size(93, 62)
+        Me.cmdMenu.TabIndex = 0
+        Me.cmdMenu.Text = "&Menu"
+        Me.cmdMenu.UseVisualStyleBackColor = True
+        '
         'lblDayLabel
         '
         Me.lblDayLabel.AutoSize = True
-        Me.lblDayLabel.Location = New System.Drawing.Point(668, 230)
+        Me.lblDayLabel.Location = New System.Drawing.Point(667, 375)
         Me.lblDayLabel.Name = "lblDayLabel"
         Me.lblDayLabel.Size = New System.Drawing.Size(245, 13)
         Me.lblDayLabel.TabIndex = 3
@@ -129,14 +129,14 @@ Partial Class Calendar
         '
         'txtDayLabel
         '
-        Me.txtDayLabel.Location = New System.Drawing.Point(671, 246)
+        Me.txtDayLabel.Location = New System.Drawing.Point(670, 391)
         Me.txtDayLabel.Name = "txtDayLabel"
         Me.txtDayLabel.Size = New System.Drawing.Size(247, 20)
         Me.txtDayLabel.TabIndex = 4
         '
         'cmdApply
         '
-        Me.cmdApply.Location = New System.Drawing.Point(924, 243)
+        Me.cmdApply.Location = New System.Drawing.Point(920, 388)
         Me.cmdApply.Name = "cmdApply"
         Me.cmdApply.Size = New System.Drawing.Size(46, 23)
         Me.cmdApply.TabIndex = 5
@@ -148,12 +148,12 @@ Partial Class Calendar
         Me.grid.Location = New System.Drawing.Point(12, 12)
         Me.grid.Name = "grid"
         Me.grid.OcxState = CType(resources.GetObject("grid.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.grid.Size = New System.Drawing.Size(958, 196)
+        Me.grid.Size = New System.Drawing.Size(958, 348)
         Me.grid.TabIndex = 1
         '
         'lblCubes
         '
-        Me.lblCubes.Location = New System.Drawing.Point(599, 269)
+        Me.lblCubes.Location = New System.Drawing.Point(599, 425)
         Me.lblCubes.Name = "lblCubes"
         Me.lblCubes.Size = New System.Drawing.Size(117, 19)
         Me.lblCubes.TabIndex = 7
@@ -162,7 +162,7 @@ Partial Class Calendar
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(982, 303)
+        Me.ClientSize = New System.Drawing.Size(982, 462)
         Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.txtDayLabel)
         Me.Controls.Add(Me.lblDayLabel)

@@ -742,8 +742,10 @@ HandleErr:
         Height = FRM_H1
         Width = FRM_W2
 
-        SetButtonImage(cmdOK)
-        SetButtonImage(cmdCancel)
+        'SetButtonImage(cmdOK)
+        'SetButtonImage(cmdCancel)
+        SetButtonImage(cmdOK, 2)
+        SetButtonImage(cmdCancel, 3)
         '    SetCustomFrame Me, ncBasicDialog
         On Error Resume Next 'Supposed to prevent an error if no printer is installed
         'OriginalPrint = Printer.DeviceName
