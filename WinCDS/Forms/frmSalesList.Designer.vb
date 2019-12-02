@@ -31,12 +31,12 @@ Partial Class frmSalesList
         '
         'lstSalesmen
         '
-        Me.lstSalesmen.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lstSalesmen.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lstSalesmen.FormattingEnabled = True
-        Me.lstSalesmen.ItemHeight = 20
+        Me.lstSalesmen.ItemHeight = 18
         Me.lstSalesmen.Location = New System.Drawing.Point(8, 2)
         Me.lstSalesmen.Name = "lstSalesmen"
-        Me.lstSalesmen.Size = New System.Drawing.Size(175, 124)
+        Me.lstSalesmen.Size = New System.Drawing.Size(175, 112)
         Me.lstSalesmen.TabIndex = 0
         '
         'fraButtons
@@ -45,24 +45,24 @@ Partial Class frmSalesList
         Me.fraButtons.Controls.Add(Me.cmdApply)
         Me.fraButtons.Location = New System.Drawing.Point(8, 144)
         Me.fraButtons.Name = "fraButtons"
-        Me.fraButtons.Size = New System.Drawing.Size(174, 54)
+        Me.fraButtons.Size = New System.Drawing.Size(174, 80)
         Me.fraButtons.TabIndex = 1
         Me.fraButtons.TabStop = False
         '
         'cmdClear
         '
-        Me.cmdClear.Location = New System.Drawing.Point(87, 15)
+        Me.cmdClear.Location = New System.Drawing.Point(89, 15)
         Me.cmdClear.Name = "cmdClear"
-        Me.cmdClear.Size = New System.Drawing.Size(75, 34)
+        Me.cmdClear.Size = New System.Drawing.Size(75, 56)
         Me.cmdClear.TabIndex = 1
         Me.cmdClear.Text = "&Clear"
         Me.cmdClear.UseVisualStyleBackColor = True
         '
         'cmdApply
         '
-        Me.cmdApply.Location = New System.Drawing.Point(6, 15)
+        Me.cmdApply.Location = New System.Drawing.Point(8, 15)
         Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(75, 34)
+        Me.cmdApply.Size = New System.Drawing.Size(75, 56)
         Me.cmdApply.TabIndex = 0
         Me.cmdApply.Text = "&Apply"
         Me.cmdApply.UseVisualStyleBackColor = True
@@ -71,13 +71,14 @@ Partial Class frmSalesList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(189, 204)
+        Me.ClientSize = New System.Drawing.Size(189, 227)
         Me.Controls.Add(Me.fraButtons)
         Me.Controls.Add(Me.lstSalesmen)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmSalesList"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Sales Staff"
         Me.fraButtons.ResumeLayout(False)
         Me.ResumeLayout(False)

@@ -22,12 +22,47 @@ WinCDS
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.disc">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.email">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.nodisc">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.print">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.printer">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.printer_w">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.small_down">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.small_up">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.StandardButton_Web3">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

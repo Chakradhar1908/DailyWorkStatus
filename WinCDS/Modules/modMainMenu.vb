@@ -33,7 +33,7 @@ Module modMainMenu
         ': - cmd - Indicates the Command Button.
         ': - ImageName - Indicates the Image Name.
         ': - MiniButton - Indicates whether it is true or false.
-        Dim T As String
+        'Dim T As String
         'If cmd.Style <> vbButtonGraphical Then
         'If cmd.Image Is Nothing Then
         '    Debug.Print("Bad button")
@@ -94,6 +94,11 @@ Module modMainMenu
             cmd.TextImageRelation = TextImageRelation.ImageAboveText
         End If
     End Sub
+
+    Public Sub SetButtonImageSmall(ByRef cmd As Button, ByVal ImageIndex As Integer)
+        cmd.Image = MainMenu.imlSmallButtons.Images(ImageIndex)
+    End Sub
+
     Public Function MiniButtonImage(ByVal ImageName As String) As StdPicture
         '::::MiniButtonImage
         ':::SUMMARY

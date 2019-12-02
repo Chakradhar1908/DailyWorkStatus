@@ -145,7 +145,7 @@ BadWpt:
                     LastSale = Sales.SaleNo
                     Cubes = GetCubesOnSale(Sales.SaleNo, DeliveryDate)
                     'Li = lvwAllStops.ListItems.Add(, K, "Sale " & Sales.SaleNo & ", " & GetMailLastNameByIndex(Sales.Index, I, True) & " (L" & I & ", " & Format(Cubes, "0.00") & ")", , "stop")
-                    Li = lvwAllStops.Items.Add(K, "Sale " & Sales.SaleNo & ", " & GetMailLastNameByIndex(Sales.Index, I, True) & " (L" & I & ", " & Support.Format(Cubes, "0.00"), 2)
+                    Li = lvwAllStops.Items.Add(K, "Sale " & Sales.SaleNo & ", " & GetMailLastNameByIndex(Sales.Index, I, True) & " (L" & I & ", " & Support.Format(Cubes, "0.00"), 1)
                     SetStopInfoByLI(Li, I, "Sale", Sales.SaleNo, GetMailLastNameByIndex(Sales.Index, I, True), Sales.Index, Sales.StopStart, Sales.StopEnd, Cubes)
                 End If
             Loop
@@ -164,7 +164,7 @@ BadWpt:
                 Service.cDataAccess_GetRecordSet(Service.DataAccess.RS)
                 K = "LOC " & I & " - SC#" & Service.ServiceOrderNo
                 'Li = lvwAllStops.ListItems.Add(, K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", , "service")
-                Li = lvwAllStops.Items.Add(K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", 1)
+                Li = lvwAllStops.Items.Add(K, "Serv " & Service.ServiceOrderNo & ", " & Service.LastName & " (L" & I & ")", 0)
                 SetStopInfoByLI(Li, I, "Service", Service.ServiceOrderNo, Service.LastName, Service.MailIndex, Service.StopStart, Service.StopEnd, 0)
             Loop
             DisposeDA(Service)
@@ -175,12 +175,13 @@ BadWpt:
 
     Private Sub SelectAllStops(Optional ByVal Remove As Boolean = False)
         Dim I As Integer, Li As ListViewItem
+
         If Remove Then
             'For I = lvwThisTruck.ListItems.Count To 1 Step -1
             'For I = lvwThisTruck.Items.Count  To 1 Step -1
             For I = lvwThisTruck.Items.Count - 1 To 0 Step -1
                 'SelectStop lvwThisTruck.ListItems(I).key, True
-                SelectStop(lvwThisTruck.Items(I).ImageKey, True)
+                SelectStop(lvwThisTruck.Items(I).Name, True)
             Next
         Else
             'For I = 1 To lvwAllStops.ListItems.Count
@@ -338,14 +339,15 @@ BadWpt:
         If Not LI2 Is Nothing Then  ' already in, watch for remove
             If Remove Then
                 'lvwThisTruck.ListItems.Remove LI2.key
-                lvwThisTruck.Items.RemoveByKey(LI2.ImageKey)
+                'lvwThisTruck.Items.Remove(LI2.Name)
+                lvwThisTruck.Items.RemoveByKey(LI2.Name)
                 'Li.Ghosted = False ----> COMMENTED THIS LINE BECAUSE GHOSTED PROPERTY IS NOT AVAILABLE IN VB.NET. NEED TO FIND REPLACEMENT.
                 Li.StateImageIndex = 0 '---> ADDED THIS LINE As A REPLACEMENT for GHOSTED Property. NEED To TEST BY ADDING ONE MORE DISABLED TYPE Of IMAGE To IMAGELIST CONTROL.
             End If
         Else
             If Not Remove Then
                 'lvwThisTruck.ListItems.Add , Li.key, Li.Text, , IIf(LCase(Left(Li.Text, 4)) = "sale", "stop", "service")
-                lvwThisTruck.Items.Add(Li.Name, Li.Text, IIf(LCase(Microsoft.VisualBasic.Left(Li.Text, 4)) = "sale", 2, 1))
+                LI2 = lvwThisTruck.Items.Add(Li.Name, Li.Text, IIf(LCase(Microsoft.VisualBasic.Left(Li.Text, 4)) = "sale", 1, 0))
                 'Li.Ghosted = True  - COMMENTED THIS LINE BECAUSE GHOSTED PROPERTY IS NOT AVAILABLE IN VB.NET. NEED TO FIND A REPLACEMENT FOR THIS PROPERTY.
                 Li.StateImageIndex = 1 '---> ADDED THIS LINE As A REPLACEMENT for GHOSTED Property. NEED To TEST BY ADDING ONE MORE DISABLED TYPE Of IMAGE To IMAGELIST CONTROL.
             End If
@@ -375,6 +377,13 @@ BadWpt:
 
     Private Sub frmDeliveryMap_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActiveLog("frmDeliveryMap::Form_Load...", 8)
+        'SetButtonImage cmdDone
+        'SetButtonImage cmdPrint
+        'SetButtonImage cmdSplit, "back"
+        'SetButtonImage cmdCancel
+        'SetButtonImage cmdConfigure, "calendar"
+        'SetButtonImage cmdAdjust, "plus"
+
         SetButtonImage(cmdDone, 2)
         SetButtonImage(cmdPrint, 19)
         SetButtonImage(cmdSplit, 8)
@@ -571,7 +580,7 @@ PrintFailure:
             cmdDetails.Text = "Tru&ck"
         Else
             lvwAllStops.View = View.SmallIcon
-            lvwAllStops.Width = 337
+            lvwAllStops.Width = 233
             lblThisTruck.Visible = True
             cmdDetails.Text = "Deta&ils"
         End If

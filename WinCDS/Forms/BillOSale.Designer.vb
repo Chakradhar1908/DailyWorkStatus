@@ -28,10 +28,8 @@ Partial Class BillOSale
         Me.lblDelWeekday = New System.Windows.Forms.Label()
         Me.chkDelivery = New System.Windows.Forms.CheckBox()
         Me.chkPickup = New System.Windows.Forms.CheckBox()
-        Me.imgCalendar = New System.Windows.Forms.PictureBox()
         Me.optIndividual = New System.Windows.Forms.RadioButton()
         Me.optBusiness = New System.Windows.Forms.RadioButton()
-        Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.StoreName = New System.Windows.Forms.Label()
         Me.StoreAddress = New System.Windows.Forms.Label()
         Me.StoreCity = New System.Windows.Forms.Label()
@@ -96,12 +94,6 @@ Partial Class BillOSale
         Me.dtpDelWindow = New System.Windows.Forms.DateTimePicker()
         Me.lblDelDate = New System.Windows.Forms.Label()
         Me.ToolTipBillOSale = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ScanDn = New System.Windows.Forms.Button()
-        Me.ScanUp123 = New System.Windows.Forms.Button()
-        Me.cmdSoldTags = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.cmdEmail = New System.Windows.Forms.Button()
-        Me.cmdChangePrice = New System.Windows.Forms.Button()
         Me.opt30323 = New System.Windows.Forms.RadioButton()
         Me.opt30252 = New System.Windows.Forms.RadioButton()
         Me.cmdPrintLabel = New System.Windows.Forms.Button()
@@ -119,7 +111,6 @@ Partial Class BillOSale
         Me.fraBOS2Commands = New System.Windows.Forms.GroupBox()
         Me.Notes_Open = New System.Windows.Forms.Button()
         Me.fraHover = New System.Windows.Forms.GroupBox()
-        Me.picHover = New System.Windows.Forms.PictureBox()
         Me.lblBalDueCaption = New System.Windows.Forms.Label()
         Me.BalDue = New System.Windows.Forms.TextBox()
         Me.ugrFake = New WinCDS.UGridIO()
@@ -127,8 +118,6 @@ Partial Class BillOSale
         Me.tmrHover = New System.Windows.Forms.Timer(Me.components)
         Me.tmrFormat = New System.Windows.Forms.Timer(Me.components)
         Me.txtFormatHelper = New System.Windows.Forms.TextBox()
-        Me.picFormatHelper = New System.Windows.Forms.PictureBox()
-        Me.cmdNoChangePrice = New System.Windows.Forms.Button()
         Me.fraButtons = New System.Windows.Forms.GroupBox()
         Me.fraPrintType = New System.Windows.Forms.GroupBox()
         Me.lblPrintType = New System.Windows.Forms.Label()
@@ -137,16 +126,27 @@ Partial Class BillOSale
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.lblGrossSales = New System.Windows.Forms.Label()
-        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ScanDn = New System.Windows.Forms.Button()
+        Me.picHover = New System.Windows.Forms.PictureBox()
+        Me.ScanUp123 = New System.Windows.Forms.Button()
+        Me.cmdNoChangePrice = New System.Windows.Forms.Button()
+        Me.cmdSoldTags = New System.Windows.Forms.Button()
+        Me.cmdEmail = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdChangePrice = New System.Windows.Forms.Button()
+        Me.picFormatHelper = New System.Windows.Forms.PictureBox()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.imgCalendar = New System.Windows.Forms.PictureBox()
         Me.fraTimeWindow.SuspendLayout()
         Me.fraBOS2.SuspendLayout()
         Me.fraBOS2Commands.SuspendLayout()
         Me.fraHover.SuspendLayout()
-        CType(Me.picHover, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picFormatHelper, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraButtons.SuspendLayout()
         Me.fraPrintType.SuspendLayout()
+        CType(Me.picHover, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picFormatHelper, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblDateCaption
@@ -201,16 +201,6 @@ Partial Class BillOSale
         Me.chkPickup.Text = "Pick Up"
         Me.chkPickup.UseVisualStyleBackColor = True
         '
-        'imgCalendar
-        '
-        Me.imgCalendar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.imgCalendar.Location = New System.Drawing.Point(180, 39)
-        Me.imgCalendar.Name = "imgCalendar"
-        Me.imgCalendar.Size = New System.Drawing.Size(31, 27)
-        Me.imgCalendar.TabIndex = 6
-        Me.imgCalendar.TabStop = False
-        Me.ToolTipBillOSale.SetToolTip(Me.imgCalendar, "View the Delivery Calendar")
-        '
         'optIndividual
         '
         Me.optIndividual.AutoSize = True
@@ -234,15 +224,6 @@ Partial Class BillOSale
         Me.optBusiness.TabIndex = 10
         Me.optBusiness.Text = "Business"
         Me.optBusiness.UseVisualStyleBackColor = True
-        '
-        'imgLogo
-        '
-        Me.imgLogo.Location = New System.Drawing.Point(230, 3)
-        Me.imgLogo.Name = "imgLogo"
-        Me.imgLogo.Size = New System.Drawing.Size(407, 119)
-        Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.imgLogo.TabIndex = 11
-        Me.imgLogo.TabStop = False
         '
         'StoreName
         '
@@ -827,67 +808,6 @@ Partial Class BillOSale
         Me.lblDelDate.TabIndex = 75
         Me.lblDelDate.Text = "lblDelDate"
         '
-        'ScanDn
-        '
-        Me.ScanDn.Location = New System.Drawing.Point(794, 77)
-        Me.ScanDn.Name = "ScanDn"
-        Me.ScanDn.Size = New System.Drawing.Size(75, 23)
-        Me.ScanDn.TabIndex = 79
-        Me.ScanDn.Text = "Scan dn"
-        Me.ToolTipBillOSale.SetToolTip(Me.ScanDn, "Scans down to previous sale ")
-        Me.ScanDn.UseVisualStyleBackColor = True
-        '
-        'ScanUp123
-        '
-        Me.ScanUp123.Location = New System.Drawing.Point(794, 48)
-        Me.ScanUp123.Name = "ScanUp123"
-        Me.ScanUp123.Size = New System.Drawing.Size(75, 23)
-        Me.ScanUp123.TabIndex = 80
-        Me.ScanUp123.Text = "Scan up"
-        Me.ToolTipBillOSale.SetToolTip(Me.ScanUp123, " Scans up to next sale ")
-        Me.ScanUp123.UseVisualStyleBackColor = True
-        '
-        'cmdSoldTags
-        '
-        Me.cmdSoldTags.Location = New System.Drawing.Point(794, 164)
-        Me.cmdSoldTags.Name = "cmdSoldTags"
-        Me.cmdSoldTags.Size = New System.Drawing.Size(75, 23)
-        Me.cmdSoldTags.TabIndex = 85
-        Me.cmdSoldTags.Text = "sold tags"
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdSoldTags, "Email current copy of sale to customer's email address.")
-        Me.cmdSoldTags.UseVisualStyleBackColor = True
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(794, 106)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(75, 23)
-        Me.cmdPrint.TabIndex = 86
-        Me.cmdPrint.Text = "print"
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdPrint, " Print current copy of sale. ")
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdEmail
-        '
-        Me.cmdEmail.Location = New System.Drawing.Point(794, 135)
-        Me.cmdEmail.Name = "cmdEmail"
-        Me.cmdEmail.Size = New System.Drawing.Size(75, 23)
-        Me.cmdEmail.TabIndex = 87
-        Me.cmdEmail.Text = "email"
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdEmail, "Email current copy of sale to customer's email address.")
-        Me.cmdEmail.UseVisualStyleBackColor = True
-        '
-        'cmdChangePrice
-        '
-        Me.cmdChangePrice.Location = New System.Drawing.Point(794, 19)
-        Me.cmdChangePrice.Name = "cmdChangePrice"
-        Me.cmdChangePrice.Size = New System.Drawing.Size(75, 23)
-        Me.cmdChangePrice.TabIndex = 89
-        Me.cmdChangePrice.Text = "changeprice"
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdChangePrice, "Apply a Discount.")
-        Me.cmdChangePrice.UseVisualStyleBackColor = True
-        Me.cmdChangePrice.Visible = False
-        '
         'opt30323
         '
         Me.opt30323.AutoSize = True
@@ -955,9 +875,9 @@ Partial Class BillOSale
         '
         'cmdProcessSale
         '
-        Me.cmdProcessSale.Location = New System.Drawing.Point(9, 16)
+        Me.cmdProcessSale.Location = New System.Drawing.Point(9, 13)
         Me.cmdProcessSale.Name = "cmdProcessSale"
-        Me.cmdProcessSale.Size = New System.Drawing.Size(78, 37)
+        Me.cmdProcessSale.Size = New System.Drawing.Size(78, 55)
         Me.cmdProcessSale.TabIndex = 105
         Me.cmdProcessSale.Text = "&Process Sale"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdProcessSale, " Prints sale and posts to all modules  ")
@@ -965,9 +885,9 @@ Partial Class BillOSale
         '
         'cmdNextSale
         '
-        Me.cmdNextSale.Location = New System.Drawing.Point(94, 16)
+        Me.cmdNextSale.Location = New System.Drawing.Point(92, 13)
         Me.cmdNextSale.Name = "cmdNextSale"
-        Me.cmdNextSale.Size = New System.Drawing.Size(75, 37)
+        Me.cmdNextSale.Size = New System.Drawing.Size(75, 55)
         Me.cmdNextSale.TabIndex = 105
         Me.cmdNextSale.Text = "Ne&xt Sale"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdNextSale, " Enter the next sale ")
@@ -975,9 +895,9 @@ Partial Class BillOSale
         '
         'cmdMainMenu
         '
-        Me.cmdMainMenu.Location = New System.Drawing.Point(176, 16)
+        Me.cmdMainMenu.Location = New System.Drawing.Point(172, 13)
         Me.cmdMainMenu.Name = "cmdMainMenu"
-        Me.cmdMainMenu.Size = New System.Drawing.Size(75, 37)
+        Me.cmdMainMenu.Size = New System.Drawing.Size(75, 55)
         Me.cmdMainMenu.TabIndex = 105
         Me.cmdMainMenu.Text = "&Main Menu"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdMainMenu, "Return to Main Menu ")
@@ -985,9 +905,9 @@ Partial Class BillOSale
         '
         'cmdClear
         '
-        Me.cmdClear.Location = New System.Drawing.Point(253, 16)
+        Me.cmdClear.Location = New System.Drawing.Point(252, 13)
         Me.cmdClear.Name = "cmdClear"
-        Me.cmdClear.Size = New System.Drawing.Size(75, 37)
+        Me.cmdClear.Size = New System.Drawing.Size(75, 55)
         Me.cmdClear.TabIndex = 105
         Me.cmdClear.Text = "&Clear"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdClear, "Clears only the inventory entries ")
@@ -1003,15 +923,16 @@ Partial Class BillOSale
         Me.fraBOS2.Controls.Add(Me.ScanDn)
         Me.fraBOS2.Controls.Add(Me.fraHover)
         Me.fraBOS2.Controls.Add(Me.ScanUp123)
+        Me.fraBOS2.Controls.Add(Me.cmdNoChangePrice)
         Me.fraBOS2.Controls.Add(Me.lblBalDueCaption)
         Me.fraBOS2.Controls.Add(Me.cmdSoldTags)
         Me.fraBOS2.Controls.Add(Me.cmdEmail)
         Me.fraBOS2.Controls.Add(Me.BalDue)
         Me.fraBOS2.Controls.Add(Me.cmdPrint)
         Me.fraBOS2.Controls.Add(Me.cmdChangePrice)
-        Me.fraBOS2.Location = New System.Drawing.Point(-900, 182)
+        Me.fraBOS2.Location = New System.Drawing.Point(0, 182)
         Me.fraBOS2.Name = "fraBOS2"
-        Me.fraBOS2.Size = New System.Drawing.Size(875, 408)
+        Me.fraBOS2.Size = New System.Drawing.Size(864, 408)
         Me.fraBOS2.TabIndex = 88
         Me.fraBOS2.TabStop = False
         '
@@ -1026,7 +947,7 @@ Partial Class BillOSale
         Me.UGridIO1.MaxRows = 10
         Me.UGridIO1.Name = "UGridIO1"
         Me.UGridIO1.Row = 0
-        Me.UGridIO1.Size = New System.Drawing.Size(775, 306)
+        Me.UGridIO1.Size = New System.Drawing.Size(810, 306)
         Me.UGridIO1.TabIndex = 104
         '
         'rtbStorePolicy
@@ -1054,15 +975,15 @@ Partial Class BillOSale
         Me.fraBOS2Commands.Controls.Add(Me.cmdProcessSale)
         Me.fraBOS2Commands.Location = New System.Drawing.Point(203, 327)
         Me.fraBOS2Commands.Name = "fraBOS2Commands"
-        Me.fraBOS2Commands.Size = New System.Drawing.Size(414, 60)
+        Me.fraBOS2Commands.Size = New System.Drawing.Size(414, 75)
         Me.fraBOS2Commands.TabIndex = 104
         Me.fraBOS2Commands.TabStop = False
         '
         'Notes_Open
         '
-        Me.Notes_Open.Location = New System.Drawing.Point(334, 16)
+        Me.Notes_Open.Location = New System.Drawing.Point(332, 13)
         Me.Notes_Open.Name = "Notes_Open"
-        Me.Notes_Open.Size = New System.Drawing.Size(75, 37)
+        Me.Notes_Open.Size = New System.Drawing.Size(75, 55)
         Me.Notes_Open.TabIndex = 105
         Me.Notes_Open.Text = "&Notes"
         Me.Notes_Open.UseVisualStyleBackColor = True
@@ -1077,15 +998,6 @@ Partial Class BillOSale
         Me.fraHover.TabIndex = 94
         Me.fraHover.TabStop = False
         Me.fraHover.Visible = False
-        '
-        'picHover
-        '
-        Me.picHover.Location = New System.Drawing.Point(45, 16)
-        Me.picHover.Name = "picHover"
-        Me.picHover.Size = New System.Drawing.Size(100, 50)
-        Me.picHover.TabIndex = 95
-        Me.picHover.TabStop = False
-        Me.picHover.Visible = False
         '
         'lblBalDueCaption
         '
@@ -1115,7 +1027,7 @@ Partial Class BillOSale
         Me.ugrFake.MaxRows = 10
         Me.ugrFake.Name = "ugrFake"
         Me.ugrFake.Row = 0
-        Me.ugrFake.Size = New System.Drawing.Size(831, 157)
+        Me.ugrFake.Size = New System.Drawing.Size(817, 145)
         Me.ugrFake.TabIndex = 107
         '
         'BillOfSale
@@ -1140,25 +1052,6 @@ Partial Class BillOSale
         Me.txtFormatHelper.Size = New System.Drawing.Size(100, 20)
         Me.txtFormatHelper.TabIndex = 96
         Me.txtFormatHelper.Visible = False
-        '
-        'picFormatHelper
-        '
-        Me.picFormatHelper.Location = New System.Drawing.Point(464, 856)
-        Me.picFormatHelper.Name = "picFormatHelper"
-        Me.picFormatHelper.Size = New System.Drawing.Size(100, 23)
-        Me.picFormatHelper.TabIndex = 97
-        Me.picFormatHelper.TabStop = False
-        Me.picFormatHelper.Visible = False
-        '
-        'cmdNoChangePrice
-        '
-        Me.cmdNoChangePrice.Location = New System.Drawing.Point(346, 856)
-        Me.cmdNoChangePrice.Name = "cmdNoChangePrice"
-        Me.cmdNoChangePrice.Size = New System.Drawing.Size(112, 23)
-        Me.cmdNoChangePrice.TabIndex = 98
-        Me.cmdNoChangePrice.Text = "cmdNoChangePrice"
-        Me.cmdNoChangePrice.UseVisualStyleBackColor = True
-        Me.cmdNoChangePrice.Visible = False
         '
         'fraButtons
         '
@@ -1235,11 +1128,114 @@ Partial Class BillOSale
         Me.lblGrossSales.Size = New System.Drawing.Size(0, 13)
         Me.lblGrossSales.TabIndex = 108
         '
+        'ScanDn
+        '
+        Me.ScanDn.Location = New System.Drawing.Point(826, 137)
+        Me.ScanDn.Name = "ScanDn"
+        Me.ScanDn.Size = New System.Drawing.Size(28, 23)
+        Me.ScanDn.TabIndex = 79
+        Me.ToolTipBillOSale.SetToolTip(Me.ScanDn, "Scans down to previous sale ")
+        Me.ScanDn.UseVisualStyleBackColor = True
+        '
+        'picHover
+        '
+        Me.picHover.Location = New System.Drawing.Point(45, 16)
+        Me.picHover.Name = "picHover"
+        Me.picHover.Size = New System.Drawing.Size(100, 50)
+        Me.picHover.TabIndex = 95
+        Me.picHover.TabStop = False
+        Me.picHover.Visible = False
+        '
+        'ScanUp123
+        '
+        Me.ScanUp123.AutoSize = True
+        Me.ScanUp123.Location = New System.Drawing.Point(826, 116)
+        Me.ScanUp123.Name = "ScanUp123"
+        Me.ScanUp123.Size = New System.Drawing.Size(28, 23)
+        Me.ScanUp123.TabIndex = 80
+        Me.ToolTipBillOSale.SetToolTip(Me.ScanUp123, " Scans up to next sale ")
+        Me.ScanUp123.UseVisualStyleBackColor = True
+        '
+        'cmdNoChangePrice
+        '
+        Me.cmdNoChangePrice.Location = New System.Drawing.Point(826, 81)
+        Me.cmdNoChangePrice.Name = "cmdNoChangePrice"
+        Me.cmdNoChangePrice.Size = New System.Drawing.Size(28, 23)
+        Me.cmdNoChangePrice.TabIndex = 98
+        Me.cmdNoChangePrice.UseVisualStyleBackColor = True
+        Me.cmdNoChangePrice.Visible = False
+        '
+        'cmdSoldTags
+        '
+        Me.cmdSoldTags.Location = New System.Drawing.Point(826, 226)
+        Me.cmdSoldTags.Name = "cmdSoldTags"
+        Me.cmdSoldTags.Size = New System.Drawing.Size(28, 23)
+        Me.cmdSoldTags.TabIndex = 85
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdSoldTags, "Email current copy of sale to customer's email address.")
+        Me.cmdSoldTags.UseVisualStyleBackColor = True
+        '
+        'cmdEmail
+        '
+        Me.cmdEmail.Location = New System.Drawing.Point(826, 196)
+        Me.cmdEmail.Name = "cmdEmail"
+        Me.cmdEmail.Size = New System.Drawing.Size(28, 23)
+        Me.cmdEmail.TabIndex = 87
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdEmail, "Email current copy of sale to customer's email address.")
+        Me.cmdEmail.UseVisualStyleBackColor = True
+        '
+        'cmdPrint
+        '
+        Me.cmdPrint.Location = New System.Drawing.Point(826, 175)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(28, 23)
+        Me.cmdPrint.TabIndex = 86
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdPrint, " Print current copy of sale. ")
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
+        'cmdChangePrice
+        '
+        Me.cmdChangePrice.AutoSize = True
+        Me.cmdChangePrice.Location = New System.Drawing.Point(826, 80)
+        Me.cmdChangePrice.Name = "cmdChangePrice"
+        Me.cmdChangePrice.Size = New System.Drawing.Size(28, 23)
+        Me.cmdChangePrice.TabIndex = 89
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdChangePrice, "Apply a Discount.")
+        Me.cmdChangePrice.UseVisualStyleBackColor = True
+        Me.cmdChangePrice.Visible = False
+        '
+        'picFormatHelper
+        '
+        Me.picFormatHelper.Location = New System.Drawing.Point(464, 856)
+        Me.picFormatHelper.Name = "picFormatHelper"
+        Me.picFormatHelper.Size = New System.Drawing.Size(100, 23)
+        Me.picFormatHelper.TabIndex = 97
+        Me.picFormatHelper.TabStop = False
+        Me.picFormatHelper.Visible = False
+        '
+        'imgLogo
+        '
+        Me.imgLogo.Location = New System.Drawing.Point(230, 3)
+        Me.imgLogo.Name = "imgLogo"
+        Me.imgLogo.Size = New System.Drawing.Size(407, 119)
+        Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.imgLogo.TabIndex = 11
+        Me.imgLogo.TabStop = False
+        '
+        'imgCalendar
+        '
+        Me.imgCalendar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.imgCalendar.Location = New System.Drawing.Point(180, 39)
+        Me.imgCalendar.Name = "imgCalendar"
+        Me.imgCalendar.Size = New System.Drawing.Size(31, 27)
+        Me.imgCalendar.TabIndex = 6
+        Me.imgCalendar.TabStop = False
+        Me.ToolTipBillOSale.SetToolTip(Me.imgCalendar, "View the Delivery Calendar")
+        '
         'BillOSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(895, 881)
+        Me.ClientSize = New System.Drawing.Size(874, 881)
         Me.Controls.Add(Me.ugrFake)
         Me.Controls.Add(Me.fraBOS2)
         Me.Controls.Add(Me.Button2)
@@ -1247,7 +1243,6 @@ Partial Class BillOSale
         Me.Controls.Add(Me.lblGrossSalesCaption)
         Me.Controls.Add(Me.dteDelivery)
         Me.Controls.Add(Me.fraButtons)
-        Me.Controls.Add(Me.cmdNoChangePrice)
         Me.Controls.Add(Me.picFormatHelper)
         Me.Controls.Add(Me.txtFormatHelper)
         Me.Controls.Add(Me.BillOfSale)
@@ -1326,19 +1321,19 @@ Partial Class BillOSale
         Me.Name = "BillOSale"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "BillOSale"
-        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraTimeWindow.ResumeLayout(False)
         Me.fraTimeWindow.PerformLayout()
         Me.fraBOS2.ResumeLayout(False)
         Me.fraBOS2.PerformLayout()
         Me.fraBOS2Commands.ResumeLayout(False)
         Me.fraHover.ResumeLayout(False)
-        CType(Me.picHover, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picFormatHelper, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraButtons.ResumeLayout(False)
         Me.fraPrintType.ResumeLayout(False)
         Me.fraPrintType.PerformLayout()
+        CType(Me.picHover, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picFormatHelper, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

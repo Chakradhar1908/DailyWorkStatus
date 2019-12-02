@@ -26,6 +26,17 @@ Partial Class frmDeliveryMap
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDeliveryMap))
         Me.cmdSplit = New System.Windows.Forms.Button()
         Me.lvwAllStops = New System.Windows.Forms.ListView()
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader7 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader9 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader10 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader11 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.imlStops = New System.Windows.Forms.ImageList(Me.components)
         Me.lvwThisTruck = New System.Windows.Forms.ListView()
         Me.cmdAddAll = New System.Windows.Forms.Button()
@@ -57,9 +68,9 @@ Partial Class frmDeliveryMap
         '
         'cmdSplit
         '
-        Me.cmdSplit.Location = New System.Drawing.Point(601, 147)
+        Me.cmdSplit.Location = New System.Drawing.Point(601, 162)
         Me.cmdSplit.Name = "cmdSplit"
-        Me.cmdSplit.Size = New System.Drawing.Size(75, 45)
+        Me.cmdSplit.Size = New System.Drawing.Size(75, 61)
         Me.cmdSplit.TabIndex = 1
         Me.cmdSplit.Text = "&Split Loads"
         Me.cmdSplit.UseVisualStyleBackColor = True
@@ -67,14 +78,70 @@ Partial Class frmDeliveryMap
         'lvwAllStops
         '
         Me.lvwAllStops.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lvwAllStops.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11})
+        Me.lvwAllStops.FullRowSelect = True
         Me.lvwAllStops.HideSelection = False
-        Me.lvwAllStops.Location = New System.Drawing.Point(8, 76)
+        Me.lvwAllStops.LabelEdit = True
+        Me.lvwAllStops.Location = New System.Drawing.Point(8, 82)
         Me.lvwAllStops.Name = "lvwAllStops"
         Me.lvwAllStops.Size = New System.Drawing.Size(233, 163)
         Me.lvwAllStops.SmallImageList = Me.imlStops
         Me.lvwAllStops.TabIndex = 2
         Me.lvwAllStops.UseCompatibleStateImageBehavior = False
         Me.lvwAllStops.View = System.Windows.Forms.View.SmallIcon
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Stop"
+        Me.ColumnHeader1.Width = 120
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Loc"
+        Me.ColumnHeader2.Width = 30
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Type"
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "No"
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Name"
+        Me.ColumnHeader5.Width = 120
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Idx"
+        Me.ColumnHeader6.Width = 0
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "Address"
+        Me.ColumnHeader7.Width = 120
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "City"
+        Me.ColumnHeader8.Width = 250
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "From Time"
+        Me.ColumnHeader9.Width = 120
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "To Time"
+        Me.ColumnHeader10.Width = 120
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "Cubes"
+        Me.ColumnHeader11.Width = 120
         '
         'imlStops
         '
@@ -86,45 +153,46 @@ Partial Class frmDeliveryMap
         'lvwThisTruck
         '
         Me.lvwThisTruck.HideSelection = False
-        Me.lvwThisTruck.Location = New System.Drawing.Point(324, 80)
+        Me.lvwThisTruck.Location = New System.Drawing.Point(324, 82)
         Me.lvwThisTruck.Name = "lvwThisTruck"
-        Me.lvwThisTruck.Size = New System.Drawing.Size(237, 159)
+        Me.lvwThisTruck.Size = New System.Drawing.Size(233, 163)
         Me.lvwThisTruck.SmallImageList = Me.imlStops
         Me.lvwThisTruck.TabIndex = 3
         Me.lvwThisTruck.UseCompatibleStateImageBehavior = False
+        Me.lvwThisTruck.View = System.Windows.Forms.View.SmallIcon
         '
         'cmdAddAll
         '
-        Me.cmdAddAll.Location = New System.Drawing.Point(257, 157)
+        Me.cmdAddAll.Location = New System.Drawing.Point(249, 152)
         Me.cmdAddAll.Name = "cmdAddAll"
-        Me.cmdAddAll.Size = New System.Drawing.Size(57, 23)
+        Me.cmdAddAll.Size = New System.Drawing.Size(67, 23)
         Me.cmdAddAll.TabIndex = 4
         Me.cmdAddAll.Text = ">>>"
         Me.cmdAddAll.UseVisualStyleBackColor = True
         '
         'cmdDone
         '
-        Me.cmdDone.Location = New System.Drawing.Point(601, 311)
+        Me.cmdDone.Location = New System.Drawing.Point(601, 319)
         Me.cmdDone.Name = "cmdDone"
-        Me.cmdDone.Size = New System.Drawing.Size(75, 45)
+        Me.cmdDone.Size = New System.Drawing.Size(75, 61)
         Me.cmdDone.TabIndex = 5
         Me.cmdDone.Text = "&Done"
         Me.cmdDone.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(601, 263)
+        Me.cmdPrint.Location = New System.Drawing.Point(601, 256)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(75, 48)
+        Me.cmdPrint.Size = New System.Drawing.Size(75, 61)
         Me.cmdPrint.TabIndex = 6
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
         '
         'cmdRemoveAll
         '
-        Me.cmdRemoveAll.Location = New System.Drawing.Point(257, 124)
+        Me.cmdRemoveAll.Location = New System.Drawing.Point(249, 119)
         Me.cmdRemoveAll.Name = "cmdRemoveAll"
-        Me.cmdRemoveAll.Size = New System.Drawing.Size(57, 27)
+        Me.cmdRemoveAll.Size = New System.Drawing.Size(67, 27)
         Me.cmdRemoveAll.TabIndex = 7
         Me.cmdRemoveAll.Text = "<<<"
         Me.cmdRemoveAll.UseVisualStyleBackColor = True
@@ -140,16 +208,16 @@ Partial Class frmDeliveryMap
         '
         'cmdAdjust
         '
-        Me.cmdAdjust.Location = New System.Drawing.Point(598, 37)
+        Me.cmdAdjust.Location = New System.Drawing.Point(598, 29)
         Me.cmdAdjust.Name = "cmdAdjust"
-        Me.cmdAdjust.Size = New System.Drawing.Size(75, 45)
+        Me.cmdAdjust.Size = New System.Drawing.Size(75, 61)
         Me.cmdAdjust.TabIndex = 9
         Me.cmdAdjust.Text = "Ad&just Route"
         Me.cmdAdjust.UseVisualStyleBackColor = True
         '
         'cmdManifest
         '
-        Me.cmdManifest.Location = New System.Drawing.Point(258, 73)
+        Me.cmdManifest.Location = New System.Drawing.Point(257, 61)
         Me.cmdManifest.Name = "cmdManifest"
         Me.cmdManifest.Size = New System.Drawing.Size(60, 34)
         Me.cmdManifest.TabIndex = 10
@@ -160,33 +228,33 @@ Partial Class frmDeliveryMap
         '
         Me.cmbPrintType.FormattingEnabled = True
         Me.cmbPrintType.Items.AddRange(New Object() {"Strips", "Full", "Turns", "Dirs", "Map"})
-        Me.cmbPrintType.Location = New System.Drawing.Point(601, 233)
+        Me.cmbPrintType.Location = New System.Drawing.Point(601, 229)
         Me.cmbPrintType.Name = "cmbPrintType"
-        Me.cmbPrintType.Size = New System.Drawing.Size(75, 21)
+        Me.cmbPrintType.Size = New System.Drawing.Size(72, 21)
         Me.cmbPrintType.TabIndex = 11
         Me.cmbPrintType.Text = "cmbPrintType"
         '
         'cmdConfigure
         '
-        Me.cmdConfigure.Location = New System.Drawing.Point(598, 88)
+        Me.cmdConfigure.Location = New System.Drawing.Point(598, 95)
         Me.cmdConfigure.Name = "cmdConfigure"
-        Me.cmdConfigure.Size = New System.Drawing.Size(75, 45)
+        Me.cmdConfigure.Size = New System.Drawing.Size(75, 61)
         Me.cmdConfigure.TabIndex = 12
         Me.cmdConfigure.Text = "Con&figure Optimization"
         Me.cmdConfigure.UseVisualStyleBackColor = True
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(598, 89)
+        Me.cmdCancel.Location = New System.Drawing.Point(598, 97)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 45)
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 61)
         Me.cmdCancel.TabIndex = 13
         Me.cmdCancel.Text = "&Cancel Process"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'cmdDetails
         '
-        Me.cmdDetails.Location = New System.Drawing.Point(257, 33)
+        Me.cmdDetails.Location = New System.Drawing.Point(256, 33)
         Me.cmdDetails.Name = "cmdDetails"
         Me.cmdDetails.Size = New System.Drawing.Size(61, 25)
         Me.cmdDetails.TabIndex = 14
@@ -196,7 +264,7 @@ Partial Class frmDeliveryMap
         'lblAllStopsCubes
         '
         Me.lblAllStopsCubes.AutoSize = True
-        Me.lblAllStopsCubes.Location = New System.Drawing.Point(87, 58)
+        Me.lblAllStopsCubes.Location = New System.Drawing.Point(87, 64)
         Me.lblAllStopsCubes.Name = "lblAllStopsCubes"
         Me.lblAllStopsCubes.Size = New System.Drawing.Size(91, 13)
         Me.lblAllStopsCubes.TabIndex = 15
@@ -205,7 +273,7 @@ Partial Class frmDeliveryMap
         'lblCurrentTruckCubes
         '
         Me.lblCurrentTruckCubes.AutoSize = True
-        Me.lblCurrentTruckCubes.Location = New System.Drawing.Point(394, 65)
+        Me.lblCurrentTruckCubes.Location = New System.Drawing.Point(394, 64)
         Me.lblCurrentTruckCubes.Name = "lblCurrentTruckCubes"
         Me.lblCurrentTruckCubes.Size = New System.Drawing.Size(91, 13)
         Me.lblCurrentTruckCubes.TabIndex = 16
@@ -214,7 +282,7 @@ Partial Class frmDeliveryMap
         'lblInstructions
         '
         Me.lblInstructions.AutoSize = True
-        Me.lblInstructions.Location = New System.Drawing.Point(6, 16)
+        Me.lblInstructions.Location = New System.Drawing.Point(6, 15)
         Me.lblInstructions.Name = "lblInstructions"
         Me.lblInstructions.Size = New System.Drawing.Size(326, 13)
         Me.lblInstructions.TabIndex = 17
@@ -238,14 +306,14 @@ Partial Class frmDeliveryMap
         Me.fraSplitLoads.Controls.Add(Me.cmdAddAll)
         Me.fraSplitLoads.Location = New System.Drawing.Point(12, 5)
         Me.fraSplitLoads.Name = "fraSplitLoads"
-        Me.fraSplitLoads.Size = New System.Drawing.Size(580, 354)
+        Me.fraSplitLoads.Size = New System.Drawing.Size(580, 368)
         Me.fraSplitLoads.TabIndex = 18
         Me.fraSplitLoads.TabStop = False
         Me.fraSplitLoads.Visible = False
         '
         'lblmapStops
         '
-        Me.lblmapStops.Location = New System.Drawing.Point(6, 248)
+        Me.lblmapStops.Location = New System.Drawing.Point(6, 252)
         Me.lblmapStops.Name = "lblmapStops"
         Me.lblmapStops.Size = New System.Drawing.Size(529, 42)
         Me.lblmapStops.TabIndex = 20
@@ -256,7 +324,7 @@ Partial Class frmDeliveryMap
         Me.lblThisTruck.AutoSize = True
         Me.lblThisTruck.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblThisTruck.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblThisTruck.Location = New System.Drawing.Point(376, 43)
+        Me.lblThisTruck.Location = New System.Drawing.Point(376, 42)
         Me.lblThisTruck.Name = "lblThisTruck"
         Me.lblThisTruck.Size = New System.Drawing.Size(140, 22)
         Me.lblThisTruck.TabIndex = 19
@@ -267,7 +335,7 @@ Partial Class frmDeliveryMap
         Me.lblAllStops.AutoSize = True
         Me.lblAllStops.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAllStops.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblAllStops.Location = New System.Drawing.Point(86, 36)
+        Me.lblAllStops.Location = New System.Drawing.Point(86, 42)
         Me.lblAllStops.Name = "lblAllStops"
         Me.lblAllStops.Size = New System.Drawing.Size(92, 22)
         Me.lblAllStops.TabIndex = 18
@@ -276,7 +344,7 @@ Partial Class frmDeliveryMap
         'fraMapContainer
         '
         Me.fraMapContainer.Controls.Add(Me.mapDelivery)
-        Me.fraMapContainer.Location = New System.Drawing.Point(636, 0)
+        Me.fraMapContainer.Location = New System.Drawing.Point(652, 3)
         Me.fraMapContainer.Name = "fraMapContainer"
         Me.fraMapContainer.Size = New System.Drawing.Size(68, 83)
         Me.fraMapContainer.TabIndex = 19
@@ -285,19 +353,19 @@ Partial Class frmDeliveryMap
         'mapDelivery
         '
         Me.mapDelivery.Enabled = True
-        Me.mapDelivery.Location = New System.Drawing.Point(6, 19)
+        Me.mapDelivery.Location = New System.Drawing.Point(6, 16)
         Me.mapDelivery.Name = "mapDelivery"
         Me.mapDelivery.OcxState = CType(resources.GetObject("mapDelivery.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.mapDelivery.Size = New System.Drawing.Size(192, 192)
+        Me.mapDelivery.Size = New System.Drawing.Size(62, 60)
         Me.mapDelivery.TabIndex = 0
         '
         'mapStops
         '
         Me.mapStops.Enabled = True
-        Me.mapStops.Location = New System.Drawing.Point(9, 293)
+        Me.mapStops.Location = New System.Drawing.Point(9, 299)
         Me.mapStops.Name = "mapStops"
         Me.mapStops.OcxState = CType(resources.GetObject("mapStops.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.mapStops.Size = New System.Drawing.Size(192, 192)
+        Me.mapStops.Size = New System.Drawing.Size(192, 56)
         Me.mapStops.TabIndex = 21
         Me.mapStops.Visible = False
         '
@@ -305,7 +373,7 @@ Partial Class frmDeliveryMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(709, 374)
+        Me.ClientSize = New System.Drawing.Size(736, 385)
         Me.Controls.Add(Me.fraMapContainer)
         Me.Controls.Add(Me.fraSplitLoads)
         Me.Controls.Add(Me.cmdConfigure)
@@ -316,7 +384,9 @@ Partial Class frmDeliveryMap
         Me.Controls.Add(Me.cmdSplit)
         Me.Controls.Add(Me.cmdCancel)
         Me.Name = "frmDeliveryMap"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Delivery Map"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.fraSplitLoads.ResumeLayout(False)
         Me.fraSplitLoads.PerformLayout()
         Me.fraMapContainer.ResumeLayout(False)
@@ -350,4 +420,15 @@ Partial Class frmDeliveryMap
     Friend WithEvents lblmapStops As Label
     Friend WithEvents fraMapContainer As GroupBox
     Friend WithEvents mapDelivery As AxMapPoint.AxMappointControl
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents ColumnHeader3 As ColumnHeader
+    Friend WithEvents ColumnHeader4 As ColumnHeader
+    Friend WithEvents ColumnHeader5 As ColumnHeader
+    Friend WithEvents ColumnHeader6 As ColumnHeader
+    Friend WithEvents ColumnHeader7 As ColumnHeader
+    Friend WithEvents ColumnHeader8 As ColumnHeader
+    Friend WithEvents ColumnHeader9 As ColumnHeader
+    Friend WithEvents ColumnHeader10 As ColumnHeader
+    Friend WithEvents ColumnHeader11 As ColumnHeader
 End Class

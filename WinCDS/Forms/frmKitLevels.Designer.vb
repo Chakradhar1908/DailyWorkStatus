@@ -69,21 +69,21 @@ Partial Class frmKitLevels
         Me.lblStyle.Font = New System.Drawing.Font("Lucida Console", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStyle.Location = New System.Drawing.Point(10, 9)
         Me.lblStyle.Name = "lblStyle"
-        Me.lblStyle.Size = New System.Drawing.Size(407, 36)
+        Me.lblStyle.Size = New System.Drawing.Size(407, 32)
         Me.lblStyle.TabIndex = 2
         Me.lblStyle.Text = "###"
         Me.lblStyle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtKitQuantity
         '
-        Me.txtKitQuantity.Location = New System.Drawing.Point(150, 53)
+        Me.txtKitQuantity.Location = New System.Drawing.Point(150, 49)
         Me.txtKitQuantity.Name = "txtKitQuantity"
         Me.txtKitQuantity.Size = New System.Drawing.Size(52, 20)
         Me.txtKitQuantity.TabIndex = 3
         '
         'cmdStatus
         '
-        Me.cmdStatus.Location = New System.Drawing.Point(208, 53)
+        Me.cmdStatus.Location = New System.Drawing.Point(208, 49)
         Me.cmdStatus.Name = "cmdStatus"
         Me.cmdStatus.Size = New System.Drawing.Size(52, 20)
         Me.cmdStatus.TabIndex = 4
@@ -165,7 +165,7 @@ Partial Class frmKitLevels
         Me.fraItems.Controls.Add(Me.txtItemQuan)
         Me.fraItems.Controls.Add(Me.lblOnOrd)
         Me.fraItems.Controls.Add(Me.lblItemLoc)
-        Me.fraItems.Location = New System.Drawing.Point(10, 81)
+        Me.fraItems.Location = New System.Drawing.Point(10, 77)
         Me.fraItems.Name = "fraItems"
         Me.fraItems.Size = New System.Drawing.Size(407, 92)
         Me.fraItems.TabIndex = 12
@@ -244,17 +244,17 @@ Partial Class frmKitLevels
         '
         Me.fraControls.Controls.Add(Me.cmdCancel)
         Me.fraControls.Controls.Add(Me.cmdOK)
-        Me.fraControls.Location = New System.Drawing.Point(135, 177)
+        Me.fraControls.Location = New System.Drawing.Point(126, 177)
         Me.fraControls.Name = "fraControls"
-        Me.fraControls.Size = New System.Drawing.Size(154, 56)
+        Me.fraControls.Size = New System.Drawing.Size(173, 72)
         Me.fraControls.TabIndex = 13
         Me.fraControls.TabStop = False
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(84, 13)
+        Me.cmdCancel.Location = New System.Drawing.Point(89, 12)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(64, 38)
+        Me.cmdCancel.Size = New System.Drawing.Size(76, 53)
         Me.cmdCancel.TabIndex = 19
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -263,7 +263,7 @@ Partial Class frmKitLevels
         '
         Me.cmdOK.Location = New System.Drawing.Point(9, 13)
         Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(64, 38)
+        Me.cmdOK.Size = New System.Drawing.Size(76, 53)
         Me.cmdOK.TabIndex = 18
         Me.cmdOK.Text = "OK"
         Me.cmdOK.UseVisualStyleBackColor = True
@@ -271,7 +271,7 @@ Partial Class frmKitLevels
         'lblKitQuantityCaption
         '
         Me.lblKitQuantityCaption.AutoSize = True
-        Me.lblKitQuantityCaption.Location = New System.Drawing.Point(100, 56)
+        Me.lblKitQuantityCaption.Location = New System.Drawing.Point(100, 52)
         Me.lblKitQuantityCaption.Name = "lblKitQuantityCaption"
         Me.lblKitQuantityCaption.Size = New System.Drawing.Size(49, 13)
         Me.lblKitQuantityCaption.TabIndex = 18
@@ -281,7 +281,7 @@ Partial Class frmKitLevels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(424, 235)
+        Me.ClientSize = New System.Drawing.Size(424, 253)
         Me.Controls.Add(Me.lblKitQuantityCaption)
         Me.Controls.Add(Me.fraControls)
         Me.Controls.Add(Me.fraItems)

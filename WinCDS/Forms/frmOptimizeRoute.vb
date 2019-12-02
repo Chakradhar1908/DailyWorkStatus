@@ -59,13 +59,13 @@
 
     Private Sub cmdUDClick(sender As Object, e As EventArgs) Handles cmdUD0.Click, cmdUD1.Click
         Dim A As Integer, B As Integer, D As Integer, Li As ListViewItem
-        Dim lblBtn As Label
+        Dim Btn As Button
 
         On Error Resume Next
         'D = IIf(Index = 0, -1, 1)
 
-        lblBtn = CType(sender, Label)
-        If lblBtn.Name = "cmdUDO" Then
+        Btn = CType(sender, Button)
+        If Btn.Name = "cmdUD0" Then
             D = -1
         Else
             D = 1
@@ -80,7 +80,10 @@
             End If
         Next
         'B = Val(lvw.ListItems(lvw.SelectedItem.Index + D).Text)
-        B = Val(lvw.Items(A + D).Text)
+        Dim PrevItem As Integer
+        PrevItem = A + D
+
+        B = Val(lvw.Items(PrevItem - 1).Text)
         If A = -1 Or B = -1 Then Exit Sub
         Network.ForceManualSwap(A, B)
         LoadStops()
@@ -94,9 +97,31 @@
         SetButtonImage(cmdOK, 2)
         'SetButtonImage(cmdContinue, "forward")
         SetButtonImage(cmdContinue, 1)
+        SetButtonImageSmall(cmdUD0, 5)
+        SetButtonImageSmall(cmdUD1, 4)
         SetAlwaysOnTop(Me)
         'HelpContextID = 59650
         'cmdContinue.Image = MainMenu.imlStandardButtons.Images(0)
+
+        'Dim Li As New ListViewItem
+        'Li.Text = 1
+        'Li.SubItems.Add("one")
+        'Li.SubItems.Add("two")
+        'Li.SubItems.Add("three")
+        'Li.SubItems.Add("four")
+        'Li.SubItems.Add("five")
+        'Li.SubItems.Add("six")
+        'lvw.Items.Add(Li)
+
+        'Li = New ListViewItem
+        'Li.Text = 2
+        'Li.SubItems.Add("seven")
+        'Li.SubItems.Add("eight")
+        'Li.SubItems.Add("nine")
+        'Li.SubItems.Add("ten")
+        'Li.SubItems.Add("eleven")
+        'Li.SubItems.Add("twelve")
+        'lvw.Items.Add(Li)
     End Sub
 
     Private Sub frmOptimizeRoute_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

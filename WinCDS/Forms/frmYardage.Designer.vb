@@ -24,10 +24,6 @@ Partial Class frmYardage
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmYardage))
         Me.fraCalc = New System.Windows.Forms.GroupBox()
-        Me.updWIn = New AxMSComCtl2.AxUpDown()
-        Me.updLIn = New AxMSComCtl2.AxUpDown()
-        Me.updWFt = New AxMSComCtl2.AxUpDown()
-        Me.updLFt = New AxMSComCtl2.AxUpDown()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdClear = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
@@ -43,6 +39,10 @@ Partial Class frmYardage
         Me.txtSqYd = New System.Windows.Forms.TextBox()
         Me.optSqFt = New System.Windows.Forms.RadioButton()
         Me.txtSqFt = New System.Windows.Forms.TextBox()
+        Me.updWIn = New AxMSComCtl2.AxUpDown()
+        Me.updLIn = New AxMSComCtl2.AxUpDown()
+        Me.updWFt = New AxMSComCtl2.AxUpDown()
+        Me.updLFt = New AxMSComCtl2.AxUpDown()
         Me.fraCalc.SuspendLayout()
         CType(Me.updWIn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.updLIn, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -73,94 +73,62 @@ Partial Class frmYardage
         Me.fraCalc.Controls.Add(Me.txtSqFt)
         Me.fraCalc.Location = New System.Drawing.Point(8, 3)
         Me.fraCalc.Name = "fraCalc"
-        Me.fraCalc.Size = New System.Drawing.Size(295, 178)
+        Me.fraCalc.Size = New System.Drawing.Size(295, 183)
         Me.fraCalc.TabIndex = 0
         Me.fraCalc.TabStop = False
         Me.fraCalc.Text = "Yardage/Footage Calculator:"
         '
-        'updWIn
-        '
-        Me.updWIn.Location = New System.Drawing.Point(202, 99)
-        Me.updWIn.Name = "updWIn"
-        Me.updWIn.OcxState = CType(resources.GetObject("updWIn.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.updWIn.Size = New System.Drawing.Size(17, 20)
-        Me.updWIn.TabIndex = 18
-        '
-        'updLIn
-        '
-        Me.updLIn.Location = New System.Drawing.Point(202, 72)
-        Me.updLIn.Name = "updLIn"
-        Me.updLIn.OcxState = CType(resources.GetObject("updLIn.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.updLIn.Size = New System.Drawing.Size(17, 20)
-        Me.updLIn.TabIndex = 17
-        '
-        'updWFt
-        '
-        Me.updWFt.Location = New System.Drawing.Point(131, 99)
-        Me.updWFt.Name = "updWFt"
-        Me.updWFt.OcxState = CType(resources.GetObject("updWFt.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.updWFt.Size = New System.Drawing.Size(17, 20)
-        Me.updWFt.TabIndex = 16
-        '
-        'updLFt
-        '
-        Me.updLFt.Location = New System.Drawing.Point(131, 72)
-        Me.updLFt.Name = "updLFt"
-        Me.updLFt.OcxState = CType(resources.GetObject("updLFt.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.updLFt.Size = New System.Drawing.Size(17, 20)
-        Me.updLFt.TabIndex = 15
-        '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(203, 136)
+        Me.cmdCancel.Location = New System.Drawing.Point(203, 123)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(55, 31)
+        Me.cmdCancel.Size = New System.Drawing.Size(59, 54)
         Me.cmdCancel.TabIndex = 14
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'cmdClear
         '
-        Me.cmdClear.Location = New System.Drawing.Point(120, 136)
+        Me.cmdClear.Location = New System.Drawing.Point(120, 123)
         Me.cmdClear.Name = "cmdClear"
-        Me.cmdClear.Size = New System.Drawing.Size(55, 31)
+        Me.cmdClear.Size = New System.Drawing.Size(59, 54)
         Me.cmdClear.TabIndex = 13
         Me.cmdClear.Text = "Clear"
         Me.cmdClear.UseVisualStyleBackColor = True
         '
         'cmdOK
         '
-        Me.cmdOK.Location = New System.Drawing.Point(37, 136)
+        Me.cmdOK.Location = New System.Drawing.Point(37, 123)
         Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(55, 31)
+        Me.cmdOK.Size = New System.Drawing.Size(59, 54)
         Me.cmdOK.TabIndex = 12
         Me.cmdOK.Text = "Apply"
         Me.cmdOK.UseVisualStyleBackColor = True
         '
         'txtWIn
         '
-        Me.txtWIn.Location = New System.Drawing.Point(159, 99)
+        Me.txtWIn.Location = New System.Drawing.Point(159, 92)
         Me.txtWIn.Name = "txtWIn"
         Me.txtWIn.Size = New System.Drawing.Size(44, 20)
         Me.txtWIn.TabIndex = 11
         '
         'txtLIn
         '
-        Me.txtLIn.Location = New System.Drawing.Point(159, 72)
+        Me.txtLIn.Location = New System.Drawing.Point(159, 65)
         Me.txtLIn.Name = "txtLIn"
         Me.txtLIn.Size = New System.Drawing.Size(44, 20)
         Me.txtLIn.TabIndex = 10
         '
         'txtWFt
         '
-        Me.txtWFt.Location = New System.Drawing.Point(88, 99)
+        Me.txtWFt.Location = New System.Drawing.Point(88, 92)
         Me.txtWFt.Name = "txtWFt"
         Me.txtWFt.Size = New System.Drawing.Size(44, 20)
         Me.txtWFt.TabIndex = 9
         '
         'txtLFt
         '
-        Me.txtLFt.Location = New System.Drawing.Point(88, 72)
+        Me.txtLFt.Location = New System.Drawing.Point(88, 65)
         Me.txtLFt.Name = "txtLFt"
         Me.txtLFt.Size = New System.Drawing.Size(44, 20)
         Me.txtLFt.TabIndex = 8
@@ -168,7 +136,7 @@ Partial Class frmYardage
         'lblIn
         '
         Me.lblIn.AutoSize = True
-        Me.lblIn.Location = New System.Drawing.Point(156, 59)
+        Me.lblIn.Location = New System.Drawing.Point(156, 52)
         Me.lblIn.Name = "lblIn"
         Me.lblIn.Size = New System.Drawing.Size(39, 13)
         Me.lblIn.TabIndex = 7
@@ -177,7 +145,7 @@ Partial Class frmYardage
         'lblFt
         '
         Me.lblFt.AutoSize = True
-        Me.lblFt.Location = New System.Drawing.Point(85, 59)
+        Me.lblFt.Location = New System.Drawing.Point(85, 52)
         Me.lblFt.Name = "lblFt"
         Me.lblFt.Size = New System.Drawing.Size(28, 13)
         Me.lblFt.TabIndex = 6
@@ -186,7 +154,7 @@ Partial Class frmYardage
         'lblWidth
         '
         Me.lblWidth.AutoSize = True
-        Me.lblWidth.Location = New System.Drawing.Point(47, 102)
+        Me.lblWidth.Location = New System.Drawing.Point(47, 95)
         Me.lblWidth.Name = "lblWidth"
         Me.lblWidth.Size = New System.Drawing.Size(35, 13)
         Me.lblWidth.TabIndex = 5
@@ -195,7 +163,7 @@ Partial Class frmYardage
         'lblLength
         '
         Me.lblLength.AutoSize = True
-        Me.lblLength.Location = New System.Drawing.Point(42, 72)
+        Me.lblLength.Location = New System.Drawing.Point(42, 65)
         Me.lblLength.Name = "lblLength"
         Me.lblLength.Size = New System.Drawing.Size(40, 13)
         Me.lblLength.TabIndex = 4
@@ -204,7 +172,7 @@ Partial Class frmYardage
         'OptSqYd
         '
         Me.OptSqYd.AutoSize = True
-        Me.OptSqYd.Location = New System.Drawing.Point(233, 27)
+        Me.OptSqYd.Location = New System.Drawing.Point(233, 20)
         Me.OptSqYd.Name = "OptSqYd"
         Me.OptSqYd.Size = New System.Drawing.Size(59, 17)
         Me.OptSqYd.TabIndex = 3
@@ -214,7 +182,7 @@ Partial Class frmYardage
         '
         'txtSqYd
         '
-        Me.txtSqYd.Location = New System.Drawing.Point(157, 27)
+        Me.txtSqYd.Location = New System.Drawing.Point(157, 20)
         Me.txtSqYd.Name = "txtSqYd"
         Me.txtSqYd.Size = New System.Drawing.Size(72, 20)
         Me.txtSqYd.TabIndex = 2
@@ -222,7 +190,7 @@ Partial Class frmYardage
         'optSqFt
         '
         Me.optSqFt.AutoSize = True
-        Me.optSqFt.Location = New System.Drawing.Point(87, 27)
+        Me.optSqFt.Location = New System.Drawing.Point(87, 20)
         Me.optSqFt.Name = "optSqFt"
         Me.optSqFt.Size = New System.Drawing.Size(62, 17)
         Me.optSqFt.TabIndex = 1
@@ -232,16 +200,48 @@ Partial Class frmYardage
         '
         'txtSqFt
         '
-        Me.txtSqFt.Location = New System.Drawing.Point(10, 27)
+        Me.txtSqFt.Location = New System.Drawing.Point(10, 20)
         Me.txtSqFt.Name = "txtSqFt"
         Me.txtSqFt.Size = New System.Drawing.Size(72, 20)
         Me.txtSqFt.TabIndex = 0
+        '
+        'updWIn
+        '
+        Me.updWIn.Location = New System.Drawing.Point(202, 92)
+        Me.updWIn.Name = "updWIn"
+        Me.updWIn.OcxState = CType(resources.GetObject("updWIn.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.updWIn.Size = New System.Drawing.Size(17, 20)
+        Me.updWIn.TabIndex = 18
+        '
+        'updLIn
+        '
+        Me.updLIn.Location = New System.Drawing.Point(202, 65)
+        Me.updLIn.Name = "updLIn"
+        Me.updLIn.OcxState = CType(resources.GetObject("updLIn.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.updLIn.Size = New System.Drawing.Size(17, 20)
+        Me.updLIn.TabIndex = 17
+        '
+        'updWFt
+        '
+        Me.updWFt.Location = New System.Drawing.Point(131, 92)
+        Me.updWFt.Name = "updWFt"
+        Me.updWFt.OcxState = CType(resources.GetObject("updWFt.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.updWFt.Size = New System.Drawing.Size(17, 20)
+        Me.updWFt.TabIndex = 16
+        '
+        'updLFt
+        '
+        Me.updLFt.Location = New System.Drawing.Point(131, 65)
+        Me.updLFt.Name = "updLFt"
+        Me.updLFt.OcxState = CType(resources.GetObject("updLFt.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.updLFt.Size = New System.Drawing.Size(17, 20)
+        Me.updLFt.TabIndex = 15
         '
         'frmYardage
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(308, 186)
+        Me.ClientSize = New System.Drawing.Size(308, 190)
         Me.Controls.Add(Me.fraCalc)
         Me.Name = "frmYardage"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

@@ -862,9 +862,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RichTextBoxNew.resx">
       <DependentUpon>RichTextBoxNew.vb</DependentUpon>
@@ -1194,6 +1194,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\small-down.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printer.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printer-w.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disc.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\email.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nodisc.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StandardButton-Web3.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

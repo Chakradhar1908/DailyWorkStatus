@@ -943,6 +943,14 @@ NextItem:
         SetButtonImage(cmdClear, 3)
         SetButtonImage(Notes_Open, 17)
 
+        SetButtonImageSmall(cmdChangePrice, 0)
+        SetButtonImageSmall(cmdNoChangePrice, 2)
+        SetButtonImageSmall(ScanUp123, 5)
+        SetButtonImageSmall(ScanDn, 4)
+        SetButtonImageSmall(cmdPrint, 3)
+        SetButtonImageSmall(cmdEmail, 1)
+        SetButtonImageSmall(cmdSoldTags, 6)
+
         If CustomerLast.Text = "CASH & CARRY" Then  'added 01-31-2003 to prevent a cash&Carry
             Index = 0 '""
             Marginn.Index = "" 'picking up last name and index
@@ -964,7 +972,7 @@ NextItem:
 
         With UGridIO1
             .AddColumn(0, "Style Number", 100, True, False)
-            .AddColumn(1, "Manufacturer", 100, False, False)
+            .AddColumn(1, "Manufacturer", 130, False, False)
             .AddColumn(2, "Loc", 30, True, False)
             .AddColumn(3, "Status", 50, False, False)
             '.AddColumn(4, "Quant.", 50, False, False, MSDBGrid.AlignmentConstants.dbgRight)

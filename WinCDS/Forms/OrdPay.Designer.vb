@@ -225,9 +225,9 @@ Partial Class OrdPay
         Me.fraControl.Controls.Add(Me.cmdOk)
         Me.fraControl.Controls.Add(Me.chkEmail)
         Me.fraControl.Controls.Add(Me.chkReceipt)
-        Me.fraControl.Location = New System.Drawing.Point(271, 133)
+        Me.fraControl.Location = New System.Drawing.Point(252, 133)
         Me.fraControl.Name = "fraControl"
-        Me.fraControl.Size = New System.Drawing.Size(200, 61)
+        Me.fraControl.Size = New System.Drawing.Size(200, 83)
         Me.fraControl.TabIndex = 19
         Me.fraControl.TabStop = False
         '
@@ -235,7 +235,7 @@ Partial Class OrdPay
         '
         Me.cmdCancel.Location = New System.Drawing.Point(132, 17)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(51, 39)
+        Me.cmdCancel.Size = New System.Drawing.Size(53, 60)
         Me.cmdCancel.TabIndex = 3
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -244,7 +244,7 @@ Partial Class OrdPay
         '
         Me.cmdOk.Location = New System.Drawing.Point(75, 17)
         Me.cmdOk.Name = "cmdOk"
-        Me.cmdOk.Size = New System.Drawing.Size(51, 39)
+        Me.cmdOk.Size = New System.Drawing.Size(53, 60)
         Me.cmdOk.TabIndex = 2
         Me.cmdOk.Text = "&OK"
         Me.cmdOk.UseVisualStyleBackColor = True
@@ -253,7 +253,7 @@ Partial Class OrdPay
         '
         Me.chkEmail.AutoSize = True
         Me.chkEmail.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkEmail.Location = New System.Drawing.Point(18, 39)
+        Me.chkEmail.Location = New System.Drawing.Point(18, 34)
         Me.chkEmail.Name = "chkEmail"
         Me.chkEmail.Size = New System.Drawing.Size(51, 17)
         Me.chkEmail.TabIndex = 1

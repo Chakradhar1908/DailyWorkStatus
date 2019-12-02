@@ -100,9 +100,9 @@ Partial Class InvDefault
         '
         'cmdApply
         '
-        Me.cmdApply.Location = New System.Drawing.Point(41, 130)
+        Me.cmdApply.Location = New System.Drawing.Point(111, 130)
         Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(75, 35)
+        Me.cmdApply.Size = New System.Drawing.Size(75, 56)
         Me.cmdApply.TabIndex = 2
         Me.cmdApply.Text = "&OK"
         Me.cmdApply.UseVisualStyleBackColor = True
@@ -121,7 +121,7 @@ Partial Class InvDefault
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(297, 168)
+        Me.ClientSize = New System.Drawing.Size(297, 191)
         Me.Controls.Add(Me.lblStylenotindatabase)
         Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.lstResults)

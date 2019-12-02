@@ -33,6 +33,7 @@ Partial Class MainMenu4
         Me.Button1 = New System.Windows.Forms.Button()
         Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
+        Me.imlSmallButtons = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,6 +128,18 @@ Partial Class MainMenu4
         Me.rtbStorePolicy.Size = New System.Drawing.Size(150, 150)
         Me.rtbStorePolicy.TabIndex = 1
         '
+        'imlSmallButtons
+        '
+        Me.imlSmallButtons.ImageStream = CType(resources.GetObject("imlSmallButtons.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imlSmallButtons.TransparentColor = System.Drawing.Color.Transparent
+        Me.imlSmallButtons.Images.SetKeyName(0, "disc.gif")
+        Me.imlSmallButtons.Images.SetKeyName(1, "email.gif")
+        Me.imlSmallButtons.Images.SetKeyName(2, "nodisc.gif")
+        Me.imlSmallButtons.Images.SetKeyName(3, "print.gif")
+        Me.imlSmallButtons.Images.SetKeyName(4, "StandardButton-DownMenu.gif")
+        Me.imlSmallButtons.Images.SetKeyName(5, "StandardButton-UpMenu.gif")
+        Me.imlSmallButtons.Images.SetKeyName(6, "StandardButton-Web3.gif")
+        '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -156,4 +169,5 @@ Partial Class MainMenu4
     Friend WithEvents cmdEnterPassword As Button
     Friend WithEvents MSComm1 As AxMSCommLib.AxMSComm
     Friend WithEvents Button1 As Button
+    Friend WithEvents imlSmallButtons As ImageList
 End Class

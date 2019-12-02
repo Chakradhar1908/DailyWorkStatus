@@ -80,23 +80,23 @@ Partial Class frmBOSDiscount
         Me.fraDiscntTo.Controls.Add(Me.optLastNItems)
         Me.fraDiscntTo.Controls.Add(Me.optCurrentItem)
         Me.fraDiscntTo.Controls.Add(Me.optAllItems)
-        Me.fraDiscntTo.Location = New System.Drawing.Point(6, 77)
+        Me.fraDiscntTo.Location = New System.Drawing.Point(6, 74)
         Me.fraDiscntTo.Name = "fraDiscntTo"
-        Me.fraDiscntTo.Size = New System.Drawing.Size(200, 121)
+        Me.fraDiscntTo.Size = New System.Drawing.Size(200, 116)
         Me.fraDiscntTo.TabIndex = 4
         Me.fraDiscntTo.TabStop = False
         Me.fraDiscntTo.Text = "Apply Discount To:"
         '
         'txtFlatRate
         '
-        Me.txtFlatRate.Location = New System.Drawing.Point(123, 95)
+        Me.txtFlatRate.Location = New System.Drawing.Point(123, 91)
         Me.txtFlatRate.Name = "txtFlatRate"
         Me.txtFlatRate.Size = New System.Drawing.Size(63, 20)
         Me.txtFlatRate.TabIndex = 5
         '
         'txtLastNItems
         '
-        Me.txtLastNItems.Location = New System.Drawing.Point(88, 69)
+        Me.txtLastNItems.Location = New System.Drawing.Point(88, 67)
         Me.txtLastNItems.Name = "txtLastNItems"
         Me.txtLastNItems.Size = New System.Drawing.Size(32, 20)
         Me.txtLastNItems.TabIndex = 4
@@ -105,7 +105,7 @@ Partial Class frmBOSDiscount
         'optFlatRate
         '
         Me.optFlatRate.AutoSize = True
-        Me.optFlatRate.Location = New System.Drawing.Point(45, 97)
+        Me.optFlatRate.Location = New System.Drawing.Point(45, 93)
         Me.optFlatRate.Name = "optFlatRate"
         Me.optFlatRate.Size = New System.Drawing.Size(71, 17)
         Me.optFlatRate.TabIndex = 3
@@ -115,7 +115,7 @@ Partial Class frmBOSDiscount
         'optLastNItems
         '
         Me.optLastNItems.AutoSize = True
-        Me.optLastNItems.Location = New System.Drawing.Point(45, 71)
+        Me.optLastNItems.Location = New System.Drawing.Point(45, 66)
         Me.optLastNItems.Name = "optLastNItems"
         Me.optLastNItems.Size = New System.Drawing.Size(118, 17)
         Me.optLastNItems.TabIndex = 2
@@ -125,7 +125,7 @@ Partial Class frmBOSDiscount
         'optCurrentItem
         '
         Me.optCurrentItem.AutoSize = True
-        Me.optCurrentItem.Location = New System.Drawing.Point(45, 45)
+        Me.optCurrentItem.Location = New System.Drawing.Point(45, 42)
         Me.optCurrentItem.Name = "optCurrentItem"
         Me.optCurrentItem.Size = New System.Drawing.Size(68, 17)
         Me.optCurrentItem.TabIndex = 1
@@ -146,9 +146,9 @@ Partial Class frmBOSDiscount
         '
         'cmdOK
         '
-        Me.cmdOK.Location = New System.Drawing.Point(26, 206)
+        Me.cmdOK.Location = New System.Drawing.Point(26, 196)
         Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 37)
+        Me.cmdOK.Size = New System.Drawing.Size(75, 56)
         Me.cmdOK.TabIndex = 5
         Me.cmdOK.Text = "&OK"
         Me.cmdOK.UseVisualStyleBackColor = True
@@ -156,9 +156,9 @@ Partial Class frmBOSDiscount
         'cmdCancel
         '
         Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Location = New System.Drawing.Point(115, 206)
+        Me.cmdCancel.Location = New System.Drawing.Point(115, 196)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 37)
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 56)
         Me.cmdCancel.TabIndex = 6
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -178,7 +178,7 @@ Partial Class frmBOSDiscount
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.cmdCancel
-        Me.ClientSize = New System.Drawing.Size(217, 248)
+        Me.ClientSize = New System.Drawing.Size(217, 254)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.fraDiscntTo)

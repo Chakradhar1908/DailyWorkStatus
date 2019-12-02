@@ -26,8 +26,6 @@ Partial Class frmOptimizeRoute
         Me.cmdContinue = New System.Windows.Forms.Button()
         Me.lblTCost = New System.Windows.Forms.Label()
         Me.txtTCost = New System.Windows.Forms.Label()
-        Me.cmdUD1 = New System.Windows.Forms.Label()
-        Me.cmdUD0 = New System.Windows.Forms.Label()
         Me.lvw = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -43,6 +41,8 @@ Partial Class frmOptimizeRoute
         Me.ColumnHeader12 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader13 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader14 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.cmdUD0 = New System.Windows.Forms.Button()
+        Me.cmdUD1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cmdOK
@@ -82,23 +82,6 @@ Partial Class frmOptimizeRoute
         Me.txtTCost.TabIndex = 4
         Me.txtTCost.Text = "0.00"
         Me.txtTCost.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'cmdUD1
-        '
-        Me.cmdUD1.Image = Global.WinCDS.My.Resources.Resources.small_down
-        Me.cmdUD1.Location = New System.Drawing.Point(566, 104)
-        Me.cmdUD1.Name = "cmdUD1"
-        Me.cmdUD1.Size = New System.Drawing.Size(24, 23)
-        Me.cmdUD1.TabIndex = 8
-        '
-        'cmdUD0
-        '
-        Me.cmdUD0.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.cmdUD0.Image = Global.WinCDS.My.Resources.Resources.small_up
-        Me.cmdUD0.Location = New System.Drawing.Point(566, 75)
-        Me.cmdUD0.Name = "cmdUD0"
-        Me.cmdUD0.Size = New System.Drawing.Size(23, 23)
-        Me.cmdUD0.TabIndex = 9
         '
         'lvw
         '
@@ -185,15 +168,31 @@ Partial Class frmOptimizeRoute
         '
         Me.ColumnHeader14.Text = "Zip"
         '
+        'cmdUD0
+        '
+        Me.cmdUD0.Location = New System.Drawing.Point(566, 78)
+        Me.cmdUD0.Name = "cmdUD0"
+        Me.cmdUD0.Size = New System.Drawing.Size(20, 23)
+        Me.cmdUD0.TabIndex = 11
+        Me.cmdUD0.UseVisualStyleBackColor = True
+        '
+        'cmdUD1
+        '
+        Me.cmdUD1.Location = New System.Drawing.Point(566, 110)
+        Me.cmdUD1.Name = "cmdUD1"
+        Me.cmdUD1.Size = New System.Drawing.Size(21, 23)
+        Me.cmdUD1.TabIndex = 12
+        Me.cmdUD1.UseVisualStyleBackColor = True
+        '
         'frmOptimizeRoute
         '
         Me.AcceptButton = Me.cmdOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(596, 249)
-        Me.Controls.Add(Me.lvw)
-        Me.Controls.Add(Me.cmdUD0)
         Me.Controls.Add(Me.cmdUD1)
+        Me.Controls.Add(Me.cmdUD0)
+        Me.Controls.Add(Me.lvw)
         Me.Controls.Add(Me.txtTCost)
         Me.Controls.Add(Me.lblTCost)
         Me.Controls.Add(Me.cmdContinue)
@@ -209,8 +208,6 @@ Partial Class frmOptimizeRoute
     Friend WithEvents cmdContinue As Button
     Friend WithEvents lblTCost As Label
     Friend WithEvents txtTCost As Label
-    Friend WithEvents cmdUD1 As Label
-    Friend WithEvents cmdUD0 As Label
     Friend WithEvents lvw As ListView
     Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents ColumnHeader2 As ColumnHeader
@@ -226,4 +223,6 @@ Partial Class frmOptimizeRoute
     Friend WithEvents ColumnHeader12 As ColumnHeader
     Friend WithEvents ColumnHeader13 As ColumnHeader
     Friend WithEvents ColumnHeader14 As ColumnHeader
+    Friend WithEvents cmdUD0 As Button
+    Friend WithEvents cmdUD1 As Button
 End Class
