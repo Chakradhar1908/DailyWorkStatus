@@ -478,7 +478,8 @@ BadWpt:
         On Error Resume Next
         'fraMapContainer.Move 120, 120, ScaleWidth - cmdDone.Width - 240, ScaleHeight - 240
         fraMapContainer.Location = New Point(12, 5)
-        fraMapContainer.Size = New Size(Width - cmdDone.Width - 20, Height - 20)
+        'fraMapContainer.Size = New Size(Width - cmdDone.Width - 20, Height - 20)
+        fraMapContainer.Size = New Size(Width - cmdDone.Width - 50, Height - 20)
         'fraSplitLoads.Move fraMapContainer.Left, fraMapContainer.Top, fraMapContainer.Width, fraMapContainer.Height
         fraSplitLoads.Location = New Point(fraMapContainer.Left, fraMapContainer.Top)
         fraSplitLoads.Size = New Size(fraMapContainer.Width, fraMapContainer.Height)
@@ -486,7 +487,7 @@ BadWpt:
         mapDelivery.Location = New Point(6, 2)
         mapDelivery.Size = New Size(fraMapContainer.Width - 20, fraMapContainer.Height - 20)
         H = cmdDone.Height
-        L = Width - cmdDone.Width - 6
+        L = Width - cmdDone.Width - 28
         'cmdDone.Move L, ScaleHeight - H - 60
         cmdDone.Location = New Point(L, Height - H - 50)
         'cmdPrint.Move L, cmdDone.Top - H

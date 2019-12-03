@@ -36,6 +36,7 @@ Partial Class frmSelectOption
         Me.lstSelection.Name = "lstSelection"
         Me.lstSelection.Size = New System.Drawing.Size(219, 17)
         Me.lstSelection.TabIndex = 0
+        Me.lstSelection.Visible = False
         '
         'optSelection
         '
@@ -47,6 +48,7 @@ Partial Class frmSelectOption
         Me.optSelection.TabStop = True
         Me.optSelection.Text = "&Generic Option"
         Me.optSelection.UseVisualStyleBackColor = True
+        Me.optSelection.Visible = False
         '
         'lstSelectionCheck
         '
@@ -55,6 +57,7 @@ Partial Class frmSelectOption
         Me.lstSelectionCheck.Name = "lstSelectionCheck"
         Me.lstSelectionCheck.Size = New System.Drawing.Size(219, 19)
         Me.lstSelectionCheck.TabIndex = 2
+        Me.lstSelectionCheck.Visible = False
         '
         'cmdOk
         '
@@ -90,6 +93,7 @@ Partial Class frmSelectOption
         Me.Controls.Add(Me.optSelection)
         Me.Controls.Add(Me.lstSelection)
         Me.Name = "frmSelectOption"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Select Option"
         Me.ResumeLayout(False)
         Me.PerformLayout()

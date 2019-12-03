@@ -44,4 +44,17 @@ Module modOptimization
         End Select
     End Function
 
+    Public Sub SetOptimizationSetting(ByVal K As String, ByVal V As String)
+        Select Case K
+            Case "StartTime"
+                If Not IsDate(V) Then V = "7:00 AM"
+                V = Format(TimeValue(V), "h:mm ampm")
+            Case "TimePerStop" : If Val(V) < 0 Then V = "10"
+            Case "CostPerHour", "CostPerMile" : If GetPrice(V) < 0 Then V = IIf(K = "CostPerHour", "11.00", "0.45")
+            Case "Trucks" : If Val(V) <= 0 Then V = "1"
+            Case Else : Err.Raise(-1, , "SetOptimizationSetting -- Invalid Optimzation Setting: " & K)
+        End Select
+        SaveCDSSetting(K, V, MySubSection)
+    End Sub
+
 End Module

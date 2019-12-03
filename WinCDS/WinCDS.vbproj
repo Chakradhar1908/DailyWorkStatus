@@ -764,6 +764,9 @@
     <EmbeddedResource Include="Forms\frmOptimize.resx">
       <DependentUpon>frmOptimize.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmOptimizeConfig.resx">
+      <DependentUpon>frmOptimizeConfig.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmOptimizeRoute.resx">
       <DependentUpon>frmOptimizeRoute.vb</DependentUpon>
     </EmbeddedResource>

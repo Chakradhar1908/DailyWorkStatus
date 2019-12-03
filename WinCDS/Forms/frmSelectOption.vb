@@ -29,7 +29,10 @@
 
         ' Option mode 2 (checks) allows multiple selections, so we don't need the prompt entry.
         'If mOptionMode <> 2 Then lstSelection.AddItem "Select an Option"
-        If mOptionMode <> 2 Then lstSelection.Items.Add("Select an Option")
+        If mOptionMode <> 2 Then
+            lstSelection.Items.Clear()
+            lstSelection.Items.Add("Select an Option")
+        End If
 
         For Each Opt In selOptions
             If Microsoft.VisualBasic.Left(Opt, Len(PreSelChk)) = PreSelChk Then
@@ -211,17 +214,19 @@
             Case ESelOpts.SelOpt_List                            ' Listbox
                 'lstSelection.Move 60, 60, ScaleWidth - 120, ScaleHeight - 180 - cmdOk.Height
                 lstSelection.Location = New Point(6, 6)
-                lstSelection.Size = New Size(Width - 12, Height - 18 - cmdOk.Height)
+                'lstSelection.Size = New Size(Width - 12, Height - 18 - cmdOk.Height)
+                lstSelection.Size = New Size(Width - 33, Height - 54 - cmdOk.Height)
                 lstSelection.Visible = True
-                'Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 60
-                Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 6
+                Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 60
+                'Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 6
             Case ESelOpts.SelOpt_MultiList                       ' Listbox with checks
                 'lstSelectionCheck.Move 60, 60, ScaleWidth - 120, ScaleHeight - 180 - cmdOk.Height
                 lstSelectionCheck.Location = New Point(6, 6)
-                lstSelectionCheck.Size = New Size(Width - 12, Height - 18 - cmdOk.Height)
+                'lstSelectionCheck.Size = New Size(Width - 12, Height - 18 - cmdOk.Height)
+                lstSelectionCheck.Size = New Size(Width - 33, Height - 54 - cmdOk.Height)
                 lstSelectionCheck.Visible = True
-                'Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 60
-                Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 6
+                Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 60
+                'Y = lstSelectionCheck.Top + lstSelectionCheck.Height + 6
             Case ESelOpts.SelOpt_OptionList                      ' Option buttons
                 'For Each Opt In optSelection
                 For Each Opt In Me.Controls
@@ -246,7 +251,7 @@
                         OptIndex = Val(Mid(Opt.Name, 13))
                     End If
                 Next
-                Y = Opt.Top + optSelection.Height + 6
+                Y = Opt.Top + optSelection.Height + 60
         End Select
 
         'X = ScaleWidth / 2 - cmdOk.Width - 30

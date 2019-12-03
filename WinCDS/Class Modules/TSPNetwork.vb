@@ -1101,6 +1101,7 @@ NONENONE:
 
     Public Sub ForceManualSwap(ByRef A As Integer, ByRef B As Integer)
         Dim Node1 As Integer, Node2 As Integer, I As Integer, Temp As Integer
+
         If A = B Then Exit Sub
         For I = 0 To Count - 1
             If m_BestSolution(I) = A Then Node1 = I

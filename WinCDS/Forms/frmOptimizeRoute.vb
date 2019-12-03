@@ -59,7 +59,7 @@
 
     Private Sub cmdUDClick(sender As Object, e As EventArgs) Handles cmdUD0.Click, cmdUD1.Click
         Dim A As Integer, B As Integer, D As Integer, Li As ListViewItem
-        Dim Btn As Button
+        Dim Btn As Button, sii As Integer
 
         On Error Resume Next
         'D = IIf(Index = 0, -1, 1)
@@ -76,14 +76,15 @@
         For i = 0 To lvw.Items.Count - 1
             If lvw.Items(i).Selected = True Then
                 A = Val(lvw.Items(i).Text)
+                sii = lvw.Items(i).Index
                 Exit For
             End If
         Next
         'B = Val(lvw.ListItems(lvw.SelectedItem.Index + D).Text)
-        Dim PrevItem As Integer
-        PrevItem = A + D
+        Dim PrevORNextItem As Integer
+        PrevORNextItem = sii + D
 
-        B = Val(lvw.Items(PrevItem - 1).Text)
+        B = Val(lvw.Items(PrevORNextItem).Text)
         If A = -1 Or B = -1 Then Exit Sub
         Network.ForceManualSwap(A, B)
         LoadStops()
