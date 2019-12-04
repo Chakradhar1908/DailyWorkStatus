@@ -3794,7 +3794,8 @@ Skip:
 
     Private Sub txtRate_DoubleClick(sender As Object, e As EventArgs) Handles txtRate.DoubleClick
         If Trim(txtRate.Text) <> "" Then txtRate.Text = Format(Rate, "##.00")
-        SelectContents(txtRate.Text)
+        'SelectContents(txtRate.Text)
+        SelectContents(txtRate)
     End Sub
 
     Private Sub txtRate_MouseDown(sender As Object, e As MouseEventArgs) Handles txtRate.MouseDown
@@ -3850,7 +3851,8 @@ Skip:
     End Sub
 
     Private Sub txtGrossSale_Enter(sender As Object, e As EventArgs) Handles txtGrossSale.Enter
-        SelectContents(txtGrossSale.Text)
+        'SelectContents(txtGrossSale.Text)
+        SelectContents(txtGrossSale)
         If ArMode("S") Then
             If Trim(txtArNo.Text) = "" Then
                 If MessageBox.Show("Select Auto Account or Enter Manual Account!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning) = DialogResult.OK Then
@@ -3871,7 +3873,8 @@ Skip:
     End Sub
 
     Private Sub txtMonthsToFinance_Enter(sender As Object, e As EventArgs) Handles txtMonthsToFinance.Enter
-        SelectContents(txtMonthsToFinance.Text)
+        'SelectContents(txtMonthsToFinance.Text)
+        SelectContents(txtMonthsToFinance)
     End Sub
 
     Private Sub txtDocFee_Leave(sender As Object, e As EventArgs) Handles txtDocFee.Leave
@@ -3899,35 +3902,43 @@ Skip:
     End Sub
 
     Private Sub txtPrevBalance_Enter(sender As Object, e As EventArgs) Handles txtPrevBalance.Enter
-        SelectContents(txtPrevBalance.Text)
+        'SelectContents(txtPrevBalance.Text)
+        SelectContents(txtPrevBalance)
     End Sub
 
     Private Sub txtFinanceChargeSalesTax_TextChanged(sender As Object, e As EventArgs) Handles txtFinanceChargeSalesTax.TextChanged
-        SelectContents(txtFinanceChargeSalesTax.Text)
+        'SelectContents(txtFinanceChargeSalesTax.Text)
+        SelectContents(txtFinanceChargeSalesTax)
     End Sub
 
     Private Sub txtOrigDeposit_Enter(sender As Object, e As EventArgs) Handles txtOrigDeposit.Enter
-        SelectContents(txtOrigDeposit.Text)
+        'SelectContents(txtOrigDeposit.Text)
+        SelectContents(txtOrigDeposit)
     End Sub
 
     Private Sub txtDocFee_Enter(sender As Object, e As EventArgs) Handles txtDocFee.Enter
-        SelectContents(txtDocFee.Text)
+        'SelectContents(txtDocFee.Text)
+        SelectContents(txtDocFee)
     End Sub
 
     Private Sub txtLifeInsurance_Enter(sender As Object, e As EventArgs) Handles txtLifeInsurance.Enter
-        SelectContents(txtLifeInsurance.Text)
+        'SelectContents(txtLifeInsurance.Text)
+        SelectContents(txtLifeInsurance)
     End Sub
 
     Private Sub txtAccidentInsurance_Enter(sender As Object, e As EventArgs) Handles txtAccidentInsurance.Enter
-        SelectContents(txtAccidentInsurance.Text)
+        'SelectContents(txtAccidentInsurance.Text)
+        SelectContents(txtAccidentInsurance)
     End Sub
 
     Private Sub txtPropertyInsurance_Enter(sender As Object, e As EventArgs) Handles txtPropertyInsurance.Enter
-        SelectContents(txtPropertyInsurance.Text)
+        'SelectContents(txtPropertyInsurance.Text)
+        SelectContents(txtPropertyInsurance)
     End Sub
 
     Private Sub txtUnemploymentInsurance_Enter(sender As Object, e As EventArgs) Handles txtUnemploymentInsurance.Enter
-        SelectContents(txtUnemploymentInsurance.Text)
+        'SelectContents(txtUnemploymentInsurance.Text)
+        SelectContents(txtUnemploymentInsurance)
     End Sub
 
     Private Sub txtLifeInsurance_Leave(sender As Object, e As EventArgs) Handles txtLifeInsurance.Leave
@@ -3951,11 +3962,13 @@ Skip:
     End Sub
 
     Private Sub txtFinanceCharges_Enter(sender As Object, e As EventArgs) Handles txtFinanceCharges.Enter
-        SelectContents(txtFinanceCharges.Text)
+        'SelectContents(txtFinanceCharges.Text)
+        SelectContents(txtFinanceCharges)
     End Sub
 
     Private Sub txtSubTotal_Enter(sender As Object, e As EventArgs) Handles txtSubTotal.Enter
-        SelectContents(txtSubTotal.Text)
+        'SelectContents(txtSubTotal.Text)
+        SelectContents(txtSubTotal)
     End Sub
 
     Private Sub dteDate1_ValueChanged(sender As Object, e As EventArgs) Handles dteDate1.ValueChanged

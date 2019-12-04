@@ -1,12 +1,15 @@
 ﻿Imports System.Windows
-
 Module modVBControls
-    Public Function SelectContents(ByRef txtBox) As Boolean
+    Public Function SelectContents(ByRef txtBox As Object) As Boolean
         On Error Resume Next
-        txtBox.SelStart = 0
-        txtBox.SelLength = Len(txtBox.Text)
+        'txtBox.SelStart = 0
+        'txtBox.SelLength = Len(txtBox.Text)
+
+        txtBox.SelectionStart = 0
+        txtBox.SelectionLength = Len(txtBox.Text)
         SelectContents = True
     End Function
+
     Public Function MoveControl(ByRef C As Object, Optional ByVal X As Integer = 0, Optional ByVal Y As Integer = -10001, Optional ByVal W As Integer = -10001, Optional ByVal H As Integer = -10001, Optional ByVal MakeVisible As Boolean = False, Optional ByVal ZOrderTop As Boolean = False) As Boolean
         Const NonVal As Integer = -10001
         On Error Resume Next

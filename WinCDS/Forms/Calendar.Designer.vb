@@ -66,6 +66,7 @@ Partial Class Calendar
         '
         'cmdDDT
         '
+        Me.cmdDDT.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdDDT.Location = New System.Drawing.Point(471, 16)
         Me.cmdDDT.Name = "cmdDDT"
         Me.cmdDDT.Size = New System.Drawing.Size(93, 62)
@@ -75,6 +76,7 @@ Partial Class Calendar
         '
         'cmdMap
         '
+        Me.cmdMap.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdMap.Location = New System.Drawing.Point(378, 16)
         Me.cmdMap.Name = "cmdMap"
         Me.cmdMap.Size = New System.Drawing.Size(93, 62)
@@ -84,6 +86,7 @@ Partial Class Calendar
         '
         'cmdInstr
         '
+        Me.cmdInstr.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdInstr.Location = New System.Drawing.Point(285, 16)
         Me.cmdInstr.Name = "cmdInstr"
         Me.cmdInstr.Size = New System.Drawing.Size(93, 62)
@@ -102,6 +105,7 @@ Partial Class Calendar
         '
         'cmdManifest
         '
+        Me.cmdManifest.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdManifest.Location = New System.Drawing.Point(99, 16)
         Me.cmdManifest.Name = "cmdManifest"
         Me.cmdManifest.Size = New System.Drawing.Size(93, 62)
@@ -111,6 +115,7 @@ Partial Class Calendar
         '
         'cmdMenu
         '
+        Me.cmdMenu.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdMenu.Location = New System.Drawing.Point(6, 16)
         Me.cmdMenu.Name = "cmdMenu"
         Me.cmdMenu.Size = New System.Drawing.Size(93, 62)
@@ -136,6 +141,7 @@ Partial Class Calendar
         '
         'cmdApply
         '
+        Me.cmdApply.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdApply.Location = New System.Drawing.Point(920, 388)
         Me.cmdApply.Name = "cmdApply"
         Me.cmdApply.Size = New System.Drawing.Size(46, 23)
@@ -162,6 +168,7 @@ Partial Class Calendar
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmdMenu
         Me.ClientSize = New System.Drawing.Size(982, 462)
         Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.txtDayLabel)

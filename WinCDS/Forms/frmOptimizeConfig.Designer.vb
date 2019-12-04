@@ -23,17 +23,17 @@ Partial Class frmOptimizeConfig
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.fraConfig = New System.Windows.Forms.GroupBox()
-        Me.lblStartTime = New System.Windows.Forms.Label()
-        Me.lblTimePerStop = New System.Windows.Forms.Label()
-        Me.lblCostPerMile = New System.Windows.Forms.Label()
-        Me.lblCostPerHour = New System.Windows.Forms.Label()
-        Me.lblTrucks = New System.Windows.Forms.Label()
-        Me.txtStartTime = New System.Windows.Forms.TextBox()
-        Me.txtTimePerStop = New System.Windows.Forms.TextBox()
-        Me.txtCostPerMile = New System.Windows.Forms.TextBox()
-        Me.txtCostPerHour = New System.Windows.Forms.TextBox()
-        Me.txtTrucks = New System.Windows.Forms.TextBox()
         Me.cmdOK = New System.Windows.Forms.Button()
+        Me.txtTrucks = New System.Windows.Forms.TextBox()
+        Me.txtCostPerHour = New System.Windows.Forms.TextBox()
+        Me.txtCostPerMile = New System.Windows.Forms.TextBox()
+        Me.txtTimePerStop = New System.Windows.Forms.TextBox()
+        Me.txtStartTime = New System.Windows.Forms.TextBox()
+        Me.lblTrucks = New System.Windows.Forms.Label()
+        Me.lblCostPerHour = New System.Windows.Forms.Label()
+        Me.lblCostPerMile = New System.Windows.Forms.Label()
+        Me.lblTimePerStop = New System.Windows.Forms.Label()
+        Me.lblStartTime = New System.Windows.Forms.Label()
         Me.fraConfig.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -57,41 +57,54 @@ Partial Class frmOptimizeConfig
         Me.fraConfig.TabStop = False
         Me.fraConfig.Text = "Op&tions:"
         '
-        'lblStartTime
+        'cmdOK
         '
-        Me.lblStartTime.AutoSize = True
-        Me.lblStartTime.Location = New System.Drawing.Point(10, 27)
-        Me.lblStartTime.Name = "lblStartTime"
-        Me.lblStartTime.Size = New System.Drawing.Size(72, 13)
-        Me.lblStartTime.TabIndex = 0
-        Me.lblStartTime.Text = "&Starting Time:"
+        Me.cmdOK.Location = New System.Drawing.Point(67, 136)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(75, 51)
+        Me.cmdOK.TabIndex = 10
+        Me.cmdOK.Text = "&OK"
+        Me.cmdOK.UseVisualStyleBackColor = True
         '
-        'lblTimePerStop
+        'txtTrucks
         '
-        Me.lblTimePerStop.AutoSize = True
-        Me.lblTimePerStop.Location = New System.Drawing.Point(10, 47)
-        Me.lblTimePerStop.Name = "lblTimePerStop"
-        Me.lblTimePerStop.Size = New System.Drawing.Size(77, 13)
-        Me.lblTimePerStop.TabIndex = 1
-        Me.lblTimePerStop.Text = "T&ime Per Stop:"
+        Me.txtTrucks.Location = New System.Drawing.Point(94, 107)
+        Me.txtTrucks.Name = "txtTrucks"
+        Me.txtTrucks.Size = New System.Drawing.Size(100, 20)
+        Me.txtTrucks.TabIndex = 9
+        Me.txtTrucks.Text = "1"
         '
-        'lblCostPerMile
+        'txtCostPerHour
         '
-        Me.lblCostPerMile.AutoSize = True
-        Me.lblCostPerMile.Location = New System.Drawing.Point(10, 70)
-        Me.lblCostPerMile.Name = "lblCostPerMile"
-        Me.lblCostPerMile.Size = New System.Drawing.Size(72, 13)
-        Me.lblCostPerMile.TabIndex = 2
-        Me.lblCostPerMile.Text = "Cost Per Mi&le:"
+        Me.txtCostPerHour.Location = New System.Drawing.Point(94, 87)
+        Me.txtCostPerHour.Name = "txtCostPerHour"
+        Me.txtCostPerHour.Size = New System.Drawing.Size(100, 20)
+        Me.txtCostPerHour.TabIndex = 8
+        Me.txtCostPerHour.Text = "11.00"
         '
-        'lblCostPerHour
+        'txtCostPerMile
         '
-        Me.lblCostPerHour.AutoSize = True
-        Me.lblCostPerHour.Location = New System.Drawing.Point(10, 94)
-        Me.lblCostPerHour.Name = "lblCostPerHour"
-        Me.lblCostPerHour.Size = New System.Drawing.Size(76, 13)
-        Me.lblCostPerHour.TabIndex = 3
-        Me.lblCostPerHour.Text = "Cost Per &Hour:"
+        Me.txtCostPerMile.Location = New System.Drawing.Point(94, 67)
+        Me.txtCostPerMile.Name = "txtCostPerMile"
+        Me.txtCostPerMile.Size = New System.Drawing.Size(100, 20)
+        Me.txtCostPerMile.TabIndex = 7
+        Me.txtCostPerMile.Text = "0.45"
+        '
+        'txtTimePerStop
+        '
+        Me.txtTimePerStop.Location = New System.Drawing.Point(94, 47)
+        Me.txtTimePerStop.Name = "txtTimePerStop"
+        Me.txtTimePerStop.Size = New System.Drawing.Size(100, 20)
+        Me.txtTimePerStop.TabIndex = 6
+        Me.txtTimePerStop.Text = "10"
+        '
+        'txtStartTime
+        '
+        Me.txtStartTime.Location = New System.Drawing.Point(94, 27)
+        Me.txtStartTime.Name = "txtStartTime"
+        Me.txtStartTime.Size = New System.Drawing.Size(100, 20)
+        Me.txtStartTime.TabIndex = 5
+        Me.txtStartTime.Text = "7:00 AM"
         '
         'lblTrucks
         '
@@ -102,57 +115,45 @@ Partial Class frmOptimizeConfig
         Me.lblTrucks.TabIndex = 4
         Me.lblTrucks.Text = "Truc&ks:"
         '
-        'txtStartTime
+        'lblCostPerHour
         '
-        Me.txtStartTime.Location = New System.Drawing.Point(94, 27)
-        Me.txtStartTime.Name = "txtStartTime"
-        Me.txtStartTime.Size = New System.Drawing.Size(100, 20)
-        Me.txtStartTime.TabIndex = 5
-        Me.txtStartTime.Text = "7:00 AM"
+        Me.lblCostPerHour.AutoSize = True
+        Me.lblCostPerHour.Location = New System.Drawing.Point(10, 94)
+        Me.lblCostPerHour.Name = "lblCostPerHour"
+        Me.lblCostPerHour.Size = New System.Drawing.Size(76, 13)
+        Me.lblCostPerHour.TabIndex = 3
+        Me.lblCostPerHour.Text = "Cost Per &Hour:"
         '
-        'txtTimePerStop
+        'lblCostPerMile
         '
-        Me.txtTimePerStop.Location = New System.Drawing.Point(94, 47)
-        Me.txtTimePerStop.Name = "txtTimePerStop"
-        Me.txtTimePerStop.Size = New System.Drawing.Size(100, 20)
-        Me.txtTimePerStop.TabIndex = 6
-        Me.txtTimePerStop.Text = "10"
+        Me.lblCostPerMile.AutoSize = True
+        Me.lblCostPerMile.Location = New System.Drawing.Point(10, 70)
+        Me.lblCostPerMile.Name = "lblCostPerMile"
+        Me.lblCostPerMile.Size = New System.Drawing.Size(72, 13)
+        Me.lblCostPerMile.TabIndex = 2
+        Me.lblCostPerMile.Text = "Cost Per Mi&le:"
         '
-        'txtCostPerMile
+        'lblTimePerStop
         '
-        Me.txtCostPerMile.Location = New System.Drawing.Point(94, 67)
-        Me.txtCostPerMile.Name = "txtCostPerMile"
-        Me.txtCostPerMile.Size = New System.Drawing.Size(100, 20)
-        Me.txtCostPerMile.TabIndex = 7
-        Me.txtCostPerMile.Text = "0.45"
+        Me.lblTimePerStop.AutoSize = True
+        Me.lblTimePerStop.Location = New System.Drawing.Point(10, 47)
+        Me.lblTimePerStop.Name = "lblTimePerStop"
+        Me.lblTimePerStop.Size = New System.Drawing.Size(77, 13)
+        Me.lblTimePerStop.TabIndex = 1
+        Me.lblTimePerStop.Text = "T&ime Per Stop:"
         '
-        'txtCostPerHour
+        'lblStartTime
         '
-        Me.txtCostPerHour.Location = New System.Drawing.Point(94, 87)
-        Me.txtCostPerHour.Name = "txtCostPerHour"
-        Me.txtCostPerHour.Size = New System.Drawing.Size(100, 20)
-        Me.txtCostPerHour.TabIndex = 8
-        Me.txtCostPerHour.Text = "11.00"
-        '
-        'txtTrucks
-        '
-        Me.txtTrucks.Location = New System.Drawing.Point(94, 107)
-        Me.txtTrucks.Name = "txtTrucks"
-        Me.txtTrucks.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrucks.TabIndex = 9
-        Me.txtTrucks.Text = "1"
-        '
-        'cmdOK
-        '
-        Me.cmdOK.Location = New System.Drawing.Point(85, 136)
-        Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 51)
-        Me.cmdOK.TabIndex = 10
-        Me.cmdOK.Text = "&OK"
-        Me.cmdOK.UseVisualStyleBackColor = True
+        Me.lblStartTime.AutoSize = True
+        Me.lblStartTime.Location = New System.Drawing.Point(10, 27)
+        Me.lblStartTime.Name = "lblStartTime"
+        Me.lblStartTime.Size = New System.Drawing.Size(72, 13)
+        Me.lblStartTime.TabIndex = 0
+        Me.lblStartTime.Text = "&Starting Time:"
         '
         'frmOptimizeConfig
         '
+        Me.AcceptButton = Me.cmdOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(227, 214)

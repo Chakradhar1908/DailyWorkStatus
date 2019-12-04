@@ -16,7 +16,7 @@ Public Class Calendar
         End Get
         Set(value As Boolean)
             mLoadedByForm = value
-            If value Then
+            If value = True Then
                 cmdMenu.Text = "Back"
             Else
                 cmdMenu.Text = "Menu"
@@ -315,7 +315,9 @@ Public Class Calendar
             ' Print delivery information.  Each line automatically adjusts Y position.
             '      If PageColCount = 1 Then Printer.CurrentX = 50
             '      Printer.Print Tab((PageColCount - 1) * 30 + 5); Left(CD("Name"), 18); Tab((PageColCount - 1) * 30 + 24); CD("SaleNo")
-            Printer.Print(TAB(PrinterPosition(PageColCount, 5)), Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(PrinterPosition(PageColCount, 24)), CD("SaleNo").Value)
+            'Printer.Print(TAB(PrinterPosition(PageColCount, 5)), Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(PrinterPosition(PageColCount, 24)), CD("SaleNo").Value)
+            Printer.FontName = "Courier"
+            Printer.Print(Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(40), "123")
             CD.MoveNext()
         Loop
 
@@ -541,6 +543,7 @@ HandleErr:
                 'grid.ColWidth(I) = IIf(AllStores, 2800, 2300)
                 grid.set_ColWidth(I, IIf(AllStores, 2800, 2300))
             End If
+
             grid.Row = 1
             If cDelDesc.Load(DateAdd("D", I, StartDate), "@DeliveryDate") Then
                 grid.Text = cDelDesc.DeliveryDesc
@@ -585,7 +588,7 @@ HandleErr:
                 If XIndex <= grid.Cols Then
                     grid.Col = XIndex : grid.Row = Rows(XIndex) + 1
                     grid.Text =
-                            IIf(AllStores, AlignString("L" & SaleStr, 3, AlignConstants.vbAlignLeft, True) & " ", "") &
+                    IIf(AllStores, AlignString("L" & SaleStr, 3, AlignConstants.vbAlignLeft, True) & " ", "") &
                             AlignString(SalePD, 1, AlignConstants.vbAlignLeft, True) & " " &
                             AlignString(SaleNm, 12, AlignConstants.vbAlignLeft, True) & " " &
                             AlignString(SaleNo, 6, AlignConstants.vbAlignLeft, False) & " " &

@@ -31,6 +31,7 @@ Public Class frmOptimizeConfig
         'txtTrucks.Locked = True
         txtTrucks.ReadOnly = True
         'HelpContextID = 59650
+        txtStartTime.Select()
     End Sub
 
     Private Sub txtStartTime_Enter(sender As Object, e As EventArgs) Handles txtStartTime.Enter
@@ -58,8 +59,8 @@ Public Class frmOptimizeConfig
     End Sub
 
     Private Sub txtStartTime_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtStartTime.Validating
-        If Not IsDate(txtStartTime) Then e.Cancel = True : Exit Sub
-        txtStartTime.Text = Format(txtStartTime, "h:mm ampm")
+        If Not IsDate(txtStartTime.Text) Then e.Cancel = True : Exit Sub
+        txtStartTime.Text = Format(txtStartTime.Text, "h:mm ampm")
     End Sub
 
     Private Sub txtCostPerHour_Leave(sender As Object, e As EventArgs) Handles txtCostPerHour.Leave

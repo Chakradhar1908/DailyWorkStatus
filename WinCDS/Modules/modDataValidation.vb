@@ -1,4 +1,5 @@
 ﻿Imports VBRUN
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Module modDataValidation
     Public Function GetPrice(ByVal Value As String, Optional ByRef PriceError As Boolean = False) As Decimal
         ' This function is used when a string may contain a numerical value.
