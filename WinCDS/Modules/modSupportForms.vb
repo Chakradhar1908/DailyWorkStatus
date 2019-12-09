@@ -4,10 +4,10 @@ Module modSupportForms
     'NOTE: BELOW LINES ARE COMMENTED. THESE FOUR FORMS ARE TO SHOW THE PROGRESS OF DELIVERY CALENDAR DATA WHILE LOADING TIME.
     'THESE FORMS ARE USING UCPBAR AND GIF89A CUSTOM AND ACTIVEX CONTROLS WHICH ARE NOT SUPPORTING IN VB.NET
 
-    'Private PR As frmProgress
-    'Private PR2 As frmProgress2
-    'Private PR3 As FrmProgress3
-    'Private PS As frmProgressStatic
+    Private PR As frmProgress
+    Private PR2 As frmProgress2
+    Private PR3 As FrmProgress3
+    Private PS As frmProgressStatic
 
     Private SuppressMessagesUntil As Date
     Public Enum ProgressBarStyle
@@ -34,10 +34,10 @@ Module modSupportForms
         'NOTE: BELOW LINES ARE COMMENTED. THESE FOUR FORMS ARE TO SHOW THE PROGRESS OF DELIVERY CALENDAR DATA WHILE LOADING TIME.
         'THESE FORMS ARE USING UCPBAR AND GIF89A CUSTOM AND ACTIVEX CONTROLS WHICH ARE NOT SUPPORTING IN VB.NET
 
-        'If Style <> ProgressBarStyle.prg3DFloat Then DisposeDA(PR)
-        'If Style <> ProgressBarStyle.prgFlatFloat Then DisposeDA(PR2)
-        'If Style <> ProgressBarStyle.prgIndefinite Then DisposeDA(PR3)
-        'If Style <> ProgressBarStyle.prgSpin And Style <> ProgressBarStyle.prgStatic Then DisposeDA(PS)
+        If Style <> ProgressBarStyle.prg3DFloat Then DisposeDA(PR)
+        If Style <> ProgressBarStyle.prgFlatFloat Then DisposeDA(PR2)
+        If Style <> ProgressBarStyle.prgIndefinite Then DisposeDA(PR3)
+        If Style <> ProgressBarStyle.prgSpin And Style <> ProgressBarStyle.prgStatic Then DisposeDA(PS)
         Return Nothing
     End Function
 
@@ -132,10 +132,8 @@ Module modSupportForms
             End If
         End If
 
-
         If Value = -1 Or Max = 0 Then
             ClearOtherProgressForms()
-
             Exit Function
         End If
 
@@ -149,17 +147,22 @@ Module modSupportForms
         ClearOtherProgressForms(Style)
 
 
-        '-------ALL the CASE STATEMENTS code is commented, because this code is to show the progress using ucPBar custom control and Gif89a active control.
+        '-------ALL the CASE STATEMENTS code is commented, because this code is to show the progress using ucPBar custom control and Gif89a activex control.
         '-------THESE CONTROLS ARE NOT SUPPORTING IN VB.NET
         '-------Need to find an alternative LATER to show the progess WHILE DELIVERY CALENDAR DATA IS LOADING.
         Select Case Style
             Case ProgressBarStyle.prg3DFloat
-                'If PR Is Nothing Then PR = New frmProgress
+                If PR Is Nothing Then PR = New frmProgress
                 'PR.Progress(Value, Max, Caption, True, True) ', vButtons
-            'If Lt > 0 Then
-            '  PR.Left = Lt + 200
-            '  PR.Top = Tp + 100
-            'End If
+                PR.Value = Value
+                PR.MaxVal = Max
+                PR.Caption = Caption
+                PR.Show()
+                PR.btnProgress.PerformClick()
+                'If Lt > 0 Then
+                '  PR.Left = Lt + 200
+                '  PR.Top = Tp + 100
+                'End If
             Case ProgressBarStyle.prgFlatFloat
                 'If PR2 Is Nothing Then PR2 = New frmProgress2
                 'PR2.Progress(Value, Max, Caption, True, True, vButtons)
@@ -170,8 +173,8 @@ Module modSupportForms
                 'If PS Is Nothing Then PS = New frmProgressStatic
                 'PS.ProgressSpin(Caption, True, True)
             Case ProgressBarStyle.prgStatic
-                'If PS Is Nothing Then PS = New frmProgressStatic
-                'PS.Progress(Caption, True, True)
+                If PS Is Nothing Then PS = New frmProgressStatic
+                PS.Progress(Caption, True, True)
         End Select
 
         If Value = 0 And Max = 1 Then

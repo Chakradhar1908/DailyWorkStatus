@@ -315,9 +315,9 @@ Public Class Calendar
             ' Print delivery information.  Each line automatically adjusts Y position.
             '      If PageColCount = 1 Then Printer.CurrentX = 50
             '      Printer.Print Tab((PageColCount - 1) * 30 + 5); Left(CD("Name"), 18); Tab((PageColCount - 1) * 30 + 24); CD("SaleNo")
-            'Printer.Print(TAB(PrinterPosition(PageColCount, 5)), Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(PrinterPosition(PageColCount, 24)), CD("SaleNo").Value)
-            Printer.FontName = "Courier"
-            Printer.Print(Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(40), "123")
+            Printer.Print(TAB(PrinterPosition(PageColCount, 5)), Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(PrinterPosition(PageColCount, 24)), CD("SaleNo").Value)
+            'Printer.FontName = "Courier"
+            'Printer.Print(Microsoft.VisualBasic.Left(CD("Name").Value, 18), TAB(40), "123")
             CD.MoveNext()
         Loop
 

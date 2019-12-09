@@ -28,9 +28,10 @@ Partial Class frmProgressStatic
         'lbl
         '
         Me.lbl.AutoSize = True
+        Me.lbl.Font = New System.Drawing.Font("MS Reference Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl.Location = New System.Drawing.Point(0, 0)
         Me.lbl.Name = "lbl"
-        Me.lbl.Size = New System.Drawing.Size(28, 13)
+        Me.lbl.Size = New System.Drawing.Size(48, 19)
         Me.lbl.TabIndex = 0
         Me.lbl.Text = "###"
         '
@@ -38,9 +39,11 @@ Partial Class frmProgressStatic
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(220, 82)
         Me.Controls.Add(Me.lbl)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "frmProgressStatic"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "frmProgressStatic"
         Me.ResumeLayout(False)
         Me.PerformLayout()
