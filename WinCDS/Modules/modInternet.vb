@@ -87,4 +87,25 @@ Catch1:
         UrlDecode = sText
     End Function
 
+    Public Function ValidEmailAddress(ByVal Addr As String) As Boolean
+        Dim TLD As String, X As String, N As Long, O As Long
+        If Addr = "" Then Exit Function
+        N = InStr(Addr, "@")
+        If N <= 1 Then Exit Function
+        O = InStr(N + 1, Addr, ".")
+        If O <= 0 Then Exit Function
+        X = Addr
+        TLD = ""
+        Do While Right(X, 1) <> "."
+            TLD = Right(X, 1) & TLD
+            X = Mid(X, 1, Len(X) - 1)
+        Loop
+        If TLD = "" Then Exit Function
+        ' for a complete list of TLDs, you can visit:
+        ' http://www.iana.org/cctld/cctld-whois.htm
+        ' but this isn't really needed
+        '  If Not IsIn(TLD, TLD_List) Then Exit Function
+        ValidEmailAddress = True
+    End Function
+
 End Module

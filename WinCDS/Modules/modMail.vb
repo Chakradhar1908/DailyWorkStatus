@@ -166,6 +166,7 @@ Module modMail
         RS("CreditCard").Value = Val(tMailNew.CreditCard)
         RS("ExpDate").Value = tMailNew.ExpDate
     End Sub
+
     Public Sub CopyMailRecordsetToMailNew2(ByRef RS As ADODB.Recordset, ByRef tMailNew2 As MailNew2)
         '::::CopyMailRecordsetToMailNew2
         ':::SUMMARY
@@ -183,18 +184,18 @@ Module modMail
         If Not (RS Is Nothing) Then
             If Not RS.EOF Then
                 Loaded = True
-                tMailNew2.Index = RS.Fields("Index").ToString
-                tMailNew2.Index = IfNullThenNilString(RS("Index"))
-                tMailNew2.Address2 = IfNullThenNilString(RS("Address"))
-                tMailNew2.City2 = IfNullThenNilString(RS("City"))
-                tMailNew2.Zip2 = IfNullThenNilString(RS("Zip"))
-                tMailNew2.Tele3 = CleanAni(IfNullThenNilString(RS("Tele")))
-                tMailNew2.PhoneLabel3 = Trim(IfNullThenNilString(RS("PhoneLabel3")))
+                tMailNew2.Index = RS.Fields("Index").Value
+                tMailNew2.Index = IfNullThenNilString(RS("Index").Value)
+                tMailNew2.Address2 = IfNullThenNilString(RS("Address").Value)
+                tMailNew2.City2 = IfNullThenNilString(RS("City").Value)
+                tMailNew2.Zip2 = IfNullThenNilString(RS("Zip").Value)
+                tMailNew2.Tele3 = CleanAni(IfNullThenNilString(RS("Tele").Value))
+                tMailNew2.PhoneLabel3 = Trim(IfNullThenNilString(RS("PhoneLabel3").Value))
 
                 ' Use this for Access Version
-                tMailNew2.ShipToLast = IfNullThenNilString(RS("Last"))
-                tMailNew2.ShipToFirst = IfNullThenNilString(RS("First"))
-                tMailNew2.Blank = IfNullThenNilString(RS("Blank"))
+                tMailNew2.ShipToLast = IfNullThenNilString(RS("Last").Value)
+                tMailNew2.ShipToFirst = IfNullThenNilString(RS("First").Value)
+                tMailNew2.Blank = IfNullThenNilString(RS("Blank").Value)
             End If
         End If
 

@@ -648,7 +648,7 @@ HandleErr:
             BillOSale.CustomerAddress2.Text = Mail2.Address2
             BillOSale.CustomerCity2.Text = Mail2.City2
             BillOSale.CustomerZip2.Text = Mail2.Zip2
-            BillOSale.CustomerPhone3 = DressAni(CleanAni(Mail2.Tele3))
+            BillOSale.CustomerPhone3.Text = DressAni(CleanAni(Mail2.Tele3))
             BillOSale.cboPhone3.Text = Mail2.PhoneLabel3
         Else
             BillOSale.ShipToLast.Text = ""

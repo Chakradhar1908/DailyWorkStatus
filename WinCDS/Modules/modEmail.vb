@@ -1,4 +1,12 @@
 ﻿Module modEmail
+    Public Structure EmailResult
+        Dim PoNo As Long
+        Dim VendorAddress As String
+        Dim VendorName As String
+        Dim SendTime As String
+        Dim Success As Boolean
+    End Structure
+
     Public Function SendSimpleEmail(ByVal From As String, ByVal FromName As String, ByVal T As String, ByVal TName As String, ByVal Subject As String, ByVal Body As String, Optional ByVal CC As String = "", Optional ByVal BCC As String = "", Optional ByVal Attachments As String = "") As String
         Dim Host As String
 
@@ -225,7 +233,7 @@
     '        olOutlookApp = Nothing
     '    End Function
     Public Function replaceHTMLimages(ByVal Doc As String, Optional ByVal BasePath As String = "", Optional ByRef C As String = "", Optional ByRef I As String = "") As String
-        Dim X as integer, Y as integer, R As String, S As String, QC As String, CID As String
+        Dim X As Integer, Y As Integer, R As String, S As String, QC As String, CID As String
         Dim Src As String, F As String, Src1 As String
         If BasePath = "" Then BasePath = PXFolder()
 

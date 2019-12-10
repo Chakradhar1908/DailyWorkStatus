@@ -809,7 +809,8 @@ HandleErr:
         If Style.Visible = False Then
             If lstStyles.Items.Count > 0 Then
                 'Style.Text = Trim(Left(lstStyles.List(lstStyles.ListIndex), 16)) '###STYLELENGTH16
-                Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.GetItemText(lstStyles.SelectedIndex), 16)) '###STYLELENGTH16
+                'Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.GetItemText(lstStyles.SelectedIndex), 16)) '###STYLELENGTH16
+                Style.Text = Trim(Microsoft.VisualBasic.Left(lstStyles.SelectedItem.ToString, 16)) '###STYLELENGTH16
             End If
         End If
 

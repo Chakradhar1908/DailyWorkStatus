@@ -626,6 +626,7 @@
     <Compile Include="Modules\modRegistry.vb" />
     <Compile Include="Modules\modRevolving.vb" />
     <Compile Include="Modules\modSalesJournal.vb" />
+    <Compile Include="Modules\modService.vb" />
     <Compile Include="Modules\modSetup.vb" />
     <Compile Include="Modules\modSplit.vb" />
     <Compile Include="Modules\modStores.vb" />

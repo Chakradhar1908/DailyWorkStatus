@@ -30,20 +30,20 @@ Partial Class frmEmail
         Me.prg = New System.Windows.Forms.ProgressBar()
         Me.txt = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.optByDate = New System.Windows.Forms.RadioButton()
-        Me.optByPoNo = New System.Windows.Forms.RadioButton()
-        Me.fraByDate = New System.Windows.Forms.GroupBox()
-        Me.lblFromDate = New System.Windows.Forms.Label()
-        Me.lblToDate = New System.Windows.Forms.Label()
-        Me.dtpFromDate = New System.Windows.Forms.DateTimePicker()
-        Me.dtpToDate = New System.Windows.Forms.DateTimePicker()
-        Me.chkPrintPO = New System.Windows.Forms.CheckBox()
-        Me.chkReprint = New System.Windows.Forms.CheckBox()
-        Me.cmdMail = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
+        Me.cmdMail = New System.Windows.Forms.Button()
+        Me.chkReprint = New System.Windows.Forms.CheckBox()
+        Me.chkPrintPO = New System.Windows.Forms.CheckBox()
+        Me.fraByDate = New System.Windows.Forms.GroupBox()
+        Me.dtpToDate = New System.Windows.Forms.DateTimePicker()
+        Me.dtpFromDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblToDate = New System.Windows.Forms.Label()
+        Me.lblFromDate = New System.Windows.Forms.Label()
+        Me.optByPoNo = New System.Windows.Forms.RadioButton()
+        Me.optByDate = New System.Windows.Forms.RadioButton()
         Me.fraResults = New System.Windows.Forms.GroupBox()
-        Me.lblStatus = New System.Windows.Forms.Label()
         Me.lstResults = New System.Windows.Forms.CheckedListBox()
+        Me.lblStatus = New System.Windows.Forms.Label()
         Me.tmr = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.fraByDate.SuspendLayout()
@@ -113,27 +113,43 @@ Partial Class frmEmail
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
         '
-        'optByDate
+        'cmdOK
         '
-        Me.optByDate.AutoSize = True
-        Me.optByDate.Location = New System.Drawing.Point(16, 46)
-        Me.optByDate.Name = "optByDate"
-        Me.optByDate.Size = New System.Drawing.Size(63, 17)
-        Me.optByDate.TabIndex = 0
-        Me.optByDate.TabStop = True
-        Me.optByDate.Text = "By Date"
-        Me.optByDate.UseVisualStyleBackColor = True
+        Me.cmdOK.Location = New System.Drawing.Point(85, 208)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(75, 49)
+        Me.cmdOK.TabIndex = 6
+        Me.cmdOK.Text = "&Close"
+        Me.cmdOK.UseVisualStyleBackColor = True
         '
-        'optByPoNo
+        'cmdMail
         '
-        Me.optByPoNo.AutoSize = True
-        Me.optByPoNo.Location = New System.Drawing.Point(85, 46)
-        Me.optByPoNo.Name = "optByPoNo"
-        Me.optByPoNo.Size = New System.Drawing.Size(67, 17)
-        Me.optByPoNo.TabIndex = 1
-        Me.optByPoNo.TabStop = True
-        Me.optByPoNo.Text = "By PoNo"
-        Me.optByPoNo.UseVisualStyleBackColor = True
+        Me.cmdMail.Location = New System.Drawing.Point(6, 208)
+        Me.cmdMail.Name = "cmdMail"
+        Me.cmdMail.Size = New System.Drawing.Size(75, 49)
+        Me.cmdMail.TabIndex = 5
+        Me.cmdMail.Text = "&Email POs"
+        Me.cmdMail.UseVisualStyleBackColor = True
+        '
+        'chkReprint
+        '
+        Me.chkReprint.AutoSize = True
+        Me.chkReprint.Location = New System.Drawing.Point(6, 185)
+        Me.chkReprint.Name = "chkReprint"
+        Me.chkReprint.Size = New System.Drawing.Size(102, 17)
+        Me.chkReprint.TabIndex = 4
+        Me.chkReprint.Text = "Re-Send Email?"
+        Me.chkReprint.UseVisualStyleBackColor = True
+        '
+        'chkPrintPO
+        '
+        Me.chkPrintPO.AutoSize = True
+        Me.chkPrintPO.Location = New System.Drawing.Point(6, 162)
+        Me.chkPrintPO.Name = "chkPrintPO"
+        Me.chkPrintPO.Size = New System.Drawing.Size(110, 17)
+        Me.chkPrintPO.TabIndex = 3
+        Me.chkPrintPO.Text = "Print PO As Well?"
+        Me.chkPrintPO.UseVisualStyleBackColor = True
         '
         'fraByDate
         '
@@ -149,15 +165,23 @@ Partial Class frmEmail
         Me.fraByDate.TabStop = False
         Me.fraByDate.Text = "Run POs By Date:"
         '
-        'lblFromDate
+        'dtpToDate
         '
-        Me.lblFromDate.AutoSize = True
-        Me.lblFromDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFromDate.Location = New System.Drawing.Point(12, 16)
-        Me.lblFromDate.Name = "lblFromDate"
-        Me.lblFromDate.Size = New System.Drawing.Size(33, 13)
-        Me.lblFromDate.TabIndex = 0
-        Me.lblFromDate.Text = "&From:"
+        Me.dtpToDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpToDate.Location = New System.Drawing.Point(45, 42)
+        Me.dtpToDate.Name = "dtpToDate"
+        Me.dtpToDate.Size = New System.Drawing.Size(76, 20)
+        Me.dtpToDate.TabIndex = 3
+        '
+        'dtpFromDate
+        '
+        Me.dtpFromDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpFromDate.Location = New System.Drawing.Point(45, 16)
+        Me.dtpFromDate.Name = "dtpFromDate"
+        Me.dtpFromDate.Size = New System.Drawing.Size(76, 20)
+        Me.dtpFromDate.TabIndex = 2
         '
         'lblToDate
         '
@@ -169,61 +193,37 @@ Partial Class frmEmail
         Me.lblToDate.TabIndex = 1
         Me.lblToDate.Text = "&To:"
         '
-        'dtpFromDate
+        'lblFromDate
         '
-        Me.dtpFromDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpFromDate.Location = New System.Drawing.Point(45, 16)
-        Me.dtpFromDate.Name = "dtpFromDate"
-        Me.dtpFromDate.Size = New System.Drawing.Size(76, 20)
-        Me.dtpFromDate.TabIndex = 2
+        Me.lblFromDate.AutoSize = True
+        Me.lblFromDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFromDate.Location = New System.Drawing.Point(12, 16)
+        Me.lblFromDate.Name = "lblFromDate"
+        Me.lblFromDate.Size = New System.Drawing.Size(33, 13)
+        Me.lblFromDate.TabIndex = 0
+        Me.lblFromDate.Text = "&From:"
         '
-        'dtpToDate
+        'optByPoNo
         '
-        Me.dtpToDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpToDate.Location = New System.Drawing.Point(45, 42)
-        Me.dtpToDate.Name = "dtpToDate"
-        Me.dtpToDate.Size = New System.Drawing.Size(76, 20)
-        Me.dtpToDate.TabIndex = 3
+        Me.optByPoNo.AutoSize = True
+        Me.optByPoNo.Location = New System.Drawing.Point(85, 46)
+        Me.optByPoNo.Name = "optByPoNo"
+        Me.optByPoNo.Size = New System.Drawing.Size(67, 17)
+        Me.optByPoNo.TabIndex = 1
+        Me.optByPoNo.TabStop = True
+        Me.optByPoNo.Text = "By PoNo"
+        Me.optByPoNo.UseVisualStyleBackColor = True
         '
-        'chkPrintPO
+        'optByDate
         '
-        Me.chkPrintPO.AutoSize = True
-        Me.chkPrintPO.Location = New System.Drawing.Point(6, 162)
-        Me.chkPrintPO.Name = "chkPrintPO"
-        Me.chkPrintPO.Size = New System.Drawing.Size(110, 17)
-        Me.chkPrintPO.TabIndex = 3
-        Me.chkPrintPO.Text = "Print PO As Well?"
-        Me.chkPrintPO.UseVisualStyleBackColor = True
-        '
-        'chkReprint
-        '
-        Me.chkReprint.AutoSize = True
-        Me.chkReprint.Location = New System.Drawing.Point(6, 185)
-        Me.chkReprint.Name = "chkReprint"
-        Me.chkReprint.Size = New System.Drawing.Size(102, 17)
-        Me.chkReprint.TabIndex = 4
-        Me.chkReprint.Text = "Re-Send Email?"
-        Me.chkReprint.UseVisualStyleBackColor = True
-        '
-        'cmdMail
-        '
-        Me.cmdMail.Location = New System.Drawing.Point(6, 208)
-        Me.cmdMail.Name = "cmdMail"
-        Me.cmdMail.Size = New System.Drawing.Size(75, 49)
-        Me.cmdMail.TabIndex = 5
-        Me.cmdMail.Text = "&Email POs"
-        Me.cmdMail.UseVisualStyleBackColor = True
-        '
-        'cmdOK
-        '
-        Me.cmdOK.Location = New System.Drawing.Point(85, 208)
-        Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 49)
-        Me.cmdOK.TabIndex = 6
-        Me.cmdOK.Text = "&Close"
-        Me.cmdOK.UseVisualStyleBackColor = True
+        Me.optByDate.AutoSize = True
+        Me.optByDate.Location = New System.Drawing.Point(16, 46)
+        Me.optByDate.Name = "optByDate"
+        Me.optByDate.Size = New System.Drawing.Size(63, 17)
+        Me.optByDate.TabIndex = 0
+        Me.optByDate.TabStop = True
+        Me.optByDate.Text = "By Date"
+        Me.optByDate.UseVisualStyleBackColor = True
         '
         'fraResults
         '
@@ -237,6 +237,15 @@ Partial Class frmEmail
         Me.fraResults.TabStop = False
         Me.fraResults.Text = "Results:"
         '
+        'lstResults
+        '
+        Me.lstResults.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lstResults.FormattingEnabled = True
+        Me.lstResults.Location = New System.Drawing.Point(7, 62)
+        Me.lstResults.Name = "lstResults"
+        Me.lstResults.Size = New System.Drawing.Size(184, 154)
+        Me.lstResults.TabIndex = 1
+        '
         'lblStatus
         '
         Me.lblStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -248,20 +257,12 @@ Partial Class frmEmail
         Me.lblStatus.Text = "###"
         Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'lstResults
-        '
-        Me.lstResults.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lstResults.FormattingEnabled = True
-        Me.lstResults.Location = New System.Drawing.Point(7, 62)
-        Me.lstResults.Name = "lstResults"
-        Me.lstResults.Size = New System.Drawing.Size(184, 154)
-        Me.lstResults.TabIndex = 1
-        '
         'frmEmail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(654, 279)
+        Me.ControlBox = False
         Me.Controls.Add(Me.fraResults)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.txt)
@@ -270,6 +271,9 @@ Partial Class frmEmail
         Me.Controls.Add(Me.txtFromAddr)
         Me.Controls.Add(Me.lblFromName)
         Me.Controls.Add(Me.lblFromEmail)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "frmEmail"
         Me.Text = "Send Email"
         Me.GroupBox1.ResumeLayout(False)

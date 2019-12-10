@@ -3714,7 +3714,7 @@ HandleErr:
                     '.Text = Format(GetPrice(.Text), "###,###.00")
                     Dim LastRow As Integer = UGridIO1.LastRowUsed
                     Dim StainDelLabNotes As String = UGridIO1.GetValue(LastRow, BillColumns.eStyle)
-                    If StainDelLabNotes = "STAIN" Or StainDelLabNotes = "DEL" Or StainDelLabNotes = "LAB" Or StainDelLabNotes = "NOTES" Or StainDelLabNotes = "PAYMENT" Then
+                    If StainDelLabNotes = "STAIN" Or StainDelLabNotes = "DEL" Or StainDelLabNotes = "LAB" Or StainDelLabNotes = "NOTES" Or StainDelLabNotes = "PAYMENT" Or Microsoft.VisualBasic.Left(StainDelLabNotes, 3) = "KIT" Then
                         'If UGridIO1.GetValue(LastRow, BillColumns.ePrice) = "" Then
                         SetPrice(LastRow, NewVal)
                         'End If
@@ -3788,7 +3788,7 @@ HandleErr:
     Private Sub Email_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Email.Validating
         Email.Text = Trim(Email.Text)
         If Email.Text = "" Then Exit Sub
-        If InStr(Email.Text, "Then@") = 0 Or InStr(Email.Text, ".") = 0 Or Len(Email.Text) < 5 Then
+        If InStr(Email.Text, "@") = 0 Or InStr(Email.Text, ".") = 0 Or Len(Email.Text) < 5 Then
             MessageBox.Show("Invalid email address.  Email address must be in 'user@company.com' format.")
             'Cancel = True
             e.Cancel = True

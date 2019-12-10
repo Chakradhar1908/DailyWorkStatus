@@ -1,4 +1,5 @@
-﻿Module modSetup
+﻿Imports Microsoft.VisualBasic.Interaction
+Module modSetup
     Public Const LocalDriveLetter As String = "C"
     Public Const LocalDrive As String = LocalDriveLetter & ":"
 #If True Then
@@ -22,11 +23,11 @@ Public Const FONT_C39_SMALL_MEDIUM As String = "xCode39SmallMedium-Regular"
 Public Const FONT_C39_SMALL_LOW As String = "xCode39SmallLow-Regular"
 Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
 #End If
-    Public Const Setup_MaxStores_DB as integer = 32              ' Store count in the Database
+    Public Const Setup_MaxStores_DB As Integer = 32              ' Store count in the Database
     Public Const ProgramName As String = "WinCDS"
-    Public Const Setup_2Data_ManufMaxLen as integer = 16         '###MANUFLENGTH16
-    Public Const Setup_2Data_DescMaxLen as integer = 138
-    Public Const Setup_MaxStores as integer = 32
+    Public Const Setup_2Data_ManufMaxLen As Integer = 16         '###MANUFLENGTH16
+    Public Const Setup_2Data_DescMaxLen As Integer = 138
+    Public Const Setup_MaxStores As Integer = 32
     Public Const RegistryAppName As String = CompanyName
     Public Const RegistrySection As String = ProgramName
     Public Const LocalRoot As String = LocalDrive & "\"
@@ -35,8 +36,8 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const LocalRootFolder As String = LocalRoot
     Public Const CompanyName As String = "Custom Design Software"
     Public Const RemoteDrive As String = RemoteDriveLetter & ":"
-    Public Const cdsFirstDayOfWeek as integer = vbSunday
-    Public Const MaxLines as integer = 260 ' Used to determine number of lines on BillOSale?
+    Public Const cdsFirstDayOfWeek As Integer = vbSunday
+    Public Const MaxLines As Integer = 260 ' Used to determine number of lines on BillOSale?
     Public Const CCPROC_TC As String = "Transaction Central"
     Public Const ProgramMessageTitle As String = ProgramName
     Public Const AdminContactProgram As String = ProgramName
@@ -71,6 +72,9 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const FONTTTF_C39_SMALL_MEDIUM As String = "C39SMED.TTF"
     Public Const FONTTTF_C39_SMALL_LOW As String = "C39SLOW.TTF"
     Public Const FONTTTF_C128_REGULAR As String = "CODE128.TTF"
+    Public URLTryAlt As Long
+    Public Const CompanyURL2 As String = "http://" & CompanyURL_BARE2 & "/"
+    Public Const CompanyURL_BARE2 As String = "www.wincds.net"
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get
@@ -267,5 +271,11 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         GetXCTransactionFolder = GetCDSSetting(K, , "XCharge")
         If Right(GetXCTransactionFolder, 1) = "\" Then GetXCTransactionFolder = Left(GetXCTransactionFolder, Len(GetXCTransactionFolder) - 1)
     End Function
+
+    Public ReadOnly Property WebUpdateURL() As String
+        Get
+            WebUpdateURL = Switch(URLTryAlt = 2, CompanyURL2, True, CompanyURL) & "webupdate/"
+        End Get
+    End Property
 
 End Module
