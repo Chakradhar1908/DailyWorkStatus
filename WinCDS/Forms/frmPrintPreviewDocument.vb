@@ -1,4 +1,5 @@
-﻿Public Class frmPrintPreviewDocument
+﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Public Class frmPrintPreviewDocument
     Public CallingForm As Object
     Public ReportName As String
 
@@ -56,5 +57,70 @@
             PageFile = GetTempDir() & "PP" & Format(N, "000") & ".tmp"
         End Get
     End Property
+
+    Public Sub DataEnd()
+        'If EndOfDocumentEnabled Then Exit Sub
+        DoLandscape = Printer.Orientation = vbPRORLandscape
+        'If picPicture.CurrentY = 0 And PageNumber <= 1 Then 'Nothing was printed
+        If picPicture.Location.Y = 0 And PageNumber <= 1 Then
+            PageNumber = 1
+            TotalPages = 1
+            'MousePointer = vbDefault
+            Me.Cursor = Cursors.Default
+            SkipFormActivate = False
+            'Unload frmPrintPreviewMain
+            frmPrintPreviewMain.Close()
+            'Unload Me
+            Me.Close()
+            Exit Sub
+            'ElseIf picPicture.CurrentY = 0 And PageNumber > 1 Then 'Page is blank
+        ElseIf picPicture.Location.Y = 0 And PageNumber > 1 Then 'Page is blank
+            'Unload picPicture(PageNumber)
+            PageNumber = PageNumber - 1
+                TotalPages = TotalPages - 1
+            Else 'Page is not blank, so save first
+                PrintPageOverflowIndicator()  ' draws nice dotted lines at the page size so we know if it would overflow
+            SavePage(PageNumber)
+            'MousePointer = 0
+            Me.Cursor = Cursors.Default
+        End If
+        'picPicture.Cls 'Clear the picturebox
+        picPicture.Image = Nothing
+        'picPicture(PageNumber).Visible = False
+        CurrentPage = 1
+        LoadPage()
+        'picPicture(CurrentPage).Visible = True
+        'cmdNavigate(7).Enabled = (picPicture.Count - 1 > 1) 'Enable Goto button only if number of pages is greater than one
+        'cmdNavigate(7).Enabled = (TotalPages > 1) 'Enable Goto button only if number of pages is greater than one
+        cmdNavigate7.Enabled = (TotalPages > 1) 'Enable Goto button only if number of pages is greater than one
+        'frmPrintPreviewMain.Caption = "Print Preview: " & ReportName & ", page " & CurrentPage & " of " & picPicture.Count - 1
+        frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage & " of " & TotalPages
+        Show() 'Show PrintPreview module
+        'MousePointer = vbDefault
+        Me.Cursor = Cursors.Default
+        Exit Sub
+ErrorHandler:
+        MessageBox.Show(Err.Description, Err.Number.ToString, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        Debug.Assert(False) 'Pause only if in debug mode
+    End Sub
+
+    Private Function LoadPage(Optional ByVal N As Long = 0) As Boolean
+        On Error GoTo LoadFailed
+        If N = 0 Then N = CurrentPage
+        'picPicture.Cls
+        picPicture.Image = Nothing
+        'picPicture.Picture = LoadPictureStd(PageFile(N))
+        picPicture.Image = LoadPictureStd(PageFile(N))
+        LoadPage = True
+        Exit Function
+
+LoadFailed:
+        Select Case Err.Number
+            Case 53
+                MessageBox.Show("Failed to find Print Preview Page #" & CurrentPage & vbCrLf & PageFile(N), "Temp Dir Access Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Case Else
+                MessageBox.Show("Error loading Print Preview Page." & vbCrLf & PageFile(N))
+        End Select
+    End Function
 
 End Class

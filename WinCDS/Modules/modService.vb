@@ -1,5 +1,6 @@
-﻿Module modService
-    Public Function PartOrderToHTML(ByVal PartOrderNo As String, Optional ByVal StoreNo As Long = 0, Optional ByRef GetEmailAddr As String, Optional ByRef GetEmailName As String, Optional ByVal NoPageSetup As Boolean = False, Optional ByRef Attach As String) As String
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Module modService
+    Public Function PartOrderToHTML(ByVal PartOrderNo As String, Optional ByVal StoreNo As Long = 0, Optional ByRef GetEmailAddr As String = "", Optional ByRef GetEmailName As String = "", Optional ByVal NoPageSetup As Boolean = False, Optional ByRef Attach As String = "") As String
 
         '::::PartOrderToHTML
         ':::SUMMARY
@@ -22,36 +23,36 @@
 
         Dim SI As StoreInfo
         Dim VendorName As String
-        Dim vName As String, vAddress As String, vAddress2 As String, vAddress3 As String
-        Dim VZip As String, VPhone As String, VFax As String, vEMail As String
+        Dim vName As String, vAddress As String = "", vAddress2 As String = "", vAddress3 As String = ""
+        Dim VZip As String = "", VPhone As String = "", VFax As String = "", vEMail As String = ""
+
 
         Dim PicID As Long
 
         On Error Resume Next
 
         If StoreNo = 0 Then StoreNo = StoresSld
-  
-  Set Part = New clsServicePartsOrder
-  With Part
+
+        Part = New clsServicePartsOrder
+        With Part
             If Not .Load(PartOrderNo, "#ServicePartsOrderNo") Then
-                DisposeDA Part
-      Exit Function
+                DisposeDA(Part)
+                Exit Function
             End If
-    Set ServiceOrder = New clsServiceOrder
-    If Not ServiceOrder.Load(Part.ServiceOrderNo, "#ServiceOrderNo") Then Set ServiceOrder = Nothing
-  
-    SI = StoreSettings(StoreNo)
+            ServiceOrder = New clsServiceOrder
+            If Not ServiceOrder.Load(Part.ServiceOrderNo, "#ServiceOrderNo") Then ServiceOrder = Nothing
+
+            SI = StoreSettings(StoreNo)
             VendorName = .Vendor
             '    GetVendorName (VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, (VendorName), vEMail
-            If UseQB Then
-                QBGetVendorName(VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail
-    Else
-                GetVendorName(VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail
-    End If
+            If UseQB() Then
+                QBGetVendorName(VendorName, VendorName, vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail)
+            Else
+                GetVendorName(VendorName, VendorName, vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail)
+            End If
 
             GetEmailAddr = vEMail
             GetEmailName = VendorName
-
 
             S = ""
 
@@ -76,7 +77,7 @@
             '------- Page Title (w/ date)
             S = S & "<table border=0 width='100%'>" & vbCrLf
             S = S & "  <tr><td align=center><b><font size=+3>PARTS ORDER #" & PartOrderNo & "</font></b></td></tr>" & vbCrLf
-            S = S & "  <tr><td align=right>" & Format(Of Date, "mm/dd/yyyy")() & "</td></tr>" & vbCrLf
+            S = S & "  <tr><td align=right>" & Format(Today, "mm/dd/yyyy") & "</td></tr>" & vbCrLf
             S = S & "</table>" & vbCrLf
 
             S = S & "   </tr></td>" & vbCrLf    ' alignment table
@@ -207,7 +208,7 @@
         VendorName = Part.Vendor
         vName = VendorName
         '  GetVendorName (VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, (VendorName), vEMail
-        If UseQB Then
+        If UseQB() Then
             QBGetVendorName(VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail
   Else
             GetVendorName(VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail

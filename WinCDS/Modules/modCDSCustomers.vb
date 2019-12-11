@@ -342,4 +342,16 @@
             IsFurnitureStoreOfKansas = CheckStoreName("Furniture Store of Kansas", "The Furniture Store of Kansas")
         End Get
     End Property
+
+    Public ReadOnly Property IsRoughingItInStyle() As Boolean
+        Get
+            IsRoughingItInStyle = CheckStoreName("Roughing It In Style")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsBilliardsAndBarstools() As Boolean
+        Get
+            IsBilliardsAndBarstools = CheckStoreName("Billiards & Barstools")
+        End Get
+    End Property
 End Module

@@ -39,6 +39,7 @@
         ' Original standby...
         SendSimpleEmail = SendMailSMTP_VBAccelerator(From, FromName, T, TName, Subject, Body, CC, BCC, Attachments)
     End Function
+
     Public Function SendMailSMTP_VBAccelerator(ByVal From As String, ByVal FromName As String, ByVal T As String, ByVal TName As String, ByVal Subject As String, ByVal Body As String, Optional ByVal CC As String = "", Optional ByVal BCC As String = "", Optional ByVal Attachments As String = "") As String
         Dim F As frmSendMail
         F = New frmSendMail
@@ -107,9 +108,11 @@
             Case Else : GetEmailSetting = GetConfigTableValue(EmailSettingKey(Key), EmailSettingDef(Key))
         End Select
     End Function
+
     Public Function EmailSettingAlt(ByRef Key As String) As String
         EmailSettingKey(Key, , EmailSettingAlt)
     End Function
+
     Public Function EmailSettingDef(ByRef Key As String) As String
         EmailSettingKey(Key, EmailSettingDef)
     End Function
@@ -259,6 +262,79 @@
             X = X + Len(R)
         Loop
         replaceHTMLimages = Doc
+    End Function
+
+    Public Function EmailFactOrdNotAckBodyHTML() As String
+        If FileExists(EmailTemplateFactOrdNotAckFile) Then
+            MainMenu.rtbn.RichTextBox.LoadFile(EmailTemplateFactOrdNotAckFile)
+            EmailFactOrdNotAckBodyHTML = MainMenu.rtbn.asHtml()
+        Else
+            EmailFactOrdNotAckBodyHTML = DefaultEmailFactOrdNotAck()
+        End If
+    End Function
+
+    Public Function EmailOverdueOrdersBodyHTML() As String
+        If FileExists(EmailTemplateOverdueOrdersFile) Then
+            MainMenu.rtbn.RichTextBox.LoadFile(EmailTemplateOverdueOrdersFile)
+            EmailOverdueOrdersBodyHTML = MainMenu.rtbn.asHtml()
+        Else
+            EmailOverdueOrdersBodyHTML = DefaultEmailOverdueOrders()
+        End If
+    End Function
+
+    Public Function HasSendMail() As Boolean
+        Dim X As Object
+        On Error Resume Next
+        X = CreateObject("vbSendMail.clsSendMail")
+        HasSendMail = Not (X Is Nothing)
+        X = Nothing
+    End Function
+
+    Public Function EmailTemplateFactOrdNotAckFile() As String
+        EmailTemplateFactOrdNotAckFile = FXFolder() & "EmailTemplate-FactOrdNotAck.rtf"
+    End Function
+
+    Public Function DefaultEmailFactOrdNotAck(Optional ByVal DoStripHTML As Boolean = False) As String
+        Dim S As String
+        S = ""
+        S = S & "To whom it may concern:<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+        S = S & "We have not received an acknowledgement yet on this order.<br/>" & vbCrLf
+        S = S & "Please confirm <b>STATUS</b>, Acknowledgement No, and Anticipated <u>Shipping Date</u>.<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+        S = S & "Thank you.<br/>" & vbCrLf
+
+        If DoStripHTML Then S = StripHTML(S)
+        DefaultEmailFactOrdNotAck = S
+    End Function
+
+    Public Function EmailTemplateOverdueOrdersFile() As String
+        EmailTemplateOverdueOrdersFile = FXFolder() & "EmailTemplate-OverdueOrders.rtf"
+    End Function
+
+    Public Function DefaultEmailOverdueOrders(Optional ByVal DoStripHTML As Boolean = False) As String
+        Dim S As String
+        S = ""
+        S = S & "To whom it may concern:<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+        S = S & "The PO indicated above is currently <b>OVERDUE</b>.<br/>" & vbCrLf
+        S = S & "<i>Please advise</i> the anticipated <b>Due Date</b> and <u>reason for delay</u>.<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+        S = S & "Thank you.<br/>" & vbCrLf
+
+        If DoStripHTML Then S = StripHTML(S)
+        DefaultEmailOverdueOrders = S
+    End Function
+
+    Private Function StripHTML(ByVal S As String) As String
+        S = Replace(S, "<br/>", "") ' already handled with vbCrLf
+        S = Replace(S, "<b>", "")
+        S = Replace(S, "</b>", "")
+        S = Replace(S, "<u>", "")
+        S = Replace(S, "</u>", "")
+        S = Replace(S, "<i>", "")
+        S = Replace(S, "</i>", "")
+        StripHTML = S
     End Function
 
 End Module

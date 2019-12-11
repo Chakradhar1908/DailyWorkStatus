@@ -219,4 +219,9 @@ NoGood:
     Private Sub mRichTextBox_TextChanged(sender As Object, e As EventArgs) Handles mRichTextBox.TextChanged
         RaiseEvent Change()
     End Sub
+
+    Public Function asHtml() As String
+        asHtml = RtfToHtml(mRichTextBox)
+    End Function
+
 End Class

@@ -176,9 +176,16 @@ Fail:
         Next
     End Sub
 
-    Public Function FocusControl(ByRef C) As Boolean
+    Public Function FocusControl(ByRef C As Object) As Boolean
         On Error Resume Next    ' SetFocus can hard-fail..  This protects it without adding error handling in your sub
-        C.SetFocus
+        C.Select
+    End Function
+
+    Public Function FocusSelect(ByRef txtBox As Object) As Boolean
+        On Error Resume Next
+        'txtBox.SetFocus
+        txtBox.Select
+        FocusSelect = SelectContents(txtBox)
     End Function
 
 End Module

@@ -115,6 +115,7 @@
     <Compile Include="Class Modules\clsServiceItemParts.vb" />
     <Compile Include="Class Modules\clsServiceNotes.vb" />
     <Compile Include="Class Modules\clsServiceOrder.vb" />
+    <Compile Include="Class Modules\clsServicePartsOrder.vb" />
     <Compile Include="Class Modules\clsTransactionCentral.vb" />
     <Compile Include="Class Modules\clsUserGroup.vb" />
     <Compile Include="Class Modules\clsXCharge.vb" />
@@ -313,6 +314,12 @@
     <Compile Include="Forms\frmPrintPreviewDocument.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmPrintPreviewMain.Designer.vb">
+      <DependentUpon>frmPrintPreviewMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPrintPreviewMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmProgress.Designer.vb">
       <DependentUpon>frmProgress.vb</DependentUpon>
     </Compile>
@@ -421,6 +428,18 @@
       <DependentUpon>InvKitStock.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\InvKitStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvPo.Designer.vb">
+      <DependentUpon>InvPo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvPo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvPoPrint.Designer.vb">
+      <DependentUpon>InvPoPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvPoPrint.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\InvPull.Designer.vb">
@@ -622,9 +641,11 @@
     <Compile Include="Modules\modPODetail.vb" />
     <Compile Include="Modules\modPrintToolsCommon.vb" />
     <Compile Include="Modules\modProgramState.vb" />
+    <Compile Include="Modules\modQuickBooks_Interface.vb" />
     <Compile Include="Modules\modReceipts.vb" />
     <Compile Include="Modules\modRegistry.vb" />
     <Compile Include="Modules\modRevolving.vb" />
+    <Compile Include="Modules\modRTF.vb" />
     <Compile Include="Modules\modSalesJournal.vb" />
     <Compile Include="Modules\modService.vb" />
     <Compile Include="Modules\modSetup.vb" />
@@ -821,6 +842,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvKitStock.resx">
       <DependentUpon>InvKitStock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InvPoPrint.resx">
+      <DependentUpon>InvPoPrint.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvPull.resx">
       <DependentUpon>InvPull.vb</DependentUpon>

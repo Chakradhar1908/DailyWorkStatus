@@ -45,9 +45,15 @@ Partial Class frmEmail
         Me.lstResults = New System.Windows.Forms.CheckedListBox()
         Me.lblStatus = New System.Windows.Forms.Label()
         Me.tmr = New System.Windows.Forms.Timer(Me.components)
+        Me.fraByPoNo = New System.Windows.Forms.GroupBox()
+        Me.lblToPo = New System.Windows.Forms.Label()
+        Me.lblFromPO = New System.Windows.Forms.Label()
+        Me.txtFromPO = New System.Windows.Forms.TextBox()
+        Me.txtToPO = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.fraByDate.SuspendLayout()
         Me.fraResults.SuspendLayout()
+        Me.fraByPoNo.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFromEmail
@@ -100,11 +106,11 @@ Partial Class frmEmail
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.fraByPoNo)
         Me.GroupBox1.Controls.Add(Me.cmdOK)
         Me.GroupBox1.Controls.Add(Me.cmdMail)
         Me.GroupBox1.Controls.Add(Me.chkReprint)
         Me.GroupBox1.Controls.Add(Me.chkPrintPO)
-        Me.GroupBox1.Controls.Add(Me.fraByDate)
         Me.GroupBox1.Controls.Add(Me.optByPoNo)
         Me.GroupBox1.Controls.Add(Me.optByDate)
         Me.GroupBox1.Location = New System.Drawing.Point(253, -2)
@@ -158,7 +164,7 @@ Partial Class frmEmail
         Me.fraByDate.Controls.Add(Me.lblToDate)
         Me.fraByDate.Controls.Add(Me.lblFromDate)
         Me.fraByDate.Font = New System.Drawing.Font("Arial Black", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fraByDate.Location = New System.Drawing.Point(5, 66)
+        Me.fraByDate.Location = New System.Drawing.Point(0, 0)
         Me.fraByDate.Name = "fraByDate"
         Me.fraByDate.Size = New System.Drawing.Size(158, 71)
         Me.fraByDate.TabIndex = 2
@@ -257,6 +263,55 @@ Partial Class frmEmail
         Me.lblStatus.Text = "###"
         Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
+        'fraByPoNo
+        '
+        Me.fraByPoNo.Controls.Add(Me.txtToPO)
+        Me.fraByPoNo.Controls.Add(Me.txtFromPO)
+        Me.fraByPoNo.Controls.Add(Me.lblFromPO)
+        Me.fraByPoNo.Controls.Add(Me.lblToPo)
+        Me.fraByPoNo.Controls.Add(Me.fraByDate)
+        Me.fraByPoNo.Font = New System.Drawing.Font("Arial Black", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fraByPoNo.Location = New System.Drawing.Point(13, 73)
+        Me.fraByPoNo.Name = "fraByPoNo"
+        Me.fraByPoNo.Size = New System.Drawing.Size(138, 67)
+        Me.fraByPoNo.TabIndex = 7
+        Me.fraByPoNo.TabStop = False
+        Me.fraByPoNo.Text = "Run POs By PoNo:"
+        '
+        'lblToPo
+        '
+        Me.lblToPo.AutoSize = True
+        Me.lblToPo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblToPo.Location = New System.Drawing.Point(6, 19)
+        Me.lblToPo.Name = "lblToPo"
+        Me.lblToPo.Size = New System.Drawing.Size(33, 13)
+        Me.lblToPo.TabIndex = 0
+        Me.lblToPo.Text = "&From:"
+        '
+        'lblFromPO
+        '
+        Me.lblFromPO.AutoSize = True
+        Me.lblFromPO.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFromPO.Location = New System.Drawing.Point(6, 38)
+        Me.lblFromPO.Name = "lblFromPO"
+        Me.lblFromPO.Size = New System.Drawing.Size(23, 13)
+        Me.lblFromPO.TabIndex = 1
+        Me.lblFromPO.Text = "&To:"
+        '
+        'txtFromPO
+        '
+        Me.txtFromPO.Location = New System.Drawing.Point(35, 15)
+        Me.txtFromPO.Name = "txtFromPO"
+        Me.txtFromPO.Size = New System.Drawing.Size(70, 23)
+        Me.txtFromPO.TabIndex = 2
+        '
+        'txtToPO
+        '
+        Me.txtToPO.Location = New System.Drawing.Point(35, 40)
+        Me.txtToPO.Name = "txtToPO"
+        Me.txtToPO.Size = New System.Drawing.Size(70, 23)
+        Me.txtToPO.TabIndex = 3
+        '
         'frmEmail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -281,6 +336,8 @@ Partial Class frmEmail
         Me.fraByDate.ResumeLayout(False)
         Me.fraByDate.PerformLayout()
         Me.fraResults.ResumeLayout(False)
+        Me.fraByPoNo.ResumeLayout(False)
+        Me.fraByPoNo.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -308,4 +365,9 @@ Partial Class frmEmail
     Friend WithEvents lblStatus As Label
     Friend WithEvents lstResults As CheckedListBox
     Friend WithEvents tmr As Timer
+    Friend WithEvents fraByPoNo As GroupBox
+    Friend WithEvents lblFromPO As Label
+    Friend WithEvents lblToPo As Label
+    Friend WithEvents txtToPO As TextBox
+    Friend WithEvents txtFromPO As TextBox
 End Class

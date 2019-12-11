@@ -23,6 +23,7 @@ Partial Class frmPrintPreviewDocument
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.picPicture = New System.Windows.Forms.PictureBox()
+        Me.cmdNavigate7 = New System.Windows.Forms.Button()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -34,11 +35,21 @@ Partial Class frmPrintPreviewDocument
         Me.picPicture.TabIndex = 0
         Me.picPicture.TabStop = False
         '
+        'cmdNavigate7
+        '
+        Me.cmdNavigate7.Location = New System.Drawing.Point(53, 131)
+        Me.cmdNavigate7.Name = "cmdNavigate7"
+        Me.cmdNavigate7.Size = New System.Drawing.Size(75, 23)
+        Me.cmdNavigate7.TabIndex = 1
+        Me.cmdNavigate7.Text = "Goto"
+        Me.cmdNavigate7.UseVisualStyleBackColor = True
+        '
         'frmPrintPreviewDocument
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.cmdNavigate7)
         Me.Controls.Add(Me.picPicture)
         Me.Name = "frmPrintPreviewDocument"
         Me.Text = "frmPrintPreviewDocument"
@@ -48,4 +59,5 @@ Partial Class frmPrintPreviewDocument
     End Sub
 
     Friend WithEvents picPicture As PictureBox
+    Friend WithEvents cmdNavigate7 As Button
 End Class

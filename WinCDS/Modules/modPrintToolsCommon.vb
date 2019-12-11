@@ -10,6 +10,10 @@ Module modPrintToolsCommon
     Public Const DYMO_PaperSize_30270 As Integer = 186                           ' continuous tape
     Public Const DYMO_PaperSize_ContinuousWide As Integer = DYMO_PaperSize_30270 ' We didn't know it's SKU for a while..
     Public PageNumber As Integer
+    Public ColCount As Long, CommonReportPRG As ProgressBar
+    Public CommonReportColSpacing As Long, CommonReportIndent As Long
+    'Public Cols(1 To 50, 1 To 4) '@NO-LINT-NTYP
+    Public Cols(0 To 49, 0 To 3) '@NO-LINT-NTYP
 
     'Note: Printer code will be move to reporting software.
 
@@ -572,5 +576,129 @@ PrinterDialogCancelled:
         If Bold Then OO.FontBold = Ob         ' this is to preserve the original settings
         If Italic Then OO.FontItalic = oI
     End Sub
+
+    Public Sub CommonReportAddColumn(Optional ByVal ColumnHeader As String = "", Optional ByVal Width As Long = 0, Optional ByVal Reset As Boolean = False, Optional ByRef OptionString As String = "")
+        On Error Resume Next
+        If Reset Then
+            ColCount = 1
+            CommonReportColSpacing = 150
+            CommonReportIndent = 100
+        Else
+            ColCount = ColCount + 1
+        End If
+
+        'Cols(ColCount, 1) = ColumnHeader
+        Cols(ColCount - 1, 1 - 1) = ColumnHeader
+        If ColCount = 1 Then
+            'Cols(ColCount, 2) = CommonReportIndent
+            Cols(ColCount - 1, 2 - 1) = CommonReportIndent
+        Else
+            'Cols(ColCount, 2) = Cols(ColCount - 1, 3) + CommonReportColSpacing
+            Cols(ColCount - 1, 2 - 1) = Cols(ColCount - 2, 3 - 1) + CommonReportColSpacing
+        End If
+        'Cols(ColCount, 3) = Cols(ColCount, 2) + Width ' - CommonReportColSpacing
+        Cols(ColCount - 1, 3 - 1) = Cols(ColCount - 1, 2 - 1) + Width ' - CommonReportColSpacing
+        'Cols(ColCount, 4) = OptionString
+        Cols(ColCount - 1, 4 - 1) = OptionString
+    End Sub
+
+    Public Function CommonReportHeader(ByRef ReportName As String, Optional ByRef PageNum As Long = 1, Optional ByRef PageCount As Long = 0, Optional ByVal OptionString As String = "") As Long
+        Dim ColumnHeadY As Long, I As Long, ColFormat As String, ColCap As String
+        OptionString = UCase(OptionString)
+
+        OutputObject.FontSize = 18
+        PrintCentered(ReportName, 100, True)
+        OutputObject.FontSize = 14
+        PrintCentered(StoreSettings.Name, , True)
+        PrintCentered(StoreSettings.Address, , True)
+        PrintCentered(StoreSettings.City, , True)
+        OutputObject.FontSize = 10
+        PrintCentered("")
+        ColumnHeadY = OutputObject.CurrentY
+
+        PrintAligned("Page: " & PageNum & IIf(PageCount > 0, " of " & PageCount, ""), , 9500, 100)
+        If Not OptionString Like "*NODATE*" Then PrintAligned("Date: " & Today, , 100, 100)
+
+        OutputObject.CurrentY = ColumnHeadY
+
+        If Not OptionString Like "*NOHEAD*" Then
+            ' print column headers
+            For I = 1 To ColCount
+                ColCap = Cols(I, 1)
+                ColFormat = "." & UCase(Cols(I, 4)) & "." ' extra stuff in case Like's * operator is picky
+                If ColFormat Like "*CURRENCY*" Then
+                    PrintAligned(ColCap, AlignmentConstants.vbRightJustify, ReportCol(I, True), ColumnHeadY, True)
+                ElseIf ColFormat Like "*RIGHT*" Then
+                    PrintAligned(ColCap, AlignmentConstants.vbRightJustify, ReportCol(I, True), ColumnHeadY, True)
+                Else
+                    PrintAligned(ColCap, AlignmentConstants.vbLeftJustify, ReportCol(I), ColumnHeadY, True)
+                End If
+            Next
+            ColumnHeadY = OutputObject.CurrentY
+            OutputObject.DrawWidth = 2
+            OutputObject.Line(ReportCol(1), ColumnHeadY)-(ReportCol(ColCount, True), ColumnHeadY)
+    OutputObject.DrawWidth = 1
+        End If
+        CommonReportHeader = OutputObject.CurrentY
+
+        OutputObject.CurrentY = CommonReportHeader
+    End Function
+
+    Public Sub CommonReportPrintColumn(ByVal ColNum As Long, ByVal ColVal As String, Optional ByRef Y As Long = -1)
+        Dim ColFormat As String, X As Long, W As Long, YY As Long, DoRight As Boolean
+        YY = IIf(Y < 0, OutputObject.CurrentY, Y)
+
+        ColFormat = "." & UCase(Cols(ColNum, 4)) & "."
+        If ColFormat Like "*CURRENCY*" Then
+            DoRight = True
+            ColVal = FormatCurrency(GetPrice(ColVal))
+        ElseIf ColFormat Like "*RIGHT*" Then
+            DoRight = True
+        Else
+            DoRight = (Left(ColVal, 1) = "$") ' Or IsNumeric(Val)
+        End If
+        X = ReportCol(ColNum, DoRight)
+        W = ReportCol(ColNum, True) - ReportCol(ColNum)
+
+        If ColFormat Like "*TRUNC*" Then
+            Do While OutputObject.TextWidth(ColVal) > W
+                ColVal = Left(ColVal, Len(ColVal) - 1)
+            Loop
+        End If
+        PrintAligned(ColVal, IIf(DoRight, AlignConstants.vbAlignRight, AlignConstants.vbAlignLeft), X, YY)
+    End Sub
+
+    Private Function ReportCol(ByVal Which As Object, Optional ByVal Right As Boolean = False) As Long
+        Dim I As Long
+        If TypeName(Which) = "String" Then
+            For I = 1 To ColCount
+                If LCase(CStr(Which)) = LCase(CStr(Cols(I, 1))) Then
+                    Which = I
+                    Exit For
+                End If
+            Next
+            If TypeName(Which) = "String" Then
+                Debug.Print("modPrintToolsCommon.ReportCol - Invalid Field Name: " & CStr(Which))
+                Exit Function
+            End If
+        End If
+        If Which <= 0 Or Which > ColCount Then
+            Debug.Print("modPrintToolsCommon.ReportCol - Invalid Field Name: " & CStr(Which))
+            Exit Function
+        End If
+
+        ReportCol = Cols(Which, IIf(Right, 3, 2))
+    End Function
+
+    Public Function DescribeOutputObject() As String
+        On Error Resume Next
+        If OutputObject Is Nothing Then
+            DescribeOutputObject = "[NOTHING]"
+        Else
+            If DescribeOutputObject = "" Then DescribeOutputObject = OutputObject.DeviceName
+            If DescribeOutputObject = "" Then DescribeOutputObject = OutputObject.Name
+            If OutputObject = Printer Then DescribeOutputObject = DescribeOutputObject & "[PRINTER]"
+        End If
+    End Function
 
 End Module

@@ -368,4 +368,33 @@ AnError:
         Do While InStr(Add, "  ") > 0 : Add = Replace(Add, "  ", " ") : Loop
         CleanAddress = Add
     End Function
+
+    Public Function PhoneAndFax(ByVal Phone As String, ByVal Fax As String, Optional ByVal Clean As Boolean = True, Optional ByVal Dress As Boolean = True) As String
+        ':::: PhoneAndFax
+        '::: SUMMARY
+        ': This function is mainly used to enter phone and fax number related to Vendor.
+        '::: DESCRIPTION
+        ': This function is used in forms like edit po's form etc.
+        '::: PARAMETERS
+        ':-Phone-Denotes the Phone number of vendor.
+        ':-Fax-Denotes the Fax number of vendor.
+        ':-Clean-Removes all nonprintable characters from text.
+        ':-Dress
+        ':::RETURN
+        ':String-Returns the Formatted Phone and Fax number as a string.
+
+
+        Phone = Trim(Phone)  ' in case not cleaned or dressed
+        Fax = Trim(Fax)
+        If Clean Then
+            Phone = CleanAni(Phone)
+            Fax = CleanAni(Fax)
+        End If
+        If Dress Then
+            Phone = DressAni(Phone)
+            Fax = DressAni(Fax)
+        End If
+        PhoneAndFax = Trim(Phone & IIf(Len(Fax) > 0, "  FAX: " & Fax, ""))
+    End Function
+
 End Module
