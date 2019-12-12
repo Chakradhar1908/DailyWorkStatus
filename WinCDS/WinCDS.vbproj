@@ -58,6 +58,7 @@
       <HintPath>c:\program files (x86)\microsoft visual studio\2017\community\common7\ide\extensions\microsoft\sqlcommon\150\Microsoft.SqlServer.GridControl.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility.Data" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Basic 2005 Power Packs\3.0\Microsoft.VisualBasic.PowerPacks.dll</HintPath>
@@ -574,6 +575,7 @@
     <Compile Include="Modules\MainModule.vb" />
     <Compile Include="Modules\MFreeImage.vb" />
     <Compile Include="Modules\mod2Data.vb" />
+    <Compile Include="Modules\mod2DataPictures.vb" />
     <Compile Include="Modules\mod2DataTransfers.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
     <Compile Include="Modules\modAddresses.vb" />
@@ -617,6 +619,7 @@
     <Compile Include="Modules\modFinancing.vb" />
     <Compile Include="Modules\modFontInstall.vb" />
     <Compile Include="Modules\modFTP.vb" />
+    <Compile Include="Modules\modFuzzyStringMatching.vb" />
     <Compile Include="Modules\modGetSales.vb" />
     <Compile Include="Modules\modGrossMargin.vb" />
     <Compile Include="Modules\modHoldings.vb" />
@@ -629,6 +632,7 @@
     <Compile Include="Modules\modMACAddress.vb" />
     <Compile Include="Modules\modMail.vb" />
     <Compile Include="Modules\modMainMenu.vb" />
+    <Compile Include="Modules\modMetaphone.vb" />
     <Compile Include="Modules\modMJKTest.vb" />
     <Compile Include="Modules\modNeoCaption.vb" />
     <Compile Include="Modules\modNumbers.vb" />
@@ -641,6 +645,16 @@
     <Compile Include="Modules\modPODetail.vb" />
     <Compile Include="Modules\modPrintToolsCommon.vb" />
     <Compile Include="Modules\modProgramState.vb" />
+    <Compile Include="Modules\modQuickBooks_CommBase.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC10.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC11.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC12.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC13.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC6.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC7.vb" />
+    <Compile Include="Modules\modQuickBooks_CommQBFC8.vb" />
+    <Compile Include="Modules\modQuickBooks_Comunication.vb" />
+    <Compile Include="Modules\modQuickBooks_Constants.vb" />
     <Compile Include="Modules\modQuickBooks_Interface.vb" />
     <Compile Include="Modules\modReceipts.vb" />
     <Compile Include="Modules\modRegistry.vb" />
@@ -649,6 +663,7 @@
     <Compile Include="Modules\modSalesJournal.vb" />
     <Compile Include="Modules\modService.vb" />
     <Compile Include="Modules\modSetup.vb" />
+    <Compile Include="Modules\modSoundEX.vb" />
     <Compile Include="Modules\modSplit.vb" />
     <Compile Include="Modules\modStores.vb" />
     <Compile Include="Modules\modStoreSettings.vb" />
@@ -963,6 +978,14 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxMSAdodcLib">
+      <Guid>{67397AA1-7FB1-11D0-B148-00A0C922E820}</Guid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxMSComCtl2">
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -998,6 +1021,14 @@
     <COMReference Include="AxMSFlexGridLib">
       <Guid>{5E9E78A0-531B-11CF-91F6-C2863C385E30}</Guid>
       <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxMSRDC">
+      <Guid>{F6125AB1-8AB1-11CE-A77F-08002B2F4E98}</Guid>
+      <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
@@ -1066,6 +1097,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="MSAdodcLib">
+      <Guid>{67397AA1-7FB1-11D0-B148-00A0C922E820}</Guid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="MSComCtl2">
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -1120,6 +1160,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="MSRDC">
+      <Guid>{F6125AB1-8AB1-11CE-A77F-08002B2F4E98}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="olelib">
       <Guid>{3181A65A-CC39-4CDE-A4DF-2E889E6F1AF1}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -1132,6 +1181,87 @@
     <COMReference Include="PINPadDevice">
       <Guid>{27738B6A-4C50-4D65-9C21-C13D28B2FD4F}</Guid>
       <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC10Lib">
+      <Guid>{A8794A33-4648-4735-9CA8-65CD56EBBB84}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC11Lib">
+      <Guid>{BCD71B09-6E35-4F3C-94D0-74A33C9606FC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC12Lib">
+      <Guid>{7BB6E3D2-F8F6-4509-84E2-62C95D444E35}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC13Lib">
+      <Guid>{0CB030A6-7B72-42CE-B92A-849B4A4A2CFB}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC5Lib">
+      <Guid>{26686830-7E50-4F38-AF09-C931E45454A6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC6Lib">
+      <Guid>{59E77B12-A887-4973-8778-B74D5C6FCCA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC7Lib">
+      <Guid>{77B7B920-37C4-460E-871F-A69BA730C196}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="QBFC8Lib">
+      <Guid>{522C4045-1473-453F-AAFB-69396450BB13}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="RDO">
+      <Guid>{EE008642-64A8-11CE-920F-08002B369A33}</Guid>
+      <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>

@@ -98,6 +98,30 @@ NoSave:
         DataAccess = mDataAccess
     End Function
 
+    Public Sub New()
+        CDataConvert_Init
+        CDataAccess_Init
+    End Sub
+
+    Public Sub CDataConvert_Init()
+        mDataConvert = New cDataConvert
+        With mDataConvert '@NO-LINT-WITH
+            .SubClass = Me.mDataConvert
+            .DataBase = GetDatabaseInventory()
+            .Table = TABLE_NAME
+            .Index = TABLE_INDEX
+        End With
+        '  ConvertSkip = True
+    End Sub
+
+    Public Sub CDataAccess_Init()
+        mDataAccess = New CDataAccess
+        mDataAccess.SubClass = Me.mDataAccess
+        mDataAccess.DataBase = GetDatabaseInventory()
+        mDataAccess.Table = TABLE_NAME
+        mDataAccess.Index = TABLE_INDEX
+    End Sub
+
     Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String = "") As Boolean
         ' Checks the database for a matching LeaseNo.
         ' Returns True if the load was successful, false otherwise.

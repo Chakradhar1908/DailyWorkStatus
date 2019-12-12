@@ -14,7 +14,7 @@
     Public Notes As String
 
     Public ChargeBackType As Long
-    Public ChargeBackAmount As Currency
+    Public ChargeBackAmount As Decimal
 
     Public NoteID As Long
 
@@ -24,28 +24,44 @@
     Public Paid As Boolean
 
     Private WithEvents mDataAccess As CDataAccess
-    Implements CDataAccess
+    'Implements CDataAccess
 
     Private Const TABLE_NAME As String = "ServicePartsOrder"
     Private Const TABLE_INDEX As String = "ServicePartsOrderNo"
 
-    Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String) As Boolean
+    Public Function DataAccess() As CDataAccess
+        DataAccess = mDataAccess
+    End Function
+
+    Public Sub New()
+        CDataAccess_Init
+    End Sub
+
+    Public Sub CDataAccess_Init()
+        mDataAccess = New CDataAccess
+        mDataAccess.SubClass = Me.mDataAccess
+        mDataAccess.DataBase = GetDatabaseAtLocation()
+        mDataAccess.Table = TABLE_NAME
+        mDataAccess.Index = TABLE_INDEX
+    End Sub
+
+    Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String = "") As Boolean
         ' Checks the database for a matching LeaseNo.
         ' Returns True if the load was successful, false otherwise.
         ' If a record was found, also loads the data into this object.
 
         ' Search for the Style
         If KeyName = "" Then
-            DataAccess.Records_OpenIndexAt KeyVal
-  ElseIf Left(KeyName, 1) = "#" Then
+            DataAccess.Records_OpenIndexAt(KeyVal)
+        ElseIf Left(KeyName, 1) = "#" Then
             ' This allows searching by AutoNumber - specialized to query by number
             ' since Access is exceptionally picky about quotation marks.
-            DataAccess.Records_OpenFieldIndexAtNumber Mid(KeyName, 2), KeyVal
-  ElseIf Left(KeyName, 1) = "@" Then
-            DataAccess.Records_OpenFieldIndexAtDate Mid(KeyName, 2), KeyVal
-  Else
-            DataAccess.Records_OpenFieldIndexAt KeyName, KeyVal
-  End If
+            DataAccess.Records_OpenFieldIndexAtNumber(Mid(KeyName, 2), KeyVal)
+        ElseIf Left(KeyName, 1) = "@" Then
+            DataAccess.Records_OpenFieldIndexAtDate(Mid(KeyName, 2), KeyVal)
+        Else
+            DataAccess.Records_OpenFieldIndexAt(KeyName, KeyVal)
+        End If
 
         ' Move to the first record if we can, and return success.
         If DataAccess.Records_Available Then Load = True

@@ -20,5 +20,14 @@
         MailCheck.HidePriorSales = False
         'Unload MailCheck
         MailCheck.Close()
+
+    End Sub
+
+    Private Sub MainMenu4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'NOTE: In vb6, for image control(imgPicture) assigned datasource as datacontrl and datafied as "Picture" column(code is in mod2DataPictures modules ->GetDatabasePicture function).
+        'Replacement for it in vb.net is the below line. This code line is not in vb6. Values are directly assigned in the design time properties window of imgPicture image control.
+
+        'imgPicture.DataBindings.Clear()  NOTE: REMOVE THIS COMMENTE IF imgPicture.DataBindings.Add will expect Clear first before Add.
+        imgPicture.DataBindings.Add("Image", datPicture, "Picture")
     End Sub
 End Class

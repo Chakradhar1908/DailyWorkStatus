@@ -88,7 +88,7 @@ Catch1:
     End Function
 
     Public Function ValidEmailAddress(ByVal Addr As String) As Boolean
-        Dim TLD As String, X As String, N As Long, O As Long
+        Dim TLD As String, X As String, N As Integer, O As Long
         If Addr = "" Then Exit Function
         N = InStr(Addr, "@")
         If N <= 1 Then Exit Function

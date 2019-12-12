@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class MainMenu4
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class MainMenu4
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainMenu4))
@@ -34,7 +34,10 @@ Partial Class MainMenu4
         Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.imlSmallButtons = New System.Windows.Forms.ImageList(Me.components)
+        Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
+        Me.imgPicture = New System.Windows.Forms.PictureBox()
         CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -140,11 +143,35 @@ Partial Class MainMenu4
         Me.imlSmallButtons.Images.SetKeyName(5, "StandardButton-UpMenu.gif")
         Me.imlSmallButtons.Images.SetKeyName(6, "StandardButton-Web3.gif")
         '
+        'datPicture
+        '
+        Me.datPicture.BackColor = System.Drawing.SystemColors.Control
+        Me.datPicture.CommandTimeout = 0
+        Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
+        Me.datPicture.ConnectionString = Nothing
+        Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
+        Me.datPicture.Location = New System.Drawing.Point(91, 381)
+        Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
+        Me.datPicture.Name = "datPicture"
+        Me.datPicture.Size = New System.Drawing.Size(83, 26)
+        Me.datPicture.TabIndex = 7
+        Me.datPicture.Text = "Adodc1"
+        '
+        'imgPicture
+        '
+        Me.imgPicture.Location = New System.Drawing.Point(201, 381)
+        Me.imgPicture.Name = "imgPicture"
+        Me.imgPicture.Size = New System.Drawing.Size(100, 50)
+        Me.imgPicture.TabIndex = 8
+        Me.imgPicture.TabStop = False
+        '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.imgPicture)
+        Me.Controls.Add(Me.datPicture)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.MSComm1)
         Me.Controls.Add(Me.cmdEnterPassword)
@@ -155,6 +182,7 @@ Partial Class MainMenu4
         Me.Name = "MainMenu4"
         Me.Text = "MainMenu4"
         CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -170,4 +198,6 @@ Partial Class MainMenu4
     Friend WithEvents MSComm1 As AxMSCommLib.AxMSComm
     Friend WithEvents Button1 As Button
     Friend WithEvents imlSmallButtons As ImageList
+    Friend WithEvents datPicture As Compatibility.VB6.ADODC
+    Friend WithEvents imgPicture As PictureBox
 End Class

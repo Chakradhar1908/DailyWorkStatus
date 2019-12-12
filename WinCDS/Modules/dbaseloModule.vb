@@ -110,8 +110,8 @@
   & " ORDER BY left([tblAPVendors]![fldVendorName],16)"
         '  Debug.Print sql
         On Error GoTo AnError
-        If dbGen Is Nothing Then OpenApDatabase 1
-  dbGen.SQL = SQL
+        If dbGen Is Nothing Then OpenApDatabase(1)
+        dbGen.SQL = SQL
         Dim RS As ADODB.Recordset
         RS = dbGen.getRecordset   '(sql)
         If (RS.RecordCount = 0) Then

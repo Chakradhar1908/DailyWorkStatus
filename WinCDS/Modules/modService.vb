@@ -165,8 +165,8 @@ Module modService
 
             PartOrderToHTML = S
         End With
-        DisposeDA Part, ServiceOrder
-  Exit Function
+        DisposeDA(Part, ServiceOrder)
+        Exit Function
 
         ' below was for testing
         '  Dim F As String
@@ -175,7 +175,7 @@ Module modService
         '  ShellOut_URL F
     End Function
 
-    Public Function ChargeBackLetterHTML(ByVal PON As Long, ByVal LetterType As Long, ByVal StoreNum As Long, ByVal Amount As Currency, ByVal InvoiceNo As String, Optional ByRef vEMail As String, Optional ByRef vName As String, Optional ByRef Attach As String) As String
+    Public Function ChargeBackLetterHTML(ByVal PON As Long, ByVal LetterType As Long, ByVal StoreNum As Long, ByVal Amount As Decimal, ByVal InvoiceNo As String, Optional ByRef vEMail As String = "", Optional ByRef vName As String = "", Optional ByRef Attach As String = "") As String
         '::::ChargeBackLetterHTML
         ':::SUMMARY
         ': HTML  code for ChargeBack Letter.
@@ -199,20 +199,20 @@ Module modService
         Dim VZip As String, VPhone As String, VFax As String
 
         On Error Resume Next
-  Set Part = New clsServicePartsOrder
-  If Not Part.Load(PON, "#ServicePartsOrderNo") Then
-            DisposeDA Part
-    Exit Function
+        Part = New clsServicePartsOrder
+        If Not Part.Load(PON, "#ServicePartsOrderNo") Then
+            DisposeDA(Part)
+            Exit Function
         End If
 
         VendorName = Part.Vendor
         vName = VendorName
         '  GetVendorName (VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, (VendorName), vEMail
         If UseQB() Then
-            QBGetVendorName(VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail
-  Else
-            GetVendorName(VendorName), (VendorName), vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail
-  End If
+            QBGetVendorName(VendorName, VendorName, vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail)
+        Else
+            GetVendorName(VendorName, VendorName, vAddress, vAddress2, vAddress3, VZip, VPhone, VFax, , vEMail)
+        End If
         Oper = ChargeBackLetterOperationDesc(LetterType, Amount, InvoiceNo)
 
 
@@ -237,7 +237,7 @@ Module modService
         '------- Page Title (w/ date)
         S = S & "<table border=0 width='100%'>" & vbCrLf
         S = S & "  <tr><td align=center><b><font size=+2>CREDIT DEPARTMENT</font></b></td></tr>" & vbCrLf
-        S = S & "  <tr><td align=right>" & Format(Of Date, "mm/dd/yyyy")() & "</td></tr>" & vbCrLf
+        S = S & "  <tr><td align=right>" & Format(Today, "mm/dd/yyyy") & "</td></tr>" & vbCrLf
         S = S & "</table>" & vbCrLf
 
         S = S & "   </tr></td>" & vbCrLf    ' alignment table
@@ -302,8 +302,8 @@ Module modService
         S = S & " </body>" & vbCrLf
         S = S & "</html>" & vbCrLf
 
-        DisposeDA Part
-  ChargeBackLetterHTML = S
+        DisposeDA(Part)
+        ChargeBackLetterHTML = S
         Exit Function
 
         ' below was for testing
@@ -311,6 +311,56 @@ Module modService
         '  F = localdesktopfolder & "PartOrder.htm"
         '  WriteFile F, S, True
         '  ShellOut_URL F
+    End Function
+
+    Public Function DescribeChargeBackOption(ByRef nVal As Long) As String
+        '::::DescribeChargeBackOption
+        ':::SUMMARY
+        ': Describe each payment option for chargeback.
+        ':::DESCRIPTION
+        ': This function is mostly used to describe fileds like Charge Back,Deduct from Invoice,Request Credit in parts order form.
+        ':::PARAMETERS
+        ':::RETURN
+        ': String - Returns ChargeBack option as a string.
+        Select Case nVal
+            Case 0 : DescribeChargeBackOption = "Charge Back"
+            Case 1 : DescribeChargeBackOption = "Deduct from Invoice"
+            Case 2 : DescribeChargeBackOption = "Credit"
+            Case Else : DescribeChargeBackOption = "???"
+        End Select
+    End Function
+
+    Public Function ChargeBackLetterOperationDesc(ByVal LetterType As Long, ByVal Amount As Decimal, ByVal InvoiceNo As String) As String
+        '::::ChargeBackLetterOperationDesc
+        ':::SUMMARY
+        ': Provides Description about ChargeBack letter operations.
+        ':::DESCRIPTION
+        ': This function is provides description about Charge Back letter operation.Depending up on selection of letter type, amount is deducted in different ways.
+        ':::PARAMETERS
+        ': - LetterType - Indicates the tpe of selection of ChargeBack amount.
+        ': - Amount - Indicates the ChargeBack amount.
+        ': - InvoiceNo - Indicates the number given by manufacturer
+        ':::RETURN
+        ': String - Returns the ChargeBack letter Operation description as a string.
+
+        Dim Oper As String
+        Select Case LetterType
+            Case 0
+                Oper = "charging back the repair cost of " & FormatCurrency(Amount)
+                Oper = Oper & vbCrLf & "Please send credit memo for this amount"
+            Case 1
+                Oper = "deducting " & FormatCurrency(Amount)
+                If Len(InvoiceNo) Then
+                    Oper = Oper & " from Invoice No. " & InvoiceNo
+                Else
+                    Oper = Oper & " from the invoice."
+                End If
+            Case 2
+                Oper = "requesting a credit of " & FormatCurrency(Amount)
+            Case Else
+                Oper = "requesting " & FormatCurrency(Amount)
+        End Select
+        ChargeBackLetterOperationDesc = Oper
     End Function
 
 End Module

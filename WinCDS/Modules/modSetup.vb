@@ -75,6 +75,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public URLTryAlt As Long
     Public Const CompanyURL2 As String = "http://" & CompanyURL_BARE2 & "/"
     Public Const CompanyURL_BARE2 As String = "www.wincds.net"
+    Public Const ProgramShort As String = ProgramName & " POS for Furniture Stores"
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get

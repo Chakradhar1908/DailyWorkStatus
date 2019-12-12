@@ -337,4 +337,31 @@
         StripHTML = S
     End Function
 
+    Public Function EmailChargeBackBodyHTML() As String
+        If FileExists(EmailTemplateChargeBackFile) Then
+            MainMenu.rtbn.RichTextBox.LoadFile(EmailTemplateChargeBackFile)
+            EmailChargeBackBodyHTML = MainMenu.rtbn.asHtml()
+        Else
+            EmailChargeBackBodyHTML = DefaultEmailChargeBack()
+        End If
+    End Function
+
+    Public Function EmailTemplateChargeBackFile() As String
+        EmailTemplateChargeBackFile = FXFolder() & "EmailTemplate-ChargeBack.rtf"
+    End Function
+
+    Public Function DefaultEmailChargeBack(Optional ByVal DoStripHTML As Boolean = False) As String
+        Dim S As String
+        S = ""
+        S = S & "To whom it may concern:<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+        S = S & "Attention: Accounts Receivable Department<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+        S = S & "Dear Sir:<br/>" & vbCrLf
+        S = S & "<br/>" & vbCrLf
+
+        If DoStripHTML Then S = StripHTML(S)
+        DefaultEmailChargeBack = S
+    End Function
+
 End Module
