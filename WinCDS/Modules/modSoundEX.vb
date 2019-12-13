@@ -1,8 +1,8 @@
 ﻿Module modSoundEX
     Public Function SoundEx(ByVal Word As String) As String
         Dim Result As String
-        Dim I As Long, Acode As Long
-        Dim Dcode As Long, oldCode As Long
+        Dim I As Integer, Acode As Integer
+        Dim Dcode As Integer, oldCode As Integer
 
         If Word = "" Then Exit Function
 
@@ -30,5 +30,4 @@
             End If
         Next
     End Function
-
 End Module

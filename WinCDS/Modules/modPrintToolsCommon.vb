@@ -10,8 +10,8 @@ Module modPrintToolsCommon
     Public Const DYMO_PaperSize_30270 As Integer = 186                           ' continuous tape
     Public Const DYMO_PaperSize_ContinuousWide As Integer = DYMO_PaperSize_30270 ' We didn't know it's SKU for a while..
     Public PageNumber As Integer
-    Public ColCount As Long, CommonReportPRG As ProgressBar
-    Public CommonReportColSpacing As Long, CommonReportIndent As Long
+    Public ColCount As Integer, CommonReportPRG As ProgressBar
+    Public CommonReportColSpacing As Integer, CommonReportIndent As Integer
     'Public Cols(1 To 50, 1 To 4) '@NO-LINT-NTYP
     Public Cols(0 To 49, 0 To 3) '@NO-LINT-NTYP
 
@@ -577,7 +577,7 @@ PrinterDialogCancelled:
         If Italic Then OO.FontItalic = oI
     End Sub
 
-    Public Sub CommonReportAddColumn(Optional ByVal ColumnHeader As String = "", Optional ByVal Width As Long = 0, Optional ByVal Reset As Boolean = False, Optional ByRef OptionString As String = "")
+    Public Sub CommonReportAddColumn(Optional ByVal ColumnHeader As String = "", Optional ByVal Width As Integer = 0, Optional ByVal Reset As Boolean = False, Optional ByRef OptionString As String = "")
         On Error Resume Next
         If Reset Then
             ColCount = 1
@@ -602,8 +602,8 @@ PrinterDialogCancelled:
         Cols(ColCount - 1, 4 - 1) = OptionString
     End Sub
 
-    Public Function CommonReportHeader(ByRef ReportName As String, Optional ByRef PageNum As Long = 1, Optional ByRef PageCount As Long = 0, Optional ByVal OptionString As String = "") As Long
-        Dim ColumnHeadY As Long, I As Long, ColFormat As String, ColCap As String
+    Public Function CommonReportHeader(ByRef ReportName As String, Optional ByRef PageNum As Integer = 1, Optional ByRef PageCount As Integer = 0, Optional ByVal OptionString As String = "") As Integer
+        Dim ColumnHeadY As Integer, I As Integer, ColFormat As String, ColCap As String
         OptionString = UCase(OptionString)
 
         OutputObject.FontSize = 18
@@ -636,16 +636,17 @@ PrinterDialogCancelled:
             Next
             ColumnHeadY = OutputObject.CurrentY
             OutputObject.DrawWidth = 2
-            OutputObject.Line(ReportCol(1), ColumnHeadY)-(ReportCol(ColCount, True), ColumnHeadY)
-    OutputObject.DrawWidth = 1
+            'OutputObject.Line(ReportCol(1), ColumnHeadY)-(ReportCol(ColCount, True), ColumnHeadY)
+            OutputObject.line(ReportCol(1), ColumnHeadY, ReportCol(ColCount, True), ColumnHeadY)
+            OutputObject.DrawWidth = 1
         End If
         CommonReportHeader = OutputObject.CurrentY
 
         OutputObject.CurrentY = CommonReportHeader
     End Function
 
-    Public Sub CommonReportPrintColumn(ByVal ColNum As Long, ByVal ColVal As String, Optional ByRef Y As Long = -1)
-        Dim ColFormat As String, X As Long, W As Long, YY As Long, DoRight As Boolean
+    Public Sub CommonReportPrintColumn(ByVal ColNum As Integer, ByVal ColVal As String, Optional ByRef Y As Integer = -1)
+        Dim ColFormat As String, X As Integer, W As Integer, YY As Integer, DoRight As Boolean
         YY = IIf(Y < 0, OutputObject.CurrentY, Y)
 
         ColFormat = "." & UCase(Cols(ColNum, 4)) & "."
@@ -668,8 +669,8 @@ PrinterDialogCancelled:
         PrintAligned(ColVal, IIf(DoRight, AlignConstants.vbAlignRight, AlignConstants.vbAlignLeft), X, YY)
     End Sub
 
-    Private Function ReportCol(ByVal Which As Object, Optional ByVal Right As Boolean = False) As Long
-        Dim I As Long
+    Private Function ReportCol(ByVal Which As Object, Optional ByVal Right As Boolean = False) As Integer
+        Dim I As Integer
         If TypeName(Which) = "String" Then
             For I = 1 To ColCount
                 If LCase(CStr(Which)) = LCase(CStr(Cols(I, 1))) Then
@@ -700,5 +701,4 @@ PrinterDialogCancelled:
             If OutputObject = Printer Then DescribeOutputObject = DescribeOutputObject & "[PRINTER]"
         End If
     End Function
-
 End Module

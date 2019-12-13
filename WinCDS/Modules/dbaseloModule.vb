@@ -38,7 +38,7 @@
         ': - FactEmail - Indicates the Fact Email String.
         ':::RETURN
         ': Boolean - Returns whether it it True or False.
-        Dim SQL As String, PPO As String, N As Long, RS As ADODB.Recordset
+        Dim SQL As String, PPO As String, N as integer, RS As ADODB.Recordset
         If UseQB Then
             QBGetVendorName(POName, completeName, , , , , , , , FactEmail)
         Else
@@ -143,7 +143,7 @@ AnError:
         Exit Function
     End Function
 
-    Public Sub OpenApDatabase(Optional ByVal Location As Long = 1, Optional ByRef PostingPO As Boolean = False)
+    Public Sub OpenApDatabase(Optional ByVal Location as integer = 1, Optional ByRef PostingPO As Boolean = False)
         '::::OpenApDatabase
         ':::SUMMARY
         ': Open the AP Database.

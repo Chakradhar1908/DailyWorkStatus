@@ -4,7 +4,7 @@ Module modQuickBooks_Interface
     Private mQBTested As Boolean
     Private mQBMfgLst As Object
 
-    Public Function UseQB(Optional ByRef FailReason As String = "", Optional ByVal NotifyWantedButNotSetup As Boolean = False, Optional ByVal Loc As Long = 0) As Boolean
+    Public Function UseQB(Optional ByRef FailReason As String = "", Optional ByVal NotifyWantedButNotSetup As Boolean = False, Optional ByVal Loc As Integer = 0) As Boolean
         If Not QBConnect(FailReason, Loc) Then Exit Function
 
         If Not QBTested() Then
@@ -20,7 +20,7 @@ Module modQuickBooks_Interface
 
     Public Function QBGetVendorName(ByVal POName As String, ByRef completeName As String, Optional ByRef Address As String = "", Optional ByRef Address2 As String = "", Optional ByRef Address3 As String = "", Optional ByRef Zip As String = "", Optional ByRef Phone As String = "", Optional ByRef Fax As String = "", Optional ByRef CompleteCode As String = "", Optional ByRef EmailAddress As String = "") As Boolean
 
-        Dim E As Long, S As String
+        Dim E As Integer, S As String
         Dim X As Object 'As QBFC13Lib.IVendorRet
         Dim M1 As Boolean, M2 As Boolean, M3 As Boolean
 
@@ -81,7 +81,7 @@ FoundCloseEnoughMatch:
 
             '      If QBFCVersion >= 12 Then
             '        If EmailAddress = "" Then
-            '          Dim IX As Long
+            '          Dim IX as integer
             '          For IX = 0 To X.AdditionalContactRefList.Count - 1
             '            If ValidEmailAddress(X.AdditionalContactRefList.GetAt(IX).FullName.GetValue) Then EmailAddress = X.AdditionalContactRefList.GetAt(IX).FullName.GetValue
             '          Next
@@ -93,7 +93,7 @@ FoundCloseEnoughMatch:
         X = Nothing
     End Function
 
-    Public Function QBConnect(Optional ByRef FailReason As String = "", Optional ByVal Loc As Long = 0) As Boolean
+    Public Function QBConnect(Optional ByRef FailReason As String = "", Optional ByVal Loc As Integer = 0) As Boolean
         If Not QBWanted() Then FailReason = "QB not selected in options page in Store Setup for Loc " & StoresSld & "." : Exit Function
 
         If QBUseRDS() Then
@@ -110,9 +110,9 @@ FoundCloseEnoughMatch:
         QBTested = mQBTested
     End Function
 
-    Public Function IsQBSetup(Optional ByRef FailReason As String) As Boolean
-        Dim RET As Long, RetMsg As String
-        Dim I As Long, T As String, lst() As Object
+    Public Function IsQBSetup(Optional ByRef FailReason As String = "") As Boolean
+        Dim RET As Integer, RetMsg As String
+        Dim I As Integer, T As String, lst() As Object
 
         ' these 2 checks now in QBConnect, b/c we cant even connect w/o them
         '  If GetQBSetupValue("file") = "" Then
@@ -134,7 +134,7 @@ FoundCloseEnoughMatch:
         If Not QB_CustomerExistsByName(QBCustomerDepositsName) Then Exit Function
 
         FailReason = "All G/L accounts must be mapped to existing QB accounts."
-        Dim AList() As GLAccount, N As Long
+        Dim AList() As GLAccount, N As Integer
         AList = GLAccountList(N)
 
         On Error GoTo FailOnAccountMaps
@@ -173,7 +173,7 @@ FailOnAccountMaps:
     End Function
 
     Public Function QBCheckPreferences(Optional ByVal Notify As Boolean = True, Optional ByRef FailReason As String = "") As Boolean
-        Dim IP As IPreferencesRet, M As String, RET As Long
+        Dim IP As IPreferencesRet, M As String, RET As Integer
         On Error GoTo NoQB
 
 
@@ -207,7 +207,7 @@ NoQB:
         If Notify Then MessageBox.Show(FailReason, "Start QB", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
     End Function
 
-    Public Function QBLocationClassID(ByVal Loc As Long, Optional ByVal WithParentRef As Boolean = False) As String
+    Public Function QBLocationClassID(ByVal Loc As Integer, Optional ByVal WithParentRef As Boolean = False) As String
         If Loc > 0 And WithParentRef Then
             QBLocationClassID = QBLocationClassID(0) & ":"
         Else

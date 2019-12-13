@@ -9,32 +9,32 @@
         emPartOrder = 3
         emChargeBack = 4
     End Enum
-    Private Results() As EmailResult, ResultCount As Long
+    Private Results() As EmailResult, ResultCount As Integer
     Private mPO As cPODetail
-    Const FRM_H As Long = 4485
-    Const FRM_W1 As Long = 6315
-    Const FRM_W2 As Long = 10020
+    Const FRM_H As Integer = 4485
+    Const FRM_W1 As Integer = 6315
+    Const FRM_W2 As Integer = 10020
 
-    Public Sub EmailSale(ByVal SaleNo As String, Optional ByVal StoreNo as integer = 0)
-        Dim X As String, E As String, En As String
-        Dim Cust As Boolean
-        Mode = EmailMode.emSale
+    'Public Sub EmailSale(ByVal SaleNo As String, Optional ByVal StoreNo as integer = 0)
+    '    Dim X As String, E As String, En As String
+    '    Dim Cust As Boolean
+    '    Mode = EmailMode.emSale
 
-        Cust = True
-        '  If MsgBox("Customer Copy (No Style Numbers)?", vbYesNo, "Customer Copy") = vbNo Then Cust = False
-        If IsBFMyer Then Cust = False
+    '    Cust = True
+    '    '  If MsgBox("Customer Copy (No Style Numbers)?", vbYesNo, "Customer Copy") = vbNo Then Cust = False
+    '    If IsBFMyer Then Cust = False
 
-        X = SaleToHTML(SaleNo, StoreNo, E, En, Cust)
+    '    X = SaleToHTML(SaleNo, StoreNo, E, En, Cust)
 
-        If Trim(E) = "" Then
-            MsgBox("No email address in customer information!")
-        ElseIf Trim(txtFromAddr.Text) = "" Then
-            MsgBox("Store Email Address not specified." & vbCrLf & EMAIL_SETUP_INST, vbExclamation, "No Sender Email Address")
-        Else
-            E = SendSimpleEmail(txtFromAddr.Text, txtFromName.Text, E, En, "Sale #" & SaleNo & " - " & txtFromName.Text, X)
-            MsgBox("Email Sale: " & IIf(E = "", "Success!", "FAILURE - " & E))
-        End If
-    End Sub
+    '    If Trim(E) = "" Then
+    '        MsgBox("No email address in customer information!")
+    '    ElseIf Trim(txtFromAddr.Text) = "" Then
+    '        MsgBox("Store Email Address not specified." & vbCrLf & EMAIL_SETUP_INST, vbExclamation, "No Sender Email Address")
+    '    Else
+    '        E = SendSimpleEmail(txtFromAddr.Text, txtFromName.Text, E, En, "Sale #" & SaleNo & " - " & txtFromName.Text, X)
+    '        MsgBox("Email Sale: " & IIf(E = "", "Success!", "FAILURE - " & E))
+    '    End If
+    'End Sub
 
     Public ReadOnly Property SendMailURL() As String
         Get
@@ -126,7 +126,7 @@
         End If
     End Function
 
-    Public Sub EmailSale(ByVal SaleNo As String, Optional ByVal StoreNo As Long = 0)
+    Public Sub EmailSale(ByVal SaleNo As String, Optional ByVal StoreNo As Integer = 0)
         Dim X As String, E As String, En As String
         Dim Cust As Boolean
         Mode = EmailMode.emSale
@@ -147,7 +147,7 @@
         End If
     End Sub
 
-    Public Sub EmailPartOrder(ByVal PartOrderNo As String, Optional ByVal StoreNo As Long = 0, Optional ByVal EmailAddr As String = "")
+    Public Sub EmailPartOrder(ByVal PartOrderNo As String, Optional ByVal StoreNo As Integer = 0, Optional ByVal EmailAddr As String = "")
         Dim X As String, E As String, En As String, Attach As String
         Mode = EmailMode.emPartOrder
 
@@ -165,7 +165,7 @@
         End If
     End Sub
 
-    Public Function EmailChargeBackLetter(ByVal PON As Long, ByVal LetterType As Long, ByVal StoreNum As Long, ByVal Amount As Decimal, ByVal InvoiceNo As String) As Boolean
+    Public Function EmailChargeBackLetter(ByVal PON As Integer, ByVal LetterType As Integer, ByVal StoreNum As Integer, ByVal Amount As Decimal, ByVal InvoiceNo As String) As Boolean
         Dim S As String, vEm As String, vNm As String, E As String, Attach As String
 
         Mode = EmailMode.emChargeBack
@@ -312,7 +312,7 @@
 
         lblStatus.Text = "Printing Report..." : lblStatus.Refresh()
 
-        PrintEmailReport
+        PrintEmailReport()
 
         If chkPrintPO.Checked = True Then
             modProgramState.Inven = ""
@@ -363,7 +363,7 @@
     End Sub
 
     Public Sub PrintEmailReport()
-        Dim I As Long, A As String, Y As Long
+        Dim I As Integer, A As String, Y As Integer
         On Error Resume Next
         OutputToPrinter = True
         OutputObject = Printer
@@ -390,7 +390,7 @@
             End If
         Next
 
-        If OutputToPrinter Then Printer.EndDoc() Else frmPrintPreviewDocument.DataEnd
+        If OutputToPrinter Then Printer.EndDoc() Else frmPrintPreviewDocument.DataEnd()
     End Sub
 
     Private Sub frmEmail_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -424,14 +424,14 @@
     End Sub
 
     Private Sub optByDate_Click(sender As Object, e As EventArgs) Handles optByDate.Click
-        SelectRange
+        SelectRange()
     End Sub
 
     Private Sub optByPoNo_Click(sender As Object, e As EventArgs) Handles optByPoNo.Click
-        SelectRange
+        SelectRange()
     End Sub
 
-    Private Sub SelectRange(Optional ByVal Field As Long = 0)
+    Private Sub SelectRange(Optional ByVal Field As Integer = 0)
         Const HideOrDisable = True
         txtFromPO.Text = ""
         txtToPO.Text = ""
@@ -469,7 +469,7 @@
 
         optByDate.Checked = True
 
-        If Not HasSendMail Then
+        If Not HasSendMail() Then
             cmdMail.Enabled = False
             If MessageBox.Show("You do not have a required DLL to do email POs yet." & vbCrLf & "In order to email POs, you must install this file." & vbCrLf2 & "Would you like instructions for downloading and installing this DLL?", "Missing DLL, get instructions?", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                 MessageBox.Show("Visit dthe URL:  " & SendMailURL & vbCrLf2 & "Place that file in your Windows System directory (usually C:\Windows\System32\)." & vbCrLf & "Then From the Start Menu, click 'Run'." & vbCrLf & "Enter this command: regsvr32 /s vbSendMail.dll", "DLL Download and Installation", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -483,7 +483,7 @@
         lblStatus.Text = ""
     End Sub
 
-    Public Sub LOG(Optional ByVal Msg As String = "", Optional ByVal PC As Long = -101)
+    Public Sub LOG(Optional ByVal Msg As String = "", Optional ByVal PC As Integer = -101)
         ActiveLog("frmEmail::Log(Msg=" & Msg & ", PC=" & PC & ")", 7)
         If PC <> -101 Then
             If PC < 0 Then PC = 0

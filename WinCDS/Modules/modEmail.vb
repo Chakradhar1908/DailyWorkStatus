@@ -1,6 +1,6 @@
 ﻿Module modEmail
     Public Structure EmailResult
-        Dim PoNo As Long
+        Dim PoNo as integer
         Dim VendorAddress As String
         Dim VendorName As String
         Dim SendTime As String

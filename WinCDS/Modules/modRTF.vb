@@ -5,7 +5,7 @@
 
         Dim FontFamily As String, FontSize As Double
         Dim B As Boolean, I As Boolean, U As Boolean, S As Boolean
-        Dim P As Long, Res As String, C As String
+        Dim P As Integer, Res As String, C As String
 
         FontFamily = ""
         FontSize = 0
@@ -73,5 +73,4 @@
     Public Function TranslateFontSize(ByVal Sz As Double) As String
         TranslateFontSize = "" & Math.Round(Sz / 4, 3) & "em"
     End Function
-
 End Module

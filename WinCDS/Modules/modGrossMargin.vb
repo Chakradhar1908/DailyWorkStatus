@@ -1,9 +1,11 @@
-﻿Module modGrossMargin
+﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Module modGrossMargin
     Private Const SoldTagFlag As String = "tg"
     Private PrepareMLForPackages_SaleNo As String, PrepareMLForPackages_cGM As CGrossMargin
     Public Function DescHasSoldTagPrinted(ByVal Desc As String) As Boolean
         DescHasSoldTagPrinted = Left(Desc, Len(SoldTagFlag)) = SoldTagFlag
     End Function
+
     Public Function PrintSoldTags(ByVal Style As String, Optional ByVal LastName As String = "", Optional ByVal SaleNo As String = "", Optional ByRef Q As Integer = 1) As Boolean
         Dim UnloadAfter As Boolean
         If Not IsFormLoaded("SelectPrinter") Then UnloadAfter = True
@@ -15,6 +17,7 @@
             SelectPrinter.Close()
         End If
     End Function
+
     Public Function DescSetSoldTagPrinted(ByVal Desc As String, Optional ByVal SaleNo As String = "", Optional ByVal StyleNo As String = "", Optional ByVal StoreNo As Integer = 0) As String
         Dim S As String
 
@@ -208,7 +211,9 @@ FoundNotPackage:
         G = New CGrossMargin
         G.DataAccess.DataBase = GetDatabaseAtLocation(StoreNo)
         G.DataAccess.Records_OpenSQL("SELECT * FROM [GrossMargin] WHERE SaleNo='" & SaleNo & "' ORDER BY [MarginLine]")
-        G.DataAccess.Records_Available()
+        If G.DataAccess.Records_Available() = True Then
+            G.cDataAccess_GetRecordSet(G.DataAccess.RS)
+        End If
 
         C = New clsMailRec
         If Val(G.Index) <> 0 Then
@@ -229,7 +234,7 @@ FoundNotPackage:
         '------- Page Setup
         S = S & "<html>" & vbCrLf
         S = S & " <head>" & vbCrLf
-        'S = S & "  <title>Order #" & SaleNo & " - " & StoreSettings(StoreNum).Name & "</title>" & vbCrLf
+        S = S & "  <title>Order #" & SaleNo & " - " & StoreSettings(StoreNum).Name & "</title>" & vbCrLf
         S = S & "" & vbCrLf
         S = S & " </head>" & vbCrLf
         S = S & " <body bgcolor=#FFFFFF text=#000000 vlink=#FF0000 link=#FFFF00 hspace=0 vspace=0>" & vbCrLf
@@ -243,11 +248,11 @@ FoundNotPackage:
         S = S & "      <table width='100%'><tr>" & vbCrLf
         S = S & "      <td width='50%'>" & vbCrLf
         S = S & "        <table border=0 width=100% height='100%'>" & vbCrLf
-        'S = S & "          <tr><td align=center><font size=+3><b>" & StoreSettings(StoreNum).Name & "</b></font></td></tr>" & vbCrLf
-        'S = S & "          <tr><td align=center>" & StoreSettings(StoreNum).Address & "</td></tr>" & vbCrLf
-        'S = S & "          <tr><td align=center>" & StoreSettings(StoreNum).City & "</td></tr>" & vbCrLf
-        'S = S & "          <tr><td align=center>" & DressAni(StoreSettings(StoreNum).Phone) & "</td></tr>" & vbCrLf
-        'S = S & "        </table>" & vbCrLf
+        S = S & "          <tr><td align=center><font size=+3><b>" & StoreSettings(StoreNum).Name & "</b></font></td></tr>" & vbCrLf
+        S = S & "          <tr><td align=center>" & StoreSettings(StoreNum).Address & "</td></tr>" & vbCrLf
+        S = S & "          <tr><td align=center>" & StoreSettings(StoreNum).City & "</td></tr>" & vbCrLf
+        S = S & "          <tr><td align=center>" & DressAni(StoreSettings(StoreNum).Phone) & "</td></tr>" & vbCrLf
+        S = S & "        </table>" & vbCrLf
         S = S & "      </td>" & vbCrLf
         S = S & "      </tr></table><br>" & vbCrLf
 
@@ -298,22 +303,22 @@ FoundNotPackage:
         S = S & "           <td><b><font size=-2>Last Name</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C.First) & "</td>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C.Last) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C.First) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C.Last) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
         S = S & "           <td colspan=2><b><font size=-2>Address</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td colspan=2>" & HTMLBS(C.Address) & "</td>" & vbCrLf
+        S = S & "           <td colspan=2>" & HTMLBS(C.Address) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
         S = S & "           <td colspan=2><b><font size=-2>Additional Address</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td colspan=2>" & HTMLBS(C.AddAddress) & "</td>" & vbCrLf
+        S = S & "           <td colspan=2>" & HTMLBS(C.AddAddress) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
@@ -321,8 +326,8 @@ FoundNotPackage:
         S = S & "           <td><b><font size=-2>Zip</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C.City) & "</td>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C.Zip) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C.City) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C.Zip) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
@@ -330,8 +335,8 @@ FoundNotPackage:
         S = S & "           <td><b><font size=-2>Telephone 2</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(DressAni(C.Tele)) & "</td>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(DressAni(C.Tele2)) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(DressAni(C.Tele)) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(DressAni(C.Tele2)) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "       </table>" & vbCrLf
@@ -352,15 +357,15 @@ FoundNotPackage:
         S = S & "           <td><b><font size=-2>Last/Company</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C2.ShipToFirst) & "</td>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C2.ShipToLast) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C2.ShipToFirst) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C2.ShipToLast) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
         S = S & "           <td colspan=2><b><font size=-2>Address</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td colspan=2>" & HTMLBS(C2.Address2) & "</td>" & vbCrLf
+        S = S & "           <td colspan=2>" & HTMLBS(C2.Address2) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
@@ -368,15 +373,15 @@ FoundNotPackage:
         S = S & "           <td><b><font size=-2>Zip</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C2.City2) & "</td>" & vbCrLf
-        'S = S & "           <td>" & HTMLBS(C2.Zip2) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C2.City2) & "</td>" & vbCrLf
+        S = S & "           <td>" & HTMLBS(C2.Zip2) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr>" & vbCrLf
         S = S & "           <td colspan=2><b><font size=-2>Telephone 3</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td colspan=2>" & HTMLBS(DressAni(C.Tele)) & "</td>" & vbCrLf
+        S = S & "           <td colspan=2>" & HTMLBS(DressAni(C.Tele)) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "         <tr><td colspan=2></td></tr>" & vbCrLf
@@ -385,7 +390,7 @@ FoundNotPackage:
         S = S & "           <td colspan=2><b><font size=-2>Sales Staff</font></b></td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
         S = S & "         <tr>" & vbCrLf
-        'S = S & "           <td colspan=2>" & HTMLBS(TranslateSalesmen(G.Salesman)) & "</td>" & vbCrLf
+        S = S & "           <td colspan=2>" & HTMLBS(TranslateSalesmen(G.Salesman)) & "</td>" & vbCrLf
         S = S & "         </tr>" & vbCrLf
 
         S = S & "       </table>" & vbCrLf
@@ -421,25 +426,31 @@ FoundNotPackage:
         S = S & "    </tr>" & vbCrLf
         S = S & "   </thead>" & vbCrLf
         S = S & "   <tbody>" & vbCrLf
+        Dim LoopNext As Boolean
         Do ' we already did the first records_available above to get mailindex
+            If LoopNext = True Then
+                G.cDataAccess_GetRecordSet(G.DataAccess.RS)
+            End If
             S = S & "    <tr bgcolor=" & IIf(Alt, "#FFDDAA", "#FFFFFF") & ">" & vbCrLf
             Alt = Not Alt
             If CustomerCopy Then
                 S = S & "      <td>&nbsp;</td>" & vbCrLf
                 S = S & "      <td>&nbsp;</td>" & vbCrLf
             Else
-                'S = S & "      <td>" & HTMLBS(G.Style) & "</td>" & vbCrLf
-                'S = S & "      <td>" & HTMLBS(G.Vendor) & "</td>" & vbCrLf
+                S = S & "      <td>" & HTMLBS(G.Style) & "</td>" & vbCrLf
+                S = S & "      <td>" & HTMLBS(G.Vendor) & "</td>" & vbCrLf
             End If
             N = Val(G.Location)
             S = S & "      <td>" & IIf(N = 0, "&nbsp;", N) & "</td>" & vbCrLf
-            'S = S & "      <td>" & HTMLBS(G.Status) & "</td>" & vbCrLf
+            S = S & "      <td>" & HTMLBS(G.Status) & "</td>" & vbCrLf
             N = Val(G.Quantity)
             S = S & "      <td>" & IIf(N = 0, "&nbsp;", N) & "</td>" & vbCrLf
-            'S = S & "      <td>" & HTMLBS(G.Desc) & "</td>" & vbCrLf
+            S = S & "      <td>" & HTMLBS(G.Desc) & "</td>" & vbCrLf
             P = GetPrice(G.SellPrice)
             S = S & "      <td align=right>" & IIf(P = 0, "&nbsp;", CurrencyFormat(P)) & "</td>" & vbCrLf
             S = S & "    </tr>" & vbCrLf
+
+            LoopNext = True
         Loop While G.DataAccess.Records_Available
         S = S & "    <tr bgcolor=#DDDDDD>" & vbCrLf
         S = S & "      <td colspan=6 align=right><b>Balance Due:</b></nbsp>" & vbCrLf
@@ -452,13 +463,13 @@ FoundNotPackage:
         S = S & "  <table width='100%' align=top bgcolor=#AA0000 border=0 cellpadding=0 cellspacing=1><tr><td>" & vbCrLf
         S = S & "   <table width='100%' height='100%' bgcolor=#FFFFFF border=0 cellpadding=0 cellspacing=0>" & vbCrLf
         S = S & "     <tr><td>" & vbCrLf
-        '      MainMenu.rtb.LoadFile CustomerTermsMessageFile
-        'Terms = MainMenu.rtb.Text
-        '      MainMenu.rtb.Text = ""
+        MainMenu.rtb.LoadFile(CustomerTermsMessageFile)
+        Terms = MainMenu.rtb.Text
+        MainMenu.rtb.Text = ""
         Terms = Replace(Terms, vbCr, "<br>")
         Terms = Replace(Terms, vbLf, "")
 
-        'S = S & HTMLBS(Terms) & vbCrLf
+        S = S & HTMLBS(Terms) & vbCrLf
         S = S & "     </td></tr>" & vbCrLf
         S = S & "   </table>" & vbCrLf
         S = S & "  </td></tr></table>" & vbCrLf
@@ -473,5 +484,9 @@ FoundNotPackage:
         SaleToHTML = S
 
         DisposeDA(H, G, C)
+    End Function
+
+    Private Function HTMLBS(ByVal S As String) As String
+        HTMLBS = IIf(Trim(S) = "", "&nbsp;", S)
     End Function
 End Module

@@ -1,22 +1,22 @@
 ﻿Public Class clsServicePartsOrder
-    Public ServicePartsOrderNo As Long
-    Public Store As Long
-    Public MarginLine As Long
+    Public ServicePartsOrderNo As Integer
+    Public Store As Integer
+    Public MarginLine As Integer
     Public Style As String
     Public Desc As String
     Public Vendor As String
     Public VendorAddress As String
     Public VendorCity As String ' city/state/zip..
     Public VendorTele As String
-    Public ServiceOrderNo As Long
+    Public ServiceOrderNo As Integer
     Public DateOfClaim As Date
     Public Status As String
     Public Notes As String
 
-    Public ChargeBackType As Long
+    Public ChargeBackType As Integer
     Public ChargeBackAmount As Decimal
 
-    Public NoteID As Long
+    Public NoteID As Integer
 
     Public InvoiceNo As String
     Public InvoiceDate As String
@@ -66,5 +66,4 @@
         ' Move to the first record if we can, and return success.
         If DataAccess.Records_Available Then Load = True
     End Function
-
 End Class

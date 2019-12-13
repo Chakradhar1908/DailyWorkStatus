@@ -3,7 +3,7 @@ Module modQuickBooks_Comunication
     Private mMsReq As QBFC5Lib.IMsgSetRequest
     Private mQBSM As QBFC5Lib.QBSessionManager
     Private mMsRsp As QBFC5Lib.IMsgSetResponse
-    Public Function QB5_VendorQuery_Vendor(ByRef Vendor As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As QBFC5Lib.IVendorRet
+    Public Function QB5_VendorQuery_Vendor(ByRef Vendor As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As QBFC5Lib.IVendorRet
         Dim VQ As QBFC5Lib.IVendorQuery
         '  qbsm5_reset ' BFH20091021 - REMOVED
 
@@ -34,8 +34,8 @@ Module modQuickBooks_Comunication
         End Get
     End Property
 
-    Public Function QB5_SendRequestsGetRet(Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
-        Dim RL As Object, En As Long, ES As String
+    Public Function QB5_SendRequestsGetRet(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
+        Dim RL As Object, En As Integer, ES As String
         If QB_SendRequests(ES, En) Then
             RET = StatusCode
             RetMsg = StatusMsg
@@ -63,7 +63,7 @@ Module modQuickBooks_Comunication
         QBSM5_Reset()
     End Function
 
-    Public Function QB5_SendRequests(Optional ByRef ErrString As String = "", Optional ByRef ErrNo As Long = 0, Optional ByRef OnErr As ENRqOnError = ENRqOnError.roeContinue) As Boolean
+    Public Function QB5_SendRequests(Optional ByRef ErrString As String = "", Optional ByRef ErrNo As Integer = 0, Optional ByRef OnErr As ENRqOnError = ENRqOnError.roeContinue) As Boolean
         On Error GoTo NoComm
         If Not QB5Startup(ErrNo, ErrString) Then Exit Function
         MsReq5.Attributes.OnError = OnErr
@@ -80,7 +80,7 @@ NoComm:
         QBShutdown()
     End Function
 
-    Private ReadOnly Property StatusCode() As Long
+    Private ReadOnly Property StatusCode() As Integer
         Get
             On Error Resume Next
             StatusCode = Resp.StatusCode
@@ -118,7 +118,7 @@ NoComm:
         mMsRsp = Nothing
     End Sub
 
-    Public Function QB5Startup(Optional ByRef RET As Long = 0, Optional ByRef Msg As String = "") As Boolean
+    Public Function QB5Startup(Optional ByRef RET As Integer = 0, Optional ByRef Msg As String = "") As Boolean
         Dim P As frmProgress
         Dim E As String
         On Error GoTo NoComm
@@ -148,7 +148,7 @@ NoComm:
         RET = Err.Number
         Msg = Err.Description
         Err.Clear()
-        QB5Shutdown
+        QB5Shutdown()
         QB5Startup = False
         If Not P Is Nothing Then P.ProgressClose()
         P = Nothing
@@ -172,7 +172,7 @@ NoComm:
         End Set
     End Property
 
-    Private ReadOnly Property Response(Index As Long) As QBFC5Lib.IResponse
+    Private ReadOnly Property Response(Index As Integer) As QBFC5Lib.IResponse
         Get
             On Error Resume Next
             Response = responseList5.GetAt(Index)
@@ -187,38 +187,38 @@ NoComm:
         End Get
     End Property
 
-    Public Function QB5_ClassQuery_Class(ByRef ClassName As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
+    Public Function QB5_ClassQuery_Class(ByRef ClassName As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
         Dim Q As QBFC5Lib.IClassQuery
         QBSM5_Reset()
 
         On Error Resume Next
-  Set Q = MsReq5.AppendClassQueryRq
-  Q.ORListQuery.FullNameList.Add ClassName
-  Set Q = Nothing
-  
-  Set QB5_ClassQuery_Class = Nothing
-  Set QB5_ClassQuery_Class = QB5_SendRequestsGetRet(RET, RetMsg)
-End Function
+        Q = MsReq5.AppendClassQueryRq
+        Q.ORListQuery.FullNameList.Add(ClassName)
+        Q = Nothing
 
-    Public Function QB5_CustomerQuery_Name(ByRef Name As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String) As QBFC5Lib.ICustomerRet
+        QB5_ClassQuery_Class = Nothing
+        QB5_ClassQuery_Class = QB5_SendRequestsGetRet(RET, RetMsg)
+    End Function
+
+    Public Function QB5_CustomerQuery_Name(ByRef Name As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As QBFC5Lib.ICustomerRet
         On Error Resume Next
         Dim Q As QBFC5Lib.ICustomerQuery
         QBSM5_Reset()
-          Set Q = MsReq5.AppendCustomerQueryRq
-  Q.ORCustomerListQuery.FullNameList.Add Name
-  Set Q = Nothing
+        Q = MsReq5.AppendCustomerQueryRq
+        Q.ORCustomerListQuery.FullNameList.Add(Name)
+        Q = Nothing
 
-  Set QB5_CustomerQuery_Name = QB5_SendRequestsGetRet(RET, RetMsg)
-End Function
+        QB5_CustomerQuery_Name = QB5_SendRequestsGetRet(RET, RetMsg)
+    End Function
 
-    Public Function QB5_AccountQuery_All(Optional ByRef RET As Long, Optional ByRef RetMsg As String) As Object
+    Public Function QB5_AccountQuery_All(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
         On Error Resume Next
         QBSM5_Reset()
         MsReq5.AppendAccountQueryRq() ' nothing to set
         QB5_AccountQuery_All = QB5_SendRequestsGetRetList(RET, RetMsg)
     End Function
 
-    Public Function QB5_VendorQuery_All(Optional ByRef RET As Long) As Object
+    Public Function QB5_VendorQuery_All(Optional ByRef RET As Integer = 0) As Object
         Dim ES As String
         On Error Resume Next
         QBSM5_Reset()
@@ -226,19 +226,46 @@ End Function
         QB5_VendorQuery_All = QB5_SendRequestsGetRetList(RET, ES)
     End Function
 
-    Public Function QB5ObjectsExist(Optional ByRef Msg As String) As Boolean
+    Public Function QB5_SendRequestsGetRetList(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
+        Dim RL As Object, T() As Object
+        Dim N As Integer, En As Integer, ES As String
+        If QB5_SendRequests(ES, En) Then
+            RET = StatusCode
+            RetMsg = StatusMsg
+            If RET = 0 Then
+                If (Not Resp.Detail Is Nothing) Then
+                    RL = Resp.Detail
+                    ReDim T(RL.Count - 1)
+                    For N = 0 To RL.Count - 1
+                        T(N) = RL.GetAt(N)
+                    Next
+                End If
+            End If
+        Else
+            RetMsg = ES
+            If En = -2147220458 Then
+                RET = -2
+            Else
+                RET = -1
+            End If
+        End If
+        QB5_SendRequestsGetRetList = T
+        QBSM5_Reset()
+    End Function
+
+    Public Function QB5ObjectsExist(Optional ByRef Msg As String = "") As Boolean
         Dim X As Object, Y As Object
         On Error GoTo FailPoint
         Msg = "Could not create session manager (QBFC5)"
-  Set X = New qbfc5lib.QBSessionManager
-  Msg = "Could not create MsgSetRequest (QBFC5)"
-  Set Y = X.CreateMsgSetRequest(QB_Country, QB_XML_MajorVer, QB_XML_MinorVer)
-  Msg = ""
+        X = New QBFC5Lib.QBSessionManager
+        Msg = "Could not create MsgSetRequest (QBFC5)"
+        Y = X.CreateMsgSetRequest(QB_Country, QB_XML_MajorVer, QB_XML_MinorVer)
+        Msg = ""
         QB5ObjectsExist = True
 FailPoint:
         If Msg <> "" Then Msg = Msg & ": " & Err.Description
-  Set Y = Nothing
-  Set X = Nothing
-End Function
+        Y = Nothing
+        X = Nothing
+    End Function
 
 End Module

@@ -76,7 +76,7 @@
     'Private Sub prg_Click()
     '    PreventLockOn = Not PreventLockOn
     '    SetAlwaysOnTop(Me, False)
-    End Sub
+    'End Sub
     Public Value As Integer, MaxVal As Integer
     Public Caption As String
 

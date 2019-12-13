@@ -1,16 +1,16 @@
 ﻿Module modMetaphone
-    Public Function Metaphone(ByVal strInput As Variant) As String
+    Public Function Metaphone(ByVal strInput As Object) As String
         Dim B As String, C As String, D As String, E As String
         Dim Inp, OutP As String
         Dim Vowels As String, FrontV As String, Varson As String, Dbl As String
         Dim ExcPPair As String, NxtLtr As String
-        Dim T As Long, II As Long, JJ As Long, Lng As Long, Lastchr As Long
+        Dim T As Integer, II As Integer, JJ As Integer, Lng As Integer, Lastchr As Integer
         Dim CurLtr, PrevLtr, NextLtr, NextLtr2, NextLtr3 As String
-        Dim VowelAfter, VowelBefore, FrontVAfter, Silent, Hard As Long
+        Dim VowelAfter, VowelBefore, FrontVAfter, Silent, Hard As Integer
         Dim AlphaChr As String
 
         On Error Resume Next
-        If IsNull(strInput) Then strInput = ""
+        If IsNothing(strInput) Then strInput = ""
         Inp = CStr(UCase(strInput))
 
         Vowels = "AEIOU"
@@ -68,8 +68,6 @@
 
                 OutP = OutP + CurLtr
                 GoTo ContinueMainLoop
-
-
             End If
 
             VowelAfter = False
@@ -217,7 +215,22 @@ ContinueMainLoop:
         Loop Until (II > Len(Inp))
 
         Metaphone = OutP
-
     End Function
 
+    Private Function InStrC(ByVal SearchIn As String, ByVal SoughtCharacters As String) As Integer
+        '--- Returns the position of the first character in SearchIn that is contained
+        '--- in the string SoughtCharacters. Returns 0 if none found.
+        Dim I As Integer
+
+        On Error Resume Next
+        SoughtCharacters = UCase(SoughtCharacters)
+        SearchIn = UCase(SearchIn)
+        For I = 1 To Len(SearchIn)
+            If InStr(SoughtCharacters, Mid(SearchIn, I, 1)) > 0 Then
+                InStrC = I
+                Exit Function
+            End If
+        Next
+        InStrC = 0
+    End Function
 End Module

@@ -72,7 +72,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const FONTTTF_C39_SMALL_MEDIUM As String = "C39SMED.TTF"
     Public Const FONTTTF_C39_SMALL_LOW As String = "C39SLOW.TTF"
     Public Const FONTTTF_C128_REGULAR As String = "CODE128.TTF"
-    Public URLTryAlt As Long
+    Public URLTryAlt As Integer
     Public Const CompanyURL2 As String = "http://" & CompanyURL_BARE2 & "/"
     Public Const CompanyURL_BARE2 As String = "www.wincds.net"
     Public Const ProgramShort As String = ProgramName & " POS for Furniture Stores"

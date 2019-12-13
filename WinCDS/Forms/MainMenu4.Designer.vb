@@ -36,6 +36,7 @@ Partial Class MainMenu4
         Me.imlSmallButtons = New System.Windows.Forms.ImageList(Me.components)
         Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
         Me.imgPicture = New System.Windows.Forms.PictureBox()
+        Me.rtb = New System.Windows.Forms.RichTextBox()
         CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -165,11 +166,20 @@ Partial Class MainMenu4
         Me.imgPicture.TabIndex = 8
         Me.imgPicture.TabStop = False
         '
+        'rtb
+        '
+        Me.rtb.Location = New System.Drawing.Point(595, 323)
+        Me.rtb.Name = "rtb"
+        Me.rtb.Size = New System.Drawing.Size(100, 96)
+        Me.rtb.TabIndex = 9
+        Me.rtb.Text = ""
+        '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.rtb)
         Me.Controls.Add(Me.imgPicture)
         Me.Controls.Add(Me.datPicture)
         Me.Controls.Add(Me.Button1)
@@ -200,4 +210,5 @@ Partial Class MainMenu4
     Friend WithEvents imlSmallButtons As ImageList
     Friend WithEvents datPicture As Compatibility.VB6.ADODC
     Friend WithEvents imgPicture As PictureBox
+    Friend WithEvents rtb As RichTextBox
 End Class

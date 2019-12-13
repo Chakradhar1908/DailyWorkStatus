@@ -673,7 +673,7 @@ Finish:
         If Data Then AccountingFolder = AccountingFolder & "Data\"
     End Function
 
-    Public Function GetDatabaseAP(Optional ByVal Location As Long = 1) As String
+    Public Function GetDatabaseAP(Optional ByVal Location as integer = 1) As String
         GetDatabaseAP = APFolder(True) & "L" & Location & "-AP.MDB"
     End Function
 End Module

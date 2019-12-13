@@ -4,8 +4,8 @@ Module modQuickBooks_CommQBFC13
     Private mQBSM13 As QBFC13Lib.QBSessionManager
     Private mMsReq13 As QBFC13Lib.IMsgSetRequest
     Private mMsRsp13 As QBFC13Lib.IMsgSetResponse
-    Private mQBActiveStore As Long, mQBAS_JustSet As Boolean
-    Public Function QB13_VendorQuery_Vendor(ByRef Vendor As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As QBFC13Lib.IVendorRet
+    Private mQBActiveStore As Integer, mQBAS_JustSet As Boolean
+    Public Function QB13_VendorQuery_Vendor(ByRef Vendor As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As QBFC13Lib.IVendorRet
         Dim VQ As QBFC13Lib.IVendorQuery
 
         On Error Resume Next
@@ -18,7 +18,7 @@ Module modQuickBooks_CommQBFC13
         Exit Function
     End Function
 
-    Public Function QB13_ClassQuery_Class(ByRef ClassName As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
+    Public Function QB13_ClassQuery_Class(ByRef ClassName As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
         Dim Q As QBFC13Lib.IClassQuery
         QBSM13_Reset()
 
@@ -31,7 +31,7 @@ Module modQuickBooks_CommQBFC13
         QB13_ClassQuery_Class = QB13_SendRequestsGetRet(RET, RetMsg)
     End Function
 
-    Public Function QB13_CustomerQuery_Name(ByRef Name As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As QBFC13Lib.ICustomerRet
+    Public Function QB13_CustomerQuery_Name(ByRef Name As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As QBFC13Lib.ICustomerRet
         On Error Resume Next
         Dim Q As QBFC13Lib.ICustomerQuery
         QBSM13_Reset()
@@ -43,14 +43,14 @@ Module modQuickBooks_CommQBFC13
         QB13_CustomerQuery_Name = QB13_SendRequestsGetRet(RET, RetMsg)
     End Function
 
-    Public Function QB13_AccountQuery_All(Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
+    Public Function QB13_AccountQuery_All(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
         On Error Resume Next
         QBSM13_Reset()
         MSREQ13.AppendAccountQueryRq() ' nothing to set
         QB13_AccountQuery_All = QB13_SendRequestsGetRetList(RET, RetMsg)
     End Function
 
-    Public Function QB13_VendorQuery_All(Optional ByRef RET As Long = 0) As Object
+    Public Function QB13_VendorQuery_All(Optional ByRef RET As Integer = 0) As Object
         Dim ES As String
         On Error Resume Next
         QBSM13_Reset()
@@ -74,7 +74,7 @@ FailPoint:
         X = Nothing
     End Function
 
-    Public Function QB13_SendRequests(Optional ByRef ErrString As String = "", Optional ByRef ErrNo As Long = 0, Optional ByRef OnErr As ENRqOnError = ENRqOnError.roeContinue) As Boolean
+    Public Function QB13_SendRequests(Optional ByRef ErrString As String = "", Optional ByRef ErrNo As Integer = 0, Optional ByRef OnErr As QBFC10Lib.ENRqOnError = QBFC10Lib.ENRqOnError.roeContinue) As Boolean
         On Error GoTo NoComm
         If Not QB13Startup(ErrNo, ErrString) Then Exit Function
         MSREQ13.Attributes.OnError = OnErr
@@ -107,8 +107,8 @@ NoComm:
         End Get
     End Property
 
-    Public Function QB13_SendRequestsGetRet(Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
-        Dim RL As Object, En As Long, ES As String
+    Public Function QB13_SendRequestsGetRet(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
+        Dim RL As Object, En As Integer, ES As String
         If QB13_SendRequests(ES, En) Then
             RET = StatusCode
             RetMsg = StatusMsg
@@ -145,7 +145,7 @@ NoComm:
             QBActiveStore = 0
         End If
 
-        MsReq13_Reset
+        MsReq13_Reset()
     End Sub
 
     Public Sub MsReq13_Reset()
@@ -153,8 +153,8 @@ NoComm:
         mMsRsp13 = Nothing
     End Sub
 
-    Public Function QB13_SendRequestsGetRetList(Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
-        Dim RL As Object, T() As Object, N As Long, En As Long, ES As String
+    Public Function QB13_SendRequestsGetRetList(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
+        Dim RL As Object, T() As Object, N As Integer, En As Integer, ES As String
         If QB_SendRequests(ES, En) Then
             RET = StatusCode
             RetMsg = StatusMsg
@@ -179,7 +179,7 @@ NoComm:
         QBSM13_Reset()
     End Function
 
-    Public Function QB13Startup(Optional ByRef RET As Long = 0, Optional ByRef Msg As String = "") As Boolean
+    Public Function QB13Startup(Optional ByRef RET As Integer = 0, Optional ByRef Msg As String = "") As Boolean
         Dim P As frmProgress
         Dim E As String
         On Error GoTo NoComm
@@ -235,7 +235,7 @@ NoComm:
         End Get
     End Property
 
-    Private ReadOnly Property StatusCode() As Long
+    Private ReadOnly Property StatusCode() As Integer
         Get
             On Error Resume Next
             StatusCode = Resp.StatusCode
@@ -253,6 +253,21 @@ NoComm:
         Get
             On Error Resume Next
             Resp = Response(0)
+        End Get
+    End Property
+
+    Private ReadOnly Property Response(Index As Integer) As QBFC13Lib.IResponse
+        Get
+            On Error Resume Next
+            Response = ResponseList13.GetAt(Index)
+        End Get
+    End Property
+
+    Public ReadOnly Property ResponseList13() As QBFC13Lib.IResponseList
+        Get
+            If Not MSRSP13 Is Nothing Then
+                ResponseList13 = MSRSP13.ResponseList
+            End If
         End Get
     End Property
 

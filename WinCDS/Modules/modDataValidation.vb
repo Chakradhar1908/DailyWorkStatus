@@ -396,5 +396,4 @@ AnError:
         End If
         PhoneAndFax = Trim(Phone & IIf(Len(Fax) > 0, "  FAX: " & Fax, ""))
     End Function
-
 End Module

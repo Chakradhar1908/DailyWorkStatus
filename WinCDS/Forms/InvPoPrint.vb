@@ -4,9 +4,9 @@ Imports VBRUN
 Public Class InvPoPrint
     Public DebugPrintPO As String
 
-    Dim LastPO As Long
+    Dim LastPO As Integer
 
-    Dim StoreLoc As Long
+    Dim StoreLoc As Integer
     Public StoreName As String
     Public StoreAddress As String
     Public StoreCity As String
@@ -18,7 +18,7 @@ Public Class InvPoPrint
 
     Dim ShowCost As Boolean
     Dim PrintedCost As Decimal, TotCost As Decimal, Cost As Decimal
-    Dim Counter As Long, II As Long, I As Long, Y As Long, YY As Long ' Counters, Fax position, etc...
+    Dim Counter As Integer, II As Integer, I As Integer, Y As Integer, YY As Integer ' Counters, Fax position, etc...
     Dim TotCubes As Double
 
     Dim TName As String             ' Fax vendor name+address.. tricky to eliminate.
@@ -39,7 +39,7 @@ Public Class InvPoPrint
         Dim Bold As Integer
         Dim Italic As Integer
         Dim Underline As Integer
-        Dim Color As Long
+        Dim Color As Integer
     End Structure
 
     Private Structure TextObj
@@ -49,7 +49,7 @@ Public Class InvPoPrint
         Dim Y1 As Integer
         Dim X2 As Integer
         Dim Y2 As Integer
-        Dim Color As Long
+        Dim Color As Integer
         Dim Flags As Integer
     End Structure
 
@@ -62,7 +62,7 @@ Public Class InvPoPrint
         Dim Y2 As Integer
         Dim Width As Integer
         Dim Style As Integer
-        Dim Color As Long
+        Dim Color As Integer
     End Structure
 
     Public Sub ReprintPO(ByVal FromPO As String, ByVal ToPO As String, Optional ByVal PrintReport As Boolean = False, Optional ByVal OnlyUnprinted As Boolean = False)
@@ -94,7 +94,7 @@ SkipIt:
 
     Private Sub PrintPo(ByRef PO As cPODetail)
         Dim PrintWithCost As Boolean
-        Dim Fax As Boolean, FH As Long, FFile As String         ' for faxes..
+        Dim Fax As Boolean, FH As Integer, FFile As String         ' for faxes..
         Dim Email As Boolean, Mail As String                    ' for emails..
         On Error GoTo HandleErr
         DebugPrintPO = "InvPrintPO.PrintPo-1"
@@ -354,7 +354,7 @@ HandleErr:
 
     Private Sub EmailLineItems(ByRef PO As cPODetail, ByVal PrintWithCost As Boolean, ByRef M As String)
         Dim N As String
-        Dim tD As String, FS As Long, FSS As String
+        Dim tD As String, FS As Integer, FSS As String
         FS = 11
         FSS = "font-size:" & FS & ";"
         If Not REPRINT And PO.PrintPo = "v" Then Exit Sub
@@ -372,9 +372,9 @@ HandleErr:
         R.Load(PO.Style, "Style")
         TotCubes = TotCubes + (R.Cubes * PO.Quantity)
         M = M & N & "<td><span class='LICUBE' style='text-align:left;" & FSS & "'>" & CurrencyFormat(R.Cubes * PO.Quantity) & "</span>"
-        DisposeDA R
+        DisposeDA(R)
 
-  tD = PO.Desc
+        tD = PO.Desc
         If PO.PrintPo = "v" Then tD = "   <b><s>VOID VOID VOID</s></b>"
 
         M = M & N & "<td><span class='LIDESC' style='text-align:left;" & FSS & "'>" & tD & "</span>"
@@ -503,7 +503,7 @@ HandleErr:
             '        OutputObject.CurrentY = 3300
             '      End If
             '
-            '      Dim TStr As String, TStrs() As String, TI As Long
+            '      Dim TStr As String, TStrs() As String, TI as integer
             '      OutputObject.CurrentX = 7500
             '      If isparkplace Then
             '        TStr = "If order is less than 90 lbs., HOLD and SHIP with other goods."
@@ -640,7 +640,7 @@ HandleErr:
                 PrintTo(OutputObject, PO.Style, 12, AlignConstants.vbAlignLeft, False)
             End If
 
-            PrintTo(OutputObject, Left(PO.Desc, 38), 42, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Microsoft.VisualBasic.Left(PO.Desc, 38), 42, AlignConstants.vbAlignLeft, False)
 
             DebugPrintPO = "InvRec Load"
             Dim R As CInvRec
@@ -765,7 +765,7 @@ HandleErr:
             OutputObject.Print("SPECIAL:")
             OutputObject.FontSize = 12
 
-            Dim SpInstLines() As String, Sp As String, I As Long
+            Dim SpInstLines() As String, Sp As String, I As Integer
             Sp = PO.SpecialNote
             Sp = WrapLongTextByPrintWidth(OutputObject, Sp, OutputObject.ScaleWidth, vbCrLf)
             SpInstLines = Split(Sp, vbCrLf)
@@ -803,7 +803,7 @@ HandleErr:
         tPhone = ""
         tFax = ""
 
-        If UseQB Then
+        If UseQB() Then
             QBGetVendorName(Vendor, TName, tAddress, tAddress2, tAddress3, tZip, tPhone, tFax)
         Else
             GetVendorName(Vendor, TName, tAddress, tAddress2, tAddress3, tZip, tPhone, tFax)
@@ -852,9 +852,9 @@ HandleErr:
         End Select
     End Sub
 
-    Private Function PrintSpecInstr(ByRef Line As Long, ByRef OnOff As Boolean, Optional ByRef Alt As String = "") As Long
-        Dim Y As Long
-        Dim tStr As String, TStrs As Object, TI As Long
+    Private Function PrintSpecInstr(ByRef Line As Integer, ByRef OnOff As Boolean, Optional ByRef Alt As String = "") As Integer
+        Dim Y As Integer
+        Dim tStr As String, TStrs As Object, TI As Integer
 
         Y = OutputObject.CurrentY
 

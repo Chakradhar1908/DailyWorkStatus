@@ -77,9 +77,9 @@ Public Class frmPrintPreviewDocument
         ElseIf picPicture.Location.Y = 0 And PageNumber > 1 Then 'Page is blank
             'Unload picPicture(PageNumber)
             PageNumber = PageNumber - 1
-                TotalPages = TotalPages - 1
-            Else 'Page is not blank, so save first
-                PrintPageOverflowIndicator()  ' draws nice dotted lines at the page size so we know if it would overflow
+            TotalPages = TotalPages - 1
+        Else 'Page is not blank, so save first
+            PrintPageOverflowIndicator()  ' draws nice dotted lines at the page size so we know if it would overflow
             SavePage(PageNumber)
             'MousePointer = 0
             Me.Cursor = Cursors.Default
@@ -104,7 +104,7 @@ ErrorHandler:
         Debug.Assert(False) 'Pause only if in debug mode
     End Sub
 
-    Private Function LoadPage(Optional ByVal N As Long = 0) As Boolean
+    Private Function LoadPage(Optional ByVal N As Integer = 0) As Boolean
         On Error GoTo LoadFailed
         If N = 0 Then N = CurrentPage
         'picPicture.Cls
@@ -122,5 +122,4 @@ LoadFailed:
                 MessageBox.Show("Error loading Print Preview Page." & vbCrLf & PageFile(N))
         End Select
     End Function
-
 End Class

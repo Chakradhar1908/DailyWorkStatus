@@ -1,11 +1,10 @@
 ﻿Imports QBFC10Lib
-
 Module modQuickBooks_CommBase
-    Public mQBActiveStore As Long, mQBAS_JustSet As Boolean
+    Public mQBActiveStore As Integer, mQBAS_JustSet As Boolean
     Public QBConnOpen As Boolean, QBSessOpen As Boolean
-    Private mQBFCVer As Long
-    Private Const QBFCVerDefault As Long = 6
-    Public Function QB_VendorQuery_Vendor(ByVal Vendor As String, Optional ByRef RET As Long = 0, Optional ByRef RetMsg As String = "") As Object
+    Private mQBFCVer As Integer
+    Private Const QBFCVerDefault As Integer = 6
+    Public Function QB_VendorQuery_Vendor(ByVal Vendor As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
         Select Case QBFCVersion
             Case 5 : QB_VendorQuery_Vendor = QB5_VendorQuery_Vendor(Vendor, RET, RetMsg)
             Case 6 : QB_VendorQuery_Vendor = QB6_VendorQuery_Vendor(Vendor, RET, RetMsg)
@@ -24,7 +23,7 @@ Module modQuickBooks_CommBase
         IfNNGetValue = Field.GetValue
     End Function
 
-    Public ReadOnly Property QB_File(Optional ByVal StoreNo As Long = 0) As String
+    Public ReadOnly Property QB_File(Optional ByVal StoreNo As Integer = 0) As String
         Get
             If StoreNo = 0 Then StoreNo = QBActiveStore
             QB_File = GetQBSetupValue("file", StoreNo)
@@ -36,7 +35,7 @@ Module modQuickBooks_CommBase
     End Function
 
     Public Function QB_ClassExists(ByVal ClassID As String) As Boolean
-        Dim RET As Long, RetMsg As String
+        Dim RET As Integer, RetMsg As String
         On Error GoTo Failed
         Select Case QBFCVersion
             Case 5
@@ -77,7 +76,7 @@ Failed:
     End Function
 
     Public Function QB_CustomerExistsByName(ByVal CustomerName As String) As Boolean
-        Dim RET As Long, RetMsg As String
+        Dim RET As Integer, RetMsg As String
         On Error GoTo Failed
         Select Case QBFCVersion
             Case 5
@@ -119,18 +118,18 @@ Failed:
 
     Public Function QB_AccountQuery_All() As Object
         Select Case QBFCVersion
-            Case 5 : QB_AccountQuery_All = QB5_AccountQuery_All
-            Case 6 : QB_AccountQuery_All = QB6_AccountQuery_All
-            Case 7 : QB_AccountQuery_All = QB7_AccountQuery_All
-            Case 8 : QB_AccountQuery_All = QB8_AccountQuery_All
-            Case 10 : QB_AccountQuery_All = QB10_AccountQuery_All
-            Case 11 : QB_AccountQuery_All = QB11_AccountQuery_All
-            Case 12 : QB_AccountQuery_All = QB12_AccountQuery_All
-            Case 13 : QB_AccountQuery_All = QB13_AccountQuery_All
+            Case 5 : QB_AccountQuery_All = QB5_AccountQuery_All()
+            Case 6 : QB_AccountQuery_All = QB6_AccountQuery_All()
+            Case 7 : QB_AccountQuery_All = QB7_AccountQuery_All()
+            Case 8 : QB_AccountQuery_All = QB8_AccountQuery_All()
+            Case 10 : QB_AccountQuery_All = QB10_AccountQuery_All()
+            Case 11 : QB_AccountQuery_All = QB11_AccountQuery_All()
+            Case 12 : QB_AccountQuery_All = QB12_AccountQuery_All()
+            Case 13 : QB_AccountQuery_All = QB13_AccountQuery_All()
         End Select
     End Function
 
-    Public Function QB_VendorQuery_All(Optional ByRef RET As Long = 0) As Object
+    Public Function QB_VendorQuery_All(Optional ByRef RET As Integer = 0) As Object
         Select Case QBFCVersion
             Case 5 : QB_VendorQuery_All = QB5_VendorQuery_All(RET)
             Case 6 : QB_VendorQuery_All = QB6_VendorQuery_All(RET)
@@ -143,14 +142,14 @@ Failed:
         End Select
     End Function
 
-    Public Property QBFCVersion() As Long
+    Public Property QBFCVersion() As Integer
         Get
             If mQBFCVer <> 0 Then QBFCVersion = mQBFCVer
             QBFCVersion = GetQBSetupValue("qbfcver")
             If Not QBFCVersionSupported(QBFCVersion) Then QBFCVersion = QBFCVerDefault
             mQBFCVer = QBFCVersion
         End Get
-        Set(value As Long)
+        Set(value As Integer)
             QBShutdown()
             If value = 0 Then Exit Property
             If value < 0 Then value = QBFCVersionSuggestion
@@ -160,32 +159,32 @@ Failed:
         End Set
     End Property
 
-    Private ReadOnly Property QBFCVersionSuggestion() As Long
+    Private ReadOnly Property QBFCVersionSuggestion() As Integer
         Get
-            If QB13ObjectsExist Then QBFCVersionSuggestion = 13 : Exit Property
-            If QB12ObjectsExist Then QBFCVersionSuggestion = 12 : Exit Property
-            If QB11ObjectsExist Then QBFCVersionSuggestion = 11 : Exit Property
-            If QB10ObjectsExist Then QBFCVersionSuggestion = 10 : Exit Property
-            If QB8ObjectsExist Then QBFCVersionSuggestion = 8 : Exit Property
-            If QB7ObjectsExist Then QBFCVersionSuggestion = 7 : Exit Property
-            If QB6ObjectsExist Then QBFCVersionSuggestion = 6 : Exit Property
+            If QB13ObjectsExist() Then QBFCVersionSuggestion = 13 : Exit Property
+            If QB12ObjectsExist() Then QBFCVersionSuggestion = 12 : Exit Property
+            If QB11ObjectsExist() Then QBFCVersionSuggestion = 11 : Exit Property
+            If QB10ObjectsExist() Then QBFCVersionSuggestion = 10 : Exit Property
+            If QB8ObjectsExist() Then QBFCVersionSuggestion = 8 : Exit Property
+            If QB7ObjectsExist() Then QBFCVersionSuggestion = 7 : Exit Property
+            If QB6ObjectsExist() Then QBFCVersionSuggestion = 6 : Exit Property
             '  If QB5ObjectsExist Then QBFCVersionSuggestion = 5: Exit Property
             QBFCVersionSuggestion = QBFCVerDefault
         End Get
     End Property
 
-    Public ReadOnly Property QBFCVersionSupported(ByVal VerNo As Long) As Boolean
+    Public ReadOnly Property QBFCVersionSupported(ByVal VerNo As Integer) As Boolean
         Get
             QBFCVersionSupported = IsIn(VerNo, 6, 7, 8, 10, 11, 12, 13)
         End Get
     End Property
 
-    Public Property QBActiveStore() As Long
+    Public Property QBActiveStore() As Integer
         Get
             QBActiveStore = mQBActiveStore
             If QBActiveStore = 0 Then QBActiveStore = StoresSld
         End Get
-        Set(value As Long)
+        Set(value As Integer)
             If value <> mQBActiveStore Then
                 QBShutdown()
             End If
@@ -195,7 +194,7 @@ Failed:
         End Set
     End Property
 
-    Public ReadOnly Property QBVersionExist(ByVal VerNo As Long, Optional FailReason As String = "") As Boolean
+    Public ReadOnly Property QBVersionExist(ByVal VerNo As Integer, Optional FailReason As String = "") As Boolean
         Get
             On Error Resume Next
             Select Case VerNo
@@ -229,7 +228,7 @@ Failed:
         End Get
     End Property
 
-    Public Function QB_SendRequests(Optional ByRef ErrString As String = "", Optional ByRef ErrNo As Long = 0, Optional ByVal OnErr As ENRqOnError = ENRqOnError.roeContinue) As Boolean
+    Public Function QB_SendRequests(Optional ByRef ErrString As String = "", Optional ByRef ErrNo As Integer = 0, Optional ByVal OnErr As ENRqOnError = ENRqOnError.roeContinue) As Boolean
         Select Case QBFCVersion
             Case 5 : QB_SendRequests = QB5_SendRequests(ErrString, ErrNo, OnErr)
             Case 6 : QB_SendRequests = QB6_SendRequests(ErrString, ErrNo, OnErr)

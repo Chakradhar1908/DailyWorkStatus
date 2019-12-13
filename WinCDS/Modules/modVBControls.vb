@@ -187,5 +187,4 @@ Fail:
         txtBox.Select
         FocusSelect = SelectContents(txtBox)
     End Function
-
 End Module
