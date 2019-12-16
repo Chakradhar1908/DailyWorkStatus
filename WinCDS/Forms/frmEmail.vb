@@ -129,6 +129,8 @@
     Public Sub EmailSale(ByVal SaleNo As String, Optional ByVal StoreNo As Integer = 0)
         Dim X As String, E As String, En As String
         Dim Cust As Boolean
+
+        frmEmail_Load(Me, New EventArgs)
         Mode = EmailMode.emSale
 
         Cust = True

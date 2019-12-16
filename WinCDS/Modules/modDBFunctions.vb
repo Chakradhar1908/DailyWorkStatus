@@ -24,7 +24,7 @@
             IfNullThenNilString = ""
         End Try
     End Function
-    Public Function IfNullThenZero(ByVal T As Object) as integer
+    Public Function IfNullThenZero(ByVal T As Object) As Integer
         '::::IfNullThenZero
         ':::SUMMARY
         ': Null Handle Number Fields

@@ -1043,7 +1043,8 @@ DoneClearing:
         Dim MfgForm As String, StyleForm As String, DescForm As String, PriceForm As String
         Dim LocForm As String, StatusForm As String, Quanform As String
         Dim C As CInvRec
-        Dim Logo As StdPicture
+        'Dim Logo As StdPicture
+        Dim Logo As Image
         Dim ML As clsMailRec, M2 As MailNew2
 
         Dim SS() As Object, Sales1 As String, Sales2 As String, Sales3 As String
@@ -1062,7 +1063,8 @@ DoneClearing:
         If Sales3 <> "" Then Sales3 = TranslateSalesman(Sales3)
         On Error GoTo 0
 
-        Logo = LoadPictureStd(StoreLogoFile(Store))
+        'Logo = LoadPictureStd(StoreLogoFile(Store))
+        Logo = Image.FromFile(StoreLogoFile(Store))
 
         ML = New clsMailRec
         ML.DataAccess.DataBase = GetDatabaseAtLocation(Store)
@@ -1086,17 +1088,18 @@ DoneClearing:
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         '   Logo (center)
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        If IsNothingOrZero(Logo) Then      ' street address
-            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Name)) / 2
-            Printer.Print(StoreSettings.Name)
-            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Address)) / 2
-            Printer.Print(StoreSettings.Address)
-            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.City)) / 2
-            Printer.Print(StoreSettings.City)
-            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Phone)) / 2
-            Printer.Print(StoreSettings.Phone)
-        Else                  ' logo
-            Printer.CurrentX = 4000
+        'If IsNothingOrZero(Logo) Then      ' street address
+        If IsNothing(Logo) Then
+                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Name)) / 2
+                Printer.Print(StoreSettings.Name)
+                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Address)) / 2
+                Printer.Print(StoreSettings.Address)
+                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.City)) / 2
+                Printer.Print(StoreSettings.City)
+                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Phone)) / 2
+                Printer.Print(StoreSettings.Phone)
+            Else                  ' logo
+                Printer.CurrentX = 4000
             '      Printer.PaintPicture Logo, Printer.Width / 2 - 5775 / 2, 150, 5775, 1525 '1995
             Dim opW As Integer, opH As Integer
             opW = Logo.Width

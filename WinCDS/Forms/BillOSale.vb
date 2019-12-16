@@ -3394,7 +3394,7 @@ NewProcessSaleError:
     End Function
 
     Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
-        Dim X As String, Xs()
+        Dim X As String, Xs() As Object
 
         Copies = 1
 
@@ -3412,7 +3412,6 @@ NewProcessSaleError:
                 ''  delivery ticket
                 'Load InvPull
                 InvPull.Show()
-
                 With InvPull
                     .Pull = 2
                     '.optPrintAll(2) = True
@@ -3424,12 +3423,10 @@ NewProcessSaleError:
                     .dteFrom.Value = DelDate
                     '.cmdPrint(0).Value = True
                     .cmdPrint.PerformClick()
-
                 End With
                 'Unload InvPull
                 InvPull.Close()
                 Exit Sub
-
             Case Else : Notes = "Current Copy"
         End Select
 

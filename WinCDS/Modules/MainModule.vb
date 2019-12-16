@@ -427,11 +427,11 @@ ServerLockedFailed:
         If FileExists(TF & ".png") Then ItemPXByRN = IIf(WithPath, TF, SF) & ".png" : Exit Function
         ItemPXByRN = IIf(WithPath, TF, SF) & ".jpg"
     End Function
+
     Public Function LoadPictureStd(ByVal FileName As String) As StdPicture
         If FileExists(FileName) Then
             If FreeImage_IsAvailable() Then
                 LoadPictureStd = LoadPictureEx(FileName)
-
             Else
                 'LoadPictureStd = LoadPicture(FileName)
                 LoadPictureStd = Image.FromFile(FileName)
@@ -610,8 +610,8 @@ TestClearFailed:
         If IsNothing(gblLastDeliveryDateEpoch) Or DateAfter(Now, DateAdd("d", 1, gblLastDeliveryDateEpoch)) Then
             SetLastDeliveryDate()
             'ElseIf CDbl(gblLastDeliveryDate) = 0 Then
-        ElseIf isnothing(gblLastDeliveryDate) Then
-            SetLastDeliveryDate
+        ElseIf IsNothing(gblLastDeliveryDate) Then
+            SetLastDeliveryDate()
         End If
         GetLastDeliveryDate = gblLastDeliveryDate
     End Function

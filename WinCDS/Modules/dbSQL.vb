@@ -279,7 +279,7 @@
         , Field As String _
         , Optional File As String = "" _
         , Optional fieldType As String = ""
-    ) as integer
+    ) As Integer
         '::::GetTableRecordMax
         ':::SUMMARY
         ': The Max used index of a table.
@@ -300,7 +300,7 @@
         , Optional ByVal functionType As String = "Max" _
         , Optional ByVal File As String = "" _
         , Optional ByVal fieldType As String = ""
-    ) as integer
+    ) As Integer
 
         '::::GetTableRecordFunction
         ':::SUMMARY

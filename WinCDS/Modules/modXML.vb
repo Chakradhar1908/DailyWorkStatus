@@ -36,4 +36,14 @@ Done:
     Public Function XMLCurrency(ByVal Curr As String) As String
         XMLCurrency = CurrencyFormat(GetPrice(Curr), , , True)
     End Function
+
+    Public Function HTTPImageType(ByVal FileName As String) As String
+        Select Case GetFileExt(FileName)
+            Case "png" : HTTPImageType = "image/png"
+            Case "bmp" : HTTPImageType = "image/bmp"
+            Case "jpg", "jpeg" : HTTPImageType = "image/jpeg"
+            Case "gif" : HTTPImageType = "image/gif"
+        End Select
+    End Function
+
 End Module

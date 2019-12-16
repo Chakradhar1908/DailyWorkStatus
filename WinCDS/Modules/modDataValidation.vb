@@ -167,7 +167,7 @@ AnError:
         CurrencyFormatString = "###,##0.00"
     End Function
 
-    Public Function IsNothingOrZero(ByVal nVal) As Boolean
+    Public Function IsNothingOrZero(ByVal nVal As Object) As Boolean
         ':::IsNothingOrZero
         ':::SUMMARY
         ':This function just checks whether the value is Nothing or Zero.
@@ -177,11 +177,26 @@ AnError:
         ':-nVal
         ':::RETURN
         ':Boolean-Indicates whether the value is true or false.
+        On Error Resume Next
         IsNothingOrZero = True
-        If IsNothing(nVal) Then Exit Function
+        If IsNothingg(nVal) Then Exit Function
         If nVal = 0 Then Exit Function
         IsNothingOrZero = False
     End Function
+
+    Public Function IsNothingg(ByRef objReference As Object) As Boolean
+        '::::IsNothing
+        ':::SUMMARY
+        ':IsNothing returns True,if the expression represents an object variable that currently has no object assigned to it; otherwise, it returns False.
+        ':::DESCRIPTION
+        ':IsNothing is intended to work on reference types. A value type cannot hold a value of and reverts to its default value if you assign Nothing to it. If you supply a value type in Expression, IsNothing always returns False.
+        ':::PARAMETERS
+        ':::RETURN
+        ':Boolean-Returns the IsNothing value  whether it is true or false.
+        'If Not IsObject(objReference) Then IsNothing = True : Exit Function
+        IsNothingg = (objReference Is Nothing)
+    End Function
+
     Public Function FormatGM(ByVal GM As Double, Optional ByVal DecimalPoints As Integer = 2) As String
         '::::FormatGM
         ':::SUMMARY

@@ -467,6 +467,12 @@
     <Compile Include="Forms\MailBook.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MailBookEmail.Designer.vb">
+      <DependentUpon>MailBookEmail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MailBookEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MailCheck.Designer.vb">
       <DependentUpon>MailCheck.vb</DependentUpon>
     </Compile>
@@ -870,6 +876,9 @@
     <EmbeddedResource Include="Forms\LaAwaySelect.resx">
       <DependentUpon>LaAwaySelect.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MailBookEmail.resx">
+      <DependentUpon>MailBookEmail.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MailCheck.resx">
       <DependentUpon>MailCheck.vb</DependentUpon>
     </EmbeddedResource>
@@ -1033,6 +1042,15 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="Chilkat_v9_5_0">
+      <Guid>{004CB902-F437-4D01-BD85-9E18836DA5C2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="cipwin32">
       <Guid>{33DDE9A4-E91D-419D-9497-3D4CE75B35DC}</Guid>
