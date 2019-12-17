@@ -335,6 +335,7 @@ ServerLockedFailed:
     Public Function InventFolder(Optional ByVal doLocal As Boolean = False) As String
         InventFolder = GetStation(doLocal) & "Invent\"
     End Function
+
     Public Function CustomerTermsMessageFile(Optional ByVal StoreNum As Integer = 0) As String
         If StoreNum = 0 Then StoreNum = StoresSld
         CustomerTermsMessageFile = FXFile("CustomerTerms" & IIf(StoreNum = 1, "", StoreNum) & ".rtf", , False)

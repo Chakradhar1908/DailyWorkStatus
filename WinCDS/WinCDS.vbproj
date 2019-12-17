@@ -649,6 +649,7 @@
     <Compile Include="Modules\modPath.vb" />
     <Compile Include="Modules\modPictures.vb" />
     <Compile Include="Modules\modPODetail.vb" />
+    <Compile Include="Modules\modPrintRTF.vb" />
     <Compile Include="Modules\modPrintToolsCommon.vb" />
     <Compile Include="Modules\modProgramState.vb" />
     <Compile Include="Modules\modQuickBooks_CommBase.vb" />

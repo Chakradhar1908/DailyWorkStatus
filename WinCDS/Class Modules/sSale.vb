@@ -1102,8 +1102,8 @@ DoneClearing:
                 Printer.CurrentX = 4000
             '      Printer.PaintPicture Logo, Printer.Width / 2 - 5775 / 2, 150, 5775, 1525 '1995
             Dim opW As Integer, opH As Integer
-            opW = Logo.Width
-            opH = Logo.Height
+            opW = Logo.Width + 50
+            opH = Logo.Height + 50
             PictureFitDimensions(opW, opH, 5775, 1525, True)
             Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
         End If
@@ -1111,8 +1111,9 @@ DoneClearing:
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         '   Date side
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        Printer.Line(1100, 600, 2000, 1000, , True)
-        ' print line in date box
+        'Rectangle box
+        Printer.Line(1100, 700, 3100, 1500, , True)
+        ' print line inside rectangle box
         Printer.Line(1100, 1100, 3100, 1100)
 
         Printer.CurrentX = 0
@@ -1125,6 +1126,7 @@ DoneClearing:
         ' current date
         Printer.FontSize = 14
         Printer.CurrentX = 1000
+        Printer.CurrentY = 100
 
         If IsUFO() Or IsSleepingSystems() Then
             Printer.Print(DateFormat(SaleDate) & "  " & TimeFormat(DateAndTime.TimeOfDay))
@@ -1210,8 +1212,8 @@ DoneClearing:
         '   Addresses
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         ' Print frame for address
-        Printer.Line(0, 2000, 5500, 2900, QBColor(0), True)
-        Printer.Line(6000, 2000, 5400, 2900, QBColor(0), True)
+        Printer.Line(0, 2000, 5500, 4850, QBColor(0), True)
+        Printer.Line(6000, 2000, 11000, 4850, QBColor(0), True)
 
         Printer.CurrentX = 200
         Printer.CurrentY = 2200
@@ -1316,30 +1318,30 @@ DoneClearing:
         Else
             Printer.Print("Style Number", SPC(10), "Manufacturer", SPC(16), "Loc ", "Status", SPC(2), "Quantity", SPC(2), "Description", SPC(53), "Price")
             BoxLeft = 0
-            BoxWidth = 11375
+            BoxWidth = 11000
         End If
 
         'heading box
-        Printer.Line(BoxLeft, 5800, BoxWidth, 350,, QBColor(0), True)
+        Printer.Line(BoxLeft, 5800, BoxWidth, 6150, QBColor(0), True)
 
         ' Inventory line boxes.
-        Printer.Line(BoxLeft, 6300, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 6700, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 7100, BoxWidth, 350,, QBColor(0), True)
-        Printer.Line(BoxLeft, 7500, BoxWidth, 350,, QBColor(0), True)
-        Printer.Line(BoxLeft, 7900, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 8300, BoxWidth, 350,, QBColor(0), True)
-        Printer.Line(BoxLeft, 8700, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 9100, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 9500, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 9900, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 10300, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 10700, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 11100, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 11500, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 11900, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 12300, BoxWidth, 350, QBColor(0), True)
-        Printer.Line(BoxLeft, 12700, BoxWidth, 350, QBColor(0), True)
+        Printer.Line(BoxLeft, 6300, BoxWidth, 6650, QBColor(0), True)
+        Printer.Line(BoxLeft, 6700, BoxWidth, 7050, QBColor(0), True)
+        Printer.Line(BoxLeft, 7100, BoxWidth, 7450, QBColor(0), True)
+        Printer.Line(BoxLeft, 7500, BoxWidth, 7850, QBColor(0), True)
+        Printer.Line(BoxLeft, 7900, BoxWidth, 8250, QBColor(0), True)
+        Printer.Line(BoxLeft, 8300, BoxWidth, 8650, QBColor(0), True)
+        Printer.Line(BoxLeft, 8700, BoxWidth, 9050, QBColor(0), True)
+        Printer.Line(BoxLeft, 9100, BoxWidth, 9450, QBColor(0), True)
+        Printer.Line(BoxLeft, 9500, BoxWidth, 9850, QBColor(0), True)
+        Printer.Line(BoxLeft, 9900, BoxWidth, 10250, QBColor(0), True)
+        Printer.Line(BoxLeft, 10300, BoxWidth, 10650, QBColor(0), True)
+        Printer.Line(BoxLeft, 10700, BoxWidth, 11050, QBColor(0), True)
+        Printer.Line(BoxLeft, 11100, BoxWidth, 11450, QBColor(0), True)
+        Printer.Line(BoxLeft, 11500, BoxWidth, 11850, QBColor(0), True)
+        Printer.Line(BoxLeft, 11900, BoxWidth, 12250, QBColor(0), True)
+        Printer.Line(BoxLeft, 12300, BoxWidth, 12650, QBColor(0), True)
+        Printer.Line(BoxLeft, 12700, BoxWidth, 13050, QBColor(0), True)
         '  Printer.Line (BoxLeft, 13100)-Step(BoxWidth, 350), QBColor(0), B  ' Removed 20030808 to make room for personal info
         '  Printer.Line (BoxLeft, 13500)-Step(11BoxWidth375, 350), QBColor(0), B
 
@@ -1347,14 +1349,14 @@ DoneClearing:
 
         'new box on left - customer policy
         Printer.DrawWidth = 7
-        Printer.Line(0, 13100, 8500, 1800, QBColor(0), True)
+        Printer.Line(0, 13100, 8500, 14900, QBColor(0), True)
         Printer.DrawWidth = 1
 
         If (Page + 1) = Pages Then
             Printer.CurrentX = 200 : Printer.CurrentY = 14000
             'Bal Due BOX
             Printer.DrawWidth = 8
-            Printer.Line(9000, 14300, 2400, 600, QBColor(0), True)
+            Printer.Line(9000, 14300, 11000, 14900, QBColor(0), True)
             Printer.DrawWidth = 1
 
             If Not IsUFO() Then
@@ -1543,11 +1545,10 @@ DoneClearing:
         ' Where does the RTB need to stop?
         '    Printer.Line (0, 13100)-Step(8500, 1800), QBColor(0), B
         '    If IsUFO() Or IsFriendlys() And
-        If IsUFO() And
-    (Holding.Status = "L" Or Holding.Status = "1" Or Holding.Status = "2" Or Holding.Status = "3" Or Holding.Status = "4") Then
+        If IsUFO() And (Holding.Status = "L" Or Holding.Status = "1" Or Holding.Status = "2" Or Holding.Status = "3" Or Holding.Status = "4") Then
             ' Don't print the customer terms box.
         Else
-            MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 13200, 8300, 1600, True)
+            MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 13200, 8300, 14000, True)
         End If
         Printer.EndDoc()
 

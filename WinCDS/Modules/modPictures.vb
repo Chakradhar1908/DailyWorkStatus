@@ -60,6 +60,7 @@ Module modPictures
         MaxY = pH
 DoExit:
     End Function
+
     Public Function PictureFitDimensions(ByRef W As Integer, ByRef H As Integer, ByVal MaxW As Integer, ByVal MaxH As Integer, Optional ByVal Stretch As Boolean = True) As Boolean
         Dim dW As Double, dH As Double, pW As Integer, pH As Integer
         On Error GoTo DoExit

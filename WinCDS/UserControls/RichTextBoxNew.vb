@@ -168,13 +168,11 @@ NoGood:
     End Function
 
     Public Sub FilePrint(Optional LeftMarginWidth as integer = -1, Optional TopMarginHeight as integer = -1, Optional PrintWidth as integer = -1, Optional PrintHeight as integer = -1, Optional DontEndDoc As Boolean = False, Optional AllowMultiplePages As Boolean = True)
-        '--> Printing will move to Crystal Reports or Any othr reporting tools.  <--
-
-        ' PrintRTF mRichTextBox, LeftMarginWidth, TopMarginHeight, PrintWidth, PrintHeight, , AllowMultiplePages
+        PrintRTF(mRichTextBox, LeftMarginWidth, TopMarginHeight, PrintWidth, PrintHeight, , AllowMultiplePages)
 
         ' This really should move out of the common print area.
         ' Someday we might have two RTF boxes to print, or want to print something after the RTF.
-        'If Not DontEndDoc And SelectPrinter.TagSize <> "SMALL" Then Printer.EndDoc         ' Allow the RTF to free up memory
+        If Not DontEndDoc And SelectPrinter.TagSize <> "SMALL" Then Printer.EndDoc()         ' Allow the RTF to free up memory
     End Sub
 
     Private Sub mRichTextBox_DblClick()
