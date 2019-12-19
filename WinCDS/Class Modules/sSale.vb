@@ -1102,8 +1102,8 @@ DoneClearing:
                 Printer.CurrentX = 4000
             '      Printer.PaintPicture Logo, Printer.Width / 2 - 5775 / 2, 150, 5775, 1525 '1995
             Dim opW As Integer, opH As Integer
-            opW = Logo.Width + 50
-            opH = Logo.Height + 50
+            opW = Logo.Width + 500
+            opH = Logo.Height + 500
             PictureFitDimensions(opW, opH, 5775, 1525, True)
             Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
         End If
@@ -1220,7 +1220,7 @@ DoneClearing:
         Printer.FontSize = 6
 
         If Not ML.Business Then
-            Printer.Print("First Name", TAB(58), "Last Name")
+            Printer.Print("First Name", TAB(78), "Last Name")
         Else 'company
             Printer.Print(" Company")
         End If
@@ -1316,7 +1316,7 @@ DoneClearing:
             BoxWidth = 11375 - BoxLeft
             Printer.Line(0, 5800, 3700, 7250, QBColor(0), True)
         Else
-            Printer.Print("Style Number", SPC(10), "Manufacturer", SPC(16), "Loc ", "Status", SPC(2), "Quantity", SPC(2), "Description", SPC(53), "Price")
+            Printer.Print("Style Number", SPC(10), "Manufacturer", SPC(30), "Loc ", "Status", SPC(2), "Quantity", SPC(5), "Description", SPC(83), "Price")
             BoxLeft = 0
             BoxWidth = 11000
         End If
@@ -1351,6 +1351,17 @@ DoneClearing:
         Printer.DrawWidth = 7
         Printer.Line(0, 13100, 8500, 14900, QBColor(0), True)
         Printer.DrawWidth = 1
+        '-----12/19
+        Dim x As String
+        MainMenu.rtbn.mRichTextBox.LoadFile(CustomerTermsMessageFile)
+        x = MainMenu.rtbn.mRichTextBox.Text
+        Printer.CurrentX = 100
+        Printer.CurrentY = 13200
+        Printer.FontSize = 10
+        Printer.Print(x)
+        'Printer.FontSize = 8.04
+        '----------------
+
 
         If (Page + 1) = Pages Then
             Printer.CurrentX = 200 : Printer.CurrentY = 14000
@@ -1360,23 +1371,35 @@ DoneClearing:
             Printer.DrawWidth = 1
 
             If Not IsUFO() Then
-                Printer.CurrentX = 200 : Printer.CurrentY = 13800
-                Printer.Print(TAB(120), "_______________________________")
-                Printer.CurrentX = 200
-                Printer.Print(TAB(120), "   Buyer's Approval")
+                Printer.CurrentX = 8600 : Printer.CurrentY = 13800
+                'Printer.Print(TAB(120), "_______________________________")
+                'Printer.Print("__________________________")
+                Printer.Line(8600, 13800, 11000, 13800)
+                Printer.CurrentX = 8650 : Printer.CurrentY = 13810
+                'Printer.Print(TAB(120), "   Buyer's Approval")
+                Printer.FontSize = 7
+                Printer.Print("   Buyer's Approval")
             End If
 
-            Printer.CurrentX = 200 : Printer.CurrentY = 14070
-            Printer.Print(TAB(143), " Balance Due: ")
+            Printer.CurrentX = 9700 : Printer.CurrentY = 13830
+            'Printer.Print(TAB(143), " Balance Due: ")
+            Printer.FontSize = 7
+            Printer.Print(" Balance Due: ")
         End If
 
         ' Printer.CurrentX = 200: Printer.CurrentY = 14750  '14900  14800 14750  ok
         ' Printer.CurrentX = 200: Printer.CurrentY = 13100  '14900  14800 14750  ok
         '.FontSize = 10
 
-        Printer_Location(100, 13100, 10)  'Tab(130)
-        Printer.Print(TAB(100), " ", IfNullThenNilString(CopyID), "   ")
+        'Printer_Location(8700, 13200, 10)  'Tab(130)
+        'Printer.Print(TAB(100), " ", IfNullThenNilString(CopyID), "   ")
+        Printer.FontSize = 10
+        Printer.CurrentX = 8700 : Printer.CurrentY = 13200
+        Printer.Print(IfNullThenNilString(CopyID))
+        Printer.CurrentX = 10300 : Printer.CurrentY = 13200
         Printer.Print("Page " & Page + 1 & "/" & Pages, " ")
+
+        Printer.FontSize = 8.04
 
         '************* Fill In Sale Info *****************************
         Printer_Location(200, 2400, 14)
@@ -1455,34 +1478,49 @@ DoneClearing:
             End If
 
 
+            Dim ItemLineZeroDescForm As Boolean
             ' 6 character status causes the line to shift down!
             If ItemLine = 0 Then
                 Dim ttCY As Integer
                 ttCY = Printer.CurrentY
                 Printer.Print(IfNullThenNilString(StyleForm))
-                Printer.CurrentY = ttCY : Printer.Print(TAB(27), Left(IfNullThenNilString(MfgForm), 15))
+                Printer.CurrentY = ttCY : Printer.Print(TAB(37), Left(IfNullThenNilString(MfgForm), 15))
                 On Error Resume Next
-                Printer.CurrentY = ttCY : Printer.Print(TAB(52), IfZeroThenNilString(LocForm))
-                Printer.CurrentY = ttCY : Printer.Print(TAB(55), Left(IfNullThenNilString(StatusForm), 6))
-                Printer.CurrentY = ttCY : Printer.Print(TAB(65), IfNullThenNilString(Quanform))
+                Printer.CurrentY = ttCY : Printer.Print(TAB(80), IfZeroThenNilString(LocForm))
+                Printer.CurrentY = ttCY : Printer.Print(TAB(87), Left(IfNullThenNilString(StatusForm), 6))
+                Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfNullThenNilString(Quanform))
+                Printer.CurrentY = ttCY : Printer.Print(TAB(117), IfNullThenNilString(DescForm))
+                ItemLineZeroDescForm = True
             End If
-            Printer.Print(TAB(71), IfNullThenNilString(DescForm))
+            If ItemLineZeroDescForm = False Then
+                Printer.Print(TAB(71), IfNullThenNilString(DescForm))
+            End If
 
             If ItemLine = 0 Then
                 'allow over-write
                 If StyleForm = "NOTES" And GetPrice(PriceForm) = 0 Then
                     '          Printer.Print
                 ElseIf StyleForm <> "" Or GetPrice(PriceForm) > 0 Or GetPrice(PriceForm) < 0 Then ' discount
-                    PrintToPosition(Printer, PriceForm, 11350, AlignConstants.vbAlignRight, False)
+                    'PrintToPosition(Printer, PriceForm, 11350, AlignConstants.vbAlignRight, False)
+                    Printer.CurrentY = 6350
+                    PrintToPosition(Printer, PriceForm, 11000, AlignConstants.vbAlignRight, False)
                 Else
                 End If
             End If
 
             Printer.Print()
-
-            Printer.CurrentX = 160
-            Printer.CurrentY = Printer.CurrentY + 200
+            Printer.CurrentX = 150
+            Printer.CurrentY = Printer.CurrentY + 400
         Next
+
+        ''-----12/19
+        'Dim x As String
+        'MainMenu.rtbn.mRichTextBox.LoadFile(CustomerTermsMessageFile)
+        'x = MainMenu.rtbn.mRichTextBox.Text
+        'Printer.CurrentX = 100
+        'Printer.CurrentY = 13200
+        'Printer.Print(x)
+        ''----------------
 
         If IsUFO() Then 'Or IsFriendlys() Then
             If Holding.Status = "L" Or Holding.Status = "1" Or Holding.Status = "2" Or Holding.Status = "3" Or Holding.Status = "4" Then
@@ -1549,6 +1587,11 @@ DoneClearing:
             ' Don't print the customer terms box.
         Else
             MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 13200, 8300, 14000, True)
+
+            'Dim x As String = MainMenu.rtbn.mRichTextBox.Text
+            'Printer.CurrentX = 100
+            'Printer.CurrentY = 13200
+            'Printer.Print(x)
         End If
         Printer.EndDoc()
 

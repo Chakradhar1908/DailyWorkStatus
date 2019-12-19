@@ -216,6 +216,7 @@ NoGood:
 
     Private Sub mRichTextBox_TextChanged(sender As Object, e As EventArgs) Handles mRichTextBox.TextChanged
         RaiseEvent Change()
+        'RaiseEvent TextChanged(sender, New EventArgs)
     End Sub
 
     Public Function asHtml() As String

@@ -44,6 +44,12 @@ Module modAPI
     Public Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As Integer) As Boolean
     End Function
 
+    'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long - vb6.0
+    'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As String) As IntPtr
+    <DllImport("user32.dll", CharSet:=CharSet.Auto)>
+    Public Function SendMessage(ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, <MarshalAs(UnmanagedType.LPWStr)> ByVal lParam As String) As IntPtr
+    End Function
+
     'The below line is commented, because it is for vb6.0. Replaced with the next line for vb.net.
     'Public Declare Function SetWindowPos Lib "USER32" (ByVal hwnd as integer, ByVal hWndInsertAfter as integer, ByVal X as integer, ByVal Y as integer, ByVal cX as integer, ByVal cy as integer, ByVal wFlags as integer) as integer
 
