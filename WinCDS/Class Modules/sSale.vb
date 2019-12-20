@@ -911,8 +911,8 @@ DoneClearing:
         For I = 1 To ItemCount
             X = X + ((Len(QueryDesc(I)) - 1) \ 46 + 1)
         Next
-        'GetMaxItemIndex = X
-        GetMaxItemIndex = X - 1
+        GetMaxItemIndex = X
+        'GetMaxItemIndex = X - 1
     End Function
 
     Public Function QueryDesc(ByVal Index As Integer)
@@ -1066,6 +1066,7 @@ DoneClearing:
         'Logo = LoadPictureStd(StoreLogoFile(Store))
         Logo = Image.FromFile(StoreLogoFile(Store))
 
+
         ML = New clsMailRec
         ML.DataAccess.DataBase = GetDatabaseAtLocation(Store)
         ML.Load(MailIndex, "#Index")
@@ -1102,10 +1103,14 @@ DoneClearing:
                 Printer.CurrentX = 4000
             '      Printer.PaintPicture Logo, Printer.Width / 2 - 5775 / 2, 150, 5775, 1525 '1995
             Dim opW As Integer, opH As Integer
-            opW = Logo.Width + 500
-            opH = Logo.Height + 500
+            'opW = Logo.Width
+            'opH = Logo.Height
+            opW = Logo.Width
+            opH = Logo.Height
             PictureFitDimensions(opW, opH, 5775, 1525, True)
-            Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
+            'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
+            Printer.PaintPicture(Image.FromFile(StoreLogoFile(Store)), Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
+            'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2)
         End If
 
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1311,10 +1316,11 @@ DoneClearing:
         Printer.CurrentX = 200 : Printer.CurrentY = 5870
 
         If CopyID = COPY_CUSTOMER Then
-            Printer.Print(TAB(60), "Loc", SPC(2), "Status", SPC(2), "Quantity", SPC(2), "Description", SPC(53), "Price")
+            Printer.Print(TAB(85), "Loc", SPC(2), "Status", SPC(2), "Quantity", SPC(2), "Description", SPC(53), "Price")
             BoxLeft = 3800
-            BoxWidth = 11375 - BoxLeft
-            Printer.Line(0, 5800, 3700, 7250, QBColor(0), True)
+            BoxWidth = 14800 - BoxLeft
+            'BoxWidth = 11000 - BoxLeft
+            'Printer.Line(0, 5800, 3700, 7250, QBColor(0), True)
         Else
             Printer.Print("Style Number", SPC(10), "Manufacturer", SPC(30), "Loc ", "Status", SPC(2), "Quantity", SPC(5), "Description", SPC(83), "Price")
             BoxLeft = 0
@@ -1352,6 +1358,7 @@ DoneClearing:
         Printer.Line(0, 13100, 8500, 14900, QBColor(0), True)
         Printer.DrawWidth = 1
         '-----12/19
+        'If CopyID = "File Copy" Then
         Dim x As String
         MainMenu.rtbn.mRichTextBox.LoadFile(CustomerTermsMessageFile)
         x = MainMenu.rtbn.mRichTextBox.Text
@@ -1360,8 +1367,27 @@ DoneClearing:
         Printer.FontSize = 10
         Printer.Print(x)
         'Printer.FontSize = 8.04
-        '----------------
+        If CopyID = COPY_CUSTOMER Then
+            'Dim x As String
+            'MainMenu.rtbn.DoPrintFile(StorePolicyMessageFile, 100, 6300, 3500, 7000, True, False)
+            MainMenu.rtbn.mRichTextBox.LoadFile(StorePolicyMessageFile)
+            x = MainMenu.rtbn.mRichTextBox.Text
+            Printer.Line(0, 5800, 3750, 13050,, True)
 
+            Dim printline As String, i As Integer, currenty As Integer = 6300
+            For i = 1 To Len(x)
+                Printer.FontName = "Arial Narrow"
+                printline = Mid(x, i, 60)
+                Printer.CurrentX = 100
+                Printer.CurrentY = currenty
+                Printer.Print(printline)
+                i = i + 29
+                currenty = currenty + 200
+                Printer.FontSize = 7
+            Next
+
+        End If
+        '----------------
 
         If (Page + 1) = Pages Then
             Printer.CurrentX = 200 : Printer.CurrentY = 14000
@@ -1377,13 +1403,13 @@ DoneClearing:
                 Printer.Line(8600, 13800, 11000, 13800)
                 Printer.CurrentX = 8650 : Printer.CurrentY = 13810
                 'Printer.Print(TAB(120), "   Buyer's Approval")
-                Printer.FontSize = 7
+                Printer.FontSize = 8
                 Printer.Print("   Buyer's Approval")
             End If
 
-            Printer.CurrentX = 9700 : Printer.CurrentY = 13830
+            Printer.CurrentX = 9900 : Printer.CurrentY = 14100
             'Printer.Print(TAB(143), " Balance Due: ")
-            Printer.FontSize = 7
+            Printer.FontSize = 8
             Printer.Print(" Balance Due: ")
         End If
 
@@ -1479,11 +1505,11 @@ DoneClearing:
 
 
             Dim ItemLineZeroDescForm As Boolean
+            Dim ttCY As Integer
             ' 6 character status causes the line to shift down!
             If ItemLine = 0 Then
-                Dim ttCY As Integer
                 ttCY = Printer.CurrentY
-                Printer.Print(IfNullThenNilString(StyleForm))
+                Printer.CurrentY = ttCY : Printer.Print(IfNullThenNilString(StyleForm))
                 Printer.CurrentY = ttCY : Printer.Print(TAB(37), Left(IfNullThenNilString(MfgForm), 15))
                 On Error Resume Next
                 Printer.CurrentY = ttCY : Printer.Print(TAB(80), IfZeroThenNilString(LocForm))
@@ -1502,15 +1528,15 @@ DoneClearing:
                     '          Printer.Print
                 ElseIf StyleForm <> "" Or GetPrice(PriceForm) > 0 Or GetPrice(PriceForm) < 0 Then ' discount
                     'PrintToPosition(Printer, PriceForm, 11350, AlignConstants.vbAlignRight, False)
-                    Printer.CurrentY = 6350
+                    Printer.CurrentY = ttCY
                     PrintToPosition(Printer, PriceForm, 11000, AlignConstants.vbAlignRight, False)
                 Else
                 End If
             End If
 
-            Printer.Print()
+            'Printer.Print()
             Printer.CurrentX = 150
-            Printer.CurrentY = Printer.CurrentY + 400
+            Printer.CurrentY = Printer.CurrentY + 200
         Next
 
         ''-----12/19
@@ -1568,7 +1594,8 @@ DoneClearing:
             If CopyID = COPY_CUSTOMER And Holding.Status = "F" Then
                 Printer.Print(TAB(49), AlignString(CurrencyFormat(0), 9, AlignConstants.vbAlignRight))
             Else
-                Printer.Print(TAB(49), AlignString(CurrencyFormat(IfNullThenZeroCurrency(Holding.Sale - Holding.Deposit)), 9, AlignConstants.vbAlignRight))
+                'Printer.Print(TAB(49), AlignString(CurrencyFormat(IfNullThenZeroCurrency(Holding.Sale - Holding.Deposit)), 9, AlignConstants.vbAlignRight))
+                Printer.Print(AlignString(CurrencyFormat(IfNullThenZeroCurrency(Holding.Sale - Holding.Deposit)), 9, AlignConstants.vbAlignRight))
             End If
             Printer.FontBold = False
         End If

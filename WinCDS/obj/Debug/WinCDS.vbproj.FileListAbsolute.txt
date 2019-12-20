@@ -138,4 +138,3 @@ D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 D:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
-D:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
