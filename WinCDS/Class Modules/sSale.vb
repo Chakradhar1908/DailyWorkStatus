@@ -1,6 +1,7 @@
 ﻿Imports stdole
 Imports VBRUN
 Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports System.Drawing
 Public Class sSale
     Private mStore As Integer
     Private mSaleNo As String
@@ -1066,6 +1067,12 @@ DoneClearing:
         'Logo = LoadPictureStd(StoreLogoFile(Store))
         Logo = Image.FromFile(StoreLogoFile(Store))
 
+        '-------
+        'Dim pbox As New PictureBox
+        'pbox.Size = New Size(8000, 2000)
+        'pbox.SizeMode = PictureBoxSizeMode.StretchImage
+        'pbox.Image = Image.FromFile(StoreLogoFile(Store))
+        '--------
 
         ML = New clsMailRec
         ML.DataAccess.DataBase = GetDatabaseAtLocation(Store)
@@ -1091,26 +1098,31 @@ DoneClearing:
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         'If IsNothingOrZero(Logo) Then      ' street address
         If IsNothing(Logo) Then
-                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Name)) / 2
-                Printer.Print(StoreSettings.Name)
-                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Address)) / 2
-                Printer.Print(StoreSettings.Address)
-                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.City)) / 2
-                Printer.Print(StoreSettings.City)
-                Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Phone)) / 2
-                Printer.Print(StoreSettings.Phone)
-            Else                  ' logo
-                Printer.CurrentX = 4000
+            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Name)) / 2
+            Printer.Print(StoreSettings.Name)
+            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Address)) / 2
+            Printer.Print(StoreSettings.Address)
+            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.City)) / 2
+            Printer.Print(StoreSettings.City)
+            Printer.CurrentX = (6400) - Printer.TextWidth(Trim(StoreSettings.Phone)) / 2
+            Printer.Print(StoreSettings.Phone)
+        Else                  ' logo
+            Printer.CurrentX = 4000
             '      Printer.PaintPicture Logo, Printer.Width / 2 - 5775 / 2, 150, 5775, 1525 '1995
             Dim opW As Integer, opH As Integer
-            'opW = Logo.Width
-            'opH = Logo.Height
             opW = Logo.Width
             opH = Logo.Height
             PictureFitDimensions(opW, opH, 5775, 1525, True)
-            'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
-            Printer.PaintPicture(Image.FromFile(StoreLogoFile(Store)), Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
-            'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2)
+            'PictureFitDimensions(opW, opH, 400, 120, True)
+            'Printer.ScaleMode = ScaleModeConstants.vbTwip
+            Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
+            'Printer.PaintPicture(Logo, 3500, 150 + (1525 - opH) / 2, opW, opH)
+            'Printer.PaintPicture(Image.FromFile(StoreLogoFile(Store)), Printer.Width / 2 - opW / 2, 150, opW, opH)
+            'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150, opW, opH, 9500, 1800)
+            'Printer.PaintPicture(pbox.Image, 3500, 150, pbox.Width, pbox.Height, 6000, 300, pbox.Width + 300, pbox.Height + 300)
+            'Printer.PaintPicture(pbox.Image, 3500, 150, pbox.Width, pbox.Height)
+
+
         End If
 
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1316,7 +1328,7 @@ DoneClearing:
         Printer.CurrentX = 200 : Printer.CurrentY = 5870
 
         If CopyID = COPY_CUSTOMER Then
-            Printer.Print(TAB(85), "Loc", SPC(2), "Status", SPC(2), "Quantity", SPC(2), "Description", SPC(53), "Price")
+            Printer.Print(TAB(85), "Loc", SPC(2), "Status", SPC(2), "Quantity", SPC(2), "Description", SPC(90), "Price")
             BoxLeft = 3800
             BoxWidth = 14800 - BoxLeft
             'BoxWidth = 11000 - BoxLeft
@@ -1357,38 +1369,193 @@ DoneClearing:
         Printer.DrawWidth = 7
         Printer.Line(0, 13100, 8500, 14900, QBColor(0), True)
         Printer.DrawWidth = 1
+
+        Dim x As String = ""
+        If CopyID = COPY_CUSTOMER Then
+            'Dim x As String
+            'MainMenu.rtbn.DoPrintFile(StorePolicyMessageFile, 100, 6300, 3500, 7000, True, False)
+            MainMenu.rtbn.mRichTextBox.LoadFile(StorePolicyMessageFile, RichTextBoxStreamType.RichText)
+            x = MainMenu.rtbn.mRichTextBox.Text
+            Printer.Line(0, 5800, 3750, 13050,, True)
+
+            Dim printline As String, i As Integer, currenty As Integer = 6300
+            Dim FirstVblf As Boolean, SecondVblf As Boolean, ThirdVblf As Boolean
+
+            Printer.CurrentX = 100
+            Printer.CurrentY = 6300
+
+            For i = 1 To Len(x)
+                Printer.FontName = "Arial Narrow"
+                Printer.FontBold = True
+                If i = 1 Then
+                    printline = Mid(x, i, 32)
+                    Printer.CurrentX = 100
+                    Printer.CurrentY = currenty
+                    Printer.FontUnderline = True
+                    Printer.Print(printline)
+                    Printer.FontUnderline = False
+                    i = 32
+                ElseIf i = 33 Then
+                    printline = Mid(x, i, 43)
+                    Printer.CurrentX = 100
+                    Printer.CurrentY = currenty
+                    Printer.FontUnderline = True
+                    Printer.Print(printline)
+                    Printer.FontUnderline = False
+                    i = 76
+                Else
+                    printline = Mid(x, i, 60)
+                    If printline.Contains(vbLf) Then
+                        If FirstVblf = False Then
+                            'Printer.CurrentX = 0
+                            'Printer.CurrentY = currenty
+                            'Printer.Print("")
+                            printline = Mid(x, i, 34)
+                            Printer.CurrentX = 100
+                            Printer.CurrentY = currenty
+                            Printer.FontUnderline = True
+                            Printer.Print(printline)
+                            Printer.FontUnderline = False
+
+                            i = i + 34
+                            'Printer.CurrentX = 0
+                            'currenty = currenty + 200
+                            'Printer.CurrentY = currenty
+                            'Printer.Print("")
+                            printline = Mid(x, i, 34)
+                            Printer.CurrentX = 100
+                            currenty = currenty + 200
+                            Printer.CurrentY = currenty
+                            Printer.FontUnderline = True
+                            Printer.Print(printline)
+                            Printer.FontUnderline = False
+
+                            FirstVblf = True
+                            i = i + 34
+                        ElseIf SecondVblf = False Then
+                            'i = i + 34
+                            'Printer.CurrentX = 0
+                            'Printer.CurrentY = currenty
+                            'Printer.Print()
+                            'printline = Mid(x, i, 24)
+                            printline = Mid(x, i, 23)
+                            Printer.CurrentX = 100
+                            currenty = currenty + 200
+                            Printer.CurrentY = currenty
+                            Printer.FontUnderline = True
+                            Printer.Print(printline)
+                            Printer.FontUnderline = False
+                            i = i + 24
+                            'Printer.CurrentX = 0
+                            'Printer.CurrentY = currenty
+                            'Printer.Print()
+                            printline = Mid(x, i, 32)
+                            Printer.CurrentX = 100
+                            currenty = currenty + 200
+                            Printer.CurrentY = currenty
+                            Printer.FontUnderline = True
+                            Printer.Print(printline)
+                            Printer.FontUnderline = False
+
+                            SecondVblf = True
+                            i = i + 31
+                        ElseIf ThirdVblf = False Then
+                            'i = i + 32
+                            'Printer.CurrentX = 0
+                            'Printer.CurrentY = currenty
+                            'Printer.Print()
+                            printline = Mid(x, i, 36)
+                            'printline = Mid(x, i, 25)
+                            Printer.CurrentX = 100
+                            'currenty = currenty + 200
+                            Printer.CurrentY = currenty
+                            'Printer.FontUnderline = True
+                            Printer.Print(printline)
+                            'Printer.FontUnderline = False
+                            i = i + 37
+                            'Printer.CurrentX = 0
+                            'Printer.CurrentY = currenty
+                            'Printer.Print()
+                            printline = Mid(x, i, 27)
+                            Printer.CurrentX = 100
+                            currenty = currenty + 400
+                            Printer.CurrentY = currenty
+                            'Printer.FontUnderline = True
+                            Printer.Print(printline)
+                            'Printer.FontUnderline = False
+                            ThirdVblf = True
+                            i = i + 28
+                        End If
+                        Printer.FontSize = 8
+                        'If printline.Contains(vbLf) Then
+                        '    Printer.CurrentX = 100
+                        '    Printer.CurrentY = currenty
+                        '    Printer.Print(Left(printline, InStr(printline, "&") - 1))
+
+                        '    currenty = currenty + 200
+                        '    Printer.CurrentX = 100
+                        '    Printer.CurrentY = currenty
+                        '    Printer.Print(Right(printline, InStr(printline, "&") - 1))
+                    Else
+
+                        Printer.CurrentX = 100
+                        Printer.CurrentY = currenty
+                        Printer.Print(printline)
+                        Printer.FontSize = 7.5
+
+                        If i = 1288 Then
+                            i = i + 13
+                        ElseIf i = 1302 Then
+                            i = i + 60
+                            printline = Mid(x, i, 47)
+                            Printer.CurrentX = 100
+                            currenty = currenty + 200
+                            Printer.CurrentY = currenty
+                            Printer.FontUnderline = False
+                            Printer.Print(printline)
+                            i = i + 49
+                        Else
+                            i = i + 59
+                        End If
+
+                    End If
+                    End If
+
+                currenty = currenty + 200
+                'If printline.Contains(vbLf) Then
+                '    currenty = currenty + 400
+                'Else
+                '    currenty = currenty + 200
+                'End If
+
+            Next
+            'Dim filetext As String = ReadFile(StorePolicyMessageFile, 1, CountFileLines(StorePolicyMessageFile))
+            'Dim TotalLines As Integer
+            'i = 1
+            'TotalLines = CountFileLines(StorePolicyMessageFile, True)
+            'Do While (i <= TotalLines)
+            '    Printer.CurrentX = 100
+            '    Printer.CurrentY = currenty
+            '    Printer.Print(ReadFile(StorePolicyMessageFile, i, 1))
+            '    i = i + 1
+            '    currenty = currenty + 200
+            'Loop
+
+        End If
+        '----------------
         '-----12/19
         'If CopyID = "File Copy" Then
-        Dim x As String
+        x = ""
         MainMenu.rtbn.mRichTextBox.LoadFile(CustomerTermsMessageFile)
         x = MainMenu.rtbn.mRichTextBox.Text
         Printer.CurrentX = 100
         Printer.CurrentY = 13200
         Printer.FontSize = 10
         Printer.Print(x)
-        'Printer.FontSize = 8.04
-        If CopyID = COPY_CUSTOMER Then
-            'Dim x As String
-            'MainMenu.rtbn.DoPrintFile(StorePolicyMessageFile, 100, 6300, 3500, 7000, True, False)
-            MainMenu.rtbn.mRichTextBox.LoadFile(StorePolicyMessageFile)
-            x = MainMenu.rtbn.mRichTextBox.Text
-            Printer.Line(0, 5800, 3750, 13050,, True)
+        Printer.FontSize = 8.04
+        '------------------
 
-            Dim printline As String, i As Integer, currenty As Integer = 6300
-            For i = 1 To Len(x)
-                Printer.FontName = "Arial Narrow"
-                printline = Mid(x, i, 60)
-                Printer.CurrentX = 100
-                Printer.CurrentY = currenty
-                Printer.Print(printline)
-                i = i + 29
-                currenty = currenty + 200
-                Printer.FontSize = 7
-            Next
-
-        End If
-        '----------------
-
+        Printer.FontBold = False
         If (Page + 1) = Pages Then
             Printer.CurrentX = 200 : Printer.CurrentY = 14000
             'Bal Due BOX
@@ -1449,7 +1616,7 @@ DoneClearing:
         Printer.Print(DressAni(CleanAni(IfNullThenNilString(ML.Tele))), TAB(25), DressAni(CleanAni(IfNullThenNilString(ML.Tele2))))
 
         Printer_Location(6200, 2500, 12)
-        Printer.Print(Trim(IfNullThenNilString(M2.ShipToFirst)), TAB(80), Trim(IfNullThenNilString(M2.ShipToLast)))
+        Printer.Print(Trim(IfNullThenNilString(M2.ShipToFirst)), TAB(20), Trim(IfNullThenNilString(M2.ShipToLast)))
 
         Printer_Location(6200, 3000, 12, Trim(IfNullThenNilString(M2.Address2)))
 
@@ -1512,11 +1679,19 @@ DoneClearing:
                 Printer.CurrentY = ttCY : Printer.Print(IfNullThenNilString(StyleForm))
                 Printer.CurrentY = ttCY : Printer.Print(TAB(37), Left(IfNullThenNilString(MfgForm), 15))
                 On Error Resume Next
-                Printer.CurrentY = ttCY : Printer.Print(TAB(80), IfZeroThenNilString(LocForm))
-                Printer.CurrentY = ttCY : Printer.Print(TAB(87), Left(IfNullThenNilString(StatusForm), 6))
-                Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfNullThenNilString(Quanform))
-                Printer.CurrentY = ttCY : Printer.Print(TAB(117), IfNullThenNilString(DescForm))
-                ItemLineZeroDescForm = True
+                If CopyID = COPY_CUSTOMER Then
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfZeroThenNilString(LocForm))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(110), Left(IfNullThenNilString(StatusForm), 6))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(120), IfNullThenNilString(Quanform))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(137), IfNullThenNilString(DescForm))
+                    ItemLineZeroDescForm = True
+                Else
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(80), IfZeroThenNilString(LocForm))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(87), Left(IfNullThenNilString(StatusForm), 6))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfNullThenNilString(Quanform))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(117), IfNullThenNilString(DescForm))
+                    ItemLineZeroDescForm = True
+                End If
             End If
             If ItemLineZeroDescForm = False Then
                 Printer.Print(TAB(71), IfNullThenNilString(DescForm))
@@ -1604,7 +1779,7 @@ DoneClearing:
 
         If CopyID = COPY_CUSTOMER Then
             ' Needs to fit in about 3500 wide, fits in 6500, not in 6000.
-            MainMenu.rtbn.DoPrintFile(StorePolicyMessageFile, 100, 6300, 3500, 7000, True, False)
+            'MainMenu.rtbn.DoPrintFile(StorePolicyMessageFile, 100, 6300, 3500, 7000, True, False)
         End If
 
         ' Where does the RTB need to stop?
@@ -1613,7 +1788,7 @@ DoneClearing:
         If IsUFO() And (Holding.Status = "L" Or Holding.Status = "1" Or Holding.Status = "2" Or Holding.Status = "3" Or Holding.Status = "4") Then
             ' Don't print the customer terms box.
         Else
-            MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 13200, 8300, 14000, True)
+            'MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 13200, 8300, 14000, True)
 
             'Dim x As String = MainMenu.rtbn.mRichTextBox.Text
             'Printer.CurrentX = 100
