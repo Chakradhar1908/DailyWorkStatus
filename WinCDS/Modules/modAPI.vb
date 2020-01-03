@@ -44,7 +44,7 @@ Module modAPI
     Public Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As Integer) As Boolean
     End Function
 
-    'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long - vb6.0
+    'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd as integer, ByVal wMsg as integer, ByVal wParam as integer, lParam As Any) as integer - vb6.0
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As String) As IntPtr
     <DllImport("user32.dll", CharSet:=CharSet.Auto)>
     Public Function SendMessage(ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, <MarshalAs(UnmanagedType.LPWStr)> ByVal lParam As String) As IntPtr
@@ -710,5 +710,25 @@ Module modAPI
             SetWindowPos(frm.Handle, New IntPtr(-2), 0, 0, 0, 0, &H1 Or &H2)
         End If
     End Sub
+
+    Public Function SessionIsRemote() As Boolean 'BFH20081013
+        ' this is used for detecting whether the program is running under a terminal services environment (remote desktop)
+        ' if this causes problems, simply comment out the contents of this function
+        On Error Resume Next
+        Const SM_REMOTESESSION As Long = &H1000
+        SessionIsRemote = GetSystemMetrics(SM_REMOTESESSION) <> 0
+    End Function
+
+    Public Function fActiveForm() As Form
+        Dim X As Long, L As Variant
+        On Error Resume Next
+        X = GetActiveWindow()
+        For Each L In Forms
+            If L.hWnd = X Then
+      Set fActiveForm = L
+      Exit Function
+            End If
+        Next
+    End Function
 
 End Module

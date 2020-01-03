@@ -15,7 +15,7 @@
         RS = GetRecordsetBySQL(SQL, , GetDatabaseInventory, True)
         On Error GoTo BadConfigTable
         If Not RS.EOF Then
-            GetConfigTableValue = IfNullThenNilString(RS("Value"))
+            GetConfigTableValue = IfNullThenNilString(RS("Value").Value)
         Else
             GetConfigTableValue = DefaultValue
         End If

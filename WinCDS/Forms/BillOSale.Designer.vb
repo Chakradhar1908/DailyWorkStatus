@@ -104,6 +104,12 @@ Partial Class BillOSale
         Me.cmdNextSale = New System.Windows.Forms.Button()
         Me.cmdMainMenu = New System.Windows.Forms.Button()
         Me.cmdClear = New System.Windows.Forms.Button()
+        Me.ScanDn = New System.Windows.Forms.Button()
+        Me.ScanUp123 = New System.Windows.Forms.Button()
+        Me.cmdSoldTags = New System.Windows.Forms.Button()
+        Me.cmdEmail = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdChangePrice = New System.Windows.Forms.Button()
         Me.fraBOS2 = New System.Windows.Forms.GroupBox()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
@@ -111,6 +117,7 @@ Partial Class BillOSale
         Me.fraBOS2Commands = New System.Windows.Forms.GroupBox()
         Me.Notes_Open = New System.Windows.Forms.Button()
         Me.fraHover = New System.Windows.Forms.GroupBox()
+        Me.cmdNoChangePrice = New System.Windows.Forms.Button()
         Me.lblBalDueCaption = New System.Windows.Forms.Label()
         Me.BalDue = New System.Windows.Forms.TextBox()
         Me.ugrFake = New WinCDS.UGridIO()
@@ -126,14 +133,7 @@ Partial Class BillOSale
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.lblGrossSales = New System.Windows.Forms.Label()
-        Me.ScanDn = New System.Windows.Forms.Button()
         Me.picHover = New System.Windows.Forms.PictureBox()
-        Me.ScanUp123 = New System.Windows.Forms.Button()
-        Me.cmdNoChangePrice = New System.Windows.Forms.Button()
-        Me.cmdSoldTags = New System.Windows.Forms.Button()
-        Me.cmdEmail = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.cmdChangePrice = New System.Windows.Forms.Button()
         Me.picFormatHelper = New System.Windows.Forms.PictureBox()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.imgCalendar = New System.Windows.Forms.PictureBox()
@@ -407,7 +407,6 @@ Partial Class BillOSale
         Me.CustomerFirst.Name = "CustomerFirst"
         Me.CustomerFirst.Size = New System.Drawing.Size(203, 26)
         Me.CustomerFirst.TabIndex = 0
-        Me.CustomerFirst.Text = "tt"
         '
         'CustomerLast
         '
@@ -416,13 +415,12 @@ Partial Class BillOSale
         Me.CustomerLast.Name = "CustomerLast"
         Me.CustomerLast.Size = New System.Drawing.Size(203, 26)
         Me.CustomerLast.TabIndex = 1
-        Me.CustomerLast.Text = "sf"
         '
         'Email
         '
         Me.Email.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Email.ForeColor = System.Drawing.Color.Blue
-        Me.Email.Location = New System.Drawing.Point(444, 154)
+        Me.Email.Location = New System.Drawing.Point(444, 156)
         Me.Email.Name = "Email"
         Me.Email.Size = New System.Drawing.Size(203, 22)
         Me.Email.TabIndex = 33
@@ -913,6 +911,63 @@ Partial Class BillOSale
         Me.ToolTipBillOSale.SetToolTip(Me.cmdClear, "Clears only the inventory entries ")
         Me.cmdClear.UseVisualStyleBackColor = True
         '
+        'ScanDn
+        '
+        Me.ScanDn.Location = New System.Drawing.Point(826, 137)
+        Me.ScanDn.Name = "ScanDn"
+        Me.ScanDn.Size = New System.Drawing.Size(28, 23)
+        Me.ScanDn.TabIndex = 79
+        Me.ToolTipBillOSale.SetToolTip(Me.ScanDn, "Scans down to previous sale ")
+        Me.ScanDn.UseVisualStyleBackColor = True
+        '
+        'ScanUp123
+        '
+        Me.ScanUp123.AutoSize = True
+        Me.ScanUp123.Location = New System.Drawing.Point(826, 116)
+        Me.ScanUp123.Name = "ScanUp123"
+        Me.ScanUp123.Size = New System.Drawing.Size(28, 23)
+        Me.ScanUp123.TabIndex = 80
+        Me.ToolTipBillOSale.SetToolTip(Me.ScanUp123, " Scans up to next sale ")
+        Me.ScanUp123.UseVisualStyleBackColor = True
+        '
+        'cmdSoldTags
+        '
+        Me.cmdSoldTags.Location = New System.Drawing.Point(826, 226)
+        Me.cmdSoldTags.Name = "cmdSoldTags"
+        Me.cmdSoldTags.Size = New System.Drawing.Size(28, 23)
+        Me.cmdSoldTags.TabIndex = 85
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdSoldTags, "Email current copy of sale to customer's email address.")
+        Me.cmdSoldTags.UseVisualStyleBackColor = True
+        '
+        'cmdEmail
+        '
+        Me.cmdEmail.Location = New System.Drawing.Point(826, 196)
+        Me.cmdEmail.Name = "cmdEmail"
+        Me.cmdEmail.Size = New System.Drawing.Size(28, 23)
+        Me.cmdEmail.TabIndex = 87
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdEmail, "Email current copy of sale to customer's email address.")
+        Me.cmdEmail.UseVisualStyleBackColor = True
+        '
+        'cmdPrint
+        '
+        Me.cmdPrint.Location = New System.Drawing.Point(826, 175)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(28, 23)
+        Me.cmdPrint.TabIndex = 86
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdPrint, " Print current copy of sale. ")
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
+        'cmdChangePrice
+        '
+        Me.cmdChangePrice.AutoSize = True
+        Me.cmdChangePrice.Location = New System.Drawing.Point(826, 80)
+        Me.cmdChangePrice.Name = "cmdChangePrice"
+        Me.cmdChangePrice.Size = New System.Drawing.Size(28, 23)
+        Me.cmdChangePrice.TabIndex = 89
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdChangePrice, "Apply a Discount.")
+        Me.cmdChangePrice.UseVisualStyleBackColor = True
+        Me.cmdChangePrice.Visible = False
+        '
         'fraBOS2
         '
         Me.fraBOS2.BackColor = System.Drawing.SystemColors.Control
@@ -998,6 +1053,15 @@ Partial Class BillOSale
         Me.fraHover.TabIndex = 94
         Me.fraHover.TabStop = False
         Me.fraHover.Visible = False
+        '
+        'cmdNoChangePrice
+        '
+        Me.cmdNoChangePrice.Location = New System.Drawing.Point(826, 81)
+        Me.cmdNoChangePrice.Name = "cmdNoChangePrice"
+        Me.cmdNoChangePrice.Size = New System.Drawing.Size(28, 23)
+        Me.cmdNoChangePrice.TabIndex = 98
+        Me.cmdNoChangePrice.UseVisualStyleBackColor = True
+        Me.cmdNoChangePrice.Visible = False
         '
         'lblBalDueCaption
         '
@@ -1110,6 +1174,7 @@ Partial Class BillOSale
         Me.Button1.TabIndex = 105
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'Button2
         '
@@ -1119,6 +1184,7 @@ Partial Class BillOSale
         Me.Button2.TabIndex = 106
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
+        Me.Button2.Visible = False
         '
         'lblGrossSales
         '
@@ -1128,15 +1194,6 @@ Partial Class BillOSale
         Me.lblGrossSales.Size = New System.Drawing.Size(0, 13)
         Me.lblGrossSales.TabIndex = 108
         '
-        'ScanDn
-        '
-        Me.ScanDn.Location = New System.Drawing.Point(826, 137)
-        Me.ScanDn.Name = "ScanDn"
-        Me.ScanDn.Size = New System.Drawing.Size(28, 23)
-        Me.ScanDn.TabIndex = 79
-        Me.ToolTipBillOSale.SetToolTip(Me.ScanDn, "Scans down to previous sale ")
-        Me.ScanDn.UseVisualStyleBackColor = True
-        '
         'picHover
         '
         Me.picHover.Location = New System.Drawing.Point(45, 16)
@@ -1145,63 +1202,6 @@ Partial Class BillOSale
         Me.picHover.TabIndex = 95
         Me.picHover.TabStop = False
         Me.picHover.Visible = False
-        '
-        'ScanUp123
-        '
-        Me.ScanUp123.AutoSize = True
-        Me.ScanUp123.Location = New System.Drawing.Point(826, 116)
-        Me.ScanUp123.Name = "ScanUp123"
-        Me.ScanUp123.Size = New System.Drawing.Size(28, 23)
-        Me.ScanUp123.TabIndex = 80
-        Me.ToolTipBillOSale.SetToolTip(Me.ScanUp123, " Scans up to next sale ")
-        Me.ScanUp123.UseVisualStyleBackColor = True
-        '
-        'cmdNoChangePrice
-        '
-        Me.cmdNoChangePrice.Location = New System.Drawing.Point(826, 81)
-        Me.cmdNoChangePrice.Name = "cmdNoChangePrice"
-        Me.cmdNoChangePrice.Size = New System.Drawing.Size(28, 23)
-        Me.cmdNoChangePrice.TabIndex = 98
-        Me.cmdNoChangePrice.UseVisualStyleBackColor = True
-        Me.cmdNoChangePrice.Visible = False
-        '
-        'cmdSoldTags
-        '
-        Me.cmdSoldTags.Location = New System.Drawing.Point(826, 226)
-        Me.cmdSoldTags.Name = "cmdSoldTags"
-        Me.cmdSoldTags.Size = New System.Drawing.Size(28, 23)
-        Me.cmdSoldTags.TabIndex = 85
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdSoldTags, "Email current copy of sale to customer's email address.")
-        Me.cmdSoldTags.UseVisualStyleBackColor = True
-        '
-        'cmdEmail
-        '
-        Me.cmdEmail.Location = New System.Drawing.Point(826, 196)
-        Me.cmdEmail.Name = "cmdEmail"
-        Me.cmdEmail.Size = New System.Drawing.Size(28, 23)
-        Me.cmdEmail.TabIndex = 87
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdEmail, "Email current copy of sale to customer's email address.")
-        Me.cmdEmail.UseVisualStyleBackColor = True
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(826, 175)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(28, 23)
-        Me.cmdPrint.TabIndex = 86
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdPrint, " Print current copy of sale. ")
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdChangePrice
-        '
-        Me.cmdChangePrice.AutoSize = True
-        Me.cmdChangePrice.Location = New System.Drawing.Point(826, 80)
-        Me.cmdChangePrice.Name = "cmdChangePrice"
-        Me.cmdChangePrice.Size = New System.Drawing.Size(28, 23)
-        Me.cmdChangePrice.TabIndex = 89
-        Me.ToolTipBillOSale.SetToolTip(Me.cmdChangePrice, "Apply a Discount.")
-        Me.cmdChangePrice.UseVisualStyleBackColor = True
-        Me.cmdChangePrice.Visible = False
         '
         'picFormatHelper
         '
@@ -1223,10 +1223,12 @@ Partial Class BillOSale
         '
         'imgCalendar
         '
+        Me.imgCalendar.BackColor = System.Drawing.SystemColors.ButtonShadow
         Me.imgCalendar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.imgCalendar.Image = Global.WinCDS.My.Resources.Resources.calendar
         Me.imgCalendar.Location = New System.Drawing.Point(180, 39)
         Me.imgCalendar.Name = "imgCalendar"
-        Me.imgCalendar.Size = New System.Drawing.Size(31, 27)
+        Me.imgCalendar.Size = New System.Drawing.Size(36, 27)
         Me.imgCalendar.TabIndex = 6
         Me.imgCalendar.TabStop = False
         Me.ToolTipBillOSale.SetToolTip(Me.imgCalendar, "View the Delivery Calendar")

@@ -164,4 +164,33 @@ Module modDevelopment
         End Select
     End Function
 
+    Public Function IsBetaChannel() As Boolean
+        IsBetaChannel = WinCDSRevisionNumber() = EXE_CHANNEL_ID_BETA
+    End Function
+
+    '###EXECHANNEL
+    Public Function ExeChannelName(Optional ByVal RevisionNumber As String = "#") As String
+        If RevisionNumber = "#" Then RevisionNumber = WinCDSRevisionNumber()
+
+        Select Case RevisionNumber
+            Case EXE_CHANNEL_ID_BETA : ExeChannelName = EXE_CHANNEL_BETA
+            Case EXE_CHANNEL_ID_ALPHA : ExeChannelName = EXE_CHANNEL_ALPHA
+            Case EXE_CHANNEL_ID_DEV : ExeChannelName = EXE_CHANNEL_DEV
+            Case Else : ExeChannelName = EXE_CHANNEL_PRODUCTION
+        End Select
+    End Function
+
+    '###EXECHANNEL
+    Public Function ExeChannelNameColor(Optional ByVal RevisionNumber As String = "#") As Color
+        If RevisionNumber = "#" Then RevisionNumber = WinCDSRevisionNumber()
+
+        Select Case RevisionNumber
+            Case EXE_CHANNEL_ID_BETA : ExeChannelNameColor = Color.FromArgb(128, 128, 255)
+            Case EXE_CHANNEL_ID_ALPHA : ExeChannelNameColor = Color.Red
+            Case EXE_CHANNEL_ID_DEV : ExeChannelNameColor = Color.Yellow
+            Case Else : ExeChannelNameColor = Color.FromArgb(128, 128, 255)
+        End Select
+    End Function
+
+
 End Module

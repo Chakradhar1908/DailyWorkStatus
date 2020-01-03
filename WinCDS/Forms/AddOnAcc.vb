@@ -70,6 +70,12 @@ SkipItem:
         'If cmdRevolving.Value = True Then SelectedValue = AddRevolvingSuffix(SelectedValue)
 
         'Note:  FOR THE ABOVE ERROR, REFER BOOKMARK BUTTON.VALUE
+        'SOLUTION FOR THE ERROR, READ THE BELOW FOUR LINES.
+        'The VB6 code used a button that stayed clicked when pressed it until it was pressed again and it unclicked.  
+        'Therefore it had a 'Value' which indicated whether it was pressed or not pressed.  In .Net it is the Checkbox, not the button, that works like this.  
+        'You make the Checkbox look Like a button Using the appearance Property, And your use the Checked property to test whether it is pressed or not instead of 
+        'the Value property. 
+
 
         ' Replaced by the above; kept for posterity
         '  Dim tmpItem As String, indTab as integer

@@ -124,6 +124,7 @@
     <Compile Include="Class Modules\CLyndonLife.vb" />
     <Compile Include="Class Modules\cPODetail.vb" />
     <Compile Include="Class Modules\cPOReceived.vb" />
+    <Compile Include="Class Modules\cRegHotKey.vb" />
     <Compile Include="Class Modules\CSearchNew.vb" />
     <Compile Include="Class Modules\cTransaction.vb" />
     <Compile Include="Class Modules\sSale.vb" />
@@ -247,6 +248,12 @@
       <DependentUpon>frmEmail.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmHTTPServer.Designer.vb">
+      <DependentUpon>frmHTTPServer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmHTTPServer.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmINet.Designer.vb">
@@ -685,6 +692,7 @@
     <Compile Include="Modules\modValidation.vb" />
     <Compile Include="Modules\modVBControls.vb" />
     <Compile Include="Modules\modVBErros.vb" />
+    <Compile Include="Modules\modVistaUAC.vb" />
     <Compile Include="Modules\modWinCDSLicenses.vb" />
     <Compile Include="Modules\modWindowsVersions.vb" />
     <Compile Include="Modules\modXML.vb" />
@@ -980,6 +988,14 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxLaVolpeAlphaImg">
+      <Guid>{B68EDB8F-672E-4A15-9EE4-4E0C70B805D2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxMapPoint">
       <Guid>{51C0A9CA-F7B7-4F5A-96F4-43927C6FA50F}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -1000,6 +1016,14 @@
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxMSComDlg">
+      <Guid>{F9043C88-F6F2-101A-A3C9-08002B2F49FB}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>2</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
@@ -1089,6 +1113,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="LaVolpeAlphaImg">
+      <Guid>{B68EDB8F-672E-4A15-9EE4-4E0C70B805D2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="MapPoint">
       <Guid>{51C0A9CA-F7B7-4F5A-96F4-43927C6FA50F}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -1129,6 +1162,15 @@
       <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="MSComDlg">
+      <Guid>{F9043C88-F6F2-101A-A3C9-08002B2F49FB}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>2</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
@@ -1392,6 +1434,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\StandardButton-Web3.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blue-180x60.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blue-gradient-9-1920x1080.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mFile-U.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mOrder-U.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mInventory-U.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mAccounting-U.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mMailing-U.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mInstallment-U.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

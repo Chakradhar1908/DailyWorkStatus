@@ -130,4 +130,31 @@
     Public Function InstallmentLicenseValid(ByVal S As String) As Boolean
         InstallmentLicenseValid = IsIn(S, LICENSE_INSTALLMENT, "TEST")
     End Function
+
+    Public Function IsDemo() As Boolean
+        IsDemo = (License = LICENSE_DEMO) Or (Not LicenseValid(License)) Or (UCase(StoreSettings.Name) = "DEMO")
+        If IP_CONTROL Then IsDemo = IsDemo Or IPAddressIsBanned
+    End Function
+
+    Public Function DemoExpirationDate(Optional ByVal Reset As Boolean = False) As Date
+        Dim R As String, T As String
+        Const fDemoExpirationDate = "DemoExpirationDate"
+        If Not IsDemo() Then
+            DemoExpirationDate = YearAdd(Of Date, 1)()
+            Exit Function
+        End If
+
+        R = GetConfigTableValue(fDemoExpirationDate)
+        T = DateAdd("d", 30, Date)
+        If IsDate(R) Then
+            If DateAfter(R, T) Then R = ""
+        End If
+        If Not IsDate(R) Or Reset Then
+            R = T
+            SetConfigTableValue fDemoExpirationDate, R
+  End If
+
+        DemoExpirationDate = DateValue(R)
+    End Function
+
 End Module

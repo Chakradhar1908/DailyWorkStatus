@@ -302,7 +302,6 @@ Public Class BillOSale
 
     Private Sub UpdateForm()
         On Error Resume Next
-
         MoveControl(imgLogo, 3330, 60, 5775, 1995, True)
         'ResizeAndCenterPicture(imgLogo, StoreLogoPicture())
 
@@ -776,6 +775,7 @@ NextItem:
         UpdateForm()
         SetButtonImage(cmdApplyBillOSale, 2)
         SetButtonImage(cmdCancel, 3)
+
         ColorDatePicker(dteSaleDate)
         ColorDatePicker(dteDelivery)
 

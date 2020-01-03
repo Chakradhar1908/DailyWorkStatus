@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Interaction
+﻿Imports VBA
+Imports Microsoft.VisualBasic.Interaction
 Public Class OrdStatus
     Public Dimensions As String
     Public Mode As String
@@ -622,7 +623,6 @@ Public Class OrdStatus
         optLayaway.Checked = False
 
         FocusQuantity
-
     End Sub
 
     Private Sub FocusQuantity(Optional ByVal Always As Boolean = False)
@@ -770,5 +770,139 @@ Public Class OrdStatus
         BillOSale.RowClear(X)
         'Unload OrdStatus
         Me.Close()
+    End Sub
+
+    Private Sub optTagIncoming_Click(sender As Object, e As EventArgs) Handles optTagIncoming.Click
+        '  NoPO
+        If True Or IsCranes Then
+            If Val(Quan.Text) > Val(lblTagAmt.Text) Then
+                Dim M As String, R As VbMsgBoxResult
+                M = ""
+                M = M & "There are not enough items on order for this sale!" & vbCrLf
+                M = M & "Select Cancel to Special Order or Continue to oversell Incoming Stock." & vbCrLf
+                M = M & vbCrLf
+                M = M & "Be sure to notify Management to order item for stock!"
+                R = MessageBox.Show(M, "Tag Incoming Stock Oversold", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2)
+                If R = vbCancel Then
+                    optSpecOrd.Checked = True
+                    Exit Sub
+                End If
+            End If
+        End If
+        FocusQuantity()
+    End Sub
+
+    Private Sub optSpecOrd_Click(sender As Object, e As EventArgs) Handles optSpecOrd.Click
+        Dim X As Integer
+        If Mode = "Adj" Then
+        Else
+            X = BillOSale.X
+        End If
+        'Special Order
+        NoPO()
+
+        If Mode = "Adj" Then
+        Else
+            BillOSale.DescEnabled = True
+        End If
+
+        optReduceStock.TabStop = False
+        optTakeWith.TabStop = False
+        optLayaway.TabStop = False
+
+        optReduceStock.Checked = False
+        optTakeWith.Checked = False
+        optLayaway.Checked = False
+
+        FocusQuantity()
+    End Sub
+    Private Sub NoPO()
+        '    Dim I as integer
+        '    Dim HideAndShow As Boolean, DisableAndEnable As Boolean
+        '    HideAndShow = False
+        '    DisableAndEnable = False
+        '    If optTagIncoming.Value Then
+        '        If HideAndShow Then  ' BFH20050120
+        '          fraIncoming.Visible = True
+        '          fraOnHand.Visible = False
+        '        End If
+        '        If DisableAndEnable Then
+        '          For I = 1 To cOptionCount
+        '            optStock(I).Enabled = False
+        '            optStock(I).Value = False
+        '          Next
+        '        End If
+        '
+        '        For I = 1 To cOptionCount
+        '          optOrder(I).Enabled = True
+        '        Next
+        '    Else
+        '        If HideAndShow Then  ' BFH20050120
+        '          fraIncoming.Visible = False
+        '          fraOnHand.Visible = True
+        '        End If
+        '        If DisableAndEnable Then
+        '          For I = 1 To cOptionCount
+        '            optStock(I).Enabled = True
+        '            optOrder(I).Enabled = False
+        '          Next
+        '        End If
+        '          For I = 1 To cOptionCount
+        '            optOrder(I).Value = False
+        '          Next
+        '    End If
+        '    For I = 1 To cOptionCount
+        '      optOrder(I).Value = False
+        '    Next
+        '
+        '    GetStore
+    End Sub
+
+    Private Sub optTakeWith_Click(sender As Object, e As EventArgs) Handles optTakeWith.Click
+        Dim X As Integer
+
+        'bfh20050711
+        ' record and reset store..
+        ' easiest way to make checking this option not clear the store above, w/o finding out why..
+        X = StoreStock
+        'take with
+        NoPO()
+        StoreStock = X
+        StoreStock = StoresSld ' bfh20100823 - Take With is always current store, regardless of bSellFromLoginLocation
+
+        If Mode = "Adj" Then
+        Else
+            BillOSale.DescEnabled = True 'added 05-21-01 for Sleep Store
+        End If
+        optReduceStock.TabStop = False
+        optSpecOrd.TabStop = False
+        optLayaway.TabStop = False
+
+        optReduceStock.Checked = False
+        optSpecOrd.Checked = False
+        optLayaway.Checked = False
+
+        FocusQuantity()
+    End Sub
+
+    Private Sub optLayaway_Click(sender As Object, e As EventArgs) Handles optLayaway.Click
+        'Lay A-Way
+        NoPO()
+
+        If Mode = "Adj" Then
+        Else
+            If IsFormLoaded("BillOSale") Then
+                BillOSale.DescEnabled = True
+            End If
+        End If
+        optReduceStock.TabStop = False
+        optTakeWith.TabStop = False
+        optSpecOrd.TabStop = False
+
+        optReduceStock.Checked = False
+        optTakeWith.Checked = False
+        optSpecOrd.Checked = False
+
+        FocusQuantity()
     End Sub
 End Class

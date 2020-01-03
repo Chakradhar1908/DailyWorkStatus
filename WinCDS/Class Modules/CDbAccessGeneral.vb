@@ -123,8 +123,6 @@ AnError:
     End Sub
 
     Public Function dbOpen(Optional ByVal DBName As String = "") As Boolean
-        ' --> Below databse connection code has been commented. It will be implemented in app.config file. <--
-
         Dim TryCount As Integer, T As Date
         'TrackDataAccess
         On Error GoTo AnError

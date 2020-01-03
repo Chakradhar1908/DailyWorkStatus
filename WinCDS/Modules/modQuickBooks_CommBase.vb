@@ -266,4 +266,17 @@ Failed:
         End Get
     End Property
 
+    Public Sub QBSM_Reset()
+        Select Case QBFCVersion
+            Case 5 : QBSM5_Reset()
+            Case 6 : QBSM6_Reset()
+            Case 7 : QBSM7_Reset()
+            Case 8 : QBSM8_Reset()
+            Case 10 : QBSM10_Reset()
+            Case 11 : QBSM11_Reset()
+            Case 12 : QBSM12_Reset()
+            Case 13 : QBSM13_Reset()
+        End Select
+    End Sub
+
 End Module

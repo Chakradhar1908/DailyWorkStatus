@@ -68,7 +68,6 @@
         Dim OptionID as integer
     End Structure
 
-
     Public ReadOnly Property LastLoginExpired() As Boolean
         Get
             If IsFormLoaded("BillOSale") Then LastLoginExpired = False : Exit Property
@@ -594,5 +593,35 @@ ErrCrypt:
         MsgBox("Error decrypting " & EncText & " for " & UserName & "." & vbCrLf &
     "Please contact " & AdminContactString(Format:=1, Phone:=False) & " immediately!", vbCritical, ProgramErrorTitle)
     End Function
+
+    Public Sub LogOut()
+        '::::LogOut
+        ':::SUMMARY
+        ': Log Out current user (if any)
+        ':::DESCRIPTION
+        ': This function is used to log out any current user
+        LastLoginExpiry = 0
+        LastLoginPriv = ""
+        LastLoginName = ""
+        UpdatePermissionMonitor "", "", ""
+  MainMenu.cmdLogout.Visible = False
+    End Sub
+
+    Public Sub ClearAccess()
+        '::::ClearAccess
+        ':::SUMMARY
+        ': Clears last login
+        ':::DESCRIPTION
+        ': This function is used to clear last login user Access details like name etc.
+        LastLoginName = ""
+        LastLoginPriv = ""
+        UpdatePermissionMonitor ""
+End Sub
+
+    Public ReadOnly Property IsLoggedIn() As Boolean
+        Get
+            IsLoggedIn = Not LastLoginExpired
+        End Get
+    End Property
 
 End Module

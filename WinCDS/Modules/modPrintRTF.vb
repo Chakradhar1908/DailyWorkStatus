@@ -95,7 +95,7 @@ Module modPrintRTF
         'Printer.Print(x)
 
         ' Loop printing each page until done
-        Dim NextCharPosition2 As Long
+        Dim NextCharPosition2 as integer
         Do
 
             ' Print the page by sending EM_FORMATRANGE message

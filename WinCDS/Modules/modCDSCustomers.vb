@@ -354,4 +354,11 @@
             IsBilliardsAndBarstools = CheckStoreName("Billiards & Barstools")
         End Get
     End Property
+
+    Public ReadOnly Property IsCranes() As Boolean
+        Get
+            IsCranes = CheckStoreName("Cranes")
+        End Get
+    End Property
+
 End Module

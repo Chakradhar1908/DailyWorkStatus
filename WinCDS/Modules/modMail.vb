@@ -90,7 +90,7 @@ Module modMail
         OriginalPrint = Printer.DeviceName
 
         If Not SetDymoPrinter(LabelType) Then
-            MsgBox("Printing address mailing labels requires a DYMO printer." & vbCrLf & "A DYMO label printer could not be detected on your computer.", vbInformation, "Dymo Printer Required!")
+            MessageBox.Show("Printing address mailing labels requires a DYMO printer." & vbCrLf & "A DYMO label printer could not be detected on your computer.", "Dymo Printer Required!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
 
