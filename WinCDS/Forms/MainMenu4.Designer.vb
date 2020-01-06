@@ -72,6 +72,8 @@ Partial Class MainMenu4
         Me.lblStore1 = New System.Windows.Forms.Label()
         Me.lblStore2 = New System.Windows.Forms.Label()
         Me.KeyCatch = New System.Windows.Forms.TextBox()
+        Me.imgInfo = New System.Windows.Forms.PictureBox()
+        Me.imgBackground = New System.Windows.Forms.PictureBox()
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,6 +91,8 @@ Partial Class MainMenu4
         CType(Me.imgSelected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgSubSelected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMenuItem, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInfo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgBackground, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imlMiniButtons
@@ -556,11 +560,29 @@ Partial Class MainMenu4
         Me.KeyCatch.Size = New System.Drawing.Size(100, 20)
         Me.KeyCatch.TabIndex = 47
         '
+        'imgInfo
+        '
+        Me.imgInfo.Location = New System.Drawing.Point(495, 445)
+        Me.imgInfo.Name = "imgInfo"
+        Me.imgInfo.Size = New System.Drawing.Size(120, 69)
+        Me.imgInfo.TabIndex = 48
+        Me.imgInfo.TabStop = False
+        '
+        'imgBackground
+        '
+        Me.imgBackground.Location = New System.Drawing.Point(661, 451)
+        Me.imgBackground.Name = "imgBackground"
+        Me.imgBackground.Size = New System.Drawing.Size(103, 62)
+        Me.imgBackground.TabIndex = 49
+        Me.imgBackground.TabStop = False
+        '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 563)
+        Me.Controls.Add(Me.imgBackground)
+        Me.Controls.Add(Me.imgInfo)
         Me.Controls.Add(Me.KeyCatch)
         Me.Controls.Add(Me.lblStore2)
         Me.Controls.Add(Me.lblStore1)
@@ -616,6 +638,8 @@ Partial Class MainMenu4
         CType(Me.imgSelected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgSubSelected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMenuItem, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInfo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgBackground, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -668,4 +692,6 @@ Partial Class MainMenu4
     Friend WithEvents lblStore1 As Label
     Friend WithEvents lblStore2 As Label
     Friend WithEvents KeyCatch As TextBox
+    Friend WithEvents imgInfo As PictureBox
+    Friend WithEvents imgBackground As PictureBox
 End Class

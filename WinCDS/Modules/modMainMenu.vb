@@ -177,4 +177,119 @@ Module modMainMenu
             MainMenu = MainMenu4
         End Get
     End Property
+
+    Public Sub InitHotKeys(ByRef CHK As cRegHotKey)
+        '::::InitHotKeys
+        ':::SUMMARY
+        ': Initialize global hot keys, if enabled.
+        ':::DESCRIPTION
+        ': Hook for main menu to initialize the hot keys.
+        ':::PARAMETERS
+        ': - CHK - ByRef
+        On Error Resume Next
+        '  m_cHotKey.RegisterKey "Activate", vbKeyUp, MOD_ALT + MOD_CONTROL
+        CHK.RegisterKey("Security Monitor", vbKeyF9, MOD_ALT + MOD_CONTROL)
+        '  CHK.RegisterKey "Printers", vbKeyF5, MOD_ALT + MOD_CONTROL
+        '  CHK.RegisterKey "Calculator", vbKeyF2, MOD_ALT + MOD_CONTROL
+        CHK.RegisterKey("ErrorReport", vbKeySnapshot, MOD_WIN)
+    End Sub
+
+    Public Sub DoShutDown(Optional ByVal vQuick As Boolean = False)
+        '::::DoShutDown
+        ':::SUMMARY
+        ': Causes the software to shut down (by closing the main menu).
+        ':::DESCRIPTION
+        ': Shuts down the software immediately from anywhere in the software.
+        ':::PARAMETER
+        ': - vQuick - If set, performs the operation without confirmation.
+        QuickQuit = vQuick
+        Unload MainMenu
+End Sub
+
+    Public Sub DoPractice()
+        '::::DoPractice
+        ':::SUMMARY
+        ': Opens developer panel
+        ':::DESCRIPTION
+        ': Opens the Developer Panel.
+        Dim CHK As VbMsgBoxResult, SS As String
+
+        CHK = vbRetry
+
+        If Not CheckAccess("Store Setup") Then Exit Sub
+
+        If (IsDevelopment() Or IsIDE() Or IsCDSComputer()) Then
+            CHK = vbOK
+        ElseIf SecurityLevel = seclevNoPasswords Then
+            SS = InputBox("Enter Password: ", "Developer's Panel", , "*")
+            CHK = IIf(Backdoor(SS), vbOK, vbCancel)
+        End If
+
+        If CHK = vbRetry Then
+            CHK = IIf(IsDevelopment, vbOK, MsgBox("You have entered the Developer's Area.  Please cancel!", vbCritical + vbOKCancel + vbDefaultButton2, "Warning: Entering Developer's Area"))
+        End If
+
+        If CHK = vbOK Then
+            MainMenu.Hide()
+            Practice.Show()
+        End If
+    End Sub
+
+    Public Sub ShowLicenseAgreement(Optional ByVal ReShow As Boolean = False)
+        '::::ShowLicenseAgreement
+        ':::SUMMARY
+        ': Opens License Agreement
+        ': - ReShow - When not set, only shows if not seen before.  If set, will show regardless.
+        ':::RETURN
+        frmLicenseAgreement.LicenseAgreement ReShow
+End Sub
+
+    Public Sub MainMenu_NumberKeys(ByVal KeyCode As Integer)
+        '::::MainMenu_NumberKeys
+        ':::SUMMARY
+        ': Handles the NumberKeys event from the main menu
+        ':::DECSRIPTION
+        ': Handles an imaginary 'NumberKeys' event from the main menu
+        ':
+        ': The Main menu should merely call this function and return
+        ':::PARAMETERS
+        ': KeyCode - Returns the Integer value.
+        On Error Resume Next
+        If Not IsDevelopment() Then Exit Sub
+        ' BFH20090130
+        ' This is our development, main-menu quick-launch section.
+        ' Put parts of the program you wish to access quickly that you are working on, so you don't have to navigate through sub-menus.
+        ' It may be a little redundant (just specify a key-board shortcut in the menu item creation?), but it works.
+        Select Case KeyCode
+
+' Do not use "0" as it is 'special' and handled below.
+            Case 49 '1
+      Set MainMenu.WebServ = New frmHTTPServer
+      MainMenu.WebServ.HTTPPort = 8080
+                MainMenu.WebServ.StartHTTP
+                MainMenu.WebServ.Show()               ' is a form
+            Case 50 '2
+                frmSupportHost.Listen
+            Case 51 '3
+                PracticeCommandPromptFunctions.Show
+            Case 52 '4
+                MainMenu.Hide()
+                frmAshleyEDI888.Show
+            Case 53 '5
+                Order = "TABLE-VIEWER"
+                frmTableView.Show 'vbModal
+'        Order = ""
+            Case 54 '6
+                MainMenu.Hide()
+                frmAWSAdmin.Show
+            Case 55 '7
+                MainMenu.Hide()
+                PracticeDiagnostics.Show
+            Case 56 '8
+                PracticeCommandPrompt.Show
+            Case 57 '9
+                PermissionMonitor 0
+  End Select
+    End Sub
+
 End Module

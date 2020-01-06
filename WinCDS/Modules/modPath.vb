@@ -464,4 +464,81 @@ Fail:
         IsPathAbsolute = (Mid(Path, 2, 2) = ":\") And Not IsInStr(Path, "\.\") And Not IsInStr(Path, "\..\")
     End Function
 
+    Public Function AllFiles(ByVal DirPath As String) As String()
+        '::::AllFiles
+        ':::SUMMARY
+        ':Return an array containing name of all files in directory specified
+        ':::DESCRIPTION
+        ':Given a valid directory, will return a String() array containing all filenames (without path).
+        ':::PAREMETERS
+        ': - DirPath - Valid directory ending in DIRSEP ("\") or with a valid wildcard specifier.
+        ':::EXAMPLES
+        ': - DirPath("C:\Windows\")
+        ': - DirPath("C:\Windows\*.exe")
+        ':
+        ':Dim sFiles() As String
+        ':Dim lCtr As Long
+        ':
+        ':sFiles = AllFiles("C:\windows\")
+        ':For lCtr = 0 To UBound(sFiles)
+        ':  Debug.Print sFiles(lCtr)
+        ':Next
+        ':
+        ':::RETURNS
+        ':Returns a string array of the files in the folder.
+        ':::SEE ALSO
+        ': FolderExists, CleanPath
+        ': AllFolders
+        '***************************************************
+        'PURPOSE: RETURN AN ARRAY CONTAINING NAME OF ALL FILES IN
+        'DIRECTORY SPECIFIED BY DIR PATH
+        '
+        'PARAMETER:
+        '
+        '  'DIRPATH: A VALID DRIVE OR SUBDIRECTORY ON YOUR SYSTEM,
+        '  'ENDING WITH FORWARD SLASH (\) CHARACTER, OR
+        '  'A DRIVE OR SUBDIRECTORY FOLLOWED BY A WILD CARD
+        '  'STRING (e.g., C:\WINDOWS\*.txt)
+        '
+        'RETURNS: A STRING ARRAY WITH THE NAMES OF ALL FILENAMES
+        'IN THE DIRECTORY, INCLUDING HIDDEN, SYSTEM, AND READ-ONLY FILES
+        'THE FUNCTION IS NON RECURSIVE, I.E., IT DOES NOT SEARCH
+        'SUBDIRECTORIES UNDERNEATH DIRPATH
+
+        'REQUIRES: VB6, BECAUSE IT RETURNS A STRING ARRAY
+
+        'EXAMPLE
+        'Dim sFiles() As String
+        'Dim lCtr As Long
+
+        'sFiles = AllFiles("C:\windows\")
+        'For lCtr = 0 To UBound(sFiles)
+        '    Debug.Print sFiles(lCtr)
+        'Next
+        '********************************************************
+
+        Dim sFIle As String
+        Dim lElement As Long
+        Dim sAns() As String
+        ReDim sAns(0)
+
+        If InStr(DirPath, "*") = 0 Then
+            If Right(DirPath, 1) <> DIRSEP Then DirPath = DirPath & DIRSEP
+        End If
+
+
+        sFIle = Dir(DirPath, vbNormal + vbHidden + vbReadOnly + vbSystem + vbArchive)
+        If sFIle <> "" Then
+            sAns(0) = sFIle
+            Do
+                sFIle = Dir()
+                If sFIle = "" Then Exit Do
+                lElement = IIf(sAns(0) = "", 0, UBound(sAns) + 1)
+                ReDim Preserve sAns(lElement) As String
+      sAns(lElement) = sFIle
+            Loop
+        End If
+        AllFiles = sAns
+    End Function
+
 End Module

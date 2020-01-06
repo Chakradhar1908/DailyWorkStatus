@@ -171,4 +171,19 @@ Module modDates
         YearAdd = DateAdd("yyyy", Value, mDate)
     End Function
 
+    Public Function DateStampValue(ByVal DS As String) As Date
+        On Error Resume Next
+        If Len(DS) = 8 Then
+            DateStampValue = DateValue(Mid(DS, 5, 2) & "/" & Right(DS, 2) & "/" & Left(DS, 4))
+        ElseIf Len(DS) = 12 Then
+            ' fallthrough... do just date first, then try for w time
+            DateStampValue = DateValue(Mid(DS, 5, 2) & "/" & Mid(DS, 7, 2) & "/" & Left(DS, 4) & " " & Mid(DS, 9, 2) & ":" & Mid(DS, 11, 2))
+            DateStampValue = (Mid(DS, 5, 2) & "/" & Mid(DS, 7, 2) & "/" & Left(DS, 4) & " " & Mid(DS, 9, 2) & ":" & Mid(DS, 11, 2))
+        ElseIf Len(DS) > 8 And Len(DS) < 12 Then
+            DateStampValue = DateStampValue(Left(DS, 8))
+        Else
+            DateStampValue = DateStampValue(Left(DS, 12))
+        End If
+    End Function
+
 End Module

@@ -674,7 +674,18 @@ Finish:
         If Data Then AccountingFolder = AccountingFolder & "Data\"
     End Function
 
-    Public Function GetDatabaseAP(Optional ByVal Location as integer = 1) As String
+    Public Function GetDatabaseAP(Optional ByVal Location As Integer = 1) As String
         GetDatabaseAP = APFolder(True) & "L" & Location & "-AP.MDB"
     End Function
+
+    Public Property QuickQuit() As Boolean
+        Get
+            QuickQuit = mQuickQuit
+            If ReadStoreSetting(0, iniSection_StoreSettings, "QuickQuit") <> "" Then QuickQuit = True
+        End Get
+        Set(value As Boolean)
+            mQuickQuit = value
+        End Set
+    End Property
+
 End Module

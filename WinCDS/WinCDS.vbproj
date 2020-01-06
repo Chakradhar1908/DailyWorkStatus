@@ -178,6 +178,12 @@
     <Compile Include="Forms\EditPO.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmAbout.Designer.vb">
+      <DependentUpon>frmAbout.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAbout.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmBackUpGeneric.Designer.vb">
       <DependentUpon>frmBackUpGeneric.vb</DependentUpon>
     </Compile>
@@ -715,6 +721,12 @@
     <Compile Include="PrintUserControlForucPBar.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserControls\MessageCenter.Designer.vb">
+      <DependentUpon>MessageCenter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessageCenter.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\RichTextBoxNew.Designer.vb">
       <DependentUpon>RichTextBoxNew.vb</DependentUpon>
     </Compile>
@@ -926,6 +938,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MessageCenter.resx">
+      <DependentUpon>MessageCenter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RichTextBoxNew.resx">
       <DependentUpon>RichTextBoxNew.vb</DependentUpon>
@@ -1461,6 +1476,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mInstallment-U.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\STOP.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
