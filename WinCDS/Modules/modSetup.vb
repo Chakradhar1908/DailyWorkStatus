@@ -76,6 +76,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const CompanyURL2 As String = "http://" & CompanyURL_BARE2 & "/"
     Public Const CompanyURL_BARE2 As String = "www.wincds.net"
     Public Const ProgramShort As String = ProgramName & " POS for Furniture Stores"
+    Public Const ProgramCaption As String = CompanyName
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get
@@ -278,5 +279,29 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
             WebUpdateURL = Switch(URLTryAlt = 2, CompanyURL2, True, CompanyURL) & "webupdate/"
         End Get
     End Property
+
+    Public Function SoftwareVersionForLog() As String
+        SoftwareVersionForLog = SoftwareVersion(False, True, True, True, True) & " [" & Now & "]"
+    End Function
+
+    Public Sub CheckEXEUpdate()
+        '::::CheckEXEUpdate
+        ':::SUMMARY
+        ': Checks to see if an update is needed.
+        ':::DESCRIPTION
+        ': Checks and sets the current EXE date to see if there was a change and an upgrade is needed.
+        Dim X As String, V As String
+        On Error Resume Next
+        ShutdownSemaforeFile DeleteIt:=True ' remove this every program start to prevent loops
+        On Error GoTo 0
+
+        V = GetLastEXEDate
+        SetCurrentEXEDate
+
+        If Not IsDate(V) Then Exit Sub
+        If Not DateEqual(V, X) Then
+            frmUpgrade.NotifyUpgrade
+        End If
+    End Sub
 
 End Module

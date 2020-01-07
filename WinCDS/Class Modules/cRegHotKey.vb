@@ -1,4 +1,11 @@
 ﻿Public Class cRegHotKey
+    Public Enum EHKModifiers
+        MOD_ALT = &H1&
+        MOD_CONTROL = &H2&
+        MOD_SHIFT = &H4&
+        MOD_WIN = &H8&
+    End Enum
+
     Public Sub Attach(ByVal hwndA As IntPtr)
         Clear
         If (hwndA <> 0) Then

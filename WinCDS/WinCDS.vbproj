@@ -280,6 +280,12 @@
     <Compile Include="Forms\frmKitLevels.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmLicenseAgreement.Designer.vb">
+      <DependentUpon>frmLicenseAgreement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmLicenseAgreement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmMenu.Designer.vb">
       <DependentUpon>frmMenu.vb</DependentUpon>
     </Compile>
@@ -402,6 +408,12 @@
     <Compile Include="Forms\frmTransferSetup.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmVersionControl.Designer.vb">
+      <DependentUpon>frmVersionControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmVersionControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmYardage.Designer.vb">
       <DependentUpon>frmYardage.vb</DependentUpon>
     </Compile>
@@ -474,6 +486,12 @@
     <Compile Include="Forms\LaAwaySelect.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\LogIn.Designer.vb">
+      <DependentUpon>LogIn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LogIn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MailBook.Designer.vb">
       <DependentUpon>MailBook.vb</DependentUpon>
     </Compile>
@@ -496,6 +514,12 @@
       <DependentUpon>MainMenu4.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainMenu4.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainMenu4_Images.Designer.vb">
+      <DependentUpon>MainMenu4_Images.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainMenu4_Images.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\OnScreenReport.Designer.vb">
@@ -651,6 +675,7 @@
     <Compile Include="Modules\modMACAddress.vb" />
     <Compile Include="Modules\modMail.vb" />
     <Compile Include="Modules\modMainMenu.vb" />
+    <Compile Include="Modules\modMenuAPI.vb" />
     <Compile Include="Modules\modMetaphone.vb" />
     <Compile Include="Modules\modMJKTest.vb" />
     <Compile Include="Modules\modNeoCaption.vb" />

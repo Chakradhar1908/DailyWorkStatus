@@ -731,4 +731,8 @@ Module modAPI
         Next
     End Function
 
+    Public Sub SetAppIcon()
+        SetIcon MainMenu.hWnd, "AAA", True
+End Sub
+
 End Module

@@ -1,4 +1,8 @@
 ﻿Imports VBA
+Imports VBRUN
+Imports Microsoft.VisualBasic.Interaction
+Imports stdole
+
 Public Class MainMenu4
     Private Const FRM_W_MIN As Long = 14355
     Private Const FRM_H_MIN As Long = 9810
@@ -240,7 +244,8 @@ Public Class MainMenu4
     End Sub
 
     Private Sub lblMenuItem_MouseMove(sender As Object, e As MouseEventArgs) Handles lblMenuItem.MouseMove
-        If imgMenuItem(Index).Width < 1000 Then MenuItemHighlight Index
+        'If imgMenuItem(Index).Width < 1000 Then MenuItemHighlight Index
+        If imgMenuItem.Width < 1000 Then MenuItemHighlight(Index)
     End Sub
 
     Private Sub m_cHotKey_HotKeyPress(ByVal sName As String, ByVal eModifiers As EHKModifiers, ByVal eKey As KeyCodeConstants)
@@ -297,7 +302,7 @@ Public Class MainMenu4
     End Sub
 
     Private Sub lblWinCDS_DoubleClick(sender As Object, e As EventArgs) Handles lblWinCDS.DoubleClick
-        DoPractice
+        DoPractice()
     End Sub
 
     Public Sub StartVoidCheck(ByVal LeaseNo As String)
@@ -371,7 +376,7 @@ Public Class MainMenu4
         If IsIn(Func, "numbers", "letters", "styles") Then Result = False
     End Sub
 
-    Private Sub tmrMaintain_Timer()
+    Private Sub tmrMaintain_Tick(sender As Object, e As EventArgs) Handles tmrMaintain.Tick
         MainMenu_Maintain_Timer
     End Sub
 
@@ -385,14 +390,13 @@ Public Class MainMenu4
         If e.KeyCode = Keys.D0 And ZeroLaunch <> "" Then
             Dim R As Object
             R = Split(ZeroLaunch, "|")
-                ZeroLaunch = ""
+            ZeroLaunch = ""
             SelectMenuItem(, R(0), R(1))
             Exit Sub
-            End If
+        End If
 
         'Form_KeyDown KeyCode, Shift
-        MainMenu4_KeyDown(Me, New KeyEventArgs()
-
+        MainMenu4_KeyDown(Me, New KeyEventArgs(Keys.KeyCode And Keys.Shift))
     End Sub
 
     Private Sub KeyCatch_Leave(sender As Object, e As EventArgs) Handles KeyCatch.Leave
@@ -400,17 +404,18 @@ Public Class MainMenu4
     End Sub
 
     Private Sub MainMenu4_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        MainMenu_KeyDown KeyCode, Shift
+        'MainMenu_KeyDown(KeyCode, Shift)
+        MainMenu_KeyDown(e.KeyValue, e.KeyData)
     End Sub
 
     Public Sub SetWindowState(ByVal X As FormWindowStateConstants)
         If IsDevelopment() Then
-            If X = vbMaximized Then
+            If X = FormWindowStateConstants.vbMaximized Then
                 If IsFormLoaded("frmSplash") Then Exit Sub ' Developers really don't like this turned on..
             End If
         End If
-        ActiveLog "MainMenu::SetWindowState(" & Switch(X = vbMinimized, "vbMinimized", X = vbMaximized, "vbMaximized", X = vbNormal, "vbNormal", True, "" & X) & ")", 8
-  WindowState = X
+        ActiveLog("MainMenu::SetWindowState(" & Switch(X = FormWindowStateConstants.vbMinimized, "vbMinimized", X = FormWindowStateConstants.vbMaximized, "vbMaximized", X = FormWindowStateConstants.vbNormal, "vbNormal", True, "" & X) & ")", 8)
+        WindowState = X
     End Sub
 
     Private Sub txtInfo_DoubleClick(sender As Object, e As EventArgs) Handles txtInfo.DoubleClick
@@ -418,9 +423,9 @@ Public Class MainMenu4
     End Sub
 
     Private Sub imgInfo_DoubleClick(sender As Object, e As EventArgs) Handles imgInfo.DoubleClick
-        LoadMenuToForm ""
-  ShowMsgs False
-  ShowInfo Not txtInfo.Visible
+        LoadMenuToForm("")
+        ShowMsgs(False)
+        ShowInfo(Not txtInfo.Visible)
     End Sub
 
     Private Sub lblHelp_Click()
@@ -441,23 +446,24 @@ Public Class MainMenu4
     End Sub
 
     Private Sub LaunchLogin()
-        LogIn.Show vbModal, Me
-End Sub
+        'LogIn.Show vbModal, Me
+        LogIn.ShowDialog(Me)
+    End Sub
 
     Public Sub ReloadMenus()
-        ResetMenus
-        LoadMenuToForm CurrentMenu
-End Sub
+        ResetMenus()
+        LoadMenuToForm(CurrentMenu)
+    End Sub
 
     Private Sub imgBackground_MouseMove(sender As Object, e As MouseEventArgs) Handles imgBackground.MouseMove
         LastMouseMove = Now
-        MenuItemHighlight -1, True
-
-  CatchKeys()
+        MenuItemHighlight(-1, True)
+        CatchKeys()
     End Sub
 
     Private Sub MainMenu4_MouseUp(sender As Object, e As MouseEventArgs) Handles MyBase.MouseUp
-        If Button = vbRightButton Then SystemMenuOnMouseUp Me
+        'If Button = vbRightButton Then SystemMenuOnMouseUp Me
+        If e.Button = MouseButtons.Right Then SystemMenuOnMouseUp(Me)
     End Sub
 
     Private Function tCaption() As String
@@ -470,24 +476,38 @@ End Sub
     Private Sub InitForm()
         Initializing = True
 
-        HelpContextID = 10000
-        SetAppIcon
-        Caption = tCaption()
-
+        'HelpContextID = 10000
+        SetAppIcon()
+        'Caption = tCaption()
+        Text = tCaption()
 
         LoadMainMenu()
 
-        LoadMenuToForm ""
+        LoadMenuToForm("")
 
-  Initializing = False
+        Initializing = False
     End Sub
 
-    Private Sub bvb_MouseEnter(Index As Integer) : MainMenuPulse Index: End Sub
-    Private Sub bvb_MouseExit(Index As Integer) : MainMenuPulse Index, True: End Sub
+    'Private Sub bvb_MouseEnter(Index As Integer) : MainMenuPulse(Index) : End Sub
+    'Private Sub bvb_MouseExit(Index As Integer) : MainMenuPulse Index, True: End Sub
+    Private Sub bvb_MouseEnter(sender As Object, e As EventArgs) Handles bvb0.MouseEnter, bvb1.MouseEnter, bvb2.MouseEnter, bvb3.MouseEnter, bvb4.MouseEnter, bvb5.MouseEnter
+        Dim p As PictureBox
 
-    Private Sub MainMenuPulse(ByVal Index As Long, Optional ByVal StopIt As Boolean)
+        p = CType(sender, PictureBox)
+        MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1))
+    End Sub
+
+    Private Sub bvb_MouseLeave(sender As Object, e As EventArgs) Handles bvb0.MouseLeave, bvb1.MouseLeave, bvb2.MouseLeave, bvb3.MouseLeave, bvb4.MouseLeave, bvb5.MouseLeave
+        Dim p As PictureBox
+
+        p = CType(sender, PictureBox)
+        MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1), True)
+    End Sub
+
+    Private Sub MainMenuPulse(ByVal Index As Long, Optional ByVal StopIt As Boolean = False)
         tmrPulse.Enabled = True
-        bvb(Index).LightnessPct = 0
+        'bvb(Index).LightnessPct = 0  -> Commented this line. Because in vb6, bvb is an "alphaimage" control. But .Net is not supporting it. 
+        '--> So replaced it with picturebox control. And picturebox does not have "LightnessPct" property.
         tmrPulse.Tag = "-1"
         If StopIt Then Exit Sub
         tmrPulse.Interval = 10
@@ -495,22 +515,29 @@ End Sub
         tmrPulse.Enabled = True
     End Sub
 
-    Private Sub tmrPulse_Timer()
+    Private Sub tmrPulse_Tick(sender As Object, e As EventArgs) Handles tmrPulse.Tick
         Const C As Long = 6
         Const T As Long = 1200
         Const Q As Double = 300
         Dim R As Double
+
         If tmrPulse.Tag = "-1" Then
             tmrPulse.Enabled = False
             Exit Sub
         End If
         R = (GetTickCount Mod T) - Q
         R = IIf(R < 500, R, T - R)
-        bvb(Val(tmrPulse.Tag)).LightnessPct = R * C / T + 25
-        bvb(Val(tmrPulse.Tag)).Refresh
+        'bvb(Val(tmrPulse.Tag)).LightnessPct = R * C / T + 25 --> Commented two lines,because bvb is third party control called "alphaimage".
+        'bvb(Val(tmrPulse.Tag)).Refresh                           Replaced with picture box. 
     End Sub
 
-    Private Sub bvb_Click(Index As Integer) : MainMenuClick Index: End Sub
+    'Private Sub bvb_Click(Index As Integer) : MainMenuClick Index: End Sub
+    Private Sub bvb_Click(sender As Object, e As EventArgs) Handles bvb0.Click, bvb1.Click, bvb2.Click, bvb3.Click, bvb4.Click, bvb5.Click
+        Dim p As PictureBox
+
+        p = CType(sender, PictureBox)
+        MainMenuClick(Microsoft.VisualBasic.Right(p.Name, 1))
+    End Sub
 
     Public Sub MainMenuClick(ByVal Index As Long)
         On Error Resume Next
@@ -519,18 +546,40 @@ End Sub
         Dim T As Boolean
 
         If Index = 5 And Not Installment Then
-            MsgBox "Installment module not enabled." & vbCrLf & "Please contact " & AdminContactName & " at " & AdminContactPhone2 & " for pricing.", vbExclamation, "Error - Not Installed"
-    Exit Sub
+            MessageBox.Show("Installment module not enabled." & vbCrLf & "Please contact " & AdminContactName & " at " & AdminContactPhone2 & " for pricing.", "Error - Not Installed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
         End If
 
-        For I = bvb.LBound To bvb.UBound
-            K = LCase(Replace(bvb(I).Tag, " ", "")) & "U"
-'Debug.Print K
-    Set bvb(I).Picture = MainMenu4_Images.MenuImage("mm", K)
-  Next
+        'For I = bvb.LBound To bvb.UBound
+        For I = 0 To 5
+            'K = LCase(Replace(bvb(I).Tag, " ", "")) & "U"
+            Select Case I
+                Case 0
+                    K = LCase(Replace(bvb0.Tag, " ", "")) & "U"
+                    bvb0.Image = MainMenu4_Images.MenuImage("mm", K)
+                Case 1
+                    K = LCase(Replace(bvb1.Tag, " ", "")) & "U"
+                    bvb1.Image = MainMenu4_Images.MenuImage("mm", K)
+                Case 2
+                    K = LCase(Replace(bvb2.Tag, " ", "")) & "U"
+                    bvb2.Image = MainMenu4_Images.MenuImage("mm", K)
+                Case 3
+                    K = LCase(Replace(bvb3.Tag, " ", "")) & "U"
+                    bvb3.Image = MainMenu4_Images.MenuImage("mm", K)
+                Case 4
+                    K = LCase(Replace(bvb4.Tag, " ", "")) & "U"
+                    bvb4.Image = MainMenu4_Images.MenuImage("mm", K)
+                Case 5
+                    K = LCase(Replace(bvb5.Tag, " ", "")) & "U"
+                    bvb5.Image = MainMenu4_Images.MenuImage("mm", K)
+            End Select
+            'Debug.Print K
+            'Set bvb(I).Picture = MainMenu4_Images.MenuImage("mm", K)
+        Next
 
         C = 300
-        W = bvb(0).Width
+        'W = bvb(0).Width
+        W = bvb0.Width
 
         Dim Tk As Long, Mk As Long
         Tk = GetTickCount
@@ -538,44 +587,166 @@ End Sub
         Do While GetTickCount < Mk
             I = (GetTickCount - Tk)
             If Index <> -1 Then
-                bvb(Index).Left = -I / C * W
+                'bvb(Index).Left = -I / C * W
+                Select Case Index
+                    Case 0
+                        bvb0.Left = -I / C * W
+                    Case 1
+                        bvb1.Left = -I / C * W
+                    Case 2
+                        bvb2.Left = -I / C * W
+                    Case 3
+                        bvb3.Left = -I / C * W
+                    Case 4
+                        bvb4.Left = -I / C * W
+                    Case 5
+                        bvb5.Left = -I / C * W
+                End Select
+
                 If I > (C / 2) And Not T Then
                     T = True
-                    K = LCase(Replace(bvb(Index).Tag, " ", "")) & "D"
-  'Debug.Print K
-        Set bvb(Index).Picture = MainMenu4_Images.MenuImage("mm", K)
-      End If
-                bvb(Index).Refresh
+                    'K = LCase(Replace(bvb(Index).Tag, " ", "")) & "D"
+                    Select Case Index
+                        Case 0
+                            K = LCase(Replace(bvb0.Tag, " ", "")) & "D"
+                            bvb0.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb0.Refresh()
+                        Case 1
+                            K = LCase(Replace(bvb1.Tag, " ", "")) & "D"
+                            bvb1.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb1.Refresh()
+                        Case 2
+                            K = LCase(Replace(bvb2.Tag, " ", "")) & "D"
+                            bvb2.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb2.Refresh()
+                        Case 3
+                            K = LCase(Replace(bvb3.Tag, " ", "")) & "D"
+                            bvb3.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb3.Refresh()
+                        Case 4
+                            K = LCase(Replace(bvb4.Tag, " ", "")) & "D"
+                            bvb4.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb4.Refresh()
+                        Case 5
+                            K = LCase(Replace(bvb5.Tag, " ", "")) & "D"
+                            bvb5.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb5.Refresh()
+                    End Select
+                    'Debug.Print K
+                    'Set bvb(Index).Picture = MainMenu4_Images.MenuImage("mm", K)
+                End If
+                'bvb(Index).Refresh
             End If
 
             If CurrentMenuIndex <> -1 Then
-                bvb(CurrentMenuIndex).Left = -(W - I / C * W)
-                bvb(CurrentMenuIndex).Refresh
+                'bvb(CurrentMenuIndex).Left = -(W - I / C * W)
+                'bvb(CurrentMenuIndex).Refresh
+                Select Case CurrentMenuIndex
+                    Case 0
+                        bvb0.Left = -(W - I / C * W)
+                        bvb0.Refresh()
+                    Case 1
+                        bvb1.Left = -(W - I / C * W)
+                        bvb1.Refresh()
+                    Case 2
+                        bvb2.Left = -(W - I / C * W)
+                        bvb2.Refresh()
+                    Case 3
+                        bvb3.Left = -(W - I / C * W)
+                        bvb3.Refresh()
+                    Case 4
+                        bvb4.Left = -(W - I / C * W)
+                        bvb4.Refresh()
+                    Case 5
+                        bvb5.Left = -(W - I / C * W)
+                        bvb5.Refresh()
+                End Select
             End If
         Loop
 
         If Index <> -1 Then
-            bvb(Index).Left = 0
-            bvb(Index).Refresh
+            'bvb(Index).Left = 0
+            'bvb(Index).Refresh
+            Select Case Index
+                Case 0
+                    bvb0.Left = 0
+                    bvb0.Refresh()
+                Case 1
+                    bvb1.Left = 0
+                    bvb1.Refresh()
+                Case 2
+                    bvb2.Left = 0
+                    bvb2.Refresh()
+                Case 3
+                    bvb3.Left = 0
+                    bvb3.Refresh()
+                Case 4
+                    bvb4.Left = 0
+                    bvb4.Refresh()
+                Case 5
+                    bvb5.Left = 0
+                    bvb5.Refresh()
+            End Select
         End If
 
         If CurrentMenuIndex <> -1 Then
-            bvb(CurrentMenuIndex).Left = 0
-            bvb(CurrentMenuIndex).Refresh
+            'bvb(CurrentMenuIndex).Left = 0
+            'bvb(CurrentMenuIndex).Refresh
+            Select Case CurrentMenuIndex
+                Case 0
+                    bvb0.Left = 0
+                    bvb0.Refresh()
+                Case 1
+                    bvb1.Left = 0
+                    bvb1.Refresh()
+                Case 2
+                    bvb2.Left = 0
+                    bvb2.Refresh()
+                Case 3
+                    bvb3.Left = 0
+                    bvb3.Refresh()
+                Case 4
+                    bvb4.Left = 0
+                    bvb4.Refresh()
+                Case 5
+                    bvb5.Left = 0
+                    bvb5.Refresh()
+            End Select
         End If
-
 
         CurrentMenuIndex = Index
 
         If Index <> -1 Then
-            LoadMenuToForm bvb(Index).Tag
-  End If
+            'LoadMenuToForm bvb(Index).Tag
+            Select Case Index
+                Case 0
+                    LoadMenuToForm(bvb0.Tag)
+                Case 1
+                    LoadMenuToForm(bvb1.Tag)
+                Case 2
+                    LoadMenuToForm(bvb2.Tag)
+                Case 3
+                    LoadMenuToForm(bvb3.Tag)
+                Case 4
+                    LoadMenuToForm(bvb4.Tag)
+                Case 5
+                    LoadMenuToForm(bvb5.Tag)
+            End Select
+        End If
     End Sub
 
-    Private Sub imgMenuItem_MouseEnter(Index As Integer) : MenuItemHighlight Index: End Sub
-    Private Sub imgMenuItem_MouseExit(Index As Integer) : MenuItemHighlight Index, True: End Sub
+    'Private Sub imgMenuItem_MouseEnter(Index As Integer) : MenuItemHighlight Index: End Sub
+    'Private Sub imgMenuItem_MouseExit(Index As Integer) : MenuItemHighlight Index, True: End Sub
 
-    Public Sub MenuItemHighlight(ByVal Index As Long, Optional ByVal StopIt As Boolean)
+    Private Sub imgMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles imgMenuItem.MouseEnter
+        MenuItemHighlight(Index)
+    End Sub
+
+    Private Sub imgMenuItem_MouseLeave(sender As Object, e As EventArgs) Handles imgMenuItem.MouseLeave
+        MenuItemHighlight(Index, True)
+    End Sub
+
+    Public Sub MenuItemHighlight(ByVal Index As Long, Optional ByVal StopIt As Boolean = False)
         Const X As Double = 0.15
         Dim I As Long, C As Long
         Dim L As Long, T As Long
@@ -588,18 +759,25 @@ End Sub
         End If
 
 
-        If imgMenuItem(Index).Width > 1000 Then
-
-            L = imgMenuItem(Index).Left
-            T = imgMenuItem(Index).Top
+        'If imgMenuItem(Index).Width > 1000 Then
+        If imgMenuItem.Width > 1000 Then
+            'L = imgMenuItem(Index).Left
+            L = imgMenuItem.Left
+            'T = imgMenuItem(Index).Top
+            T = imgMenuItem.Top
 
             If StopIt Then
-                imgMenuItem(Index).Top = imgMenuItem(Index).Top + 1920 * X
-                imgMenuItem(Index).Left = imgMenuItem(Index).Left + 1920 * X
-                imgMenuItem(Index).Width = 1920
-                imgMenuItem(Index).Height = 1920
-                imgMenuItem(Index).Effect = lvicNoEffects
-                imgMenuItem(Index).Effects.GrayScale = lvicNoGrayScale
+                'imgMenuItem(Index).Top = imgMenuItem(Index).Top + 1920 * X
+                imgMenuItem.Top = imgMenuItem.Top + 1920 * X
+                'imgMenuItem(Index).Left = imgMenuItem(Index).Left + 1920 * X
+                imgMenuItem.Left = imgMenuItem.Left + 1920 * X
+                'imgMenuItem(Index).Width = 1920
+                imgMenuItem.Width = 1920
+                'imgMenuItem(Index).Height = 1920
+                imgMenuItem.Height = 1920
+                'imgMenuItem(Index).Effect = lvicNoEffects
+                'imgMenuItem.Effect = lvicNoEffects --------> Commented 2 lines because this property if of Alphaimage control.
+                'imgMenuItem(Index).Effects.GrayScale = lvicNoGrayScale
                 imgSelected.Visible = False
             Else
                 Dim Tk As Long, Mk As Long
@@ -609,60 +787,78 @@ End Sub
                 Do While GetTickCount < Mk
                     I = GetTickCount - Tk
                     D = CLng(1920.0# * X * CDbl(I) / CDbl(C))
-                    imgMenuItem(Index).Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
-        imgMenuItem(Index).Refresh()
-                    MoveControlTo imgSelected, imgMenuItem(Index), True
-        imgSelected.Refresh()
+                    'imgMenuItem(Index).Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
+                    'imgMenuItem.Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
+                    imgMenuItem.Location = New Point(L - D, T - D)
+                    imgMenuItem.Size = New Size(1920 + 2 * D, 1920 + 2 * D)
+                    'imgMenuItem(Index).Refresh()
+                    imgMenuItem.Refresh()
+                    'MoveControlTo imgSelected, imgMenuItem(Index), True
+                    MoveControlTo(imgSelected, imgMenuItem, True)
+                    imgSelected.Refresh()
                 Loop
             End If
         Else
             If StopIt Then
                 imgSubSelected.Visible = False
-                '        lblMenuItem(Index).BackStyle = cc2BackstyleTransparent
+                'lblMenuItem(Index).BackStyle = cc2BackstyleTransparent
             Else
-                MoveControl imgSubSelected, -10000, , , , True, True
-      lblMenuItem(Index).ZOrder 0
-'        lblMenuItem(Index).AutoSize = True
+                MoveControl(imgSubSelected, -10000, , , , True, True)
+                'lblMenuItem(Index).ZOrder 0
+                lblMenuItem.BringToFront()
+                '        lblMenuItem(Index).AutoSize = True
 
                 '        lblMenuItem(Index).BackStyle = cc2BackstyleOpaque
                 '        lblMenuItem(Index).BackColor = vbRed
-                imgSubSelected.Move lblMenuItem(Index).Left - 100, imgMenuItem(Index).Top + 20, 3800, lblMenuItem(Index).Height + 60
-'        MoveControlTo imgSubSelected, lblMenuItem(Index)
+                'imgSubSelected.Move lblMenuItem(Index).Left - 100, imgMenuItem(Index).Top + 20, 3800, lblMenuItem(Index).Height + 60
+                imgSubSelected.Location = New Point(lblMenuItem.Left - 100, imgMenuItem.Top + 20)
+                imgSubSelected.Size = New Size(3800, lblMenuItem.Height + 60)
+                'MoveControlTo imgSubSelected, lblMenuItem(Index)
             End If
         End If
     End Sub
 
-    Private Sub imgMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
-    Private Sub lblMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
+    'Private Sub imgMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
+    'Private Sub lblMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
+
+    Private Sub imgMenuItem_Click(sender As Object, e As EventArgs) Handles imgMenuItem.Click
+        SelectMenuItem(Index)
+    End Sub
+
+    Private Sub lblMenuItem_Click(sender As Object, e As EventArgs) Handles lblMenuItem.Click
+        SelectMenuItem(Index)
+    End Sub
 
     Public Sub LoadMenuToForm(ByVal Menu As String)
         Dim I As Long, ArtPic As String, Art As StdPicture
-        ActiveLog "MainMenu::LoadMenuToForm(" & Menu & ")", 4
+        ActiveLog("MainMenu::LoadMenuToForm(" & Menu & ")", 4)
 
-  ShowMsgs Menu = ""
+        ShowMsgs(Menu = "")
 
-  Menu = Replace(LCase(Menu), "&", "")
+        Menu = Replace(LCase(Menu), "&", "")
 
         Select Case LCase(Menu)
             Case "payables", "payroll", "banking", "time c"
-                LaunchProgram LCase(Menu)
-    Case Else
+                LaunchProgram(LCase(Menu))
+            Case Else
                 On Error Resume Next
+                'For I = 1 To imgMenuItem.UBound
+                'Unload imgMenuItem(I)
+                'Unload lblMenuItem(I)
+                'Next
+                imgMenuItem.Hide()
+                lblMenuItem.Hide()
 
-                For I = 1 To imgMenuItem.UBound
-                    Unload imgMenuItem(I)
-        Unload lblMenuItem(I)
-      Next
-
-                If imgStoreLogo.Picture = 0 Then Set imgStoreLogo.Picture = LoadPictureStd(StoreLogoFile())
-      imgStoreLogo.Visible = (Menu = "" And imgStoreLogo.Picture <> 0)
+                'If imgStoreLogo.Picture = 0 Then Set imgStoreLogo.Picture = LoadPictureStd(StoreLogoFile())
+                If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = LoadPictureStd(StoreLogoFile())
+                imgStoreLogo.Visible = (Menu = "" And IsNothing(imgStoreLogo.Image))
                 imgStoreLogoBorder.Visible = imgStoreLogo.Visible
-                imgStoreLogoBorder.BackStyle = 1
+                'imgStoreLogoBorder.BackStyle = 1
                 lblMenuCaption.Tag = LCase(Menu)
 
                 On Error GoTo 0
-                GenericLoader Menu
-'      MsgBox "Program referenced a non-existant menu: " & Menu, vbCritical, "Menu Error"
+                GenericLoader(Menu)
+                '      MsgBox "Program referenced a non-existant menu: " & Menu, vbCritical, "Menu Error"
         End Select
     End Sub
 
@@ -670,35 +866,50 @@ End Sub
         ItemOptionString = CSVLine(Caption, Menu, Operation, Src, HotKeys)
     End Function
 
-    Private Function ItemOptionCaption(ByVal S As String) As String : ItemOptionCaption = CSVField(S, 1) : End Function
-    Private Function ItemOptionMenu(ByVal S As String) As String : ItemOptionMenu = CSVField(S, 2) : End Function
-    Private Function ItemOptionOp(ByVal S As String) As String : ItemOptionOp = CSVField(S, 3) : End Function
-    Private Function ItemOptionSrc(ByVal S As String) As String : ItemOptionSrc = CSVField(S, 4) : End Function
-    Public Function ItemOptionHotKeys(ByVal S As String) As String : ItemOptionHotKeys = CSVField(S, 5) : End Function
+    Private Function ItemOptionCaption(ByVal S As String) As String
+        ItemOptionCaption = CSVField(S, 1)
+    End Function
+    Private Function ItemOptionMenu(ByVal S As String) As String
+        ItemOptionMenu = CSVField(S, 2)
+    End Function
+    Private Function ItemOptionOp(ByVal S As String) As String
+        ItemOptionOp = CSVField(S, 3)
+    End Function
+    Private Function ItemOptionSrc(ByVal S As String) As String
+        ItemOptionSrc = CSVField(S, 4)
+    End Function
+    Public Function ItemOptionHotKeys(ByVal S As String) As String
+        ItemOptionHotKeys = CSVField(S, 5)
+    End Function
 
-    Private Sub SetMenuItemImage(ByVal MI As AlphaImgCtl, ByVal Menu As String, ByVal Operation As String)
-  Set MI.Picture = MainMenu4_Images.MenuImage(Menu, Operation)
-End Sub
+    Private Sub SetMenuItemImage(ByVal MI As PictureBox, ByVal Menu As String, ByVal Operation As String)
+        MI.Image = MainMenu4_Images.MenuImage(Menu, Operation)
+    End Sub
 
     Private Function UnloadHRs() As Boolean
         Dim I As Long
-        For I = imgHR.UBound To 1 Step -1
-            Unload imgHR(I)
-    Unload lblHR(I)
-  Next
+        'For I = imgHR.UBound To 1 Step -1
+        'Unload imgHR(I)
+        'Unload lblHR(I)
+        'Next
+        imgHR.Hide()
         UnloadHRs = True
     End Function
 
     Private Function LoadHR(ByVal Caption As String, ByVal X As Long, ByVal Y As Long, Optional ByVal W As Long = 4500) As Boolean
         Dim N As Long
-        N = imgHR.UBound + 1
-        Load imgHR(N)
-  Set imgHR(N).Picture = imgHR(0).Picture
-  MoveControl imgHR(N), X, Y, W, 300, True, True
-  Load lblHR(N)
-  lblHR(N).Caption = Caption
-        MoveControl lblHR(N), imgHR(N).Left + 120, imgHR(N).Top, , , True, True
-  LoadHR = True
+        'N = imgHR.UBound + 1
+        'Load imgHR(N)
+        'Set imgHR(N).Picture = imgHR(0).Picture
+
+        'MoveControl imgHR(N), X, Y, W, 300, True, True
+        MoveControl(imgHR, X, Y, W, 380, True, True)
+        'Load lblHR(N)
+        'lblHR(N).Caption = Caption
+        lblHR.Text = Caption
+        'MoveControl lblHR(N), imgHR(N).Left + 120, imgHR(N).Top, , , True, True
+        MoveControl(lblHR, imgHR.Left + 120, imgHR.Top, , , True, True)
+        LoadHR = True
     End Function
 
     Private Sub GenericLoader(ByVal MenuName As String)
@@ -706,22 +917,25 @@ End Sub
         Dim I As Long, Src As String, Ctrl As StdPicture, MICap As String, TTT As String
         Dim MI As MyMenuItem, HR As MyMenuHR
         Dim R As Long, TPP As Long, TPP2 As Long
-        TPP = Screen.TwipsPerPixelX
-        TPP2 = Screen.TwipsPerPixelY
+
+        'TPP = Screen.TwipsPerPixelX
+        'TPP2 = Screen.TwipsPerPixelY
 
         On Error Resume Next
-        For I = 1 To imgMenuItem.UBound
-            Unload imgMenuItem(I)
-    Unload lblMenuItem(I)
-  Next
+        'For I = 1 To imgMenuItem.UBound
+        'Unload imgMenuItem(I)
+        'Unload lblMenuItem(I)
+        'Next
+        imgMenuItem.Hide()
+        lblMenuItem.Hide()
 
         lblMenuCaption.Tag = MenuName
 
         MM = GetMyMenu(MenuName, Idx)
-        If Idx = -1 Then MsgBox "Unknown menu: " & MenuName, vbCritical, "Ooops!": Exit Sub
+        If Idx = -1 Then MessageBox.Show("Unknown menu: " & MenuName, "Ooops!", MessageBoxButtons.OK, MessageBoxIcon.Warning) : Exit Sub
         CurrentMenu = MenuName
         ParentMenu = MM.ParentMenu
-        HelpContextID = MM.HCID
+        'HelpContextID = MM.HCID
 
         Li = -1
         Li = UBound(MM.Items)
@@ -730,50 +944,67 @@ End Sub
         On Error GoTo 0
 
         If MM.Caption = "WinCDS" Then
-            lblMenuCaption = ""
+            lblMenuCaption.Text = ""
         Else
-            lblMenuCaption = MM.Caption
+            lblMenuCaption.Text = MM.Caption
         End If
 
         UnloadHRs()
 
-        If MM.Layout = eMML_4x8x8 Or MM.Layout = eMML_3x8x8 Then
-            If MM.SubTitle1 <> "" Then LoadHR MM.SubTitle1, 3200, 4000
-    If MM.SubTitle2 <> "" Then LoadHR MM.SubTitle2, 8700, 4000
-  ElseIf MM.Layout = eMML_3x2x4x4 Or MM.Layout = eMML_4x2x4x4 Or MM.Layout = eMML_4x2x5x5 Then
-            If MM.SubTitle1 <> "" Then LoadHR MM.SubTitle1, 3200, 5700
-    If MM.SubTitle2 <> "" Then LoadHR MM.SubTitle2, 8700, 5700
-  End If
+        If MM.Layout = eMyMenuLayouts.eMML_4x8x8 Or MM.Layout = eMyMenuLayouts.eMML_3x8x8 Then
+            If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 4000)
+            If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 4000)
+        ElseIf MM.Layout = eMyMenuLayouts.eMML_3x2x4x4 Or MM.Layout = eMyMenuLayouts.eMML_4x2x4x4 Or MM.Layout = eMyMenuLayouts.eMML_4x2x5x5 Then
+            If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 5700)
+            If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 5700)
+        End If
 
         If Li >= 0 Then
             For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
                 MI = MM.Items(I - 1)
                 TTT = IIf(MI.ControlCode = "", MI.ToolTipText, "[" & MI.ControlCode & "] " & MI.ToolTipText)
-                Load imgMenuItem(I)
-      Load lblMenuItem(I)
-      imgMenuItem(I).Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
-                lblMenuItem(I).Caption = Replace(MI.Caption, "/", vbCrLf)
-                imgMenuItem(I).ToolTipText = TTT
-                SetMenuItemImage imgMenuItem(I), MenuName, MI.ImageKey
-
-      If Not MI.IsSubItem Then
-                    imgMenuItem(I).Move(MI.Left + MM.ImageW + 10), MI.Top, 1650, 1650
-        lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width / 2 - lblMenuItem(I).Width / 2, imgMenuItem(I).Top + imgMenuItem(I).Height + 60
-      Else
-                    imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
-        lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
-        lblMenuItem(I).Alignment = 0
-                    lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
+                'Load imgMenuItem(I)
+                'Load lblMenuItem(I)
+                'imgMenuItem(I).Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
+                imgMenuItem.Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
+                'lblMenuItem(I).Caption = Replace(MI.Caption, "/", vbCrLf)
+                lblMenuItem.Text = Replace(MI.Caption, "/", vbCrLf)
+                'imgMenuItem(I).ToolTipText = TTT
+                'imgMenuItem.ToolTipText = TTT
+                'SetMenuItemImage imgMenuItem(I), MenuName, MI.ImageKey
+                SetMenuItemImage(imgMenuItem, MenuName, MI.ImageKey)
+                If Not MI.IsSubItem Then
+                    'imgMenuItem(I).Move(MI.Left + MM.ImageW + 10), MI.Top, 1650, 1650
+                    'imgMenuItem(I).Move(MI.Left + MM.ImageW + 10), MI.Top, 1650, 1650
+                    imgMenuItem.Location = New Point((MI.Left + MM.ImageW + 10), MI.Top)
+                    imgMenuItem.Size = New Size(1650, 1650)
+                    'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width / 2 - lblMenuItem(I).Width / 2, imgMenuItem(I).Top + imgMenuItem(I).Height + 60
+                    lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width / 2 - lblMenuItem.Width / 2, imgMenuItem.Top + imgMenuItem.Height + 60)
+                Else
+                    'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
+                    imgMenuItem.Location = New Point(MI.Left, MI.Top)
+                    imgMenuItem.Size = New Size(500, 500)
+                    'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
+                    lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
+                    lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
+                    'lblMenuItem(I).Alignment = 0
+                    'lblMenuItem.Alignment = 0
+                    'lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
+                    lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
                 End If
-                lblMenuItem(I).ToolTipText = TTT
+                'lblMenuItem(I).ToolTipText = TTT
                 'Debug.Print imgMenuItem(I).Left & "x" & imgMenuItem(I).Top & "..." & imgMenuItem(I).Width & "x" & imgMenuItem(I).Height & " - " & ScaleWidth & "x" & ScaleHeight
 
-                imgMenuItem(I).Visible = True
-                imgMenuItem(I).ZOrder 0
-      lblMenuItem(I).Visible = True
-                lblMenuItem(I).ZOrder 0
+                'imgMenuItem(I).Visible = True
+                imgMenuItem.Visible = True
+                'imgMenuItem(I).ZOrder 0
+                imgMenuItem.BringToFront()
+                'lblMenuItem(I).Visible = True
+                lblMenuItem.Visible = True
+                'lblMenuItem(I).ZOrder 0
+                lblMenuItem.BringToFront()
 
-    Next
+            Next
         End If
 
     End Sub
@@ -781,23 +1012,24 @@ End Sub
     Public Function SelectMenuItem(Optional ByVal Index As Long = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "") As Boolean
         Dim X As Long, F As String
         Dim Operation As String, Source As String, MI As MyMenuItem
-        ActiveLog "MainMenu::SelectMenuItem(" & Index & ", " & ExplicitMenu & ", " & ExplicitOperation & ")", 5
+        ActiveLog("MainMenu::SelectMenuItem(" & Index & ", " & ExplicitMenu & ", " & ExplicitOperation & ")", 5)
 
-  Dim Fail As Boolean, FailMsg As String, FailTitle As String ' not really planning to fail
+        Dim Fail As Boolean, FailMsg As String, FailTitle As String ' not really planning to fail
         If Index = -1 And ExplicitMenu <> "" And ExplicitOperation <> "" Then
             Source = ExplicitMenu
             Operation = ExplicitOperation
         Else
             Source = lblMenuCaption.Tag
             'On Error Resume Next
-            Operation = ItemOptionOp(imgMenuItem(Index).Tag)
+            'Operation = ItemOptionOp(imgMenuItem(Index).Tag)
+            Operation = ItemOptionOp(imgMenuItem.Tag)
         End If
         FailMsg = "You have encountered a program error or the resource has moved." & vbCrLf & "Please contact " & AdminContactCompany & " at " & AdminContactPhone2 & " immediately." & vbCrLf & "Thank-you, and sorry for the inconvenience." & vbCrLf & "Source=" & Source & vbCrLf & "Operation=" & Operation
         FailTitle = "Unknown Menu Function"
 
-        If Left(Operation, 1) = "#" Then
-            GenericLoader Mid(Operation, 2)
-    Exit Function
+        If Microsoft.VisualBasic.Left(Operation, 1) = "#" Then
+            GenericLoader(Mid(Operation, 2))
+            Exit Function
         End If
 
         SelectMenuItem = modMainMenu.MainMenu_Dispatch(Source, Operation)
@@ -806,8 +1038,7 @@ End Sub
     Public Function DeveloperEx() As String
         Dim S As String
         S = ""
-        S = MainMenu_NumberKeys_DeveloperEx
-
+        S = MainMenu_NumberKeys_DeveloperEx()
         DeveloperEx = S
     End Function
 
@@ -819,25 +1050,46 @@ End Sub
     End Function
 
     Private Sub WebServ_HandleGET(FileName As String, Result As String, StatusCode As String, Headers As String)
-        MsgBox "WebServ Get FILENAME" & vbCrLf & FileName
-End Sub
+        MessageBox.Show("WebServ Get FILENAME" & vbCrLf & FileName)
+    End Sub
 
     Private Sub lblWinCDS_Click(sender As Object, e As EventArgs) Handles lblWinCDS.Click
         ReloadMenus()
     End Sub
 
-    Private Sub mnuFileSettings_Click() : SelectMenuItem , "file", "systemsetup": End Sub
-    Private Sub mnuFileUpdate_Click() : SelectMenuItem , "file:maintenance", "webupdates": End Sub
-    Private Sub mnuFileExit_Click() : SelectMenuItem , "file", "exit": End Sub
+    Private Sub mnuFileSettings_Click()
+        SelectMenuItem(, "file", "systemsetup")
+    End Sub
+    Private Sub mnuFileUpdate_Click()
+        SelectMenuItem(, "file:maintenance", "webupdates")
+    End Sub
+    Private Sub mnuFileExit_Click()
+        SelectMenuItem(, "file", "exit")
+    End Sub
 
-    Private Sub mnuStore_Click() : SelectMenuItem , "file", "login": End Sub
+    Private Sub mnuStore_Click()
+        SelectMenuItem(, "file", "login")
+    End Sub
 
-    Private Sub mnuHelpSupport_Click() : LaunchAutoVNC : End Sub
-    Private Sub mnuHelpUploadLogs_Click() : DiagnosticDataUpload Logs:=True: End Sub
-    Private Sub mnuHelpUploadData_Click() : DiagnosticDataUpload : End Sub
-    Private Sub mnuHelpContact_Click() : MsgBox AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True), , "Company Contact Information": End Sub
-    Private Sub mnuHelpContents_Click() : ShowHelp : End Sub
-    Private Sub mnuHelpAbout_Click() : frmVersionControl.Show 1: End Sub
+    Private Sub mnuHelpSupport_Click()
+        LaunchAutoVNC
+    End Sub
+    Private Sub mnuHelpUploadLogs_Click()
+        DiagnosticDataUpload(Logs:=True)
+    End Sub
+    Private Sub mnuHelpUploadData_Click()
+        DiagnosticDataUpload()
+    End Sub
+    Private Sub mnuHelpContact_Click()
+        MessageBox.Show(AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True), "Company Contact Information")
+    End Sub
+    Private Sub mnuHelpContents_Click()
+        ShowHelp
+    End Sub
+    Private Sub mnuHelpAbout_Click()
+        'frmVersionControl.Show 1
+        frmVersionControl.ShowDialog()
+    End Sub
 
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
         txtInfo.Text = AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True)
@@ -912,9 +1164,6 @@ End Sub
     End Sub
 
     Private Sub MainMenu4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'NOTE: In vb6, for image control(imgPicture) assigned datasource as datacontrl and datafied as "Picture" column(code is in mod2DataPictures modules ->GetDatabasePicture function).
-        'Replacement for it in vb.net is the below line. This code line is not in vb6. Values are directly assigned in the design time properties window of imgPicture image control.
-
         Try
             If modKillBug.KillBug Then End
             AdjustFormForLargeFonts()
@@ -925,12 +1174,17 @@ End Sub
 
             CurrentMenuIndex = 1
 
-            Top = Screen.Height - Height / 2
-            Left = Screen.Width - Width / 2
+            'Top = Screen.Height - Height / 2
+            Top = Screen.PrimaryScreen.Bounds.Height - Height / 2
+            'Left = Screen.Width - Width / 2
+            Left = Screen.PrimaryScreen.Bounds.Width - Width / 2
 
-            mnuHelpScreenShare.Visible = IsCDSComputer("prototype")
+            'mnuHelpScreenShare.Visible = IsCDSComputer("prototype")
             '  If IsIDE And IsDevelopment Then InitHotKeysLocal
             '  SetCustomFrame Me, ncMacLook
+
+            'NOTE: In vb6, for image control(imgPicture) assigned datasource as datacontrl and datafied as "Picture" column(code is in mod2DataPictures modules ->GetDatabasePicture function).
+            'Replacement for it in vb.net is the below line. This code line is not in vb6. Values are directly assigned in the design time properties window of imgPicture image control.
 
             '---------      NOTE: BELOW CODE LINE IS NOT IN VB6.  ------------
             'imgPicture.DataBindings.Clear()  NOTE: REMOVE THIS COMMENTE IF imgPicture.DataBindings.Add will expect Clear first before Add.
@@ -942,15 +1196,15 @@ End Sub
 
     Private Sub AdjustFormForLargeFonts()
         Dim dX As Double, dY As Double
-        Dim L As Variant, Name As String, TName As String
-        If Screen.TwipsPerPixelX = 15 Then Exit Sub
+        Dim L As Object, Name As String, TName As String
 
-        dX = Screen.TwipsPerPixelX / 15
-        dY = Screen.TwipsPerPixelY / 15
+        'If Screen.TwipsPerPixelX = 15 Then Exit Sub
+        'dX = Screen.TwipsPerPixelX / 15
+        'dY = Screen.TwipsPerPixelY / 15
 
-        ActiveLog "MainMenu::AdjustFormForLargeFonts - Adjusting...  dX=" & dX & ", dY=" & dY
+        ActiveLog("MainMenu::AdjustFormForLargeFonts - Adjusting...  dX=" & dX & ", dY=" & dY)
 
-On Error GoTo BadMove
+        On Error GoTo BadMove
         For Each L In Controls
             Name = L.Name
             TName = TypeName(L)
@@ -983,12 +1237,10 @@ SkipControl:
         Exit Sub
 
 BadMove:
-        Debug.Print "Bad Move: " & Err.Description
-  Debug.Print "Control: " & Name
-  Debug.Print "Type: " & TName
-  Err.Clear()
+        Debug.Print("Bad Move: " & Err.Description)
+        Debug.Print("Control: " & Name)
+        Debug.Print("Type: " & TName)
+        Err.Clear()
         Resume Next
     End Sub
-
-
 End Class

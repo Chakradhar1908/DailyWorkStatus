@@ -120,4 +120,19 @@
     Private Function AlwaysOn() As Date
         AlwaysOn = NullDate
     End Function
+
+    Public Function KillBug(Optional ByVal Silent As Boolean = False) As Boolean
+        ' Warns a user their software will expire soon
+        If Not Silent Then UserKillBugNotify
+        KillBug = IsExpired
+        If TestKillBug Then KillBug = True
+
+        If KillBug Then
+            HideSplash()
+            If Not Silent Then frmKillBugNotify.Show vbModal
+  Else
+            CrippleBug , True
+  End If
+    End Function
+
 End Module

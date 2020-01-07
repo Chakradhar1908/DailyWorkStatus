@@ -688,4 +688,8 @@ Finish:
         End Set
     End Property
 
+    Public Function ShowHelp() As Boolean
+        ShellOut.RunFile WinCDSHelpFile
+        ShowHelp = True
+    End Function
 End Module

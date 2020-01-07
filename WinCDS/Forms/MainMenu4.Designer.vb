@@ -74,6 +74,8 @@ Partial Class MainMenu4
         Me.KeyCatch = New System.Windows.Forms.TextBox()
         Me.imgInfo = New System.Windows.Forms.PictureBox()
         Me.imgBackground = New System.Windows.Forms.PictureBox()
+        Me.tmrPulse = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrMaintain = New System.Windows.Forms.Timer(Me.components)
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -576,6 +578,12 @@ Partial Class MainMenu4
         Me.imgBackground.TabIndex = 49
         Me.imgBackground.TabStop = False
         '
+        'tmrPulse
+        '
+        '
+        'tmrMaintain
+        '
+        '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -694,4 +702,6 @@ Partial Class MainMenu4
     Friend WithEvents KeyCatch As TextBox
     Friend WithEvents imgInfo As PictureBox
     Friend WithEvents imgBackground As PictureBox
+    Friend WithEvents tmrPulse As Timer
+    Friend WithEvents tmrMaintain As Timer
 End Class

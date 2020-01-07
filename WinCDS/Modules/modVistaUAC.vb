@@ -15,4 +15,28 @@
   End If
     End Function
 
+    Public Function LaunchAutoVNC() As Boolean
+        Dim cPath As String
+
+        '  If MsgBox("This support feature temporarily disables your User Account Control (UAC) setting in order to allow " & CompanyName & " to have full control of your computer." & vbCrLf & "During the support session, the UAC will not be active." & vbCrLf2 & "Click OK to indicate you are aware of this.", vbExclamation + vbOKCancel) = vbCancel Then
+        '    Exit Function
+        '  End If
+        '
+        cPath = CurDir()
+
+        ChDrive WinCDSAutoVNCFolder
+  ChDir WinCDSAutoVNCFolder
+  MainMenu.Hide()
+
+        ConnectCMDUpgrade
+
+        ShellOut.ShellOut ConnectCMDFile
+
+  MainMenu.Show()
+        ChDrive cPath
+  ChDir cPath
+
+  LaunchAutoVNC = True
+    End Function
+
 End Module
