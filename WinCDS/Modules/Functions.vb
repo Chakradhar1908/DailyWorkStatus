@@ -198,5 +198,15 @@ HandleErr:
         InitLineBorder = True
     End Function
 
+    Public Function VersionControlDialog()
+        frmVersionControl.ShowDialog()
+    End Function
+
+    Public Function MakeLong(ByVal WordHi As Object, ByVal WordLo As Integer) As Long
+        ' it to overflow limits of multiplication which shifts
+        ' it left.
+        MakeLong = (WordHi * &H10000) + (WordLo And &HFFFF&)
+    End Function
+
 End Module
 

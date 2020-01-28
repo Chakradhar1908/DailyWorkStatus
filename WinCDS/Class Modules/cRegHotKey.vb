@@ -1,4 +1,8 @@
-﻿Public Class cRegHotKey
+﻿Imports SSubTimer6
+Public Class cRegHotKey
+    Private m_hWnd As Integer
+    Private Const WM_DESTROY As Integer = &H2&
+    Private Const WM_HOTKEY As Integer = &H312&
     Public Enum EHKModifiers
         MOD_ALT = &H1&
         MOD_CONTROL = &H2&
@@ -6,13 +10,28 @@
         MOD_WIN = &H8&
     End Enum
 
-    Public Sub Attach(ByVal hwndA As IntPtr)
-        Clear
+    Public Sub Attach(ByVal hwndA As Integer)
+        Clear()
+
         If (hwndA <> 0) Then
             m_hWnd = hwndA
-            AttachMessage Me, m_hWnd, WM_HOTKEY
-    AttachMessage Me, m_hWnd, WM_DESTROY
-  End If
+            GSubclass.AttachMessage(Me, m_hWnd, WM_HOTKEY)
+            GSubclass.AttachMessage(Me, m_hWnd, WM_DESTROY)
+        End If
+    End Sub
+
+    Public Sub Clear()
+        Dim I As Long
+        ' Remove all hot keys and atoms:
+        For I = 1 To m_iAtomCount
+            UnregisterKey m_tAtoms(I).sName
+  Next
+        ' Stop subclassing:
+        If (m_hWnd <> 0) Then
+            DetachMessage Me, m_hWnd, WM_HOTKEY
+    DetachMessage Me, m_hWnd, WM_DESTROY
+    m_hWnd = 0
+        End If
     End Sub
 
     Public Sub RegisterKey(ByVal sName As String, ByVal eKey As KeyCodeConstants, ByVal eModifiers As EHKModifiers)

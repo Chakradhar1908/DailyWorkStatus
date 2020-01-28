@@ -887,4 +887,18 @@ HandleErr:
         PrintSpecInstr = OutputObject.CurrentY
     End Function
 
+    Public Sub OpenPOReport()
+        Inven = "POR"
+        InvPoPrint.HelpContextID = 57900
+        ' We want Print/Preview/Cancel buttons, and no date.
+        Caption = IIf(ReportsMode("Ashley"), "Ashley Open Po Report", "Open PO Report")
+        lblLabel.Caption = "Sort Order:"
+        txtDate.Visible = False
+        cboSortOrder.Visible = True
+        cboSortOrder.ListIndex = 0
+        cmdPrint.Visible = True
+        cmdPrintPreview.Visible = True
+        Show()
+    End Sub
+
 End Class

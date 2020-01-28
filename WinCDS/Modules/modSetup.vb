@@ -304,4 +304,10 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         End If
     End Sub
 
+    Public ReadOnly Property WebDemoURL() As String
+        Get
+            WebDemoURL = "http://www.simplifiedposonline.com/"
+        End Get
+    End Property
+
 End Module

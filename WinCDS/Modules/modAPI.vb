@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
 Imports stdole
-
 Module modAPI
     Public Declare Function GetComputerName Lib "kernel32" Alias "GetComputerNameA" (ByVal lpBuffer As String, nSize As Integer) As Integer
     ' ------------------------------
@@ -43,7 +42,19 @@ Module modAPI
     Private Declare Function SHGetFolderPath Lib "shfolder" Alias "SHGetFolderPathA" (ByVal hwndOwner As Integer, ByVal nFolder As Integer, ByVal hToken As Integer, ByVal dwFlags As Integer, ByVal pszPath As String) As Integer
     Public Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As Integer) As Boolean
     End Function
-
+    Public Declare Function GetCurrentProcessId Lib "kernel32" () As Integer
+    Public Declare Function GetSystemMetrics Lib "USER32" (ByVal nIndex As Integer) As Integer
+    'Public Declare Function GetActiveWindow Lib "USER32" () as integer  --> vb6.0 
+    Public Declare Function GetActiveWindow Lib "USER32" () As IntPtr 'vb.net
+    'Public Declare Function GetWindow Lib "USER32" (ByVal hwnd as integer, ByVal wCmd as integer) as integer vb6.0
+    Public Declare Function GetWindow Lib "USER32" (ByVal hwnd As IntPtr, ByVal wCmd As Integer) As IntPtr  'vb.net
+    Public Declare Function LoadImageAsString Lib "USER32" Alias "LoadImageA" (ByVal hinst As Integer, ByVal lpsz As String, ByVal uType As Integer, ByVal cxDesired As Integer, ByVal cyDesired As Integer, ByVal fuLoad As Integer) As Integer
+    Private Declare Function GetUserName Lib "advapi32" Alias "GetUserNameA" (ByVal lpBuffer As String, ByRef nSize As Integer) As Integer
+    Public Declare Function CreateToolhelp32Snapshot Lib "kernel32" (ByVal dwFlags As Integer, ByVal th32ProcessID As Integer) As Integer
+    Public Declare Function Process32First Lib "kernel32" (ByVal hSnapshot As Integer, lppe As PROCESSENTRY32) As Integer
+    Public Declare Function GetProcessMemoryInfo Lib "psapi" (ByVal lHandle As Integer, ByRef lpStructure As PROCESS_MEMORY_COUNTERS, ByVal lSize As Integer) As Integer  '--> vb6.0
+    'Public Declare Function GetProcessMemoryInfo Lib "psapi" (ByVal lHandle As IntPtr, ByRef lpStructure As PROCESS_MEMORY_COUNTERS, ByVal lSize as integer) as integer ' --> vb.net
+    Public Declare Function Process32Next Lib "kernel32" (ByVal hSnapshot As Integer, lppe As PROCESSENTRY32) As Integer
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd as integer, ByVal wMsg as integer, ByVal wParam as integer, lParam As Any) as integer - vb6.0
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As String) As IntPtr
     <DllImport("user32.dll", CharSet:=CharSet.Auto)>
@@ -178,7 +189,13 @@ Module modAPI
     Public Const VER_PLATFORM_WIN32s As Integer = 0
     Public Const VER_PLATFORM_WIN32_WINDOWS As Integer = 1
     Public Const VER_PLATFORM_WIN32_NT As Integer = 2
-
+    Private Const GW_OWNER As Integer = 4
+    Private Const SM_CXICON As Integer = 11
+    Private Const SM_CYICON As Integer = 12
+    Public Const TH32CS_SNAPPROCESS As Integer = &H2
+    Public Const INVALID_HANDLE_VALUE As Integer = -1
+    Public Const PROCESS_QUERY_LIMITED_INFORMATION As Integer = &H1000
+    Public Const PROCESS_QUERY_INFORMATION As Integer = 1024
     Public Structure RECT
         Dim Left As Integer
         Dim Top As Integer
@@ -272,7 +289,6 @@ Module modAPI
     End Enum
 
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
     Public Structure OSVERSIONINFO 'windows-defined type OSVERSIONINFO
         Dim OSVSize As Integer         'size, in bytes, of this data structure
         Dim dwVerMajor As Integer         'ie NT 3.51, dwVerMajor = 3; NT 4.0, dwVerMajor = 4.
@@ -283,6 +299,32 @@ Module modAPI
         Dim PlatformID As Integer         'Identifies the operating system platform.
         <VBFixedString(128)> Dim szCSDVersion As String 'NT: string, such as "Service Pack 3"
         'Win9x: 'arbitrary additional information'
+    End Structure
+
+    Public Structure PROCESSENTRY32
+        Dim dwSize As Integer
+        Dim cntUsage As Integer
+        Dim th32ProcessID As Integer
+        Dim th32DefaultHeapID As Integer
+        Dim th32ModuleID As Integer
+        Dim cntThreads As Integer
+        Dim th32ParentProcessID As Integer
+        Dim pcPriClassBase As Integer
+        Dim dwFlags As Integer
+        <VBFixedString(260)> Dim szExeFile As String
+    End Structure
+
+    Public Structure PROCESS_MEMORY_COUNTERS
+        Dim Cb As Integer
+        Dim PageFaultCount As Integer
+        Dim PeakWorkingSetSize As Integer
+        Dim WorkingSetSize As Integer
+        Dim QuotaPeakPagedPoolUsage As Integer
+        Dim QuotaPagedPoolUsage As Integer
+        Dim QuotaPeakNonPagedPoolUsage As Integer
+        Dim QuotaNonPagedPoolUsage As Integer
+        Dim PagefileUsage As Integer
+        Dim PeakPagefileUsage As Integer
     End Structure
 
     Public Function GetLocalComputerName() As String
@@ -715,24 +757,95 @@ Module modAPI
         ' this is used for detecting whether the program is running under a terminal services environment (remote desktop)
         ' if this causes problems, simply comment out the contents of this function
         On Error Resume Next
-        Const SM_REMOTESESSION As Long = &H1000
+        Const SM_REMOTESESSION As Integer = &H1000
         SessionIsRemote = GetSystemMetrics(SM_REMOTESESSION) <> 0
     End Function
 
     Public Function fActiveForm() As Form
-        Dim X As Long, L As Variant
+        'Dim X as integer, L As Variant
+        Dim X As IntPtr, L As Form
+
         On Error Resume Next
         X = GetActiveWindow()
-        For Each L In Forms
-            If L.hWnd = X Then
-      Set fActiveForm = L
-      Exit Function
+        'For Each L In Forms
+        For Each L In My.Application.OpenForms
+            'If L.hWnd = X Then
+            If L.Handle = X Then
+                fActiveForm = L
+                Exit Function
             End If
         Next
     End Function
 
     Public Sub SetAppIcon()
-        SetIcon MainMenu.hWnd, "AAA", True
-End Sub
+        'SetIcon MainMenu.hWnd, "AAA", True
+        SetIcon(MainMenu.Handle, "AAA", True)
+    End Sub
+
+    Private Sub SetIcon(ByVal hwnd As IntPtr, ByVal sIconResName As String, Optional ByVal bSetAsAppIcon As Boolean = True)
+        Dim lhWndTop As IntPtr
+        Dim lHwnd As IntPtr
+        Dim cX As Integer
+        Dim cY As Integer
+        Dim hIconLarge As Integer
+        Dim hIconSmall As Integer
+
+        If (bSetAsAppIcon) Then ' Find VB's hidden parent window:
+            lHwnd = hwnd
+            lhWndTop = lHwnd
+            Do While Not (lHwnd = 0)
+                lHwnd = GetWindow(lHwnd, GW_OWNER)
+                If Not (lHwnd = 0) Then
+                    lhWndTop = lHwnd
+                End If
+            Loop
+        End If
+
+        cX = GetSystemMetrics(SM_CXICON)
+        cY = GetSystemMetrics(SM_CYICON)
+
+        '------------------------------------------COMMENTED BELOW CODE BECAUSE LOADIMAGEASSTRING(APP.HINSTANCE) PARAMETER IS NOT SUPPORTING IN VB.NET ---------------
+        'hIconLarge = LoadImageAsString(App.hInstance, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
+
+        '      If (bSetAsAppIcon) Then
+        '          SendMessageLong lhWndTop, WM_SETICON, ICON_BIG, hIconLarge
+        '     End If
+
+        '      SendMessageLong hwnd, WM_SETICON, ICON_BIG, hIconLarge
+
+        'cX = GetSystemMetrics(SM_CXSMICON)
+        '      cY = GetSystemMetrics(SM_CYSMICON)
+        '      hIconSmall = LoadImageAsString(App.hInstance, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
+
+        '      If (bSetAsAppIcon) Then
+        '          SendMessageLong lhWndTop, WM_SETICON, ICON_SMALL, hIconSmall
+        'End If
+
+        '      SendMessageLong hwnd, WM_SETICON, ICON_SMALL, hIconSmall
+    End Sub
+
+    Public Function GetSystemUserName() As String
+        Dim Buffer As String, RET As Integer, X As Integer
+        Buffer = Space(255)
+        RET = GetUserName(Buffer, 255)
+        X = InStr(Buffer, Chr(0))
+        If X > 0 Then Buffer = Left(Buffer, X - 1)
+        GetSystemUserName = Buffer
+    End Function
+
+    Public Function GetDirectoryUserName() As String
+        GetDirectoryUserName = SplitWord(UserFolder, -2, "\")
+    End Function
+
+    Public Function FileVersion(ByVal FileName As String, Optional ByRef A As Long, Optional ByRef B As Long, Optional ByRef C As Long, Optional ByRef D As Long) As String
+        Dim T As Variant
+        On Error Resume Next
+        FileVersion = VersionInformation(FileName).FileVersion
+        T = Split(FileVersion, ".")
+        A = Val(T(0))
+        B = Val(T(1))
+        C = Val(T(2))
+        D = Val(T(3))
+    End Function
 
 End Module

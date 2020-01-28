@@ -126,10 +126,12 @@
     <Compile Include="Class Modules\cPOReceived.vb" />
     <Compile Include="Class Modules\cRegHotKey.vb" />
     <Compile Include="Class Modules\CSearchNew.vb" />
+    <Compile Include="Class Modules\cStringBuilder.vb" />
     <Compile Include="Class Modules\cTransaction.vb" />
     <Compile Include="Class Modules\sSale.vb" />
     <Compile Include="Class Modules\TSPNetwork.vb" />
     <Compile Include="Class Modules\TSPNode.vb" />
+    <Compile Include="Class Modules\URLDL.vb" />
     <Compile Include="Forms\AddOnAcc.Designer.vb">
       <DependentUpon>AddOnAcc.vb</DependentUpon>
     </Compile>
@@ -148,10 +150,22 @@
     <Compile Include="Forms\ArCard.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ArCheck.Designer.vb">
+      <DependentUpon>ArCheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ArCheck.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ARPaySetUp.Designer.vb">
       <DependentUpon>ARPaySetUp.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\ARPaySetUp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ArReports.Designer.vb">
+      <DependentUpon>ArReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ArReports.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\BillOSale.Designer.vb">
@@ -172,16 +186,76 @@
     <Compile Include="Forms\CalendarInstr.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\CustomerTypes.Designer.vb">
+      <DependentUpon>CustomerTypes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CustomerTypes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DateForm.Designer.vb">
+      <DependentUpon>DateForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DateForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\EditPO.Designer.vb">
       <DependentUpon>EditPO.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\EditPO.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\FaxPo.Designer.vb">
+      <DependentUpon>FaxPo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FaxPo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmAbout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAshleyEDI.Designer.vb">
+      <DependentUpon>frmAshleyEDI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAshleyEDI.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAshleyEDI888.Designer.vb">
+      <DependentUpon>frmAshleyEDI888.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAshleyEDI888.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAshleyEDIReceive.Designer.vb">
+      <DependentUpon>frmAshleyEDIReceive.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAshleyEDIReceive.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAutoInv.Designer.vb">
+      <DependentUpon>frmAutoInv.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAutoInv.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAutoWeb.Designer.vb">
+      <DependentUpon>frmAutoWeb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAutoWeb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAWS.Designer.vb">
+      <DependentUpon>frmAWS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAWS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAWSAdmin.Designer.vb">
+      <DependentUpon>frmAWSAdmin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAWSAdmin.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmBackUpGeneric.Designer.vb">
@@ -226,16 +300,34 @@
     <Compile Include="Forms\frmCashRegisterQuantity.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmCatalog.Designer.vb">
+      <DependentUpon>frmCatalog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCatalog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmCCAd.Designer.vb">
       <DependentUpon>frmCCAd.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCCAd.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmCCAdmin.Designer.vb">
+      <DependentUpon>frmCCAdmin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCCAdmin.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmCCManualEntry.Designer.vb">
       <DependentUpon>frmCCManualEntry.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCCManualEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCombinePOs.Designer.vb">
+      <DependentUpon>frmCombinePOs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCombinePOs.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmCrippleBugNotify.Designer.vb">
@@ -250,10 +342,28 @@
     <Compile Include="Forms\frmDeliveryMap.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmDesignTag.Designer.vb">
+      <DependentUpon>frmDesignTag.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDesignTag.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmEmail.Designer.vb">
       <DependentUpon>frmEmail.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmEmailSetup.Designer.vb">
+      <DependentUpon>frmEmailSetup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmEmailSetup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmExport.Designer.vb">
+      <DependentUpon>frmExport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmExport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmHTTPServer.Designer.vb">
@@ -284,6 +394,12 @@
       <DependentUpon>frmLicenseAgreement.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmLicenseAgreement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMailExport.Designer.vb">
+      <DependentUpon>frmMailExport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMailExport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmMenu.Designer.vb">
@@ -322,10 +438,34 @@
     <Compile Include="Forms\frmOptimizeRoute.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmPDFReports.Designer.vb">
+      <DependentUpon>frmPDFReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPDFReports.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmPermissionMonitor.Designer.vb">
       <DependentUpon>frmPermissionMonitor.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmPermissionMonitor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPhysicalInventoryMainMenu.Designer.vb">
+      <DependentUpon>frmPhysicalInventoryMainMenu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPhysicalInventoryMainMenu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPOEmails.Designer.vb">
+      <DependentUpon>frmPOEmails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPOEmails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPrintAllTickets.Designer.vb">
+      <DependentUpon>frmPrintAllTickets.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPrintAllTickets.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmPrintPreviewDocument.Designer.vb">
@@ -364,6 +504,18 @@
     <Compile Include="Forms\frmProgressStatic.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmQuickBooksAccountSetup.Designer.vb">
+      <DependentUpon>frmQuickBooksAccountSetup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmQuickBooksAccountSetup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmRackLabel.Designer.vb">
+      <DependentUpon>frmRackLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmRackLabel.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmRevolving.Designer.vb">
       <DependentUpon>frmRevolving.vb</DependentUpon>
     </Compile>
@@ -376,6 +528,18 @@
     <Compile Include="Forms\frmSalesList.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmScanner.Designer.vb">
+      <DependentUpon>frmScanner.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmScanner.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmScannerDownload.Designer.vb">
+      <DependentUpon>frmScannerDownload.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmScannerDownload.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmSelectOption.Designer.vb">
       <DependentUpon>frmSelectOption.vb</DependentUpon>
     </Compile>
@@ -386,6 +550,12 @@
       <DependentUpon>frmSendMail.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSendMail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetup.Designer.vb">
+      <DependentUpon>frmSetup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetup.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmSpeech.Designer.vb">
@@ -402,16 +572,58 @@
     </Compile>
     <Compile Include="Class Modules\cDataConvert.vb" />
     <Compile Include="Class Modules\CGrossMargin.vb" />
+    <Compile Include="Forms\frmSupportHost.Designer.vb">
+      <DependentUpon>frmSupportHost.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSupportHost.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTableView.Designer.vb">
+      <DependentUpon>frmTableView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTableView.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTransferLookup.Designer.vb">
+      <DependentUpon>frmTransferLookup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTransferLookup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTransferReports.Designer.vb">
+      <DependentUpon>frmTransferReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTransferReports.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTransferSelect.Designer.vb">
+      <DependentUpon>frmTransferSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTransferSelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmTransferSetup.Designer.vb">
       <DependentUpon>frmTransferSetup.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmTransferSetup.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmUpgrade.Designer.vb">
+      <DependentUpon>frmUpgrade.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmUpgrade.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmVersionControl.Designer.vb">
       <DependentUpon>frmVersionControl.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmVersionControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmViewSSLoc.Designer.vb">
+      <DependentUpon>frmViewSSLoc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmViewSSLoc.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmYardage.Designer.vb">
@@ -424,6 +636,18 @@
       <DependentUpon>InvADefault.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\InvADefault.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvAutoMan.Designer.vb">
+      <DependentUpon>InvAutoMan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvAutoMan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvAutoReOrder.Designer.vb">
+      <DependentUpon>InvAutoReOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvAutoReOrder.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\InvCkStyle.Designer.vb">
@@ -450,10 +674,28 @@
     <Compile Include="Forms\InvenA.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\InvKitReport.Designer.vb">
+      <DependentUpon>InvKitReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvKitReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\InvKitStock.Designer.vb">
       <DependentUpon>InvKitStock.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\InvKitStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvOrdStatus.Designer.vb">
+      <DependentUpon>InvOrdStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvOrdStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvPayComm.Designer.vb">
+      <DependentUpon>InvPayComm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvPayComm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\InvPo.Designer.vb">
@@ -468,10 +710,22 @@
     <Compile Include="Forms\InvPoPrint.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\InvPoSelect.Designer.vb">
+      <DependentUpon>InvPoSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvPoSelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\InvPull.Designer.vb">
       <DependentUpon>InvPull.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\InvPull.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InvReports.Designer.vb">
+      <DependentUpon>InvReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InvReports.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\InvStkRec.Designer.vb">
@@ -510,6 +764,18 @@
     <Compile Include="Forms\MailCheck.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MailFix.Designer.vb">
+      <DependentUpon>MailFix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MailFix.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MailPrint.Designer.vb">
+      <DependentUpon>MailPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MailPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MainMenu4.Designer.vb">
       <DependentUpon>MainMenu4.vb</DependentUpon>
     </Compile>
@@ -526,6 +792,18 @@
       <DependentUpon>OnScreenReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\OnScreenReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OrdAudit2.Designer.vb">
+      <DependentUpon>OrdAudit2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OrdAudit2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OrdCashflow.Designer.vb">
+      <DependentUpon>OrdCashflow.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OrdCashflow.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\OrdConvertLAW.Designer.vb">
@@ -582,10 +860,46 @@
     <Compile Include="Forms\Practice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\PracticeCommandPrompt.Designer.vb">
+      <DependentUpon>PracticeCommandPrompt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PracticeCommandPrompt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PracticeCommandPromptFunctions.Designer.vb">
+      <DependentUpon>PracticeCommandPromptFunctions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PracticeCommandPromptFunctions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PracticeDiagnostics.Designer.vb">
+      <DependentUpon>PracticeDiagnostics.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PracticeDiagnostics.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\PracticeOnDemandControl.Designer.vb">
       <DependentUpon>PracticeOnDemandControl.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\PracticeOnDemandControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReportPrint.Designer.vb">
+      <DependentUpon>ReportPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReportPrint2.Designer.vb">
+      <DependentUpon>ReportPrint2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportPrint2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReportPrint3.Designer.vb">
+      <DependentUpon>ReportPrint3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportPrint3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\RestoreInv.Designer.vb">
@@ -606,6 +920,24 @@
     <Compile Include="Forms\Service.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ServiceParts.Designer.vb">
+      <DependentUpon>ServiceParts.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ServiceParts.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ServiceReports.Designer.vb">
+      <DependentUpon>ServiceReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ServiceReports.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Ticket.Designer.vb">
+      <DependentUpon>Ticket.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ticket.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ItemDataClass.vb" />
     <Compile Include="Modules\BillOfSaleCommon.vb" />
     <Compile Include="Modules\CDbTypeAheadNew.vb" />
@@ -613,6 +945,7 @@
     <Compile Include="Modules\dbSQL.vb" />
     <Compile Include="Modules\Functions.vb" />
     <Compile Include="Modules\ImplementsModule.vb" />
+    <Compile Include="Modules\JSON.vb" />
     <Compile Include="Modules\LUT_AandHRate.vb" />
     <Compile Include="Modules\LUT_PropRate.vb" />
     <Compile Include="Modules\MainModule.vb" />
@@ -627,9 +960,11 @@
     <Compile Include="Modules\modAPI.vb" />
     <Compile Include="Modules\modAR.vb" />
     <Compile Include="Modules\modArrays.vb" />
+    <Compile Include="Modules\modAWS.vb" />
     <Compile Include="Modules\modBackup.vb" />
     <Compile Include="Modules\modBarcode.vb" />
     <Compile Include="Modules\modBase64.vb" />
+    <Compile Include="Modules\modBenchmark.vb" />
     <Compile Include="Modules\modBOS.vb" />
     <Compile Include="Modules\modBuildDate.vb" />
     <Compile Include="Modules\modCashJournal.vb" />
@@ -666,8 +1001,11 @@
     <Compile Include="Modules\modGetSales.vb" />
     <Compile Include="Modules\modGrossMargin.vb" />
     <Compile Include="Modules\modHoldings.vb" />
+    <Compile Include="Modules\modHolidays.vb" />
+    <Compile Include="Modules\modHTMLHelp.vb" />
     <Compile Include="Modules\modINET.vb" />
     <Compile Include="Modules\modINI.vb" />
+    <Compile Include="Modules\modInteract.vb" />
     <Compile Include="Modules\modInternet.vb" />
     <Compile Include="Modules\modItemCost.vb" />
     <Compile Include="Modules\modJET.vb" />
@@ -682,9 +1020,11 @@
     <Compile Include="Modules\modNumbers.vb" />
     <Compile Include="Modules\modOnDemand.vb" />
     <Compile Include="Modules\modOptimization.vb" />
+    <Compile Include="Modules\modOrigInv.vb" />
     <Compile Include="Modules\modPasswords.vb" />
     <Compile Include="Modules\modPatches.vb" />
     <Compile Include="Modules\modPath.vb" />
+    <Compile Include="Modules\modPayPal.vb" />
     <Compile Include="Modules\modPictures.vb" />
     <Compile Include="Modules\modPODetail.vb" />
     <Compile Include="Modules\modPrintRTF.vb" />
@@ -707,6 +1047,7 @@
     <Compile Include="Modules\modRTF.vb" />
     <Compile Include="Modules\modSalesJournal.vb" />
     <Compile Include="Modules\modService.vb" />
+    <Compile Include="Modules\modSetACL.vb" />
     <Compile Include="Modules\modSetup.vb" />
     <Compile Include="Modules\modSoundEX.vb" />
     <Compile Include="Modules\modSplit.vb" />
@@ -718,6 +1059,7 @@
     <Compile Include="Modules\modTextFiles.vb" />
     <Compile Include="Modules\modTimeDuration.vb" />
     <Compile Include="Modules\modTimeZone.vb" />
+    <Compile Include="Modules\modTrackUsage.vb" />
     <Compile Include="Modules\modUpgrade.vb" />
     <Compile Include="Modules\modURLHelper.vb" />
     <Compile Include="Modules\modValidation.vb" />
@@ -727,6 +1069,7 @@
     <Compile Include="Modules\modWinCDSLicenses.vb" />
     <Compile Include="Modules\modWindowsVersions.vb" />
     <Compile Include="Modules\modXML.vb" />
+    <Compile Include="Modules\modYahooXMLOrders.vb" />
     <Compile Include="Modules\ShellOut.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -793,6 +1136,9 @@
     <EmbeddedResource Include="Forms\ArCard.resx">
       <DependentUpon>ArCard.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ArCheck.resx">
+      <DependentUpon>ArCheck.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ARPaySetUp.resx">
       <DependentUpon>ARPaySetUp.vb</DependentUpon>
     </EmbeddedResource>
@@ -807,6 +1153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBackUpGeneric.resx">
+      <DependentUpon>frmBackUpGeneric.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBarcode.resx">
       <DependentUpon>frmBarcode.vb</DependentUpon>
@@ -891,6 +1240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTransferSetup.resx">
       <DependentUpon>frmTransferSetup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmUpgrade.resx">
+      <DependentUpon>frmUpgrade.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmYardage.resx">
       <DependentUpon>frmYardage.vb</DependentUpon>
@@ -1363,6 +1715,24 @@
     <COMReference Include="RDO">
       <Guid>{EE008642-64A8-11CE-920F-08002B369A33}</Guid>
       <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Scripting">
+      <Guid>{420B2830-E718-11CF-893D-00A0C9054228}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SSubTimer6">
+      <Guid>{71A2702D-C7D8-11D2-BEF8-525400DFB47A}</Guid>
+      <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>

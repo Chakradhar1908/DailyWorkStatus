@@ -55,4 +55,13 @@
 
     End Function
 
+    Public Sub ChangePassword(Optional ByRef ParentForm As Form = Nothing)
+        ' Pop up the form, with username, password, and confirm visible.
+        ' On Apply, attempt to validate the account and change password.
+        ' Return value is irrelevant.
+        Mode = 2
+
+        Show vbModal, ParentForm
+End Sub
+
 End Class

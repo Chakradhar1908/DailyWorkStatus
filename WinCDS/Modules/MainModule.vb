@@ -10,6 +10,8 @@ Module MainModule
     Public gblLastDeliveryDate As Date        ' This will make the last delivery date persist without keeping whole forms loaded.
     Public gblLastDeliveryDateEpoch As Date   ' This will make the last delivery date reset daily
     Public PrvKill As Boolean
+    Public ProgramStart As Date               ' When the program started
+    Private mQuickQuit As Boolean             ' used to bypass the quit confirmation msgbox
 
     Public Sub HideSplash()
         If frmSplashIsLoaded Then frmSplash.Hide()
@@ -41,18 +43,22 @@ Module MainModule
             End If
         Next
     End Function
+
     Public Function GetDatabaseAtLocation(Optional ByVal Store As Integer = 0) As String
         If Store <= 0 Then Store = StoresSld
         GetDatabaseAtLocation = NewOrderFolder(Store) & "CDSDATA.MDB"
     End Function
+
     Public Function NewOrderFolder(Optional ByVal StoreNum As Integer = 0) As String
         NewOrderFolder = StoreFolder(StoreNum) & "NewOrder\"
     End Function
+
     Public Function StoreFolder(Optional ByVal StoreNum As Integer = 0, Optional ByVal doLocal As Boolean = False) As String
         If StoreNum = 0 Then StoreNum = StoresSld
         If StoreNum > Setup_MaxStores Or StoreNum < 1 Then StoreNum = 1
         StoreFolder = GetStation(doLocal:=doLocal) & "Store" & StoreNum & DIRSEP
     End Function
+
     Private Function GetStation(Optional ByVal doLocal As Boolean = False, Optional ByVal doStub As Boolean = True) As String
         'MsgBox "GetStation"
         'LogStartup "GetStation(" & doLocal & ", " & doStub & ") a"
@@ -144,6 +150,7 @@ Module MainModule
             End If
         End If
     End Function
+
     Public Function SetServer(ByVal Server As Boolean)
         'MsgBox "SetServer: " & Server
         SetServer = Nothing
@@ -181,6 +188,7 @@ Module MainModule
         If T = Z Then bIsServer = vbFalse
 ServerLockedFailed:
     End Function
+
     Public Function WriteStoreSetting(ByVal nStoreNo As Integer, ByVal nSection As IniSections_StoreSettings, ByVal nKey As String, ByVal nValue As String) As String
         If nStoreNo = -1 Then  ' Allow "broadcast" setting, to save to all stores at once.
             Dim I As Integer
@@ -206,6 +214,7 @@ ServerLockedFailed:
             GetStoreNumber = CLng(Mid(DBName, X, InStr(X, DBName, DIRSEP) - X))
         End If
     End Function
+
     Public Function BackupSemaforeFile(Optional ByVal CreateIt As Boolean = False, Optional ByVal ItExists As Boolean = False, Optional ByVal DeleteIt As Boolean = False) As Boolean
         Dim FN As String
         Dim X As String
@@ -230,12 +239,14 @@ ServerLockedFailed:
             End If
         End If
     End Function
+
     Public Function LocalCDSDataFolder() As String
         ' We sometimes want to bypass the IsServer check...  This allows direct access to the C-drive without the overhead
         LocalCDSDataFolder = LocalRootFolder & WinCDSStubDir
         If DirExists(LocalCDSDataFolder) Then Exit Function
         LocalCDSDataFolder = LocalRootFolder
     End Function
+
     Private Function VerifyIsServerOnWorkstation() As Boolean
         VerifyIsServerOnWorkstation = False ' Start out as workstation
 
@@ -291,6 +302,7 @@ ServerLockedFailed:
             End
         End If
     End Function
+
     Public Function CDSAppDataFolder() As String
         Dim D As String
         D = AppDataFolder()
@@ -301,10 +313,12 @@ ServerLockedFailed:
 
         CDSAppDataFolder = D
     End Function
+
     Public Function AppDataFolder() As String
         AppDataFolder = Environ("AppData") & DIRSEP
         If Not DirExists(AppDataFolder) Then AppDataFolder = CDSDataFolder()
     End Function
+
     Public Function CDSDataFolder(Optional ByVal doLocal As Boolean = False) As String
         If doLocal Then
             CDSDataFolder = LocalCDSDataFolder()
@@ -312,15 +326,19 @@ ServerLockedFailed:
             CDSDataFolder = GetStation()
         End If
     End Function
+
     Public Function WinCDSDevFolder() As String
         WinCDSDevFolder = LocalRoot & "WinCDS\"
     End Function
+
     Public Function WinCDSFolder() As String
         WinCDSFolder = LocalProgramFilesFolder() & "WinCDS\"
     End Function
+
     Public Function LocalProgramFilesFolder(Optional ByVal Nox86 As Boolean = False) As String
         LocalProgramFilesFolder = ProgramFilesFolder(doLocal:=True, Nox86:=Nox86)
     End Function
+
     Public Function ProgramFilesFolder(Optional ByVal doLocal As Boolean = False, Optional ByVal Nox86 As Boolean = False) As String '###x86
         ProgramFilesFolder = GetStation(doLocal:=doLocal, doStub:=False) & "Program Files"
         If Not Nox86 Then
@@ -329,9 +347,11 @@ ServerLockedFailed:
         ProgramFilesFolder = ProgramFilesFolder & DIRSEP
         '  ProgramFilesFolder = GetStation(doLocal:=doLocal, doStub:=False) & "Program Files" & IIf(x86Exists(doLocal:=doLocal), " (x86)", "") & dirsep
     End Function
+
     Public Function GetDatabaseInventory() As String
         GetDatabaseInventory = InventFolder() & "CDSInvent.mdb"
     End Function
+
     Public Function InventFolder(Optional ByVal doLocal As Boolean = False) As String
         InventFolder = GetStation(doLocal) & "Invent\"
     End Function
@@ -355,10 +375,12 @@ ServerLockedFailed:
         End If
 
     End Function
+
     Public Function StorePolicyMessageFile(Optional ByVal StoreNum As Integer = 0) As String
         If StoreNum = 0 Then StoreNum = StoresSld
         StorePolicyMessageFile = FXFile("StorePolicy.rtf", , False)
     End Function
+
     Public Function FXFile(ByVal S As String, Optional ByVal SubF As String = "", Optional ByVal RequireExists As Boolean = True) As String
         Dim R As String, T As String
         If InStr(S, ":") = 0 Then
@@ -395,17 +417,21 @@ ServerLockedFailed:
             FXFile = ""
         End If
     End Function
+
     Public Function FXFolder(Optional ByVal doLocal As Boolean = False) As String
         FXFolder = CDSDataFolder(doLocal) & "InventFX\"
         If Not DirExists(FXFolder) Then FXFolder = PXFolder() : Exit Function
     End Function
+
     Public Function FXControlFolder(Optional ByVal doLocal As Boolean = False) As String
         FXControlFolder = FXFolder(doLocal) & "Control\"
         If Not DirExists(FXControlFolder) Then FXControlFolder = PXFolder() : Exit Function
     End Function
+
     Public Function PXFolder() As String
         PXFolder = GetStation() & "InventPX\"
     End Function
+
     Public Function PXfile(ByVal NFile As String, Optional ByVal SrcDir As String = "") As String
         PXfile = ""
         If SrcDir = "" Then SrcDir = PXFolder()
@@ -417,6 +443,7 @@ ServerLockedFailed:
         If FileExists(SrcDir & NFile & ".gif") Then PXfile = SrcDir & NFile & ".gif" : Exit Function
         If FileExists(SrcDir & NFile & ".png") Then PXfile = SrcDir & NFile & ".png" : Exit Function
     End Function
+
     Public Function ItemPXByRN(ByVal RN As Integer, Optional ByVal WithPath As Boolean = True, Optional ByVal ForceExt As String = "") As String
         Dim TF As String, SF As String
         SF = RN
@@ -439,11 +466,13 @@ ServerLockedFailed:
             End If
         End If
     End Function
+
     Public Function UpdateFolder(Optional ByVal SubFolder As String = "") As String
         UpdateFolder = InventFolder(True) & "update\" & SubFolder
         If Right(UpdateFolder, 1) <> DIRSEP Then UpdateFolder = UpdateFolder & DIRSEP
         EnsureFolderExists(UpdateFolder, True)
     End Function
+
     Public Function TempFile(Optional ByVal UseFolder As String = "", Optional ByVal UsePrefix As String = "wincds_tmp_", Optional ByVal Extension As String = ".tmp", Optional ByVal TestWrite As Boolean = True) As String
         Dim FN As String, Res As String
         If UseFolder <> "" And Not DirExists(UseFolder) Then UseFolder = ""
@@ -488,9 +517,11 @@ TestClearFailed:
         '  End If
         Exit Function
     End Function
+
     Public Function DevOutputFolder() As String
         DevOutputFolder = LocalDesktopFolder()
     End Function
+
     Public Function TempFolder(Optional ByVal UseFolder As String = "", Optional ByVal UsePrefix As String = "tmp_", Optional ByVal Extension As String = ".tmp", Optional ByVal TestWrite As Boolean = True) As String
         Dim FN As String, Res As String
         If UseFolder <> "" And Not DirExists(UseFolder) Then UseFolder = ""
@@ -520,12 +551,14 @@ TestClearFailed:
         LocalDesktopFolder = W.SpecialFolders("Desktop") & DIRSEP
         W = Nothing
     End Function
+
     Public Function WinCDSEXEFile(Optional ByVal Ext As Boolean = False, Optional ByVal Standard As Boolean = False, Optional ByVal DoShortIfExists As Boolean = False) As String
         Dim T As String
         If Standard Then T = WinCDSFolder() Else T = AppFolder()
         WinCDSEXEFile = T & WinCDSEXEName(Ext, Standard)
         If DoShortIfExists And FileExists(WinCDSEXEFile) Then WinCDSEXEFile = GetShortName(WinCDSEXEFile)
     End Function
+
     Public Function WinCDSEXEName(Optional ByVal Ext As Boolean = False, Optional ByVal Standard As Boolean = False, Optional ByVal DoUCase As Boolean = False) As String
         Dim Location As String
         Dim Appname As String
@@ -550,6 +583,7 @@ TestClearFailed:
 
         '  XChargeFolder = ""     ' just keep last attempt
     End Function
+
     Public Function ItemPictureByRN(ByVal RN As Integer) As StdPicture
         Dim S As String, DIB As Integer
         On Error Resume Next
@@ -681,7 +715,7 @@ Finish:
     Public Property QuickQuit() As Boolean
         Get
             QuickQuit = mQuickQuit
-            If ReadStoreSetting(0, iniSection_StoreSettings, "QuickQuit") <> "" Then QuickQuit = True
+            If ReadStoreSetting(0, IniSections_StoreSettings.iniSection_StoreSettings, "QuickQuit") <> "" Then QuickQuit = True
         End Get
         Set(value As Boolean)
             mQuickQuit = value
@@ -689,7 +723,39 @@ Finish:
     End Property
 
     Public Function ShowHelp() As Boolean
-        ShellOut.RunFile WinCDSHelpFile
+        ShellOut.RunFile(WinCDSHelpFile)
         ShowHelp = True
     End Function
+
+    Public Function ShutdownSemaforeFile(Optional ByVal CreateIt As Boolean = False, Optional ByVal ItExists As Boolean = False, Optional ByVal DeleteIt As Boolean = False)
+        ShutdownSemaforeFile = StoreFolder(1) & "shutdown.txt"
+        On Error Resume Next
+        If CreateIt Then WriteFile(ShutdownSemaforeFile, "" & Today, True)
+        If DeleteIt Then Kill(ShutdownSemaforeFile)
+        If ItExists Then ShutdownSemaforeFile = FileExists(ShutdownSemaforeFile)
+    End Function
+
+    Public Function NightlyCleanup() As Boolean
+        '  VerifyMailRecUnique 0, , True ' this cleans up any dangling mail record reservations..
+    End Function
+
+    Public Function WinCDSHelpFile(Optional ByVal Ext As Boolean = True, Optional ByVal wPath As Boolean = True, Optional ByVal Standardized As Boolean = False) As String
+        Dim Std As String
+
+        WinCDSHelpFile = ProgramName
+        If Ext Then WinCDSHelpFile = WinCDSHelpFile & ".CHM"
+        If wPath Then
+            Std = FXFolder(True) & ProgramName & ".CHM"
+            If Standardized Or FileExists(Std) Then
+                WinCDSHelpFile = Std
+            Else
+                WinCDSHelpFile = AppFolder() & WinCDSHelpFile
+            End If
+        End If
+    End Function
+
+    Public Function UserFolder() As String
+        UserFolder = ParentDirectory(LocalDesktopFolder)
+    End Function
+
 End Module

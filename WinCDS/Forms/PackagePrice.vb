@@ -95,4 +95,9 @@ HandleErr:
        & " WHERE (((InvKit.KitStyleNo)  =""" & ProtectSQL(Tid) & """))"
     End Sub
 
+    Public Sub EditPackages()
+        Show()
+        GetKitInfo
+    End Sub
+
 End Class

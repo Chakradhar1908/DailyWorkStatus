@@ -196,4 +196,75 @@ Module modSupportForms
         T = selOptions
         SelectOptionX = frmSelectOption.SelectOptionArray(nTitle, selType, T, SelectButtonCaption, PreSelChk)
     End Function
+
+    Public Function PermissionMonitor(Optional ByVal Pane As Long = -1, Optional ByVal OnTop As Boolean = False) As Boolean
+        '::::OpenPermissionMonitor
+        ':::SUMMARY
+        ': Used to open the Permission Monitor.
+        ':::DESCRIPTION
+        ': This function is used to open the Permission Monitor using parameter.
+        ':::PARAMETERS
+        ': - Pane - Indicates the Long Value.
+        ':::RETURN
+
+        '::::PermissionMonitorOFF
+        ':::SUMMARY
+        ': Used to off the Permission Monitor.
+        ':::DESCRIPTION
+        ': This function is used to close the permission monitor.
+        ':::PARAMETERS
+        ':::RETURN
+
+        '::::PermissionMonitor
+        ':::SUMMARY
+        ': Display the Permission Monitor.
+        ':::DESCRIPTION
+        ': This function displays the permission monitor.
+        ':::PARAMETERS
+        ': - Pane - Select initial state
+        ': - OnTop - Set Always On Top
+        ':::RETURN
+        ': Boolean - Returns the result whether it is True or False.
+        On Error GoTo Failure
+        PermissionMonitor = True
+        If Pane < 0 Then
+            'If IsFormLoaded("frmPermissionMonitor") Then Unload frmPermissionMonitor
+            If IsFormLoaded("frmPermissionMonitor") Then frmPermissionMonitor.Close()
+            PermissionMonitor = True
+            Exit Function
+        End If
+
+        If Not IsFormLoaded("frmPermissionMonitor") Then
+            'Load frmPermissionMonitor
+            If Pane = 0 Then Pane = 2
+        End If
+
+        frmPermissionMonitor.OnTop = OnTop
+        frmPermissionMonitor.Display = IIf(Pane <> 0, Pane, frmPermissionMonitor.Display + 1)
+        '  If Not frmPermissionMonitor.Visible Then frmPermissionMonitor.Show
+        frmPermissionMonitor.Show()
+        PermissionMonitor = True
+Failure:
+    End Function
+
+    Public Sub SuppressMessages(Optional ByVal Minutes As Long = 0)
+        '::::SuppressMessages
+        ':::SUMMARY
+        ': Used to Temporarily Suppress messages through MsgBox
+        ':::DESCRIPTION
+        ': Temporarily disable blocking/modal MsgBox() prompts for the duration of an operation.
+        ':
+        ': During message suppression, all messages are outputted to the 'Suppress.txt' log in the log folder.
+        ':::USAGE
+        ': SuppressMessages <NUMBER-OF-MINUTES>
+        ': - Suppress messages for a period of time
+        ': SuppressMessages
+        ': - Turn off Message Suppression
+        ': So , this function is used to Suppress that type of Messages which we do not like to see that messages by Client.
+        ':::PARAMETERS
+        ': - Minutes - Indicates the minutes as long value.
+
+        If Minutes = 0 Then SuppressMessagesUntil = 0 : Exit Sub
+        SuppressMessagesUntil = DateAdd("m", Minutes, Now)
+    End Sub
 End Module

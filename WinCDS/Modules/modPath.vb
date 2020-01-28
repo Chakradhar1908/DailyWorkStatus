@@ -97,6 +97,7 @@
             If Right(CleanDir, 1) <> DIRSEP Then CleanDir = CleanDir & DIRSEP
         End If
     End Function
+
     Public Function DirExists(ByVal F As String) As Boolean
         '::::DirExists
         ':::SUMMARY
@@ -126,6 +127,7 @@
         '  If FileExists(F) Then Exit Function
         '  DirExists = Dir(F, vbDirectory) <> ""
     End Function
+
     Public Function DriveMapped(ByVal Drive As String) As Boolean
         '::::DriveMapped
         ':::SUMMARY
@@ -140,6 +142,7 @@
         ': IsDriveRoot
         DriveMapped = DirExists(Left(Drive, 1) & ":")
     End Function
+
     Public Function GetFilePath(ByVal FN As String, Optional ByVal Sep As String = DIRSEP) As String
         '::::GetFilePath
         ':::SUMMARY
@@ -189,6 +192,7 @@
         ':  FolderExists, CleanDir
         IsDriveRoot = (Mid(Path, 2) = ":\")
     End Function
+
     Public Function GetFileName(ByVal FN As String, Optional ByVal NoLCase As Boolean = False, Optional ByVal Sep As String = DIRSEP) As String
         '::::GetFileName
         ':::SUMMARY
@@ -216,6 +220,7 @@
         GetFileName = X(UBound(X))
         If Not NoLCase Then GetFileName = LCase(GetFileName)
     End Function
+
     'Public Function RemoveFolder(ByVal F As String, Optional ByVal WithContents = True) As Boolean
     '::::RemoveFolder
     ':::SUMMARY
@@ -252,7 +257,7 @@
         ':
         '::Aliases
         ':  IsAbsolutePath
-        Dim N As String, X as integer, Y as integer
+        Dim N As String, X As Integer, Y As Integer
         'If IsPathAbsolute(F) Then
         '    N = F
         'ElseIf Path = "" Then
@@ -282,8 +287,27 @@
             End If
         End If
     End Function
+
     Public Function FolderExists(ByVal F As String) As Boolean
         FolderExists = DirExists(F)
+    End Function
+
+    Public Function FolderExists_E(ByVal F As String) As String
+        '::::FolderExists_E
+        ':::SUMMARY
+        ':Returns the string "[E]" or "[!E]" if the folder exists or doesn't.
+        ':::DESCRIPTION
+        ':Shortcut function for string diagnostic status reporting.
+        ':::PAREMETERS
+        ': - sDirPath - Valid directory to count files in
+        ':::EXAMPLES
+        ': - CountFiles("C:\Windows\")
+        ':::RETURNS
+        ':Returns a string folder existence indicator.
+        ':::SEE ALSO
+        ': FolderExists
+        ': AllFiles, AllFolders
+        FolderExists_E = IIf(FolderExists(F), "[E]", "[!E]")
     End Function
 
     Public Function CanWriteToFolder(ByVal S As String) As Boolean
@@ -313,6 +337,7 @@
         CanWriteToFolder = True
 Fail:
     End Function
+
     Public Function DeleteFileIfExists(ByVal sFIle As String, Optional ByVal bNoAttributeClearing As Boolean = False) As Boolean
         '::::DeleteFileIfExists
         ':::SUMMARY
@@ -541,4 +566,102 @@ Fail:
         AllFiles = sAns
     End Function
 
+    Public Function ClearFolder(ByVal F As String, Optional ByVal WithSubDirs As Boolean = True) As Boolean
+        '::::ClearFolder
+        ':::SUMMARY
+        ':DELETES all files in given folder.  With or without sub-folders.
+        ':::DESCRIPTION
+        ':Deletes all files in a given folder.  Can also remove all sub-folders.
+        ':This function deletes all the files, but leaves the folder.  If you want to remove the directory itself as well,
+        ':use RemoveFolder().
+        ':::PAREMETERS
+        ': - sDirPath - Valid directory to delete files in.
+        ': - [bWithSubDirs] = TRUE - Default operation is to delete ALL files.  If you do not want it to recurse folders, pass FALSE.
+        ':::RETURNS
+        ':Returns True on success.
+        ':::SEE ALSO
+        ': DeleteFileIfExists, RemoveFolder
+        Dim X, R() As String
+        Dim T As String
+        On Error Resume Next
+
+        If Left(F, Len(AppFolder)) = AppFolder() Then
+            Stop
+            Stop   ' Let's think about this...
+            Stop
+        End If
+
+        F = CleanPath(F)
+        If Not FolderExists(F) Then Exit Function
+        R = AllFiles(F)
+        For Each X In R
+            T = F & DIRSEP & X
+            Kill(T)
+        Next
+        If WithSubDirs Then
+            R = AllFolders(F)
+            For Each X In R
+                If X <> "" Then
+                    ClearFolder(F & DIRSEP & X)
+                    RmDir(F & DIRSEP & X)
+                End If
+            Next
+        End If
+
+        ClearFolder = True
+    End Function
+
+    Public Function AllFolders(ByVal DirPath As String, Optional ByVal WithDots As Boolean = False) As String()
+        '::::AllFolders
+        ':::SUMMARY
+        ':Return an array containing name of all sub-folders in directory specified
+        ':::DESCRIPTION
+        ':Given a valid directory, will return a String() array containing all sub-folders (without path).
+        ':::PAREMETERS
+        ': - DirPath - Valid directory ending in DIRSEP ("\") or with a valid wildcard specifier.
+        ': - [WithDots] = False - Boolean - Pass TRUE to include the standard Windows navigation folders, "." and "..".  Excluded by default.
+        ':::EXAMPLES
+        ': - DirPath("C:\Windows\")
+        ': - DirPath("C:\Windows\*.exe")
+        ':
+        ':Dim sFiles() As String
+        ':Dim lCtr As Long
+        ':
+        ':sFiles = AllFolders("C:\windows\")
+        ':For lCtr = 0 To UBound(sFiles)
+        ':  Debug.Print sFiles(lCtr)
+        ':Next
+        ':
+        ':::RETURNS
+        ':Returns a string array of the sub-folders.
+        ':::SEE ALSO
+        ': FolderExists, CleanPath
+        ': AllFiles
+
+        Dim sFIle As String
+        Dim lElement As Long
+        Dim sAns() As String
+        'ReDim sAns(0) As String
+
+        If InStr(DirPath, "*") = 0 Then
+            If Right(DirPath, 1) <> DIRSEP Then DirPath = DirPath & DIRSEP
+        End If
+
+        sFIle = Dir(DirPath, vbDirectory)
+        Do While sFIle <> ""
+            If Not WithDots And sFIle = "." Then GoTo SkipItem
+            If Not WithDots And sFIle = ".." Then GoTo SkipItem
+
+            If Not DirExists(DirPath & sFIle) Then GoTo SkipItem
+
+            lElement = IIf(sAns(0) = "", 0, UBound(sAns) + 1)
+            'ReDim Preserve sAns(lElement) As String
+            ReDim Preserve sAns(lElement)
+            sAns(lElement) = sFIle
+SkipItem:
+            sFIle = Dir()
+        Loop
+
+        AllFolders = sAns
+    End Function
 End Module

@@ -186,4 +186,8 @@ Module modDates
         End If
     End Function
 
+    Public Function DayOfWeek(ByVal D As Date) As String
+        DayOfWeek = Format(D, "dddd")
+    End Function
+
 End Module

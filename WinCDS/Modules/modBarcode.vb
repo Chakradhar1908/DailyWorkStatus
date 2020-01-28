@@ -309,4 +309,9 @@ Module modBarcode
         End Select
     End Function
 
+    Public Sub GetAllBarcodes(ByRef CallingForm As Object)
+        BarcodeFormType = 1
+        frmBarcode.Show vbModal, CallingForm
+End Sub
+
 End Module

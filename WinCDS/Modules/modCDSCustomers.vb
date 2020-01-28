@@ -361,4 +361,10 @@
         End Get
     End Property
 
+    Public ReadOnly Property IsYourFurnitureStore() As Boolean
+        Get
+            IsYourFurnitureStore = CheckStoreName("Your Furniture Store")
+        End Get
+    End Property
+
 End Module

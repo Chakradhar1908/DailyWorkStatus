@@ -13,9 +13,7 @@
     Dim mArNo As String
 
     Public SS As String ' Used by ARCard
-
     Dim FH_NORM As Integer, FH_EXP As Integer
-
     Private WithEvents mDBAccessArApp As CDbAccessGeneral
 
     Public Sub GetApp(Optional ByVal mR As Integer = 0, Optional ByVal AN As String = "")
@@ -49,6 +47,38 @@
             Else
                 mDBAccessArApp.SQL = "SELECT * From ArApp WHERE ArApp.ArNo=""" & ProtectSQL(Tid) & """"
             End If
+        End If
+    End Sub
+
+    Public Sub NextEntry()
+        mArNo = "-1"
+        ArCheck.text = "Installment Customer"
+        ArCheck.lblInstructions.Text = "Customer Account Number"
+        'ArCheck.HelpContextID = HelpContextID
+        ArCheck.ShowDialog()
+        ArNo = IIf(ArCheck.Customer = "", 0, ArCheck.Customer)
+
+        If ArMode("EA") Then
+            mDBAccessArApp_Init(ArNo)
+        Else
+            mDBAccessArApp_Init(MailIndex)
+        End If
+        mDBAccessArApp.GetRecord() 'this gets the record
+        mDBAccessArApp.dbClose()
+        mDBAccessArApp = Nothing
+
+        If mArNo = "-1" Then 'not found
+            Show()
+            Exit Sub
+        End If
+
+        If MessageBox.Show("Application not found.  Try another credit application?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
+            ArSelect = ""
+            'Unload Me
+            Me.Close()
+            MainMenu.Show()
+        Else
+            NextEntry()
         End If
     End Sub
 

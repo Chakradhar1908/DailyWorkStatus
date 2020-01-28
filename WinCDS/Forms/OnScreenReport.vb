@@ -57,4 +57,19 @@
     Const AllowAdjustDel As Boolean = True
     Const MaxAdjustments As Integer = 30
 
+    Public Sub CustomerAdjustment()
+        ' Load and show this form..
+        ' Customer and Sale information is loaded by MailCheck's Sale Found events.
+        Show()
+        cmdNext.Value = True
+    End Sub
+
+    Public Sub CustomerHistory()
+        ' Load and show this form..
+        ' Customer and sale information is loaded by MailCheck's Customer Found events.
+        Form_Load
+        Show()
+        cmdNext.Value = True
+    End Sub
+
 End Class

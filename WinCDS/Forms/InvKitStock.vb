@@ -7,4 +7,9 @@
     Public PackPrice As String
     Public Comments As String
 
+    Public Sub ShowPackages()
+        Show()
+        GetKitInfo
+    End Sub
+
 End Class

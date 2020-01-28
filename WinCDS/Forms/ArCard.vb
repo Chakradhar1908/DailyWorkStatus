@@ -760,4 +760,63 @@ ErrorHandler:
         QueryPayLogAmount = PayLog(I - 1).Amount
     End Function
 
+    Public Sub GetCustomerAccount()
+        ArNo = -1
+        Show()
+
+        If ARPaySetUp.AccountFound = "" Then  'show entry form
+TryAgain:
+            ArCheck.Text = "Installment Customer"
+            ArCheck.lblInstructions.Text = "Customer Account Number"
+            'ArCheck.HelpContextID = HelpContextID
+
+            ArCheck.ShowDialog(Me)
+            ArNo = IIf(ArCheck.Customer = "", 0, ArCheck.Customer)
+            mArNo = ArNo
+
+            mDBAccess_Init(ArNo)
+            mDBAccess.GetRecord()    ' this gets the record
+            mDBAccess.dbClose()
+            mDBAccess = Nothing
+
+            If ArNo <> "-1" And ArNo <> "0" Then 'not found
+                GetCustomer()
+                mDBAccessTransactions_Init(ArNo)
+                mDBAccessTransactions.GetRecord()    ' this gets the record
+                mDBAccessTransactions.dbClose()
+                mDBAccessTransactions = Nothing
+                GetPayoff()
+                GetAgeing()
+                filFile_Click()
+            ElseIf ArNo = 0 Then
+                'Unload Me
+                Me.Close()
+            Else 'If ArNo = "-1" Then 'not found
+                If MessageBox.Show("Incorrect Account Number.  Try again?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                    GoTo TryAgain
+                Else
+                    'Unload Me
+                    Me.Close()
+                    MainMenu.Show()
+                End If
+            End If
+        End If
+    End Sub
+
+    Public Sub VoidAccount()
+        If ArNo <> "0" And Status <> arST_Void Then
+            If MessageBox.Show("Are you sure you want to void this installment contract?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) = DialogResult.OK Then
+                mDBAccess_Init(ArNo)
+                mDBAccess.SetRecord()    ' this sets the record, it will set either
+                mDBAccess.dbClose()
+                mDBAccess = Nothing
+            End If
+        End If
+
+        ' *** do something with money ***
+        'Unload Me
+        Me.Close()
+        MainMenu.Show()
+    End Sub
+
 End Class

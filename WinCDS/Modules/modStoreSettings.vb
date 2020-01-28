@@ -836,12 +836,14 @@ NoFile:
             SaveCDSSetting("InstallmentLicense", value)
         End Set
     End Property
+
     Private Sub DoOtherSaves(ByRef SI As StoreInfo)
         With SI
             SaveCDSSetting("CCMachine", IIf(.bUseCCMachine, "1", "0"))
             ServerLock(IIf(.ServerLock, vbTrue, vbFalse))
         End With
     End Sub
+
     Private Function GetSIBool(ByVal S As String, Optional ByVal Dflt As Boolean = False) As Boolean
         If S = "" Then GetSIBool = Dflt : Exit Function
         On Error Resume Next
@@ -852,6 +854,7 @@ NoFile:
             Case Else : GetSIBool = False
         End Select
     End Function
+
     Private Sub DoOtherLoads(ByRef SI As StoreInfo)
         With SI
             .bUseCCMachine = IIf(Val(GetCDSSetting("CCMachine", "0")) = 0, False, True)
@@ -859,5 +862,15 @@ NoFile:
         End With
     End Sub
 
-
+    Public Function ReadStoreSetting(ByVal nStoreNo As Integer, ByVal nSection As IniSections_StoreSettings, ByVal nKey As String, Optional ByVal nDefault As String = "") As String
+        Const UnusedValue As String = "#_*SA"
+        If nStoreNo = -1 Then
+            Dim I As Integer ' Like "broadcast save", but read all files until you find one that has it set.  A value that should never be used is a standin for "default" in this case.
+            For I = 1 To ActiveNoOfLocations
+                ReadStoreSetting = ReadStoreSetting(I, nSection, nKey, UnusedValue)
+                If ReadStoreSetting <> UnusedValue Then Exit Function
+            Next
+        End If
+        ReadStoreSetting = ReadIniValue(StoreINIFile(nStoreNo), StoreSettingSectionKey(nSection), nKey, nDefault)
+    End Function
 End Module
