@@ -1066,6 +1066,7 @@
     <Compile Include="Modules\modVBControls.vb" />
     <Compile Include="Modules\modVBErros.vb" />
     <Compile Include="Modules\modVistaUAC.vb" />
+    <Compile Include="Modules\modWebIntegration.vb" />
     <Compile Include="Modules\modWinCDSLicenses.vb" />
     <Compile Include="Modules\modWindowsVersions.vb" />
     <Compile Include="Modules\modXML.vb" />
@@ -1154,6 +1155,9 @@
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAutoWeb.resx">
+      <DependentUpon>frmAutoWeb.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBackUpGeneric.resx">
       <DependentUpon>frmBackUpGeneric.vb</DependentUpon>
     </EmbeddedResource>
@@ -1184,6 +1188,9 @@
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmExport.resx">
+      <DependentUpon>frmExport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmINet.resx">
       <DependentUpon>frmINet.vb</DependentUpon>
     </EmbeddedResource>
@@ -1192,6 +1199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmKitLevels.resx">
       <DependentUpon>frmKitLevels.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmLicenseAgreement.resx">
+      <DependentUpon>frmLicenseAgreement.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMsg2.resx">
       <DependentUpon>frmMsg2.vb</DependentUpon>
@@ -1247,6 +1257,9 @@
     <EmbeddedResource Include="Forms\frmYardage.resx">
       <DependentUpon>frmYardage.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InvAutoReOrder.resx">
+      <DependentUpon>InvAutoReOrder.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvCkStyle.resx">
       <DependentUpon>InvCkStyle.vb</DependentUpon>
     </EmbeddedResource>
@@ -1282,6 +1295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainMenu4.resx">
       <DependentUpon>MainMenu4.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainMenu4_Images.resx">
+      <DependentUpon>MainMenu4_Images.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrdConvertLAW.resx">
       <DependentUpon>OrdConvertLAW.vb</DependentUpon>

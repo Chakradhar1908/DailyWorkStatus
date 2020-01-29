@@ -367,4 +367,9 @@
         End Get
     End Property
 
+    Public ReadOnly Property IsStanleys() As Boolean
+        Get
+            IsStanleys = CheckStoreName("Stanley")
+        End Get
+    End Property
 End Module

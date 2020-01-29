@@ -102,8 +102,8 @@ Public Class MainMenu4
     End Sub
 
     Private Sub ShowMsgs(Optional ByVal Show As Boolean = False)
-        msgs.Move 4000, 2550, 8025, 2700
-  msgs.Visible = Show And msgs.CheckMessages
+        msgs.Move(4000, 2550, 8025, 2700)
+        msgs.Visible = Show And msgs.CheckMessages
     End Sub
 
     Private Sub MainMenu4_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize

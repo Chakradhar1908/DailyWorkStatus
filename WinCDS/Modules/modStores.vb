@@ -1,5 +1,4 @@
 ﻿Imports stdole
-
 Module modStores
     Public Const COPY_FILE As String = "File Copy"
     Public Const COPY_CUSTOMER As String = "Customer Copy"
@@ -203,4 +202,55 @@ Module modStores
         If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
         BOSDiscountFile = NewOrderFolder(StoreNum) & "BoSDscnt.Dat"
     End Function
+
+    Public Function LoadStoreLogo(ByRef imgLogo As PictureBox, ByRef StoreNum As Integer, Optional ByRef ShrinkImage As Boolean = False) As Boolean
+        '::::LoadStoreLogo
+        ':::SUMMARY
+        ': Loads Store Logo
+        ':::DESCRIPTION
+        ': Loads Store Logo to an Image Control
+        ':::PARAMETERS
+        ': - imgLogo - Image Control
+        ': - StoreNum
+        ': - ShrinkImage
+        ':::RETURN
+        ': Boolean
+        Dim Loaded As Boolean
+        On Error GoTo NotLoaded
+
+        Loaded = True
+        'imgLogo.Picture = LoadPictureStd(StoreLogoFile(StoreNum))
+        imgLogo.Image = LoadPictureStd(StoreLogoFile(StoreNum))
+        If Not Loaded Then
+            LoadStoreLogo = False
+            Exit Function
+        End If
+
+        On Error Resume Next
+        'If ShrinkImage And imgLogo.Stretch Then
+        If ShrinkImage And imgLogo.SizeMode = PictureBoxSizeMode.StretchImage Then
+            Dim dX As Double, dY As Double
+            dX = imgLogo.Image.Width / imgLogo.Width
+            dY = imgLogo.Image.Height / imgLogo.Height
+            If dX > 0 Or dY > 0 Then
+                ' The image is too large in at least one dimension.
+                If dX > dY Then
+                    ' It's wider than tall.  Shrink vertical height.
+                    imgLogo.Height = imgLogo.Image.Height / dX
+                Else
+                    ' It's taller than wide.  Shrink horizontal dimension.
+                    imgLogo.Width = imgLogo.Image.Width / dY
+                End If
+            End If
+        End If
+
+        LoadStoreLogo = True
+        Exit Function
+
+NotLoaded:
+        Loaded = False
+        Err.Clear()
+        Resume Next
+    End Function
+
 End Module

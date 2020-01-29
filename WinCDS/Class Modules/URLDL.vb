@@ -1,13 +1,15 @@
 ﻿Public Class URLDL
-    Public Function DownloadFileProgress(ByVal URL As String, ByVal LocalFile As String, Optional ByRef ErrCode As Long, Optional ByRef AltPrg As Object, Optional ByRef AltPrg2 As Object) As Boolean
+    Dim P As frmProgress, P2 As Object, Start As Long
+    'Implements olelib.IBindStatusCallback
+    Public Function DownloadFileProgress(ByVal URL As String, ByVal LocalFile As String, Optional ByRef ErrCode As Long = 0, Optional ByRef AltPrg As Object = Nothing, Optional ByRef AltPrg2 As Object = Nothing) As Boolean
         On Error Resume Next
-  Set P = New frmProgress
-  Set P.AltPrg = AltPrg
-  Set P2 = AltPrg2
-  Start = P2.Value
+        P = New frmProgress
+        'P.AltPrg = AltPrg
+        P2 = AltPrg2
+        Start = P2.Value
 
-        ErrCode = olelib.URLDownloadToFile(Nothing, URL, LocalFile, 0, Me)
-        DownloadFileProgress = (ErrCode = olelib.S_OK)
+        'ErrCode = olelib.URLDownloadToFile(Nothing, URL, LocalFile, 0, Me)
+        'DownloadFileProgress = (ErrCode = olelib.S_OK)
     End Function
 
 End Class

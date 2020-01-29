@@ -1,8 +1,9 @@
 ﻿Imports System
 Imports System.Threading
-Imports vba
-
+Imports VBA
 Module modDebugging
+    Private mTerm As Integer
+    Private mSection As String
     Public Function LogFile(ByVal File As String, ByVal Text As String, Optional ByVal NoDateStamp As Boolean = True, Optional ByVal PreventNL As Boolean = False) As Boolean
         Dim TDesc As String, P As String, Ext As String
 
@@ -18,7 +19,7 @@ Module modDebugging
         If InStr(File, ":\") > 0 Then
             P = File
         Else
-            P = LogFolder & File
+            P = LogFolder() & File
         End If
         Ext = Right(P, 4)
         If Left(Ext, 1) <> "." Then P = P & ".txt"
@@ -74,11 +75,11 @@ Module modDebugging
             End If
         Next
 NextEntry:
-        LogFolder = AppFolder
+        LogFolder = AppFolder()
         PathCache = LogFolder
     End Function
 
-    Private Function LogFileMaxSize(Optional ByVal vLogFile As String = "") as integer
+    Private Function LogFileMaxSize(Optional ByVal vLogFile As String = "") As Integer
         ' Setting the max size to zero (0) will remove and prevent the log file.
         ' Default max file size is 1MB.
         ' We generally don't need to keep these that long
@@ -92,6 +93,7 @@ NextEntry:
             Case Else : LogFileMaxSize = FileSize_1MB
         End Select
     End Function
+
     Public Function IsIDE() As Boolean
         'IsIDE = False
         'Exit Function
@@ -106,6 +108,7 @@ NextEntry:
 IDEInUse:
         IsIDE = True
     End Function
+
     Public Function ErrMsg(ByVal Text As String, Optional ByVal Style As MsgBoxStyle = vbCritical, Optional ByVal AltTitle As String = "") As VbMsgBoxResult
         ErrMsg = ErrorMsg(Text, Style, AltTitle)
     End Function
@@ -142,6 +145,7 @@ IDEInUse:
         'MsgBox(M, Style, AltTitle)
         MessageBox.Show(M, AltTitle, MessageBoxButtons.OK)
     End Function
+
     Public Function DevErr(ByVal Text As String, Optional ByVal Style As VbMsgBoxStyle = MsgBoxStyle.DefaultButton1, Optional ByVal AltTitle As String = "Developer Error") As VbMsgBoxResult
         ' we purposefully do not provide a timeout on this function
         ' because the principle is that this is only used for an
@@ -152,4 +156,16 @@ IDEInUse:
         DevErr = ErrMsg(Text, Style, AltTitle)
     End Function
 
+    Public Sub tPr(Optional ByVal vSection As String = "")
+        mSection = vSection
+        If mSection = "" Then mSection = "#"
+        mTerm = 0
+    End Sub
+
+    Public Function Tp(Optional ByVal Msg As String = "", Optional ByVal Target As String = "") As Boolean
+        If Target = "" Then Target = "debug"
+        mTerm = mTerm + 1
+        LogFile(Target, Trim("[" & mTerm & " - " & mSection & "] " & Msg))
+        Tp = True
+    End Function
 End Module

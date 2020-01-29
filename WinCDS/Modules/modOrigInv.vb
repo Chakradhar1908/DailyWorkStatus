@@ -29,8 +29,9 @@
                     OutputObject.Print("Total Available: " & InvData.Available, , InvData.QueryOnOrder(1), InvData.QueryOnOrder(2), InvData.QueryOnOrder(3), InvData.QueryOnOrder(4), InvData.QueryOnOrder(5), InvData.QueryOnOrder(6), InvData.QueryOnOrder(7), InvData.QueryOnOrder(8))
                     OutputObject.CurrentX = 500 'Align Left
                     OutputObject.Print(InvData.Vendor, , InvData.Desc, InvData.OnSale, InvData.List)
-                    OutputObject.Line(500, OutputObject.CurrentY + 50)-(Printer.ScaleWidth - 150, OutputObject.CurrentY + 50)
-        OutputObject.CurrentY = OutputObject.CurrentY + 100
+                    'OutputObject.Line(500, OutputObject.CurrentY + 50)-(Printer.ScaleWidth - 150, OutputObject.CurrentY + 50)
+                    OutputObject.Line(500, OutputObject.CurrentY + 50, Printer.ScaleWidth - 150, OutputObject.CurrentY + 50)
+                    OutputObject.CurrentY = OutputObject.CurrentY + 100
                     Exit For
                 End If
             Next
@@ -81,5 +82,4 @@
         OutputObject.Line(500, OutputObject.CurrentY + 50, Printer.ScaleWidth - 150, OutputObject.CurrentY + 50)
         OutputObject.CurrentY = OutputObject.CurrentY + 100
     End Sub
-
 End Module
