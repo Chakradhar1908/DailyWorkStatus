@@ -39,6 +39,12 @@ Public Module modBackup
         bkAll = 32767
         '  bkAll = 65535         ' VB6 uses signed numbers..  we will just hold off unless we need it.
     End Enum
+    Public Enum cdsZipType
+        wztNone = 0
+        wztVJCZ = 1
+        wztINFO = 2
+        wzt7ZIP = 3
+    End Enum
 
     Public Function ZipFiles(ByVal CompressPath As String, ByVal ZipDir As String, ByVal ZipFile As String, Optional ByVal Special As Integer = 0) As Boolean
         Dim UnloadAfter As Boolean
@@ -88,6 +94,101 @@ Public Module modBackup
         End If
 
         DescribeBackupType = "[ " & X & " ]"
+    End Function
+
+    Public Function BackupTo(ByVal Folder As String, Optional ByVal Files As BackupType = BackupType.bkAll) As Boolean
+        Dim UnloadAfter As Boolean
+        UnloadAfter = Not IsFormLoaded("frmBackupGeneric")
+        BackupTo = frmBackUpGeneric.BackupTo(Folder, Files)
+        'If UnloadAfter Then Unload frmBackUpGeneric
+        If UnloadAfter Then frmBackUpGeneric.Close()
+    End Function
+
+    Public ReadOnly Property ZipType() As cdsZipType
+        Get
+            If USE_SEVENZIP_ZIP Then ZipType = cdsZipType.wzt7ZIP : Exit Property
+            If USE_INFO_ZIP Then ZipType = cdsZipType.wztINFO : Exit Property
+            If USE_VJC_ZIP Then ZipType = cdsZipType.wztVJCZ : Exit Property
+            ZipType = cdsZipType.wztNone
+        End Get
+    End Property
+
+    Public ReadOnly Property USE_VJC_ZIP() As Boolean
+        Get
+            If USE_INFO_ZIP Then Exit Property
+            USE_VJC_ZIP = FileExists(System32Folder(True) & "vjczip.ocx")
+        End Get
+    End Property
+
+    Public ReadOnly Property USE_INFO_ZIP() As Boolean
+        Get
+            USE_INFO_ZIP = FileExists(AppFolder() & "vbzip11.dll") And FileExists(AppFolder() & "vbuzip10.dll")
+            'BFH20150128 - Apparently, Infozip causes many errors..  we'll leave it on for dev
+            If Not IsDevelopment() Then USE_INFO_ZIP = False
+            '  USE_INFO_ZIP = False
+        End Get
+    End Property
+
+    Public ReadOnly Property USE_SEVENZIP_ZIP() As Boolean
+        Get
+            USE_SEVENZIP_ZIP = FileExists(AppFolder() & "7za.exe")
+            '  If Not IsDevelopment Then USE_SEVENZIP_ZIP = False
+        End Get
+    End Property
+
+    Public Function DescribeZipType(ByVal ZT As cdsZipType) As String
+        Select Case ZT
+            Case cdsZipType.wztVJCZ : DescribeZipType = "VJCZip" : Exit Function
+            Case cdsZipType.wztINFO : DescribeZipType = "InfoZp" : Exit Function
+            Case cdsZipType.wzt7ZIP : DescribeZipType = "SevenZ" : Exit Function
+            Case cdsZipType.wztNone : DescribeZipType = "[None]" : Exit Function
+            Case Else : DevErr("modBackup.DescribeZipType() - Invalid Zip Type [" & ZT & "]")
+        End Select
+    End Function
+
+    Public Function SevenZipUnZipFiles(ByVal ZipFile As String, ByVal DestDir As String, Optional ByVal DeleteContents As Boolean = True) As Boolean
+        On Error Resume Next
+
+        If Right(DestDir, 1) <> "\" Then DestDir = DestDir & "\"
+        If Not FileExists(ZipFile) Then Exit Function
+        If Not DirExists(DestDir) Then Exit Function
+
+        If DeleteContents Then Kill(DestDir & "*.*")
+
+        Dim R As String, C As String, E As String, A As String
+        ' command line options used:
+        '   x  (command, specifies extract with paths)
+        '   zipfile == archive to extract from
+        '   destdir == where to unzip them to
+        '
+        '   -y force "Yes" to all prompts
+
+        '  C = "7za x """ & ZipFile & """ -o" & DestDir & " -y"
+        A = SevenZip7ZA
+        C = " x """ & ZipFile & """ -o" & DestDir & " -y"
+        'Debug.Print "modBackup.SZ Restore Command: " & C
+        R = RunCmdToOutputWithArgs(A, C, E)
+        If E <> "" Then BackupLog("Restore Error String (SevenZipUnZipFiles): " & E)
+
+        SevenZipUnZipFiles = True
+
+        If Not SevenZipUnZipFiles Then BackupLog("Restore Failed (SevenZipUnZipFiles): " & R)
+    End Function
+
+    Public Function SevenZip7ZA() As String
+        Dim A As String
+
+        A = AppFolder() & "7za.exe"
+        If FileExists(A) Then SevenZip7ZA = A : Exit Function
+
+        A = LocalProgramFilesFolder() & "WinCDS\7za.exe"
+        If FileExists(A) Then SevenZip7ZA = A : Exit Function
+
+        A = LocalProgramFilesFolder(True) & "WinCDS\7za.exe"
+        If FileExists(A) Then SevenZip7ZA = A : Exit Function
+
+        SevenZip7ZA = "7za"
+        If FileExists(A) Then SevenZip7ZA = A : Exit Function
     End Function
 
 End Module

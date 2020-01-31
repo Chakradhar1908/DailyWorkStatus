@@ -311,7 +311,7 @@ Module modBarcode
 
     Public Sub GetAllBarcodes(ByRef CallingForm As Object)
         BarcodeFormType = 1
-        frmBarcode.Show vbModal, CallingForm
-End Sub
-
+        'frmBarcode.Show vbModal, CallingForm
+        frmBarcode.ShowDialog(CallingForm)
+    End Sub
 End Module

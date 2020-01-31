@@ -23,6 +23,8 @@ Partial Class frmUpgrade
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.lstFiles = New System.Windows.Forms.ListBox()
+        Me.prgCurrentFile = New System.Windows.Forms.ProgressBar()
+        Me.prgComplete = New System.Windows.Forms.ProgressBar()
         Me.SuspendLayout()
         '
         'lstFiles
@@ -33,11 +35,27 @@ Partial Class frmUpgrade
         Me.lstFiles.Size = New System.Drawing.Size(120, 95)
         Me.lstFiles.TabIndex = 0
         '
+        'prgCurrentFile
+        '
+        Me.prgCurrentFile.Location = New System.Drawing.Point(403, 325)
+        Me.prgCurrentFile.Name = "prgCurrentFile"
+        Me.prgCurrentFile.Size = New System.Drawing.Size(100, 23)
+        Me.prgCurrentFile.TabIndex = 1
+        '
+        'prgComplete
+        '
+        Me.prgComplete.Location = New System.Drawing.Point(403, 377)
+        Me.prgComplete.Name = "prgComplete"
+        Me.prgComplete.Size = New System.Drawing.Size(100, 23)
+        Me.prgComplete.TabIndex = 2
+        '
         'frmUpgrade
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.prgComplete)
+        Me.Controls.Add(Me.prgCurrentFile)
         Me.Controls.Add(Me.lstFiles)
         Me.Name = "frmUpgrade"
         Me.Text = "frmUpgrade"
@@ -46,4 +64,6 @@ Partial Class frmUpgrade
     End Sub
 
     Friend WithEvents lstFiles As ListBox
+    Friend WithEvents prgCurrentFile As ProgressBar
+    Friend WithEvents prgComplete As ProgressBar
 End Class

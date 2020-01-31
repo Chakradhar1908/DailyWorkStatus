@@ -107,4 +107,22 @@ Catch1:
         '  If Not IsIn(TLD, TLD_List) Then Exit Function
         ValidEmailAddress = True
     End Function
+
+    Public Function UploadStringToURL(ByVal Text As String, Optional ByVal URL As String = "", Optional ByVal ContentType As String = "text/plain", Optional ByVal RemoteFileName As String = "file.txt", Optional ByRef Result As String = "") As Boolean
+        Dim X As frmWinsock
+        On Error GoTo failed
+        X = New frmWinsock
+        Result = X.UploadString(Text, URL, ContentType, RemoteFileName)
+        Debug.Print("Result=" & vbCrLf & Result)
+        'Unload X
+        X.Close()
+        UploadStringToURL = True
+failed:
+    End Function
+
+    Public Function ProtectValueForURL(ByVal S As String) As String
+        S = Replace(S, "&", "%26")
+        '  S = Replace(S, " ", "+")
+        ProtectValueForURL = S
+    End Function
 End Module

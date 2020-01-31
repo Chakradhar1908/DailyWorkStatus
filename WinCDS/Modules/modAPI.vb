@@ -837,8 +837,8 @@ Module modAPI
         GetDirectoryUserName = SplitWord(UserFolder, -2, "\")
     End Function
 
-    Public Function FileVersion(ByVal FileName As String, Optional ByRef A As Long, Optional ByRef B As Long, Optional ByRef C As Long, Optional ByRef D As Long) As String
-        Dim T As Variant
+    Public Function FileVersion(ByVal FileName As String, Optional ByRef A As Integer = 0, Optional ByRef B As Integer = 0, Optional ByRef C As Integer = 0, Optional ByRef D As Integer = 0) As String
+        Dim T As Object
         On Error Resume Next
         FileVersion = VersionInformation(FileName).FileVersion
         T = Split(FileVersion, ".")

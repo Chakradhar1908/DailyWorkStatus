@@ -43,17 +43,17 @@
         '  If MsgBox(M, vbOKCancel + vbExclamation, "") = vbCancel Then Exit Function
 
         T = TempFolder()
-        ProgressForm 0, 1, "Backing up...", , , , prgIndefinite
-  modBackup.BackupTo T, IIf(Logs, bkLO + bkSS, bkSS + bkLO + bkPS + bkAP + bkGL + bkBK + bkPR)
+        ProgressForm(0, 1, "Backing up...", , , , ProgressBarStyle.prgIndefinite)
+        modBackup.BackupTo(T, IIf(Logs, BackupType.bkLO + BackupType.bkSS, BackupType.bkSS + BackupType.bkLO + BackupType.bkPS + BackupType.bkAP + BackupType.bkGL + BackupType.bkBK + BackupType.bkPR))
 
-  ProgressForm 0, 1, "Connecting...", , , , prgSpin
-  FTP_PutDir CompanyURL_BARE, WEB_UPLOAD_USER, WEB_UPLOAD_PASS, Slug(StoreSettings(1).Name, 12) & "/" & DateStamp(), T, True, True
+        ProgressForm(0, 1, "Connecting...", , , , ProgressBarStyle.prgSpin)
+        FTP_PutDir(CompanyURL_BARE, WEB_UPLOAD_USER, WEB_UPLOAD_PASS, Slug(StoreSettings(1).Name, 12) & "/" & DateStamp(), T, True, True)
 
-  RemoveFolder T
-  ProgressForm()
+        RemoveFolder(T)
+        ProgressForm()
 
-        MsgBox "Complete!", vbInformation, "Data Upload Finished", , , 25
-  DiagnosticDataUpload = True
+        MessageBox.Show("Complete!", "Data Upload Finished", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        DiagnosticDataUpload = True
     End Function
 
 End Module

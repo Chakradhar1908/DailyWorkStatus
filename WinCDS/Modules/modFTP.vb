@@ -58,4 +58,50 @@
         End If
     End Sub
 
+    Public Function FTP_PutDir(ByVal vHost As String, ByVal vUser As String, ByVal vPass As String, ByVal vRemoteDir As String, ByVal vLocalDir As Object, Optional ByVal CreateFolder As Boolean = False, Optional ByVal ShowProgress As Boolean = True) As Boolean
+        '::::FTP_PutDir
+        ':::SUMMARY
+        ': Upload all files from a source folder
+        ':::DESCRIPTION
+        ': Given a local folder, will upload all files (non-recursively) to the remote path.
+        ':::PARAMETERS
+        ': - vHost - The remote IP address
+        ': - vUser - Username to connect with
+        ': - vPass - Password for authorization
+        ': - vRemoteDir - Remote path.  Can be absolute or relative.
+        ': - vLocalDir - The full path to the local files to upload.
+        ': - CreateFolder - Optional.  If True, will walk the path and attempt to create each the full directory path before uploading.
+        ': - ShowProgress - Optional.  If True, will raise a progress bar (indefinite) showing file count to indicate it is still working.
+        ':::RETURN
+        ':  Boolean - Returns True on success.
+        ':::SEE ALSO
+        ': - FTP_Get, FTP_Put, AllFiles
+        ': - cFTP
+        Dim F As cFTP
+        Dim A() As String, L, N As Integer
+        F = New cFTP
+
+        F.SetTransferBinary()
+        F.SetModePassive()
+
+        If Not F.OpenConnection(vHost, vUser, vPass, FTP_Port) Then Exit Function
+        FTP_NavigateToFolder(F, vRemoteDir, CreateFolder)
+
+
+        A = AllFiles(vLocalDir)
+        If ShowProgress Then ProgressForm(0, UBound(A), "Uploading files (0/" & UBound(A) & ")", , , , ProgressBarStyle.prgIndefinite)
+        For Each L In A
+            ProgressForm(N, UBound(A), "Uploading files (" & (N) & "/" & UBound(A) & ")", , , , ProgressBarStyle.prgIndefinite)
+            N = N + 1
+            F.UploadFile(CleanDir(vLocalDir) & L, L)
+        Next
+        If ShowProgress Then ProgressForm()
+
+        FTP_PutDir = True
+
+        F.CloseConnection()
+        DisposeDA(F)
+        FTP_PutDir = True
+    End Function
+
 End Module

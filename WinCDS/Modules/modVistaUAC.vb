@@ -1,8 +1,13 @@
 ﻿Module modVistaUAC
-    Public Function IsElevated(Optional ByVal hProcess As Long) As Boolean
-        Dim hToken As Long
-        Dim dwIsElevated As Long
-        Dim dwLength As Long
+    Private Const TOKEN_QUERY As Integer = &H8
+    Private Const TokenElevation As Integer = 20
+    Private Declare Function GetCurrentProcess Lib "kernel32" () As Integer
+    Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, TokenHandle As Integer) As Integer
+    Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, TokenInformation As Object, ByVal TokenInformationLength As Integer, ReturnLength As Integer) As Integer
+    Public Function IsElevated(Optional ByVal hProcess As Integer = 0) As Boolean
+        Dim hToken As Integer
+        Dim dwIsElevated As Integer
+        Dim dwLength As Integer
 
         If hProcess = 0 Then
             hProcess = GetCurrentProcess()
@@ -11,8 +16,8 @@
             If GetTokenInformation(hToken, TokenElevation, dwIsElevated, 4, dwLength) Then
                 IsElevated = (dwIsElevated <> 0)
             End If
-            CloseHandle hToken
-  End If
+            CloseHandle(hToken)
+        End If
     End Function
 
     Public Function LaunchAutoVNC() As Boolean
@@ -24,19 +29,19 @@
         '
         cPath = CurDir()
 
-        ChDrive WinCDSAutoVNCFolder
-  ChDir WinCDSAutoVNCFolder
-  MainMenu.Hide()
+        ChDrive(WinCDSAutoVNCFolder)
+        ChDir(WinCDSAutoVNCFolder)
+        MainMenu.Hide()
 
-        ConnectCMDUpgrade
+        ConnectCMDUpgrade()
 
-        ShellOut.ShellOut ConnectCMDFile
+        ShellOut.ShellOut(ConnectCMDFile)
 
-  MainMenu.Show()
-        ChDrive cPath
-  ChDir cPath
+        MainMenu.Show()
+        ChDrive(cPath)
+        ChDir(cPath)
 
-  LaunchAutoVNC = True
+        LaunchAutoVNC = True
     End Function
 
 End Module

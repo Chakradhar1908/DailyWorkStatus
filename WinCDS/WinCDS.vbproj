@@ -125,9 +125,11 @@
     <Compile Include="Class Modules\cPODetail.vb" />
     <Compile Include="Class Modules\cPOReceived.vb" />
     <Compile Include="Class Modules\cRegHotKey.vb" />
+    <Compile Include="Class Modules\CryptoCls.vb" />
     <Compile Include="Class Modules\CSearchNew.vb" />
     <Compile Include="Class Modules\cStringBuilder.vb" />
     <Compile Include="Class Modules\cTransaction.vb" />
+    <Compile Include="Class Modules\cZipUnzip.vb" />
     <Compile Include="Class Modules\sSale.vb" />
     <Compile Include="Class Modules\TSPNetwork.vb" />
     <Compile Include="Class Modules\TSPNode.vb" />
@@ -384,6 +386,12 @@
     <Compile Include="Forms\frmItemView.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmKillBugNotify.Designer.vb">
+      <DependentUpon>frmKillBugNotify.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmKillBugNotify.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmKitLevels.Designer.vb">
       <DependentUpon>frmKitLevels.vb</DependentUpon>
     </Compile>
@@ -614,6 +622,12 @@
     <Compile Include="Forms\frmUpgrade.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmUpgradeNotify.Designer.vb">
+      <DependentUpon>frmUpgradeNotify.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmUpgradeNotify.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmVersionControl.Designer.vb">
       <DependentUpon>frmVersionControl.vb</DependentUpon>
     </Compile>
@@ -624,6 +638,12 @@
       <DependentUpon>frmViewSSLoc.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmViewSSLoc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmWinsock.Designer.vb">
+      <DependentUpon>frmWinsock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmWinsock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmYardage.Designer.vb">
@@ -973,6 +993,7 @@
     <Compile Include="Modules\modCodeDistribution.vb" />
     <Compile Include="Modules\modCodeVersioning.vb" />
     <Compile Include="Modules\modConfigTable.vb" />
+    <Compile Include="Modules\modConnectCMD.vb" />
     <Compile Include="Modules\modCreditCard.vb" />
     <Compile Include="Modules\modCSV.vb" />
     <Compile Include="Modules\modCustomizations.vb" />
@@ -1071,7 +1092,9 @@
     <Compile Include="Modules\modWindowsVersions.vb" />
     <Compile Include="Modules\modXML.vb" />
     <Compile Include="Modules\modYahooXMLOrders.vb" />
+    <Compile Include="Modules\modZipUnzip.vb" />
     <Compile Include="Modules\ShellOut.vb" />
+    <Compile Include="Modules\SSLv2.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -1254,6 +1277,12 @@
     <EmbeddedResource Include="Forms\frmUpgrade.resx">
       <DependentUpon>frmUpgrade.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmUpgradeNotify.resx">
+      <DependentUpon>frmUpgradeNotify.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmWinsock.resx">
+      <DependentUpon>frmWinsock.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmYardage.resx">
       <DependentUpon>frmYardage.vb</DependentUpon>
     </EmbeddedResource>
@@ -1326,6 +1355,9 @@
     <EmbeddedResource Include="Forms\Service.resx">
       <DependentUpon>Service.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ServiceParts.resx">
+      <DependentUpon>ServiceParts.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
@@ -1384,6 +1416,14 @@
       <Guid>{33DDE9A4-E91D-419D-9497-3D4CE75B35DC}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxComctlLib">
+      <Guid>{6B7E6392-850A-101B-AFC0-4210102A8DA7}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
@@ -1476,6 +1516,22 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxMSWinsockLib">
+      <Guid>{248DD890-BB45-11CF-9ABC-0080C7E7B78D}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxVJCZIPLib">
+      <Guid>{F9BD3F62-6B83-4A67-942B-BF52D801791A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="Chilkat_v9_5_0">
       <Guid>{004CB902-F437-4D01-BD85-9E18836DA5C2}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -1489,6 +1545,15 @@
       <Guid>{33DDE9A4-E91D-419D-9497-3D4CE75B35DC}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="ComctlLib">
+      <Guid>{6B7E6392-850A-101B-AFC0-4210102A8DA7}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
@@ -1632,6 +1697,15 @@
     <COMReference Include="MSRDC">
       <Guid>{F6125AB1-8AB1-11CE-A77F-08002B2F4E98}</Guid>
       <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="MSWinsockLib">
+      <Guid>{248DD890-BB45-11CF-9ABC-0080C7E7B78D}</Guid>
+      <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
@@ -1805,6 +1879,15 @@
       <VersionMajor>6</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>9</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VJCZIPLib">
+      <Guid>{F9BD3F62-6B83-4A67-942B-BF52D801791A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>

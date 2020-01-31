@@ -80,7 +80,7 @@
         Next
     End Function
 
-    Private ReadOnly Property NextThreshold(Optional ByVal Current As Integer) As Integer
+    Private ReadOnly Property NextThreshold(Optional ByVal Current As Integer = 0) As Integer
         Get
             'BFH20170126 11 sets threshhold to 12 MB
             Const tMin As Integer = 14   ' will alert when memory is ((tMin + 1) * 10) MEGABYTES

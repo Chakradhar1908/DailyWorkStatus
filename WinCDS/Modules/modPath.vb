@@ -1,5 +1,6 @@
 ﻿Module modPath
     Public Const DIRSEP As String = "\"
+    Private DirStack As New Collection
     Public Function FileExists(ByVal F As String) As Boolean
         '::::FileExists
         ':::SUMMARY
@@ -502,7 +503,7 @@ Fail:
         ': - DirPath("C:\Windows\*.exe")
         ':
         ':Dim sFiles() As String
-        ':Dim lCtr As Long
+        ':Dim lCtr as integer
         ':
         ':sFiles = AllFiles("C:\windows\")
         ':For lCtr = 0 To UBound(sFiles)
@@ -534,7 +535,7 @@ Fail:
 
         'EXAMPLE
         'Dim sFiles() As String
-        'Dim lCtr As Long
+        'Dim lCtr as integer
 
         'sFiles = AllFiles("C:\windows\")
         'For lCtr = 0 To UBound(sFiles)
@@ -543,7 +544,7 @@ Fail:
         '********************************************************
 
         Dim sFIle As String
-        Dim lElement As Long
+        Dim lElement As Integer
         Dim sAns() As String
         ReDim sAns(0)
 
@@ -559,8 +560,8 @@ Fail:
                 sFIle = Dir()
                 If sFIle = "" Then Exit Do
                 lElement = IIf(sAns(0) = "", 0, UBound(sAns) + 1)
-                ReDim Preserve sAns(lElement) As String
-      sAns(lElement) = sFIle
+                ReDim Preserve sAns(lElement)
+                sAns(lElement) = sFIle
             Loop
         End If
         AllFiles = sAns
@@ -625,7 +626,7 @@ Fail:
         ': - DirPath("C:\Windows\*.exe")
         ':
         ':Dim sFiles() As String
-        ':Dim lCtr As Long
+        ':Dim lCtr as integer
         ':
         ':sFiles = AllFolders("C:\windows\")
         ':For lCtr = 0 To UBound(sFiles)
@@ -639,7 +640,7 @@ Fail:
         ': AllFiles
 
         Dim sFIle As String
-        Dim lElement As Long
+        Dim lElement As Integer
         Dim sAns() As String
         'ReDim sAns(0) As String
 
@@ -664,4 +665,88 @@ SkipItem:
 
         AllFolders = sAns
     End Function
+
+    Public Function RemoveFolder(ByVal F As String, Optional ByVal WithContents As Object = True) As Boolean
+        '::::RemoveFolder
+        ':::SUMMARY
+        ':Removes a folder completely, deleting all files if necessary.
+        ':::DESCRIPTION
+        ':Deletes a folder along with its contents.
+        ':Functions as a shortcut for ClearFolder(f): RmDir f
+        ':::PAREMETERS
+        ': - sDirPath - Valid directory to delete files in.
+        ': - [bWithContents] = TRUE - This will cause directory removal to fail if it is not empty.  Used as a precaution.
+        ':::RETURNS
+        ':Returns True on success, false otherwise.
+        ':::SEE ALSO
+        ': DeleteFileIfExists, ClearFolder
+        On Error Resume Next
+        ClearFolder(F, True)
+        RmDir(F)
+    End Function
+
+    Public Function PushDir(ByVal NewDir As String, Optional ByVal doSet As Boolean = True) As String
+        '::::PushDir
+        ':::SUMMARY
+        ':Basic Directory Stack - Push cur dir to stack and CD to parameter.
+        ':::DESCRIPTION
+        ':1. Push Current Dir to stack
+        ':2. CD to new folder.
+        ':::PAREMETERS
+        ': - sNewDir - String - Directory to CD into.
+        ': - [doSet] = True - Boolean - Pass FALSE if you don't want to change current directory.
+        ':::RETURNS
+        ':Returns current directory.
+        ':::SEE ALSO
+        ': PopDir, PeekDir
+        Dim N As Integer
+
+        On Error Resume Next
+        If IsNothing(DirStack) Then
+            DirStack = New Collection
+            DirStack.Add(0, "n")
+        End If
+
+        N = Val(DirStack.Item("n")) + 1
+        DirStack.Remove("n")
+        DirStack.Add(N, "n")
+        DirStack.Add(CurDir, "_" & N)
+
+        If doSet Then ChDir(NewDir)
+
+        PushDir = CurDir()
+    End Function
+
+    Public Function PopDir(Optional ByVal doSet As Boolean = True) As String
+        '::::PopDir
+        ':::SUMMARY
+        ':Remove to dir from stack.  Error Safe.  Generally to change current directory.
+        ':::DESCRIPTION
+        ':1. Pop Dir from stack.
+        ':2. CD to dir.
+        ':::PAREMETERS
+        ': - [doSet] = True - Boolean - Pass FALSE if you don't want to change current directory.
+        ':::RETURNS
+        ':Returns directory popped.
+        ':::SEE ALSO
+        ': PopDir, PeekDir
+        Dim N As Integer, V As String
+
+        On Error Resume Next
+        If IsNothing(DirStack) Then Exit Function
+
+        N = Val(DirStack.Item("n"))
+        PopDir = DirStack.Item("_" & N)
+
+        If N > 1 Then
+            N = N - 1
+            DirStack.Remove("n")
+            DirStack.Add(N, "n")
+        Else
+            DirStack = Nothing
+        End If
+
+        If doSet Then ChDir(PopDir)
+    End Function
+
 End Module

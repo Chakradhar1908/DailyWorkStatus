@@ -61,7 +61,8 @@
         ' Return value is irrelevant.
         Mode = 2
 
-        Show vbModal, ParentForm
-End Sub
+        'Show vbModal, ParentForm
+        ShowDialog(ParentForm)
+    End Sub
 
 End Class

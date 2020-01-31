@@ -103,4 +103,25 @@ BadConfigTable:
         NextReceiptNumber = GetConfigAutoNumber("CR_ReceiptNo", 1000)
     End Function
 
+    Public Function AllowRunOnce(ByVal Check As String) As Boolean
+        '::::AllowRunOnce
+        ':::SUMMARY
+        ': Semafore to keep a feature to run only once.
+        ':::DESCRIPTION
+        ': When passed a feature name to check, returns True if the operation is allowed or false if not.
+        ':
+        ': The function will store a datestamp if the operation has been run, false otherwise.
+        ':::PARAMETERS
+        ': - Check - Feature name to check
+        ':::RETURN
+        ': Boolean - Returns True if the operation can proceed
+        Dim X As String, K As String
+        K = "RunOnce_" & Check
+        X = GetConfigTableValue(K)
+        If X = "" Then
+            AllowRunOnce = True
+            SetConfigTableValue(K, DateTimeStamp)
+        End If
+    End Function
+
 End Module

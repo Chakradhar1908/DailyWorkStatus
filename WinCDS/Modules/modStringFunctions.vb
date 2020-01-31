@@ -412,4 +412,34 @@ Module modStringFunctions
         WrapLongTextByPrintWidth = Out
     End Function
 
+    Public Function RandomAlphaNumString(ByVal nLen As Long) As String
+        '::::RandomAlphaNumString
+        ':::SUMMARY
+        ': generates a random alphanumeirc string of a given length
+        ':::DESCRIPTION
+        ': Return a string of random letters and numbers of a given legth.
+        ':::PARAMETERS
+        ': - nLen - Length of output string
+        ':::EXAMPLE
+        ': - RandomAlphaNumString(10) == "w7CGL04hGS"  ' Output changes each time
+        ':::RETURN
+        ':  String
+        ':::SEE ALSO
+        ': CreateUniqueID
+        Dim I As Long, C As Byte
+
+        RandomAlphaNumString = ""
+        Randomize()
+
+        For I = 1 To nLen
+            C = Int(Rnd() * 62)
+            Select Case C
+                Case 0 To 9 : RandomAlphaNumString = RandomAlphaNumString & Chr(C - 0 + Asc("0"))
+                Case 10 To 35 : RandomAlphaNumString = RandomAlphaNumString & Chr(C - 10 + Asc("A"))
+                Case 36 To 61 : RandomAlphaNumString = RandomAlphaNumString & Chr(C - 36 + Asc("a"))
+                Case Else : Debug.Print("RandomAlphaNumString: " & C)
+            End Select
+        Next
+    End Function
+
 End Module

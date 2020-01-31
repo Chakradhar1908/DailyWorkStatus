@@ -258,3 +258,16 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.GenerateResource.cache
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CoreCompileInputs.cache
 F:\WinCDS\WinCDS\obj\Debug\Interop.SSubTimer6.dll
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAutoWeb.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmExport.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmLicenseAgreement.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvAutoReOrder.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.MainMenu4_Images.resources
+F:\WinCDS\WinCDS\obj\Debug\Interop.MSWinsockLib.dll
+F:\WinCDS\WinCDS\obj\Debug\AxInterop.MSWinsockLib.dll
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmWinsock.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceParts.resources
+F:\WinCDS\WinCDS\obj\Debug\Interop.ComctlLib.dll
+F:\WinCDS\WinCDS\obj\Debug\Interop.VJCZIPLib.dll
+F:\WinCDS\WinCDS\obj\Debug\AxInterop.ComctlLib.dll
+F:\WinCDS\WinCDS\obj\Debug\AxInterop.VJCZIPLib.dll
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmUpgradeNotify.resources

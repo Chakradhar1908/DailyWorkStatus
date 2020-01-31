@@ -22,12 +22,19 @@ Partial Class frmBackUpGeneric
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBackUpGeneric))
         Me.lblDriveSelect = New System.Windows.Forms.Label()
         Me.chkNewFolder = New System.Windows.Forms.CheckBox()
         Me.txtNewFolder = New System.Windows.Forms.TextBox()
         Me.lvwFiles = New System.Windows.Forms.ListView()
         Me.cmdStart = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.sb = New AxComctlLib.AxStatusBar()
+        Me.NewZipBackup = New AxVJCZIPLib.AxVjcZip()
+        Me.fraExtra = New System.Windows.Forms.GroupBox()
+        Me.prgExtra = New System.Windows.Forms.ProgressBar()
+        CType(Me.sb, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NewZipBackup, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblDriveSelect
@@ -83,11 +90,49 @@ Partial Class frmBackUpGeneric
         Me.cmdCancel.Text = "Button1"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
+        'sb
+        '
+        Me.sb.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.sb.Location = New System.Drawing.Point(0, 427)
+        Me.sb.Name = "sb"
+        Me.sb.OcxState = CType(resources.GetObject("sb.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.sb.Size = New System.Drawing.Size(800, 23)
+        Me.sb.TabIndex = 6
+        '
+        'NewZipBackup
+        '
+        Me.NewZipBackup.Enabled = True
+        Me.NewZipBackup.Location = New System.Drawing.Point(558, 259)
+        Me.NewZipBackup.Name = "NewZipBackup"
+        Me.NewZipBackup.OcxState = CType(resources.GetObject("NewZipBackup.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.NewZipBackup.Size = New System.Drawing.Size(100, 50)
+        Me.NewZipBackup.TabIndex = 7
+        '
+        'fraExtra
+        '
+        Me.fraExtra.Location = New System.Drawing.Point(605, 140)
+        Me.fraExtra.Name = "fraExtra"
+        Me.fraExtra.Size = New System.Drawing.Size(200, 100)
+        Me.fraExtra.TabIndex = 8
+        Me.fraExtra.TabStop = False
+        Me.fraExtra.Text = "GroupBox1"
+        '
+        'prgExtra
+        '
+        Me.prgExtra.Location = New System.Drawing.Point(581, 364)
+        Me.prgExtra.Name = "prgExtra"
+        Me.prgExtra.Size = New System.Drawing.Size(100, 23)
+        Me.prgExtra.TabIndex = 9
+        '
         'frmBackUpGeneric
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.prgExtra)
+        Me.Controls.Add(Me.fraExtra)
+        Me.Controls.Add(Me.NewZipBackup)
+        Me.Controls.Add(Me.sb)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdStart)
         Me.Controls.Add(Me.lvwFiles)
@@ -96,6 +141,8 @@ Partial Class frmBackUpGeneric
         Me.Controls.Add(Me.lblDriveSelect)
         Me.Name = "frmBackUpGeneric"
         Me.Text = "frmBackUpGeneric"
+        CType(Me.sb, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NewZipBackup, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -107,4 +154,8 @@ Partial Class frmBackUpGeneric
     Friend WithEvents lvwFiles As ListView
     Friend WithEvents cmdStart As Button
     Friend WithEvents cmdCancel As Button
+    Friend WithEvents sb As AxComctlLib.AxStatusBar
+    Friend WithEvents NewZipBackup As AxVJCZIPLib.AxVjcZip
+    Friend WithEvents fraExtra As GroupBox
+    Friend WithEvents prgExtra As ProgressBar
 End Class

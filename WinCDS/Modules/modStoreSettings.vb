@@ -22,14 +22,14 @@
     Public Structure StoreInfo
         Dim refLoaded As Boolean
         Dim refFileDate As Date
-        Dim refFileSize as integer
+        Dim refFileSize As Integer
         Dim refNextCheck As Date
 
         Dim Name As String
         Dim Address As String
         Dim City As String
         Dim Phone As String
-        Dim CommCode as integer
+        Dim CommCode As Integer
         Dim FabSeal As Double
         Dim SalesTax As Double
 
@@ -48,8 +48,8 @@
         Dim bNoMerchandisePrice As Boolean
         Dim bNoListPriceOnTags As Boolean
 
-        Dim CalculateList as integer
-        Dim PrintCopies as integer
+        Dim CalculateList As Integer
+        Dim PrintCopies As Integer
 
         Dim loadedLicense As String
 
@@ -64,7 +64,7 @@
         ' 32 is blank
         ' 33 duplicates 50
 
-        Dim GracePeriod as integer
+        Dim GracePeriod As Integer
         Dim ReceivingLabels As String
 
         Dim bAPPost As Boolean            ' 36
@@ -171,7 +171,7 @@
         Dim ModifiedRevolvingCharge As Boolean    ' 101
         Dim ModifiedRevolvingRate As Double       ' 102
         Dim ModifiedRevolvingAPR As Boolean       ' 103
-        Dim ModifiedRevolvingSameAsCash as integer   ' 104
+        Dim ModifiedRevolvingSameAsCash As Integer   ' 104
         Dim ModifiedRevolvingMinPmt As Double     ' 105
 
         ' We used to use a sequential file (.DAT), so we had an Index for each field above.
@@ -225,7 +225,7 @@
     Public Const STORE_INI_SECTION_INSTALL_SQL As String = "Install-SQL"
 
 
-    Private Function CreateStoreInformationFile(Optional ByVal nStoreNo as integer = 0, Optional ByVal StoreFileName As String = "") As String
+    Private Function CreateStoreInformationFile(Optional ByVal nStoreNo As Integer = 0, Optional ByVal StoreFileName As String = "") As String
         If StoreFileName = "" Then StoreFileName = StoreFile(nStoreNo)
 
         If Not DirExists(GetFilePath(StoreFileName)) Then
@@ -255,7 +255,7 @@
             FN = StoreFile(nStoreNo)
             If Not FileExists(FN) Then
                 doReset = True
-                If LicensedNoOfStores >= nStoreNo Then DoCreate = True Else Exit Function
+                If LicensedNoOfStores() >= nStoreNo Then DoCreate = True Else Exit Function
                 CreateStoreInformationFile(nStoreNo)
                 '    WriteFile Fn, "", True
             End If
@@ -299,10 +299,10 @@
 
     End Function
 
-    Public Function StoreFile(Optional ByVal StoreNum as integer = 0) As String
+    Public Function StoreFile(Optional ByVal StoreNum As Integer = 0) As String
         StoreFile = StoreINIFile(StoreNum)
     End Function
-    Public Function StoreINIFile(Optional ByVal StoreNum as integer = 0) As String
+    Public Function StoreINIFile(Optional ByVal StoreNum As Integer = 0) As String
         Dim F As String
         If StoreNum <= 0 Then StoreNum = StoresSld
 
@@ -321,7 +321,7 @@
 
         '  LogStartup "StoreINIFile: Result=" & StoreINIFile
         If Not FileExists(StoreINIFile) Then
-            If StoreNum > LicensedNoOfStores Then Exit Function
+            If StoreNum > LicensedNoOfStores() Then Exit Function
             CreateStoreInformationFile(StoreNum, StoreINIFile)
         End If
     End Function
@@ -350,14 +350,14 @@
         End Select
     End Function
     Public Function ResetStoreSettings() As Boolean
-        Dim Discard as integer, I as integer
+        Dim Discard As Integer, I As Integer
         ResetStoreSettings = False
         For I = 1 To NoOfActiveLocations
             ' the field being read is irrelevant..  Just accessing with ...(I, True) resets the stored value.
             Discard = StoreSettings(I, True).GracePeriod
         Next
     End Function
-    Public Function GetStoreInformation(Optional ByVal StoreNum as integer = 0, Optional ByVal Quiet As Boolean = False, Optional ByRef Success As Boolean = False, Optional ByVal AltFileName As String = "") As StoreInfo
+    Public Function GetStoreInformation(Optional ByVal StoreNum As Integer = 0, Optional ByVal Quiet As Boolean = False, Optional ByRef Success As Boolean = False, Optional ByVal AltFileName As String = "") As StoreInfo
         GetStoreInformation = GetStoreInformationINI(StoreNum, Quiet, Success, AltFileName)
         '  If ReadIniValue(StoreINIFile(StoreNum), STORE_INI_SECTION_STORE_SETTINGS, "Name") = "" Then
         '    GetStoreInformation = GetStoreInformationOLD(StoreNum, Quiet, Success, AltFileName)
@@ -365,8 +365,8 @@
         '    GetStoreInformation = GetStoreInformationINI(StoreNum, Quiet, Success, AltFileName)
         '  End If
     End Function
-    Private Function SaveStoreInformationINI(ByRef SI As StoreInfo, Optional ByVal StoreNum as integer = 0, Optional ByVal AltFileName As String = "")
-        Dim F As String, FF as integer, I as integer
+    Private Function SaveStoreInformationINI(ByRef SI As StoreInfo, Optional ByVal StoreNum As Integer = 0, Optional ByVal AltFileName As String = "")
+        Dim F As String, FF As Integer, I As Integer
         Dim Section As String
 
         If StoreNum = 0 Then StoreNum = StoresSld
@@ -588,9 +588,9 @@
 
         DoOtherSaves(SI)
     End Function
-    Private Function GetStoreInformationINI(Optional ByVal StoreNum as integer = 0, Optional ByVal Quiet As Boolean = False, Optional ByRef Success As Boolean = False, Optional ByVal AltFileName As String = "") As StoreInfo
+    Private Function GetStoreInformationINI(Optional ByVal StoreNum As Integer = 0, Optional ByVal Quiet As Boolean = False, Optional ByRef Success As Boolean = False, Optional ByVal AltFileName As String = "") As StoreInfo
         ' Simple function to retrieve basic store info.
-        Dim C as integer, S As String, X As String
+        Dim C As Integer, S As String, X As String
         Dim F As String, Section As String
         If StoreNum <= 0 Then StoreNum = StoresSld
 
@@ -873,4 +873,66 @@ NoFile:
         End If
         ReadStoreSetting = ReadIniValue(StoreINIFile(nStoreNo), StoreSettingSectionKey(nSection), nKey, nDefault)
     End Function
+
+    Public Function InstallINIToStoreSettings(ByVal Source As String, Optional ByVal StoreNo As Integer = 0) As Boolean
+        If StoreNo > ActiveNoOfLocations Then Exit Function ' don't install to non-existent INI
+        InstallINIToStoreSettings = InstallINIValues(Source, StoreINIFile(StoreNo))
+    End Function
+
+    Public Function InstallINIValues(ByVal Source As String, ByVal Destination As String) As Boolean
+        Dim X() As String, Y() As String, V As String, L, M, K()
+        Dim R As IniSections_StoreSettings, Z As clsHashTable
+        On Error GoTo InstallFail
+        X = INISections(Source)
+        For Each L In X
+            R = StoreSettingSectionCode(L)
+            Y = INISectionKeys(Source, L)
+
+            If R = IniSections_StoreSettings.iniSection_UNKNOWN Then
+                ' Do Nothing on install
+            ElseIf R = IniSections_StoreSettings.iniSection_InstallSQL Then
+                Z = INISectionAsHashTable(Source, L)
+                If Z.Item("RunOnce") = "" Or AllowRunOnce(Z.Item("RunOnce")) Then
+                    K = Z.Keys(vbTrue)
+                    For Each M In K
+                        If Left(M, 3) = "SQL" Then
+                            ExecuteRecordsetBySQL(Z.Item(M))
+                        End If
+                    Next
+                End If
+            Else  ' For all other sections, install to the store setup file directly
+                For Each M In Y
+                    V = ReadIniValue(Source, L, M)
+                    WriteIniValue(Destination, L, M, V)
+                Next
+            End If
+        Next
+
+        InstallINIValues = True
+InstallFail:
+    End Function
+
+    Private Function StoreSettingSectionCode(ByVal nSectionNo As String) As IniSections_StoreSettings
+        Select Case nSectionNo
+            'Case STORE_INI_SECTION_STORE_SETTINGS : StoreSettingSectionCode = IniSections_StoreSettings
+            Case STORE_INI_SECTION_SALE_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_SaleOptions
+            Case STORE_INI_SECTION_PO_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_POOptions
+            Case STORE_INI_SECTION_COMMISSIONS_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Commissions
+            Case STORE_INI_SECTION_TAG_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_TagOptions
+            Case STORE_INI_SECTION_INSTALLMENT_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Installment
+            Case STORE_INI_SECTION_EQUIFAX_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Equifax
+            Case STORE_INI_SECTION_PAYPAL_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_PayPal
+            Case STORE_INI_SECTION_ASHLEY_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Ashley
+            Case STORE_INI_SECTION_AMAZON_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Amazon
+            Case STORE_INI_SECTION_DISPATCHTRACK_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_DispatchTrack
+            Case STORE_INI_SECTION_TRAX_OPTIONS : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_TRAX
+            Case STORE_INI_SECTION_PROGRAM_STATE : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Program
+            Case STORE_INI_SECTION_CUSTOM_VALUES : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_Custom
+
+            Case STORE_INI_SECTION_INSTALL_SQL : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_InstallSQL
+
+            Case Else : StoreSettingSectionCode = IniSections_StoreSettings.iniSection_UNKNOWN
+        End Select
+    End Function
+
 End Module

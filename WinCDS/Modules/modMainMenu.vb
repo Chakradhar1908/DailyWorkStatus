@@ -513,8 +513,8 @@ Module modMainMenu
         MainMenu.Hide()
         '  ActiveLog "MainMenu.LaunchProgram: " & FileBanking
         Select Case LCase(Which)
-            Case "payables" :   (ShellOut_Shell MainMenu, FileAccountPayable)
-    Case "payroll" :   (ShellOut_Shell MainMenu, FilePayroll)
+            Case "payables" : ShellOut_Shell(MainMenu, FileAccountPayable)
+            Case "payroll" :   (ShellOut_Shell MainMenu, FilePayroll)
     Case "banking" :   (ShellOut_Shell MainMenu, FileBanking)
     Case "general ledger" :   (ShellOut_Shell MainMenu, FileGenLedger)
 '   Case "time clock":     ShellOut_Shell mainmenu, FileTimeClock

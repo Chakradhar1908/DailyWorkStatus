@@ -239,4 +239,13 @@
         If Not UpgradeNoMessages Then ProgressForm()
         ProcessUpdateFile = True
     End Function
+
+    Public Sub NotifyUpgrade(Optional ByVal Notify As Boolean = False)
+        On Error Resume Next
+        If Notify Then frmUpgradeNotify.Notify("Your program has been updated.")
+        DownloadURLToFile(NotifyUpgradeURL, CurrentVersionLCL)
+        'Unload Me
+        Me.Close()
+    End Sub
+
 End Class

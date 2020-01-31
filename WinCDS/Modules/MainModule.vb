@@ -12,6 +12,7 @@ Module MainModule
     Public PrvKill As Boolean
     Public ProgramStart As Date               ' When the program started
     Private mQuickQuit As Boolean             ' used to bypass the quit confirmation msgbox
+    Public ServiceMode As Boolean
 
     Public Sub HideSplash()
         If frmSplashIsLoaded Then frmSplash.Hide()
@@ -758,4 +759,43 @@ Finish:
         UserFolder = ParentDirectory(LocalDesktopFolder)
     End Function
 
+    Public Sub RestartProgram() ' 3/3/6
+        On Error Resume Next
+        Shell(WinCDSEXEFile, vbNormalFocus)
+        MainMenu.ShutDown(True)
+    End Sub
+
+    Public Function AllUsersDesktopFolder() As String
+        On Error Resume Next
+        Dim W
+        W = CreateObject("WScript.Shell")
+        AllUsersDesktopFolder = W.SpecialFolders("AllUsersDesktop") & DIRSEP
+        W = Nothing
+    End Function
+
+    Public Function WinCDSAutoVNCFolder() As String
+        WinCDSAutoVNCFolder = CDSDataFolder(True) & "AutoVNC\"
+        If DirExists(WinCDSAutoVNCFolder) Then Exit Function
+        WinCDSAutoVNCFolder = AppFolder() & "AutoVNC\"
+    End Function
+
+    Public Function PhysicalInvOldFolder() As String
+        PhysicalInvOldFolder = PhysicalInvFolder & "Old Data\"
+    End Function
+
+    Public Function PhysicalInvFolder() As String
+        PhysicalInvFolder = InventFolder() & "Physical\"
+    End Function
+
+    Public Function System32Folder(Optional ByVal IncludeTrailingBackslash As Boolean = False) As String
+        System32Folder = GetWindowsSystemDir()
+
+        If IncludeTrailingBackslash Then
+            If Right(System32Folder, 1) <> DIRSEP Then System32Folder = System32Folder & DIRSEP
+        End If
+    End Function
+
+    Public Function ConnectCMDFile() As String
+        ConnectCMDFile = WinCDSAutoVNCFolder() & "Connect.cmd"
+    End Function
 End Module

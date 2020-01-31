@@ -109,4 +109,26 @@ Debug.Print Err.Description
             State = mState
         End Get
     End Property
+
+    Public Function MakeRequestOnly(ByVal URL As String, Optional ByVal Operation As String = "GET", Optional ByVal InputData As String = "", Optional ByVal InputHdrs As String = "", Optional ByVal DoSecure As VBA.VbTriState = vbUseDefault) As Boolean
+        Dim U As URLExtract
+        U = ExtractUrl(URL)
+
+        Protocol = Switch(DoSecure = vbTrue, icHTTPS, DoSecure = vbFalse, icHTTP, True, IIf(U.Scheme = "https", icHTTPS, icHTTP))
+        Execute(URL, Operation, IIf(InputData = "" And Operation = "POST", U.Query, InputData), InputHdrs)
+        Application.DoEvents()
+        If INETTimeout = 0 Then INETTimeout = INETTimeout_Default
+        EndTime(INETTimeout)
+        Do While IsIn(State, icNone, icConnecting, icConnected, icRequesting, icRequestSent)
+            Application.DoEvents()
+#If DebugPrint Then
+Debug.Print State & " - " & INetState
+#End If
+            If EndTime() Then GoTo OutOfLoop
+        Loop
+OutOfLoop:
+        'On Error Resume Next
+        MakeRequestOnly = True
+    End Function
+
 End Class

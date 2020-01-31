@@ -129,10 +129,50 @@
 
         If KillBug Then
             HideSplash()
-            If Not Silent Then frmKillBugNotify.Show vbModal
-  Else
-            CrippleBug , True
-  End If
+            If Not Silent Then frmKillBugNotify.Showdialog
+        Else
+            CrippleBug(, True)
+        End If
     End Function
 
+    Private ReadOnly Property TestKillBug() As Boolean
+        Get
+            ' because of the potential for catastrophic errors if this is left in,
+            ' it is recommended that this is enabled only for indiviual computers.
+            ' Simply use the format below, or uncomment one of the existing tests:
+
+            '  If IsCDSComputer("LAPTOP") Then TestKillBug = True
+            '  If IsCDSComputer("INVENTORY2") Then TestKillBug = True
+        End Get
+    End Property
+
+    Public Function IsExpired() As Boolean
+        IsExpired = Not PrvKill And DateDiff("d", KillDate, Now) >= 0
+    End Function
+
+    Public ReadOnly Property KillDate() As Date
+        Get
+            KillBugInit()
+            KillDate = mKillDate
+        End Get
+    End Property
+
+    Public Sub UserKillBugNotify()
+        Dim R As Date
+        If Not IsExpired() Then
+            R = WeekStart(DateAdd("d", -KILLBUG_NOTIFY_USER, KillDate), vbMonday)
+            If DateAfter(Today, R, True) Then
+                Dim L As String
+                L = ""
+                L = L & vbCrLf & "*** ALERT from WINCDS ***"
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "Semi-Annually, WinCDS checks our customer’s computers for outdated software.  "
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "This software is outdated.  To protect your data, this version will expire on " & KillDate & " (" & DateDiff("d", Today, KillDate) & " day(s))."
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "Please proceed to the file menu and manually update your software."
+                MessageBox.Show(L, "ALERT -- PLEASE READ")
+            End If
+        End If
+    End Sub
 End Module

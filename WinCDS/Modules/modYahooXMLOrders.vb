@@ -306,7 +306,7 @@
         BillOSale.StyleAddEnd()
     End Function
 
-    Private Function AddBOS2Note(Optional ByVal Desc As String, Optional ByVal Amt As String) As Integer
+    Private Function AddBOS2Note(Optional ByVal Desc As String = "", Optional ByVal Amt As String = "") As Integer
         Dim L As String, Q As String
         L = IIf(Amt = "", "", StoreNumForOnlineSale)
         Q = IIf(Amt = "", "", 1)

@@ -140,21 +140,29 @@
         Dim R As String, T As String
         Const fDemoExpirationDate = "DemoExpirationDate"
         If Not IsDemo() Then
-            DemoExpirationDate = YearAdd(Of Date, 1)()
+            DemoExpirationDate = YearAdd(Today, 1)
             Exit Function
         End If
 
         R = GetConfigTableValue(fDemoExpirationDate)
-        T = DateAdd("d", 30, Date)
+        T = DateAdd("d", 30, Today)
         If IsDate(R) Then
             If DateAfter(R, T) Then R = ""
         End If
         If Not IsDate(R) Or Reset Then
             R = T
-            SetConfigTableValue fDemoExpirationDate, R
-  End If
+            SetConfigTableValue(fDemoExpirationDate, R)
+        End If
 
         DemoExpirationDate = DateValue(R)
+    End Function
+
+    Public Function LicenseValid(Optional ByVal vData As String = "") As Boolean
+        LicenseValid = WinCDSLicenseValid(IIf(vData <> "", vData, License))
+    End Function
+
+    Public Function WinCDSLicenseValid(ByVal S As String) As Boolean
+        ConvertWinCDSLicenseCode(S, WinCDSLicenseValid)
     End Function
 
 End Module

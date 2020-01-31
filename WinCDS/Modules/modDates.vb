@@ -190,4 +190,10 @@ Module modDates
         DayOfWeek = Format(D, "dddd")
     End Function
 
+    Public Function WeekStart(Optional ByVal D As String = "", Optional ByVal FirstDayOfWeek As Long = vbMonday) As Date
+        If Not IsDate(D) Then D = Today
+        WeekStart = D
+        If Weekday(WeekStart, FirstDayOfWeek) > 1 Then WeekStart = DateAdd("d", -6 + (7 - Weekday(D, FirstDayOfWeek)), D)
+    End Function
+
 End Module

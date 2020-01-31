@@ -1,5 +1,6 @@
 ﻿Module modPatches
     Private PatchTables As Collection
+    Public AutoPatching As Boolean
     Private Enum PatchStates
         PatchStatus_NeverRun = -1
         PatchStatus_Running = 0

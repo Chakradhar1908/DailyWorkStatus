@@ -600,11 +600,12 @@ ErrCrypt:
         ': Log Out current user (if any)
         ':::DESCRIPTION
         ': This function is used to log out any current user
-        LastLoginExpiry = 0
+        'LastLoginExpiry = 0
+        LastLoginExpiry = Nothing
         LastLoginPriv = ""
         LastLoginName = ""
-        UpdatePermissionMonitor "", "", ""
-  MainMenu.cmdLogout.Visible = False
+        UpdatePermissionMonitor("", "", "")
+        MainMenu.cmdLogout.Visible = False
     End Sub
 
     Public Sub ClearAccess()
@@ -615,8 +616,8 @@ ErrCrypt:
         ': This function is used to clear last login user Access details like name etc.
         LastLoginName = ""
         LastLoginPriv = ""
-        UpdatePermissionMonitor ""
-End Sub
+        UpdatePermissionMonitor("")
+    End Sub
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get

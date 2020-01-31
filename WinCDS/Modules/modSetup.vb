@@ -292,7 +292,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         ': Checks and sets the current EXE date to see if there was a change and an upgrade is needed.
         Dim X As String, V As String
         On Error Resume Next
-        ShutdownSemaforeFile DeleteIt:=True ' remove this every program start to prevent loops
+        ShutdownSemaforeFile(DeleteIt:=True) ' remove this every program start to prevent loops
         On Error GoTo 0
 
         V = GetLastEXEDate
@@ -309,5 +309,38 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
             WebDemoURL = "http://www.simplifiedposonline.com/"
         End Get
     End Property
+
+    Public Function GetLastEXEDate() As String
+        '::::GetLastEXEDate
+        ':::SUMMARY
+        ': Returns the Last EXE date
+        ':::DESCRIPTION
+        ': Returns the last exe date from the config table.  Used in upgrade analysis.
+        ':::RETURN
+        ': String
+        GetLastEXEDate = GetConfigTableValue("EXEDate")
+    End Function
+
+    Public Function SetCurrentEXEDate() As String
+        '::::SetLastEXEDate
+        ':::SUMMARY
+        ': Sets the last EXE date.
+        ':::DESCRIPTION
+        ': Sets and returns the last exe date from the config table.  Used in upgrade analysis.
+        ':::RETURN
+        ': String
+        SetConfigTableValue("EXEDate", GetCurrentEXEDate)
+        SetCurrentEXEDate = GetCurrentEXEDate
+    End Function
+
+    Public Function GetCurrentEXEDate(Optional ByVal IgnoreIDE As Boolean = False) As String
+        On Error Resume Next
+        If Not IgnoreIDE Then
+            If IsIDE() Then GetCurrentEXEDate = "IDE Mode (No EXE Date)" : Exit Function
+        End If
+
+        GetCurrentEXEDate = #1/1/1997#
+        GetCurrentEXEDate = FileDateTime(WinCDSEXEFile(True))
+    End Function
 
 End Module

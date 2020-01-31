@@ -188,8 +188,8 @@ Fail:
         FocusSelect = SelectContents(txtBox)
     End Function
 
-    Public Function MoveControlTo(ByRef C, ByRef D, Optional ByVal MakeVisible As Boolean, Optional ByVal ZOrderTop As Boolean) As Boolean
-        MoveControl C, D.Left, D.Top, D.Width, D.Height, MakeVisible, ZOrderTop
-End Function
+    Public Function MoveControlTo(ByRef C As Object, ByRef D As Object, Optional ByVal MakeVisible As Boolean = False, Optional ByVal ZOrderTop As Boolean = False) As Boolean
+        MoveControl(C, D.Left, D.Top, D.Width, D.Height, MakeVisible, ZOrderTop)
+    End Function
 
 End Module
