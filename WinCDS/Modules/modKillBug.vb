@@ -175,4 +175,27 @@
             End If
         End If
     End Sub
+
+    Public Sub IDEKillBugNotify()
+        If Not IsExpired() Then
+            If DateDiff("d", Today, KillDate) < KILLBUG_NOTIFY_DEVELOPER Then
+                Dim L As String
+                L = ""
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "****  DEVELOPER NOTICE  ****"
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "Kill date is " & KillDate
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "Software will expire in " & DateDiff("d", Today, KillDate) & " day(s)."
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "CUSTOMERS WILL BE NOTIFIED TO MANUALLY UPDATE:"
+                L = L & vbCrLf & DateAdd("d", -7, KillDate)
+                L = L & vbCrLf & ""
+                L = L & vbCrLf & "Please update Kill Date imediately!"
+                L = L & vbCrLf & ""
+                MessageBox.Show(L, "Hey Developer!!!")
+            End If
+        End If
+    End Sub
+
 End Module

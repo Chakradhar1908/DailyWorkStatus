@@ -100,4 +100,16 @@ HandleErr:
         GetKitInfo
     End Sub
 
+    Private Sub GetKitInfo()
+        ' If mInvCkStyle is made non-modal, cleanup is required!
+        ' If InvCkStyle is changed to not include this form's code, it needs to be defined in the form and withevents.
+        Dim mInvCkStyle As InvCkStyle
+        mInvCkStyle = New InvCkStyle
+        '  mInvCkStyle.ParentForm = Name
+        'mInvCkStyle.Show vbModal, Me
+        mInvCkStyle.ShowDialog(Me)
+        'Unload mInvCkStyle
+        mInvCkStyle.Close()
+    End Sub
+
 End Class

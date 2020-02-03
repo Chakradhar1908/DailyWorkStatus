@@ -133,4 +133,30 @@ Public Class frmPermissionMonitor
         'T = T & F.DeveloperEx
         txtExtras.Text = T
     End Sub
+
+    Public Sub LoadSettings()
+        Dim S As String, X As Variant
+        If SettingsLoaded Then Exit Sub
+        SettingsLoaded = True
+
+        S = GetCDSSetting("Permission Monitor")
+        If S = "" Then Exit Sub
+        X = Val(CSVField(S, 1))
+        If X > 0 Then Width = X
+        X = Val(CSVField(S, 2))
+        If X > 0 Then Height = X
+        X = Val(CSVField(S, 3))
+        If X > 0 Then Left = X
+        X = Val(CSVField(S, 4))
+        If X > 0 Then Top = X
+
+        OnTop = Val(CSVField(S, 5)) <> 0
+        Display = Val(CSVField(S, 6))
+        cmbLogType.Text = CSVField(S, 7)
+
+        X = Val(CSVField(S, 8, "200"))
+        X = FitRange(50, X, 9999)
+        txtMaxLogLines = X
+    End Sub
+
 End Class

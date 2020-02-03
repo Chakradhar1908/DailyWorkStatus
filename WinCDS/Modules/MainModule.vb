@@ -13,6 +13,10 @@ Module MainModule
     Public ProgramStart As Date               ' When the program started
     Private mQuickQuit As Boolean             ' used to bypass the quit confirmation msgbox
     Public ServiceMode As Boolean
+    Public ProgramStarted As Boolean          ' Record that the program has fully started
+    Private Const ELCkey1 As String = "Software\Microsoft\Windows\CurrentVersion\Policies\System"
+    Private Const ELCkey2 As String = "EnableLinkedConnections"
+    Public NoReplace As Boolean               ' Prevent Update re-run
 
     Public Sub HideSplash()
         If frmSplashIsLoaded Then frmSplash.Hide()
@@ -637,7 +641,7 @@ TestClearFailed:
     End Function
 
     Public Sub Domain_exit()
-        dbClose
+        dbClose()
     End Sub
 
     Public Function GetLastDeliveryDate() As Date
@@ -665,13 +669,13 @@ TestClearFailed:
 
     Public Function FXWallpaperFolder() As String
         FXWallpaperFolder = FXFolder() & "Wallpapers\"
-        If Not DirExists(FXWallpaperFolder) Then FXWallpaperFolder = PXFolder() :
+        If Not DirExists(FXWallpaperFolder) Then FXWallpaperFolder = PXFolder() : 
         Exit Function
     End Function
 
     Public Function TagLayoutFolder() As String
         TagLayoutFolder = FXFolder() & "TagLayouts\"
-        If Not DirExists(TagLayoutFolder) Then TagLayoutFolder = PXFolder() :
+        If Not DirExists(TagLayoutFolder) Then TagLayoutFolder = PXFolder() : 
         Exit Function
     End Function
 
@@ -780,7 +784,7 @@ Finish:
     End Function
 
     Public Function PhysicalInvOldFolder() As String
-        PhysicalInvOldFolder = PhysicalInvFolder & "Old Data\"
+        PhysicalInvOldFolder = PhysicalInvFolder() & "Old Data\"
     End Function
 
     Public Function PhysicalInvFolder() As String
@@ -798,4 +802,543 @@ Finish:
     Public Function ConnectCMDFile() As String
         ConnectCMDFile = WinCDSAutoVNCFolder() & "Connect.cmd"
     End Function
+
+    ' ======>>  This is the first procedure run in the program
+    Public Sub Main()
+        Dim StartupProcess As String
+        Dim DoEnd As Boolean
+        On Error GoTo StartupErrorHandler
+        ProgramStart = Now
+        LogStartup("INIT - ******************************************************")
+        LogStartup("INIT - " & ProgramStart)
+        LogStartup("INIT - " & SoftwareVersionForLog())
+        EnableLinkedConnections()
+
+        ActiveLog("Init::====== Startup: " & ProgramStart)
+        If Command() = "" Then
+            If Not IsIDE() Then
+                If CheckReplaceWinCDS() Then Exit Sub
+            End If
+            If NotifyDemoExpired(Command) Then Exit Sub
+        End If
+
+        'PatchFxFolder
+        'PatchFxFolder2
+
+
+        If CheckStartupParameters(Command, DoEnd) Then
+            LogStartup("INIT - Processed Command Line: " & Command())
+            LogStartup("=================================================")
+            If DoEnd Then End
+            Exit Sub
+        End If
+        ActiveLog("Checked Startup Parameters -- normal run")
+
+        LogStartup("Initializing Controls...")
+        EnableLinkedConnections()
+        DoInitCommonControls()
+
+        LogStartup("IDE Check")
+        If IsIDE() Then IDEStartup()
+
+        LogStartup("Secure Startup")
+        '  UpgradeStoreInformationFile
+        SecureStartup()
+        If Not IsDemo() Then frmUpgrade.NotifyUpgrade(False)
+
+        '  LogStartup "Vista Check"
+        '  CheckVistaAdminRights
+
+        LogStartup("------------ Log Folders ------------")
+        LogFolders()
+
+        StartupProcess = "Initializing..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus(StartupProcess)
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        SplashProgress(0, 100)
+
+        LogStartup("OnDemand Startup")
+        If Not IsDemo() Then OnDemandStartup()
+        SplashProgress(1)
+
+        ' use this to make the permission monitor come on automatically for development mode
+        ' Usually, to keep it off, the first clause should be False.
+        If IsDevelopment() Then
+            If GetCDSSetting("Permission Monitor") <> "" Then
+                'Load frmPermissionMonitor
+                frmPermissionMonitor.LoadSettings()
+                frmPermissionMonitor.Show()
+            End If
+        End If
+
+        If Not IsWinCDSInCorrectFolder() Then
+            LogStartup("WinCDS is in the incorrect folder: " & vbCrLf & ">>" & CurrentEXEDirectory() & vbCrLf & ">>" & WinCDSFolder())
+            MessageBox.Show("WinCDS is not running in the correct folder:" & CurrentEXEDirectory() & vbCrLf2 & "Please be sure WinCDS is running in the following folder:" & vbCrLf & WinCDSFolder(), "WinCDS Path Warning")
+        End If
+
+
+        StartupProcess = "Attempting to restore I: Drive"
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        RestoreIDrive()                                     ' force the I: drive to connect if possible
+        SplashProgress(3)
+
+        ' Initialize store variables.
+        StartupProcess = "Loading Settings..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        modPatches.MoveUserRegistryToSystem()                          ' Registry patch..
+        SplashProgress(5)
+
+        StartupProcess = "Verifying Settings..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        If License <> StoreSettings(1).loadedLicense Then
+            If WinCDSLicenseValid(StoreSettings(1).loadedLicense) Then License = StoreSettings(1).loadedLicense
+        End If
+        If InstallmentLicense <> StoreSettings(1).loadedInstallmentLicense Then
+            If InstallmentLicenseValid(StoreSettings(1).loadedInstallmentLicense) Then InstallmentLicense = StoreSettings(1).loadedInstallmentLicense
+        End If
+        SplashProgress(10)
+
+        StartupProcess = "Preparing Main Store..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        LogStartup("Main -> LoadPermOptions")
+        LoadPermOptions()                 ' Initialize the permission possibility areas.
+        SplashProgress(15)
+
+        StartupProcess = "Loading Program.." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        SplashProgress(35)    'skinning takes longer
+        'Load MainMenu
+        If Not IsFormLoaded("MainMenu") Then
+            'Load Practice
+            Practice.StartupFailure()
+            Exit Sub
+        End If
+
+        StartupProcess = "Detecting initial window state..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+
+        If StoreSettings.bStartMaximized Then MainMenu.SetWindowState(VBRUN.FormWindowStateConstants.vbMaximized)
+        SplashProgress(50)
+
+        StartupProcess = "Loading Help File..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        'App.HelpFile = WinCDSHelpFile()
+        SplashProgress(60)
+
+
+        StartupProcess = "Verifying Scheduled Task" : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        modScheduledTasks.CheckScheduledTasks()
+
+        '  modScheduledTasks.CheckWinCDSServiceScheduledTask REMOVE:=True
+        SplashProgress(61)
+
+
+
+        StartupProcess = "Detecting Printers..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        OutputObject = Printer
+        SplashProgress(65)
+
+        StartupProcess = "Loading Program...." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        MainMenu.Show()
+        '  If MainMenu.WindowState = vbNormal Then MainMenu.Move Screen.Width / 2 - MainMenu.picBackground.Width / 2, Screen.Height / 2 - MainMenu.picBackground.Height / 2
+        SplashProgress(70)
+
+        StartupProcess = "Applying most recent patches..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        'MainMenu.MousePointer = vbHourglass
+        MainMenu.Cursor = Cursors.WaitCursor
+        AutoPatch() ' Check for required patches - This takes a few seconds every time the program loads... We should make it quicker if we can.
+        'MainMenu.MousePointer = vbNormal
+        MainMenu.Cursor = Cursors.Default
+        SplashProgress(95)
+
+        StartupProcess = "Verifying Program Features..." : LogStartup(StartupProcess)
+        'frmSplash.DoStatus StartupProcess
+        modMainMenu.frmSplash.DoStatus(StartupProcess)
+        VerifyProgramFeatures()
+        InitializeForCDSCustomers()
+
+        SplashProgress(100)
+
+        SplashProgress()
+        StartupProcess = "" : LogStartup(StartupProcess)
+        'frmSplash.DoClose
+        modMainMenu.frmSplash.DoClose()
+
+        ShowLicenseAgreement(False)
+        ProgramStarted = True
+
+        Exit Sub
+
+        '  #If TESTING Then
+        '    frmtblAPVendors.Show 1
+        '    Exit Sub
+        '  #End If
+StartupErrorHandler:
+        Dim ReShow As Boolean, DC As String, En As Integer
+        DC = Err.Description
+        En = Err.Number
+        ReShow = False
+        HideSplash()
+        MessageBox.Show("Error in startup procedure (" & En & "): " & DC & vbCrLf & "Current Operation: " & StartupProcess, ProgramName & " Startup Error")
+        If ReShow Then frmSplash.Show()
+        Err.Clear()
+        Resume Next
+    End Sub
+
+    Public Sub LogStartup(ByVal Msg As String)
+        Dim FN As String
+
+        If ProgramStarted Then Exit Sub
+
+        '  MsgBox Msg & vbCrLf & "3" & vbCrLf & "FN: " & FN
+        '  MsgBox "" & GetStation
+        On Error Resume Next
+        FN = "StartUp.txt"
+        If True Then
+            LogFile(FN, Msg, False)
+        Else
+            KillLog(FN) ' while disabled, delete the log
+        End If
+    End Sub
+
+    Public Function EnableLinkedConnections() As Boolean
+        ' Indeed, with UAC enabled you cannot access a network drive mapped in the normal mode from an app run elevated.
+        '
+        ' From the articles:
+        '   http://woshub.com/how-to-access-mapped-network-drives-from-the-elevated-apps/
+        '
+        ' https://technet.microsoft.com/en-us/library/ee844140(v=ws.10).aspx
+
+        ' Require admin..
+        If IsWinXP() Then Exit Function
+        If Not IsElevated() Then Exit Function
+
+        EnableLinkedConnections = True
+        If GetRegistrySetting(HKEYS.regHKLM, ELCkey1, ELCkey2) = "1" Then Exit Function
+        SaveRegistrySetting(HKEYS.regHKLM, ELCkey1, ELCkey2, 1, REG_TYPE.vtDWord)
+        EnableLinkedConnections = GetRegistrySetting(HKEYS.regHKLM, ELCkey1, ELCkey2) = "1"
+
+        If Not EnableLinkedConnections Then
+            ErrMsg("Could not set EnableLinkedConnections--this could result in an endless computer reboot loop.")
+            Exit Function
+        End If
+
+        If MessageBox.Show("This update requires a one-time computer restart." & vbCrLf & "Press OK to restart your computer.", "Restart Needed", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.Cancel Then
+            MessageBox.Show("If you are prompted whether this is the server or not, rebooting the computer should fix this.")
+            Exit Function
+        End If
+
+        RestartComputer()
+        End
+
+        ' To test...
+        '  DeleteRegistrySetting regHKLM, ELCkey1, ELCkey2
+        ' An alternate method...
+        '  ShellOut.ShellOut "reg add ""HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System"" /v ""EnableLinkedConnections"" /t REG_DWORD /d 0x00000001 /f"
+    End Function
+
+    Public Function CheckStartupParameters(ByVal Args As String, Optional ByRef DoEnd As Boolean = False) As Boolean
+        ' returning 'True' from this function will cause the main program not to load.
+        DoEnd = True ' Default is to end program on a flag.  This will only matter if this function returns a True result.
+
+        If IsInStr(LCase(Args), "/?") Then
+            Dim S As String
+            S = ""
+            S = S & "Options:" & vbCrLf
+            S = S & "  /INIT          - Reserved for Installer"
+            S = S & "  /COMMAND       - Open Command Prompt" & vbCrLf
+            S = S & "  /NOREPLACE     - Prevent Software Install" & vbCrLf
+            S = S & "  /STAYOPEN      - Leave Program Running Without Windows" & vbCrLf
+            S = S & "  /NOKILL        - Disable Kill ug" & vbCrLf
+            S = S & "  /PRACTICE      - Open Developer Panel" & vbCrLf
+            S = S & "  /STAYOPEN      - Leave Program Running Without Windows" & vbCrLf
+            S = S & "  /OFFLINEUPDATE - Upgrade WinCDS from standalone CD" & vbCrLf
+            S = S & "  /TASKS         - Reset Scheduled Tasks" & vbCrLf
+            S = S & "  /PROCESS       - Nightlky Command Line" & vbCrLf
+            S = S & "  /SERVICE       - Nightly Service Request (Update & Backup)" & vbCrLf
+            S = S & "  /UPDATE        - Check for nightly updates" & vbCrLf
+            S = S & "  /BACKUP        - Do Cloud Backup (if necessary)" & vbCrLf
+            S = S & "  /REPAIR        - Stand-alone compact/repair"
+            S = S & "  /SERVER        - Start as server"
+            S = S & "  /WORKSTATION   - Start as workstation"
+            MessageBox.Show(S)
+            End
+        End If
+
+        If IsInStr(LCase(Args), "/init") Then
+            ' Be careful here... Don't use anything...  This is post-installer setup
+            frmMapDrive.InitialSetup()
+            End
+        End If
+
+        If IsInStr(LCase(Args), "/server") Then
+            SetServer(True)
+            CheckStartupParameters = False
+            DoEnd = False
+            Exit Function
+        End If
+
+        If IsInStr(LCase(Args), "/workstation") Then
+            SetServer(False)
+            CheckStartupParameters = False
+            DoEnd = False
+            Exit Function
+        End If
+
+        If IsInStr(LCase(Args), "/command") Then
+            PracticeCommandPrompt.Show()
+            CheckStartupParameters = True
+            DoEnd = False
+            Exit Function
+        End If
+
+        If IsInStr(LCase(Args), "/repair") Then
+            DoCompactAndRepairDAO(True)
+            CompactRepairJETAllDDBs(True)
+            CheckStartupParameters = True
+            DoEnd = False
+            Exit Function
+        End If
+
+        If IsInStr(LCase(Args), "/noreplace") Then
+            NoReplace = True
+        End If
+
+        If IsInStr(LCase(Args), "/stayopen") Then
+            CheckStartupParameters = True
+            'Load MainMenu4_Images                     ' Load something to keep it running..
+            DoEnd = False
+            Exit Function
+        End If
+
+        If IsInStr(LCase(Args), "/practice") Then
+            LogStartup("Performing Practice Task")
+            Practice.StartupFailure(True)
+            CheckStartupParameters = True
+            DoEnd = False
+            LogStartup("Completed Practice Command-Line Task")
+        End If
+        If IsInStr(LCase(Args), "/nokill") Then PrvKill = True
+
+        If IsInStr(LCase(Args), "/offlineupdate") Then
+            LogStartup("Performing Offline Update Task")
+            modOnDemand.DoOfflineUpdate()
+            CheckStartupParameters = True
+            DoEnd = True
+            LogStartup("Completed Offline Update Command-Line Task")
+        End If
+
+        If IsDemo() Then Exit Function ' No notification, of course, as these are command line flags.
+
+        If IsInStr(LCase(Args), "/tasks") Then
+            LogStartup("Performing Scheduled Tasks Update:  Elevated? " & YesNo(IsElevated))
+            modScheduledTasks.CheckScheduledTasks(True)
+            CheckStartupParameters = True
+            DoEnd = True
+            LogStartup("Completed Scheduled Tasks Update")
+        End If
+
+
+        '  If IsInStr(LCase(Args), "/email") Then
+        '    LogStartup "Performing Email Task"
+        '    modAWS.DoCommandLineBackup
+        '    CheckStartupParameters = True
+        '    LogStartup "Completed Email Command-Line Task"
+        '  End If
+        '
+
+
+        ' BFH20160720
+        ' We actually don't care if they software is killed...
+        ' Just let it update if it can.  Updates are controlled server-side, and if they're
+        ' able to get an update from it, they should get one even if they're expired...
+        '  If Not KillBug(True) Then
+        If IsInStr(LCase(Args), "/service") Then
+            LogStartup("/Service param passed")
+            If IsExpired() Then
+                LogStartup("/Service mode disabled for KILLED software")
+                End
+            End If
+            If IsServer() Then Args = Args & "/process"
+            Args = Args & " /update"
+            If IsServer() Then Args = Args & " /backup"
+            ServiceMode = True
+        End If
+
+        If IsInStr(LCase(Args), "/process") Then
+            LogStartup("Performing Nightly Service Command-Line Task")
+            modNightlyProcesses.NightlyProcesses()
+            CheckStartupParameters = True
+            LogStartup("Completed Nightly Service Command-Line Task")
+        End If
+
+        If IsInStr(LCase(Args), "/backup") Then
+            LogStartup("Performing Backup Command-Line Task")
+            modAWS.DoCommandLineBackup()
+            CheckStartupParameters = True
+            LogStartup("Completed Backup Command-Line Task")
+        End If
+
+        If IsInStr(LCase(Args), "/update") Then
+            LogStartup("Performing Update Command-Line Task")
+            '      modScheduledTasks.CheckScheduledTasks DateBefore(Date, #5/10/2016#)
+            If Not IsDemo() Then
+                frmUpgrade.DoCommandLineUpdate()
+            End If
+            CheckStartupParameters = True
+            LogStartup("Copmleted Update Command-Line Task")
+        End If
+        '  End If
+
+        If CheckStartupParameters Then
+            LogStartup("Processed Startup Parameters - Returning Exit Code")
+        Else
+            LogStartup("Processed Startup Parameters - No Codes")
+            DoEnd = False ' clear this, just in case.. doesn't really matter though.
+        End If
+    End Function
+
+    Private Sub IDEStartup()
+        RecordBuildDate()           ' Re-Write modBuildDate.bas every program start inside IDE - keeps it fresh
+        CheckCompanyInformation()
+        CheckCopyrightDate()
+        CheckCertificateExpiration()
+
+        IDEKillBugNotify()          ' notifies developers (ONLY) when kill bug will be expiring shortly
+    End Sub
+
+    Private Sub SecureStartup()
+        If Not IsCDSComputer() Then SetDevMode(0)  ' not necessary...  customers seemed to be in dev mode.  this prevents it.
+
+        If Not IsServer() And IsServerLocked() Then
+            ServerLock(doSet:=vbTrue)
+        End If
+
+        ClearAllTempFiles()
+        CheckSecureIPAddress()
+        EnableLinkedConnections()
+        EnableRichCHMContent()
+        '  CreateCDSDataShare
+        ForcePrinterSelection()
+
+        'BFH20150514
+        ' Causes error on Demo startup, which we would like to hide.
+        ' This pushes the error further down the track if the update
+        ' folder does not have full permissions, of course.
+        '  TempFile
+
+    End Sub
+
+    Public Sub SplashProgress(Optional ByVal Value As Integer = -1, Optional ByVal Max As Integer = -1)
+        If Not IsFormLoaded("frmSplash") Then Exit Sub
+        'frmSplash.DoProgress Value, Max
+        modMainMenu.frmSplash.DoProgress(Value, Max)
+        Application.DoEvents()
+    End Sub
+
+    Public Function IsWinCDSInCorrectFolder() As Boolean
+        IsWinCDSInCorrectFolder = DirEqual(CurrentEXEDirectory, WinCDSFolder) Or IsIDE()
+    End Function
+
+    Public Function RecordBuildDate() As Boolean
+        Dim F As String
+        Dim S As String, T As String
+        Dim N As String, M As String
+        Dim X As String, L
+        ' Only in IDE, of course
+        If Not IsIDE() Then Exit Function
+
+        ' Do not post if nothing changed.
+        If DateEqual(BuildDate, Today) Then Exit Function
+
+        N = vbCrLf : M = ""
+
+        ' this is the entire contents of this file.. it will get compiled in
+        S = ""
+        S = S & M & ""
+        S = S & M & "Attribute VB_Name = ""modBuildDate"""
+        S = S & N & "Option Explicit"
+        S = S & N & "' ***** WARNING: FILE IS GENERATED ON EACH COMPILE"
+        S = S & N & "' DO NOT MODIFY THIS FILE.  FIND ANOTHER FILE TO MODIFY."
+        S = S & N & "' YOUR CHANGES WILL BE DELETED AUTOMATICALLY"
+        S = S & N
+        S = S & N & "Public Function BuildDate() As String"
+        S = S & N & "  BuildDate = """ & Today & """"
+        S = S & N & "End Function"
+        S = S & N
+        S = S & N & "Public Function BuildTime() As String"
+        S = S & N & "  BuildTime = """ & TimeValue(Now) & """"
+        S = S & N & "End Function"
+        S = S & N
+        S = S & N & "Public Function BuildComputer() As String"
+        S = S & N & "  BuildComputer = """ & GetLocalComputerName() & "\" & GetSystemUserName() & """"
+        S = S & N & "End Function"
+        S = S & N
+        S = S & N & "Public Function BuildHistory() As String"
+        S = S & N & "  Dim S As String"
+        S = S & N
+        X = ReadEntireFile(DistributionCSV)
+        For Each L In Split(X, vbCrLf)
+            S = S & N & "  S = S & vbCrLf & """ & Replace(EncodeBase64String(L), vbCrLf, "") & """"
+        Next
+        S = S & N
+        S = S & N & "  BuildHistory = S"
+        S = S & N & "End Function"
+        S = S & N
+
+
+        F = AppFolder() & "modBuildDate.bas"
+        T = ReadFile(F)
+        If NLTrim(T) <> NLTrim(S) Then
+            WriteFile(F, S, True)
+        End If
+        RecordBuildDate = True
+    End Function
+
+    Public Function IsServerLocked() As Boolean
+        IsServerLocked = UCase(Left(ReadStoreSetting(1, IniSections_StoreSettings.iniSection_StoreSettings, "ServerLock"), 1)) = "T"
+    End Function
+
+    Public Function ClearAllTempFiles() As Boolean
+        Const TEMPFILE_PREFIX = "wincds_tmp_"
+        Const TEMPFILE_EXTENSION = ".tmp"
+        Const TEMPFILE_EXTENSION2 = ".tmp2"
+
+        Const TEMPFOLDER_PREFIX = "tmp_"
+        Dim F As String, T As String
+        F = UpdateFolder()
+        On Error Resume Next
+        Kill(F & TEMPFILE_PREFIX & "*.*")
+        Kill(F & "*" & TEMPFILE_EXTENSION)
+        Kill(F & "*" & TEMPFILE_EXTENSION2)
+
+        '  Do While True
+        '    T = Dir(F & TEMPFOLDER_PREFIX & "*", vbDirectory)
+        '    If T = "" Then Exit Function
+        '    CleanPath F & T
+        '  Loop
+    End Function
+
+    Public Function ForcePrinterSelection()
+        Dim S As String
+        S = ReadStoreSetting(StoresSld, IniSections_StoreSettings.iniSection_StoreSettings, "StartupPrinter")
+        If S <> "" Then SetPrinter(S)
+        'MsgBox "s=" & S & vbCrLf & Printer.DeviceName
+    End Function
+
 End Module

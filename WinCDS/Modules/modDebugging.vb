@@ -168,4 +168,19 @@ IDEInUse:
         LogFile(Target, Trim("[" & mTerm & " - " & mSection & "] " & Msg))
         Tp = True
     End Function
+
+    Public Function KillLog(ByVal S As String) As Boolean
+        ' normally, the log function above keeps the logs trimmed...
+        ' But, we provide an interface to clear it
+        On Error Resume Next
+        ' If they specified a full path, they can delete it themselves..
+        If InStr(S, ":") <> 0 Then
+            MsgBox "Unable to delete log:" & S
+    Exit Function
+        End If
+        Kill LogFolder() & S
+  Kill LogFolder() & S & ".txt"
+  KillLog = True
+    End Function
+
 End Module

@@ -55,6 +55,9 @@ Module modAPI
     Public Declare Function GetProcessMemoryInfo Lib "psapi" (ByVal lHandle As Integer, ByRef lpStructure As PROCESS_MEMORY_COUNTERS, ByVal lSize As Integer) As Integer  '--> vb6.0
     'Public Declare Function GetProcessMemoryInfo Lib "psapi" (ByVal lHandle As IntPtr, ByRef lpStructure As PROCESS_MEMORY_COUNTERS, ByVal lSize as integer) as integer ' --> vb.net
     Public Declare Function Process32Next Lib "kernel32" (ByVal hSnapshot As Integer, lppe As PROCESSENTRY32) As Integer
+    'Private Declare Function GetWindowWord Lib "USER32" (ByVal hwnd as integer, ByVal nIndex as integer) As Integer -vb6.0
+    Private Declare Function GetWindowWord Lib "USER32" (ByVal hwnd As IntPtr, ByVal nIndex As Integer) As Integer 'vb.net
+    Private Declare Function GetModuleFileName Lib "kernel32" Alias "GetModuleFileNameA" (ByVal hModule As Integer, ByVal lpFileName As String, ByVal nSize As Integer) As Integer
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd as integer, ByVal wMsg as integer, ByVal wParam as integer, lParam As Any) as integer - vb6.0
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As String) As IntPtr
     <DllImport("user32.dll", CharSet:=CharSet.Auto)>
@@ -196,6 +199,8 @@ Module modAPI
     Public Const INVALID_HANDLE_VALUE As Integer = -1
     Public Const PROCESS_QUERY_LIMITED_INFORMATION As Integer = &H1000
     Public Const PROCESS_QUERY_INFORMATION As Integer = 1024
+    Const GWW_HINSTANCE As Integer = (-6)
+
     Public Structure RECT
         Dim Left As Integer
         Dim Top As Integer
@@ -846,6 +851,54 @@ Module modAPI
         B = Val(T(1))
         C = Val(T(2))
         D = Val(T(3))
+    End Function
+
+    Public Function CurrentEXEDirectory(Optional ByVal DoUCase As Boolean = True, Optional ByVal DoShort As Boolean = True) As String
+        On Error Resume Next
+        Dim S As String, A As Integer
+        S = CurrentEXEFileName
+        If S = "" Then Exit Function
+        A = InStrRev(S, "\")
+        If A = 0 Then Exit Function
+        S = Left(S, A - 1)
+
+        If DoShort Then S = GetShortName(S)
+        S = CleanDir(S)
+        If DoUCase Then S = UCase(S)
+
+        CurrentEXEDirectory = S
+    End Function
+
+    Public Sub RestartComputer()
+        ' Can't get API call to work, so we'll go with the internet suggested fix.
+        '  ExitWindowsEx EWX_REBOOT, 0
+        ShellOut.ShellOut("shutdown.exe -r -f -t 0")
+    End Sub
+
+    Public Sub EnableRichCHMContent()
+        On Error Resume Next
+        Const Section1 As String = "SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION"
+        Const Section2 As String = "SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION"
+        Const KeyName As String = "hh.exe"
+        SaveRegistrySetting(HKEYS.regHKLM, Section1, KeyName, 9999, REG_TYPE.vtDWord)
+        SaveRegistrySetting(HKEYS.regHKLM, Section2, KeyName, 9999, REG_TYPE.vtDWord)
+    End Sub
+
+    Public Function CurrentEXEFileName(Optional ByVal DoUCase As Boolean = True, Optional ByVal DoShort As Boolean = True) As String
+        On Error Resume Next
+        Dim ModuleName As String * 128 '@NO-LINT-NTYP
+  Dim FileName As String, hinst As Integer
+        'create a buffer
+        ModuleName = New String(Chr(0), 128)
+        'get the hInstance application:
+        'hinst = GetWindowWord(App.hInstance, GWW_HINSTANCE)
+        hinst = GetWindowWord(Process.GetCurrentProcess.Handle, GWW_HINSTANCE)
+        GetModuleFileName(hinst, ModuleName, Len(ModuleName))
+
+        CurrentEXEFileName = ModuleName
+
+        If DoShort Then CurrentEXEFileName = GetShortName(CurrentEXEFileName)
+        If DoUCase Then CurrentEXEFileName = UCase(CurrentEXEFileName)
     End Function
 
 End Module

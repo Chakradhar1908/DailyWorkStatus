@@ -73,4 +73,56 @@
     '        Resume Next
     '    End Function
 
+    Public Function CompactRepairJETAllDDBs(Optional ByVal ForceAll As Boolean = False) As Boolean
+        ':::SUMMARY
+        ':::DESCRIPTION
+        ': Used to Compact and Repair JET DataBases.
+        ':::PARAMETERS
+        ': This function is used to compact and repair all JET DataBases .
+        ': - ForceAll
+        ':::RETURN
+        ': Boolean : Returns True.
+        Dim X() As Variant, I As Long, N As Long
+        Dim dB As String
+
+        If Not ForceAll Then
+            ArrAdd X, "Enter Pathname"
+    ArrAdd X, "All WinCDS Databases"
+    ArrAdd X, "Inventory"
+    For I = 1 To LicensedNoOfStores()
+                ArrAdd X, "Store #" & I
+    Next
+            N = SelectOptionArray("Compact / Repair - JET Engine", SelOpt_List, X, "Select Database")
+        Else
+            N = 2
+        End If
+
+        If N <= 0 Then Exit Function
+        If N = 1 Then
+            dB = InputBox("Path:", "Enter Database Name", InventFolder)
+            If dB = "" Then Exit Function
+            If Not FileExists(dB) Then
+                MsgBox "File does not exist:" & vbCrLf & dB
+      Exit Function
+            End If
+        ElseIf N = 2 Then
+            For I = 1 To NoOfActiveLocations
+                CompactRepairJETDatabase GetDatabaseAtLocation(I)
+    Next
+            dB = GetDatabaseInventory()
+        Else
+            dB = IIf(N = 3, GetDatabaseInventory, GetDatabaseAtLocation(N - 3))
+        End If
+        '  If MsgBox("Compact and repair the following database?" & vbCrLf & DB, vbQuestion + vbOKCancel, "Confirm Compact and Repair") = vbCancel Then
+        '    Exit Function
+        '  End If
+
+        CompactRepairJETDatabase dB
+
+  MsgBox "Complete.", vbInformation, "Compact And Repair - JET Engine", , , 5
+
+
+  CompactRepairJETAllDDBs = True
+    End Function
+
 End Module

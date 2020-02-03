@@ -222,4 +222,31 @@ ErrorRoutineErr:
         RunCmdToOutputWithArgs = RunCmdToOutput(ShortCmdName & " " & Args, ErrStr)
     End Function
 
+    ' This routine changes the directory temporarily and executes a batch file, returns and sets the current directory back to the previous location.
+    Public Sub ShellOut_Shell(tForm As Form, Name As String)
+        On Error GoTo HandleErr
+
+        '    WriteFile AppFolder & "shellout.txt", "shellout: " & Name
+
+        With tForm
+            Dim WindowStatePrevious As Integer
+            WindowStatePrevious = .WindowState
+            .WindowState = 1
+            .Refresh()
+            '    Dim t As Single: t = Timer
+            '    Do:    Loop Until (Timer - t) > 4
+            ' add delay to allow for tForm window to minimize
+
+            ShellAndWait(Name)
+            .WindowState = WindowStatePrevious
+            .Select()
+        End With
+        Exit Sub
+
+HandleErr:
+        If Err.Number = 53 Then
+            Exit Sub
+        End If
+    End Sub
+
 End Module

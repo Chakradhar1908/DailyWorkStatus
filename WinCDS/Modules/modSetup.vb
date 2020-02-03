@@ -77,6 +77,9 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const CompanyURL_BARE2 As String = "www.wincds.net"
     Public Const ProgramShort As String = ProgramName & " POS for Furniture Stores"
     Public Const ProgramCaption As String = CompanyName
+    Public Const ProgramDesc As String = ProgramTitle & ".   Simply the best, most intuitive, and salesman friendly Software solution for your Furniture POS needs." & ProgramTradeMk
+    Public Const ProgramTradeMk As String = "" 'In a word, it's ""Brainless""!"
+    Public Const ProgramTag As String = ProgramName & " POS Software"
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get
@@ -343,4 +346,19 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         GetCurrentEXEDate = FileDateTime(WinCDSEXEFile(True))
     End Function
 
+    Public Function FileAccountPayable() As String
+        FileAccountPayable = APFolder(, True) & "payable.exe"
+    End Function
+
+    Public Function FilePayroll() As String
+        FilePayroll = PRFolder(, True) & "payroll.exe"
+    End Function
+
+    Public Function FileBanking() As String
+        FileBanking = BKFolder(, True) & "bankmgr.exe"
+    End Function
+
+    Public Function FileGenLedger() As String
+        FileGenLedger = GLFolder(, True) & "genledgr.exe"
+    End Function
 End Module

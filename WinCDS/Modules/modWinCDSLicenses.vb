@@ -165,4 +165,35 @@
         ConvertWinCDSLicenseCode(S, WinCDSLicenseValid)
     End Function
 
+    Public Function NotifyDemoExpired(Optional ByVal CommandLine As String = "") As Boolean
+        Const tCaption As String = "DEMO Trial Period Expired"
+        If IsDemoExpired Then
+            If IsIDE() Then
+                Dim R As VbMsgBoxResult, Discard, S As String
+                S = ""
+                S = S & "You are running in the VB6 IDE." & vbCrLf2
+                S = S & "This data is set as a DEMO INSTALL and is EXPIRED." & vbCrLf
+                S = S & "Expiration Date: " & DemoExpirationDate() & vbCrLf
+                S = S & "Please select from the following options: " & vbCrLf
+                S = S & "    Abort - Encounter the user fail message." & vbCrLf
+                S = S & "    Retry - Open " & ProgramName & " regardless of this error." & vbCrLf
+                S = S & "   Ignore - Reset the demo expiry date."
+                R = MsgBox(S, vbAbortRetryIgnore + vbExclamation, tCaption)
+                Select Case R
+                    Case vbAbort
+                    Case vbRetry : Exit Function
+                    Case vbIgnore : Discard = DemoExpirationDate(True) : Exit Function
+                End Select
+            End If
+
+            NotifyDemoExpired = True
+            If CommandLine = "" Then
+                If frmDemoNotify.RequireLicenseOrQuit Then
+                    NotifyDemoExpired = False
+                    Exit Function
+                End If
+            End If
+        End If
+    End Function
+
 End Module

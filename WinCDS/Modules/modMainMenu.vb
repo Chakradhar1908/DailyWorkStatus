@@ -92,11 +92,11 @@ Module modMainMenu
     Public MenuItemCount As Integer
     Public Const MainMenuType As String = "MainMenu4"
 
-    Public ReadOnly Property frmSplash As frmSplash2
-        Get
-            Return frmSplas
-        End Get
-    End Property
+    'Public ReadOnly Property frmSplash As frmSplash2
+    '    Get
+    '        Return frmSplas
+    '    End Get
+    'End Property
 
     Public ReadOnly Property frmSplashIsLoaded As Boolean
         Get
@@ -514,10 +514,10 @@ Module modMainMenu
         '  ActiveLog "MainMenu.LaunchProgram: " & FileBanking
         Select Case LCase(Which)
             Case "payables" : ShellOut_Shell(MainMenu, FileAccountPayable)
-            Case "payroll" :   (ShellOut_Shell MainMenu, FilePayroll)
-    Case "banking" :   (ShellOut_Shell MainMenu, FileBanking)
-    Case "general ledger" :   (ShellOut_Shell MainMenu, FileGenLedger)
-'   Case "time clock":     ShellOut_Shell mainmenu, FileTimeClock
+            Case "payroll" : ShellOut_Shell(MainMenu, FilePayroll)
+            Case "banking" : ShellOut_Shell(MainMenu, FileBanking)
+            Case "general ledger" : ShellOut_Shell(MainMenu, FileGenLedger)
+                '   Case "time clock":     ShellOut_Shell mainmenu, FileTimeClock
             Case Else : MessageBox.Show("Could not launch " & Which & vbCrLf & "Please contact " & AdminContactCompany & " at " & AdminContactPhone2 & ".", "Unknown Program", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Select
         MainMenu.Show()
@@ -1834,7 +1834,7 @@ Module modMainMenu
         MyMenuAddItem(X, "login", "Store Lo&gin", , , 11, , "Login to other stores", "F2")
         MyMenuAddItem(X, "exit", "E&xit", , , 12, , "Click here to exit WinCDS.", "Alt-X")
 
-        X = AddMyMenu(Name:="file:system", Caption:="File - System", MenuLayout:=eMML_4x3Across, ParentMenu:="file", HCID:=30000)
+        X = AddMyMenu(Name:="file:system", Caption:="File - System", MenuLayout:=eMyMenuLayouts.eMML_4x3Across, ParentMenu:="file", HCID:=30000)
         MyMenuAddItem(X, "systemH", "S&ystem...", , , 1, "#file:system", "Open this menu to perform system functions such as store setup, backup, and restore.")
         MyMenuAddItem(X, "utilities", "&Utilities...", , , 2, "#file:utilities", "Open this menu to access some of the utilities of WinCDS.")
         MyMenuAddItem(X, "maintenance", "&Maintenance...", , , 3, "#file:maintenance", "Open this menu for some of the maintenance functions of WinCDS.")
@@ -2495,4 +2495,33 @@ Again:
             MenuSubItemTop2 = 6200
         End Get
     End Property
+
+    Public Sub ReadHotKeyPress(ByVal sName As String)
+        '  m_cHotKey.RestoreAndActivate Me.hWnd
+        '::::ReadHotKeyPress
+        ':::SUMMARY
+        ': Reads a pressed Hot Key
+        ':::DESCRIPTION
+        ': Reads and parses a pressed hot key, performing whatever operation is currently set up.
+        ':::PARAMETERS
+        ': - sName - The key associated with the hot key pressed.
+
+        Select Case sName
+            Case "Security Monitor"
+                frmPermissionMonitor.Show()
+            Case "Printers"
+                ViewPrinters
+            Case "Calculator"
+                OpenCalculator
+        End Select
+    End Sub
+
+    Public ReadOnly Property frmSplash() As frmSplash2
+        Get
+            '  If IsCDSComputer Then Set frmSplash = frmSplash2: Exit Property
+            frmSplash = frmSplash2
+        End Get
+    End Property
+
+
 End Module

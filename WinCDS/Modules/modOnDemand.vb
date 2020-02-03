@@ -119,4 +119,40 @@ NoControl:
         ODList(X - 1).Install = vInstall
     End Sub
 
+    Public Sub OnDemandStartup()
+        Dim I As Long
+        'Exit Sub
+        On Error GoTo DontCrash
+        GetUpdateList ' discard result
+
+        LogComputerVersionUpgrade
+
+        OnDemandUpdate = True
+        initOnDemand()
+        '  OnDemandWinCDS
+        If Not IsDevelopment() Then SuppressMessages 5
+  For I = LBound(ODList) To UBound(ODList)
+            If Not OnDemand_Test(ODList(I)) Then OnDemand_Install ODList(I)
+  Next
+        SuppressMessages()
+        OnDemandUpdate = False
+
+DontCrash:
+    End Sub
+
+    Public Sub DoOfflineUpdate()
+        OfflineUpdate = True
+        OnDemandStartup()
+        OfflineUpdate = False
+
+        If OfflineUpdateSourceFolder <> "" Then
+            If FileExists(OfflineUpdateSourceFolder & WinCDSEXEName(True, True)) Then
+                On Error Resume Next
+                Kill WinCDSFolder() & WinCDSEXEName(True, True)
+      FileCopy OfflineUpdateSourceFolder & WinCDSEXEName(True, True), WinCDSFolder() & WinCDSEXEName(True, True)
+    End If
+
+        End If
+    End Sub
+
 End Module

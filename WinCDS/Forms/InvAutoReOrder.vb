@@ -23,7 +23,7 @@
 
     Public Sub OrderAutomatic(ByVal ShowCost As Boolean)
         If Not ShowCost Then
-            grdOrderItems.GetColumn(3).Visible = False
+            'grdOrderItems.GetColumn(3).Visible = False
             lblTotal.Visible = False
             lblTotalOrdered.Visible = False
         End If
@@ -35,7 +35,7 @@
         ' Set these dates in the (to be created) date boxes.
         Loading = True
         MoveGrids(1)
-        grdOrderItems.GetColumn(3).Visible = ShowCost
+        'grdOrderItems.GetColumn(3).Visible = ShowCost
         lblTotal.Visible = ShowCost
         lblTotalOrdered.Visible = ShowCost
         cboStoreSelect.SelectedIndex = StoreNum
@@ -58,13 +58,13 @@
         fraDemand.Visible = (Pos <> 0)
 
         If Pos = 0 Then
-            grdSaleItems.Visible = False
+            'grdSaleItems.Visible = False
             'grdOrderItems.Height = grdSaleItems.Top - grdOrderItems.Top + grdSaleItems.Height
-            grdOrderItems.Move grdOrderItems.Left, grdSaleItems.Top, grdOrderItems.Width, grdOrderItems.GetDBGrid.RowHeight * 23 ' grdOrderItems.Top - grdSaleItems.Top + grdOrderItems.Height
+            'grdOrderItems.Move grdOrderItems.Left, grdSaleItems.Top, grdOrderItems.Width, grdOrderItems.GetDBGrid.RowHeight * 23 ' grdOrderItems.Top - grdSaleItems.Top + grdOrderItems.Height
         Else
-            grdSaleItems.Visible = True
-            grdOrderItems.Move grdOrderItems.Left, grdSaleItems.Top + grdSaleItems.Height + 60,
-      grdOrderItems.Width, grdOrderItems.GetDBGrid.RowHeight * 10 ' grdOrderItems.Height - grdSaleItems.Height - 60
+            'grdSaleItems.Visible = True
+            'grdOrderItems.Move grdOrderItems.Left, grdSaleItems.Top + grdSaleItems.Height + 60,
+            'grdOrderItems.Width, grdOrderItems.GetDBGrid.RowHeight * 10 ' grdOrderItems.Height - grdSaleItems.Height - 60
             lblVendor.Top = 6840
             cboVendors.Top = 6720
         End If

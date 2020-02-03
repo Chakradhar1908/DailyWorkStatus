@@ -749,4 +749,26 @@ SkipItem:
         If doSet Then ChDir(PopDir)
     End Function
 
+    Public Function DirEqual(ByVal FolderA As String, ByVal FolderB As String) As Boolean
+        '::::DirEqual
+        ':::SUMMARY
+        ':Compares to directories for equivalence.
+        ':::DESCRIPTION
+        ':Compares two directories through sanitization, UCase check, etc.
+        ':::PAREMETERS
+        ': - sFolderA - The first to be compared.
+        ': - sFolderB - The last to be compared.
+        ':::RETURNS
+        ':Returns true if the directories are equal..
+        ':::SEE ALSO
+        ': IsDriveRoot
+        Dim A As String, B As String
+        If Right(FolderA, 1) <> "\" Then FolderA = FolderA & "\"
+        If Right(FolderB, 1) <> "\" Then FolderB = FolderB & "\"
+        If FolderA = FolderB Then DirEqual = True : Exit Function
+        A = UCase(GetShortName(FolderA))
+        B = UCase(GetShortName(FolderB))
+        If A <> "" And B <> "" And A = B Then DirEqual = True : Exit Function
+    End Function
+
 End Module

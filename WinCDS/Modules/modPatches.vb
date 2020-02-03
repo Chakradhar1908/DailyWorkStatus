@@ -99,4 +99,49 @@ NoMoreDBs:
         End Get
     End Property
 
+    'called from frmSplash
+    Public Function MoveUserRegistryToSystem() As Boolean
+        ' If the registry's already moved, don't do it again.
+        If GetSetting(RegistrySection, RegistryAppName, "IsServer") = "" Then Exit Function
+
+        MoveUserRegistryKeyToSystem RegistryAppName, "IsServer"
+  MoveUserRegistryKeyToSystem RegistryAppName, "Location"
+  MoveUserRegistryKeyToSystem RegistryAppName, "Label Printer"
+  MoveUserRegistryKeyToSystem RegistryAppName, "Cash Register Printer"
+  MoveUserRegistryKeyToSystem RegistryAppName & "\BarCode", "COM Port"
+  MoveUserRegistryKeyToSystem RegistryAppName & "\Cash Drawer", "COM Port"
+  MoveUserRegistryKeyToSystem RegistryAppName & "\ScanPal 2", "Settings"
+  MoveUserRegistryKeyToSystem RegistryAppName & "\ScanPal 2", "COM Port"
+  On Error Resume Next
+        DeleteSetting RegistrySection, RegistryAppName & "\BarCode"
+  DeleteSetting RegistrySection, RegistryAppName & "\Cash Drawer"
+  DeleteSetting RegistrySection, RegistryAppName & "\ScanPal 2"
+  DeleteSetting RegistrySection, RegistryAppName
+End Function
+
+    Public Sub AutoPatch()
+        ' This function should be called when the program loads (and after restore).
+        ' It will check the databases for each required patch, and apply changes.
+        BuildPatchList                  ' Create the array of patch definitions.
+        If DateBefore(MostRecentPatchDate, GetLastPatchDate, False) Then Exit Sub
+
+        OpenPatchTables() ' would do it automatically, but we'll do it here too
+        If Dir(GetDatabaseInventory) = "" Then
+            MsgBox "The database [" & GetDatabaseInventory() & "] could not be found..." & vbCrLf & "This is a critical error and you should shut down immediately.", vbCritical, "Database Not Found!"
+    Exit Sub
+        End If
+
+        AutoPatching = True
+        CheckRequiredPatches GetDatabaseInventory, False
+  Dim I As Long
+        For I = 1 To MaxPatchStore
+            If Dir(GetDatabaseAtLocation(I)) <> "" Then CheckRequiredPatches GetDatabaseAtLocation(I), True
+  Next
+        ClosePatchTables
+        SetLastPatchDate MostRecentPatchDate
+
+  AutoPatching = False
+
+    End Sub
+
 End Module

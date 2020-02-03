@@ -45,4 +45,61 @@
         VersionShouldBe = WinCDSMajorVersion() & "." & WinCDSMinorVersion() & "." & IIf(ExeChannelDescriptor(DevChannel) = "", GetWinCDSRevisionNumber, Format(ExeChannelDescriptor(DevChannel), "0000")) & "." & (GetWinCDSBuildNumber() - IIf(EXEBackOne, 1, 0))
     End Function
 
+    Public Sub CheckCompanyInformation()
+        Const Cmt As String = ProgramName & " is created and maintained by " & CompanyName & ".  For information, sales, issues, or feature requests, contact " & AdminContactName & " at " & AdminContactPhone & "."
+        Const Dsc As String = ProgramDesc
+        Const Tmk As String = ProgramTradeMk
+        Const Prd As String = ProgramTag
+
+        Application.
+        If Application.CompanyName <> CompanyName Then DevErr("App.CompanyName <> CompanyName", vbCritical, "Developer Error - CheckCompanyInformation")
+        If App.Comments <> Cmt Then DevErr "App.Comments <> Comments", vbCritical, "Developer Error - CheckCompanyInformation"
+  If App.FileDescription <> Dsc Then DevErr "App.FileDescription <> Dsc", vbCritical, "Developer Error - CheckCompanyInformation"
+  If Application.ProductName <> Prd Then DevErr("App.ProductName <> Dsc", vbCritical, "Developer Error - CheckCompanyInformation")
+        If App.LegalTrademarks <> Tmk Then DevErr "App.LegalTrademarks <> Tmk", vbCritical, "Developer Error - CheckCompanyInformation"
+  If App.LegalCopyright <> SoftwareCopyright(True) Then
+            If App.LegalCopyright = Replace(SoftwareCopyright(True), CopyrightYear, CopyrightYear - 1) Then
+                DevErr "Hey Developer!!!" & vbCrLf2 & "You missed one!!" & vbCrLf2 & "Please enter Project Menu, Projet Properties, 'Make' Tab, and edit the copyright information." & vbCrLf2 & "Current Copyright Notice:" & vbCrLf & App.LegalCopyright, vbCritical, "Developer Error - CheckCompanyInformation"
+    Else
+                DevErr "App.LegalTrademarks <> Tmk", vbCritical, "Developer Error - CheckCompanyInformation"
+    End If
+        End If
+    End Sub
+
+    Public Sub CheckCopyrightDate()
+        Dim Dev As String
+        If Not IsDevelopment() Then Exit Sub
+        If Val(CopyrightYear) = Val(Year(Of Date)) - 1 And Month(Of Date)() = 1 And Day(Of Date)() <= 10 Then
+            Dev = "Hey Developer!!"
+            Dev = Dev & vbCrLf2 & "Go to modSetup and change CopyrightYear to " & Year(Of Date) & "."
+            Dev = Dev & vbCrLf & "Also Go to the Project menu, select WinCDS Properties, click on the Make Tab and change the Legal Copyright notice to reflect the new year."
+            Dev = Dev & vbCrLf2 & "This message is only visible to developers between January 1st and January 10th."
+            Dev = Dev & vbCrLf & "This message will go away automatically as soon as the copyright year is udpated."
+            If MsgBox(Dev, vbExclamation + vbRetryCancel, "Developer New Year Notice") = vbCancel Then End
+        End If
+    End Sub
+
+    Public Function CheckCertificateExpiration() As Boolean
+        Dim S As String, Expiration As Date
+
+        ' IDE only, of course.
+        If Not IsIDE() Then Exit Function
+
+        Expiration = CodeSignCertificateExpiration
+        CheckCertificateExpiration = True
+
+        If DateAfter(Of Date, DateAdd("m", -1, Expiration))() Then
+            S = ""
+            S = S & "!!!!!!!!!!!!!!!!!!  HEY DEVELOPER !!!!!!!!!!!!!!" & vbCrLf2
+            S = S & "Your Code Signing Certificate is about to expire" & vbCrLf
+            S = S & "On " & Expiration & "." & vbCrLf2
+            S = S & "*WARNING: If you do not renew and have a working" & vbCrLf
+            S = S & "certificate by then you will not be publish code" & vbCrLf
+            S = S & "that is signed, and will cause client errors." & vbCrLf2
+            S = S & "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            MsgBox S, vbCritical + vbMsgBoxRtlReading, "DEVELOPER WARNING -- IDE START-UP ONLY"
+    CheckCertificateExpiration = False
+        End If
+    End Function
+
 End Module

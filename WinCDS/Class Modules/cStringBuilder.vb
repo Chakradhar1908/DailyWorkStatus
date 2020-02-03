@@ -1,13 +1,16 @@
-﻿Public Class cStringBuilder
+﻿Imports System.Runtime.InteropServices
+Public Class cStringBuilder
     Private m_sString As String
     Private m_iChunkSize As Integer
     Private m_iPos As Integer
     Private m_iLen As Integer
-    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" _
-      (pDst As Object, pSrc As Object, ByVal ByteLen As Integer)
+
+    'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (pDst As Integer, pSrc As Integer, ByVal ByteLen As Integer)
+    Public Declare Auto Sub CopyMemory Lib "kernel32.dll" Alias "CopyMemory" (destination As IntPtr, source As IntPtr, length As UInteger)
 
     Public Sub Append(ByRef sThis As String)
-        Dim lLen As Integer
+        'Dim lLen As Integer
+        Dim lLen As UInteger
         Dim lLenPlusPos As Integer
 
         ' Append an item to the string:
@@ -26,8 +29,17 @@
             m_iLen = lTemp
         End If
 
+        Dim sourcePtr As IntPtr
+        Dim targetPtr As IntPtr
+        sourcePtr = Marshal.UnsafeAddrOfPinnedArrayElement(sThis.ToArray, 0)
+        targetPtr = Marshal.UnsafeAddrOfPinnedArrayElement(m_sString.ToArray, 0)
+        lLen = CUInt(sThis.ToArray.Length)
+
         'CopyMemory ByVal UnsignedAdd(StrPtr(m_sString), m_iPos), ByVal StrPtr(sThis), lLen
-        CopyMemory(UnsignedAdd(StrPtr(m_sString), m_iPos), StrPtr(sThis), lLen)
+        'CopyMemory(UnsignedAdd(Buffer(m_sString), m_iPos), StrPtr(sThis), lLen)
+
+        CopyMemory(targetPtr, sourcePtr, lLen)
+
         m_iPos = m_iPos + lLen
     End Sub
 

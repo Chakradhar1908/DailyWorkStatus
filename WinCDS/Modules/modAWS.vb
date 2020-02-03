@@ -402,4 +402,10 @@ NoItems:
         AWS_Sync_Folder = True
     End Function
 
+    Public Sub DoCommandLineBackup()
+        If Not AWS_AutoBackup() Then Exit Sub
+        AWS_Configure_ViaCommand  ' when run as a service, the credentials file are under user SYSTEM
+        DoAmazonAutoBackup()
+    End Sub
+
 End Module

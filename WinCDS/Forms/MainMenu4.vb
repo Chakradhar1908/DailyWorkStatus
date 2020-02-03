@@ -102,8 +102,8 @@ Public Class MainMenu4
     End Sub
 
     Private Sub ShowMsgs(Optional ByVal Show As Boolean = False)
-        msgs.Move(4000, 2550, 8025, 2700)
-        msgs.Visible = Show And msgs.CheckMessages
+        'msgs.Move(4000, 2550, 8025, 2700)        msgs is a custom active control. Still not developed.
+        'msgs.Visible = Show And msgs.CheckMessages
     End Sub
 
     Private Sub MainMenu4_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
@@ -245,12 +245,13 @@ Public Class MainMenu4
 
     Private Sub lblMenuItem_MouseMove(sender As Object, e As MouseEventArgs) Handles lblMenuItem.MouseMove
         'If imgMenuItem(Index).Width < 1000 Then MenuItemHighlight Index
-        If imgMenuItem.Width < 1000 Then MenuItemHighlight(Index)
+        Dim I As Integer
+        I = Mid(lblMenuItem.Name, 12)
+        If imgMenuItem.Width < 1000 Then MenuItemHighlight(I)
     End Sub
 
-    Private Sub m_cHotKey_HotKeyPress(ByVal sName As String, ByVal eModifiers As EHKModifiers, ByVal eKey As KeyCodeConstants)
-        ReadHotKeyPress sName
-  m_cHotKey
+    Private Sub m_cHotKey_HotKeyPress(ByVal sName As String, ByVal eModifiers As cRegHotKey.EHKModifiers, ByVal eKey As KeyCodeConstants)
+        ReadHotKeyPress(sName)
     End Sub
 
     Private ReadOnly Property ScreenDX() As Double
@@ -739,11 +740,16 @@ Public Class MainMenu4
     'Private Sub imgMenuItem_MouseExit(Index As Integer) : MenuItemHighlight Index, True: End Sub
 
     Private Sub imgMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles imgMenuItem.MouseEnter
-        MenuItemHighlight(Index)
+        Dim I As Integer
+        I = Mid(imgMenuItem.Name, 12)
+        MenuItemHighlight(I)
     End Sub
 
     Private Sub imgMenuItem_MouseLeave(sender As Object, e As EventArgs) Handles imgMenuItem.MouseLeave
-        MenuItemHighlight(Index, True)
+        'MenuItemHighlight(Index, True)
+        Dim I As Integer
+        I = Mid(imgMenuItem.Name, 12)
+        MenuItemHighlight(I, True)
     End Sub
 
     Public Sub MenuItemHighlight(ByVal Index As Long, Optional ByVal StopIt As Boolean = False)
@@ -822,11 +828,17 @@ Public Class MainMenu4
     'Private Sub lblMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
 
     Private Sub imgMenuItem_Click(sender As Object, e As EventArgs) Handles imgMenuItem.Click
-        SelectMenuItem(Index)
+        'SelectMenuItem(Index)
+        Dim I As Integer
+        I = Mid(imgMenuItem.Name, 12)
+        SelectMenuItem(I)
     End Sub
 
     Private Sub lblMenuItem_Click(sender As Object, e As EventArgs) Handles lblMenuItem.Click
-        SelectMenuItem(Index)
+        'SelectMenuItem(Index)
+        Dim I As Integer
+        I = Mid(lblMenuItem.Name, 12)
+        SelectMenuItem(I)
     End Sub
 
     Public Sub LoadMenuToForm(ByVal Menu As String)

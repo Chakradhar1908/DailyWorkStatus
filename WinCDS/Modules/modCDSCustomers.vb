@@ -372,4 +372,10 @@
             IsStanleys = CheckStoreName("Stanley")
         End Get
     End Property
+
+    Public Function InitializeForCDSCustomers() As Boolean
+        '  If IsHomeCrafters Then InitializeForHomecrafters
+        If IsOceanBoulevard And IsServer() Then InitializeForOceanBoulevard
+    End Function
+
 End Module

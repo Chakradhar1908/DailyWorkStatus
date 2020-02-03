@@ -410,6 +410,12 @@
     <Compile Include="Forms\frmMailExport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmMapDrive.Designer.vb">
+      <DependentUpon>frmMapDrive.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMapDrive.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmMenu.Designer.vb">
       <DependentUpon>frmMenu.vb</DependentUpon>
     </Compile>
@@ -570,6 +576,12 @@
       <DependentUpon>frmSpeech.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSpeech.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSplash.Designer.vb">
+      <DependentUpon>frmSplash.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSplash.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmSplash2.Designer.vb">
@@ -994,6 +1006,7 @@
     <Compile Include="Modules\modCodeVersioning.vb" />
     <Compile Include="Modules\modConfigTable.vb" />
     <Compile Include="Modules\modConnectCMD.vb" />
+    <Compile Include="Modules\modCPL.vb" />
     <Compile Include="Modules\modCreditCard.vb" />
     <Compile Include="Modules\modCSV.vb" />
     <Compile Include="Modules\modCustomizations.vb" />
@@ -1006,6 +1019,7 @@
     <Compile Include="Modules\modDebugging.vb" />
     <Compile Include="Modules\modDepartments.vb" />
     <Compile Include="Modules\modDevelopment.vb" />
+    <Compile Include="Modules\modDiagnostics.vb" />
     <Compile Include="Modules\modDiagnosticTools.vb" />
     <Compile Include="Modules\modDispatchTrack.vb" />
     <Compile Include="Modules\modDownloadURL.vb" />
@@ -1026,6 +1040,8 @@
     <Compile Include="Modules\modHTMLHelp.vb" />
     <Compile Include="Modules\modINET.vb" />
     <Compile Include="Modules\modINI.vb" />
+    <Compile Include="Modules\modINIInstall.vb" />
+    <Compile Include="Modules\modInitCommonControls.vb" />
     <Compile Include="Modules\modInteract.vb" />
     <Compile Include="Modules\modInternet.vb" />
     <Compile Include="Modules\modItemCost.vb" />
@@ -1038,6 +1054,8 @@
     <Compile Include="Modules\modMetaphone.vb" />
     <Compile Include="Modules\modMJKTest.vb" />
     <Compile Include="Modules\modNeoCaption.vb" />
+    <Compile Include="Modules\modNetworkDrives.vb" />
+    <Compile Include="Modules\modNightlyProcesses.vb" />
     <Compile Include="Modules\modNumbers.vb" />
     <Compile Include="Modules\modOnDemand.vb" />
     <Compile Include="Modules\modOptimization.vb" />
@@ -1048,6 +1066,7 @@
     <Compile Include="Modules\modPayPal.vb" />
     <Compile Include="Modules\modPictures.vb" />
     <Compile Include="Modules\modPODetail.vb" />
+    <Compile Include="Modules\modPractice.vb" />
     <Compile Include="Modules\modPrintRTF.vb" />
     <Compile Include="Modules\modPrintToolsCommon.vb" />
     <Compile Include="Modules\modProgramState.vb" />
@@ -1067,6 +1086,7 @@
     <Compile Include="Modules\modRevolving.vb" />
     <Compile Include="Modules\modRTF.vb" />
     <Compile Include="Modules\modSalesJournal.vb" />
+    <Compile Include="Modules\modScheduledTasks.vb" />
     <Compile Include="Modules\modService.vb" />
     <Compile Include="Modules\modSetACL.vb" />
     <Compile Include="Modules\modSetup.vb" />
@@ -1214,6 +1234,9 @@
     <EmbeddedResource Include="Forms\frmExport.resx">
       <DependentUpon>frmExport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmHTTPServer.resx">
+      <DependentUpon>frmHTTPServer.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmINet.resx">
       <DependentUpon>frmINet.vb</DependentUpon>
     </EmbeddedResource>
@@ -1244,6 +1267,9 @@
     <EmbeddedResource Include="Forms\frmPermissionMonitor.resx">
       <DependentUpon>frmPermissionMonitor.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPOEmails.resx">
+      <DependentUpon>frmPOEmails.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPrintPreviewDocument.resx">
       <DependentUpon>frmPrintPreviewDocument.vb</DependentUpon>
     </EmbeddedResource>
@@ -1270,6 +1296,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSendMail.resx">
       <DependentUpon>frmSendMail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSplash2.resx">
+      <DependentUpon>frmSplash2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmTransferReports.resx">
+      <DependentUpon>frmTransferReports.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTransferSetup.resx">
       <DependentUpon>frmTransferSetup.vb</DependentUpon>
@@ -1304,6 +1336,9 @@
     <EmbeddedResource Include="Forms\InvKitStock.resx">
       <DependentUpon>InvKitStock.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InvOrdStatus.resx">
+      <DependentUpon>InvOrdStatus.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvPoPrint.resx">
       <DependentUpon>InvPoPrint.vb</DependentUpon>
     </EmbeddedResource>
@@ -1327,6 +1362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainMenu4_Images.resx">
       <DependentUpon>MainMenu4_Images.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OnScreenReport.resx">
+      <DependentUpon>OnScreenReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrdConvertLAW.resx">
       <DependentUpon>OrdConvertLAW.vb</DependentUpon>

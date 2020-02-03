@@ -34,6 +34,13 @@
         vtResourceRequirementsList = &HA
     End Enum
 
+    Public Enum HKEYS
+        regHKCR = HKEY_CLASSES_ROOT
+        regHKCU = HKEY_CURRENT_USER
+        regHKLM = HKEY_LOCAL_MACHINE
+        regHKUS = &H80000003
+    End Enum
+
     Public Function GetCDSSetting(ByVal vKEY As String, Optional ByVal Defaults As String = "", Optional ByVal SubSection As String = "", Optional ByVal ForceRegistry As Boolean = False) As String
         '::::GetCDSSetting
         ':::SUMMARY
@@ -374,5 +381,40 @@ QueryValueExError:
         lRetVal = RegDeleteKey(hKey, sKeyName)
         RegCloseKey(hKey)
     End Sub
+
+    Public Function GetRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, Optional ByVal Default As String) As Variant
+        '::::GetRegistrySetting
+        ':::SUMMARY
+        ': Used to Get Registry Settings.
+        ':::DESCRITION
+        ': This function is used to display the user based Registry Settings.
+        ':::PARAMETERS
+        ': - HiveID
+        ': - Section
+        ': - vKEY
+        ': - Default
+        ':::RETURN
+        ': - Variant
+        GetRegistrySetting = QueryValue(HiveID, Section, vKEY)
+        If GetRegistrySetting = "" Then GetRegistrySetting = Default
+End Function
+
+    Public Sub SaveRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, ByVal Value As Variant, Optional ByVal RegType As REG_TYPE = vtString)
+        '::::SaveRegistrySetting
+        ':::SUMMARY
+        ': Used to Save Registry Settings.
+        ':::DESCRIPTION
+        ': This function is used to save Registry Settings.
+        ': The Windows registry is a database that stores configuration settings for Windows and the programs that run on Windows.
+        ': Data in the registry can be viewed and modified using the Windows programs regedt32.exe and regedit.exe.
+        ': Be very careful if you are not familiar with using either of these programs. If you modify registry settings incorrectly it can cause unpredictable results on your Windows computer.
+        ':::PARAMETERS
+        ': - HiveID
+        ': - Section
+        ': - vKEY
+        ': - Value
+        ': - RegType
+        SetKeyValue HiveID, Section, vKEY, Value, RegType
+End Sub
 
 End Module

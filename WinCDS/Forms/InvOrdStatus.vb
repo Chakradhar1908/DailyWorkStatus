@@ -6,7 +6,8 @@
 
     Public Sub CheckDeliveryStatus()
         Show()
-        cmdNextSale.Value = True
+        'cmdNextSale.Value = True
+        cmdNextSale.PerformClick()
     End Sub
 
 End Class

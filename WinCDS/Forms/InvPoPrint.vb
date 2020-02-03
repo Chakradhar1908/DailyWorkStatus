@@ -889,13 +889,13 @@ HandleErr:
 
     Public Sub OpenPOReport()
         Inven = "POR"
-        InvPoPrint.HelpContextID = 57900
+        'InvPoPrint.HelpContextID = 57900
         ' We want Print/Preview/Cancel buttons, and no date.
-        Caption = IIf(ReportsMode("Ashley"), "Ashley Open Po Report", "Open PO Report")
-        lblLabel.Caption = "Sort Order:"
+        Text = IIf(ReportsMode("Ashley"), "Ashley Open Po Report", "Open PO Report")
+        lblLabel.Text = "Sort Order:"
         txtDate.Visible = False
         cboSortOrder.Visible = True
-        cboSortOrder.ListIndex = 0
+        cboSortOrder.SelectedIndex = 0
         cmdPrint.Visible = True
         cmdPrintPreview.Visible = True
         Show()

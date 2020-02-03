@@ -153,4 +153,65 @@
         InitAddressList = True
     End Function
 
+    Public Function CheckSecureIPAddress() As Boolean
+        '::::CheckSecureIPAddress
+        ':::SUMMARY
+        ': Whether IP address is secure.
+        ':::DESCRIPTION
+        ': Returns true if the current computer's IP address is known to be a secure (CDS) IP address.
+        ':::RETURN
+        ': Boolean
+
+        If Not IP_CONTROL Then Exit Function
+        InitAddressList()
+        If CheckIPBanned() Then CheckSecureIPAddress = True : Exit Function
+        If CheckIPStoreName() Then CheckSecureIPAddress = True : Exit Function
+        If CheckIPStoreResetLicense() Then CheckSecureIPAddress = True : Exit Function
+        CheckSecureIPAddress = False
+    End Function
+
+    Private Function CheckIPBanned() As Boolean
+        If Not IPAddressIsBanned() Then Exit Function
+        License = LICENSE_DEMO                                        ' For now, we just invalidate their license key...
+        WriteStoreSetting(1, IniSections_StoreSettings.iniSection_StoreSettings, "License", License)
+        CheckIPBanned = True
+    End Function
+
+    Private Function CheckIPStoreName(Optional ByVal IP As String = "") As Boolean
+        Dim I As Integer
+        If IP = "" Then IP = ExternalIPAddress()
+
+        InitAddressList()
+
+        For I = 1 To IPCount
+            If IPActions(I).Action = IPAction.IPAct_SetStoreName Then
+                If IPActions(I).IP = IP And UCase(IPActions(I).Computer) = UCase(GetLocalComputerName) Then  ' If we match IP and Computer name, reset these store names...
+                    WriteStoreSetting(1, IniSections_StoreSettings.iniSection_StoreSettings, "Name", IPActions(I).Identifier)
+                    CheckIPStoreName = True
+                    Exit Function
+                End If
+            End If
+        Next
+    End Function
+
+    Private Function CheckIPStoreResetLicense(Optional ByVal IP As String = "") As Boolean
+        Dim I As Integer
+        If IP = "" Then IP = ExternalIPAddress()
+
+        InitAddressList()
+
+        For I = 1 To IPCount
+            If IPActions(I).Action = IPAction.IPAct_SetLicense Then
+                If IPActions(I).IP = IP Then  ' If we match IP and Computer name, reset these store names...
+                    If IPActions(I).StoreCount > 0 Then
+                        License = WinCDSLicenseCode(IPActions(I).StoreCount)
+                        WriteStoreSetting(1, IniSections_StoreSettings.iniSection_StoreSettings, "License", License)
+                        CheckIPStoreResetLicense = True
+                        Exit Function
+                    End If
+                End If
+            End If
+        Next
+    End Function
+
 End Module

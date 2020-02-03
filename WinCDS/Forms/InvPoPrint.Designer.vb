@@ -23,15 +23,16 @@ Partial Class InvPoPrint
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.fra = New System.Windows.Forms.GroupBox()
-        Me.lblLabel = New System.Windows.Forms.Label()
-        Me.txtDate = New System.Windows.Forms.DateTimePicker()
-        Me.lblLabel2 = New System.Windows.Forms.Label()
-        Me.cboLoc = New System.Windows.Forms.ComboBox()
-        Me.chkVendorSort = New System.Windows.Forms.CheckBox()
         Me.chkShowCost = New System.Windows.Forms.CheckBox()
+        Me.chkVendorSort = New System.Windows.Forms.CheckBox()
+        Me.cboLoc = New System.Windows.Forms.ComboBox()
+        Me.lblLabel2 = New System.Windows.Forms.Label()
+        Me.txtDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblLabel = New System.Windows.Forms.Label()
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdPrintPreview = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.cboSortOrder = New System.Windows.Forms.ComboBox()
         Me.fra.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -49,40 +50,16 @@ Partial Class InvPoPrint
         Me.fra.TabIndex = 0
         Me.fra.TabStop = False
         '
-        'lblLabel
+        'chkShowCost
         '
-        Me.lblLabel.AutoSize = True
-        Me.lblLabel.Location = New System.Drawing.Point(17, 17)
-        Me.lblLabel.Name = "lblLabel"
-        Me.lblLabel.Size = New System.Drawing.Size(43, 13)
-        Me.lblLabel.TabIndex = 0
-        Me.lblLabel.Text = "lblLabel"
-        '
-        'txtDate
-        '
-        Me.txtDate.CustomFormat = "MM/dd/yyyy"
-        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDate.Location = New System.Drawing.Point(20, 33)
-        Me.txtDate.Name = "txtDate"
-        Me.txtDate.Size = New System.Drawing.Size(121, 20)
-        Me.txtDate.TabIndex = 1
-        '
-        'lblLabel2
-        '
-        Me.lblLabel2.AutoSize = True
-        Me.lblLabel2.Location = New System.Drawing.Point(21, 64)
-        Me.lblLabel2.Name = "lblLabel2"
-        Me.lblLabel2.Size = New System.Drawing.Size(49, 13)
-        Me.lblLabel2.TabIndex = 2
-        Me.lblLabel2.Text = "lblLabel2"
-        '
-        'cboLoc
-        '
-        Me.cboLoc.FormattingEnabled = True
-        Me.cboLoc.Location = New System.Drawing.Point(20, 80)
-        Me.cboLoc.Name = "cboLoc"
-        Me.cboLoc.Size = New System.Drawing.Size(121, 21)
-        Me.cboLoc.TabIndex = 3
+        Me.chkShowCost.AutoSize = True
+        Me.chkShowCost.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.chkShowCost.Location = New System.Drawing.Point(20, 139)
+        Me.chkShowCost.Name = "chkShowCost"
+        Me.chkShowCost.Size = New System.Drawing.Size(77, 17)
+        Me.chkShowCost.TabIndex = 5
+        Me.chkShowCost.Text = "Show Cost"
+        Me.chkShowCost.UseVisualStyleBackColor = False
         '
         'chkVendorSort
         '
@@ -95,16 +72,40 @@ Partial Class InvPoPrint
         Me.chkVendorSort.Text = "Sort By Vendor"
         Me.chkVendorSort.UseVisualStyleBackColor = False
         '
-        'chkShowCost
+        'cboLoc
         '
-        Me.chkShowCost.AutoSize = True
-        Me.chkShowCost.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.chkShowCost.Location = New System.Drawing.Point(20, 139)
-        Me.chkShowCost.Name = "chkShowCost"
-        Me.chkShowCost.Size = New System.Drawing.Size(77, 17)
-        Me.chkShowCost.TabIndex = 5
-        Me.chkShowCost.Text = "Show Cost"
-        Me.chkShowCost.UseVisualStyleBackColor = False
+        Me.cboLoc.FormattingEnabled = True
+        Me.cboLoc.Location = New System.Drawing.Point(20, 80)
+        Me.cboLoc.Name = "cboLoc"
+        Me.cboLoc.Size = New System.Drawing.Size(121, 21)
+        Me.cboLoc.TabIndex = 3
+        '
+        'lblLabel2
+        '
+        Me.lblLabel2.AutoSize = True
+        Me.lblLabel2.Location = New System.Drawing.Point(21, 64)
+        Me.lblLabel2.Name = "lblLabel2"
+        Me.lblLabel2.Size = New System.Drawing.Size(49, 13)
+        Me.lblLabel2.TabIndex = 2
+        Me.lblLabel2.Text = "lblLabel2"
+        '
+        'txtDate
+        '
+        Me.txtDate.CustomFormat = "MM/dd/yyyy"
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.Location = New System.Drawing.Point(20, 33)
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.Size = New System.Drawing.Size(121, 20)
+        Me.txtDate.TabIndex = 1
+        '
+        'lblLabel
+        '
+        Me.lblLabel.AutoSize = True
+        Me.lblLabel.Location = New System.Drawing.Point(17, 17)
+        Me.lblLabel.Name = "lblLabel"
+        Me.lblLabel.Size = New System.Drawing.Size(43, 13)
+        Me.lblLabel.TabIndex = 0
+        Me.lblLabel.Text = "lblLabel"
         '
         'cmdPrint
         '
@@ -133,11 +134,20 @@ Partial Class InvPoPrint
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
+        'cboSortOrder
+        '
+        Me.cboSortOrder.FormattingEnabled = True
+        Me.cboSortOrder.Location = New System.Drawing.Point(66, 233)
+        Me.cboSortOrder.Name = "cboSortOrder"
+        Me.cboSortOrder.Size = New System.Drawing.Size(121, 21)
+        Me.cboSortOrder.TabIndex = 4
+        '
         'InvPoPrint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(188, 247)
+        Me.Controls.Add(Me.cboSortOrder)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdPrintPreview)
         Me.Controls.Add(Me.cmdPrint)
@@ -164,4 +174,5 @@ Partial Class InvPoPrint
     Friend WithEvents cmdPrint As Button
     Friend WithEvents cmdPrintPreview As Button
     Friend WithEvents cmdCancel As Button
+    Friend WithEvents cboSortOrder As ComboBox
 End Class

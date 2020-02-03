@@ -264,7 +264,8 @@ Failure:
         ':::PARAMETERS
         ': - Minutes - Indicates the minutes as long value.
 
-        If Minutes = 0 Then SuppressMessagesUntil = 0 : Exit Sub
+        'If Minutes = 0 Then SuppressMessagesUntil = 0 : Exit Sub
+        If Minutes = 0 Then SuppressMessagesUntil = Nothing : Exit Sub
         SuppressMessagesUntil = DateAdd("m", Minutes, Now)
     End Sub
 End Module

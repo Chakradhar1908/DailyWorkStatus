@@ -52,6 +52,11 @@
     Private SaleFound As Boolean
 
     Dim WasDelSale As Boolean, WriteOutAddedItems As Boolean, WriteOutRemovedAllUndelivered As Boolean
+
+    Private Sub OnScreenReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
     Dim AskedForTaxRate As Boolean
 
     Const AllowAdjustDel As Boolean = True
@@ -61,15 +66,18 @@
         ' Load and show this form..
         ' Customer and Sale information is loaded by MailCheck's Sale Found events.
         Show()
-        cmdNext.Value = True
+        'cmdNext.Value = True
+        cmdNext.PerformClick()
     End Sub
 
     Public Sub CustomerHistory()
         ' Load and show this form..
         ' Customer and sale information is loaded by MailCheck's Customer Found events.
-        Form_Load
+        'Form_Load
+        OnScreenReport_Load(Me, New EventArgs)
         Show()
-        cmdNext.Value = True
+        'cmdNext.Value = True
+        cmdNext.PerformClick()
     End Sub
 
 End Class

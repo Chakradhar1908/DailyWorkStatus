@@ -248,4 +248,10 @@
         Me.Close()
     End Sub
 
+    Public Sub DoCommandLineUpdate()
+        CommandLineUpdate = True
+        UpgradeNoMessages = True
+        DoSilentUpdate()
+    End Sub
+
 End Class

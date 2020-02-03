@@ -192,5 +192,23 @@ Module modDevelopment
         End Select
     End Function
 
+    Public Function SetDevMode(Optional ByVal State As Integer = 0) As Boolean
+        Select Case State
+            Case 0 : MANUAL_DEV_MODE = False : KillDevModeFile()
+            Case 1 : MANUAL_DEV_MODE = False : CreateDevModeFile()
+            Case 2 : MANUAL_DEV_MODE = True : KillDevModeFile()
+        End Select
+    End Function
+
+    Public Function KillDevModeFile() As Boolean
+        On Error Resume Next
+        KillDevModeFile = IsDevelopmentSTANDARD()
+        Kill(UpdateFolder() & "DEV.TXT")
+        If KillDevModeFile Then KillDevModeFile = Not IsDevelopmentSTANDARD()
+    End Function
+
+    Public Function CreateDevModeFile() As Boolean
+        WriteFile(UpdateFolder() & "DEV.TXT", "DEVELOPMENT", True, True)
+    End Function
 
 End Module
