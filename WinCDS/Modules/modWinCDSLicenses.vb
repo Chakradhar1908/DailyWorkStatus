@@ -165,11 +165,16 @@
         ConvertWinCDSLicenseCode(S, WinCDSLicenseValid)
     End Function
 
+    Public Function IsDemoExpired() As Boolean
+        If Not IsDemo() Then Exit Function
+        IsDemoExpired = DateAfter(Today, DemoExpirationDate)
+    End Function
+
     Public Function NotifyDemoExpired(Optional ByVal CommandLine As String = "") As Boolean
         Const tCaption As String = "DEMO Trial Period Expired"
         If IsDemoExpired Then
             If IsIDE() Then
-                Dim R As VbMsgBoxResult, Discard, S As String
+                Dim R As VBA.VbMsgBoxResult, Discard, S As String
                 S = ""
                 S = S & "You are running in the VB6 IDE." & vbCrLf2
                 S = S & "This data is set as a DEMO INSTALL and is EXPIRED." & vbCrLf

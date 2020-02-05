@@ -489,4 +489,10 @@ FoundNotPackage:
     Private Function HTMLBS(ByVal S As String) As String
         HTMLBS = IIf(Trim(S) = "", "&nbsp;", S)
     End Function
+
+    Public Function SameStatus(ByRef Stat1 As String, ByRef Stat2 As String) As Boolean
+        If Stat1 = Stat2 Then SameStatus = True : Exit Function
+        If Stat1 Like "*SOR*" And Stat2 Like "*SOR*" Then SameStatus = True : Exit Function
+    End Function
+
 End Module

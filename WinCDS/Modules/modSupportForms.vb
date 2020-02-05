@@ -197,7 +197,7 @@ Module modSupportForms
         SelectOptionX = frmSelectOption.SelectOptionArray(nTitle, selType, T, SelectButtonCaption, PreSelChk)
     End Function
 
-    Public Function PermissionMonitor(Optional ByVal Pane As Long = -1, Optional ByVal OnTop As Boolean = False) As Boolean
+    Public Function PermissionMonitor(Optional ByVal Pane As Integer = -1, Optional ByVal OnTop As Boolean = False) As Boolean
         '::::OpenPermissionMonitor
         ':::SUMMARY
         ': Used to open the Permission Monitor.
@@ -247,7 +247,7 @@ Module modSupportForms
 Failure:
     End Function
 
-    Public Sub SuppressMessages(Optional ByVal Minutes As Long = 0)
+    Public Sub SuppressMessages(Optional ByVal Minutes As Integer = 0)
         '::::SuppressMessages
         ':::SUMMARY
         ': Used to Temporarily Suppress messages through MsgBox
@@ -262,7 +262,7 @@ Failure:
         ': - Turn off Message Suppression
         ': So , this function is used to Suppress that type of Messages which we do not like to see that messages by Client.
         ':::PARAMETERS
-        ': - Minutes - Indicates the minutes as long value.
+        ': - Minutes - Indicates the minutes as integer value.
 
         'If Minutes = 0 Then SuppressMessagesUntil = 0 : Exit Sub
         If Minutes = 0 Then SuppressMessagesUntil = Nothing : Exit Sub

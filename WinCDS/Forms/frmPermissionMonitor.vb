@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Interaction
 Public Class frmPermissionMonitor
+    Private SettingsLoaded As Boolean
     Public Sub ShowLog(Optional ByVal ClearIt As Boolean = False)
         If ClearIt Then ActiveLogClear()
         ActiveLogLoadClasses(cmbLogType)
@@ -135,7 +136,7 @@ Public Class frmPermissionMonitor
     End Sub
 
     Public Sub LoadSettings()
-        Dim S As String, X As Variant
+        Dim S As String, X As Object
         If SettingsLoaded Then Exit Sub
         SettingsLoaded = True
 

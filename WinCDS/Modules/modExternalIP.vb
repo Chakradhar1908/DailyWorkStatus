@@ -44,7 +44,7 @@
             Exit Function
         End If
 
-        'ExternalIPAddress = INETGET(IPServerURL)
+        ExternalIPAddress = INETGET(IPServerURL)
         mIPStore = ExternalIPAddress
         If mIPStore = "" Then mIPStore = "[UNKNOWN]"
 
@@ -90,7 +90,8 @@
 
         InitAddressList()
 
-        For I = 1 To IPCount
+        'For I = 1 To IPCount
+        For I = 0 To IPCount - 1
             If IPActions(I).Action = IPAction.IPAct_DisableLicense Then
                 If IPActions(I).IP = IP Then IPAddressIsBanned = True : Exit Function
             End If

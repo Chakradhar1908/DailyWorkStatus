@@ -55,8 +55,9 @@
   A = "C:\Program Files (x86)\WinCDS\"
   If FolderExists(A) Then AppFolder = A: Exit Function
 #End If
-
-        AppFolder = CleanDir(AppDomain.CurrentDomain.BaseDirectory, NoTrailingBackslash)
+        'AppFolder = CleanDir(App.Path, NoTrailingBackslash)
+        'AppFolder = CleanDir(AppDomain.CurrentDomain.BaseDirectory, NoTrailingBackslash)
+        AppFolder = CleanDir(My.Application.Info.DirectoryPath, NoTrailingBackslash)
     End Function
 
     Public Function CleanDir(ByVal S As String, Optional ByVal NoTrailingBackslash As Boolean = False) As String
@@ -259,13 +260,13 @@
         '::Aliases
         ':  IsAbsolutePath
         Dim N As String, X As Integer, Y As Integer
-        'If IsPathAbsolute(F) Then
-        '    N = F
-        'ElseIf Path = "" Then
-        '    N = AppFolder() & F
-        'Else
-        '    N = CleanDir(Path) & F
-        'End If
+        If IsPathAbsolute(F) Then
+            N = F
+        ElseIf Path = "" Then
+            N = AppFolder() & F
+        Else
+            N = CleanDir(Path) & F
+        End If
 
         Do While InStr(N, "\\") <> 0
             N = Replace(N, "\\", "\")

@@ -21,4 +21,11 @@
             TrueFalseValue = IsIn(LCase(Left(V, 1)), "t", "1", "y")
         End If
     End Function
+
+    Public Function TrueFalse(ByVal Value As Boolean, Optional ByVal vUCase As Boolean = False, Optional ByVal SingleChar As Boolean = False) As String
+        TrueFalse = IIf(Value, "True", "False")
+        If vUCase Then TrueFalse = UCase(TrueFalse)
+        If SingleChar Then TrueFalse = Left(TrueFalse, 1)
+    End Function
+
 End Module

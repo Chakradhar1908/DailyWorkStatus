@@ -120,7 +120,7 @@ NoControl:
     End Sub
 
     Public Sub OnDemandStartup()
-        Dim I As Long
+        Dim I As Integer
         'Exit Sub
         On Error GoTo DontCrash
         GetUpdateList ' discard result
@@ -130,15 +130,54 @@ NoControl:
         OnDemandUpdate = True
         initOnDemand()
         '  OnDemandWinCDS
-        If Not IsDevelopment() Then SuppressMessages 5
-  For I = LBound(ODList) To UBound(ODList)
-            If Not OnDemand_Test(ODList(I)) Then OnDemand_Install ODList(I)
-  Next
+        If Not IsDevelopment() Then SuppressMessages(5)
+        For I = LBound(ODList) To UBound(ODList)
+            If Not OnDemand_Test(ODList(I)) Then OnDemand_Install(ODList(I))
+        Next
         SuppressMessages()
         OnDemandUpdate = False
 
 DontCrash:
     End Sub
+
+    Private Function OnDemand_Install(D As OnDemandDef) As Boolean
+        Dim X As String
+
+        On Error GoTo OnDemandInstallFail
+        LogStartup("ON DEMAND INSTALL: " & D.Reference & " (" & D.FileName & ") - " & OnDemandDefType(D.vType))
+
+        modUpgrade.InstallFontName = D.Reference
+        OnDemand_Install = modUpgrade.DownloadAndInstallComponent(D.FileName, OnDemandURL(D), D.Location, D.Install)
+        modUpgrade.InstallFontName = ""
+
+        If Not OnDemand_Install Then
+            If IsCDSComputer(10) Then
+                Debug.Print("Could not Just-In-Time install OCX: " & D.FileName & vbCrLf & "Your program may fail to load correctly.")
+            Else
+                ErrMsg("Could not Just-In-Time install OCX: " & D.FileName & vbCrLf & "Your program may fail to load correctly.")
+            End If
+        End If
+
+        OnDemand_Install = True
+        Exit Function
+
+OnDemandInstallFail:
+        LogStartup("ON DEMAND INSTALL:  Error [" & Err.Number & "]: " & Err.Description)
+    End Function
+
+    Private Function OnDemandURL(ByRef D As OnDemandDef) As String
+        OnDemandURL = WebUpdateURL & D.FileName
+    End Function
+
+    Private Function OnDemandDefType(ByVal odType As OnDemandType) As String
+        Select Case odType
+            Case OnDemandType.odtExists : OnDemandDefType = "OnDemandType - EXISTS"
+            Case OnDemandType.odtControl : OnDemandDefType = "OnDemandType - OCX"
+            Case OnDemandType.odtCreateObject : OnDemandDefType = "OnDemandType - CREATEOBJECT"
+            Case OnDemandType.odtFont : OnDemandDefType = "OnDemandType - FONT"
+            Case Else : OnDemandDefType = "OnDemandType - UNKNOWN"
+        End Select
+    End Function
 
     Public Sub DoOfflineUpdate()
         OfflineUpdate = True
@@ -148,11 +187,24 @@ DontCrash:
         If OfflineUpdateSourceFolder <> "" Then
             If FileExists(OfflineUpdateSourceFolder & WinCDSEXEName(True, True)) Then
                 On Error Resume Next
-                Kill WinCDSFolder() & WinCDSEXEName(True, True)
-      FileCopy OfflineUpdateSourceFolder & WinCDSEXEName(True, True), WinCDSFolder() & WinCDSEXEName(True, True)
-    End If
-
+                Kill(WinCDSFolder() & WinCDSEXEName(True, True))
+                FileCopy(OfflineUpdateSourceFolder() & WinCDSEXEName(True, True), WinCDSFolder() & WinCDSEXEName(True, True))
+            End If
         End If
     End Sub
+
+    Private Sub LogComputerVersionUpgrade()
+        Dim Cn As String, Ver As String
+        Cn = GetLocalComputerName()
+        Ver = ReadIniValue(ComputerVersionsINI, "Current Version", Cn)
+        If Ver <> CurrentVersion Then
+            LogFile("upgrade-history", ArrangeString(Cn, 30) & CurrentVersion() & IIf(Ver <> "", " [was " & Ver & "]", ""), False)
+            WriteIniValue(ComputerVersionsINI, "Current Version", Cn, CurrentVersion)
+        End If
+    End Sub
+
+    Private Function ComputerVersionsINI() As String
+        ComputerVersionsINI = InventFolder() & "versions.txt"
+    End Function
 
 End Module

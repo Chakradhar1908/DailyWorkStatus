@@ -701,4 +701,21 @@ PrinterDialogCancelled:
             If OutputObject = Printer Then DescribeOutputObject = DescribeOutputObject & "[PRINTER]"
         End If
     End Function
+
+    Public Function DescribeScaleMode(ByVal sC As Integer) As String
+        Select Case sC
+            Case vbCentimeters : DescribeScaleMode = "vbCentimeters - 7"
+            Case vbCharacters : DescribeScaleMode = "vbCharacters - 4"
+            Case VBRUN.ScaleModeConstants.vbContainerPosition : DescribeScaleMode = "vbCharacterPosition - 9"
+            Case VBRUN.ScaleModeConstants.vbContainerSize : DescribeScaleMode = "vbContainerSize - 10"
+            Case vbHimetric : DescribeScaleMode = "vbHimetric - 8"
+            Case vbInches : DescribeScaleMode = "vbInches - 5"
+            Case vbMillimeters : DescribeScaleMode = "vbMillimeters - 6"
+            Case vbPixels : DescribeScaleMode = "vbPixels - 3"
+            Case vbPoints : DescribeScaleMode = "vbPoints - 2"
+            Case vbTwips : DescribeScaleMode = "vbTwips - 1"
+            Case vbUser : DescribeScaleMode = "vbUser - 0"
+            Case Else : DescribeScaleMode = "[UNKNOWN]"
+        End Select
+    End Function
 End Module

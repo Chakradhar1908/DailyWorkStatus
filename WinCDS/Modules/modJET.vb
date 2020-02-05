@@ -82,17 +82,17 @@
         ': - ForceAll
         ':::RETURN
         ': Boolean : Returns True.
-        Dim X() As Variant, I As Long, N As Long
+        Dim X() As Object, I As Integer, N As Integer
         Dim dB As String
 
         If Not ForceAll Then
-            ArrAdd X, "Enter Pathname"
-    ArrAdd X, "All WinCDS Databases"
-    ArrAdd X, "Inventory"
-    For I = 1 To LicensedNoOfStores()
-                ArrAdd X, "Store #" & I
-    Next
-            N = SelectOptionArray("Compact / Repair - JET Engine", SelOpt_List, X, "Select Database")
+            ArrAdd(X, "Enter Pathname")
+            ArrAdd(X, "All WinCDS Databases")
+            ArrAdd(X, "Inventory")
+            For I = 1 To LicensedNoOfStores()
+                ArrAdd(X, "Store #" & I)
+            Next
+            N = SelectOptionArray("Compact / Repair - JET Engine", frmSelectOption.ESelOpts.SelOpt_List, X, "Select Database")
         Else
             N = 2
         End If
@@ -102,13 +102,13 @@
             dB = InputBox("Path:", "Enter Database Name", InventFolder)
             If dB = "" Then Exit Function
             If Not FileExists(dB) Then
-                MsgBox "File does not exist:" & vbCrLf & dB
-      Exit Function
+                MessageBox.Show("File does not exist:" & vbCrLf & dB)
+                Exit Function
             End If
         ElseIf N = 2 Then
             For I = 1 To NoOfActiveLocations
-                CompactRepairJETDatabase GetDatabaseAtLocation(I)
-    Next
+                CompactRepairJETDatabase(GetDatabaseAtLocation(I))
+            Next
             dB = GetDatabaseInventory()
         Else
             dB = IIf(N = 3, GetDatabaseInventory, GetDatabaseAtLocation(N - 3))
@@ -117,12 +117,66 @@
         '    Exit Function
         '  End If
 
-        CompactRepairJETDatabase dB
+        CompactRepairJETDatabase(dB)
 
-  MsgBox "Complete.", vbInformation, "Compact And Repair - JET Engine", , , 5
+        MessageBox.Show("Complete.", "Compact And Repair - JET Engine")
+
+        CompactRepairJETAllDDBs = True
+    End Function
+
+    Public Function CompactRepairJETDatabase(ByVal strSourceDB As String, Optional ByVal xPwd As String = "#") As Boolean
+        '::::CompactRepairJETDatabase
+        ':::SUMMARY
+        ': Used to Compact and Repair the JET DataBase.
+        ':::DESCRIPTION
+        ': This function is used to Compact and Repair the JET DataBase.
+        ':::PARAMETERS
+        ': - strSourceDB - Indicates the Source DataBase.
+        ': - xPwd
+        ':::RETURN
+        ': Boolean : Returns True.
+        Dim strDestDB As String
+        Dim JetEngine As jro.JetEngine
+        Dim strSourceConnect As String
+        Dim strDestConnect As String
+
+        If xPwd = "#" Then xPwd = DatabasePassword
+
+        ' Build connection strings for SourceConnection and
+        strSourceConnect = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & strSourceDB & "'"
+        If xPwd <> "" Then
+            strSourceConnect = strSourceConnect & ";User ID=Admin;Jet OLDEDB:Database Password=" & xPwd & ";"
+        End If
+
+        strDestDB = TempFile(, , ".mdb", False)
+        strDestConnect = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & strDestDB & "'"
+        If xPwd <> "" Then
+            strDestConnect = strDestConnect & ";User ID=Admin;Jet OLEDB:Encrypt Database=True;" & "Jet OLEDB:Database Password=" & xPwd & ";"
+        End If
+        ' DestConnection arguments.
 
 
-  CompactRepairJETAllDDBs = True
+        JetEngine = New jro.JetEngine
+
+        ' Compact and encrypt the database specified by strSourceDB
+        ' to the name and path specified by strDestDB.
+
+        ProgressForm(0, 1, "JET - Compacting...")
+        JetEngine.CompactDatabase(strSourceConnect, strDestConnect)
+        ProgressForm()
+
+        JetEngine = Nothing
+
+        If Not FileExists(strDestDB) Then
+            MessageBox.Show("Failed to create target DB." & vbCrLf & "  Src=" & strSourceDB & vbCrLf & "  Dst=" & strDestDB)
+            Exit Function
+        End If
+
+        DeleteFileIfExists(strSourceDB)
+        FileCopy(strDestDB, strSourceDB)
+        DeleteFileIfExists(strDestDB)
+
+        CompactRepairJETDatabase = True
     End Function
 
 End Module

@@ -412,7 +412,7 @@ Module modStringFunctions
         WrapLongTextByPrintWidth = Out
     End Function
 
-    Public Function RandomAlphaNumString(ByVal nLen As Long) As String
+    Public Function RandomAlphaNumString(ByVal nLen as integer) As String
         '::::RandomAlphaNumString
         ':::SUMMARY
         ': generates a random alphanumeirc string of a given length
@@ -426,7 +426,7 @@ Module modStringFunctions
         ':  String
         ':::SEE ALSO
         ': CreateUniqueID
-        Dim I As Long, C As Byte
+        Dim I as integer, C As Byte
 
         RandomAlphaNumString = ""
         Randomize()

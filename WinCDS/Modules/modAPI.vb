@@ -58,6 +58,7 @@ Module modAPI
     'Private Declare Function GetWindowWord Lib "USER32" (ByVal hwnd as integer, ByVal nIndex as integer) As Integer -vb6.0
     Private Declare Function GetWindowWord Lib "USER32" (ByVal hwnd As IntPtr, ByVal nIndex As Integer) As Integer 'vb.net
     Private Declare Function GetModuleFileName Lib "kernel32" Alias "GetModuleFileNameA" (ByVal hModule As Integer, ByVal lpFileName As String, ByVal nSize As Integer) As Integer
+    Public Declare Function IsUserAnAdmin Lib "shell32" Alias "#680" () As Integer
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd as integer, ByVal wMsg as integer, ByVal wParam as integer, lParam As Any) as integer - vb6.0
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As String) As IntPtr
     <DllImport("user32.dll", CharSet:=CharSet.Auto)>
@@ -464,8 +465,7 @@ Module modAPI
         LastProcessID = ShellExecute(GetDesktopWindow(), sTopic, sFIle, sParams, sDirectory, nShowCmd)
     End Sub
     Public Function EnsureFolderExists(ByVal sFileName As String, Optional ByVal bCreate As Boolean = False) As String
-        If Len(sFileName) = 0 Then EnsureFolderExists = UpdateFolder() : 
-        Exit Function
+        If Len(sFileName) = 0 Then EnsureFolderExists = UpdateFolder() : Exit Function
 
         EnsureFolderExists = CleanPath(sFileName, , True)
 
@@ -856,7 +856,7 @@ Module modAPI
     Public Function CurrentEXEDirectory(Optional ByVal DoUCase As Boolean = True, Optional ByVal DoShort As Boolean = True) As String
         On Error Resume Next
         Dim S As String, A As Integer
-        S = CurrentEXEFileName
+        S = CurrentEXEFileName()
         If S = "" Then Exit Function
         A = InStrRev(S, "\")
         If A = 0 Then Exit Function
@@ -886,8 +886,10 @@ Module modAPI
 
     Public Function CurrentEXEFileName(Optional ByVal DoUCase As Boolean = True, Optional ByVal DoShort As Boolean = True) As String
         On Error Resume Next
-        Dim ModuleName As String * 128 '@NO-LINT-NTYP
-  Dim FileName As String, hinst As Integer
+        'Dim ModuleName As String * 128 '@NO-LINT-NTYP
+        Dim ModuleName As String
+
+        Dim FileName As String, hinst As Integer
         'create a buffer
         ModuleName = New String(Chr(0), 128)
         'get the hInstance application:
@@ -901,4 +903,22 @@ Module modAPI
         If DoUCase Then CurrentEXEFileName = UCase(CurrentEXEFileName)
     End Function
 
+    Public Function TicksElapsed(ByRef Ref As Integer, ByVal Limit As Integer) As Boolean
+        If Ref = 0 Then Ref = GetTickCount
+        TicksElapsed = GetTickCount < Ref + Limit
+    End Function
+
+    Public Function TicksSecondsRemaining(ByRef Ref As Integer, ByVal Limit As Integer) As Integer
+        TicksSecondsRemaining = (Limit - (GetTickCount - Ref)) / 1000 + 1
+    End Function
+
+    Public Sub RunShellExecuteAdminArgs(ByVal App As String, ByVal Args As String, Optional ByVal cDir As String = "", Optional ByVal nHwnd As Integer = 0, Optional ByVal WindowState As Integer = SW_SHOWNORMAL)
+        If nHwnd = 0 Then nHwnd = GetDesktopWindow()
+        LastProcessID = ShellExecute(nHwnd, "runas", App, Args, cDir, WindowState)
+        '  ShellExecute nHwnd, "runas", App, Command & " /admin", vbNullString, SW_SHOWNORMAL
+    End Sub
+
+    Public Function TicksNotElapsed(ByRef Ref As Integer, ByVal Limit As Integer) As Boolean
+        TicksNotElapsed = Not TicksElapsed(Ref, Limit)
+    End Function
 End Module

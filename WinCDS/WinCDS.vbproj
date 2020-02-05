@@ -14,6 +14,21 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -342,6 +357,12 @@
       <DependentUpon>frmDeliveryMap.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmDeliveryMap.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDemoNotify.Designer.vb">
+      <DependentUpon>frmDemoNotify.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDemoNotify.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmDesignTag.Designer.vb">
@@ -985,6 +1006,7 @@
     <Compile Include="Modules\mod2Data.vb" />
     <Compile Include="Modules\mod2DataPictures.vb" />
     <Compile Include="Modules\mod2DataTransfers.vb" />
+    <Compile Include="Modules\modAccessDBs.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
     <Compile Include="Modules\modAddresses.vb" />
     <Compile Include="Modules\modAmericanHeritageInsurance.vb" />
@@ -1081,6 +1103,7 @@
     <Compile Include="Modules\modQuickBooks_Comunication.vb" />
     <Compile Include="Modules\modQuickBooks_Constants.vb" />
     <Compile Include="Modules\modQuickBooks_Interface.vb" />
+    <Compile Include="Modules\modRaycom.vb" />
     <Compile Include="Modules\modReceipts.vb" />
     <Compile Include="Modules\modRegistry.vb" />
     <Compile Include="Modules\modRevolving.vb" />
@@ -1090,6 +1113,7 @@
     <Compile Include="Modules\modService.vb" />
     <Compile Include="Modules\modSetACL.vb" />
     <Compile Include="Modules\modSetup.vb" />
+    <Compile Include="Modules\modShareFolder.vb" />
     <Compile Include="Modules\modSoundEX.vb" />
     <Compile Include="Modules\modSplit.vb" />
     <Compile Include="Modules\modStores.vb" />
@@ -1110,6 +1134,7 @@
     <Compile Include="Modules\modWebIntegration.vb" />
     <Compile Include="Modules\modWinCDSLicenses.vb" />
     <Compile Include="Modules\modWindowsVersions.vb" />
+    <Compile Include="Modules\modWinError.vb" />
     <Compile Include="Modules\modXML.vb" />
     <Compile Include="Modules\modYahooXMLOrders.vb" />
     <Compile Include="Modules\modZipUnzip.vb" />
@@ -1228,6 +1253,9 @@
     <EmbeddedResource Include="Forms\frmDeliveryMap.resx">
       <DependentUpon>frmDeliveryMap.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDemoNotify.resx">
+      <DependentUpon>frmDemoNotify.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>
     </EmbeddedResource>
@@ -1248,6 +1276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLicenseAgreement.resx">
       <DependentUpon>frmLicenseAgreement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMapDrive.resx">
+      <DependentUpon>frmMapDrive.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMsg2.resx">
       <DependentUpon>frmMsg2.vb</DependentUpon>
@@ -1387,6 +1418,9 @@
     <EmbeddedResource Include="Forms\PassWord.resx">
       <DependentUpon>PassWord.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Practice.resx">
+      <DependentUpon>Practice.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RestoreInv.resx">
       <DependentUpon>RestoreInv.vb</DependentUpon>
     </EmbeddedResource>
@@ -1453,6 +1487,14 @@
     <COMReference Include="Axcipwin32">
       <Guid>{33DDE9A4-E91D-419D-9497-3D4CE75B35DC}</Guid>
       <VersionMajor>2</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxComCtl2">
+      <Guid>{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}</Guid>
+      <VersionMajor>1</VersionMajor>
       <VersionMinor>1</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
@@ -1588,6 +1630,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="ComCtl2">
+      <Guid>{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="ComctlLib">
       <Guid>{6B7E6392-850A-101B-AFC0-4210102A8DA7}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -1619,6 +1670,15 @@
       <Guid>{48E59290-9880-11CF-9754-00AA00C00908}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="JRO">
+      <Guid>{AC3B8B4C-B6CA-11D1-9F31-00C04FC29D52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>6</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
@@ -2011,6 +2071,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\STOP.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

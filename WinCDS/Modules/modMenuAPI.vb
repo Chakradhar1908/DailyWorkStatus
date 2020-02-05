@@ -1,10 +1,10 @@
 ﻿Module modMenuAPI
     Private Structure POINTAPI
-        Dim X As Long
-        Dim Y As Long
+        Dim X as integer
+        Dim Y as integer
     End Structure
-    Private Declare Function GetCursorPos Lib "USER32" (lpPoint As POINTAPI) As Long
-    Private Const WM_GETSYSMENU As Long = &H313
+    Private Declare Function GetCursorPos Lib "USER32" (lpPoint As POINTAPI) as integer
+    Private Const WM_GETSYSMENU as integer = &H313
 
     Public Sub SystemMenuOnMouseUp(ByRef M As Form)
         Dim pt As POINTAPI

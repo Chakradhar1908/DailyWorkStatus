@@ -5,6 +5,10 @@
     Private Const UMSG_TITLE_STAT As String = "Upgrade Status"
     Private Const UMSG_TITLE_FAIL As String = "Upgrade Failure"
     Public InstallFontName As String
+    Public Const RevertMax As Integer = 15
+    Public Const RevertDef As Integer = 10
+    Public CommandLineUpdate As Boolean
+
     Public Function GetInstallDir(ByVal vKEY As String) As String
         Dim R As String
         If Left(vKEY, 1) = "$" Then
@@ -89,7 +93,7 @@
         A = A & "&k=" & LCase(License)
         A = A & "&p=" & "" '### Password -- Passed but not checked into StoreAllowed()..
         A = A & "&d=" & DateFormat(GetCurrentEXEDate(True), "-")
-        A = A & ExtraURLParams
+        A = A & ExtraURLParams()
 
         CurrentVersionURL = URLEncode(A)
     End Function
@@ -198,7 +202,7 @@
         ' It will handle the semafore, kill processes, and anything else needed.
         '  SetReplaceWinCDS toCopy
         '  ShellOut.RunFile toCopy
-        MainModule.RestartProgram
+        MainModule.RestartProgram()
         '  MainMenu.ShutDown True
         End  ' just in case (and visibility here)...  not needed b/c it's in MM.ShutDown
 
@@ -320,16 +324,16 @@
         Select Case LCase(Install)
             Case "$dllselfregister"
                 PushDir(DestPath)
-                RunFileAsAdmin(RegSvr32EXE & " /s " & fBase)
-                PopDir
+                RunFileAsAdmin(RegSvr32EXE() & " /s " & fBase)
+                PopDir()
             Case "$tlbregister"
                 PushDir(DestPath)
-                ShellAndWait(RegAsmEXE & " /tlb:" & fBase & ".tlb /nologo")
-                PopDir
+                ShellAndWait(RegAsmEXE() & " /tlb:" & fBase & ".tlb /nologo")
+                PopDir()
             Case "$tlb"
                 PushDir(GetWindowsSystemDir)
-                ShellAndWait(RegTLIBEXE & " -q " & fBase)
-                PopDir
+                ShellAndWait(RegTLIBEXE() & " -q " & fBase)
+                PopDir()
             Case "$2com"
                 ' regasm /tlb:optimroute.tlb optimroute.dll /nologo
                 ' gacutil /i optimroute.dll /nologo
@@ -337,17 +341,17 @@
                 'C:\WINDOWS\MICROS~1.NET\FRAMEW~1\V11~1.432\GACUtil.exe /i optimroute.dll /nologo
 
                 PushDir(DestPath)
-                ShellAndWait(RegAsmEXE & " /tlb:" & fBase & ".tlb " & fBase & ".dll /nologo")
+                ShellAndWait(RegAsmEXE() & " /tlb:" & fBase & ".tlb " & fBase & ".dll /nologo")
                 'BFH20170119
                 ' Apparently, the gacutil is only part of the SDK, and is not very useful...
                 ' The above should be sufficient..
                 '      ShellAndWait GACUtilEXE & " /i " & fBase & ".dll /nologo"
-                PopDir
+                PopDir()
             Case "$unzip"
                 frmBackUpGeneric.UnzipFiles(toReplace, DestPath, False)
                 'Unload frmBackUpGeneric
                 frmBackUpGeneric.Close()
-                If UCase(T) = "AUTOVNC" Then CreateShortcutforAutoVNC
+                If UCase(T) = "AUTOVNC" Then CreateShortcutforAutoVNC()
             Case "$exe"
                 ShellOut.ShellOut(toReplace)
             Case "$installini"
@@ -369,11 +373,11 @@
 
         On Error GoTo NoDesktopIcon
 
-        DeleteFileIfExists(AllUsersDesktopFolder & OldLinkFileName)
+        DeleteFileIfExists(AllUsersDesktopFolder() & OldLinkFileName)
 
         F = CreateObject("WScript.Shell")
-        IconFileName = AllUsersDesktopFolder & ProgramName & " Connect.lnk"
-        TargetDir = WinCDSAutoVNCFolder
+        IconFileName = AllUsersDesktopFolder() & ProgramName & " Connect.lnk"
+        TargetDir = WinCDSAutoVNCFolder()
         EXEFileName = TargetDir & "Connect.cmd"
 
         If Dir(IconFileName) = "" Then
@@ -446,10 +450,10 @@ NoDesktopIcon:
     End Function
 
     Public Function CheckReplaceWinCDS() As Boolean
-        Dim TickRef As Long
+        Dim TickRef As Integer
         Dim MainEXE As String
         Dim TargetEXEFile As String
-        Dim N As Long, S As String
+        Dim N As Integer, S As String
         Dim exeReplace As String
         Const SemaphoreShutdownTimer = 20000 ' 20s
         Const DEFAULT_PROGRESS = "Upgrading " & ProgramName & "..."
@@ -457,167 +461,298 @@ NoDesktopIcon:
         Const TITLE_FAIL As String = "Could Not Upgrade"
         ' With all this, some downloads fail, and the program becomes LOCKED OUT, because it cannot run the broken EXE
         ' This should be set to about 65% of the current EXE size, to filter out most of these issues.
-        Const UPGRADE_THRESHHOLD As Long = 15 ' MB
+        Const UPGRADE_THRESHHOLD As Integer = 15 ' MB
 
         '  TargetEXEFile = GetFilePath(ThisEXEFile) & WINCDS_REPLACE
         exeReplace = InventFolder(True) & "update\" & WinCDSEXEName(True, True)
 
         If UCase(ThisEXEFile) <> UCase(exeReplace) Then
-            UpdateLog "CheckReplaceWincds: Non Update: " & UCase(ThisEXEFile) & " <> " & UCase(exeReplace)
-'    TargetEXEFile = GetFilePath(ThisEXEFile) & WINCDS_REPLACE
+            UpdateLog("CheckReplaceWincds: Non Update: " & UCase(ThisEXEFile) & " <> " & UCase(exeReplace))
+            '    TargetEXEFile = GetFilePath(ThisEXEFile) & WINCDS_REPLACE
             If FileExists(exeReplace) Then
                 If FileLen(exeReplace) < FileSize_1MB * UPGRADE_THRESHHOLD Then GoTo BadUpdate
-                UpdateLog "CheckReplaceWincds: Replacement Exists... "
-      If NoReplace Or FileVersion(exeReplace) = FileVersion(ThisEXEFile) Then
-                    UpdateLog "CheckReplaceWincds: " & IIf(NoReplace, "No Replace", "Same Version") & " -- Clearing"
+                UpdateLog("CheckReplaceWincds: Replacement Exists... ")
+                If NoReplace Or FileVersion(exeReplace) = FileVersion(ThisEXEFile) Then
+                    UpdateLog("CheckReplaceWincds: " & IIf(NoReplace, "No Replace", "Same Version") & " -- Clearing")
 
-        KillProcess exeReplace                                    ' Kill it just to be safe
+                    KillProcess(exeReplace)                                    ' Kill it just to be safe
                     If Not KillWinCDSFromTaskList(exeReplace, True) Then
-                        UpdateLog "CheckReplaceWincds: BACKUP KILL FAILED"      ' Take no action, just log it
+                        UpdateLog("CheckReplaceWincds: BACKUP KILL FAILED")      ' Take no action, just log it
                     End If
 
-                    CreateReversion
-                    DeleteFileIfExists exeReplace
-        If FileExists(exeReplace) Then UpdateLog "CheckReplaceWinCDS: Could not remove replacement on normal start."
-      Else
-                    UpdateLog "CheckReplaceWincds: Launching Replacement Install... "
-        RunFileAsAdmin exeReplace
-        End
+                    CreateReversion()
+                    DeleteFileIfExists(exeReplace)
+                    If FileExists(exeReplace) Then UpdateLog("CheckReplaceWinCDS: Could not remove replacement on normal start.")
+                Else
+                    UpdateLog("CheckReplaceWincds: Launching Replacement Install... ")
+                    RunFileAsAdmin(exeReplace)
+                    End
                 End If
             End If
 BadUpdate:
-            UpdateLog "CheckReplaceWinCDS: Continuing Normal Start..."
-    CheckReplaceWinCDS = False
+            UpdateLog("CheckReplaceWinCDS: Continuing Normal Start...")
+            CheckReplaceWinCDS = False
             Exit Function
         End If
 
 
-        UpdateLog "CheckReplaceWincds: UPDATING, Admin=" & UACIsAdmin & ", Elev=" & IsElevated()
-' This absolutely requires administrator priviledges
+        UpdateLog("CheckReplaceWincds: UPDATING, Admin=" & UACIsAdmin() & ", Elev=" & IsElevated())
+        ' This absolutely requires administrator priviledges
         ' None of these methods seem reliable... We'll retry if delete fails...
         If Not IsWinXP() And Not IsElevated() Then
 NotElevated:
-            UpdateLog "CheckReplaceWincds: Re-running as admin."
-    RunFileAsAdmin ThisEXEName
-    End
+            UpdateLog("CheckReplaceWincds: Re-running as admin.")
+            RunFileAsAdmin(ThisEXEName)
+            End
         End If
 
-        S = DEFAULT_PROGRESS : ProgressForm 0, 1, S, , , , prgIndefinite
+        S = DEFAULT_PROGRESS : ProgressForm(0, 1, S, , , , ProgressBarStyle.prgIndefinite)
 
-  MainEXE = WinCDSEXEName(True, True)
+        MainEXE = WinCDSEXEName(True, True)
         TargetEXEFile = WinCDSEXEFile(True, True, True)
 
         ' the tasklist version takes too long and can't shut down via this method anyway...  Skip semafore if it doesn't show up this way
         If IsProcessRunning(MainEXE) Then
             If ProcessCount(MainEXE) > 1 Then                       ' ALLOW CURRENT PROCESS TO BE RUNNING
-                UpdateLog "CheckReplaceWincds: WinCDS IS running."
+                UpdateLog("CheckReplaceWincds: WinCDS IS running.")
 
-' During this time, while the semefore file exists, any other running copies of WinCDs
+                ' During this time, while the semefore file exists, any other running copies of WinCDs
                 ' should be checking for this file ever 15-20s or so, and should shut themselves down
                 ' if it exists... This is the 'clean' way, and it could fail, but we would prefer this
                 ' over end tasking the running copies...
-                ShutdownSemaforeFile CreateIt:=True
-      Do While TicksElapsed(TickRef, SemaphoreShutdownTimer) And ProcessCount(MainEXE) > 1
+                ShutdownSemaforeFile(CreateIt:=True)
+                Do While TicksElapsed(TickRef, SemaphoreShutdownTimer) And ProcessCount(MainEXE) > 1
                     If TicksSecondsRemaining(TickRef, SemaphoreShutdownTimer) <> N Then
                         N = TicksSecondsRemaining(TickRef, SemaphoreShutdownTimer)
                         S = "Signalling WinCDS Shutdown (" & N & "s)..."
-                        ProgressForm 0, 1, S, , , , prgIndefinite
-        End If
+                        ProgressForm(0, 1, S, , , , ProgressBarStyle.prgIndefinite)
+                    End If
 
-                    DoEvents
+                    Application.DoEvents()
                 Loop
-                DoEvents
-                ShutdownSemaforeFile DeleteIt:=True
-    End If
+                Application.DoEvents()
+                ShutdownSemaforeFile(DeleteIt:=True)
+            End If
         End If
 
-        If S <> DEFAULT_PROGRESS Then S = DEFAULT_PROGRESS : ProgressForm 0, 1, S, , , , prgIndefinite
+        If S <> DEFAULT_PROGRESS Then S = DEFAULT_PROGRESS : ProgressForm(0, 1, S, , , , ProgressBarStyle.prgIndefinite)
 
-' This way would kill the updater process as well... Don't do this!
+        ' This way would kill the updater process as well... Don't do this!
         '' After waiting the alloted time, we remove the semafore, and try the direct way...
         '  If IsProcessRunning(MainEXE, True) Then
         '    UpdateLog "CheckReplaceWincds: Doing a hard kill."
         '    KillProcess MainEXE, True
         '  End If
         '
-        If IsProcessRunning(MainEXE) Or CountWinCDSFromTaskList > 0 Then
-            UpdateLog "CheckReplaceWincds: Performing backup kill."
-    If Not KillWinCDSFromTaskList(, True) Then
-                UpdateLog "CheckReplaceWincds: ----- BACKUP KILL FAILED -----."
-      UpdateLog "CheckReplaceWincds: IsProcessRunning(MainEXE)=" & IsProcessRunning(MainEXE) & ", CountWinCDSFromTaskList=" & CountWinCDSFromTaskList
-      UpdateLog "CheckReplaceWincds: KillResult: " & KillWinCDSFromTaskList(, True)
-      UpdateLog "CheckReplaceWincds: If this is displaying in log, we will need to find a more sure way to kill any running WinCDS exe."
-      UpdateLog "CheckReplaceWincds: Semafore failed"
-'      UpdateLog "CheckReplaceWincds: KillProcess() failed"
-                UpdateLog "CheckReplaceWincds: Command-line taskkill failed"
-      UpdateLog "CheckReplaceWincds: What else is there?!"
-      UpdateLog "CheckReplaceWincds: ----- BACKUP KILL FAILED -----."
-    End If
+        If IsProcessRunning(MainEXE) Or CountWinCDSFromTaskList() > 0 Then
+            UpdateLog("CheckReplaceWincds: Performing backup kill.")
+            If Not KillWinCDSFromTaskList(, True) Then
+                UpdateLog("CheckReplaceWincds: ----- BACKUP KILL FAILED -----.")
+                UpdateLog("CheckReplaceWincds: IsProcessRunning(MainEXE)=" & IsProcessRunning(MainEXE) & ", CountWinCDSFromTaskList=" & CountWinCDSFromTaskList())
+                UpdateLog("CheckReplaceWincds: KillResult: " & KillWinCDSFromTaskList(, True))
+                UpdateLog("CheckReplaceWincds: If this is displaying in log, we will need to find a more sure way to kill any running WinCDS exe.")
+                UpdateLog("CheckReplaceWincds: Semafore failed")
+                '      UpdateLog "CheckReplaceWincds: KillProcess() failed"
+                UpdateLog("CheckReplaceWincds: Command-line taskkill failed")
+                UpdateLog("CheckReplaceWincds: What else is there?!")
+                UpdateLog("CheckReplaceWincds: ----- BACKUP KILL FAILED -----.")
+            End If
         End If
 
-        If S <> DEFAULT_PROGRESS Then S = DEFAULT_PROGRESS : ProgressForm 0, 1, S, , , , prgIndefinite
+        If S <> DEFAULT_PROGRESS Then S = DEFAULT_PROGRESS : ProgressForm(0, 1, S, , , , ProgressBarStyle.prgIndefinite)
 
-' If, after all of that, it's still running, we ask them to do it for us...
+        ' If, after all of that, it's still running, we ask them to do it for us...
 TryCheckAgain:
-        UpdateLog "CheckReplaceWincds: IsProcessRunning=" & TrueFalse(IsProcessRunning(MainEXE)) & ", CountWinCDSFromTaskList=" & CountWinCDSFromTaskList
-  If CountWinCDSFromTaskList("", True) > 1 Then
-            UpdateLog "CheckReplaceWincds: IsProcessRunning=" & TrueFalse(IsProcessRunning(MainEXE)) & ", CountWinCDSFromTaskList=" & CountWinCDSFromTaskList
-    UpdateLog "CheckReplaceWincds: Failed to shut down all processes..  Retry?"
-    If MsgBox("Could not shut down other copies of " & ProgramName & "." & vbCrLf2 & "Please manually shut down all other copies of WinCDS running on this computer and try again." & vbCrLf2 & "Click Retry when all other copies are shut down, or click Cancel to proceed without upgrade.", vbCritical + vbRetryCancel, TITLE_FAIL) = vbRetry Then
-                UpdateLog "CheckReplaceWincds: Retrying..."
-      GoTo TryCheckAgain
+        UpdateLog("CheckReplaceWincds: IsProcessRunning=" & TrueFalse(IsProcessRunning(MainEXE)) & ", CountWinCDSFromTaskList=" & CountWinCDSFromTaskList())
+        If CountWinCDSFromTaskList("", True) > 1 Then
+            UpdateLog("CheckReplaceWincds: IsProcessRunning=" & TrueFalse(IsProcessRunning(MainEXE)) & ", CountWinCDSFromTaskList=" & CountWinCDSFromTaskList())
+            UpdateLog("CheckReplaceWincds: Failed to shut down all processes..  Retry?")
+            If MessageBox.Show("Could not shut down other copies of " & ProgramName & "." & vbCrLf2 & "Please manually shut down all other copies of WinCDS running on this computer and try again." & vbCrLf2 & "Click Retry when all other copies are shut down, or click Cancel to proceed without upgrade.", TITLE_FAIL, MessageBoxButtons.RetryCancel) = DialogResult.Retry Then
+                UpdateLog("CheckReplaceWincds: Retrying...")
+                GoTo TryCheckAgain
             End If
 
             '     Ignore the upgrade...
             ProgressForm()
-            UpdateLog "CheckReplaceWincds: Nope.  Update aborted"
-    RunFile TargetEXEFile & " /NoReplace   ' Launch the main (updated) EXE..."
-    End                     ' And quit this one...  This update version will be deleted by main program
+            UpdateLog("CheckReplaceWincds: Nope.  Update aborted")
+            RunFile(TargetEXEFile & " /NoReplace   ' Launch the main (updated) EXE...")
+            End                     ' And quit this one...  This update version will be deleted by main program
         End If
 
-        If S <> DEFAULT_PROGRESS Then S = DEFAULT_PROGRESS : ProgressForm 0, 1, S, , , , prgIndefinite
+        If S <> DEFAULT_PROGRESS Then S = DEFAULT_PROGRESS : ProgressForm(0, 1, S, , , , ProgressBarStyle.prgIndefinite)
 
-'  APICopyFile ThisEXEFile, TargetEXEFile, False
-        UpdateLog "CheckReplaceWincds: Clearing old Main EXE"
-  DeleteFileIfExists TargetEXEFile
-  If FileExists(TargetEXEFile) Then
-            UpdateLog "CheckReplaceWincds: Failed to clear "
-    If Not TestWriteFolder(GetFilePath(TargetEXEFile)) Then
+        '  APICopyFile ThisEXEFile, TargetEXEFile, False
+        UpdateLog("CheckReplaceWincds: Clearing old Main EXE")
+        DeleteFileIfExists(TargetEXEFile)
+        If FileExists(TargetEXEFile) Then
+            UpdateLog("CheckReplaceWincds: Failed to clear ")
+            If Not TestWriteFolder(GetFilePath(TargetEXEFile)) Then
                 ProgressForm()
-                UpdateLog "CheckReplaceWincds: Test Write Failed - Retrying as admin..."
-      GoTo NotElevated
+                UpdateLog("CheckReplaceWincds: Test Write Failed - Retrying as admin...")
+                GoTo NotElevated
             End If
-            MsgBox "Could not clear old EXE version: " & vbCrLf & TargetEXEFile, vbCritical, TITLE_FAIL
-    End
+            MessageBox.Show("Could not clear old EXE version: " & vbCrLf & TargetEXEFile, TITLE_FAIL)
+            End
         End If
 
-        UpdateLog "CheckReplaceWincds: Upgrading WinCDS"
-  FileCopy ThisEXEFile, TargetEXEFile
-  If Not FileExists(TargetEXEFile) Then
+        UpdateLog("CheckReplaceWincds: Upgrading WinCDS")
+        FileCopy(ThisEXEFile, TargetEXEFile)
+        If Not FileExists(TargetEXEFile) Then
             ProgressForm()
-            UpdateLog "CheckReplaceWincds: Upgrading WinCDS -- FAILED TO COPY (they have no EXE now)"
-    MsgBox "Could not install new version of WinCDS: " & vbCrLf & TargetEXEFile, vbCritical, TITLE_FAIL
-    End
+            UpdateLog("CheckReplaceWincds: Upgrading WinCDS -- FAILED TO COPY (they have no EXE now)")
+            MessageBox.Show("Could not install new version of WinCDS: " & vbCrLf & TargetEXEFile, TITLE_FAIL)
+            End
         End If
 
         If Not IsWinXP() Then
-            ProgressForm 0, 1, "Restarting WinCDS.exe...", , , , prgSpin
-  Else
+            ProgressForm(0, 1, "Restarting WinCDS.exe...", , , , ProgressBarStyle.prgSpin)
+        Else
             ProgressForm()            ' ...hide the progress form...
         End If
 
-        DoEvents
+        Application.DoEvents()
 
-        UpdateLog "CheckReplaceWincds: Upgrade completed... Restarting main EXE"
-  RunFile TargetEXEFile   ' Launch the main (updated) EXE...
+        UpdateLog("CheckReplaceWincds: Upgrade completed... Restarting main EXE")
+        RunFile(TargetEXEFile)   ' Launch the main (updated) EXE...
 
-        If Not IsWinXP() Then Sleep 5000
+        If Not IsWinXP() Then Sleep(5000)
 
-  UpdateLog "CheckReplaceWincds: Ending Upgrade"
-  End                     ' ...And close this upgrade version
+        UpdateLog("CheckReplaceWincds: Ending Upgrade")
+        End                     ' ...And close this upgrade version
 
         ' Code never leaves this function if it's replacing...
         CheckReplaceWinCDS = True
+    End Function
+
+    Public Function CreateReversion() As Boolean
+        Dim F As String, V As String, P As String
+        On Error Resume Next
+        F = WinCDSEXEFile(True, True, True)
+        V = FileVersion(F)
+        P = GetFilePath(F) & WinCDSEXEName() & "." & V & ".exe"
+
+        DeleteFileIfExists(P)
+        FileCopy(F, P)
+
+        CreateReversion = FileExists(P)
+
+        CleanReversions()
+    End Function
+
+    Public Sub CleanReversions(Optional ByVal rMax As Integer = RevertDef)
+        Dim R As clsHashTable, N As Integer
+        rMax = FitRange(0, rMax, RevertMax)
+
+        R = LoadReversions()
+
+        For N = Val(R.Item("Count")) To rMax + 1 Step -1
+            DeleteFileIfExists(WinCDSFolder() & R.Item("" & N))
+        Next
+
+        R = Nothing
+    End Sub
+
+    Public Function LoadReversions() As clsHashTable
+        Dim V As String
+        Dim I As Integer, S As Object, L As Object
+        V = WinCDSEXEName(, True, True)
+        S = AllFiles(WinCDSFolder)
+        SortIt(S)
+        LoadReversions = New clsHashTable
+
+        For Each L In S
+            If UCase(Left(L, Len(V))) = V And UCase(L) <> WinCDSEXEName(True, True, True) Then
+                I = I + 1
+                LoadReversions.Add("" & I, L)
+            End If
+        Next
+
+        LoadReversions.Add("Count", I)
+    End Function
+
+    Private Sub SortIt(ByRef pvarArray As Object)
+        Dim I As Integer, iMin As Integer, iMax As Integer
+        Dim varSwap As Object, blnSwapped As Boolean
+
+        iMin = LBound(pvarArray)
+        iMax = UBound(pvarArray) - 1
+        Do
+            blnSwapped = False
+            For I = iMin To iMax
+                If pvarArray(I) < pvarArray(I + 1) Then
+                    varSwap = pvarArray(I)
+                    pvarArray(I) = pvarArray(I + 1)
+                    pvarArray(I + 1) = varSwap
+                    blnSwapped = True
+                End If
+            Next
+            iMax = iMax - 1
+        Loop Until Not blnSwapped
+    End Sub
+
+    Public Function GetUpdateList() As String
+        Dim I As Integer
+
+        For I = CompanyURLMin To CompanyURLAltMax
+            URLTryAlt = I
+            If DownloadURLToFile(CurrentVersionURL, CurrentVersionLCL) Then GoTo Success
+        Next
+
+Success:
+        URLTryAlt = 0
+        GetUpdateList = ReadEntireFile(CurrentVersionLCL)
+    End Function
+
+    Public Function DownloadAndInstallComponent(ByVal fName As String, ByVal URL As String, ByVal DestPath As String, ByVal Install As String) As Boolean
+        Dim T As String
+        T = UpdateFolder() & fName
+
+        On Error Resume Next
+        If FileExists(T) Then Kill(T)
+        If FileExists(T) Then
+            MessageBox.Show("Could not remove existing file: " & fName & vbCrLf & T)
+            Exit Function
+        End If
+
+        If Not OfflineUpdate Then
+            If Not DownloadURLToFile(URL, T) Then
+                MessageBox.Show("Could not download component: " & fName & vbCrLf & URL)
+                Exit Function
+            End If
+        Else
+            Dim TDir As String
+            TDir = OfflineUpdateSourceFolder()
+
+            If TDir <> "" Then
+                If Not FileExists(TDir & GetFileName(T)) Then
+                    MessageBox.Show("Upgrade Item Missing: " & GetFileName(T) & vbCrLf & TDir)
+                    Exit Function
+                End If
+                FileCopy(TDir & GetFileName(T), T)
+                If Not FileExists(T) Then
+                    MessageBox.Show("Could not locate component after copy: " & GetFileName(T))
+                    Exit Function
+                End If
+            Else
+                MessageBox.Show("Could not find install source location for offline update." & vbCrLf & "Please insert your CD and try again.")
+                Exit Function
+            End If
+        End If
+
+        DownloadAndInstallComponent = InstallUpgrade(fName, UpdateFolder, GetInstallDir(DestPath), Install)
+    End Function
+
+    Public Function OfflineUpdateSourceFolder() As String
+        Dim L As Integer
+        For L = Asc("D") To Asc("Z")
+            OfflineUpdateSourceFolder = Chr(L) & ":\"
+            If DirExists(OfflineUpdateSourceFolder & "WinCDS-Components\") Then Exit Function
+        Next
+
+        OfflineUpdateSourceFolder = AppFolder()
+        If FolderExists(OfflineUpdateSourceFolder & "WinCDS-Components\") Then Exit Function
+
+        OfflineUpdateSourceFolder = ""
     End Function
 
 End Module

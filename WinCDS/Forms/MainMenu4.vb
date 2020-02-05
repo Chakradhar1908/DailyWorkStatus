@@ -2,14 +2,13 @@
 Imports VBRUN
 Imports Microsoft.VisualBasic.Interaction
 Imports stdole
-
 Public Class MainMenu4
-    Private Const FRM_W_MIN As Long = 14355
-    Private Const FRM_H_MIN As Long = 9810
-    Private Const WM_NCLBUTTONDOWN As Long = &HA1
-    Private Const HTCAPTION As Long = 2
-    Private Const MINWIDTH As Long = 762
-    Private Const MINHEIGHT As Long = 507
+    Private Const FRM_W_MIN As Integer = 14355
+    Private Const FRM_H_MIN As Integer = 9810
+    Private Const WM_NCLBUTTONDOWN As Integer = &HA1
+    Private Const HTCAPTION As Integer = 2
+    Private Const MINWIDTH As Integer = 762
+    Private Const MINHEIGHT As Integer = 507
     ' BFH20060522 - Info about the controls on this page:
     '   MSComm1             - Used only in Functions::OpenCashDrawer
     '   tmrMaintafin        - Only referenced in MainMenu::tmrMaintain_Timer.. used to restart the program and perform maintenance.  Disables itself if a file named PreventRestart.txt exists in the local Store1\NewOrder\ folder
@@ -38,9 +37,9 @@ Public Class MainMenu4
     '   datPicture
     '
     ' Store Info for the store we're currently logged into.
-    Public CurrentMenu As String, ParentMenu As String, CurrentMenuIndex As Long
+    Public CurrentMenu As String, ParentMenu As String, CurrentMenuIndex As Integer
 
-    Private Initializing As Boolean, Highlighting As String, ActiveForm As Boolean, CurrentHLIndex As Long, ItemHLIndex As Long
+    Private Initializing As Boolean, Highlighting As String, ActiveForm As Boolean, CurrentHLIndex As Integer, ItemHLIndex As Integer
     Public MouseX As Single, MouseY As Single
     Public LastMouseMove As Date
     Public ZeroLaunch As String
@@ -125,7 +124,7 @@ Public Class MainMenu4
         'imgInfo.Move ScaleWidth - imgInfo.Width, 0
         imgInfo.Location = New Point(Me.ClientSize.Width - imgInfo.Width, 0)
 
-        Const bW As Long = 30
+        Const bW As Integer = 30
 
         'imgStoreLogo.Move ScaleWidth / 2 - 5415 / 2, ScaleHeight - 1325 - 1755 / 2, 5415, 1755
         imgStoreLogo.Location = New Point(Me.ClientSize.Width / 2 - 5415 / 2, Me.ClientSize.Height - 1325 - 1755 / 2)
@@ -161,8 +160,8 @@ Public Class MainMenu4
     End Sub
 
     Private Sub LoadMainMenu()
-        Dim I As Long, J As Long, Count As Long, X As Long, Y As Long
-        Dim Cap As String, R As Long, M As Long, TPP As Long
+        Dim I As Integer, J As Integer, Count As Integer, X As Integer, Y As Integer
+        Dim Cap As String, R As Integer, M As Integer, TPP As Integer
         Dim MenuCaptions() As Object
 
         ShowInfo(False)
@@ -325,7 +324,7 @@ Public Class MainMenu4
 
     ' backup GM lines to csv file to help catch void bug
     Public Function BackupSale(ByVal LeaseNo As String, Optional ByVal RemoveFile As Boolean = False) As Boolean
-        Dim F As String, I As Long
+        Dim F As String, I As Integer
         F = InventFolder() & "Sale-" & LeaseNo & ".csv"
 
         On Error Resume Next
@@ -378,7 +377,7 @@ Public Class MainMenu4
     End Sub
 
     Private Sub tmrMaintain_Tick(sender As Object, e As EventArgs) Handles tmrMaintain.Tick
-        MainMenu_Maintain_Timer
+        MainMenu_Maintain_Timer()
     End Sub
 
     Private Sub KeyCatch_KeyDown(sender As Object, e As KeyEventArgs) Handles KeyCatch.KeyDown
@@ -430,7 +429,7 @@ Public Class MainMenu4
     End Sub
 
     Private Sub lblHelp_Click()
-        LaunchHelp
+        LaunchHelp()
     End Sub
 
     Private Sub lblLogin_Click()
@@ -505,7 +504,7 @@ Public Class MainMenu4
         MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1), True)
     End Sub
 
-    Private Sub MainMenuPulse(ByVal Index As Long, Optional ByVal StopIt As Boolean = False)
+    Private Sub MainMenuPulse(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False)
         tmrPulse.Enabled = True
         'bvb(Index).LightnessPct = 0  -> Commented this line. Because in vb6, bvb is an "alphaimage" control. But .Net is not supporting it. 
         '--> So replaced it with picturebox control. And picturebox does not have "LightnessPct" property.
@@ -517,8 +516,8 @@ Public Class MainMenu4
     End Sub
 
     Private Sub tmrPulse_Tick(sender As Object, e As EventArgs) Handles tmrPulse.Tick
-        Const C As Long = 6
-        Const T As Long = 1200
+        Const C As Integer = 6
+        Const T As Integer = 1200
         Const Q As Double = 300
         Dim R As Double
 
@@ -540,10 +539,10 @@ Public Class MainMenu4
         MainMenuClick(Microsoft.VisualBasic.Right(p.Name, 1))
     End Sub
 
-    Public Sub MainMenuClick(ByVal Index As Long)
+    Public Sub MainMenuClick(ByVal Index As Integer)
         On Error Resume Next
-        Dim I As Long, K As String
-        Dim C As Long, W As Long
+        Dim I As Integer, K As String
+        Dim C As Integer, W As Integer
         Dim T As Boolean
 
         If Index = 5 And Not Installment Then
@@ -582,7 +581,7 @@ Public Class MainMenu4
         'W = bvb(0).Width
         W = bvb0.Width
 
-        Dim Tk As Long, Mk As Long
+        Dim Tk As Integer, Mk As Integer
         Tk = GetTickCount
         Mk = Tk + C
         Do While GetTickCount < Mk
@@ -752,11 +751,11 @@ Public Class MainMenu4
         MenuItemHighlight(I, True)
     End Sub
 
-    Public Sub MenuItemHighlight(ByVal Index As Long, Optional ByVal StopIt As Boolean = False)
+    Public Sub MenuItemHighlight(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False)
         Const X As Double = 0.15
-        Dim I As Long, C As Long
-        Dim L As Long, T As Long
-        Dim D As Long
+        Dim I As Integer, C As Integer
+        Dim L As Integer, T As Integer
+        Dim D As Integer
 
         If Index < 0 Then
             imgSelected.Visible = False
@@ -786,7 +785,7 @@ Public Class MainMenu4
                 'imgMenuItem(Index).Effects.GrayScale = lvicNoGrayScale
                 imgSelected.Visible = False
             Else
-                Dim Tk As Long, Mk As Long
+                Dim Tk As Integer, Mk As Integer
                 C = 150
                 Tk = GetTickCount
                 Mk = Tk + C
@@ -842,7 +841,7 @@ Public Class MainMenu4
     End Sub
 
     Public Sub LoadMenuToForm(ByVal Menu As String)
-        Dim I As Long, ArtPic As String, Art As StdPicture
+        Dim I As Integer, ArtPic As String, Art As StdPicture
         ActiveLog("MainMenu::LoadMenuToForm(" & Menu & ")", 4)
 
         ShowMsgs(Menu = "")
@@ -899,7 +898,7 @@ Public Class MainMenu4
     End Sub
 
     Private Function UnloadHRs() As Boolean
-        Dim I As Long
+        Dim I As Integer
         'For I = imgHR.UBound To 1 Step -1
         'Unload imgHR(I)
         'Unload lblHR(I)
@@ -908,8 +907,8 @@ Public Class MainMenu4
         UnloadHRs = True
     End Function
 
-    Private Function LoadHR(ByVal Caption As String, ByVal X As Long, ByVal Y As Long, Optional ByVal W As Long = 4500) As Boolean
-        Dim N As Long
+    Private Function LoadHR(ByVal Caption As String, ByVal X As Integer, ByVal Y As Integer, Optional ByVal W As Integer = 4500) As Boolean
+        Dim N As Integer
         'N = imgHR.UBound + 1
         'Load imgHR(N)
         'Set imgHR(N).Picture = imgHR(0).Picture
@@ -925,10 +924,10 @@ Public Class MainMenu4
     End Function
 
     Private Sub GenericLoader(ByVal MenuName As String)
-        Dim MM As MyMenu, Idx As Long, Li As Long, Lh As Long
-        Dim I As Long, Src As String, Ctrl As StdPicture, MICap As String, TTT As String
+        Dim MM As MyMenu, Idx As Integer, Li As Integer, Lh As Integer
+        Dim I As Integer, Src As String, Ctrl As StdPicture, MICap As String, TTT As String
         Dim MI As MyMenuItem, HR As MyMenuHR
-        Dim R As Long, TPP As Long, TPP2 As Long
+        Dim R As Integer, TPP As Integer, TPP2 As Integer
 
         'TPP = Screen.TwipsPerPixelX
         'TPP2 = Screen.TwipsPerPixelY
@@ -1021,8 +1020,8 @@ Public Class MainMenu4
 
     End Sub
 
-    Public Function SelectMenuItem(Optional ByVal Index As Long = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "") As Boolean
-        Dim X As Long, F As String
+    Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "") As Boolean
+        Dim X As Integer, F As String
         Dim Operation As String, Source As String, MI As MyMenuItem
         ActiveLog("MainMenu::SelectMenuItem(" & Index & ", " & ExplicitMenu & ", " & ExplicitOperation & ")", 5)
 
@@ -1058,7 +1057,7 @@ Public Class MainMenu4
     End Function
 
     Public Function CalcBase64() As String
-        CalcBase64 = SoftwareVersionForLog
+        CalcBase64 = SoftwareVersionForLog()
     End Function
 
     Private Sub WebServ_HandleGET(FileName As String, Result As String, StatusCode As String, Headers As String)
@@ -1084,7 +1083,7 @@ Public Class MainMenu4
     End Sub
 
     Private Sub mnuHelpSupport_Click()
-        LaunchAutoVNC
+        LaunchAutoVNC()
     End Sub
     Private Sub mnuHelpUploadLogs_Click()
         DiagnosticDataUpload(Logs:=True)
@@ -1096,7 +1095,7 @@ Public Class MainMenu4
         MessageBox.Show(AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True), "Company Contact Information")
     End Sub
     Private Sub mnuHelpContents_Click()
-        ShowHelp
+        ShowHelp()
     End Sub
     Private Sub mnuHelpAbout_Click()
         'frmVersionControl.Show 1
@@ -1176,12 +1175,13 @@ Public Class MainMenu4
     End Sub
 
     Private Sub MainMenu4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Main()
         Try
             If modKillBug.KillBug Then End
             AdjustFormForLargeFonts()
             InitForm()
             StoreLogIn()  ' Default store 1
-            modSetup.CheckEXEUpdate
+            modSetup.CheckEXEUpdate()
             mUpdateInstance = Random(120)
 
             CurrentMenuIndex = 1
@@ -1196,7 +1196,7 @@ Public Class MainMenu4
             '  SetCustomFrame Me, ncMacLook
 
             'NOTE: In vb6, for image control(imgPicture) assigned datasource as datacontrl and datafied as "Picture" column(code is in mod2DataPictures modules ->GetDatabasePicture function).
-            'Replacement for it in vb.net is the below line. This code line is not in vb6. Values are directly assigned in the design time properties window of imgPicture image control.
+            'Replacement for it in vb.net is the below line. This code line is not in vb6. In vb6 values are directly assigned in the design time properties window of imgPicture image control.
 
             '---------      NOTE: BELOW CODE LINE IS NOT IN VB6.  ------------
             'imgPicture.DataBindings.Clear()  NOTE: REMOVE THIS COMMENTE IF imgPicture.DataBindings.Add will expect Clear first before Add.

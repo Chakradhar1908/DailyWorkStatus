@@ -19,6 +19,7 @@
     Public Const REG_DWORD As Integer = REG_TYPE.vtDWord
     Public Const KEY_SET_VALUE As Integer = &H2
     Public Const REG_OPTION_NON_VOLATILE As Integer = 0
+    Public Const HKLM As Integer = HKEY_LOCAL_MACHINE
 
     Public Enum REG_TYPE
         vtNone = &H0                      ' No value type - REG_NONE
@@ -33,7 +34,8 @@
         vtFullResourceDescriptor = &H9    ' Resource list in the hardware description
         vtResourceRequirementsList = &HA
     End Enum
-
+    Public Const HKEY_CLASSES_ROOT As Integer = &H80000000
+    Public Const HKEY_CURRENT_USER As Integer = &H80000001
     Public Enum HKEYS
         regHKCR = HKEY_CLASSES_ROOT
         regHKCU = HKEY_CURRENT_USER
@@ -186,19 +188,7 @@
         'RegCloseKey(hKey)
         QueryValue = vValue
     End Function
-    Public Sub SaveSystemSetting(ByVal AppName As String, ByVal Section As String, ByVal vKEY As String, ByVal Setting As String)
-        '::::SaveSystemSetting
-        ':::SUMMARY
-        ': Save to HKLM.
-        ':::DESCRIPTION
-        ': SAve to the HKLM entry in registry.  Handles creating/opening key, saving, and closing.
-        ':::PARAMETERS
-        ': - AppName
-        ': - Section
-        ': - vKEY
-        ': - Setting
-        SetKeyValue(HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY, Setting, REG_SZ)
-    End Sub
+
     Public Sub DeleteRegValue(ByVal hKey As Integer, ByVal sSection As String, ByVal sKeyName As String)
         '::::DeleteRegValue
         ':::SUMMARY
@@ -382,7 +372,7 @@ QueryValueExError:
         RegCloseKey(hKey)
     End Sub
 
-    Public Function GetRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, Optional ByVal Default As String) As Variant
+    Public Function GetRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, Optional ByVal Defaults As String = "") As Object
         '::::GetRegistrySetting
         ':::SUMMARY
         ': Used to Get Registry Settings.
@@ -396,10 +386,10 @@ QueryValueExError:
         ':::RETURN
         ': - Variant
         GetRegistrySetting = QueryValue(HiveID, Section, vKEY)
-        If GetRegistrySetting = "" Then GetRegistrySetting = Default
-End Function
+        If GetRegistrySetting = "" Then GetRegistrySetting = Defaults
+    End Function
 
-    Public Sub SaveRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, ByVal Value As Variant, Optional ByVal RegType As REG_TYPE = vtString)
+    Public Sub SaveRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, ByVal Value As Object, Optional ByVal RegType As REG_TYPE = REG_TYPE.vtString)
         '::::SaveRegistrySetting
         ':::SUMMARY
         ': Used to Save Registry Settings.
@@ -414,7 +404,37 @@ End Function
         ': - vKEY
         ': - Value
         ': - RegType
-        SetKeyValue HiveID, Section, vKEY, Value, RegType
-End Sub
+        SetKeyValue(HiveID, Section, vKEY, Value, RegType)
+    End Sub
+
+    ' Public interfaces..
+    Public Sub SaveSystemSetting(ByVal AppName As String, ByVal Section As String, ByVal vKEY As String, ByVal Setting As String)
+        '::::SaveSystemSetting
+        ':::SUMMARY
+        ': Save to HKLM.
+        ':::DESCRIPTION
+        ': SAve to the HKLM entry in registry.  Handles creating/opening key, saving, and closing.
+        ':::PARAMETERS
+        ': - AppName
+        ': - Section
+        ': - vKEY
+        ': - Setting
+        SetKeyValue(HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY, Setting, REG_SZ)
+    End Sub
+
+    Public Function GetCurrentUserSetting(ByVal Section As String, ByVal vKEY As String, Optional ByVal Defaults As String = "") As Object
+        '::::GetCurrentUserSetting
+        ':::SUMMARY
+        ': Used to display the current user settings.
+        ':::DESCRIPTION
+        ': This function is used to display the Current User Settings.
+        ':::PARAMETERS
+        ': - Section
+        ': - vKEY
+        ': - Default
+        ':::RETURN
+        GetCurrentUserSetting = QueryValue(HKEY_CURRENT_USER, Section, vKEY)
+        If GetCurrentUserSetting = "" Then GetCurrentUserSetting = Defaults
+    End Function
 
 End Module

@@ -149,6 +149,7 @@ F:\WinCDS\WinCDS\bin\Debug\OptimRoute.dll
 F:\WinCDS\WinCDS\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
 F:\WinCDS\WinCDS\bin\Debug\Interop.APG554QFAX21Lib.dll
 F:\WinCDS\WinCDS\bin\Debug\Interop.cipwin32.dll
+F:\WinCDS\WinCDS\bin\Debug\Interop.ComCtl2.dll
 F:\WinCDS\WinCDS\bin\Debug\Interop.ComctlLib.dll
 F:\WinCDS\WinCDS\bin\Debug\Interop.InetCtlsObjects.dll
 F:\WinCDS\WinCDS\bin\Debug\Interop.LaVolpeAlphaImg.dll
@@ -164,6 +165,7 @@ F:\WinCDS\WinCDS\bin\Debug\Interop.MSRDC.dll
 F:\WinCDS\WinCDS\bin\Debug\Interop.MSWinsockLib.dll
 F:\WinCDS\WinCDS\bin\Debug\Interop.VJCZIPLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.cipwin32.dll
+F:\WinCDS\WinCDS\bin\Debug\AxInterop.ComCtl2.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.ComctlLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.InetCtlsObjects.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.LaVolpeAlphaImg.dll
@@ -181,10 +183,12 @@ F:\WinCDS\WinCDS\bin\Debug\AxInterop.VJCZIPLib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.Chilkat_v9_5_0.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
+F:\WinCDS\WinCDS\obj\Debug\Interop.ComCtl2.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.ComctlLib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.DAO.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.GIF89Lib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.InetCtlsObjects.dll
+F:\WinCDS\WinCDS\obj\Debug\Interop.JRO.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.LaVolpeAlphaImg.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.MapPoint.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.MSAdodcLib.dll
@@ -217,6 +221,7 @@ F:\WinCDS\WinCDS\obj\Debug\Interop.VJCZIPLib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.WMPLib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.XCTransaction2.dll
 F:\WinCDS\WinCDS\obj\Debug\AxInterop.cipwin32.dll
+F:\WinCDS\WinCDS\obj\Debug\AxInterop.ComCtl2.dll
 F:\WinCDS\WinCDS\obj\Debug\AxInterop.ComctlLib.dll
 F:\WinCDS\WinCDS\obj\Debug\AxInterop.InetCtlsObjects.dll
 F:\WinCDS\WinCDS\obj\Debug\AxInterop.LaVolpeAlphaImg.dll
@@ -251,6 +256,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCashRegisterQuantity.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCCManualEntry.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCrippleBugNotify.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDeliveryMap.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDemoNotify.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmail.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmExport.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmHTTPServer.resources
@@ -258,6 +264,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmINet.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmItemView.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmKitLevels.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmLicenseAgreement.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmMapDrive.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.FrmMsg2.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmNotes.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmOptimize.resources
@@ -274,6 +281,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmRevolving.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSalesList.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSelectOption.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSendMail.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSplash2.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmTransferReports.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmTransferSetup.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmUpgrade.resources
@@ -303,6 +311,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdSelect.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdStatus.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PackagePrice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PassWord.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.Practice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RestoreInv.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Service.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceParts.resources
@@ -318,3 +327,4 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

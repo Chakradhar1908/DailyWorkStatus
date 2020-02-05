@@ -43,7 +43,8 @@
         If OverWrite Then
             My.Computer.FileSystem.DeleteFile(Filename)
             file = My.Computer.FileSystem.OpenTextFileWriter(Filename, False)
-            file.WriteLine(Str)
+            'file.WriteLine(Str)
+            file.Write(Str)
             file.Close()
         Else
             file = My.Computer.FileSystem.OpenTextFileWriter(Filename, True)

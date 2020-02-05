@@ -217,4 +217,27 @@ BadNumber:
         IfNullThenBoolean = IIf(IsNothing(T), DefaultValue, T)
     End Function
 
+    Public Function SQLDateRange(ByVal FieldName As String, ByVal FromDate As String, ByVal toDate As String, Optional ByVal IncludeAND As Boolean = False) As String
+        '::::SQLDateRange
+        ':::SUMMARY
+        ': Return a SQL date range (with field name)
+        ':::DESCRIPTION
+        ': This function is used to assign the Date Range for the SQL data using parameters.
+        ':
+        ': - NOTE: This function provides leading and trailing spaces in ALL circumstances facilitating easier appends to the main SQL.
+        ': - ALSO: Function Also wraps field name in the DB-specifici field delimiters ([] in Access).
+        ':::PARAMETERS
+        ': - FieldName - The field to check.
+        ': - FromDate - The FROM Date
+        ': - toDate - The TO Date
+        ': - IncludeAND - Prepend the SQL clause with an " AND "
+        ':::EXAMPLES
+        ': - SQLDateRange("SomeField", "1/1/2017", "12/31/2017", True)
+        ':    - " AND ([SomeField] BETWEEN #1/1/2017# AND #12/31/2017#) "
+        ':::RETURN
+        ': String - Returns a SQL clause fragment
+        SQLDateRange = "([" & FieldName & "] BETWEEN #" & FromDate & "# AND #" & toDate & "#)"
+        If IncludeAND Then SQLDateRange = " AND " & SQLDateRange & " "
+    End Function
+
 End Module

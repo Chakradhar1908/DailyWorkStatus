@@ -202,7 +202,7 @@ HandleErr:
         frmVersionControl.ShowDialog()
     End Function
 
-    Public Function MakeLong(ByVal WordHi As Object, ByVal WordLo As Integer) As Long
+    Public Function MakeLong(ByVal WordHi As Object, ByVal WordLo As Integer) as integer
         ' it to overflow limits of multiplication which shifts
         ' it left.
         MakeLong = (WordHi * &H10000) + (WordLo And &HFFFF&)

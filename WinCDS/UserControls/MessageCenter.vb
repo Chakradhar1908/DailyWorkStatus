@@ -15,7 +15,7 @@
     End Property
 
     Public Sub Reset()
-        Const xW As Long = 360
+        Const xW as integer = 360
         'X.Move Width - X.Width, 0
         X.Location = New Point(Width - X.Width, 0)
         X.Visible = False
@@ -99,7 +99,7 @@
     End Function
 
     Private Function CommissionsOnFirstOfMonth() As Boolean
-        Dim G As Long
+        Dim G as integer
 
         If Not Installment Then Exit Function
         G = StoreSettings.GracePeriod

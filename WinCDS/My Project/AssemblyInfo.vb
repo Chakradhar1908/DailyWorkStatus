@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("WinCDS")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("WinCDS")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyTitle("WinCDS POS Software by Custom Design Software.   Simply the best, most intuitive, and salesman friendly Software solution for your Furniture POS needs.")>
+<Assembly: AssemblyDescription("WinCDS is created and maintained by Custom Design Software.  For information, sales, issues, or feature requests, contact Custom Design Software at (800) 884-0806.")>
+<Assembly: AssemblyCompany("Custom Design Software")>
+<Assembly: AssemblyProduct("WinCDS POS Software")>
+<Assembly: AssemblyCopyright("(c) 1991-2019, Custom Design Software.")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

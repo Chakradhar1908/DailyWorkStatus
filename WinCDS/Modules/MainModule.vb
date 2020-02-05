@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Reflection
 Imports stdole
+Imports System.Threading
 Module MainModule
     Private mIsServer As TriState           ' Cache this high-use, non-trivial value
     Public Allow_ADODB_Errors As Boolean      ' Allow the database to continue after errors - for debugging and special cases.
@@ -484,7 +485,10 @@ ServerLockedFailed:
         If UseFolder = "" Then UseFolder = UpdateFolder()
         If Right(UseFolder, 1) <> DIRSEP Then UseFolder = UseFolder & DIRSEP
         'FN = Replace(UsePrefix & CDbl(Now.ToString) & "_" & App.ThreadID & "_" & Random(999999), ".", "_")
-        FN = Replace(UsePrefix & CDbl(Now.ToString) & "_" & AppDomain.GetCurrentThreadId & "_" & Random(999999), ".", "_")
+        'FN = Replace(UsePrefix & CDbl(Now.ToString) & "_" & AppDomain.GetCurrentThreadId & "_" & Random(999999), ".", "_")
+        'FN = Replace(UsePrefix & CDbl(Now.ToOADate) & "_" & AppDomain.GetCurrentThreadId & "_" & Random(999999), ".", "_")
+        FN = Replace(UsePrefix & CDbl(Now.ToOADate) & "_" & Thread.CurrentThread.ManagedThreadId & "_" & Random(999999), ".", "_")
+
 
 
         Do While FileExists(UseFolder & FN & ".tmp")
@@ -1259,7 +1263,7 @@ StartupErrorHandler:
         Dim F As String
         Dim S As String, T As String
         Dim N As String, M As String
-        Dim X As String, L
+        Dim X As String, L As Object
         ' Only in IDE, of course
         If Not IsIDE() Then Exit Function
 
@@ -1271,8 +1275,9 @@ StartupErrorHandler:
         ' this is the entire contents of this file.. it will get compiled in
         S = ""
         S = S & M & ""
-        S = S & M & "Attribute VB_Name = ""modBuildDate"""
-        S = S & N & "Option Explicit"
+        'S = S & M & "Attribute VB_Name = ""modBuildDate"""
+        'S = S & N & "Option Explicit"
+        S = S & "Module modBuildDate"
         S = S & N & "' ***** WARNING: FILE IS GENERATED ON EACH COMPILE"
         S = S & N & "' DO NOT MODIFY THIS FILE.  FIND ANOTHER FILE TO MODIFY."
         S = S & N & "' YOUR CHANGES WILL BE DELETED AUTOMATICALLY"
@@ -1293,16 +1298,24 @@ StartupErrorHandler:
         S = S & N & "  Dim S As String"
         S = S & N
         X = ReadEntireFile(DistributionCSV)
-        For Each L In Split(X, vbCrLf)
-            S = S & N & "  S = S & vbCrLf & """ & Replace(EncodeBase64String(L), vbCrLf, "") & """"
-        Next
+
+        If X <> "" Then
+            For Each L In Split(X, vbCrLf)
+                S = S & N & "  S = S & vbCrLf & """ & Replace(EncodeBase64String(L), vbCrLf, "") & """"
+            Next
+        End If
         S = S & N
         S = S & N & "  BuildHistory = S"
         S = S & N & "End Function"
+        S = S & N & "End Module"
         S = S & N
 
 
-        F = AppFolder() & "modBuildDate.bas"
+        'F = AppFolder() & "modBuildDate.bas"
+        'F = Appfolder() & "modBuildDate.vb"
+        Dim Applicationfolder As String
+        Applicationfolder = AppFolder()
+        F = Left(Applicationfolder, InStr(11, Applicationfolder, "\")) & "Modules\modBuildDate.vb"
         T = ReadFile(F)
         If NLTrim(T) <> NLTrim(S) Then
             WriteFile(F, S, True)
@@ -1339,6 +1352,71 @@ StartupErrorHandler:
         S = ReadStoreSetting(StoresSld, IniSections_StoreSettings.iniSection_StoreSettings, "StartupPrinter")
         If S <> "" Then SetPrinter(S)
         'MsgBox "s=" & S & vbCrLf & Printer.DeviceName
+    End Function
+
+    Public Function ThisEXEFile() As String
+        ThisEXEFile = WinCDSEXEFile(True, False, True)
+    End Function
+
+    Public Function ThisEXEName() As String
+        ThisEXEName = WinCDSEXEName(True, False, False)
+    End Function
+
+    Public Function TestWriteFolder(ByVal UseFolder As String, Optional ByRef FailMsg As String = "") As Boolean
+        Dim T As String
+        Dim Res As String
+        FailMsg = ""
+        T = TempFile(UseFolder, , , False)
+        On Error GoTo TestWriteFailed
+        WriteFile(T, "TEST", True, True)
+        On Error GoTo TestReadFailed
+        Res = ReadFile(T)
+        If Res <> "TEST" Then MessageBox.Show("Test write to temp file " & TempFile() & " failed." & vbCrLf & "Result (Len=" & Len(Res) & "):" & vbCrLf & Res)
+        On Error GoTo TestClearFailed
+        Kill(T)
+
+        TestWriteFolder = True
+
+TestWriteFailed:
+        FailMsg = "Failed to write temp file " & TempFile() & "." & vbCrLf & Err.Description
+        Exit Function
+TestReadFailed:
+        FailMsg = "Failed to read temp file " & TempFile() & "." & vbCrLf & Err.Description
+        Exit Function
+TestClearFailed:
+        FailMsg = "Failed to clear temp file " & TempFile() & "." & vbCrLf & Err.Description
+        Exit Function
+    End Function
+
+    Public ReadOnly Property UseScheduledTask() As Boolean
+        Get
+            'BFH20160423 - Default value set to 1
+            UseScheduledTask = ReadStoreSetting(0, IniSections_StoreSettings.iniSection_StoreSettings, "UseScheduledTask", "1") <> ""
+        End Get
+    End Property
+
+    Public Function LocalStoreFolder(Optional ByVal StoreNum As Integer = 0) As String
+        LocalStoreFolder = StoreFolder(StoreNum:=StoreNum, doLocal:=True)
+    End Function
+
+    Public Function ReportsFolder(Optional ByVal SubFolder As String = "") As String
+        ReportsFolder = InventFolder() & "Reports\"
+        EnsureFolderExists(ReportsFolder, True)
+        If SubFolder <> "" Then
+            ReportsFolder = ReportsFolder & SubFolder
+            If Right(ReportsFolder, 1) <> DIRSEP Then ReportsFolder = ReportsFolder & DIRSEP
+            EnsureFolderExists(ReportsFolder, True)
+        End If
+    End Function
+
+    Public Function DevelopmentFolder() As String
+        DevelopmentFolder = WinCDSDevFolder() & "WinCDS\"
+    End Function
+
+    Public Function WaitEXEFile(Optional ByVal Ext As Boolean = True, Optional ByVal wPath As Boolean = True) As String
+        WaitEXEFile = WinCDSDevFolder() & "Xtras\Wait\Wait.exe"
+        If FileExists(WaitEXEFile) Then Exit Function
+        WaitEXEFile = IIf(wPath, AppFolder, "") & "Wait" & IIf(Ext, ".exe", "")
     End Function
 
 End Module

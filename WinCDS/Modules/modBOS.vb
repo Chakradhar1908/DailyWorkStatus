@@ -282,4 +282,27 @@
         ST = CleanState(ST)
         City = Trim(Left(City, X - 1))
     End Sub
+
+    Public Function IsNonItemStyle(ByVal Style As String) As Boolean
+        '::::IsNonItemStyle
+        ':::SUMMARY
+        ': Return whether the given style is a non-item
+        ':::DESCRIPTION
+        ': Return true if the style specified is a non-item (system reserved) style
+        ':
+        ': Does NOT include S/L/D or NOTES.
+        ':::PARAMETERS
+        ': - Style - Indicates the Style.
+        ':::RETURN
+        ': Boolean - Returns True if the Style is a non-item.  False otherwise.
+
+        Dim El As Object
+        For Each El In NonItemStyles()
+            If El = Style Then
+                IsNonItemStyle = True
+                Exit Function
+            End If
+        Next
+    End Function
+
 End Module

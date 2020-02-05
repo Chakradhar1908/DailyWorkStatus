@@ -190,10 +190,19 @@ Module modDates
         DayOfWeek = Format(D, "dddd")
     End Function
 
-    Public Function WeekStart(Optional ByVal D As String = "", Optional ByVal FirstDayOfWeek As Long = vbMonday) As Date
+    Public Function WeekStart(Optional ByVal D As String = "", Optional ByVal FirstDayOfWeek As Integer = vbMonday) As Date
         If Not IsDate(D) Then D = Today
         WeekStart = D
         If Weekday(WeekStart, FirstDayOfWeek) > 1 Then WeekStart = DateAdd("d", -6 + (7 - Weekday(D, FirstDayOfWeek)), D)
+    End Function
+
+    Public Function OneWeekAgo() As Date
+        OneWeekAgo = WeeksAgo(-1, Today)
+    End Function
+
+    Public Function WeeksAgo(Optional ByVal Weeks As Integer = -1, Optional ByVal D As String = "") As Date
+        If Not IsDate(D) Then D = Today
+        WeeksAgo = DateAdd("d", Weeks / 7, DateValue(D))
     End Function
 
 End Module

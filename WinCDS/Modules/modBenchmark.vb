@@ -162,4 +162,69 @@
 
         BenchmarkMemoryProfile = Res
     End Function
+
+    Public Function KillWinCDSFromTaskList(Optional ByVal C As String = "", Optional ByVal IgnoreCurrent As Boolean = False) As Boolean
+        Dim R As String, L As Object
+        Dim T As String
+        Dim Ref As Integer
+        Dim N As Integer, S As String
+        Dim tPID As Integer
+
+
+        Const Limit = 7000
+
+
+        If C = "" Then C = LCase(WinCDSEXEName(True, True))
+        tPID = GetCurrentProcessId
+
+        R = RunCmdToOutput("tasklist /FO CSV")
+        R = Replace(R, vbLf, "")
+
+        For Each L In Split(R, vbCr)
+            If LCase(CSVField(L, 1)) = C Then       ' Send the signal to each running WinCDS
+                If Not IgnoreCurrent Or Val(CSVField(L, 2)) <> tPID Then
+                    If Not IsWinXP() Then
+                        RunShellExecuteAdminArgs("taskkill", "/f /pid " & CSVField(L, 2), , , 0)
+                    Else
+                        KillProcessID(Val(CSVField(L, 2)))
+                    End If
+                End If
+            End If
+        Next
+
+        Do While TicksNotElapsed(Ref, Limit)
+            If TicksSecondsRemaining(Ref, Limit) <> N Then
+                N = TicksSecondsRemaining(Ref, Limit)
+                S = "Forcing WinCDS shutdown (" & N & ")..."
+                ProgressForm(0, 1, S, , , , ProgressBarStyle.prgIndefinite)
+                If CountWinCDSFromTaskList(C, IgnoreCurrent) = 0 Then GoTo ExitWaitLoop ' only check tasklist once / second
+            End If
+            Application.DoEvents()
+        Loop
+ExitWaitLoop:
+        ProgressForm()
+
+        KillWinCDSFromTaskList = CountWinCDSFromTaskList(C, IgnoreCurrent) = 0
+    End Function
+
+    Public Function CountWinCDSFromTaskList(Optional ByVal C As String = "", Optional ByVal IgnoreCurrent As Boolean = False) As Integer
+        Dim R As String, L As Object, tPID As Integer
+        If C = "" Then C = LCase(WinCDSEXEName(True, True))
+        tPID = GetCurrentProcessId
+
+        R = RunCmdToOutput("tasklist /FO CSV")
+
+        R = Replace(R, vbLf, "")
+
+        CountWinCDSFromTaskList = 0
+        For Each L In Split(R, vbCr)
+            'If IsDevelopment And Left(LCase(CSVField(L, 1)), 1) = "w" Then Stop
+            If LCase(CSVField(L, 1)) = C Then
+                If Not IgnoreCurrent Or Val(CSVField(L, 2)) <> tPID Then
+                    CountWinCDSFromTaskList = CountWinCDSFromTaskList + 1
+                End If
+            End If
+        Next
+    End Function
+
 End Module

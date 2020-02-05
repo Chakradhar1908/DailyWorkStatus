@@ -408,4 +408,60 @@ NoItems:
         DoAmazonAutoBackup()
     End Sub
 
+    Public Sub AWS_Configure_ViaCommand(Optional ByVal Profile As String = "default")
+        Dim T As String, X As String
+        T = TempFile()
+        X = StoreSettings.AmazonKeyID & vbCrLf & StoreSettings.AmazonSecretKey & vbCrLf & "" & vbCrLf & "" & vbCrLf2
+        WriteFile(T, X, True)
+        AWS_Command(" configure < """ & T & """")
+        '  ShellAndWait "aws configure < """ & T & """"
+        DeleteFileIfExists(T)
+    End Sub
+
+    Public Function ResetAWSFile(ByVal UseCurrent As Boolean) As Boolean
+        If Not AWS_Clear_AWSCLI_Config Then Exit Function
+        If UseCurrent Then
+            WriteAWSConfig(StoreSettings.AmazonKeyID, StoreSettings.AmazonSecretKey, StoreSettings.AmazonUserName, StoreSettings.AmazonCustomerBucket, StoreSettings.AmazonPassword)
+        Else
+            WriteAWSConfig("", "", "", "", "")
+        End If
+        AWS_Configure(, True)
+        ResetAWSFile = True
+    End Function
+
+    Public Sub WriteAWSConfig(ByVal KeyID As String, ByVal SecretKey As String, ByVal UserName As String, ByVal CustomerBucket As String, ByVal Password As String)
+        WriteIniValue(StoreINIFile, STORE_INI_SECTION_AMAZON_OPTIONS, "KeyID", KeyID)
+        WriteIniValue(StoreINIFile, STORE_INI_SECTION_AMAZON_OPTIONS, "SecretKey", SecretKey)
+        WriteIniValue(StoreINIFile, STORE_INI_SECTION_AMAZON_OPTIONS, "UserName", UserName)
+        WriteIniValue(StoreINIFile, STORE_INI_SECTION_AMAZON_OPTIONS, "CustomerBucket", CustomerBucket)
+        WriteIniValue(StoreINIFile, STORE_INI_SECTION_AMAZON_OPTIONS, "Password", Password)
+        ResetStoreSettings()
+
+        AWS_Configure()
+        AWS_Configure_ViaCommand()
+    End Sub
+
+    Public Function AWS_Clear_AWSCLI_Config() As Boolean
+        Dim P As String, Fail As Boolean
+        If Not FileExists(AWS_ConfigFile) Then
+            P = InputBox("Delete AWS Config", "Enter AWS config path:", AWS_ConfigFile)
+            If Not FileExists(P) Then
+                MessageBox.Show("To clear credentials, find the file [config] in folder named [.aws]." & vbCrLf & "It is usually located in the Current User folder [" & UserFolder() & "].", "Could not clear credentials")
+                Exit Function
+            End If
+            DeleteFileIfExists(P)
+            If FileExists(P) Then Fail = True
+        Else
+            DeleteFileIfExists(AWS_ConfigFile)
+            If FileExists(AWS_ConfigFile) Then Fail = True
+        End If
+
+        If Fail Then
+            MessageBox.Show("Could not delete file.", "Credentials not cleared")
+            Exit Function
+        End If
+
+        AWS_Clear_AWSCLI_Config = True
+    End Function
+
 End Module

@@ -175,12 +175,12 @@ IDEInUse:
         On Error Resume Next
         ' If they specified a full path, they can delete it themselves..
         If InStr(S, ":") <> 0 Then
-            MsgBox "Unable to delete log:" & S
-    Exit Function
+            MessageBox.Show("Unable to delete log:" & S)
+            Exit Function
         End If
-        Kill LogFolder() & S
-  Kill LogFolder() & S & ".txt"
-  KillLog = True
+        Kill(LogFolder() & S)
+        Kill(LogFolder() & S & ".txt")
+        KillLog = True
     End Function
 
 End Module

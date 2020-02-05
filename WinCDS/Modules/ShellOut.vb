@@ -3,12 +3,21 @@
     Public Const NORMAL_PRIORITY_CLASS = &H20&
     Public Const INFINITE = -1&
     Private Const ASW As String = "AppShell.Form1.ShellAndWait: "
+    Private Const PROCESS_VM_READ = &H10
+    Private Const PROCESS_QUERY_INFORMATION = &H400
     Public LastProcessID As Integer
     Declare Function CreateProcessA Lib "kernel32" (ByVal lpApplicationName As Integer, ByVal lpCommandLine As String, ByVal lpProcessAttributes As Integer, ByVal lpThreadAttributes As Integer, ByVal bInheritHandles As Integer, ByVal dwCreationFlags As Integer, ByVal lpEnvironment As Integer, ByVal lpCurrentDirectory As Integer, lpStartupInfo As STARTUPINFO, lpProcessInformation As PROCESS_INFORMATION) As Integer
     Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
     Declare Function CloseHandle Lib "kernel32" (hObject As Integer) As Boolean
     Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwProcessId As Integer) As Integer 'vb6.0
     'Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess as integer, ByVal bInheritHandle as integer, ByVal dwProcessId as integer) As IntPtr  '-->vb.net
+    Private Declare Function TerminateProcess Lib "kernel32.dll" (ByVal ApphProcess As Integer, ByVal uExitCode As Integer) As Integer
+    Private Declare Function CreateToolhelpSnapshot Lib "kernel32.dll" Alias "CreateToolhelp32Snapshot" (ByVal lFlags As Integer, lProcessID As Integer) As Integer
+    Private Declare Function ProcessFirst Lib "kernel32.dll" Alias "Process32First" (ByVal hSnapshot As Integer, uProcess As PROCESSENTRY32) As Integer
+    Private Declare Function ProcessNext Lib "kernel32.dll" Alias "Process32Next" (ByVal hSnapshot As Integer, uProcess As PROCESSENTRY32) As Integer
+    Private Declare Function EnumProcesses Lib "psapi.dll" (lpidProcess As Integer, ByVal Cb As Integer, cbNeeded As Integer) As Integer
+    Private Declare Function EnumProcessModules Lib "psapi.dll" (ByVal hProcess As Integer, lphModule As Integer, ByVal Cb As Integer, lpcbNeeded As Integer) As Integer
+    Private Declare Function GetModuleBaseName Lib "psapi.dll" Alias "GetModuleBaseNameA" (ByVal hProcess As Integer, ByVal hModule As Integer, ByVal lpFileName As String, ByVal nSize As Integer) As Integer
     Enum EnSW
         enSW_HIDE = 0
         enSW_NORMAL = 1
@@ -248,5 +257,122 @@ HandleErr:
             Exit Sub
         End If
     End Sub
+
+    Public Sub KillProcess(ByVal NameProcess As String)
+        On Error Resume Next
+        Const PROCESS_ALL_ACCESS = &H1F0FFF
+        Const TH32CS_SNAPPROCESS As Integer = 2&
+        Dim uProcess As PROCESSENTRY32
+        Dim RProcessFound As Integer
+        Dim hSnapshot As Integer
+        Dim SzExename As String
+        Dim ExitCode As Integer
+        Dim MyProcess As Integer
+        Dim AppKill As Boolean
+        Dim AppCount As Integer
+        Dim I As Integer
+        Dim WinDirEnv As String
+
+
+        If NameProcess <> "" Then
+            AppCount = 0
+
+            uProcess.dwSize = Len(uProcess)
+            hSnapshot = CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&)
+            RProcessFound = ProcessFirst(hSnapshot, uProcess)
+
+            Do
+                I = InStr(1, uProcess.szExeFile, Chr(0))
+                SzExename = LCase$(Left$(uProcess.szExeFile, I - 1))
+                WinDirEnv = Environ("Windir") + "\"
+                WinDirEnv = LCase$(WinDirEnv)
+
+                If Right$(SzExename, Len(NameProcess)) = LCase$(NameProcess) Then
+                    AppCount = AppCount + 1
+                    MyProcess = OpenProcess(PROCESS_ALL_ACCESS, False, uProcess.th32ProcessID)
+                    AppKill = TerminateProcess(MyProcess, ExitCode)
+                    Call CloseHandle(MyProcess)
+                End If
+                RProcessFound = ProcessNext(hSnapshot, uProcess)
+            Loop While RProcessFound
+
+            Call CloseHandle(hSnapshot)
+        End If
+    End Sub
+
+    Public Function IsProcessRunning(ByVal sProcess As String) As Boolean
+        Const MAX_PATH As Integer = 260
+        Dim lProcesses() As Integer, lModules() As Integer, N As Integer, lRet As Integer, hProcess As Integer
+        Dim sName As String
+        Dim tPID As Integer
+
+        tPID = GetCurrentProcessId()
+        sProcess = UCase$(sProcess)
+
+        ReDim lProcesses(1023)
+        If EnumProcesses(lProcesses(0), 1024 * 4, lRet) Then
+            For N = 0 To (lRet \ 4) - 1
+                hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, lProcesses(N))
+                If hProcess Then
+                    ReDim lModules(1023)
+                    If EnumProcessModules(hProcess, lModules(0), 1024 * 4, lRet) Then
+                        sName = New String(vbNullChar, MAX_PATH)
+                        GetModuleBaseName(hProcess, lModules(0), sName, MAX_PATH)
+                        sName = Left$(sName, InStr(sName, vbNullChar) - 1)
+                        If Len(sName) = Len(sProcess) Then
+                            If sProcess = UCase$(sName) Then IsProcessRunning = True : Exit Function
+                        End If
+                    End If
+                End If
+                CloseHandle(hProcess)
+            Next N
+        End If
+    End Function
+
+    Public Function ProcessCount(ByVal NameProcess As String) As Integer
+        On Error Resume Next
+        Const PROCESS_ALL_ACCESS = &H1F0FFF
+        Const TH32CS_SNAPPROCESS As Integer = 2&
+        Dim uProcess As PROCESSENTRY32
+        Dim RProcessFound As Integer
+        Dim hSnapshot As Integer
+        Dim SzExename As String
+        Dim ExitCode As Integer
+        Dim MyProcess As Integer
+        Dim AppKill As Boolean
+        Dim AppCount As Integer
+        Dim I As Integer
+        Dim WinDirEnv As String
+
+        If NameProcess <> "" Then
+            AppCount = 0
+
+            uProcess.dwSize = Len(uProcess)
+            hSnapshot = CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&)
+            RProcessFound = ProcessFirst(hSnapshot, uProcess)
+
+            Do
+                I = InStr(1, uProcess.szExeFile, Chr(0))
+                SzExename = LCase$(Left$(uProcess.szExeFile, I - 1))
+                WinDirEnv = Environ("Windir") + "\"
+                WinDirEnv = LCase$(WinDirEnv)
+
+                If Right$(SzExename, Len(NameProcess)) = LCase$(NameProcess) Then
+                    AppCount = AppCount + 1
+                    MyProcess = OpenProcess(PROCESS_ALL_ACCESS, False, uProcess.th32ProcessID)
+                    '        AppKill = TerminateProcess(MyProcess, ExitCode)
+                    '        Call CloseHandle(MyProcess)
+                End If
+                RProcessFound = ProcessNext(hSnapshot, uProcess)
+            Loop While RProcessFound
+            '    Call CloseHandle(hSnapshot)
+        End If
+        ProcessCount = AppCount
+    End Function
+
+    Public Function KillProcessID(ByVal pId As Integer) As Boolean
+        TerminateProcess(pId, 0&)
+        KillProcessID = True
+    End Function
 
 End Module

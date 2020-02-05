@@ -378,4 +378,22 @@
         If IsOceanBoulevard And IsServer() Then InitializeForOceanBoulevard
     End Function
 
+    Public ReadOnly Property IsMattressWarehouse() As Boolean
+        Get
+            IsMattressWarehouse = CheckStoreName("Mattress Warehouse", "Warehouse (Midvale)")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsOceanBoulevard() As Boolean
+        Get
+            IsOceanBoulevard = CheckStoreName("Ocean Boulevard")
+        End Get
+    End Property
+
+    Public Function InitializeForOceanBoulevard() As Boolean
+        ' Ocean boulevard is having trouble losing their credentials, even though they're set in the software.
+        ' This will ensure we reset their credentials on every startup...
+        ResetAWSFile(True)
+    End Function
+
 End Module

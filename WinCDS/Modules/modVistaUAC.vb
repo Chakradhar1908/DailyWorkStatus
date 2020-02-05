@@ -44,4 +44,8 @@
         LaunchAutoVNC = True
     End Function
 
+    Public Function UACIsAdmin() As Boolean
+        UACIsAdmin = IsUserAnAdmin <> 0
+    End Function
+
 End Module

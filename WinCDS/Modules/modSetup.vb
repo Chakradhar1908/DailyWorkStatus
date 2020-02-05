@@ -77,9 +77,12 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Const CompanyURL_BARE2 As String = "www.wincds.net"
     Public Const ProgramShort As String = ProgramName & " POS for Furniture Stores"
     Public Const ProgramCaption As String = CompanyName
+    Public Const ProgramTitle As String = ProgramTag & " by " & CompanyName
     Public Const ProgramDesc As String = ProgramTitle & ".   Simply the best, most intuitive, and salesman friendly Software solution for your Furniture POS needs." & ProgramTradeMk
     Public Const ProgramTradeMk As String = "" 'In a word, it's ""Brainless""!"
     Public Const ProgramTag As String = ProgramName & " POS Software"
+    Public Const CompanyURLMin As Integer = 1
+    Public Const CompanyURLAltMax As Integer = 2
 
     Public ReadOnly Property Setup_2Data_StyleMaxLen() As Integer
         Get
@@ -361,4 +364,26 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
     Public Function FileGenLedger() As String
         FileGenLedger = GLFolder(, True) & "genledgr.exe"
     End Function
+
+    Public Function GetLastPatchDate() As Date
+        '::::GetLastPatchDate
+        ':::SUMMARY
+        ': Returns the last date of a patch being run.
+        ':::DESCRIPTION
+        ': Returns the last stored date of patch run to optimize startup.
+        ':::RETURN
+        ': Date
+        On Error Resume Next
+        GetLastPatchDate = NullDate
+        GetLastPatchDate = GetConfigTableValue("LastPatchDate")
+        If DateAfter(GetLastPatchDate, Today) Then GetLastPatchDate = OneWeekAgo
+    End Function
+
+    Public Sub SetLastPatchDate(ByVal vData As Date)
+        '::::SetLastPatchDate
+        ':::SUMMARY
+        ': Sets the date of the last patch run.
+        SetConfigTableValue("LastPatchDate", vData)
+    End Sub
+
 End Module

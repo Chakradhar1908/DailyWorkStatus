@@ -1,11 +1,11 @@
 ﻿Public Class frmHTTPServer
-    Private mHTTPPort As Long
-    Public Property HTTPPort() As Long
+    Private mHTTPPort as integer
+    Public Property HTTPPort() as integer
         Get
             HTTPPort = mHTTPPort
             If HTTPPort = 0 Then HTTPPort = 8080
         End Get
-        Set(value As Long)
+        Set(value as integer)
             StopHTTP
             mHTTPPort = value
             StartHTTP()

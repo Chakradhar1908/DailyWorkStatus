@@ -1,11 +1,11 @@
 ﻿Public Class frmPOEmails
-    Private mSType As Long
+    Private mSType as integer
 
-    Public Property sType() As Long
+    Public Property sType() as integer
         Get
             sType = mSType
         End Get
-        Set(value As Long)
+        Set(value as integer)
             mSType = value
             fraSelect.Text = Microsoft.VisualBasic.Interaction.Switch(sType = 0, "Not Acknowledged:", True, "Overdue Orders:")
             dtpRunAsDate.Value = IIf(sType = 0, DateAdd("d", -10, Today), Today)
