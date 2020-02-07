@@ -2,10 +2,10 @@
     Private Const LocalConf As String = "WinCDS Local Configuration"
     Private bUseIni As TriState
     Public Const HKEY_LOCAL_MACHINE as integer = &H80000002
-    Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey as integer, ByVal lpSubKey As String, ByVal ulOptions as integer, ByVal samDesired as integer, phkResult as integer) as integer
-    Declare Function RegDeleteValue Lib "advapi32.dll" Alias "RegDeleteValueA" (ByVal hKey as integer, ByVal lpSubKey As String) as integer
-    Declare Function RegQueryValueExNULL Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal lpReserved as integer, lpType as integer, ByVal lpData as integer, lpcbData as integer) as integer
-    Declare Function RegQueryValueExLong Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal lpReserved as integer, lpType as integer, lpData as integer, lpcbData as integer) as integer
+    Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey As Integer, ByVal lpSubKey As String, ByVal ulOptions As Integer, ByVal samDesired As Integer, ByRef phkResult As Integer) As Integer
+    Declare Function RegDeleteValue Lib "advapi32.dll" Alias "RegDeleteValueA" (ByVal hKey as integer, ByVal lpSubKey As String) as Integer
+    Declare Function RegQueryValueExNULL Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, ByRef lpType As Integer, ByVal lpData As Integer, ByRef lpcbData As Integer) As Integer
+    Declare Function RegQueryValueExLong Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, ByRef lpType As Integer, ByRef lpData As Integer, ByRef lpcbData As Integer) As Integer
     Declare Function RegSetValueExString Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, ByVal lpValue As String, ByVal cbData as integer) as integer
     Declare Function RegQueryValueExString Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal lpReserved as integer, lpType as integer, ByVal lpData As String, lpcbData as integer) as integer
     Declare Function RegCreateKeyEx Lib "advapi32.dll" Alias "RegCreateKeyExA" (ByVal hKey as integer, ByVal lpSubKey As String, ByVal Reserved as integer, ByVal lpClass As String, ByVal dwOptions as integer, ByVal samDesired as integer, ByVal lpSecurityAttributes as integer, phkResult as integer, lpdwDisposition as integer) as integer
@@ -168,6 +168,7 @@
         ': - vKEY
         DeleteRegValue(HKEY_LOCAL_MACHINE, "Software\" & AppName & "\" & Section, vKEY)
     End Sub
+
     Public Function QueryValue(ByVal hKey As Integer, ByRef sKeyName As String, ByRef sValueName As String) As Object
         '::::QueryValue
         ':::SUMMARY
@@ -183,9 +184,9 @@
         Dim lRetVal As Integer         'result of the API functions
         Dim vValue As Object = Nothing        'setting of queried value
 
-        'lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_QUERY_VALUE, hKey)
+        lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_QUERY_VALUE, hKey)
         lRetVal = QueryValueEx(hKey, sValueName, vValue)
-        'RegCloseKey(hKey)
+        RegCloseKey(hKey)
         QueryValue = vValue
     End Function
 
@@ -225,7 +226,7 @@
         On Error GoTo QueryValueExError
 
         ' Determine the size and type of data to be read
-        'lRc = RegQueryValueExNULL(lhKey, szValueName, 0&, lType, 0&, cch)
+        lRc = RegQueryValueExNULL(lhKey, szValueName, 0&, lType, 0&, cch)
         If lRc <> ERROR_NONE Then Error 5
 
         Select Case lType
@@ -386,7 +387,8 @@ QueryValueExError:
         ':::RETURN
         ': - Variant
         GetRegistrySetting = QueryValue(HiveID, Section, vKEY)
-        If GetRegistrySetting = "" Then GetRegistrySetting = Defaults
+        'If GetRegistrySetting = "" Then GetRegistrySetting = Defaults
+        If IsNothing(GetRegistrySetting) Then GetRegistrySetting = Defaults
     End Function
 
     Public Sub SaveRegistrySetting(ByVal HiveID As HKEYS, ByVal Section As String, ByVal vKEY As String, ByVal Value As Object, Optional ByVal RegType As REG_TYPE = REG_TYPE.vtString)

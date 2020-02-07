@@ -1034,6 +1034,9 @@ StartupErrorHandler:
 
         EnableLinkedConnections = True
         If GetRegistrySetting(HKEYS.regHKLM, ELCkey1, ELCkey2) = "1" Then Exit Function
+
+        'If GetRegistrySetting, ELCkey1, ELCkey2) = "1" Then Exit Function
+
         SaveRegistrySetting(HKEYS.regHKLM, ELCkey1, ELCkey2, 1, REG_TYPE.vtDWord)
         EnableLinkedConnections = GetRegistrySetting(HKEYS.regHKLM, ELCkey1, ELCkey2) = "1"
 

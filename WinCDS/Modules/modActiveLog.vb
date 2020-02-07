@@ -21,7 +21,8 @@
         ActiveLogAdd(Msg, Clss, Priority)
         If IsFormLoaded("frmPermissionMonitor") Then frmPermissionMonitor.ShowLog()
     End Sub
-    Private Function ActiveLogAdd(ByVal Msg As String, Optional ByVal ClassX As String = "General", Optional ByVal Priority as integer = 9) As Boolean
+
+    Private Function ActiveLogAdd(ByVal Msg As String, Optional ByVal ClassX As String = "General", Optional ByVal Priority As Integer = 9) As Boolean
         'Dim E
         Dim E As Object
 

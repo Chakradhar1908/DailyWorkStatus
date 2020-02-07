@@ -19,7 +19,7 @@
         ':::SEE ALSO
         ':  ReadEntireFile, WriteFile, CountLines
 
-        'Dim FNo as integer
+        'Dim FNo As Integer
         'On Error Resume Next
         'FNo = FreeFile()
 
@@ -41,19 +41,25 @@
 
         On Error Resume Next
         If OverWrite Then
-            My.Computer.FileSystem.DeleteFile(Filename)
+            My.Computer.FileSystem.DeleteFile(Filename) 'kill filename
             file = My.Computer.FileSystem.OpenTextFileWriter(Filename, False)
-            'file.WriteLine(Str)
-            file.Write(Str)
-            file.Close()
+            'FileOpen(FNo, Filename, OpenMode.Output)
         Else
+            'FileOpen(FNo, Filename, OpenMode.Append)
             file = My.Computer.FileSystem.OpenTextFileWriter(Filename, True)
-            file.WriteLine(Str)
-            file.Close()
         End If
 
+        If PreventNL Or Right(Str, 2) = vbCrLf Then
+            file.Write(Str)
+            'FileSystem.PrintLine(FNo, Str)
+        Else
+            file.WriteLine(Str)
+            'FileSystem.Print(FNo, Str)
+        End If
+        file.Close()
         WriteFile = True
     End Function
+
     Public Function ReadEntireFile(ByVal FileName As String) As String
         '::::ReadEntireFile
         ':::SUMMARY
@@ -68,13 +74,22 @@
         ':  ReadFile, WriteFile, ReadEntireFileAndDelete
 
         On Error Resume Next
-        With CreateObject("Scripting.FileSystemObject")
-            ReadEntireFile = .OpenTextFile(FileName, 1).ReadAll
-        End With
+        'With CreateObject("Scripting.FileSystemObject")
+        'ReadEntireFile = .OpenTextFile(FileName, 1).ReadAll
+        'End With
+        Dim f As System.IO.StreamReader
+        f = My.Computer.FileSystem.OpenTextFileReader(FileName)
+        ReadEntireFile = f.ReadToEnd
+        f.Close()
+        Dim fl = My.Computer.FileSystem.GetFileInfo(FileName)
 
-        If FileLen(FileName) / 10 <> Len(ReadEntireFile) / 10 Then
-            MsgBox("ReadEntireFile was short: " & FileLen(FileName) & " vs " & Len(ReadEntireFile))
+        'If FileLen(FileName) / 10 <> Len(ReadEntireFile) / 10 Then
+        'MessageBox.Show("ReadEntireFile was short: " & FileLen(FileName) & " vs " & Len(ReadEntireFile))
+        'End If
+        If fl.Length / 10 <> Len(ReadEntireFile) / 10 Then
+            MessageBox.Show("ReadEntireFile was short: " & fl.Length & " vs " & Len(ReadEntireFile))
         End If
+
         '
         '  Dim intFile as integer
         '  intFile = FreeFile
@@ -83,7 +98,8 @@
         '  ReadEntireFile = Input$(LOF(intFile), #intFile)  '  LOF returns Length of File
         '  Close #intFile
     End Function
-    Public Function ReadFile(ByVal FileName As String, Optional ByVal Startline as integer = 1, Optional ByVal NumLines as integer = 0) ', Optional ByRef WasEOF As Boolean = False)
+
+    Public Function ReadFile(ByVal FileName As String, Optional ByVal Startline As Integer = 1, Optional ByVal NumLines As Integer = 0) ', Optional ByRef WasEOF As Boolean = False)
         '::::ReadFile
         ':::SUMMARY
         ':Random Access Read a given file based on line number.

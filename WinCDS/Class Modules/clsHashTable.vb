@@ -1,21 +1,32 @@
-﻿Public Class clsHashTable
+﻿Imports System.Runtime.InteropServices
+Public Class clsHashTable
     Dim slotTable() As SlotType     ' the array that holds the data
-    Dim m_Count as integer             ' items in the slot table
-    Dim m_HashSize as integer          ' size of hash table
-    Dim hashTbl() as integer
-    Dim FreeNdx as integer             ' pointer to first free slot
-    Private mAutoIndex as integer      ' For AutoIndexing
+    Dim m_Count As Integer             ' items in the slot table
+    Dim m_HashSize As Integer          ' size of hash table
+    Dim hashTbl() As Integer
+    Dim FreeNdx As Integer             ' pointer to first free slot
+    Private mAutoIndex As Integer      ' For AutoIndexing
     Private m_IgnoreCase As Boolean ' member variable for IgnoreCase property
-    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Dest As Object, Source As Object, ByVal bytes as integer)
+    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByVal Source As Object, ByVal bytes As Integer)
+    'Public Declare Auto Sub CopyMemory Lib "kernel32.dll" Alias "CopyMemory" (destination As Object, source As IntPtr, length As UInteger)
+
     Dim resx As Object
     Dim m_ListSize As Integer          ' size of slot table
     Dim m_ChunkSize As Integer         ' chunk size
+    Const DEFAULT_HASHSIZE = 1024
+    Const DEFAULT_LISTSIZE = 2048
+    Const DEFAULT_CHUNKSIZE = 1024
 
     Private Structure SlotType
         Dim key As String
         Dim Value As Object
         Dim NextItem As Integer      ' 0 if last item
     End Structure
+
+    Public Sub New()
+        ' initialize the tables at default size
+        SetSize(DEFAULT_HASHSIZE, DEFAULT_LISTSIZE, DEFAULT_CHUNKSIZE)
+    End Sub
 
     Public Sub Add(ByVal key As String, ByVal Value As Object)
         Dim Ndx As Integer, Create As Boolean
@@ -196,23 +207,37 @@
 
     Private Function HashCode(ByVal key As String) As Integer
         Dim lastEl As Integer, I As Integer
-        Dim codes() As Integer
+        'Dim Codes() As Byte
+        Dim Codes(0) As Integer
+
         ' copy ansi codes into an array of long
         lastEl = (Len(key) - 1) \ 4
-        ReDim codes(lastEl)
+        'ReDim Codes(lastEl)
         ' this also converts from Unicode to ANSI
-        CopyMemory(codes(0), key, Len(key))
+
+        Dim sourcePtr As IntPtr
+        'Dim targetPtr As IntPtr
+        'sourcePtr = Marshal.UnsafeAddrOfPinnedArrayElement(key.ToArray, 0)
+        'targetPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Codes.ToArray, 0)
+
+        'lLen = CUInt(sThis.ToArray.Length)
+        CopyMemory(Codes(0), key, key.Length)
+        'CopyMemory(Codes, key, key.Length)
+        'CopyMemory(Codes, sourcePtr, 1)
+
+        'Marshal.Copy(sourcePtr, Codes, 1, 1)
 
         ' XOR the ANSI codes of all characters
         For I = 0 To lastEl
-            HashCode = HashCode Xor codes(I)
+            'HashCode = HashCode Xor Codes(I)
+            HashCode = HashCode Xor Codes(0)
         Next
 
     End Function
 
     Private Function GetFreeSlot() As Integer
         ' allocate new memory if necessary
-        'If FreeNdx = 0 Then (ExpandSlotTable m_ChunkSize)
+        If FreeNdx = 0 Then ExpandSlotTable(m_ChunkSize)
         ' use the first slot
         GetFreeSlot = FreeNdx
         ' update the pointer to the first slot

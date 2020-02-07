@@ -1,4 +1,8 @@
-﻿Module ShellOut
+﻿Imports System.Runtime.ConstrainedExecution
+Imports System.Runtime.InteropServices
+Imports System.Security
+
+Module ShellOut
     Public Const CREATE_NO_WINDOW = &H8000000
     Public Const NORMAL_PRIORITY_CLASS = &H20&
     Public Const INFINITE = -1&
@@ -8,7 +12,13 @@
     Public LastProcessID As Integer
     Declare Function CreateProcessA Lib "kernel32" (ByVal lpApplicationName As Integer, ByVal lpCommandLine As String, ByVal lpProcessAttributes As Integer, ByVal lpThreadAttributes As Integer, ByVal bInheritHandles As Integer, ByVal dwCreationFlags As Integer, ByVal lpEnvironment As Integer, ByVal lpCurrentDirectory As Integer, lpStartupInfo As STARTUPINFO, lpProcessInformation As PROCESS_INFORMATION) As Integer
     Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
-    Declare Function CloseHandle Lib "kernel32" (hObject As Integer) As Boolean
+    'Declare Function CloseHandle Lib "kernel32" (hObject As Integer) As Boolean
+    <SuppressUnmanagedCodeSecurity()>
+    <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+    <DllImport("kernel32.dll")>
+    Function CloseHandle(handle As IntPtr) As Boolean
+    End Function
+
     Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwProcessId As Integer) As Integer 'vb6.0
     'Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess as integer, ByVal bInheritHandle as integer, ByVal dwProcessId as integer) As IntPtr  '-->vb.net
     Private Declare Function TerminateProcess Lib "kernel32.dll" (ByVal ApphProcess As Integer, ByVal uExitCode As Integer) As Integer
@@ -32,9 +42,13 @@
     End Structure
     Public Structure STARTUPINFO
         Dim Cb As Integer
-        Dim lpReserved As Integer ' !!! must be Long for Unicode string
-        Dim lpDesktop As Integer  ' !!! must be Long for Unicode string
-        Dim lpTitle As Integer    ' !!! must be Long for Unicode string
+        'Dim lpReserved As Integer ' !!! must be Long for Unicode string
+        'Dim lpDesktop As Integer  ' !!! must be Long for Unicode string
+        'Dim lpTitle As Integer    ' !!! must be Long for Unicode string
+
+        Dim lpReserved As String ' !!! must be Long for Unicode string
+        Dim lpDesktop As String  ' !!! must be Long for Unicode string
+        Dim lpTitle As String    ' !!! must be Long for Unicode string
         Dim dwX As Integer
         Dim dwY As Integer
         Dim dwXSize As Integer
@@ -87,12 +101,20 @@
         Dim rc As Integer
         Dim e As New Exception
 
+
         LogFile("ShellAndWait", AppToRun, False)
 
         On Error GoTo ErrorRoutineErr
         NameStart.Cb = Len(NameStart)
         If SW = EnSW.enSW_HIDE Then
-            rc = CreateProcessA(0&, AppToRun, 0&, 0&, CLng(SW), CREATE_NO_WINDOW, 0&, 0&, NameStart, NameOfProc)
+            'rc = CreateProcessA(0&, AppToRun, 0&, 0&, CLng(SW), CREATE_NO_WINDOW, 0&, 0&, NameStart, NameOfProc)
+            'rc = CreateProcessA(0&, AppToRun, 0&, 0&, SW, CREATE_NO_WINDOW, 0&, 0&, NameStart, NameOfProc)
+            Dim p As New Process
+            Dim pi As New ProcessStartInfo
+            pi.Arguments = " " & "/C" & " " & AppToRun
+            pi.FileName = "cmd.exe"
+            p.StartInfo = pi
+            p.Start()
         Else
             rc = CreateProcessA(0&, AppToRun, 0&, 0&, CLng(SW), NORMAL_PRIORITY_CLASS, 0&, 0&, NameStart, NameOfProc)
         End If
@@ -100,10 +122,10 @@
         rc = WaitForSingleObject(NameOfProc.hProcess, INFINITE)
         rc = CloseHandle(NameOfProc.hProcess)
 
-        'ErrorRoutineResume:
-        '        Exit Sub
+ErrorRoutineResume:
+        Exit Sub
 ErrorRoutineErr:
-        MsgBox(ASW & e.Message)
+        MessageBox.Show(ASW & e.Message)
         Resume Next
     End Sub
 
@@ -116,11 +138,13 @@ ErrorRoutineErr:
         On Error GoTo RunError
         Dim A As String, B As String, C As String
         Dim tLen As Integer, Iter As Integer
+
         A = TempFile()
         B = TempFile()
 
         If Not AsAdmin Then
-            ShellAndWait("cmd /c " & cmd & " 1> " & A & " 2> " & B, EnSW.enSW_HIDE)
+            'ShellAndWait("cmd /c " & cmd & " 1> " & A & " 2> " & B, EnSW.enSW_HIDE)
+            ShellAndWait(cmd & " 1> " & A & " 2> " & B, EnSW.enSW_HIDE)
         Else
             C = TempFile(, , ".bat")
             WriteFile(C, cmd & " 1> " & A & " 2> " & B, True)
