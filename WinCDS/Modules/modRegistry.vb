@@ -1,15 +1,15 @@
 ﻿Module modRegistry
     Private Const LocalConf As String = "WinCDS Local Configuration"
     Private bUseIni As TriState
-    Public Const HKEY_LOCAL_MACHINE as integer = &H80000002
+    Public Const HKEY_LOCAL_MACHINE As Integer = &H80000002
     Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey As Integer, ByVal lpSubKey As String, ByVal ulOptions As Integer, ByVal samDesired As Integer, ByRef phkResult As Integer) As Integer
     Declare Function RegDeleteValue Lib "advapi32.dll" Alias "RegDeleteValueA" (ByVal hKey as integer, ByVal lpSubKey As String) as Integer
     Declare Function RegQueryValueExNULL Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, ByRef lpType As Integer, ByVal lpData As Integer, ByRef lpcbData As Integer) As Integer
     Declare Function RegQueryValueExLong Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, ByRef lpType As Integer, ByRef lpData As Integer, ByRef lpcbData As Integer) As Integer
     Declare Function RegSetValueExString Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, ByVal lpValue As String, ByVal cbData as integer) as integer
     Declare Function RegQueryValueExString Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal lpReserved as integer, lpType as integer, ByVal lpData As String, lpcbData as integer) as integer
-    Declare Function RegCreateKeyEx Lib "advapi32.dll" Alias "RegCreateKeyExA" (ByVal hKey as integer, ByVal lpSubKey As String, ByVal Reserved as integer, ByVal lpClass As String, ByVal dwOptions as integer, ByVal samDesired as integer, ByVal lpSecurityAttributes as integer, phkResult as integer, lpdwDisposition as integer) as integer
-    Declare Function RegSetValueExLong Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, lpValue as integer, ByVal cbData as integer) as Integer
+    Declare Function RegCreateKeyEx Lib "advapi32.dll" Alias "RegCreateKeyExA" (ByVal hKey as integer, ByVal lpSubKey As String, ByVal Reserved as integer, ByVal lpClass As String, ByVal dwOptions as integer, ByVal samDesired as integer, ByVal lpSecurityAttributes as integer, phkResult as integer, lpdwDisposition as integer) as Integer
+    Declare Function RegSetValueExLong Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal Reserved As Integer, ByVal dwType As Integer, ByRef lpValue As Integer, ByVal cbData As Integer) As Integer
     Declare Function RegDeleteKey Lib "advapi32.dll" Alias "RegDeleteKeyA" (ByVal hKey As Integer, ByVal lpSubKey As String) As Integer
     Public Const KEY_QUERY_VALUE As Integer = &H1
     Declare Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Integer) As Integer
@@ -206,6 +206,7 @@
         lRetVal = RegDeleteValue(hKey, sKeyName)
         RegCloseKey(hKey)
     End Sub
+
     Public Function QueryValueEx(ByVal lhKey As Integer, ByVal szValueName As String, ByRef vValue As Object) As Integer
         '::::QueryValueEx
         ':::SUMMARY
@@ -256,6 +257,7 @@ QueryValueExExit:
 QueryValueExError:
         Resume QueryValueExExit
     End Function
+
     Public Sub SetKeyValue(ByVal hKey As Integer, ByVal sKeyName As String, ByVal sValueName As String, ByVal vValueSetting As Object, ByVal lValueType As Integer)
         '::::SetKeyValue
         ':::SUMMARY
@@ -273,14 +275,15 @@ QueryValueExError:
         Dim hKeyResult As Integer         'handle of open key
 
         'open the specified key
-        'lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_SET_VALUE, hKeyResult)
+        lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_SET_VALUE, hKeyResult)
         If lRetVal <> 0 Then
             CreateNewKey(sKeyName, hKey)
             lRetVal = RegOpenKeyEx(hKey, sKeyName, 0, KEY_SET_VALUE, hKeyResult)
         End If
         lRetVal = SetValueEx(hKeyResult, sValueName, lValueType, vValueSetting)
-        'RegCloseKey(hKeyResult)
+        RegCloseKey(hKeyResult)
     End Sub
+
     Private Sub CreateNewKey(ByRef sNewKeyName As String, ByRef lPredefinedKey As Integer)
         Dim hNewKey As Integer         'handle to the new key
         Dim lRetVal As Integer         'result of the RegCreateKeyEx function
@@ -288,6 +291,7 @@ QueryValueExError:
         lRetVal = RegCreateKeyEx(lPredefinedKey, sNewKeyName, 0&, vbNullString, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, 0&, hNewKey, lRetVal)
         RegCloseKey(hNewKey)
     End Sub
+
     Public Function SetValueEx(ByVal hKey As Integer, ByRef sValueName As String, ByRef lType As Integer, ByRef vValue As Object) As Integer
         '::::SetValueEx
         ':::SUMMARY
@@ -307,13 +311,14 @@ QueryValueExError:
         Select Case lType
             Case REG_SZ
                 sValue = vValue & Chr(0)
-                'SetValueEx = RegSetValueExString(hKey, sValueName, 0&, lType, sValue, Len(sValue))
+                SetValueEx = RegSetValueExString(hKey, sValueName, 0&, lType, sValue, Len(sValue))
             Case REG_DWORD
                 lValue = vValue
                 SetValueEx = RegSetValueExLong(hKey, sValueName, 0&, lType, lValue, 4)
         End Select
         '  WinSysError SetValueEx
     End Function
+
     Public Function SaveCDSSetting(ByVal vKEY As String, ByVal Value As String, Optional ByVal SubSection As String = "", Optional ByVal ForceRegistry As Boolean = False) As String
         '::::SaveCDSSetting
         ':::SUMMARY

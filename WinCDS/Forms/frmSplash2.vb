@@ -16,6 +16,20 @@
         Me.Close()
     End Sub
 
+    Private Sub frmSplash2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetAlwaysOnTop(Me)
+        On Error Resume Next
+        SetCaptions
+        imgBackground.Refresh
+    End Sub
+
+    Private Sub SetCaptions()
+        lblProgram0.Text = "Loading " & ProgramName & "..."
+        lblProgram1.Text = "Copyright " & SoftwareCopyright(True) & "..."
+        lblProgram2.Text = "Version: " & SoftwareVersion(False, True)
+        lblProgram3.Text = IIf(IsServer, "SERVER", "WORKSTATION")
+    End Sub
+
     Public Sub DoProgress(Optional ByVal Value As Integer = -1, Optional ByVal Max As Integer = -1)
         Dim X As Integer
         On Error Resume Next
@@ -36,7 +50,7 @@
             'picProgress.FillColor = vbBlack
             'picProgress.Line(0, 0, X, picProgress.ScaleHeight - 10, vbBlue, B)
 
-            picProgress.Refresh
+            picProgress.Refresh()
         Else
             picProgress.Visible = False
         End If

@@ -42,15 +42,15 @@ Public Class clsHashTable
             If Create Then
                 ' the item was actually added
                 'If IsObject(Value) Then
-                If Not Value Is Nothing Then
+                If Value Is Nothing Then
                     slotTable(Ndx).Value = Value
                 Else
                     slotTable(Ndx).Value = Value
-                End If
-            Else
-                ' raise error "This key is already associated with an item of this
-                ' collection"
-                Err.Raise(457)
+                    End If
+                Else
+                    ' raise error "This key is already associated with an item of this
+                    ' collection"
+                    Err.Raise(457)
             End If
 
         Catch ex As NullReferenceException

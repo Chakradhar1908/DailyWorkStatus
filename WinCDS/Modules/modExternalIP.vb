@@ -184,7 +184,8 @@
 
         InitAddressList()
 
-        For I = 1 To IPCount
+        'For I = 1 To IPCount
+        For I = 0 To IPCount - 1
             If IPActions(I).Action = IPAction.IPAct_SetStoreName Then
                 If IPActions(I).IP = IP And UCase(IPActions(I).Computer) = UCase(GetLocalComputerName) Then  ' If we match IP and Computer name, reset these store names...
                     WriteStoreSetting(1, IniSections_StoreSettings.iniSection_StoreSettings, "Name", IPActions(I).Identifier)
@@ -201,7 +202,8 @@
 
         InitAddressList()
 
-        For I = 1 To IPCount
+        'For I = 1 To IPCount
+        For I = 0 To IPCount - 1
             If IPActions(I).Action = IPAction.IPAct_SetLicense Then
                 If IPActions(I).IP = IP Then  ' If we match IP and Computer name, reset these store names...
                     If IPActions(I).StoreCount > 0 Then

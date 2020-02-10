@@ -478,8 +478,9 @@
         AddPermOption(35, "  Commissions")
         AddPermOption(29, "  Daily Audit Report")
     End Sub
-    Private Function QueryPrivDesc(ByVal ZoneID as integer) As String
-        Dim I as integer
+
+    Private Function QueryPrivDesc(ByVal ZoneID As Integer) As String
+        Dim I As Integer
         For I = LBound(PermOptions) To UBound(PermOptions)
             If Trim(PermOptions(I).OptionID) = ZoneID Then
                 QueryPrivDesc = PermOptions(I).OptionDesc
@@ -487,12 +488,14 @@
             End If
         Next
     End Function
+
     Public ReadOnly Property GetLastLoginName() As String
         Get
             GetLastLoginName = LastLoginName
         End Get
     End Property
-    Private Sub AddPermOption(ByRef OptNum as integer, ByRef OptDesc As String)
+
+    Private Sub AddPermOption(ByRef OptNum As Integer, ByRef OptDesc As String)
         On Error Resume Next
         'ReDim Preserve PermOptions(LBound(PermOptions) To UBound(PermOptions) + 1)
         ReDim Preserve PermOptions(0 To UBound(PermOptions) + 1)

@@ -2,6 +2,7 @@
 Imports VBRUN
 Imports Microsoft.VisualBasic.Interaction
 Imports stdole
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class MainMenu4
     Private Const FRM_W_MIN As Integer = 14355
     Private Const FRM_H_MIN As Integer = 9810
@@ -1211,6 +1212,11 @@ Public Class MainMenu4
         Dim L As Object, Name As String, TName As String
 
         'If Screen.TwipsPerPixelX = 15 Then Exit Sub
+
+        Dim g As Graphics
+        g = CreateGraphics()
+        Dim r As Single
+        r = 15 / 1440 * g.DpiX
         'dX = Screen.TwipsPerPixelX / 15
         'dY = Screen.TwipsPerPixelY / 15
 
