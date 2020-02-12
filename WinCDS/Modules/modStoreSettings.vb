@@ -935,4 +935,179 @@ InstallFail:
         End Select
     End Function
 
+    Public Function LoadFrmSetupFromStoreInformation(ByRef SI As StoreInfo)
+        On Error Resume Next
+        With SI
+            '        frmSetup.txtStoreLocName = .Name
+            '        frmSetup.txtStoreAddress = .Address
+            '        frmSetup.txtStoreCity = .City
+            '        frmSetup.txtStoreTele = .Phone
+
+            '        frmSetup.txtCommissionMethod = .CommCode
+            '        frmSetup.hsCommType = Val(.CommCode)
+            '        'On Error GoTo 0
+            '        frmSetup.txtStainProtection = .FabSeal
+            '        frmSetup.txtDefSalesTax = .SalesTax
+
+            '        frmSetup.txtShipLocName = .StoreShipToName
+            '        frmSetup.txtShipAddress = .StoreShipToAddr
+            '        frmSetup.txtShipCity = .StoreShipToCity
+            '        frmSetup.txtShipTele = .StoreShipToTele
+
+            '        frmSetup.chkPOInvoicesLocation = IIf(.bPOInvoicesLocation, 1, 0)
+            '        frmSetup.chkDelIsTaxable = IIf(.bDeliveryTaxable, 1, 0)
+            '        frmSetup.chkLabIsTaxable = IIf(.bLaborTaxable, 1, 0)
+            '        frmSetup.chkPicturesOnTags = IIf(.bPicturesOnTags, 1, 0)
+
+            '        frmSetup.cboTagJustify = .TagJustify
+            '        frmSetup.chkNoMerchandisePrice = IIf(.bNoMerchandisePrice, 1, 0)
+            '        frmSetup.cboCalculateList.ListIndex = .CalculateList
+
+            '        frmSetup.txtPrintCopies = .PrintCopies
+            '        If .bPaymentBooksMonthly Then frmSetup.optPaymentBookMonthly = True Else frmSetup.optPaymentBookWeekly = True
+
+            '        frmSetup.cboSalesCopyID.List(0) = .SalesCopyID(0)
+            '        frmSetup.cboSalesCopyID.List(1) = .SalesCopyID(1)
+            '        frmSetup.cboSalesCopyID.List(2) = .SalesCopyID(2)
+            '        frmSetup.cboSalesCopyID.List(3) = .SalesCopyID(3)
+
+            '        frmSetup.chkDeliveryCommissionable = IIf(.bDelIsCommissionable, 1, 0)
+            '        frmSetup.chkLaborCommissionable = IIf(.bLabIsCommissionable, 1, 0)
+            '        frmSetup.chkNotesCommissionable = IIf(.bNotIsCommissionable, 1, 0)
+
+
+            '        frmSetup.chkUseStoreCode = IIf(.bUseStoreCode, 1, 0)
+
+            '        frmSetup.txtGrace = .GracePeriod
+            '        frmSetup.cboReceivingLabels.Text = .ReceivingLabels
+
+            '        frmSetup.SetPostAccountsPayableActiveCheck = IIf(.bAPPost, 1, 0)
+            '        frmSetup.BankManagerPost = IIf(.bBankManagerPost, 1, 0)
+            '        frmSetup.chkPrintPONoCost = IIf(.bPrintPoNoCost, 1, 0)
+
+            '        frmSetup.cboUseCost.Text = .UseCost
+            '        frmSetup.chkPOSpecialInst = IIf(.bPOSpecialInstr, 1, 0)
+
+            '        frmSetup.txtSimpleInterestRate = .SimpleInterestRate
+            '        frmSetup.txtDocFee = CurrencyFormat(.DocFee)
+            '        frmSetup.txtLateChargePerc = .LateChargePer
+            '        frmSetup.txtMaxLateCharge = CurrencyFormat(.MaxLateCharge)
+
+            '        frmSetup.chkPrintPaymentBooks = IIf(.bPrintPaymentBooks, 1, 0)
+            '        frmSetup.chkManualBillOfSaleNo = IIf(.bManualBillofSaleNo, 1, 0)
+            '        frmSetup.chkShowRegularPrice = IIf(.bShowRegularPrice, 1, 0)
+            '        frmSetup.chkShowManufacturer = IIf(.bShowManufacturer, 1, 0)
+            '        frmSetup.chkUseStoreCode = IIf(.bUseStoreCode, 1, 0)
+            '        frmSetup.chkStyleNoInCode = IIf(.bStyleNoInCode, 1, 0)
+            '        frmSetup.chkCostInCode = IIf(.bCostInCode, 1, 0)
+
+            '        frmSetup.chkShowAvailStock = IIf(.bShowAvailableStock, 1, 0)
+            '        frmSetup.chkPrintBarCode = IIf(.bPrintBarCode, 1, 0)
+            '        frmSetup.chkSellFromLoginLoc = IIf(.bSellFromLoginLocation, 1, 0)
+
+            '        frmSetup.txtMinLateCharge = FormatCurrency(.MinLateCharge)
+
+            '        frmSetup.chkPostToLoc1 = IIf(.bPostToLoc1, 1, 0)
+            '        frmSetup.chkRequireAdvertising = IIf(.bRequireAdvertising, 1, 0)
+            '        frmSetup.chkTagIncommingDistinct = IIf(.bTagIncommingDistinct, 1, 0)
+            '        frmSetup.chkUseCCMachine = IIf(.bUseCCMachine, 1, 0)
+
+            '        frmSetup.chkStartMaximized = IIf(.bStartMaximized, 1, 0)
+            '        frmSetup.chkUseBTScanner = IIf(.bUseBTScanner, 1, 0)
+
+            '        frmSetup.InitPOSpecInstr
+            '        '    frmSetup.SetPoSpecInstr 1, .PoSpecInstr1
+            '        '    frmSetup.SetPoSpecInstr 2, .PoSpecInstr2
+            '        '    frmSetup.SetPoSpecInstr 3, .PoSpecInstr3
+            '        '    frmSetup.SetPoSpecInstr 4, .PoSpecInstr4
+
+            '        frmSetup.txtDelPercent = .DelPercent
+            '        frmSetup.chkUseCashRegisterAddress = IIf(.bUseCashRegisterAddress, 1, 0)
+            '        frmSetup.txtCashRegisterMessage = .CashRegisterReceiptTailMessage
+            '        frmSetup.txtStoreEmail = .Email
+
+            '        frmSetup.chkQB = IIf(.bUseQB, 1, 0)
+            '        frmSetup.chkSeparateCommTables = IIf(.bSeparateCommTables, 1, 0) : frmSetup.UpdateSeparateCommSalesmen
+            '        frmSetup.chkOneCalendar = IIf(.bOneCalendar, 1, 0)
+
+            '        frmSetup.EquifaxAcctNo = .EquifaxAccountNo
+            '        frmSetup.chkInstallmentInterestTaxable = IIf(.bInstallmentInterestIsTaxable, 1, 0)
+            '        frmSetup.EquifaxSecCode = .EquifaxSecurityCode
+
+            '        frmSetup.chkAPR = IIf(.bAPR, 1, 0)
+            '        frmSetup.EquifaxTransUnion = .TransUnionAcctNo
+            '        frmSetup.chkUseTimeWindows = IIf(.bUseTimeWindows, 1, 0)
+            '        frmSetup.EquifaxExperian = .ExperianAcctNo
+            '        frmSetup.EquifaxCompanyID = .CompanyIdent
+
+            '        frmSetup.chkJointLife = IIf(.bJointLife, 1, 0)
+
+            '        frmSetup.AshleyStoreNo = .AshleyID
+            '        frmSetup.AshleyUName = .AshleyUName
+            '        frmSetup.AshleyPWord = .AshleyPWord
+            '        frmSetup.AshleyPath = .AshleyPath
+
+            '        frmSetup.AshleyATPExternalID = .AshleyATPExternalID
+            '        frmSetup.AshleyATPKeyCode = .AshleyATPKeyCode
+            '        frmSetup.AshleyATPUserName = .AshleyATPUserName
+            '        frmSetup.AshleyATPPassword = .AshleyATPPassword
+            '        frmSetup.AshleyATPPICode = .AshleyATPPICode
+            '        frmSetup.AshleyATPShipToID = .AshleyATPShipToID
+
+            '        frmSetup.chkEmailLCNotices = IIf(.bEmailLateChargeNotices, 1, 0)
+            '        frmSetup.chkEmailMonthlyStatements = IIf(.bEmailMonthlyStatements, 1, 0)
+
+            '        frmSetup.chkEmail = IIf(.bRequestEmail, 1, 0)
+
+            '        frmSetup.EquifaxSiteID = .EquifaxSiteID
+            '        frmSetup.EquifaxPassword = .EquifaxPassword
+            '        frmSetup.EquifaxVendorIDCode = .EquifaxVendorIDCode
+
+            '        frmSetup.SetupCCConfig.CCConfig, .CCProcessor
+
+            'frmSetup.txtPPUsername = .PayPalUsername
+            '        frmSetup.txtPPPassword = .PayPalPassword
+            '        frmSetup.txtPPSignature = .PayPalSignature
+            '        frmSetup.txtPayPalAuthKey = .PayPalAuthKey
+            '        frmSetup.AdjustPayPal
+
+            '        frmSetup.chkNoListPriceOnTags = IIf(.bNoListPriceOnTags, 1, 0)
+
+            '        frmSetup.chkShowPackageItemPrices = IIf(.bShowPackageItemPrices, 1, 0)
+
+            '        frmSetup.CashDrawerConfig.CashDrawerConfig
+            '        frmSetup.SetServerLock.ServerLock
+            '        frmSetup.RevolvingCharge = IIf(.ModifiedRevolvingCharge, 1, 0)
+            '        frmSetup.RevolvingRate = CurrencyFormat(.ModifiedRevolvingRate)
+            '        frmSetup.RevolvingAPR = IIf(.ModifiedRevolvingAPR, 1, 0)
+            '        frmSetup.RevolvingSAC = .ModifiedRevolvingSameAsCash
+            '        frmSetup.RevolvingMinPmt = Round(.ModifiedRevolvingMinPmt, 4)
+
+            '        frmSetup.AmazonKeyID = .AmazonKeyID
+            '        frmSetup.AmazonSecretKey = .AmazonSecretKey
+            '        frmSetup.AmazonCustomerBucket = .AmazonCustomerBucket
+            '        frmSetup.AmazonUserName = .AmazonUserName
+            '        frmSetup.AmazonPassword = .AmazonPassword
+            '        frmSetup.AmazonQBPath = .AmazonQBPath
+            '        frmSetup.AmazonMisc = .AmazonMisc
+
+            '        frmSetup.txtDispatchTrackLicense = .DispatchTrackLicense
+            '        frmSetup.DDTServiceCode = .DispatchTrackServiceCode
+            '        frmSetup.DDTServiceAPIKey = .DispatchTrackServiceAPI
+            '        frmSetup.DDTServiceURL = .DispatchTrackServiceURL
+
+            '        frmSetup.txtTRAXLicense = .TRAXLicense
+            '        frmSetup.TRAXID = .TRAXID
+
+            '        frmSetup.chkInstallRoundUp.Value = IIf(.bInstallmentRoundUp, 1, 0)
+            '        frmSetup.chkPostTermInterest.Value = IIf(.bPostTermInterest, 1, 0)
+            '        frmSetup.txtPostTermInterestRate.Text = FormatQuantity(.PostTermInterestRate)
+
+
+            ' +++ This is where you add maintenance for a new control on frmSetup.
+            ' +++ Take Note of the control type, and default, and adapt from a control above
+
+        End With
+    End Function
+
 End Module

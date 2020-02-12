@@ -48,7 +48,8 @@ Module modAPI
     Public Declare Function GetActiveWindow Lib "USER32" () As IntPtr 'vb.net
     'Public Declare Function GetWindow Lib "USER32" (ByVal hwnd as integer, ByVal wCmd as integer) as integer vb6.0
     Public Declare Function GetWindow Lib "USER32" (ByVal hwnd As IntPtr, ByVal wCmd As Integer) As IntPtr  'vb.net
-    Public Declare Function LoadImageAsString Lib "USER32" Alias "LoadImageA" (ByVal hinst As Integer, ByVal lpsz As String, ByVal uType As Integer, ByVal cxDesired As Integer, ByVal cyDesired As Integer, ByVal fuLoad As Integer) As Integer
+    'Public Declare Function LoadImageAsString Lib "USER32" Alias "LoadImageA" (ByVal hinst As Integer, ByVal lpsz As String, ByVal uType As Integer, ByVal cxDesired As Integer, ByVal cyDesired As Integer, ByVal fuLoad As Integer) As Integer
+    Public Declare Function LoadImageAsString Lib "USER32" Alias "LoadImageA" (ByVal hinst As IntPtr, ByVal lpsz As String, ByVal uType As Integer, ByVal cxDesired As Integer, ByVal cyDesired As Integer, ByVal fuLoad As Integer) As Integer
     Private Declare Function GetUserName Lib "advapi32" Alias "GetUserNameA" (ByVal lpBuffer As String, ByRef nSize As Integer) As Integer
     Public Declare Function CreateToolhelp32Snapshot Lib "kernel32" (ByVal dwFlags As Integer, ByVal th32ProcessID As Integer) As Integer
     Public Declare Function Process32First Lib "kernel32" (ByVal hSnapshot As Integer, lppe As PROCESSENTRY32) As Integer
@@ -201,6 +202,13 @@ Module modAPI
     Public Const PROCESS_QUERY_LIMITED_INFORMATION As Integer = &H1000
     Public Const PROCESS_QUERY_INFORMATION As Integer = 1024
     Const GWW_HINSTANCE As Integer = (-6)
+    Private Const IMAGE_ICON As Integer = 1
+    Private Const LR_SHARED As Integer = &H8000&
+    Private Const WM_SETICON As Long = &H80
+    Private Const ICON_BIG As Long = 1
+    Private Const SM_CXSMICON As Long = 49
+    Private Const SM_CYSMICON As Long = 50
+    Private Const ICON_SMALL As Long = 0
 
     Public Structure RECT
         Dim Left As Integer
@@ -338,9 +346,10 @@ Module modAPI
         Dim lReturn As Integer
 
         Try
-            sBuffer = Space(255)
-            lReturn = GetComputerName(sBuffer, Len(sBuffer))
-            GetLocalComputerName = Trim(Left(sBuffer, InStr(sBuffer, vbNullChar) - 1))
+            'sBuffer = Space(255)
+            'lReturn = GetComputerName(sBuffer, Len(sBuffer))
+            'GetLocalComputerName = Trim(Left(sBuffer, InStr(sBuffer, vbNullChar) - 1))
+            GetLocalComputerName = My.Computer.Name
         Catch ex As System.AccessViolationException
             GetLocalComputerName = ""
         Catch ex As System.Runtime.InteropServices.COMException
@@ -372,6 +381,7 @@ Module modAPI
         tr.Bottom = T + H
         InvalidateRect(hwnd, tr, 1)
     End Function
+
     Public Function RedrawWindowRectangle(ByVal hwnd As Integer, ByVal L As Integer, ByVal T As Integer, ByVal W As Integer, ByVal H As Integer) As Boolean
         On Error Resume Next
         Dim tr As RECT
@@ -382,6 +392,7 @@ Module modAPI
         tr.Bottom = T + H
         RedrawWindow(hwnd, tr, 0, RDW_INTERNALPAINT + RDW_UPDATENOW)
     End Function
+
     Public Function DrawRectangleToDC(ByVal DC As Integer, ByVal L As Integer, ByVal T As Integer, ByVal W As Integer, ByVal H As Integer, ByVal Color As Integer, Optional ByVal Transparency As Integer = 75, Optional ByVal Invalidate1st As Boolean = True) As Boolean
         'Dim PTB As PictureBox
         Dim lBlend As Integer, Bf As BLENDFUNCTION
@@ -412,6 +423,7 @@ Module modAPI
         DrawRectangleToDC = N <> 0
         '  EditPO.UGridIO1.ColorColumn 2, vbRed
     End Function
+
     Public Sub UGridIO_AddHook(ByRef hwnd As Integer, ByRef Obj As Object)
         Dim X As Object
         If UGridIOHooks Is Nothing Then UGridIOHooks = New Collection
@@ -426,6 +438,7 @@ Module modAPI
             UGridIOHooks.Add(Obj, CStr(hwnd))
         End If
     End Sub
+
     Public Function UGridIO_Paint(ByVal hwnd As Integer, ByVal uMsg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
         Dim X As Object
         '  Debug.Print "ugridio_paint: " & hwnd & ", Msg = " & uMsg
@@ -459,11 +472,13 @@ Module modAPI
         End Select
     End Function
     Public Delegate Function UGridIO_PaintDelegate(ByVal h As Integer, ByVal u As Integer, ByVal w As Integer, ByVal l As Integer) As Integer
+
     Public Sub RunShellExecute(ByVal sTopic As String, ByVal sFIle As Object, Optional ByVal sParams As Object = "", Optional ByVal sDirectory As Object = "", Optional ByVal nShowCmd As Integer = SW_SHOWNORMAL)
         'execute the passed operation, passing the desktop as the window to receive any error messages
         '  If sDirectory = "" Then sDirectory = AppFolder
         LastProcessID = ShellExecute(GetDesktopWindow(), sTopic, sFIle, sParams, sDirectory, nShowCmd)
     End Sub
+
     Public Function EnsureFolderExists(ByVal sFileName As String, Optional ByVal bCreate As Boolean = False) As String
         If Len(sFileName) = 0 Then EnsureFolderExists = UpdateFolder() : Exit Function
 
@@ -472,6 +487,7 @@ Module modAPI
         On Error Resume Next
         If Not FolderExists(sFileName) Then MkDir(sFileName)
     End Function
+
     Public Function GetWinVerNumber() As String
         Dim OS As String, N As Integer
         OS = RunCmdToOutput("ver")
@@ -491,6 +507,7 @@ Module modAPI
         'If Left(OS, 4) = "6.3." Then OS = "Win8.1 or Server 2012R2"
         'If Left(OS, 5) = "10.0." Then OS = "Win10"
     End Function
+
     Public Function VersionInformation(ByVal FILE_Name As String) As VersionInformationType
         Dim Dummy_handle As Integer
         Dim Buffer() As Byte
@@ -586,11 +603,13 @@ Module modAPI
 
         VersionInformation = Result
     End Function
+
     Public Sub RunShellExecuteAdmin(ByVal App As String, Optional ByVal nHwnd As Integer = 0, Optional ByVal WindowState As Integer = SW_SHOWNORMAL)
         If nHwnd = 0 Then nHwnd = GetDesktopWindow()
         LastProcessID = ShellExecute(nHwnd, "runas", App, vbNullString, vbNullString, WindowState)
         '  ShellExecute nHwnd, "runas", App, Command & " /admin", vbNullString, SW_SHOWNORMAL
     End Sub
+
     Public Function GetShortName(ByVal sLongFileName As String) As String
         Dim lRetVal As Integer, sShortPathName As String, iLen As Integer
         'Set up buffer area for API function call return
@@ -809,24 +828,25 @@ Module modAPI
         cX = GetSystemMetrics(SM_CXICON)
         cY = GetSystemMetrics(SM_CYICON)
 
-        '------------------------------------------COMMENTED BELOW CODE BECAUSE LOADIMAGEASSTRING(APP.HINSTANCE) PARAMETER IS NOT SUPPORTING IN VB.NET ---------------
         'hIconLarge = LoadImageAsString(App.hInstance, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
+        hIconLarge = LoadImageAsString(Process.GetCurrentProcess.Handle, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
 
-        '      If (bSetAsAppIcon) Then
-        '          SendMessageLong lhWndTop, WM_SETICON, ICON_BIG, hIconLarge
-        '     End If
+        If (bSetAsAppIcon) Then
+            SendMessageLong(lhWndTop, WM_SETICON, ICON_BIG, hIconLarge)
+        End If
 
-        '      SendMessageLong hwnd, WM_SETICON, ICON_BIG, hIconLarge
+        SendMessageLong(hwnd, WM_SETICON, ICON_BIG, hIconLarge)
 
-        'cX = GetSystemMetrics(SM_CXSMICON)
-        '      cY = GetSystemMetrics(SM_CYSMICON)
-        '      hIconSmall = LoadImageAsString(App.hInstance, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
+        cX = GetSystemMetrics(SM_CXSMICON)
+        cY = GetSystemMetrics(SM_CYSMICON)
+        'hIconSmall = LoadImageAsString(App.hInstance, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
+        hIconSmall = LoadImageAsString(Process.GetCurrentProcess.Handle, sIconResName, IMAGE_ICON, cX, cY, LR_SHARED)
 
-        '      If (bSetAsAppIcon) Then
-        '          SendMessageLong lhWndTop, WM_SETICON, ICON_SMALL, hIconSmall
-        'End If
+        If (bSetAsAppIcon) Then
+            SendMessageLong(lhWndTop, WM_SETICON, ICON_SMALL, hIconSmall)
+        End If
 
-        '      SendMessageLong hwnd, WM_SETICON, ICON_SMALL, hIconSmall
+        SendMessageLong(hwnd, WM_SETICON, ICON_SMALL, hIconSmall)
     End Sub
 
     Public Function GetSystemUserName() As String

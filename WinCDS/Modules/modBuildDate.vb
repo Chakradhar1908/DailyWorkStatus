@@ -4,15 +4,15 @@
 ' YOUR CHANGES WILL BE DELETED AUTOMATICALLY
 
 Public Function BuildDate() As String
-  BuildDate = "02/10/2020"
+  BuildDate = "02/12/2020"
 End Function
 
 Public Function BuildTime() As String
-  BuildTime = "02:37:57"
+  BuildTime = "02:15:13"
 End Function
 
 Public Function BuildComputer() As String
-  BuildComputer = "\KRISHNA"
+  BuildComputer = "DESKTOP-RGJ1VSI\KRISHNA"
 End Function
 
 Public Function BuildHistory() As String

@@ -4,8 +4,10 @@ Imports Microsoft.VisualBasic.Interaction
 Imports stdole
 Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class MainMenu4
-    Private Const FRM_W_MIN As Integer = 14355
-    Private Const FRM_H_MIN As Integer = 9810
+    'Private Const FRM_W_MIN As Integer = 14355
+    Private Const FRM_W_MIN As Integer = 1000
+    'Private Const FRM_H_MIN As Integer = 9810
+    Private Const FRM_H_MIN As Integer = 900
     Private Const WM_NCLBUTTONDOWN As Integer = &HA1
     Private Const HTCAPTION As Integer = 2
     Private Const MINWIDTH As Integer = 762
@@ -60,7 +62,8 @@ Public Class MainMenu4
         lblStore2.Text = StoreSettings.City
 
         imgStoreLogo.Image = Nothing
-        imgStoreLogo.Image = StoreLogoPicture()
+        'imgStoreLogo.Image = StoreLogoPicture()
+        If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = Image.FromFile(StoreLogoFile)
 
         'imgStoreLogo.Visible = imgStoreLogo.Visible And (imgStoreLogo.Picture <> 0)
         imgStoreLogo.Visible = imgStoreLogo.Visible And Not IsNothing(imgStoreLogo.Image)
@@ -87,7 +90,7 @@ Public Class MainMenu4
         ActiveForm = True
         CatchKeys()
         'Form_Resize
-        MainMenu4_Resize(Me, New EventArgs)
+        'MainMenu4_Resize(Me, New EventArgs)
     End Sub
 
     Private Sub CatchKeys()
@@ -104,55 +107,6 @@ Public Class MainMenu4
     Private Sub ShowMsgs(Optional ByVal Show As Boolean = False)
         'msgs.Move(4000, 2550, 8025, 2700)        msgs is a custom active control. Still not developed.
         'msgs.Visible = Show And msgs.CheckMessages
-    End Sub
-
-    Private Sub MainMenu4_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-        On Error Resume Next
-
-        If Width < FRM_W_MIN Then
-            Width = FRM_W_MIN
-            Exit Sub
-        End If
-
-        If Height < FRM_H_MIN Then
-            Height = FRM_H_MIN
-            Exit Sub
-        End If
-
-        'LockWindowUpdate hWnd
-        LockWindowUpdate(Handle)
-
-        'imgInfo.Move ScaleWidth - imgInfo.Width, 0
-        imgInfo.Location = New Point(Me.ClientSize.Width - imgInfo.Width, 0)
-
-        Const bW As Integer = 30
-
-        'imgStoreLogo.Move ScaleWidth / 2 - 5415 / 2, ScaleHeight - 1325 - 1755 / 2, 5415, 1755
-        imgStoreLogo.Location = New Point(Me.ClientSize.Width / 2 - 5415 / 2, Me.ClientSize.Height - 1325 - 1755 / 2)
-        imgStoreLogo.Size = New Size(5415, 1755)
-        'imgStoreLogo.Stretch = True
-        imgStoreLogo.SizeMode = PictureBoxSizeMode.StretchImage
-
-        ResizeAndCenterPicture(imgStoreLogo, LoadPictureStd(StoreLogoFile()))
-        'imgStoreLogoBorder.Move imgStoreLogo.Left - bW, imgStoreLogo.Top - bW, imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW
-        imgStoreLogoBorder.Location = New Point(imgStoreLogo.Left - bW, imgStoreLogo.Top - bW)
-        imgStoreLogoBorder.Size = New Size(imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW)
-
-        'imgBackground.Move 0, 0, ScaleWidth, ScaleHeight
-        imgBackground.Location = New Point(0, 0)
-        imgBackground.Size = New Size(Me.ClientSize.Width, Me.ClientSize.Height)
-        '  PaintPicture imgBackground.Picture, 0, 0, ScaleWidth, ScaleHeight, 0, 0, imgBackground.Picture.Width, imgBackground.Picture.Height
-
-        'lblStore(0).Move 60, ScaleHeight - lblStore(0).Height - 60
-        lblStore0.Location = New Point(60, Me.ClientSize.Height - lblStore0.Height - 60)
-
-        'lblStore(1).Move ScaleWidth / 2 - lblStore(1).Width / 2, ScaleHeight - lblStore(1).Height - 60
-        lblStore1.Location = New Point(Me.ClientSize.Width / 2 - lblStore1.Width / 2, Me.ClientSize.Height - lblStore1.Height - 60)
-        'lblStore(2).Move ScaleWidth - lblStore(2).Width - 60, ScaleHeight - lblStore(2).Height - 60
-        lblStore2.Location = New Point(Me.ClientSize.Width - lblStore2.Width - 60, Me.ClientSize.Height - lblStore2.Height - 60)
-
-        LockWindowUpdate(IntPtr.Zero)
-
     End Sub
 
     Private Sub MainMenu4_Deactivate(sender As Object, e As EventArgs) Handles MyBase.Deactivate
@@ -246,8 +200,11 @@ Public Class MainMenu4
     Private Sub lblMenuItem_MouseMove(sender As Object, e As MouseEventArgs) Handles lblMenuItem.MouseMove
         'If imgMenuItem(Index).Width < 1000 Then MenuItemHighlight Index
         Dim I As Integer
-        I = Mid(lblMenuItem.Name, 12)
-        If imgMenuItem.Width < 1000 Then MenuItemHighlight(I)
+        Try
+            I = Mid(lblMenuItem.Name, 12)
+            If imgMenuItem.Width < 1000 Then MenuItemHighlight(I)
+        Catch ex As InvalidCastException
+        End Try
     End Sub
 
     Private Sub m_cHotKey_HotKeyPress(ByVal sName As String, ByVal eModifiers As cRegHotKey.EHKModifiers, ByVal eKey As KeyCodeConstants)
@@ -493,14 +450,12 @@ Public Class MainMenu4
     'Private Sub bvb_MouseExit(Index As Integer) : MainMenuPulse Index, True: End Sub
     Private Sub bvb_MouseEnter(sender As Object, e As EventArgs) Handles bvb0.MouseEnter, bvb1.MouseEnter, bvb2.MouseEnter, bvb3.MouseEnter, bvb4.MouseEnter, bvb5.MouseEnter
         Dim p As PictureBox
-
         p = CType(sender, PictureBox)
         MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1))
     End Sub
 
     Private Sub bvb_MouseLeave(sender As Object, e As EventArgs) Handles bvb0.MouseLeave, bvb1.MouseLeave, bvb2.MouseLeave, bvb3.MouseLeave, bvb4.MouseLeave, bvb5.MouseLeave
         Dim p As PictureBox
-
         p = CType(sender, PictureBox)
         MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1), True)
     End Sub
@@ -741,15 +696,21 @@ Public Class MainMenu4
 
     Private Sub imgMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles imgMenuItem.MouseEnter
         Dim I As Integer
-        I = Mid(imgMenuItem.Name, 12)
-        MenuItemHighlight(I)
+        Try
+            I = Mid(imgMenuItem.Name, 12)
+            MenuItemHighlight(I)
+        Catch ex As System.InvalidCastException
+        End Try
     End Sub
 
     Private Sub imgMenuItem_MouseLeave(sender As Object, e As EventArgs) Handles imgMenuItem.MouseLeave
         'MenuItemHighlight(Index, True)
         Dim I As Integer
-        I = Mid(imgMenuItem.Name, 12)
-        MenuItemHighlight(I, True)
+        Try
+            I = Mid(imgMenuItem.Name, 12)
+            MenuItemHighlight(I, True)
+        Catch ex As InvalidCastException
+        End Try
     End Sub
 
     Public Sub MenuItemHighlight(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False)
@@ -843,8 +804,8 @@ Public Class MainMenu4
 
     Public Sub LoadMenuToForm(ByVal Menu As String)
         Dim I As Integer, ArtPic As String, Art As StdPicture
-        ActiveLog("MainMenu::LoadMenuToForm(" & Menu & ")", 4)
 
+        ActiveLog("MainMenu::LoadMenuToForm(" & Menu & ")", 4)
         ShowMsgs(Menu = "")
 
         Menu = Replace(LCase(Menu), "&", "")
@@ -855,14 +816,30 @@ Public Class MainMenu4
             Case Else
                 On Error Resume Next
                 'For I = 1 To imgMenuItem.UBound
-                'Unload imgMenuItem(I)
-                'Unload lblMenuItem(I)
+                '    UBound(imgMenuItem)
+                '    Unload imgMenuItem(I)
+                '    Unload lblMenuItem(I)
                 'Next
-                imgMenuItem.Hide()
-                lblMenuItem.Hide()
+                For Each p As PictureBox In Me.Controls
+                    If Mid(p.Name, 1, 11) = "imgMenuItem" Then
+                        I = I + 1
+                    End If
+                Next
+                If I > 1 Then
+                    For Each p As PictureBox In Me.Controls
+                        If Mid(p.Name, 1, 11) = "imgMenuItem" Then
+                            If Len(p.Name) > 11 Then
+                                p.Hide()
+                            End If
+                        End If
+                    Next
+                    'imgMenuItem.Hide()
+                    'lblMenuItem.Hide()
+                End If
 
                 'If imgStoreLogo.Picture = 0 Then Set imgStoreLogo.Picture = LoadPictureStd(StoreLogoFile())
-                If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = LoadPictureStd(StoreLogoFile())
+                'If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = LoadPictureStd(StoreLogoFile())
+                If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = Image.FromFile(StoreLogoFile)
                 imgStoreLogo.Visible = (Menu = "" And IsNothing(imgStoreLogo.Image))
                 imgStoreLogoBorder.Visible = imgStoreLogo.Visible
                 'imgStoreLogoBorder.BackStyle = 1
@@ -870,7 +847,7 @@ Public Class MainMenu4
 
                 On Error GoTo 0
                 GenericLoader(Menu)
-                '      MsgBox "Program referenced a non-existant menu: " & Menu, vbCritical, "Menu Error"
+                'MsgBox "Program referenced a non-existant menu: " & Menu, vbCritical, "Menu Error"
         End Select
     End Sub
 
@@ -932,14 +909,34 @@ Public Class MainMenu4
 
         'TPP = Screen.TwipsPerPixelX
         'TPP2 = Screen.TwipsPerPixelY
+        Dim g As Graphics, x As Single, y As Single
+        g = CreateGraphics()
+        x = 15 / 1440 * g.DpiX
+        y = 15 / 1440 * g.DpiY
 
+        TPP = x
+        TPP2 = y
         On Error Resume Next
         'For I = 1 To imgMenuItem.UBound
         'Unload imgMenuItem(I)
         'Unload lblMenuItem(I)
         'Next
-        imgMenuItem.Hide()
-        lblMenuItem.Hide()
+        'imgMenuItem.Hide()
+        'lblMenuItem.Hide()
+        For Each p As PictureBox In Me.Controls
+            If Mid(p.Name, 1, 11) = "imgMenuItem" Then
+                I = I + 1
+            End If
+        Next
+        If I > 1 Then
+            For Each p As PictureBox In Me.Controls
+                If Mid(p.Name, 1, 11) = "imgMenuItem" Then
+                    If Len(p.Name) > 11 Then
+                        p.Hide()
+                    End If
+                End If
+            Next
+        End If
 
         lblMenuCaption.Tag = MenuName
 
@@ -1103,6 +1100,54 @@ Public Class MainMenu4
         frmVersionControl.ShowDialog()
     End Sub
 
+    Private Sub MainMenu4_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        '    On Error Resume Next
+
+        '    If Width < FRM_W_MIN Then
+        '        Width = FRM_W_MIN
+        '        Exit Sub
+        '    End If
+
+        '    If Height < FRM_H_MIN Then
+        '        Height = FRM_H_MIN
+        '        Exit Sub
+        '    End If
+
+        '    'LockWindowUpdate hWnd
+        LockWindowUpdate(Handle)
+
+        'imgInfo.Move ScaleWidth - imgInfo.Width, 0
+        imgInfo.Location = New Point(Me.ClientSize.Width - imgInfo.Width, 0)
+
+        Const bW As Integer = 30
+
+        'imgStoreLogo.Move ScaleWidth / 2 - 5415 / 2, ScaleHeight - 1325 - 1755 / 2, 5415, 1755
+        imgStoreLogo.Location = New Point(Me.ClientSize.Width / 2 - 5415 / 2, Me.ClientSize.Height - 1325 - 1755 / 2)
+        imgStoreLogo.Size = New Size(5415, 1755)
+        'imgStoreLogo.Stretch = True
+        imgStoreLogo.SizeMode = PictureBoxSizeMode.StretchImage
+
+        '    ResizeAndCenterPicture(imgStoreLogo, LoadPictureStd(StoreLogoFile()))
+        '    'imgStoreLogoBorder.Move imgStoreLogo.Left - bW, imgStoreLogo.Top - bW, imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW
+        '    imgStoreLogoBorder.Location = New Point(imgStoreLogo.Left - bW, imgStoreLogo.Top - bW)
+        '    imgStoreLogoBorder.Size = New Size(imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW)
+
+        '    'imgBackground.Move 0, 0, ScaleWidth, ScaleHeight
+        '    imgBackground.Location = New Point(0, 0)
+        '    imgBackground.Size = New Size(Me.ClientSize.Width, Me.ClientSize.Height)
+        '    '  PaintPicture imgBackground.Picture, 0, 0, ScaleWidth, ScaleHeight, 0, 0, imgBackground.Picture.Width, imgBackground.Picture.Height
+
+        'lblStore(0).Move 60, ScaleHeight - lblStore(0).Height - 60
+        'lblStore0.Location = New Point(60, Me.ClientSize.Height - lblStore0.Height - 60)
+
+        ''lblStore(1).Move ScaleWidth / 2 - lblStore(1).Width / 2, ScaleHeight - lblStore(1).Height - 60
+        'lblStore1.Location = New Point(Me.ClientSize.Width / 2 - lblStore1.Width / 2, Me.ClientSize.Height - lblStore1.Height - 60)
+        ''lblStore(2).Move ScaleWidth - lblStore(2).Width - 60, ScaleHeight - lblStore(2).Height - 60
+        'lblStore2.Location = New Point(Me.ClientSize.Width - lblStore2.Width - 60, Me.ClientSize.Height - lblStore2.Height - 60)
+
+        LockWindowUpdate(IntPtr.Zero)
+    End Sub
+
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
         txtInfo.Text = AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True)
         'txtInfo.Locked = True
@@ -1188,10 +1233,11 @@ Public Class MainMenu4
             CurrentMenuIndex = 1
 
             'Top = Screen.Height - Height / 2
-            Top = Screen.PrimaryScreen.Bounds.Height - Height / 2
+            'Top = (Screen.PrimaryScreen.Bounds.Height - Height) / 2
             'Left = Screen.Width - Width / 2
-            Left = Screen.PrimaryScreen.Bounds.Width - Width / 2
+            'Left = (Screen.PrimaryScreen.Bounds.Width - Width) / 2
 
+            'Me.Location = New Point((Screen.PrimaryScreen.Bounds.Width - Width) / 2, (Screen.PrimaryScreen.Bounds.Height - Height) / 2)
             'mnuHelpScreenShare.Visible = IsCDSComputer("prototype")
             '  If IsIDE And IsDevelopment Then InitHotKeysLocal
             '  SetCustomFrame Me, ncMacLook
@@ -1212,13 +1258,17 @@ Public Class MainMenu4
         Dim L As Object, Name As String, TName As String
 
         'If Screen.TwipsPerPixelX = 15 Then Exit Sub
-
-        Dim g As Graphics
+        Dim g As Graphics, x As Single, y As Single
         g = CreateGraphics()
-        Dim r As Single
-        r = 15 / 1440 * g.DpiX
+        x = 15 / 1440 * g.DpiX
+        'If x = 1 Then Exit Sub
+        If Screen.PrimaryScreen.Bounds.X = x - 1 Then Exit Sub
+
+        'y = 15 / 1440 * g.DpiY
         'dX = Screen.TwipsPerPixelX / 15
         'dY = Screen.TwipsPerPixelY / 15
+        dX = Screen.PrimaryScreen.Bounds.X
+        dY = Screen.PrimaryScreen.Bounds.Y
 
         ActiveLog("MainMenu::AdjustFormForLargeFonts - Adjusting...  dX=" & dX & ", dY=" & dY)
 

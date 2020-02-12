@@ -31,14 +31,14 @@ Partial Class MainMenu4
         Me.Button1 = New System.Windows.Forms.Button()
         Me.imlSmallButtons = New System.Windows.Forms.ImageList(Me.components)
         Me.rtb = New System.Windows.Forms.RichTextBox()
-        Me.rtbn = New WinCDS.RichTextBoxNew()
-        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.fraSupplies = New System.Windows.Forms.GroupBox()
         Me.picAlpha = New System.Windows.Forms.PictureBox()
         Me.cdgFile = New AxMSComDlg.AxCommonDialog()
         Me.MSComm1 = New AxMSCommLib.AxMSComm()
         Me.imgPicture = New System.Windows.Forms.PictureBox()
         Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
+        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
+        Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.imlMM = New System.Windows.Forms.ImageList(Me.components)
         Me.lblLastBackup = New System.Windows.Forms.Label()
         Me.lblDEMO = New System.Windows.Forms.Label()
@@ -180,22 +180,6 @@ Partial Class MainMenu4
         Me.rtb.Text = ""
         Me.rtb.Visible = False
         '
-        'rtbn
-        '
-        Me.rtbn.Location = New System.Drawing.Point(180, 19)
-        Me.rtbn.Name = "rtbn"
-        Me.rtbn.Size = New System.Drawing.Size(40, 38)
-        Me.rtbn.TabIndex = 2
-        Me.rtbn.Visible = False
-        '
-        'rtbStorePolicy
-        '
-        Me.rtbStorePolicy.Location = New System.Drawing.Point(134, 19)
-        Me.rtbStorePolicy.Name = "rtbStorePolicy"
-        Me.rtbStorePolicy.Size = New System.Drawing.Size(40, 38)
-        Me.rtbStorePolicy.TabIndex = 1
-        Me.rtbStorePolicy.Visible = False
-        '
         'fraSupplies
         '
         Me.fraSupplies.Controls.Add(Me.picAlpha)
@@ -265,6 +249,22 @@ Partial Class MainMenu4
         Me.datPicture.TabIndex = 7
         Me.datPicture.Text = "Adodc1"
         Me.datPicture.Visible = False
+        '
+        'rtbStorePolicy
+        '
+        Me.rtbStorePolicy.Location = New System.Drawing.Point(134, 19)
+        Me.rtbStorePolicy.Name = "rtbStorePolicy"
+        Me.rtbStorePolicy.Size = New System.Drawing.Size(40, 38)
+        Me.rtbStorePolicy.TabIndex = 1
+        Me.rtbStorePolicy.Visible = False
+        '
+        'rtbn
+        '
+        Me.rtbn.Location = New System.Drawing.Point(180, 19)
+        Me.rtbn.Name = "rtbn"
+        Me.rtbn.Size = New System.Drawing.Size(40, 38)
+        Me.rtbn.TabIndex = 2
+        Me.rtbn.Visible = False
         '
         'imlMM
         '

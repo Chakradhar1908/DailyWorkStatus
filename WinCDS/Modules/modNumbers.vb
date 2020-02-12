@@ -17,12 +17,15 @@
             InRange = (CHK > LBnd) And (CHK < UBnd)
         End If
     End Function
-    Public Function Random(ByVal Max as integer, Optional ByVal Min as integer = 0) as integer
+
+    Public Function Random(ByVal Max As Integer, Optional ByVal Min As Integer = 0) As Integer
         'To produce random integers in a given range, use this formula:
         'Int((upperbound - lowerbound + 1) * Rnd + lowerbound)
-        Random = CLng((Max - Min + 1) * Rnd() + Min)
+        'Random = CLng((Max - Min + 1) * Rnd() + Min)
+        Random = (Max - Min + 1) * Rnd() + Min
         If Random > Max Then Random = Max
     End Function
+
     Public Function MinArray(ByRef A)
         Dim L
         On Error Resume Next

@@ -87,7 +87,8 @@
         'MessageBox.Show("ReadEntireFile was short: " & FileLen(FileName) & " vs " & Len(ReadEntireFile))
         'End If
         If fl.Length / 10 <> Len(ReadEntireFile) / 10 Then
-            MessageBox.Show("ReadEntireFile was short: " & fl.Length & " vs " & Len(ReadEntireFile))
+            'While debugging, this message is showing multiple time. So commented. If required in future, remove the comment.
+            'MessageBox.Show("ReadEntireFile was short: " & fl.Length & " vs " & Len(ReadEntireFile))
         End If
 
         '

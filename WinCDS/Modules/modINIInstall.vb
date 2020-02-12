@@ -8,32 +8,32 @@
 
         If Not FileExists(StoreFolder(1) & FeatureName & ".dat") Then Exit Function
 
-        '      If IsFormLoaded("frmSetupAmazon") Then frmSetupAmazon.Cancelled = True : frmSetupAmazon.Hide
-        '      If IsFormLoaded("frmSetupAshley") Then frmSetupAshley.Cancelled = True : frmSetupAshley.Hide
-        '      If IsFormLoaded("frmSetupDispatchTrack") Then frmSetupDispatchTrack.Cancelled = True : frmSetupDispatchTrack.Hide
-        '      If IsFormLoaded("frmSetupEquifax") Then frmSetupEquifax.Cancelled = True : frmSetupEquifax.Hide
-        '      If IsFormLoaded("frmSetupPersonalization") Then frmSetupPersonalization.Cancelled = True : frmSetupPersonalization.Hide
-        '      If IsFormLoaded("frmSetupRevolving") Then frmSetupRevolving.Cancelled = True : frmSetupRevolving.Hide
-        '      If IsFormLoaded("frmSetupCCXCharge") Then frmSetupCCXCharge.Cancelled = True : frmSetupCCXCharge.Hide
-        '      If IsFormLoaded("frmSetupCCTransactionCentral") Then frmSetupCCTransactionCentral.Cancelled = True : frmSetupCCTransactionCentral.Hide
-        '      If IsFormLoaded("frmSetupCredomatic") Then frmSetupCCCredomatic.Cancelled = True : frmSetupCCCredomatic.Hide
-        '      If IsFormLoaded("frmSetupTRAX") Then frmSetupTRAX.Cancelled = True : frmSetupTRAX.Hide
+        If IsFormLoaded("frmSetupAmazon") Then frmSetupAmazon.Cancelled = True : frmSetupAmazon.Hide
+        If IsFormLoaded("frmSetupAshley") Then frmSetupAshley.Cancelled = True : frmSetupAshley.Hide
+        If IsFormLoaded("frmSetupDispatchTrack") Then frmSetupDispatchTrack.Cancelled = True : frmSetupDispatchTrack.Hide
+        If IsFormLoaded("frmSetupEquifax") Then frmSetupEquifax.Cancelled = True : frmSetupEquifax.Hide
+        If IsFormLoaded("frmSetupPersonalization") Then frmSetupPersonalization.Cancelled = True : frmSetupPersonalization.Hide
+        If IsFormLoaded("frmSetupRevolving") Then frmSetupRevolving.Cancelled = True : frmSetupRevolving.Hide
+        If IsFormLoaded("frmSetupCCXCharge") Then frmSetupCCXCharge.Cancelled = True : frmSetupCCXCharge.Hide
+        If IsFormLoaded("frmSetupCCTransactionCentral") Then frmSetupCCTransactionCentral.Cancelled = True : frmSetupCCTransactionCentral.Hide
+        If IsFormLoaded("frmSetupCredomatic") Then frmSetupCCCredomatic.Cancelled = True : frmSetupCCCredomatic.Hide
+        If IsFormLoaded("frmSetupTRAX") Then frmSetupTRAX.Cancelled = True : frmSetupTRAX.Hide
 
-        '      If AsStartup Then
-        '          Select Case LCase(FeatureName)
-        '              Case "amazon"
-        '                  If StoreSettings.AmazonKeyID = "" Then Replaced = True Else Exit Function
-        '              Case Else
-        '          End Select
-        '      End If
+        If AsStartup Then
+            Select Case LCase(FeatureName)
+                Case "amazon"
+                    If StoreSettings.AmazonKeyID = "" Then Replaced = True Else Exit Function
+                Case Else
+            End Select
+        End If
 
-        '      LogFile "InstallINI", "TryInstallINIFeature - " & FeatureName, False
+        LogFile("InstallINI", "TryInstallINIFeature - " & FeatureName, False)
 
-        'InstallINIToStoreSettings StoreFolder(1) & FeatureName & ".dat"
-        'ResetStoreSettings()
-        '      If IsFormLoaded("frmSetup") Then LoadFrmSetupFromStoreInformation StoreSettings
+        InstallINIToStoreSettings(StoreFolder(1) & FeatureName & ".dat")
+        ResetStoreSettings()
+        If IsFormLoaded("frmSetup") Then LoadFrmSetupFromStoreInformation(StoreSettings)
 
-        'If Replaced Then LogFile "InstallINI", "TryInstallINIFeature - " & FeatureName & "  - Data was replaced.", False
+        If Replaced Then LogFile("InstallINI", "TryInstallINIFeature - " & FeatureName & "  - Data was replaced.", False)
 
         TryInstallINIFeature = True
     End Function

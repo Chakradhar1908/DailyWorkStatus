@@ -68,6 +68,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.SqlServer.GridControl, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\program files (x86)\microsoft visual studio\2017\community\common7\ide\extensions\microsoft\sqlcommon\150\Microsoft.SqlServer.GridControl.dll</HintPath>
@@ -593,6 +594,66 @@
     <Compile Include="Forms\frmSetup.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmSetupAmazon.Designer.vb">
+      <DependentUpon>frmSetupAmazon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupAmazon.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupAshley.Designer.vb">
+      <DependentUpon>frmSetupAshley.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupAshley.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupCCCredomatic.Designer.vb">
+      <DependentUpon>frmSetupCCCredomatic.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupCCCredomatic.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupCCTransactionCentral.Designer.vb">
+      <DependentUpon>frmSetupCCTransactionCentral.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupCCTransactionCentral.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupCCXCharge.Designer.vb">
+      <DependentUpon>frmSetupCCXCharge.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupCCXCharge.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupDispatchTrack.Designer.vb">
+      <DependentUpon>frmSetupDispatchTrack.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupDispatchTrack.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupEquifax.Designer.vb">
+      <DependentUpon>frmSetupEquifax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupEquifax.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupPersonalization.Designer.vb">
+      <DependentUpon>frmSetupPersonalization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupPersonalization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupRevolving.Designer.vb">
+      <DependentUpon>frmSetupRevolving.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupRevolving.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSetupTRAX.Designer.vb">
+      <DependentUpon>frmSetupTRAX.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSetupTRAX.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmSpeech.Designer.vb">
       <DependentUpon>frmSpeech.vb</DependentUpon>
     </Compile>
@@ -1003,6 +1064,7 @@
     <Compile Include="Modules\LUT_PropRate.vb" />
     <Compile Include="Modules\MainModule.vb" />
     <Compile Include="Modules\MFreeImage.vb" />
+    <Compile Include="Modules\mGeneral.vb" />
     <Compile Include="Modules\mod2Data.vb" />
     <Compile Include="Modules\mod2DataPictures.vb" />
     <Compile Include="Modules\mod2DataTransfers.vb" />

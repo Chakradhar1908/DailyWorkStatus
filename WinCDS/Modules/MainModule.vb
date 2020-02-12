@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports stdole
 Imports System.Threading
+Imports Microsoft.Build.Framework.XamlTypes
 Module MainModule
     Private mIsServer As TriState           ' Cache this high-use, non-trivial value
     Public Allow_ADODB_Errors As Boolean      ' Allow the database to continue after errors - for debugging and special cases.
@@ -934,6 +935,9 @@ Finish:
         'frmSplash.DoStatus StartupProcess
         modMainMenu.frmSplash.DoStatus(StartupProcess)
         'App.HelpFile = WinCDSHelpFile()
+        'Dim b As New BaseProperty
+        'b.HelpFile = WinCDSHelpFile()
+
         SplashProgress(60)
 
 
