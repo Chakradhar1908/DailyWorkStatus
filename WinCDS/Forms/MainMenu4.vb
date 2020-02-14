@@ -7,7 +7,7 @@ Public Class MainMenu4
     'Private Const FRM_W_MIN As Integer = 14355
     Private Const FRM_W_MIN As Integer = 1000
     'Private Const FRM_H_MIN As Integer = 9810
-    Private Const FRM_H_MIN As Integer = 900
+    Private Const FRM_H_MIN As Integer = 650
     Private Const WM_NCLBUTTONDOWN As Integer = &HA1
     Private Const HTCAPTION As Integer = 2
     Private Const MINWIDTH As Integer = 762
@@ -91,6 +91,10 @@ Public Class MainMenu4
         CatchKeys()
         'Form_Resize
         'MainMenu4_Resize(Me, New EventArgs)
+
+        'lblWinCDS.Left = Me.Width - 150
+        'lblWinCDS.Width = 217
+        'lblWinCDS.AutoSize = True
     End Sub
 
     Private Sub CatchKeys()
@@ -164,23 +168,23 @@ Public Class MainMenu4
         InitHotKeys(m_cHotKey)
     End Sub
 
-    Private Sub lblRDP_Click(sender As Object, e As EventArgs) Handles lblRDP.Click
+    Private Sub lblRDP_Click(sender As Object, e As EventArgs)
         DisplayDevState(True)
     End Sub
 
-    Private Sub lblBETA_Click(sender As Object, e As EventArgs) Handles lblBETA.Click
+    Private Sub lblBETA_Click(sender As Object, e As EventArgs)
         DisplayDevState(True)
     End Sub
 
-    Private Sub lblCDSComputer_Click(sender As Object, e As EventArgs) Handles lblCDSComputer.Click
+    Private Sub lblCDSComputer_Click(sender As Object, e As EventArgs)
         DisplayDevState(True)
     End Sub
 
-    Private Sub lblDevMode_Click(sender As Object, e As EventArgs) Handles lblDevMode.Click
+    Private Sub lblDevMode_Click(sender As Object, e As EventArgs)
         DisplayDevState(True)
     End Sub
 
-    Private Sub lblELEVATE_Click(sender As Object, e As EventArgs) Handles lblELEVATE.Click
+    Private Sub lblELEVATE_Click(sender As Object, e As EventArgs)
         DisplayDevState(True)
     End Sub
 
@@ -451,19 +455,21 @@ Public Class MainMenu4
     Private Sub bvb_MouseEnter(sender As Object, e As EventArgs) Handles bvb0.MouseEnter, bvb1.MouseEnter, bvb2.MouseEnter, bvb3.MouseEnter, bvb4.MouseEnter, bvb5.MouseEnter
         Dim p As PictureBox
         p = CType(sender, PictureBox)
-        MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1))
+        MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1),, p)
     End Sub
 
     Private Sub bvb_MouseLeave(sender As Object, e As EventArgs) Handles bvb0.MouseLeave, bvb1.MouseLeave, bvb2.MouseLeave, bvb3.MouseLeave, bvb4.MouseLeave, bvb5.MouseLeave
         Dim p As PictureBox
         p = CType(sender, PictureBox)
-        MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1), True)
+        MainMenuPulse(Microsoft.VisualBasic.Right(p.Name, 1), True, p)
     End Sub
 
-    Private Sub MainMenuPulse(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False)
+    Private Sub MainMenuPulse(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False, Optional ByVal P As PictureBox = Nothing)
         tmrPulse.Enabled = True
         'bvb(Index).LightnessPct = 0  -> Commented this line. Because in vb6, bvb is an "alphaimage" control. But .Net is not supporting it. 
         '--> So replaced it with picturebox control. And picturebox does not have "LightnessPct" property.
+        'bvb0.BorderStyle = BorderStyle.None
+        P.BorderStyle = BorderStyle.None
         tmrPulse.Tag = "-1"
         If StopIt Then Exit Sub
         tmrPulse.Interval = 10
@@ -481,10 +487,28 @@ Public Class MainMenu4
             tmrPulse.Enabled = False
             Exit Sub
         End If
-        R = (GetTickCount Mod T) - Q
-        R = IIf(R < 500, R, T - R)
+        'R = (GetTickCount Mod T) - Q
+        'R = IIf(R < 500, R, T - R)
         'bvb(Val(tmrPulse.Tag)).LightnessPct = R * C / T + 25 --> Commented two lines,because bvb is third party control called "alphaimage".
         'bvb(Val(tmrPulse.Tag)).Refresh                           Replaced with picture box. 
+        Select Case tmrPulse.Tag
+            Case 0
+                bvb0.BorderStyle = BorderStyle.Fixed3D
+                bvb0.Refresh()
+            Case 1
+                bvb1.BorderStyle = BorderStyle.Fixed3D
+                bvb1.Refresh()
+            Case 2
+                bvb2.BorderStyle = BorderStyle.Fixed3D
+                bvb2.Refresh()
+            Case 3
+                bvb3.BorderStyle = BorderStyle.Fixed3D
+                bvb3.Refresh()
+            Case 4
+                bvb3.BorderStyle = BorderStyle.Fixed3D
+            Case 5
+                bvb3.BorderStyle = BorderStyle.Fixed3D
+        End Select
     End Sub
 
     'Private Sub bvb_Click(Index As Integer) : MainMenuClick Index: End Sub
@@ -840,7 +864,7 @@ Public Class MainMenu4
                 'If imgStoreLogo.Picture = 0 Then Set imgStoreLogo.Picture = LoadPictureStd(StoreLogoFile())
                 'If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = LoadPictureStd(StoreLogoFile())
                 If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = Image.FromFile(StoreLogoFile)
-                imgStoreLogo.Visible = (Menu = "" And IsNothing(imgStoreLogo.Image))
+                imgStoreLogo.Visible = (Menu = "" And Not IsNothing(imgStoreLogo.Image))
                 imgStoreLogoBorder.Visible = imgStoreLogo.Visible
                 'imgStoreLogoBorder.BackStyle = 1
                 lblMenuCaption.Tag = LCase(Menu)
@@ -1102,16 +1126,20 @@ Public Class MainMenu4
 
     Private Sub MainMenu4_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
         '    On Error Resume Next
+        'MessageBox.Show(Me.Width)
 
-        '    If Width < FRM_W_MIN Then
-        '        Width = FRM_W_MIN
-        '        Exit Sub
-        '    End If
+        If Width < FRM_W_MIN Then
+            Width = FRM_W_MIN
+            Exit Sub
+        End If
+        'lblWinCDS.Text = "WinCDS PRO"
+        'lblWinCDS.Left = Me.Width - 150
+        'lblWinCDS.Width = 217
 
-        '    If Height < FRM_H_MIN Then
-        '        Height = FRM_H_MIN
-        '        Exit Sub
-        '    End If
+        If Height < FRM_H_MIN Then
+            Height = FRM_H_MIN
+            Exit Sub
+        End If
 
         '    'LockWindowUpdate hWnd
         LockWindowUpdate(Handle)
@@ -1119,19 +1147,21 @@ Public Class MainMenu4
         'imgInfo.Move ScaleWidth - imgInfo.Width, 0
         imgInfo.Location = New Point(Me.ClientSize.Width - imgInfo.Width, 0)
 
-        Const bW As Integer = 30
-
+        'Const bW As Integer = 30
+        Const bW As Integer = 3
         'imgStoreLogo.Move ScaleWidth / 2 - 5415 / 2, ScaleHeight - 1325 - 1755 / 2, 5415, 1755
-        imgStoreLogo.Location = New Point(Me.ClientSize.Width / 2 - 5415 / 2, Me.ClientSize.Height - 1325 - 1755 / 2)
-        imgStoreLogo.Size = New Size(5415, 1755)
+        'imgStoreLogo.Location = New Point(Me.ClientSize.Width / 2 - 541 / 2, Me.ClientSize.Height - 132 - 175 / 2)
+        imgStoreLogo.Top = Me.Height - 180
+        imgStoreLogo.Left = Me.Width / 3
+        'imgStoreLogo.Size = New Size(500, 135)
         'imgStoreLogo.Stretch = True
-        imgStoreLogo.SizeMode = PictureBoxSizeMode.StretchImage
 
-        '    ResizeAndCenterPicture(imgStoreLogo, LoadPictureStd(StoreLogoFile()))
-        '    'imgStoreLogoBorder.Move imgStoreLogo.Left - bW, imgStoreLogo.Top - bW, imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW
-        '    imgStoreLogoBorder.Location = New Point(imgStoreLogo.Left - bW, imgStoreLogo.Top - bW)
-        '    imgStoreLogoBorder.Size = New Size(imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW)
+        'ResizeAndCenterPicture(imgStoreLogo, LoadPictureStd(StoreLogoFile()))
+        'imgStoreLogoBorder.Move imgStoreLogo.Left - bW, imgStoreLogo.Top - bW, imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW
+        'imgStoreLogoBorder.Location = New Point(imgStoreLogo.Left - bW, imgStoreLogo.Top - bW)
+        'imgStoreLogoBorder.Size = New Size(imgStoreLogo.Width + 2 * bW, imgStoreLogo.Height + 2 * bW)
 
+        'imgStoreLogo.BringToFront()
         '    'imgBackground.Move 0, 0, ScaleWidth, ScaleHeight
         '    imgBackground.Location = New Point(0, 0)
         '    imgBackground.Size = New Size(Me.ClientSize.Width, Me.ClientSize.Height)
@@ -1139,12 +1169,16 @@ Public Class MainMenu4
 
         'lblStore(0).Move 60, ScaleHeight - lblStore(0).Height - 60
         'lblStore0.Location = New Point(60, Me.ClientSize.Height - lblStore0.Height - 60)
-
+        lblStore0.Top = Me.Height - 65
+        'lblStore2.Left = Me.Width - 100
+        lblStore1.Top = Me.Height - 60
+        lblStore2.Top = Me.Height - 60
         ''lblStore(1).Move ScaleWidth / 2 - lblStore(1).Width / 2, ScaleHeight - lblStore(1).Height - 60
         'lblStore1.Location = New Point(Me.ClientSize.Width / 2 - lblStore1.Width / 2, Me.ClientSize.Height - lblStore1.Height - 60)
         ''lblStore(2).Move ScaleWidth - lblStore(2).Width - 60, ScaleHeight - lblStore(2).Height - 60
         'lblStore2.Location = New Point(Me.ClientSize.Width - lblStore2.Width - 60, Me.ClientSize.Height - lblStore2.Height - 60)
-
+        KeyCatch.Left = Me.Width + 50
+        imgStoreLogoBorder.Left = Me.Width + 50
         LockWindowUpdate(IntPtr.Zero)
     End Sub
 
@@ -1196,7 +1230,6 @@ Public Class MainMenu4
         End If
     End Sub
 
-
     Public Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         'Case "newsale"
         If CrippleBug("New Sales") Then Exit Sub
@@ -1221,7 +1254,7 @@ Public Class MainMenu4
     End Sub
 
     Private Sub MainMenu4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Main()
+        'Main()
         Try
             If modKillBug.KillBug Then End
             AdjustFormForLargeFonts()
@@ -1238,7 +1271,7 @@ Public Class MainMenu4
             'Left = (Screen.PrimaryScreen.Bounds.Width - Width) / 2
 
             'Me.Location = New Point((Screen.PrimaryScreen.Bounds.Width - Width) / 2, (Screen.PrimaryScreen.Bounds.Height - Height) / 2)
-            'mnuHelpScreenShare.Visible = IsCDSComputer("prototype")
+            mnuHelpScreenShare.Visible = IsCDSComputer("prototype")
             '  If IsIDE And IsDevelopment Then InitHotKeysLocal
             '  SetCustomFrame Me, ncMacLook
 

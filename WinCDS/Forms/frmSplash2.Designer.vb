@@ -22,104 +22,136 @@ Partial Class frmSplash2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblStatus = New System.Windows.Forms.Label()
+        Me.imgBackground = New System.Windows.Forms.PictureBox()
         Me.picProgress = New System.Windows.Forms.PictureBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblProgram3 = New System.Windows.Forms.Label()
+        Me.lblProgram2 = New System.Windows.Forms.Label()
         Me.lblProgram0 = New System.Windows.Forms.Label()
         Me.lblProgram1 = New System.Windows.Forms.Label()
-        Me.lblProgram2 = New System.Windows.Forms.Label()
-        Me.lblProgram3 = New System.Windows.Forms.Label()
-        Me.imgBackground = New System.Windows.Forms.PictureBox()
-        CType(Me.picProgress, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblStatus = New System.Windows.Forms.Label()
         CType(Me.imgBackground, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picProgress, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'lblStatus
+        'imgBackground
         '
-        Me.lblStatus.AutoSize = True
-        Me.lblStatus.Location = New System.Drawing.Point(317, 174)
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(39, 13)
-        Me.lblStatus.TabIndex = 0
-        Me.lblStatus.Text = "Label1"
+        Me.imgBackground.BackColor = System.Drawing.Color.Blue
+        Me.imgBackground.Image = Global.WinCDS.My.Resources.Resources.Splash
+        Me.imgBackground.Location = New System.Drawing.Point(0, -1)
+        Me.imgBackground.Name = "imgBackground"
+        Me.imgBackground.Size = New System.Drawing.Size(600, 300)
+        Me.imgBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgBackground.TabIndex = 6
+        Me.imgBackground.TabStop = False
         '
         'picProgress
         '
-        Me.picProgress.Location = New System.Drawing.Point(335, 324)
+        Me.picProgress.BackColor = System.Drawing.Color.Blue
+        Me.picProgress.Location = New System.Drawing.Point(500, 282)
         Me.picProgress.Name = "picProgress"
-        Me.picProgress.Size = New System.Drawing.Size(100, 50)
+        Me.picProgress.Size = New System.Drawing.Size(100, 17)
         Me.picProgress.TabIndex = 1
         Me.picProgress.TabStop = False
+        Me.picProgress.Visible = False
         '
-        'lblProgram0
+        'Label1
         '
-        Me.lblProgram0.AutoSize = True
-        Me.lblProgram0.Location = New System.Drawing.Point(381, 219)
-        Me.lblProgram0.Name = "lblProgram0"
-        Me.lblProgram0.Size = New System.Drawing.Size(39, 13)
-        Me.lblProgram0.TabIndex = 2
-        Me.lblProgram0.Text = "Label1"
-        '
-        'lblProgram1
-        '
-        Me.lblProgram1.AutoSize = True
-        Me.lblProgram1.Location = New System.Drawing.Point(381, 250)
-        Me.lblProgram1.Name = "lblProgram1"
-        Me.lblProgram1.Size = New System.Drawing.Size(39, 13)
-        Me.lblProgram1.TabIndex = 3
-        Me.lblProgram1.Text = "Label1"
-        '
-        'lblProgram2
-        '
-        Me.lblProgram2.AutoSize = True
-        Me.lblProgram2.Location = New System.Drawing.Point(381, 275)
-        Me.lblProgram2.Name = "lblProgram2"
-        Me.lblProgram2.Size = New System.Drawing.Size(39, 13)
-        Me.lblProgram2.TabIndex = 4
-        Me.lblProgram2.Text = "Label1"
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Blue
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Label1.Location = New System.Drawing.Point(157, 14)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(210, 29)
+        Me.Label1.TabIndex = 7
+        Me.Label1.Text = "DEMO VERSION"
+        Me.Label1.Visible = False
         '
         'lblProgram3
         '
         Me.lblProgram3.AutoSize = True
-        Me.lblProgram3.Location = New System.Drawing.Point(381, 288)
+        Me.lblProgram3.BackColor = System.Drawing.Color.Blue
+        Me.lblProgram3.ForeColor = System.Drawing.Color.Transparent
+        Me.lblProgram3.Location = New System.Drawing.Point(1, 218)
         Me.lblProgram3.Name = "lblProgram3"
-        Me.lblProgram3.Size = New System.Drawing.Size(39, 13)
-        Me.lblProgram3.TabIndex = 5
-        Me.lblProgram3.Text = "Label1"
+        Me.lblProgram3.Size = New System.Drawing.Size(85, 13)
+        Me.lblProgram3.TabIndex = 8
+        Me.lblProgram3.Text = "IsServer? ###..."
         '
-        'imgBackground
+        'lblProgram2
         '
-        Me.imgBackground.Location = New System.Drawing.Point(512, 324)
-        Me.imgBackground.Name = "imgBackground"
-        Me.imgBackground.Size = New System.Drawing.Size(100, 50)
-        Me.imgBackground.TabIndex = 6
-        Me.imgBackground.TabStop = False
+        Me.lblProgram2.AutoSize = True
+        Me.lblProgram2.BackColor = System.Drawing.Color.Blue
+        Me.lblProgram2.ForeColor = System.Drawing.Color.Transparent
+        Me.lblProgram2.Location = New System.Drawing.Point(1, 235)
+        Me.lblProgram2.Name = "lblProgram2"
+        Me.lblProgram2.Size = New System.Drawing.Size(75, 13)
+        Me.lblProgram2.TabIndex = 9
+        Me.lblProgram2.Text = "Version ###..."
+        '
+        'lblProgram0
+        '
+        Me.lblProgram0.AutoSize = True
+        Me.lblProgram0.BackColor = System.Drawing.Color.Blue
+        Me.lblProgram0.ForeColor = System.Drawing.Color.Transparent
+        Me.lblProgram0.Location = New System.Drawing.Point(1, 255)
+        Me.lblProgram0.Name = "lblProgram0"
+        Me.lblProgram0.Size = New System.Drawing.Size(78, 13)
+        Me.lblProgram0.TabIndex = 10
+        Me.lblProgram0.Text = "Loading ###..."
+        '
+        'lblProgram1
+        '
+        Me.lblProgram1.AutoSize = True
+        Me.lblProgram1.BackColor = System.Drawing.Color.Blue
+        Me.lblProgram1.ForeColor = System.Drawing.Color.Transparent
+        Me.lblProgram1.Location = New System.Drawing.Point(1, 277)
+        Me.lblProgram1.Name = "lblProgram1"
+        Me.lblProgram1.Size = New System.Drawing.Size(84, 13)
+        Me.lblProgram1.TabIndex = 11
+        Me.lblProgram1.Text = "Copyright ###..."
+        '
+        'lblStatus
+        '
+        Me.lblStatus.AutoSize = True
+        Me.lblStatus.BackColor = System.Drawing.Color.Blue
+        Me.lblStatus.ForeColor = System.Drawing.Color.Transparent
+        Me.lblStatus.Location = New System.Drawing.Point(404, 72)
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(28, 13)
+        Me.lblStatus.TabIndex = 12
+        Me.lblStatus.Text = "###"
         '
         'frmSplash2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Controls.Add(Me.imgBackground)
-        Me.Controls.Add(Me.lblProgram3)
-        Me.Controls.Add(Me.lblProgram2)
+        Me.ClientSize = New System.Drawing.Size(597, 298)
+        Me.Controls.Add(Me.lblStatus)
         Me.Controls.Add(Me.lblProgram1)
         Me.Controls.Add(Me.lblProgram0)
+        Me.Controls.Add(Me.lblProgram3)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.lblProgram2)
+        Me.Controls.Add(Me.imgBackground)
         Me.Controls.Add(Me.picProgress)
-        Me.Controls.Add(Me.lblStatus)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "frmSplash2"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "frmSplash2"
-        CType(Me.picProgress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgBackground, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picProgress, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents lblStatus As Label
     Friend WithEvents picProgress As PictureBox
+    Friend WithEvents imgBackground As PictureBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents lblProgram3 As Label
+    Friend WithEvents lblProgram2 As Label
     Friend WithEvents lblProgram0 As Label
     Friend WithEvents lblProgram1 As Label
-    Friend WithEvents lblProgram2 As Label
-    Friend WithEvents lblProgram3 As Label
-    Friend WithEvents imgBackground As PictureBox
+    Friend WithEvents lblStatus As Label
 End Class

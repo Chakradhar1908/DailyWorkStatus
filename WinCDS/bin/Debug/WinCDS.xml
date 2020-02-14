@@ -82,6 +82,11 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.Network">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.nodisc">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -108,6 +113,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.small_up">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.Splash">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
