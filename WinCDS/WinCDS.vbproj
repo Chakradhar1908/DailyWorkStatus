@@ -2152,5 +2152,140 @@
   <ItemGroup>
     <None Include="Resources\Network.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mFile-D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mOrder-D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mInventory-D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mAccounting-D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mMailing-D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mInstallment-D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\creditcardmanager.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\backup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\backupH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\backupitem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ashley.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\configw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loadorig-import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loadorig-manual.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\maintenance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\maintenanceH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\speech.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\password.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\quarterly.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\racklabels.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restoredel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restoreH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restoreitem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\systemH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\utilities.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\utilitiesH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\web.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webcsv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webgen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webopenmonitor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webopensite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webupdates.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\old-reports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tags.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\0010-cd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\export.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

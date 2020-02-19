@@ -96,6 +96,7 @@ Partial Class MainMenu4
         Me.lblBETA = New System.Windows.Forms.Label()
         Me.lblIDE = New System.Windows.Forms.Label()
         Me.lblDEMO = New System.Windows.Forms.Label()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -453,7 +454,7 @@ Partial Class MainMenu4
         '
         'imgMenuItem
         '
-        Me.imgMenuItem.Location = New System.Drawing.Point(294, 91)
+        Me.imgMenuItem.Location = New System.Drawing.Point(196, 71)
         Me.imgMenuItem.Name = "imgMenuItem"
         Me.imgMenuItem.Size = New System.Drawing.Size(103, 93)
         Me.imgMenuItem.TabIndex = 22
@@ -902,4 +903,5 @@ Partial Class MainMenu4
     Friend WithEvents lblBETA As Label
     Friend WithEvents lblIDE As Label
     Friend WithEvents lblDEMO As Label
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

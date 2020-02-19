@@ -48,8 +48,8 @@ Final:
     '  Next
     'End Function
 
-    Public Function CSVLine(ParamArray Strs()) As String
-        Dim El, NotFirst As Boolean
+    Public Function CSVLine(ParamArray Strs() As Object) As String
+        Dim El As Object, NotFirst As Boolean
         For Each El In Strs
             CSVLine = CSVLine & IIf(NotFirst, ",", "") & ProtectCSV(El)
             NotFirst = True

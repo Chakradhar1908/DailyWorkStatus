@@ -192,15 +192,15 @@ Partial Class MainMenu4_Images
         Me.imgFile1 = New System.Windows.Forms.PictureBox()
         Me.imgFile0 = New System.Windows.Forms.PictureBox()
         Me.imgMM11 = New System.Windows.Forms.PictureBox()
-        Me.imgMM10 = New System.Windows.Forms.PictureBox()
         Me.imgMM9 = New System.Windows.Forms.PictureBox()
-        Me.imgMM8 = New System.Windows.Forms.PictureBox()
-        Me.imgMM7 = New System.Windows.Forms.PictureBox()
-        Me.imgMM6 = New System.Windows.Forms.PictureBox()
         Me.imgMM5 = New System.Windows.Forms.PictureBox()
+        Me.imgMM10 = New System.Windows.Forms.PictureBox()
+        Me.imgMM7 = New System.Windows.Forms.PictureBox()
         Me.imgMM4 = New System.Windows.Forms.PictureBox()
+        Me.imgMM6 = New System.Windows.Forms.PictureBox()
         Me.imgMM3 = New System.Windows.Forms.PictureBox()
         Me.imgMM2 = New System.Windows.Forms.PictureBox()
+        Me.imgMM8 = New System.Windows.Forms.PictureBox()
         Me.imgMM1 = New System.Windows.Forms.PictureBox()
         Me.imgMM0 = New System.Windows.Forms.PictureBox()
         Me.fraMM.SuspendLayout()
@@ -373,15 +373,15 @@ Partial Class MainMenu4_Images
         CType(Me.imgFile1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgFile0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgMM0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -389,20 +389,20 @@ Partial Class MainMenu4_Images
         'fraMM
         '
         Me.fraMM.Controls.Add(Me.imgMM11)
-        Me.fraMM.Controls.Add(Me.imgMM10)
         Me.fraMM.Controls.Add(Me.imgMM9)
-        Me.fraMM.Controls.Add(Me.imgMM8)
-        Me.fraMM.Controls.Add(Me.imgMM7)
-        Me.fraMM.Controls.Add(Me.imgMM6)
         Me.fraMM.Controls.Add(Me.imgMM5)
+        Me.fraMM.Controls.Add(Me.imgMM10)
+        Me.fraMM.Controls.Add(Me.imgMM7)
         Me.fraMM.Controls.Add(Me.imgMM4)
+        Me.fraMM.Controls.Add(Me.imgMM6)
         Me.fraMM.Controls.Add(Me.imgMM3)
         Me.fraMM.Controls.Add(Me.imgMM2)
+        Me.fraMM.Controls.Add(Me.imgMM8)
         Me.fraMM.Controls.Add(Me.imgMM1)
         Me.fraMM.Controls.Add(Me.imgMM0)
-        Me.fraMM.Location = New System.Drawing.Point(30, 12)
+        Me.fraMM.Location = New System.Drawing.Point(1, 2)
         Me.fraMM.Name = "fraMM"
-        Me.fraMM.Size = New System.Drawing.Size(1231, 72)
+        Me.fraMM.Size = New System.Drawing.Size(1231, 122)
         Me.fraMM.TabIndex = 51
         Me.fraMM.TabStop = False
         Me.fraMM.Text = "Main Menu"
@@ -447,7 +447,7 @@ Partial Class MainMenu4_Images
         Me.fraFile.Controls.Add(Me.imgFile2)
         Me.fraFile.Controls.Add(Me.imgFile1)
         Me.fraFile.Controls.Add(Me.imgFile0)
-        Me.fraFile.Location = New System.Drawing.Point(30, 90)
+        Me.fraFile.Location = New System.Drawing.Point(27, 92)
         Me.fraFile.Name = "fraFile"
         Me.fraFile.Size = New System.Drawing.Size(1102, 166)
         Me.fraFile.TabIndex = 52
@@ -1618,412 +1618,550 @@ Partial Class MainMenu4_Images
         '
         'imgFile37
         '
+        Me.imgFile37.Image = Global.WinCDS.My.Resources.Resources.tags
         Me.imgFile37.Location = New System.Drawing.Point(513, 113)
         Me.imgFile37.Name = "imgFile37"
-        Me.imgFile37.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile37.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile37.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile37.TabIndex = 88
         Me.imgFile37.TabStop = False
+        Me.imgFile37.Tag = "tags"
         '
         'imgFile36
         '
+        Me.imgFile36.Image = Global.WinCDS.My.Resources.Resources.old_reports
         Me.imgFile36.Location = New System.Drawing.Point(440, 113)
         Me.imgFile36.Name = "imgFile36"
-        Me.imgFile36.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile36.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile36.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile36.TabIndex = 87
         Me.imgFile36.TabStop = False
+        Me.imgFile36.Tag = "old-reports"
         '
         'imgFile35
         '
+        Me.imgFile35.Image = Global.WinCDS.My.Resources.Resources.s3
         Me.imgFile35.Location = New System.Drawing.Point(375, 113)
         Me.imgFile35.Name = "imgFile35"
-        Me.imgFile35.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile35.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile35.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile35.TabIndex = 86
         Me.imgFile35.TabStop = False
+        Me.imgFile35.Tag = "s3"
         '
         'imgFile34
         '
+        Me.imgFile34.Image = Global.WinCDS.My.Resources.Resources.ashley
         Me.imgFile34.Location = New System.Drawing.Point(309, 113)
         Me.imgFile34.Name = "imgFile34"
-        Me.imgFile34.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile34.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile34.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile34.TabIndex = 85
         Me.imgFile34.TabStop = False
+        Me.imgFile34.Tag = "ashley"
         '
         'imgFile33
         '
+        Me.imgFile33.Image = Global.WinCDS.My.Resources.Resources.webupdates
         Me.imgFile33.Location = New System.Drawing.Point(232, 113)
         Me.imgFile33.Name = "imgFile33"
-        Me.imgFile33.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile33.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile33.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile33.TabIndex = 84
         Me.imgFile33.TabStop = False
+        Me.imgFile33.Tag = "webupdates"
         '
         'imgFile32
         '
+        Me.imgFile32.Image = Global.WinCDS.My.Resources.Resources.webopensite
         Me.imgFile32.Location = New System.Drawing.Point(148, 113)
         Me.imgFile32.Name = "imgFile32"
-        Me.imgFile32.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile32.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile32.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile32.TabIndex = 83
         Me.imgFile32.TabStop = False
+        Me.imgFile32.Tag = "webopensite"
         '
         'imgFile31
         '
+        Me.imgFile31.Image = Global.WinCDS.My.Resources.Resources.webopenmonitor
         Me.imgFile31.Location = New System.Drawing.Point(86, 113)
         Me.imgFile31.Name = "imgFile31"
-        Me.imgFile31.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile31.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile31.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile31.TabIndex = 82
         Me.imgFile31.TabStop = False
+        Me.imgFile31.Tag = "webopenmonitor"
         '
         'imgFile30
         '
+        Me.imgFile30.Image = Global.WinCDS.My.Resources.Resources.webH
         Me.imgFile30.Location = New System.Drawing.Point(13, 113)
         Me.imgFile30.Name = "imgFile30"
-        Me.imgFile30.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile30.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile30.TabIndex = 81
         Me.imgFile30.TabStop = False
+        Me.imgFile30.Tag = "webH"
         '
         'imgFile29
         '
+        Me.imgFile29.Image = Global.WinCDS.My.Resources.Resources.webgen
         Me.imgFile29.Location = New System.Drawing.Point(1018, 62)
         Me.imgFile29.Name = "imgFile29"
-        Me.imgFile29.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile29.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile29.TabIndex = 80
         Me.imgFile29.TabStop = False
+        Me.imgFile29.Tag = "webgen"
         '
         'imgFile28
         '
+        Me.imgFile28.Image = Global.WinCDS.My.Resources.Resources.webcsv
         Me.imgFile28.Location = New System.Drawing.Point(945, 62)
         Me.imgFile28.Name = "imgFile28"
-        Me.imgFile28.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile28.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile28.TabIndex = 79
         Me.imgFile28.TabStop = False
+        Me.imgFile28.Tag = "webcsv"
         '
         'imgFile27
         '
+        Me.imgFile27.Image = Global.WinCDS.My.Resources.Resources.web
         Me.imgFile27.Location = New System.Drawing.Point(883, 62)
         Me.imgFile27.Name = "imgFile27"
-        Me.imgFile27.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile27.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile27.TabIndex = 78
         Me.imgFile27.TabStop = False
+        Me.imgFile27.Tag = "web"
         '
         'imgFile26
         '
+        Me.imgFile26.Image = Global.WinCDS.My.Resources.Resources.utilitiesH
         Me.imgFile26.Location = New System.Drawing.Point(819, 62)
         Me.imgFile26.Name = "imgFile26"
-        Me.imgFile26.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile26.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile26.TabIndex = 77
         Me.imgFile26.TabStop = False
+        Me.imgFile26.Tag = "utilitiesH"
         '
         'imgFile25
         '
+        Me.imgFile25.Image = Global.WinCDS.My.Resources.Resources.utilities
         Me.imgFile25.Location = New System.Drawing.Point(743, 62)
         Me.imgFile25.Name = "imgFile25"
-        Me.imgFile25.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile25.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile25.TabIndex = 76
         Me.imgFile25.TabStop = False
+        Me.imgFile25.Tag = "utilities"
         '
         'imgFile24
         '
+        Me.imgFile24.Image = Global.WinCDS.My.Resources.Resources.systemH
         Me.imgFile24.Location = New System.Drawing.Point(670, 62)
         Me.imgFile24.Name = "imgFile24"
-        Me.imgFile24.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile24.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile24.TabIndex = 75
         Me.imgFile24.TabStop = False
+        Me.imgFile24.Tag = "systemH"
         '
         'imgFile23
         '
+        Me.imgFile23.Image = Global.WinCDS.My.Resources.Resources.system
         Me.imgFile23.Location = New System.Drawing.Point(592, 62)
         Me.imgFile23.Name = "imgFile23"
-        Me.imgFile23.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile23.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile23.TabIndex = 74
         Me.imgFile23.TabStop = False
+        Me.imgFile23.Tag = "system"
         '
         'imgFile22
         '
+        Me.imgFile22.Image = Global.WinCDS.My.Resources.Resources.restoreitem
         Me.imgFile22.Location = New System.Drawing.Point(511, 62)
         Me.imgFile22.Name = "imgFile22"
-        Me.imgFile22.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile22.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile22.TabIndex = 73
         Me.imgFile22.TabStop = False
+        Me.imgFile22.Tag = "restoreitem"
         '
         'imgFile21
         '
+        Me.imgFile21.Image = Global.WinCDS.My.Resources.Resources.restoreH
         Me.imgFile21.Location = New System.Drawing.Point(433, 62)
         Me.imgFile21.Name = "imgFile21"
-        Me.imgFile21.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile21.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile21.TabIndex = 72
         Me.imgFile21.TabStop = False
+        Me.imgFile21.Tag = "restoreH"
         '
         'imgFile20
         '
+        Me.imgFile20.Image = Global.WinCDS.My.Resources.Resources.restoredel
         Me.imgFile20.Location = New System.Drawing.Point(349, 62)
         Me.imgFile20.Name = "imgFile20"
-        Me.imgFile20.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile20.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile20.TabIndex = 71
         Me.imgFile20.TabStop = False
+        Me.imgFile20.Tag = "restoredel"
         '
         'imgFile19
         '
+        Me.imgFile19.Image = Global.WinCDS.My.Resources.Resources.restore
         Me.imgFile19.Location = New System.Drawing.Point(280, 62)
         Me.imgFile19.Name = "imgFile19"
-        Me.imgFile19.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile19.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile19.TabIndex = 70
         Me.imgFile19.TabStop = False
+        Me.imgFile19.Tag = "restore"
         '
         'imgFile18
         '
+        Me.imgFile18.Image = Global.WinCDS.My.Resources.Resources.racklabels
         Me.imgFile18.Location = New System.Drawing.Point(218, 62)
         Me.imgFile18.Name = "imgFile18"
-        Me.imgFile18.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile18.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile18.TabIndex = 69
         Me.imgFile18.TabStop = False
+        Me.imgFile18.Tag = "racklabels"
         '
         'imgFile17
         '
+        Me.imgFile17.Image = Global.WinCDS.My.Resources.Resources.quarterly
         Me.imgFile17.Location = New System.Drawing.Point(146, 62)
         Me.imgFile17.Name = "imgFile17"
-        Me.imgFile17.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile17.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile17.TabIndex = 68
         Me.imgFile17.TabStop = False
+        Me.imgFile17.Tag = "quarterly"
         '
         'imgFile16
         '
+        Me.imgFile16.Image = Global.WinCDS.My.Resources.Resources.password
         Me.imgFile16.Location = New System.Drawing.Point(71, 62)
         Me.imgFile16.Name = "imgFile16"
-        Me.imgFile16.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile16.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile16.TabIndex = 67
         Me.imgFile16.TabStop = False
+        Me.imgFile16.Tag = "password"
         '
         'imgFile15
         '
+        Me.imgFile15.Image = Global.WinCDS.My.Resources.Resources.speech
         Me.imgFile15.Location = New System.Drawing.Point(9, 62)
         Me.imgFile15.Name = "imgFile15"
-        Me.imgFile15.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile15.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile15.TabIndex = 66
         Me.imgFile15.TabStop = False
+        Me.imgFile15.Tag = "speech"
         '
         'imgFile14
         '
+        Me.imgFile14.Image = Global.WinCDS.My.Resources.Resources.maintenanceH
         Me.imgFile14.Location = New System.Drawing.Point(995, 11)
         Me.imgFile14.Name = "imgFile14"
-        Me.imgFile14.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile14.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile14.TabIndex = 65
         Me.imgFile14.TabStop = False
+        Me.imgFile14.Tag = "maintenanceH"
         '
         'imgFile13
         '
+        Me.imgFile13.Image = Global.WinCDS.My.Resources.Resources.maintenance
         Me.imgFile13.Location = New System.Drawing.Point(928, 11)
         Me.imgFile13.Name = "imgFile13"
-        Me.imgFile13.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile13.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile13.TabIndex = 64
         Me.imgFile13.TabStop = False
+        Me.imgFile13.Tag = "maintenance"
         '
         'imgFile12
         '
+        Me.imgFile12.Image = Global.WinCDS.My.Resources.Resources.login
         Me.imgFile12.Location = New System.Drawing.Point(853, 11)
         Me.imgFile12.Name = "imgFile12"
-        Me.imgFile12.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile12.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile12.TabIndex = 63
         Me.imgFile12.TabStop = False
+        Me.imgFile12.Tag = "login"
         '
         'imgFile11
         '
+        Me.imgFile11.Image = Global.WinCDS.My.Resources.Resources.loadorig_manual
         Me.imgFile11.Location = New System.Drawing.Point(782, 11)
         Me.imgFile11.Name = "imgFile11"
-        Me.imgFile11.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile11.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile11.TabIndex = 62
         Me.imgFile11.TabStop = False
+        Me.imgFile11.Tag = "loadorig-manual"
         '
         'imgFile10
         '
+        Me.imgFile10.Image = Global.WinCDS.My.Resources.Resources.loadorig_import
         Me.imgFile10.Location = New System.Drawing.Point(699, 11)
         Me.imgFile10.Name = "imgFile10"
-        Me.imgFile10.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile10.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile10.TabIndex = 61
         Me.imgFile10.TabStop = False
+        Me.imgFile10.Tag = "loadorig-import"
         '
         'imgFile9
         '
+        Me.imgFile9.Image = Global.WinCDS.My.Resources.Resources.setup
         Me.imgFile9.Location = New System.Drawing.Point(635, 11)
         Me.imgFile9.Name = "imgFile9"
-        Me.imgFile9.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile9.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile9.TabIndex = 60
         Me.imgFile9.TabStop = False
+        Me.imgFile9.Tag = "setup"
         '
         'imgFile8
         '
+        Me.imgFile8.Image = Global.WinCDS.My.Resources.Resources.configw
         Me.imgFile8.Location = New System.Drawing.Point(562, 11)
         Me.imgFile8.Name = "imgFile8"
-        Me.imgFile8.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile8.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile8.TabIndex = 59
         Me.imgFile8.TabStop = False
+        Me.imgFile8.Tag = "configw"
         '
         'imgFile7
         '
+        Me.imgFile7.Image = Global.WinCDS.My.Resources.Resources.backupitem
         Me.imgFile7.Location = New System.Drawing.Point(500, 11)
         Me.imgFile7.Name = "imgFile7"
-        Me.imgFile7.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile7.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile7.TabIndex = 58
         Me.imgFile7.TabStop = False
+        Me.imgFile7.Tag = "backupitem"
         '
         'imgFile6
         '
+        Me.imgFile6.Image = Global.WinCDS.My.Resources.Resources.backupH
         Me.imgFile6.Location = New System.Drawing.Point(427, 11)
         Me.imgFile6.Name = "imgFile6"
-        Me.imgFile6.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile6.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile6.TabIndex = 57
         Me.imgFile6.TabStop = False
+        Me.imgFile6.Tag = "backupH"
         '
         'imgFile5
         '
+        Me.imgFile5.Image = Global.WinCDS.My.Resources.Resources.backup
         Me.imgFile5.Location = New System.Drawing.Point(348, 11)
         Me.imgFile5.Name = "imgFile5"
-        Me.imgFile5.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile5.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile5.TabIndex = 56
         Me.imgFile5.TabStop = False
+        Me.imgFile5.Tag = "backup"
         '
         'imgFile4
         '
+        Me.imgFile4.Image = Global.WinCDS.My.Resources.Resources.export
         Me.imgFile4.Location = New System.Drawing.Point(273, 11)
         Me.imgFile4.Name = "imgFile4"
-        Me.imgFile4.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile4.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile4.TabIndex = 55
         Me.imgFile4.TabStop = False
+        Me.imgFile4.Tag = "export"
         '
         'imgFile3
         '
+        Me.imgFile3.Image = Global.WinCDS.My.Resources.Resources._exit
         Me.imgFile3.Location = New System.Drawing.Point(208, 11)
         Me.imgFile3.Name = "imgFile3"
-        Me.imgFile3.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile3.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile3.TabIndex = 54
         Me.imgFile3.TabStop = False
+        Me.imgFile3.Tag = "exit"
         '
         'imgFile2
         '
+        Me.imgFile2.Image = Global.WinCDS.My.Resources.Resources.email1
         Me.imgFile2.Location = New System.Drawing.Point(146, 11)
         Me.imgFile2.Name = "imgFile2"
-        Me.imgFile2.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile2.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile2.TabIndex = 53
         Me.imgFile2.TabStop = False
+        Me.imgFile2.Tag = "email"
         '
         'imgFile1
         '
+        Me.imgFile1.Image = Global.WinCDS.My.Resources.Resources.download
         Me.imgFile1.Location = New System.Drawing.Point(84, 11)
         Me.imgFile1.Name = "imgFile1"
-        Me.imgFile1.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile1.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile1.TabIndex = 52
         Me.imgFile1.TabStop = False
+        Me.imgFile1.Tag = "download"
         '
         'imgFile0
         '
+        Me.imgFile0.Image = Global.WinCDS.My.Resources.Resources.creditcardmanager
         Me.imgFile0.Location = New System.Drawing.Point(14, 11)
         Me.imgFile0.Name = "imgFile0"
-        Me.imgFile0.Size = New System.Drawing.Size(56, 45)
+        Me.imgFile0.Size = New System.Drawing.Size(110, 110)
+        Me.imgFile0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgFile0.TabIndex = 51
         Me.imgFile0.TabStop = False
+        Me.imgFile0.Tag = "creditcardmanager"
         '
         'imgMM11
         '
-        Me.imgMM11.Location = New System.Drawing.Point(1112, 10)
+        Me.imgMM11.Image = Global.WinCDS.My.Resources.Resources.mInstallment_D
+        Me.imgMM11.Location = New System.Drawing.Point(858, 30)
         Me.imgMM11.Name = "imgMM11"
-        Me.imgMM11.Size = New System.Drawing.Size(93, 50)
+        Me.imgMM11.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM11.TabIndex = 24
         Me.imgMM11.TabStop = False
         Me.imgMM11.Tag = "installmentD"
         '
-        'imgMM10
-        '
-        Me.imgMM10.Location = New System.Drawing.Point(1019, 10)
-        Me.imgMM10.Name = "imgMM10"
-        Me.imgMM10.Size = New System.Drawing.Size(87, 50)
-        Me.imgMM10.TabIndex = 23
-        Me.imgMM10.TabStop = False
-        Me.imgMM10.Tag = "mailingD"
-        '
         'imgMM9
         '
-        Me.imgMM9.Location = New System.Drawing.Point(926, 10)
+        Me.imgMM9.Image = Global.WinCDS.My.Resources.Resources.mAccounting_D
+        Me.imgMM9.Location = New System.Drawing.Point(865, 19)
         Me.imgMM9.Name = "imgMM9"
-        Me.imgMM9.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM9.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM9.TabIndex = 22
         Me.imgMM9.TabStop = False
         Me.imgMM9.Tag = "accountingD"
         '
-        'imgMM8
-        '
-        Me.imgMM8.Location = New System.Drawing.Point(834, 10)
-        Me.imgMM8.Name = "imgMM8"
-        Me.imgMM8.Size = New System.Drawing.Size(87, 50)
-        Me.imgMM8.TabIndex = 21
-        Me.imgMM8.TabStop = False
-        Me.imgMM8.Tag = "inventoryD"
-        '
-        'imgMM7
-        '
-        Me.imgMM7.Location = New System.Drawing.Point(741, 10)
-        Me.imgMM7.Name = "imgMM7"
-        Me.imgMM7.Size = New System.Drawing.Size(87, 50)
-        Me.imgMM7.TabIndex = 20
-        Me.imgMM7.TabStop = False
-        Me.imgMM7.Tag = "orderentryD"
-        '
-        'imgMM6
-        '
-        Me.imgMM6.Location = New System.Drawing.Point(646, 10)
-        Me.imgMM6.Name = "imgMM6"
-        Me.imgMM6.Size = New System.Drawing.Size(87, 50)
-        Me.imgMM6.TabIndex = 19
-        Me.imgMM6.TabStop = False
-        Me.imgMM6.Tag = "fileD"
-        '
         'imgMM5
         '
-        Me.imgMM5.Location = New System.Drawing.Point(555, 10)
+        Me.imgMM5.Image = Global.WinCDS.My.Resources.Resources.mInstallment_U
+        Me.imgMM5.Location = New System.Drawing.Point(570, 10)
         Me.imgMM5.Name = "imgMM5"
-        Me.imgMM5.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM5.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM5.TabIndex = 18
         Me.imgMM5.TabStop = False
         Me.imgMM5.Tag = "installmentU"
         '
+        'imgMM10
+        '
+        Me.imgMM10.Image = Global.WinCDS.My.Resources.Resources.mMailing_D
+        Me.imgMM10.Location = New System.Drawing.Point(1042, 13)
+        Me.imgMM10.Name = "imgMM10"
+        Me.imgMM10.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM10.TabIndex = 23
+        Me.imgMM10.TabStop = False
+        Me.imgMM10.Tag = "mailingD"
+        '
+        'imgMM7
+        '
+        Me.imgMM7.Image = Global.WinCDS.My.Resources.Resources.mOrder_D
+        Me.imgMM7.Location = New System.Drawing.Point(751, 19)
+        Me.imgMM7.Name = "imgMM7"
+        Me.imgMM7.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM7.TabIndex = 20
+        Me.imgMM7.TabStop = False
+        Me.imgMM7.Tag = "orderentryD"
+        '
         'imgMM4
         '
-        Me.imgMM4.Location = New System.Drawing.Point(442, 10)
+        Me.imgMM4.Image = Global.WinCDS.My.Resources.Resources.mMailing_U
+        Me.imgMM4.Location = New System.Drawing.Point(462, 10)
         Me.imgMM4.Name = "imgMM4"
-        Me.imgMM4.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM4.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM4.TabIndex = 17
         Me.imgMM4.TabStop = False
         Me.imgMM4.Tag = "mailingU"
         '
+        'imgMM6
+        '
+        Me.imgMM6.Image = Global.WinCDS.My.Resources.Resources.mFile_D
+        Me.imgMM6.Location = New System.Drawing.Point(636, 19)
+        Me.imgMM6.Name = "imgMM6"
+        Me.imgMM6.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM6.TabIndex = 19
+        Me.imgMM6.TabStop = False
+        Me.imgMM6.Tag = "fileD"
+        '
         'imgMM3
         '
+        Me.imgMM3.Image = Global.WinCDS.My.Resources.Resources.mAccounting_U
         Me.imgMM3.Location = New System.Drawing.Point(332, 10)
         Me.imgMM3.Name = "imgMM3"
-        Me.imgMM3.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM3.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM3.TabIndex = 16
         Me.imgMM3.TabStop = False
         Me.imgMM3.Tag = "accountingU"
         '
         'imgMM2
         '
+        Me.imgMM2.Image = Global.WinCDS.My.Resources.Resources.mInventory_U
         Me.imgMM2.Location = New System.Drawing.Point(223, 10)
         Me.imgMM2.Name = "imgMM2"
-        Me.imgMM2.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM2.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM2.TabIndex = 15
         Me.imgMM2.TabStop = False
         Me.imgMM2.Tag = "inventoryU"
         '
+        'imgMM8
+        '
+        Me.imgMM8.Image = Global.WinCDS.My.Resources.Resources.mInventory_D
+        Me.imgMM8.Location = New System.Drawing.Point(950, 19)
+        Me.imgMM8.Name = "imgMM8"
+        Me.imgMM8.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM8.TabIndex = 21
+        Me.imgMM8.TabStop = False
+        Me.imgMM8.Tag = "inventoryD"
+        '
         'imgMM1
         '
+        Me.imgMM1.Image = Global.WinCDS.My.Resources.Resources.mOrder_U
         Me.imgMM1.Location = New System.Drawing.Point(117, 10)
         Me.imgMM1.Name = "imgMM1"
-        Me.imgMM1.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM1.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM1.TabIndex = 14
         Me.imgMM1.TabStop = False
         Me.imgMM1.Tag = "orderentryU"
         '
         'imgMM0
         '
+        Me.imgMM0.Image = Global.WinCDS.My.Resources.Resources.mFile_U
         Me.imgMM0.Location = New System.Drawing.Point(12, 10)
         Me.imgMM0.Name = "imgMM0"
-        Me.imgMM0.Size = New System.Drawing.Size(87, 50)
+        Me.imgMM0.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.imgMM0.TabIndex = 13
         Me.imgMM0.TabStop = False
         Me.imgMM0.Tag = "fileU"
@@ -2045,7 +2183,9 @@ Partial Class MainMenu4_Images
         Me.Name = "MainMenu4_Images"
         Me.Text = "MainMenu4_Images"
         Me.fraMM.ResumeLayout(False)
+        Me.fraMM.PerformLayout()
         Me.fraFile.ResumeLayout(False)
+        Me.fraFile.PerformLayout()
         Me.fraAccounting.ResumeLayout(False)
         Me.fraMailing.ResumeLayout(False)
         Me.fraInventory.ResumeLayout(False)
@@ -2214,15 +2354,15 @@ Partial Class MainMenu4_Images
         CType(Me.imgFile1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgFile0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgMM0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

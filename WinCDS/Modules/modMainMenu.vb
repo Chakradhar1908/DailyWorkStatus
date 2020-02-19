@@ -2170,6 +2170,7 @@ Module modMainMenu
     Private Sub MyMenuAddItem(ByRef MM As String, ByVal ImageKey As String, ByVal Caption As String, Optional ByVal Left As Integer = -1, Optional ByVal Top As Integer = -1, Optional ByVal Position As Integer = 0, Optional ByVal Operation As String = "", Optional ByVal ToolTipText As String = "", Optional ByVal ControlCode As String = "", Optional ByVal Visible As Boolean = True)
         Dim X As MyMenuItem, IX As Integer, T As MyMenu
         Dim F As StdPicture
+
         T = GetMyMenu(MM, IX)
         If IX < 0 Then Err.Raise(-1, , "Invalid Menu: " & MM)
         If mExportTaskList Then
@@ -2401,7 +2402,8 @@ Again:
 
     Private ReadOnly Property MenuItemTop() As Integer
         Get
-            MenuItemTop = Switch(MM4, 1000, True, 152)
+            'MenuItemTop = Switch(MM4, 1000, True, 152)   ---------- NOTE: Replaced 1000 with 70 ------------------
+            MenuItemTop = Switch(MM4, 70, True, 152)
         End Get
     End Property
 
@@ -2440,11 +2442,19 @@ Again:
 
     Private Function X4() As Integer()
         Dim A() As Integer
+
         ReDim A(0 To 3)
-        A(0) = 3200
-        A(1) = 6000
-        A(2) = 8700
-        A(3) = 11600
+        'A(0) = 3200
+        'A(1) = 6000
+        'A(2) = 8700
+        'A(3) = 11600
+
+        'NOTE: REPLACED ABOVE VALUES WITH THE BELOW ONE. BECAUSE VB.NET MEASUREMENTS ARE IN PIXELS. NOT IN TWIPS.
+        A(0) = 200
+        A(1) = 400
+        A(2) = 600
+        A(3) = 800
+
         X4 = A
     End Function
 

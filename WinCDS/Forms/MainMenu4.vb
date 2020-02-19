@@ -844,17 +844,17 @@ Public Class MainMenu4
                 '    Unload imgMenuItem(I)
                 '    Unload lblMenuItem(I)
                 'Next
-                For Each p As PictureBox In Me.Controls
+                For Each p As Control In Me.Controls
                     If Mid(p.Name, 1, 11) = "imgMenuItem" Then
                         I = I + 1
                     End If
                 Next
                 If I > 1 Then
-                    For Each p As PictureBox In Me.Controls
-                        If Mid(p.Name, 1, 11) = "imgMenuItem" Then
-                            If Len(p.Name) > 11 Then
-                                p.Hide()
-                            End If
+                    For Each p As Control In Me.Controls
+                        If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
+                            'If Len(p.Name) > 11 Then
+                            p.Hide()
+                            'End If
                         End If
                     Next
                     'imgMenuItem.Hide()
@@ -900,12 +900,18 @@ Public Class MainMenu4
     End Sub
 
     Private Function UnloadHRs() As Boolean
-        Dim I As Integer
+        'Dim I As Integer
         'For I = imgHR.UBound To 1 Step -1
         'Unload imgHR(I)
         'Unload lblHR(I)
         'Next
-        imgHR.Hide()
+        'imgHR.Hide()
+        Dim c As Control
+        For Each c In Me.Controls
+            If Mid(c.Name, 1, 5) = "imgHR" And Len(c.Name) > 5 Then
+                c.Hide()
+            End If
+        Next
         UnloadHRs = True
     End Function
 
@@ -947,17 +953,17 @@ Public Class MainMenu4
         'Next
         'imgMenuItem.Hide()
         'lblMenuItem.Hide()
-        For Each p As PictureBox In Me.Controls
+        For Each p As Control In Me.Controls
             If Mid(p.Name, 1, 11) = "imgMenuItem" Then
                 I = I + 1
             End If
         Next
         If I > 1 Then
-            For Each p As PictureBox In Me.Controls
-                If Mid(p.Name, 1, 11) = "imgMenuItem" Then
-                    If Len(p.Name) > 11 Then
-                        p.Hide()
-                    End If
+            For Each p As Control In Me.Controls
+                If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
+                    'If Len(p.Name) > 11 Then
+                    p.Hide()
+                    'End If
                 End If
             Next
         End If
@@ -993,53 +999,86 @@ Public Class MainMenu4
         End If
 
         If Li >= 0 Then
-            For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
+            'For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
+            For I = LBound(MM.Items) + 1 To 4
                 MI = MM.Items(I - 1)
                 TTT = IIf(MI.ControlCode = "", MI.ToolTipText, "[" & MI.ControlCode & "] " & MI.ToolTipText)
                 'Load imgMenuItem(I)
                 'Load lblMenuItem(I)
                 'imgMenuItem(I).Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
-                imgMenuItem.Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
+                'imgMenuItem.Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
                 'lblMenuItem(I).Caption = Replace(MI.Caption, "/", vbCrLf)
-                lblMenuItem.Text = Replace(MI.Caption, "/", vbCrLf)
+                'lblMenuItem.Text = Replace(MI.Caption, "/", vbCrLf)
                 'imgMenuItem(I).ToolTipText = TTT
                 'imgMenuItem.ToolTipText = TTT
                 'SetMenuItemImage imgMenuItem(I), MenuName, MI.ImageKey
-                SetMenuItemImage(imgMenuItem, MenuName, MI.ImageKey)
+                'SetMenuItemImage(imgMenuItem, MenuName, MI.ImageKey)
+
+                Dim p As New PictureBox
+                Dim l As New Label
+
+                p.Name = "imgMenuItem" & I
+                p.Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
+
+                l.Name = "lblMenuItem" & I
+                l.Text = Replace(MI.Caption, "/", vbCrLf)
+
+                ToolTip1.SetToolTip(p, TTT)
+                SetMenuItemImage(p, MenuName, MI.ImageKey)
+
                 If Not MI.IsSubItem Then
                     'imgMenuItem(I).Move(MI.Left + MM.ImageW + 10), MI.Top, 1650, 1650
                     'imgMenuItem(I).Move(MI.Left + MM.ImageW + 10), MI.Top, 1650, 1650
-                    imgMenuItem.Location = New Point((MI.Left + MM.ImageW + 10), MI.Top)
-                    imgMenuItem.Size = New Size(1650, 1650)
+                    'imgMenuItem.Location = New Point((MI.Left + MM.ImageW + 10), MI.Top)
+                    'imgMenuItem.Size = New Size(1650, 1650)
                     'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width / 2 - lblMenuItem(I).Width / 2, imgMenuItem(I).Top + imgMenuItem(I).Height + 60
-                    lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width / 2 - lblMenuItem.Width / 2, imgMenuItem.Top + imgMenuItem.Height + 60)
+                    'lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width / 2 - lblMenuItem.Width / 2, imgMenuItem.Top + imgMenuItem.Height + 60)
+
+                    p.Location = New Point(MI.Left, MI.Top)
+                    'p.Location = New Point(195, 70)
+                    p.Size = New Size(110, 110)
+                    'l.Location = New Point(p.Left + p.Width / 2 - l.Width / 2, p.Top + p.Height + 6)
                 Else
                     'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
-                    imgMenuItem.Location = New Point(MI.Left, MI.Top)
-                    imgMenuItem.Size = New Size(500, 500)
+                    'imgMenuItem.Location = New Point(MI.Left, MI.Top)
+                    'imgMenuItem.Size = New Size(500, 500)
                     'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
-                    lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
-                    lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
+                    'lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
+                    'lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
                     'lblMenuItem(I).Alignment = 0
                     'lblMenuItem.Alignment = 0
                     'lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
-                    lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
+                    'lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
+
+                    p.Location = New Point(MI.Left, MI.Top)
+                    p.Size = New Size(50, 50)
+                    l.Location = New Point(p.Left + p.Width, p.Top + 6)
+                    l.Size = New Size(400, l.Height)
+                    l.Text = Replace(l.Text, vbCrLf, " ")
+
                 End If
                 'lblMenuItem(I).ToolTipText = TTT
                 'Debug.Print imgMenuItem(I).Left & "x" & imgMenuItem(I).Top & "..." & imgMenuItem(I).Width & "x" & imgMenuItem(I).Height & " - " & ScaleWidth & "x" & ScaleHeight
 
                 'imgMenuItem(I).Visible = True
-                imgMenuItem.Visible = True
+                'imgMenuItem.Visible = True
                 'imgMenuItem(I).ZOrder 0
-                imgMenuItem.BringToFront()
+                'imgMenuItem.BringToFront()
                 'lblMenuItem(I).Visible = True
-                lblMenuItem.Visible = True
+                'lblMenuItem.Visible = True
                 'lblMenuItem(I).ZOrder 0
-                lblMenuItem.BringToFront()
+                'lblMenuItem.BringToFront()
 
+                ToolTip1.SetToolTip(l, TTT)
+                p.Visible = True
+                'p.BringToFront()
+
+                'l.Visible = True
+                'l.BringToFront()
+                Me.Controls.Add(p)
+                Me.Controls.Add(l)
             Next
         End If
-
     End Sub
 
     Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "") As Boolean
