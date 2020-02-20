@@ -1,6 +1,6 @@
 ﻿Public Class MainMenu4_Images
-    Public Function MenuImage(ByVal mNu As String, ByVal Src As String) As Object 'As GDIpImage
-        Dim I as integer
+    Public Function MenuImage(ByVal mNu As String, ByVal Src As String) As Image 'As GDIpImage
+        Dim I As Integer
 
         On Error Resume Next
         MenuImage = imgDefault.Image

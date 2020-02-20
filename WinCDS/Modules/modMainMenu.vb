@@ -2232,7 +2232,8 @@ Module modMainMenu
         Dim R As Integer, Across As Boolean
 
         If Position = 0 Then Exit Sub
-        If MM4 Then Sp = 2400
+        'If MM4 Then Sp = 2400
+        If MM4 Then Sp = 150
 
         Select Case Strategy
             Case eMyMenuLayouts.eMML_2x3

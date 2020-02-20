@@ -472,7 +472,7 @@ Public Class MainMenu4
         P.BorderStyle = BorderStyle.None
         tmrPulse.Tag = "-1"
         If StopIt Then Exit Sub
-        tmrPulse.Interval = 10
+        tmrPulse.Interval = 100
         tmrPulse.Tag = Index
         tmrPulse.Enabled = True
     End Sub
@@ -505,9 +505,11 @@ Public Class MainMenu4
                 bvb3.BorderStyle = BorderStyle.Fixed3D
                 bvb3.Refresh()
             Case 4
-                bvb3.BorderStyle = BorderStyle.Fixed3D
+                bvb4.BorderStyle = BorderStyle.Fixed3D
+                bvb4.Refresh()
             Case 5
-                bvb3.BorderStyle = BorderStyle.Fixed3D
+                bvb5.BorderStyle = BorderStyle.Fixed3D
+                bvb5.Refresh()
         End Select
     End Sub
 
@@ -589,11 +591,11 @@ Public Class MainMenu4
                     Select Case Index
                         Case 0
                             K = LCase(Replace(bvb0.Tag, " ", "")) & "D"
-                            bvb0.Image = MainMenu4_Images.MenuImage("mm", K)
+                            'bvb0.Image = MainMenu4_Images.MenuImage("mm", K)
                             bvb0.Refresh()
                         Case 1
                             K = LCase(Replace(bvb1.Tag, " ", "")) & "D"
-                            bvb1.Image = MainMenu4_Images.MenuImage("mm", K)
+                            'bvb1.Image = MainMenu4_Images.MenuImage("mm", K)
                             bvb1.Refresh()
                         Case 2
                             K = LCase(Replace(bvb2.Tag, " ", "")) & "D"
@@ -1000,7 +1002,7 @@ Public Class MainMenu4
 
         If Li >= 0 Then
             'For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
-            For I = LBound(MM.Items) + 1 To 4
+            For I = LBound(MM.Items) + 1 To 7
                 MI = MM.Items(I - 1)
                 TTT = IIf(MI.ControlCode = "", MI.ToolTipText, "[" & MI.ControlCode & "] " & MI.ToolTipText)
                 'Load imgMenuItem(I)
@@ -1038,6 +1040,10 @@ Public Class MainMenu4
                     'p.Location = New Point(195, 70)
                     p.Size = New Size(110, 110)
                     'l.Location = New Point(p.Left + p.Width / 2 - l.Width / 2, p.Top + p.Height + 6)
+                    l.Location = New Point(p.Left, p.Height + 90)
+                    l.AutoSize = True
+                    l.Font = New Drawing.Font("Arial", 12, FontStyle.Bold)
+
                 Else
                     'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
                     'imgMenuItem.Location = New Point(MI.Left, MI.Top)
@@ -1073,7 +1079,7 @@ Public Class MainMenu4
                 p.Visible = True
                 'p.BringToFront()
 
-                'l.Visible = True
+                l.Visible = True
                 'l.BringToFront()
                 Me.Controls.Add(p)
                 Me.Controls.Add(l)
