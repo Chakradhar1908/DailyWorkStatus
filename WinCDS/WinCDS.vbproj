@@ -2287,5 +2287,194 @@
   <ItemGroup>
     <None Include="Resources\export.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\adjustments.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cashdrawer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cashreg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\deliver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\newsale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oereport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\payment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reports-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reports-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\servicemodule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\viewsale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\voidsale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\servicecalls.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\damagedstock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\partsorders.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\servicereport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tags1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reports-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ashley1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\changecontents.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\comm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\deliveries.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\designtag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\factoryshipments.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invdelcalendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invdelmulti-cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invdelmulti-lists.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invdelmulti-trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invdelpullloads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invdeltickets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invpackedit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invpacklist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invpacklookup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invpackmake.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invreports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\newitems.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orderstatus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\package.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\po.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pocombine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poeditview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poemail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pofaxprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poorder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poquickprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\porec.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poreport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\povoid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pricechanges.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reports1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\return1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\special.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ss.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\storecatalog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\storetransfers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\viewstock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\marginreports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\inventoryreports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invreports1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

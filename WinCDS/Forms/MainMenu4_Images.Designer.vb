@@ -23,73 +23,81 @@ Partial Class MainMenu4_Images
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.fraMM = New System.Windows.Forms.GroupBox()
-        Me.imgMM11 = New System.Windows.Forms.PictureBox()
-        Me.imgMM9 = New System.Windows.Forms.PictureBox()
-        Me.imgMM5 = New System.Windows.Forms.PictureBox()
-        Me.imgMM10 = New System.Windows.Forms.PictureBox()
-        Me.imgMM7 = New System.Windows.Forms.PictureBox()
-        Me.imgMM4 = New System.Windows.Forms.PictureBox()
-        Me.imgMM6 = New System.Windows.Forms.PictureBox()
-        Me.imgMM3 = New System.Windows.Forms.PictureBox()
-        Me.imgMM2 = New System.Windows.Forms.PictureBox()
-        Me.imgMM8 = New System.Windows.Forms.PictureBox()
-        Me.imgMM1 = New System.Windows.Forms.PictureBox()
-        Me.imgMM0 = New System.Windows.Forms.PictureBox()
         Me.fraFile = New System.Windows.Forms.GroupBox()
-        Me.imgFile37 = New System.Windows.Forms.PictureBox()
-        Me.imgFile36 = New System.Windows.Forms.PictureBox()
-        Me.imgFile35 = New System.Windows.Forms.PictureBox()
-        Me.imgFile34 = New System.Windows.Forms.PictureBox()
-        Me.imgFile33 = New System.Windows.Forms.PictureBox()
-        Me.imgFile32 = New System.Windows.Forms.PictureBox()
-        Me.imgFile31 = New System.Windows.Forms.PictureBox()
-        Me.imgFile30 = New System.Windows.Forms.PictureBox()
-        Me.imgFile29 = New System.Windows.Forms.PictureBox()
-        Me.imgFile28 = New System.Windows.Forms.PictureBox()
-        Me.imgFile27 = New System.Windows.Forms.PictureBox()
-        Me.imgFile26 = New System.Windows.Forms.PictureBox()
-        Me.imgFile25 = New System.Windows.Forms.PictureBox()
-        Me.imgFile24 = New System.Windows.Forms.PictureBox()
-        Me.imgFile23 = New System.Windows.Forms.PictureBox()
-        Me.imgFile22 = New System.Windows.Forms.PictureBox()
-        Me.imgFile21 = New System.Windows.Forms.PictureBox()
-        Me.imgFile20 = New System.Windows.Forms.PictureBox()
-        Me.imgFile19 = New System.Windows.Forms.PictureBox()
-        Me.imgFile18 = New System.Windows.Forms.PictureBox()
-        Me.imgFile17 = New System.Windows.Forms.PictureBox()
-        Me.imgFile16 = New System.Windows.Forms.PictureBox()
-        Me.imgFile15 = New System.Windows.Forms.PictureBox()
-        Me.imgFile14 = New System.Windows.Forms.PictureBox()
-        Me.imgFile13 = New System.Windows.Forms.PictureBox()
-        Me.imgFile12 = New System.Windows.Forms.PictureBox()
-        Me.imgFile11 = New System.Windows.Forms.PictureBox()
-        Me.imgFile10 = New System.Windows.Forms.PictureBox()
-        Me.imgFile9 = New System.Windows.Forms.PictureBox()
-        Me.imgFile8 = New System.Windows.Forms.PictureBox()
-        Me.imgFile7 = New System.Windows.Forms.PictureBox()
-        Me.imgFile6 = New System.Windows.Forms.PictureBox()
-        Me.imgFile5 = New System.Windows.Forms.PictureBox()
-        Me.imgFile4 = New System.Windows.Forms.PictureBox()
-        Me.imgFile3 = New System.Windows.Forms.PictureBox()
-        Me.imgFile2 = New System.Windows.Forms.PictureBox()
-        Me.imgFile1 = New System.Windows.Forms.PictureBox()
-        Me.imgFile0 = New System.Windows.Forms.PictureBox()
         Me.fraAccounting = New System.Windows.Forms.GroupBox()
-        Me.imgAccounting4 = New System.Windows.Forms.PictureBox()
-        Me.imgAccounting3 = New System.Windows.Forms.PictureBox()
-        Me.imgAccounting2 = New System.Windows.Forms.PictureBox()
-        Me.imgAccounting1 = New System.Windows.Forms.PictureBox()
-        Me.imgAccounting0 = New System.Windows.Forms.PictureBox()
         Me.fraMailing = New System.Windows.Forms.GroupBox()
-        Me.imgMail7 = New System.Windows.Forms.PictureBox()
-        Me.imgMail6 = New System.Windows.Forms.PictureBox()
-        Me.imgMail5 = New System.Windows.Forms.PictureBox()
-        Me.imgMail4 = New System.Windows.Forms.PictureBox()
-        Me.imgMail3 = New System.Windows.Forms.PictureBox()
-        Me.imgMail2 = New System.Windows.Forms.PictureBox()
-        Me.imgMail1 = New System.Windows.Forms.PictureBox()
-        Me.imgMail0 = New System.Windows.Forms.PictureBox()
         Me.fraInventory = New System.Windows.Forms.GroupBox()
+        Me.fraOrder = New System.Windows.Forms.GroupBox()
+        Me.fraInstallment = New System.Windows.Forms.GroupBox()
+        Me.framCustomFrames = New System.Windows.Forms.GroupBox()
+        Me.picResource19 = New System.Windows.Forms.PictureBox()
+        Me.picResource18 = New System.Windows.Forms.PictureBox()
+        Me.picResource17 = New System.Windows.Forms.PictureBox()
+        Me.picResource16 = New System.Windows.Forms.PictureBox()
+        Me.picResource15 = New System.Windows.Forms.PictureBox()
+        Me.picResource14 = New System.Windows.Forms.PictureBox()
+        Me.picResource13 = New System.Windows.Forms.PictureBox()
+        Me.picResource12 = New System.Windows.Forms.PictureBox()
+        Me.picResource11 = New System.Windows.Forms.PictureBox()
+        Me.picResource10 = New System.Windows.Forms.PictureBox()
+        Me.picResource9 = New System.Windows.Forms.PictureBox()
+        Me.picResource8 = New System.Windows.Forms.PictureBox()
+        Me.picResource7 = New System.Windows.Forms.PictureBox()
+        Me.picResource6 = New System.Windows.Forms.PictureBox()
+        Me.picResource5 = New System.Windows.Forms.PictureBox()
+        Me.picResource4 = New System.Windows.Forms.PictureBox()
+        Me.picResource3 = New System.Windows.Forms.PictureBox()
+        Me.picResource2 = New System.Windows.Forms.PictureBox()
+        Me.picResource1 = New System.Windows.Forms.PictureBox()
+        Me.picResource0 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall26 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall25 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall24 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall23 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall22 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall21 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall20 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall19 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall18 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall17 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall16 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall15 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall14 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall13 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall12 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall11 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall10 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall9 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall8 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall7 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall6 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall5 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall4 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall3 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall2 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall1 = New System.Windows.Forms.PictureBox()
+        Me.imgInstall0 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder20 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder19 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder18 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder17 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder16 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder15 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder14 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder13 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder12 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder11 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder10 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder9 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder8 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder7 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder6 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder5 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder4 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder3 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder2 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder1 = New System.Windows.Forms.PictureBox()
+        Me.imgOrder0 = New System.Windows.Forms.PictureBox()
         Me.imgInventory40 = New System.Windows.Forms.PictureBox()
         Me.imgInventory39 = New System.Windows.Forms.PictureBox()
         Me.imgInventory38 = New System.Windows.Forms.PictureBox()
@@ -131,146 +139,146 @@ Partial Class MainMenu4_Images
         Me.imgInventory2 = New System.Windows.Forms.PictureBox()
         Me.imgInventory1 = New System.Windows.Forms.PictureBox()
         Me.imgInventory0 = New System.Windows.Forms.PictureBox()
-        Me.fraOrder = New System.Windows.Forms.GroupBox()
-        Me.imgOrder20 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder19 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder18 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder17 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder16 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder15 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder14 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder13 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder12 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder11 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder10 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder9 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder8 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder7 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder6 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder5 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder4 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder3 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder2 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder1 = New System.Windows.Forms.PictureBox()
-        Me.imgOrder0 = New System.Windows.Forms.PictureBox()
-        Me.fraInstallment = New System.Windows.Forms.GroupBox()
-        Me.imgInstall26 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall25 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall24 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall23 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall22 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall21 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall20 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall19 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall18 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall17 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall16 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall15 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall14 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall13 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall12 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall11 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall10 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall9 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall8 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall7 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall6 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall5 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall4 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall3 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall2 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall1 = New System.Windows.Forms.PictureBox()
-        Me.imgInstall0 = New System.Windows.Forms.PictureBox()
-        Me.framCustomFrames = New System.Windows.Forms.GroupBox()
-        Me.picResource19 = New System.Windows.Forms.PictureBox()
-        Me.picResource18 = New System.Windows.Forms.PictureBox()
-        Me.picResource17 = New System.Windows.Forms.PictureBox()
-        Me.picResource16 = New System.Windows.Forms.PictureBox()
-        Me.picResource15 = New System.Windows.Forms.PictureBox()
-        Me.picResource14 = New System.Windows.Forms.PictureBox()
-        Me.picResource13 = New System.Windows.Forms.PictureBox()
-        Me.picResource12 = New System.Windows.Forms.PictureBox()
-        Me.picResource11 = New System.Windows.Forms.PictureBox()
-        Me.picResource10 = New System.Windows.Forms.PictureBox()
-        Me.picResource9 = New System.Windows.Forms.PictureBox()
-        Me.picResource8 = New System.Windows.Forms.PictureBox()
-        Me.picResource7 = New System.Windows.Forms.PictureBox()
-        Me.picResource6 = New System.Windows.Forms.PictureBox()
-        Me.picResource5 = New System.Windows.Forms.PictureBox()
-        Me.picResource4 = New System.Windows.Forms.PictureBox()
-        Me.picResource3 = New System.Windows.Forms.PictureBox()
-        Me.picResource2 = New System.Windows.Forms.PictureBox()
-        Me.picResource1 = New System.Windows.Forms.PictureBox()
-        Me.picResource0 = New System.Windows.Forms.PictureBox()
+        Me.imgMail7 = New System.Windows.Forms.PictureBox()
+        Me.imgMail6 = New System.Windows.Forms.PictureBox()
+        Me.imgMail5 = New System.Windows.Forms.PictureBox()
+        Me.imgMail4 = New System.Windows.Forms.PictureBox()
+        Me.imgMail3 = New System.Windows.Forms.PictureBox()
+        Me.imgMail2 = New System.Windows.Forms.PictureBox()
+        Me.imgMail1 = New System.Windows.Forms.PictureBox()
+        Me.imgMail0 = New System.Windows.Forms.PictureBox()
+        Me.imgAccounting4 = New System.Windows.Forms.PictureBox()
+        Me.imgAccounting3 = New System.Windows.Forms.PictureBox()
+        Me.imgAccounting2 = New System.Windows.Forms.PictureBox()
+        Me.imgAccounting1 = New System.Windows.Forms.PictureBox()
+        Me.imgAccounting0 = New System.Windows.Forms.PictureBox()
         Me.imgDefault = New System.Windows.Forms.PictureBox()
+        Me.imgFile37 = New System.Windows.Forms.PictureBox()
+        Me.imgFile36 = New System.Windows.Forms.PictureBox()
+        Me.imgFile35 = New System.Windows.Forms.PictureBox()
+        Me.imgFile34 = New System.Windows.Forms.PictureBox()
+        Me.imgFile33 = New System.Windows.Forms.PictureBox()
+        Me.imgFile32 = New System.Windows.Forms.PictureBox()
+        Me.imgFile31 = New System.Windows.Forms.PictureBox()
+        Me.imgFile30 = New System.Windows.Forms.PictureBox()
+        Me.imgFile29 = New System.Windows.Forms.PictureBox()
+        Me.imgFile28 = New System.Windows.Forms.PictureBox()
+        Me.imgFile27 = New System.Windows.Forms.PictureBox()
+        Me.imgFile26 = New System.Windows.Forms.PictureBox()
+        Me.imgFile25 = New System.Windows.Forms.PictureBox()
+        Me.imgFile24 = New System.Windows.Forms.PictureBox()
+        Me.imgFile23 = New System.Windows.Forms.PictureBox()
+        Me.imgFile22 = New System.Windows.Forms.PictureBox()
+        Me.imgFile21 = New System.Windows.Forms.PictureBox()
+        Me.imgFile20 = New System.Windows.Forms.PictureBox()
+        Me.imgFile19 = New System.Windows.Forms.PictureBox()
+        Me.imgFile18 = New System.Windows.Forms.PictureBox()
+        Me.imgFile17 = New System.Windows.Forms.PictureBox()
+        Me.imgFile16 = New System.Windows.Forms.PictureBox()
+        Me.imgFile15 = New System.Windows.Forms.PictureBox()
+        Me.imgFile14 = New System.Windows.Forms.PictureBox()
+        Me.imgFile13 = New System.Windows.Forms.PictureBox()
+        Me.imgFile12 = New System.Windows.Forms.PictureBox()
+        Me.imgFile11 = New System.Windows.Forms.PictureBox()
+        Me.imgFile10 = New System.Windows.Forms.PictureBox()
+        Me.imgFile9 = New System.Windows.Forms.PictureBox()
+        Me.imgFile8 = New System.Windows.Forms.PictureBox()
+        Me.imgFile7 = New System.Windows.Forms.PictureBox()
+        Me.imgFile6 = New System.Windows.Forms.PictureBox()
+        Me.imgFile5 = New System.Windows.Forms.PictureBox()
+        Me.imgFile4 = New System.Windows.Forms.PictureBox()
+        Me.imgFile3 = New System.Windows.Forms.PictureBox()
+        Me.imgFile2 = New System.Windows.Forms.PictureBox()
+        Me.imgFile1 = New System.Windows.Forms.PictureBox()
+        Me.imgFile0 = New System.Windows.Forms.PictureBox()
+        Me.imgMM11 = New System.Windows.Forms.PictureBox()
+        Me.imgMM9 = New System.Windows.Forms.PictureBox()
+        Me.imgMM5 = New System.Windows.Forms.PictureBox()
+        Me.imgMM10 = New System.Windows.Forms.PictureBox()
+        Me.imgMM7 = New System.Windows.Forms.PictureBox()
+        Me.imgMM4 = New System.Windows.Forms.PictureBox()
+        Me.imgMM6 = New System.Windows.Forms.PictureBox()
+        Me.imgMM3 = New System.Windows.Forms.PictureBox()
+        Me.imgMM2 = New System.Windows.Forms.PictureBox()
+        Me.imgMM8 = New System.Windows.Forms.PictureBox()
+        Me.imgMM1 = New System.Windows.Forms.PictureBox()
+        Me.imgMM0 = New System.Windows.Forms.PictureBox()
         Me.fraMM.SuspendLayout()
-        CType(Me.imgMM11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMM0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraFile.SuspendLayout()
-        CType(Me.imgFile37, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile36, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile35, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile34, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile33, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile32, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile31, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile30, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile29, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile28, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile27, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile26, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile25, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile24, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile22, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgFile0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraAccounting.SuspendLayout()
-        CType(Me.imgAccounting4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgAccounting3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgAccounting2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgAccounting1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgAccounting0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraMailing.SuspendLayout()
-        CType(Me.imgMail7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgMail0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraInventory.SuspendLayout()
+        Me.fraOrder.SuspendLayout()
+        Me.fraInstallment.SuspendLayout()
+        Me.framCustomFrames.SuspendLayout()
+        CType(Me.picResource19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picResource0, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgInstall0, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgOrder0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgInventory40, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgInventory39, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgInventory38, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -312,78 +320,70 @@ Partial Class MainMenu4_Images
         CType(Me.imgInventory2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgInventory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgInventory0, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.fraOrder.SuspendLayout()
-        CType(Me.imgOrder20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgOrder0, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.fraInstallment.SuspendLayout()
-        CType(Me.imgInstall26, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall25, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall24, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall22, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgInstall0, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.framCustomFrames.SuspendLayout()
-        CType(Me.picResource19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picResource0, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMail0, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgAccounting4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgAccounting3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgAccounting2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgAccounting1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgAccounting0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgDefault, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile37, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile36, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile35, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgFile0, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgMM0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'fraMM
@@ -406,138 +406,6 @@ Partial Class MainMenu4_Images
         Me.fraMM.TabIndex = 51
         Me.fraMM.TabStop = False
         Me.fraMM.Text = "Main Menu"
-        '
-        'imgMM11
-        '
-        Me.imgMM11.Image = Global.WinCDS.My.Resources.Resources.mInstallment_D
-        Me.imgMM11.Location = New System.Drawing.Point(858, 30)
-        Me.imgMM11.Name = "imgMM11"
-        Me.imgMM11.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM11.TabIndex = 24
-        Me.imgMM11.TabStop = False
-        Me.imgMM11.Tag = "installmentD"
-        '
-        'imgMM9
-        '
-        Me.imgMM9.Image = Global.WinCDS.My.Resources.Resources.mAccounting_D
-        Me.imgMM9.Location = New System.Drawing.Point(865, 19)
-        Me.imgMM9.Name = "imgMM9"
-        Me.imgMM9.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM9.TabIndex = 22
-        Me.imgMM9.TabStop = False
-        Me.imgMM9.Tag = "accountingD"
-        '
-        'imgMM5
-        '
-        Me.imgMM5.Image = Global.WinCDS.My.Resources.Resources.mInstallment_U
-        Me.imgMM5.Location = New System.Drawing.Point(570, 10)
-        Me.imgMM5.Name = "imgMM5"
-        Me.imgMM5.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM5.TabIndex = 18
-        Me.imgMM5.TabStop = False
-        Me.imgMM5.Tag = "installmentU"
-        '
-        'imgMM10
-        '
-        Me.imgMM10.Image = Global.WinCDS.My.Resources.Resources.mMailing_D
-        Me.imgMM10.Location = New System.Drawing.Point(1042, 13)
-        Me.imgMM10.Name = "imgMM10"
-        Me.imgMM10.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM10.TabIndex = 23
-        Me.imgMM10.TabStop = False
-        Me.imgMM10.Tag = "mailingD"
-        '
-        'imgMM7
-        '
-        Me.imgMM7.Image = Global.WinCDS.My.Resources.Resources.mOrder_D
-        Me.imgMM7.Location = New System.Drawing.Point(751, 19)
-        Me.imgMM7.Name = "imgMM7"
-        Me.imgMM7.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM7.TabIndex = 20
-        Me.imgMM7.TabStop = False
-        Me.imgMM7.Tag = "orderentryD"
-        '
-        'imgMM4
-        '
-        Me.imgMM4.Image = Global.WinCDS.My.Resources.Resources.mMailing_U
-        Me.imgMM4.Location = New System.Drawing.Point(462, 10)
-        Me.imgMM4.Name = "imgMM4"
-        Me.imgMM4.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM4.TabIndex = 17
-        Me.imgMM4.TabStop = False
-        Me.imgMM4.Tag = "mailingU"
-        '
-        'imgMM6
-        '
-        Me.imgMM6.Image = Global.WinCDS.My.Resources.Resources.mFile_D
-        Me.imgMM6.Location = New System.Drawing.Point(675, 19)
-        Me.imgMM6.Name = "imgMM6"
-        Me.imgMM6.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM6.TabIndex = 19
-        Me.imgMM6.TabStop = False
-        Me.imgMM6.Tag = "fileD"
-        '
-        'imgMM3
-        '
-        Me.imgMM3.Image = Global.WinCDS.My.Resources.Resources.mAccounting_U
-        Me.imgMM3.Location = New System.Drawing.Point(332, 10)
-        Me.imgMM3.Name = "imgMM3"
-        Me.imgMM3.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM3.TabIndex = 16
-        Me.imgMM3.TabStop = False
-        Me.imgMM3.Tag = "accountingU"
-        '
-        'imgMM2
-        '
-        Me.imgMM2.Image = Global.WinCDS.My.Resources.Resources.mInventory_U
-        Me.imgMM2.Location = New System.Drawing.Point(223, 10)
-        Me.imgMM2.Name = "imgMM2"
-        Me.imgMM2.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM2.TabIndex = 15
-        Me.imgMM2.TabStop = False
-        Me.imgMM2.Tag = "inventoryU"
-        '
-        'imgMM8
-        '
-        Me.imgMM8.Image = Global.WinCDS.My.Resources.Resources.mInventory_D
-        Me.imgMM8.Location = New System.Drawing.Point(950, 19)
-        Me.imgMM8.Name = "imgMM8"
-        Me.imgMM8.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM8.TabIndex = 21
-        Me.imgMM8.TabStop = False
-        Me.imgMM8.Tag = "inventoryD"
-        '
-        'imgMM1
-        '
-        Me.imgMM1.Image = Global.WinCDS.My.Resources.Resources.mOrder_U
-        Me.imgMM1.Location = New System.Drawing.Point(117, 10)
-        Me.imgMM1.Name = "imgMM1"
-        Me.imgMM1.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM1.TabIndex = 14
-        Me.imgMM1.TabStop = False
-        Me.imgMM1.Tag = "orderentryU"
-        '
-        'imgMM0
-        '
-        Me.imgMM0.Image = Global.WinCDS.My.Resources.Resources.mFile_U
-        Me.imgMM0.Location = New System.Drawing.Point(12, 10)
-        Me.imgMM0.Name = "imgMM0"
-        Me.imgMM0.Size = New System.Drawing.Size(160, 80)
-        Me.imgMM0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgMM0.TabIndex = 13
-        Me.imgMM0.TabStop = False
-        Me.imgMM0.Tag = "fileU"
         '
         'fraFile
         '
@@ -585,6 +453,1354 @@ Partial Class MainMenu4_Images
         Me.fraFile.TabIndex = 52
         Me.fraFile.TabStop = False
         Me.fraFile.Text = "File Menu"
+        '
+        'fraAccounting
+        '
+        Me.fraAccounting.Controls.Add(Me.imgAccounting4)
+        Me.fraAccounting.Controls.Add(Me.imgAccounting3)
+        Me.fraAccounting.Controls.Add(Me.imgAccounting2)
+        Me.fraAccounting.Controls.Add(Me.imgAccounting1)
+        Me.fraAccounting.Controls.Add(Me.imgAccounting0)
+        Me.fraAccounting.Location = New System.Drawing.Point(14, 262)
+        Me.fraAccounting.Name = "fraAccounting"
+        Me.fraAccounting.Size = New System.Drawing.Size(404, 73)
+        Me.fraAccounting.TabIndex = 53
+        Me.fraAccounting.TabStop = False
+        Me.fraAccounting.Text = "Accounting Menu"
+        '
+        'fraMailing
+        '
+        Me.fraMailing.Controls.Add(Me.imgMail7)
+        Me.fraMailing.Controls.Add(Me.imgMail6)
+        Me.fraMailing.Controls.Add(Me.imgMail5)
+        Me.fraMailing.Controls.Add(Me.imgMail4)
+        Me.fraMailing.Controls.Add(Me.imgMail3)
+        Me.fraMailing.Controls.Add(Me.imgMail2)
+        Me.fraMailing.Controls.Add(Me.imgMail1)
+        Me.fraMailing.Controls.Add(Me.imgMail0)
+        Me.fraMailing.Location = New System.Drawing.Point(426, 262)
+        Me.fraMailing.Name = "fraMailing"
+        Me.fraMailing.Size = New System.Drawing.Size(655, 80)
+        Me.fraMailing.TabIndex = 54
+        Me.fraMailing.TabStop = False
+        Me.fraMailing.Text = "Mailing Menu"
+        '
+        'fraInventory
+        '
+        Me.fraInventory.Controls.Add(Me.imgInventory40)
+        Me.fraInventory.Controls.Add(Me.imgInventory39)
+        Me.fraInventory.Controls.Add(Me.imgInventory38)
+        Me.fraInventory.Controls.Add(Me.imgInventory37)
+        Me.fraInventory.Controls.Add(Me.imgInventory36)
+        Me.fraInventory.Controls.Add(Me.imgInventory35)
+        Me.fraInventory.Controls.Add(Me.imgInventory34)
+        Me.fraInventory.Controls.Add(Me.imgInventory33)
+        Me.fraInventory.Controls.Add(Me.imgInventory32)
+        Me.fraInventory.Controls.Add(Me.imgInventory31)
+        Me.fraInventory.Controls.Add(Me.imgInventory30)
+        Me.fraInventory.Controls.Add(Me.imgInventory29)
+        Me.fraInventory.Controls.Add(Me.imgInventory28)
+        Me.fraInventory.Controls.Add(Me.imgInventory27)
+        Me.fraInventory.Controls.Add(Me.imgInventory26)
+        Me.fraInventory.Controls.Add(Me.imgInventory25)
+        Me.fraInventory.Controls.Add(Me.imgInventory24)
+        Me.fraInventory.Controls.Add(Me.imgInventory23)
+        Me.fraInventory.Controls.Add(Me.imgInventory22)
+        Me.fraInventory.Controls.Add(Me.imgInventory21)
+        Me.fraInventory.Controls.Add(Me.imgInventory20)
+        Me.fraInventory.Controls.Add(Me.imgInventory19)
+        Me.fraInventory.Controls.Add(Me.imgInventory18)
+        Me.fraInventory.Controls.Add(Me.imgInventory17)
+        Me.fraInventory.Controls.Add(Me.imgInventory16)
+        Me.fraInventory.Controls.Add(Me.imgInventory15)
+        Me.fraInventory.Controls.Add(Me.imgInventory14)
+        Me.fraInventory.Controls.Add(Me.imgInventory13)
+        Me.fraInventory.Controls.Add(Me.imgInventory12)
+        Me.fraInventory.Controls.Add(Me.imgInventory11)
+        Me.fraInventory.Controls.Add(Me.imgInventory10)
+        Me.fraInventory.Controls.Add(Me.imgInventory9)
+        Me.fraInventory.Controls.Add(Me.imgInventory8)
+        Me.fraInventory.Controls.Add(Me.imgInventory7)
+        Me.fraInventory.Controls.Add(Me.imgInventory6)
+        Me.fraInventory.Controls.Add(Me.imgInventory5)
+        Me.fraInventory.Controls.Add(Me.imgInventory4)
+        Me.fraInventory.Controls.Add(Me.imgInventory3)
+        Me.fraInventory.Controls.Add(Me.imgInventory2)
+        Me.fraInventory.Controls.Add(Me.imgInventory1)
+        Me.fraInventory.Controls.Add(Me.imgInventory0)
+        Me.fraInventory.Location = New System.Drawing.Point(16, 341)
+        Me.fraInventory.Name = "fraInventory"
+        Me.fraInventory.Size = New System.Drawing.Size(998, 168)
+        Me.fraInventory.TabIndex = 55
+        Me.fraInventory.TabStop = False
+        Me.fraInventory.Text = "Inventory Menu"
+        '
+        'fraOrder
+        '
+        Me.fraOrder.Controls.Add(Me.imgOrder20)
+        Me.fraOrder.Controls.Add(Me.imgOrder19)
+        Me.fraOrder.Controls.Add(Me.imgOrder18)
+        Me.fraOrder.Controls.Add(Me.imgOrder17)
+        Me.fraOrder.Controls.Add(Me.imgOrder16)
+        Me.fraOrder.Controls.Add(Me.imgOrder15)
+        Me.fraOrder.Controls.Add(Me.imgOrder14)
+        Me.fraOrder.Controls.Add(Me.imgOrder13)
+        Me.fraOrder.Controls.Add(Me.imgOrder12)
+        Me.fraOrder.Controls.Add(Me.imgOrder11)
+        Me.fraOrder.Controls.Add(Me.imgOrder10)
+        Me.fraOrder.Controls.Add(Me.imgOrder9)
+        Me.fraOrder.Controls.Add(Me.imgOrder8)
+        Me.fraOrder.Controls.Add(Me.imgOrder7)
+        Me.fraOrder.Controls.Add(Me.imgOrder6)
+        Me.fraOrder.Controls.Add(Me.imgOrder5)
+        Me.fraOrder.Controls.Add(Me.imgOrder4)
+        Me.fraOrder.Controls.Add(Me.imgOrder3)
+        Me.fraOrder.Controls.Add(Me.imgOrder2)
+        Me.fraOrder.Controls.Add(Me.imgOrder1)
+        Me.fraOrder.Controls.Add(Me.imgOrder0)
+        Me.fraOrder.Location = New System.Drawing.Point(16, 515)
+        Me.fraOrder.Name = "fraOrder"
+        Me.fraOrder.Size = New System.Drawing.Size(1251, 99)
+        Me.fraOrder.TabIndex = 56
+        Me.fraOrder.TabStop = False
+        Me.fraOrder.Text = "Order Entry Menu"
+        '
+        'fraInstallment
+        '
+        Me.fraInstallment.Controls.Add(Me.imgInstall26)
+        Me.fraInstallment.Controls.Add(Me.imgInstall25)
+        Me.fraInstallment.Controls.Add(Me.imgInstall24)
+        Me.fraInstallment.Controls.Add(Me.imgInstall23)
+        Me.fraInstallment.Controls.Add(Me.imgInstall22)
+        Me.fraInstallment.Controls.Add(Me.imgInstall21)
+        Me.fraInstallment.Controls.Add(Me.imgInstall20)
+        Me.fraInstallment.Controls.Add(Me.imgInstall19)
+        Me.fraInstallment.Controls.Add(Me.imgInstall18)
+        Me.fraInstallment.Controls.Add(Me.imgInstall17)
+        Me.fraInstallment.Controls.Add(Me.imgInstall16)
+        Me.fraInstallment.Controls.Add(Me.imgInstall15)
+        Me.fraInstallment.Controls.Add(Me.imgInstall14)
+        Me.fraInstallment.Controls.Add(Me.imgInstall13)
+        Me.fraInstallment.Controls.Add(Me.imgInstall12)
+        Me.fraInstallment.Controls.Add(Me.imgInstall11)
+        Me.fraInstallment.Controls.Add(Me.imgInstall10)
+        Me.fraInstallment.Controls.Add(Me.imgInstall9)
+        Me.fraInstallment.Controls.Add(Me.imgInstall8)
+        Me.fraInstallment.Controls.Add(Me.imgInstall7)
+        Me.fraInstallment.Controls.Add(Me.imgInstall6)
+        Me.fraInstallment.Controls.Add(Me.imgInstall5)
+        Me.fraInstallment.Controls.Add(Me.imgInstall4)
+        Me.fraInstallment.Controls.Add(Me.imgInstall3)
+        Me.fraInstallment.Controls.Add(Me.imgInstall2)
+        Me.fraInstallment.Controls.Add(Me.imgInstall1)
+        Me.fraInstallment.Controls.Add(Me.imgInstall0)
+        Me.fraInstallment.Location = New System.Drawing.Point(64, 616)
+        Me.fraInstallment.Name = "fraInstallment"
+        Me.fraInstallment.Size = New System.Drawing.Size(1245, 112)
+        Me.fraInstallment.TabIndex = 57
+        Me.fraInstallment.TabStop = False
+        Me.fraInstallment.Text = "Installment Menu"
+        '
+        'framCustomFrames
+        '
+        Me.framCustomFrames.Controls.Add(Me.picResource19)
+        Me.framCustomFrames.Controls.Add(Me.picResource18)
+        Me.framCustomFrames.Controls.Add(Me.picResource17)
+        Me.framCustomFrames.Controls.Add(Me.picResource16)
+        Me.framCustomFrames.Controls.Add(Me.picResource15)
+        Me.framCustomFrames.Controls.Add(Me.picResource14)
+        Me.framCustomFrames.Controls.Add(Me.picResource13)
+        Me.framCustomFrames.Controls.Add(Me.picResource12)
+        Me.framCustomFrames.Controls.Add(Me.picResource11)
+        Me.framCustomFrames.Controls.Add(Me.picResource10)
+        Me.framCustomFrames.Controls.Add(Me.picResource9)
+        Me.framCustomFrames.Controls.Add(Me.picResource8)
+        Me.framCustomFrames.Controls.Add(Me.picResource7)
+        Me.framCustomFrames.Controls.Add(Me.picResource6)
+        Me.framCustomFrames.Controls.Add(Me.picResource5)
+        Me.framCustomFrames.Controls.Add(Me.picResource4)
+        Me.framCustomFrames.Controls.Add(Me.picResource3)
+        Me.framCustomFrames.Controls.Add(Me.picResource2)
+        Me.framCustomFrames.Controls.Add(Me.picResource1)
+        Me.framCustomFrames.Controls.Add(Me.picResource0)
+        Me.framCustomFrames.Location = New System.Drawing.Point(16, 656)
+        Me.framCustomFrames.Name = "framCustomFrames"
+        Me.framCustomFrames.Size = New System.Drawing.Size(1245, 76)
+        Me.framCustomFrames.TabIndex = 58
+        Me.framCustomFrames.TabStop = False
+        Me.framCustomFrames.Text = "Custom Frames"
+        '
+        'picResource19
+        '
+        Me.picResource19.Location = New System.Drawing.Point(1183, 31)
+        Me.picResource19.Name = "picResource19"
+        Me.picResource19.Size = New System.Drawing.Size(56, 45)
+        Me.picResource19.TabIndex = 201
+        Me.picResource19.TabStop = False
+        '
+        'picResource18
+        '
+        Me.picResource18.Location = New System.Drawing.Point(1189, 9)
+        Me.picResource18.Name = "picResource18"
+        Me.picResource18.Size = New System.Drawing.Size(56, 45)
+        Me.picResource18.TabIndex = 200
+        Me.picResource18.TabStop = False
+        '
+        'picResource17
+        '
+        Me.picResource17.Location = New System.Drawing.Point(1128, 9)
+        Me.picResource17.Name = "picResource17"
+        Me.picResource17.Size = New System.Drawing.Size(56, 45)
+        Me.picResource17.TabIndex = 199
+        Me.picResource17.TabStop = False
+        '
+        'picResource16
+        '
+        Me.picResource16.Location = New System.Drawing.Point(1066, 9)
+        Me.picResource16.Name = "picResource16"
+        Me.picResource16.Size = New System.Drawing.Size(56, 45)
+        Me.picResource16.TabIndex = 198
+        Me.picResource16.TabStop = False
+        '
+        'picResource15
+        '
+        Me.picResource15.Location = New System.Drawing.Point(1004, 19)
+        Me.picResource15.Name = "picResource15"
+        Me.picResource15.Size = New System.Drawing.Size(56, 45)
+        Me.picResource15.TabIndex = 197
+        Me.picResource15.TabStop = False
+        '
+        'picResource14
+        '
+        Me.picResource14.Location = New System.Drawing.Point(942, 19)
+        Me.picResource14.Name = "picResource14"
+        Me.picResource14.Size = New System.Drawing.Size(56, 45)
+        Me.picResource14.TabIndex = 196
+        Me.picResource14.TabStop = False
+        '
+        'picResource13
+        '
+        Me.picResource13.Location = New System.Drawing.Point(879, 9)
+        Me.picResource13.Name = "picResource13"
+        Me.picResource13.Size = New System.Drawing.Size(56, 45)
+        Me.picResource13.TabIndex = 195
+        Me.picResource13.TabStop = False
+        '
+        'picResource12
+        '
+        Me.picResource12.Location = New System.Drawing.Point(798, 19)
+        Me.picResource12.Name = "picResource12"
+        Me.picResource12.Size = New System.Drawing.Size(56, 45)
+        Me.picResource12.TabIndex = 194
+        Me.picResource12.TabStop = False
+        '
+        'picResource11
+        '
+        Me.picResource11.Location = New System.Drawing.Point(726, 19)
+        Me.picResource11.Name = "picResource11"
+        Me.picResource11.Size = New System.Drawing.Size(56, 45)
+        Me.picResource11.TabIndex = 193
+        Me.picResource11.TabStop = False
+        '
+        'picResource10
+        '
+        Me.picResource10.Location = New System.Drawing.Point(660, 9)
+        Me.picResource10.Name = "picResource10"
+        Me.picResource10.Size = New System.Drawing.Size(56, 45)
+        Me.picResource10.TabIndex = 192
+        Me.picResource10.TabStop = False
+        '
+        'picResource9
+        '
+        Me.picResource9.Location = New System.Drawing.Point(593, 9)
+        Me.picResource9.Name = "picResource9"
+        Me.picResource9.Size = New System.Drawing.Size(56, 45)
+        Me.picResource9.TabIndex = 191
+        Me.picResource9.TabStop = False
+        '
+        'picResource8
+        '
+        Me.picResource8.Location = New System.Drawing.Point(531, 9)
+        Me.picResource8.Name = "picResource8"
+        Me.picResource8.Size = New System.Drawing.Size(56, 45)
+        Me.picResource8.TabIndex = 190
+        Me.picResource8.TabStop = False
+        '
+        'picResource7
+        '
+        Me.picResource7.Location = New System.Drawing.Point(472, 9)
+        Me.picResource7.Name = "picResource7"
+        Me.picResource7.Size = New System.Drawing.Size(56, 45)
+        Me.picResource7.TabIndex = 189
+        Me.picResource7.TabStop = False
+        '
+        'picResource6
+        '
+        Me.picResource6.Location = New System.Drawing.Point(410, 9)
+        Me.picResource6.Name = "picResource6"
+        Me.picResource6.Size = New System.Drawing.Size(56, 45)
+        Me.picResource6.TabIndex = 188
+        Me.picResource6.TabStop = False
+        '
+        'picResource5
+        '
+        Me.picResource5.Location = New System.Drawing.Point(346, 9)
+        Me.picResource5.Name = "picResource5"
+        Me.picResource5.Size = New System.Drawing.Size(56, 45)
+        Me.picResource5.TabIndex = 187
+        Me.picResource5.TabStop = False
+        '
+        'picResource4
+        '
+        Me.picResource4.Location = New System.Drawing.Point(271, 9)
+        Me.picResource4.Name = "picResource4"
+        Me.picResource4.Size = New System.Drawing.Size(56, 45)
+        Me.picResource4.TabIndex = 186
+        Me.picResource4.TabStop = False
+        '
+        'picResource3
+        '
+        Me.picResource3.Location = New System.Drawing.Point(209, 9)
+        Me.picResource3.Name = "picResource3"
+        Me.picResource3.Size = New System.Drawing.Size(56, 45)
+        Me.picResource3.TabIndex = 185
+        Me.picResource3.TabStop = False
+        '
+        'picResource2
+        '
+        Me.picResource2.Location = New System.Drawing.Point(138, 9)
+        Me.picResource2.Name = "picResource2"
+        Me.picResource2.Size = New System.Drawing.Size(56, 45)
+        Me.picResource2.TabIndex = 184
+        Me.picResource2.TabStop = False
+        '
+        'picResource1
+        '
+        Me.picResource1.Location = New System.Drawing.Point(76, 17)
+        Me.picResource1.Name = "picResource1"
+        Me.picResource1.Size = New System.Drawing.Size(56, 45)
+        Me.picResource1.TabIndex = 183
+        Me.picResource1.TabStop = False
+        '
+        'picResource0
+        '
+        Me.picResource0.Location = New System.Drawing.Point(14, 18)
+        Me.picResource0.Name = "picResource0"
+        Me.picResource0.Size = New System.Drawing.Size(56, 45)
+        Me.picResource0.TabIndex = 182
+        Me.picResource0.TabStop = False
+        '
+        'imgInstall26
+        '
+        Me.imgInstall26.Location = New System.Drawing.Point(456, 67)
+        Me.imgInstall26.Name = "imgInstall26"
+        Me.imgInstall26.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall26.TabIndex = 181
+        Me.imgInstall26.TabStop = False
+        '
+        'imgInstall25
+        '
+        Me.imgInstall25.Location = New System.Drawing.Point(401, 61)
+        Me.imgInstall25.Name = "imgInstall25"
+        Me.imgInstall25.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall25.TabIndex = 180
+        Me.imgInstall25.TabStop = False
+        '
+        'imgInstall24
+        '
+        Me.imgInstall24.Location = New System.Drawing.Point(339, 63)
+        Me.imgInstall24.Name = "imgInstall24"
+        Me.imgInstall24.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall24.TabIndex = 179
+        Me.imgInstall24.TabStop = False
+        '
+        'imgInstall23
+        '
+        Me.imgInstall23.Location = New System.Drawing.Point(271, 67)
+        Me.imgInstall23.Name = "imgInstall23"
+        Me.imgInstall23.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall23.TabIndex = 178
+        Me.imgInstall23.TabStop = False
+        '
+        'imgInstall22
+        '
+        Me.imgInstall22.Location = New System.Drawing.Point(209, 63)
+        Me.imgInstall22.Name = "imgInstall22"
+        Me.imgInstall22.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall22.TabIndex = 177
+        Me.imgInstall22.TabStop = False
+        '
+        'imgInstall21
+        '
+        Me.imgInstall21.Location = New System.Drawing.Point(147, 63)
+        Me.imgInstall21.Name = "imgInstall21"
+        Me.imgInstall21.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall21.TabIndex = 176
+        Me.imgInstall21.TabStop = False
+        '
+        'imgInstall20
+        '
+        Me.imgInstall20.Location = New System.Drawing.Point(85, 61)
+        Me.imgInstall20.Name = "imgInstall20"
+        Me.imgInstall20.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall20.TabIndex = 175
+        Me.imgInstall20.TabStop = False
+        '
+        'imgInstall19
+        '
+        Me.imgInstall19.Location = New System.Drawing.Point(14, 61)
+        Me.imgInstall19.Name = "imgInstall19"
+        Me.imgInstall19.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall19.TabIndex = 174
+        Me.imgInstall19.TabStop = False
+        '
+        'imgInstall18
+        '
+        Me.imgInstall18.Location = New System.Drawing.Point(1163, 12)
+        Me.imgInstall18.Name = "imgInstall18"
+        Me.imgInstall18.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall18.TabIndex = 173
+        Me.imgInstall18.TabStop = False
+        '
+        'imgInstall17
+        '
+        Me.imgInstall17.Location = New System.Drawing.Point(1095, 19)
+        Me.imgInstall17.Name = "imgInstall17"
+        Me.imgInstall17.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall17.TabIndex = 172
+        Me.imgInstall17.TabStop = False
+        '
+        'imgInstall16
+        '
+        Me.imgInstall16.Location = New System.Drawing.Point(1033, 12)
+        Me.imgInstall16.Name = "imgInstall16"
+        Me.imgInstall16.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall16.TabIndex = 171
+        Me.imgInstall16.TabStop = False
+        '
+        'imgInstall15
+        '
+        Me.imgInstall15.Location = New System.Drawing.Point(971, 16)
+        Me.imgInstall15.Name = "imgInstall15"
+        Me.imgInstall15.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall15.TabIndex = 170
+        Me.imgInstall15.TabStop = False
+        '
+        'imgInstall14
+        '
+        Me.imgInstall14.Location = New System.Drawing.Point(905, 19)
+        Me.imgInstall14.Name = "imgInstall14"
+        Me.imgInstall14.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall14.TabIndex = 169
+        Me.imgInstall14.TabStop = False
+        '
+        'imgInstall13
+        '
+        Me.imgInstall13.Location = New System.Drawing.Point(840, 19)
+        Me.imgInstall13.Name = "imgInstall13"
+        Me.imgInstall13.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall13.TabIndex = 168
+        Me.imgInstall13.TabStop = False
+        '
+        'imgInstall12
+        '
+        Me.imgInstall12.Location = New System.Drawing.Point(777, 16)
+        Me.imgInstall12.Name = "imgInstall12"
+        Me.imgInstall12.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall12.TabIndex = 167
+        Me.imgInstall12.TabStop = False
+        '
+        'imgInstall11
+        '
+        Me.imgInstall11.Location = New System.Drawing.Point(708, 16)
+        Me.imgInstall11.Name = "imgInstall11"
+        Me.imgInstall11.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall11.TabIndex = 166
+        Me.imgInstall11.TabStop = False
+        '
+        'imgInstall10
+        '
+        Me.imgInstall10.Location = New System.Drawing.Point(640, 16)
+        Me.imgInstall10.Name = "imgInstall10"
+        Me.imgInstall10.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall10.TabIndex = 165
+        Me.imgInstall10.TabStop = False
+        '
+        'imgInstall9
+        '
+        Me.imgInstall9.Location = New System.Drawing.Point(576, 19)
+        Me.imgInstall9.Name = "imgInstall9"
+        Me.imgInstall9.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall9.TabIndex = 164
+        Me.imgInstall9.TabStop = False
+        '
+        'imgInstall8
+        '
+        Me.imgInstall8.Location = New System.Drawing.Point(518, 19)
+        Me.imgInstall8.Name = "imgInstall8"
+        Me.imgInstall8.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall8.TabIndex = 163
+        Me.imgInstall8.TabStop = False
+        '
+        'imgInstall7
+        '
+        Me.imgInstall7.Location = New System.Drawing.Point(456, 16)
+        Me.imgInstall7.Name = "imgInstall7"
+        Me.imgInstall7.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall7.TabIndex = 162
+        Me.imgInstall7.TabStop = False
+        '
+        'imgInstall6
+        '
+        Me.imgInstall6.Location = New System.Drawing.Point(392, 16)
+        Me.imgInstall6.Name = "imgInstall6"
+        Me.imgInstall6.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall6.TabIndex = 161
+        Me.imgInstall6.TabStop = False
+        '
+        'imgInstall5
+        '
+        Me.imgInstall5.Location = New System.Drawing.Point(330, 16)
+        Me.imgInstall5.Name = "imgInstall5"
+        Me.imgInstall5.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall5.TabIndex = 160
+        Me.imgInstall5.TabStop = False
+        '
+        'imgInstall4
+        '
+        Me.imgInstall4.Location = New System.Drawing.Point(268, 12)
+        Me.imgInstall4.Name = "imgInstall4"
+        Me.imgInstall4.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall4.TabIndex = 159
+        Me.imgInstall4.TabStop = False
+        '
+        'imgInstall3
+        '
+        Me.imgInstall3.Location = New System.Drawing.Point(200, 12)
+        Me.imgInstall3.Name = "imgInstall3"
+        Me.imgInstall3.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall3.TabIndex = 158
+        Me.imgInstall3.TabStop = False
+        '
+        'imgInstall2
+        '
+        Me.imgInstall2.Location = New System.Drawing.Point(138, 16)
+        Me.imgInstall2.Name = "imgInstall2"
+        Me.imgInstall2.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall2.TabIndex = 157
+        Me.imgInstall2.TabStop = False
+        '
+        'imgInstall1
+        '
+        Me.imgInstall1.Location = New System.Drawing.Point(76, 12)
+        Me.imgInstall1.Name = "imgInstall1"
+        Me.imgInstall1.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall1.TabIndex = 156
+        Me.imgInstall1.TabStop = False
+        '
+        'imgInstall0
+        '
+        Me.imgInstall0.Location = New System.Drawing.Point(14, 16)
+        Me.imgInstall0.Name = "imgInstall0"
+        Me.imgInstall0.Size = New System.Drawing.Size(56, 45)
+        Me.imgInstall0.TabIndex = 155
+        Me.imgInstall0.TabStop = False
+        '
+        'imgOrder20
+        '
+        Me.imgOrder20.Image = Global.WinCDS.My.Resources.Resources._return
+        Me.imgOrder20.Location = New System.Drawing.Point(1198, 45)
+        Me.imgOrder20.Name = "imgOrder20"
+        Me.imgOrder20.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder20.TabIndex = 156
+        Me.imgOrder20.TabStop = False
+        Me.imgOrder20.Tag = "return"
+        '
+        'imgOrder19
+        '
+        Me.imgOrder19.Image = Global.WinCDS.My.Resources.Resources.tags
+        Me.imgOrder19.Location = New System.Drawing.Point(1198, 19)
+        Me.imgOrder19.Name = "imgOrder19"
+        Me.imgOrder19.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder19.TabIndex = 155
+        Me.imgOrder19.TabStop = False
+        Me.imgOrder19.Tag = "tags"
+        '
+        'imgOrder18
+        '
+        Me.imgOrder18.Image = Global.WinCDS.My.Resources.Resources.servicereport
+        Me.imgOrder18.Location = New System.Drawing.Point(1136, 23)
+        Me.imgOrder18.Name = "imgOrder18"
+        Me.imgOrder18.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder18.TabIndex = 154
+        Me.imgOrder18.TabStop = False
+        Me.imgOrder18.Tag = "servicereport"
+        '
+        'imgOrder17
+        '
+        Me.imgOrder17.Image = Global.WinCDS.My.Resources.Resources.partsorders
+        Me.imgOrder17.Location = New System.Drawing.Point(1074, 19)
+        Me.imgOrder17.Name = "imgOrder17"
+        Me.imgOrder17.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder17.TabIndex = 153
+        Me.imgOrder17.TabStop = False
+        Me.imgOrder17.Tag = "partsorders"
+        '
+        'imgOrder16
+        '
+        Me.imgOrder16.Image = Global.WinCDS.My.Resources.Resources.damagedstock
+        Me.imgOrder16.Location = New System.Drawing.Point(1012, 19)
+        Me.imgOrder16.Name = "imgOrder16"
+        Me.imgOrder16.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder16.TabIndex = 152
+        Me.imgOrder16.TabStop = False
+        Me.imgOrder16.Tag = "damagedstock"
+        '
+        'imgOrder15
+        '
+        Me.imgOrder15.Image = Global.WinCDS.My.Resources.Resources.servicecalls
+        Me.imgOrder15.Location = New System.Drawing.Point(950, 23)
+        Me.imgOrder15.Name = "imgOrder15"
+        Me.imgOrder15.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder15.TabIndex = 151
+        Me.imgOrder15.TabStop = False
+        Me.imgOrder15.Tag = "servicecalls"
+        '
+        'imgOrder14
+        '
+        Me.imgOrder14.Image = Global.WinCDS.My.Resources.Resources.voidsale
+        Me.imgOrder14.Location = New System.Drawing.Point(888, 19)
+        Me.imgOrder14.Name = "imgOrder14"
+        Me.imgOrder14.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder14.TabIndex = 150
+        Me.imgOrder14.TabStop = False
+        Me.imgOrder14.Tag = "voidsale"
+        '
+        'imgOrder13
+        '
+        Me.imgOrder13.Image = Global.WinCDS.My.Resources.Resources.viewsale
+        Me.imgOrder13.Location = New System.Drawing.Point(826, 19)
+        Me.imgOrder13.Name = "imgOrder13"
+        Me.imgOrder13.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder13.TabIndex = 149
+        Me.imgOrder13.TabStop = False
+        Me.imgOrder13.Tag = "viewsale"
+        '
+        'imgOrder12
+        '
+        Me.imgOrder12.Image = Global.WinCDS.My.Resources.Resources.servicemodule
+        Me.imgOrder12.Location = New System.Drawing.Point(764, 19)
+        Me.imgOrder12.Name = "imgOrder12"
+        Me.imgOrder12.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder12.TabIndex = 148
+        Me.imgOrder12.TabStop = False
+        Me.imgOrder12.Tag = "servicemodule"
+        '
+        'imgOrder11
+        '
+        Me.imgOrder11.Image = Global.WinCDS.My.Resources.Resources.reports_4
+        Me.imgOrder11.Location = New System.Drawing.Point(694, 19)
+        Me.imgOrder11.Name = "imgOrder11"
+        Me.imgOrder11.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder11.TabIndex = 147
+        Me.imgOrder11.TabStop = False
+        Me.imgOrder11.Tag = "reports-4"
+        '
+        'imgOrder10
+        '
+        Me.imgOrder10.Image = Global.WinCDS.My.Resources.Resources.reports_3
+        Me.imgOrder10.Location = New System.Drawing.Point(631, 19)
+        Me.imgOrder10.Name = "imgOrder10"
+        Me.imgOrder10.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder10.TabIndex = 146
+        Me.imgOrder10.TabStop = False
+        Me.imgOrder10.Tag = "reports-3"
+        '
+        'imgOrder9
+        '
+        Me.imgOrder9.Image = Global.WinCDS.My.Resources.Resources.reports_2
+        Me.imgOrder9.Location = New System.Drawing.Point(569, 19)
+        Me.imgOrder9.Name = "imgOrder9"
+        Me.imgOrder9.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder9.TabIndex = 145
+        Me.imgOrder9.TabStop = False
+        Me.imgOrder9.Tag = "reports-2"
+        '
+        'imgOrder8
+        '
+        Me.imgOrder8.Image = Global.WinCDS.My.Resources.Resources.reports
+        Me.imgOrder8.Location = New System.Drawing.Point(507, 19)
+        Me.imgOrder8.Name = "imgOrder8"
+        Me.imgOrder8.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder8.TabIndex = 144
+        Me.imgOrder8.TabStop = False
+        Me.imgOrder8.Tag = "reports"
+        '
+        'imgOrder7
+        '
+        Me.imgOrder7.Image = Global.WinCDS.My.Resources.Resources.preview
+        Me.imgOrder7.Location = New System.Drawing.Point(442, 19)
+        Me.imgOrder7.Name = "imgOrder7"
+        Me.imgOrder7.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder7.TabIndex = 143
+        Me.imgOrder7.TabStop = False
+        Me.imgOrder7.Tag = "preview"
+        '
+        'imgOrder6
+        '
+        Me.imgOrder6.Image = Global.WinCDS.My.Resources.Resources.payment
+        Me.imgOrder6.Location = New System.Drawing.Point(379, 19)
+        Me.imgOrder6.Name = "imgOrder6"
+        Me.imgOrder6.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder6.TabIndex = 142
+        Me.imgOrder6.TabStop = False
+        Me.imgOrder6.Tag = "payment"
+        '
+        'imgOrder5
+        '
+        Me.imgOrder5.Image = Global.WinCDS.My.Resources.Resources.oereport
+        Me.imgOrder5.Location = New System.Drawing.Point(317, 19)
+        Me.imgOrder5.Name = "imgOrder5"
+        Me.imgOrder5.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder5.TabIndex = 141
+        Me.imgOrder5.TabStop = False
+        Me.imgOrder5.Tag = "oereport"
+        '
+        'imgOrder4
+        '
+        Me.imgOrder4.Image = Global.WinCDS.My.Resources.Resources.newsale
+        Me.imgOrder4.Location = New System.Drawing.Point(255, 19)
+        Me.imgOrder4.Name = "imgOrder4"
+        Me.imgOrder4.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder4.TabIndex = 140
+        Me.imgOrder4.TabStop = False
+        Me.imgOrder4.Tag = "newsale"
+        '
+        'imgOrder3
+        '
+        Me.imgOrder3.Image = Global.WinCDS.My.Resources.Resources.deliver
+        Me.imgOrder3.Location = New System.Drawing.Point(193, 23)
+        Me.imgOrder3.Name = "imgOrder3"
+        Me.imgOrder3.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder3.TabIndex = 139
+        Me.imgOrder3.TabStop = False
+        Me.imgOrder3.Tag = "deliver"
+        '
+        'imgOrder2
+        '
+        Me.imgOrder2.Image = Global.WinCDS.My.Resources.Resources.cashreg
+        Me.imgOrder2.Location = New System.Drawing.Point(131, 19)
+        Me.imgOrder2.Name = "imgOrder2"
+        Me.imgOrder2.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder2.TabIndex = 138
+        Me.imgOrder2.TabStop = False
+        Me.imgOrder2.Tag = "cashreg"
+        '
+        'imgOrder1
+        '
+        Me.imgOrder1.Image = Global.WinCDS.My.Resources.Resources.cashdrawer
+        Me.imgOrder1.Location = New System.Drawing.Point(69, 19)
+        Me.imgOrder1.Name = "imgOrder1"
+        Me.imgOrder1.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder1.TabIndex = 137
+        Me.imgOrder1.TabStop = False
+        Me.imgOrder1.Tag = "cashdrawer"
+        '
+        'imgOrder0
+        '
+        Me.imgOrder0.Image = Global.WinCDS.My.Resources.Resources.adjustments
+        Me.imgOrder0.Location = New System.Drawing.Point(6, 19)
+        Me.imgOrder0.Name = "imgOrder0"
+        Me.imgOrder0.Size = New System.Drawing.Size(110, 110)
+        Me.imgOrder0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgOrder0.TabIndex = 136
+        Me.imgOrder0.TabStop = False
+        Me.imgOrder0.Tag = "adjustments"
+        '
+        'imgInventory40
+        '
+        Me.imgInventory40.Image = Global.WinCDS.My.Resources.Resources.marginreports
+        Me.imgInventory40.Location = New System.Drawing.Point(798, 123)
+        Me.imgInventory40.Name = "imgInventory40"
+        Me.imgInventory40.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory40.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory40.TabIndex = 135
+        Me.imgInventory40.TabStop = False
+        Me.imgInventory40.Tag = "marginreports"
+        '
+        'imgInventory39
+        '
+        Me.imgInventory39.Image = Global.WinCDS.My.Resources.Resources.inventoryreports
+        Me.imgInventory39.Location = New System.Drawing.Point(726, 117)
+        Me.imgInventory39.Name = "imgInventory39"
+        Me.imgInventory39.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory39.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory39.TabIndex = 134
+        Me.imgInventory39.TabStop = False
+        Me.imgInventory39.Tag = "inventoryreports"
+        '
+        'imgInventory38
+        '
+        Me.imgInventory38.Image = Global.WinCDS.My.Resources.Resources.viewstock
+        Me.imgInventory38.Location = New System.Drawing.Point(664, 123)
+        Me.imgInventory38.Name = "imgInventory38"
+        Me.imgInventory38.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory38.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory38.TabIndex = 133
+        Me.imgInventory38.TabStop = False
+        Me.imgInventory38.Tag = "viewstock"
+        '
+        'imgInventory37
+        '
+        Me.imgInventory37.Image = Global.WinCDS.My.Resources.Resources.storetransfers
+        Me.imgInventory37.Location = New System.Drawing.Point(602, 123)
+        Me.imgInventory37.Name = "imgInventory37"
+        Me.imgInventory37.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory37.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory37.TabIndex = 132
+        Me.imgInventory37.TabStop = False
+        Me.imgInventory37.Tag = "storetransfers"
+        '
+        'imgInventory36
+        '
+        Me.imgInventory36.Image = Global.WinCDS.My.Resources.Resources.storecatalog
+        Me.imgInventory36.Location = New System.Drawing.Point(541, 123)
+        Me.imgInventory36.Name = "imgInventory36"
+        Me.imgInventory36.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory36.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory36.TabIndex = 131
+        Me.imgInventory36.TabStop = False
+        Me.imgInventory36.Tag = "storecatalog"
+        '
+        'imgInventory35
+        '
+        Me.imgInventory35.Image = Global.WinCDS.My.Resources.Resources.ss
+        Me.imgInventory35.Location = New System.Drawing.Point(476, 121)
+        Me.imgInventory35.Name = "imgInventory35"
+        Me.imgInventory35.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory35.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory35.TabIndex = 130
+        Me.imgInventory35.TabStop = False
+        Me.imgInventory35.Tag = "ss"
+        '
+        'imgInventory34
+        '
+        Me.imgInventory34.Image = Global.WinCDS.My.Resources.Resources.special
+        Me.imgInventory34.Location = New System.Drawing.Point(410, 123)
+        Me.imgInventory34.Name = "imgInventory34"
+        Me.imgInventory34.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory34.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory34.TabIndex = 129
+        Me.imgInventory34.TabStop = False
+        Me.imgInventory34.Tag = "special"
+        '
+        'imgInventory33
+        '
+        Me.imgInventory33.Image = Global.WinCDS.My.Resources.Resources._return
+        Me.imgInventory33.Location = New System.Drawing.Point(346, 121)
+        Me.imgInventory33.Name = "imgInventory33"
+        Me.imgInventory33.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory33.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory33.TabIndex = 128
+        Me.imgInventory33.TabStop = False
+        Me.imgInventory33.Tag = "return"
+        '
+        'imgInventory32
+        '
+        Me.imgInventory32.Image = Global.WinCDS.My.Resources.Resources.reports
+        Me.imgInventory32.Location = New System.Drawing.Point(281, 121)
+        Me.imgInventory32.Name = "imgInventory32"
+        Me.imgInventory32.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory32.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory32.TabIndex = 127
+        Me.imgInventory32.TabStop = False
+        Me.imgInventory32.Tag = "reports"
+        '
+        'imgInventory31
+        '
+        Me.imgInventory31.Image = Global.WinCDS.My.Resources.Resources.pricechanges
+        Me.imgInventory31.Location = New System.Drawing.Point(219, 121)
+        Me.imgInventory31.Name = "imgInventory31"
+        Me.imgInventory31.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory31.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory31.TabIndex = 126
+        Me.imgInventory31.TabStop = False
+        Me.imgInventory31.Tag = "pricechanges"
+        '
+        'imgInventory30
+        '
+        Me.imgInventory30.Image = Global.WinCDS.My.Resources.Resources.povoid
+        Me.imgInventory30.Location = New System.Drawing.Point(149, 121)
+        Me.imgInventory30.Name = "imgInventory30"
+        Me.imgInventory30.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory30.TabIndex = 125
+        Me.imgInventory30.TabStop = False
+        Me.imgInventory30.Tag = "povoid"
+        '
+        'imgInventory29
+        '
+        Me.imgInventory29.Image = Global.WinCDS.My.Resources.Resources.poreport
+        Me.imgInventory29.Location = New System.Drawing.Point(87, 117)
+        Me.imgInventory29.Name = "imgInventory29"
+        Me.imgInventory29.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory29.TabIndex = 124
+        Me.imgInventory29.TabStop = False
+        Me.imgInventory29.Tag = "poreport"
+        '
+        'imgInventory28
+        '
+        Me.imgInventory28.Image = Global.WinCDS.My.Resources.Resources.porec
+        Me.imgInventory28.Location = New System.Drawing.Point(19, 117)
+        Me.imgInventory28.Name = "imgInventory28"
+        Me.imgInventory28.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory28.TabIndex = 123
+        Me.imgInventory28.TabStop = False
+        Me.imgInventory28.Tag = "porec"
+        '
+        'imgInventory27
+        '
+        Me.imgInventory27.Image = Global.WinCDS.My.Resources.Resources.poquickprint
+        Me.imgInventory27.Location = New System.Drawing.Point(905, 70)
+        Me.imgInventory27.Name = "imgInventory27"
+        Me.imgInventory27.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory27.TabIndex = 122
+        Me.imgInventory27.TabStop = False
+        Me.imgInventory27.Tag = "poquickprint"
+        '
+        'imgInventory26
+        '
+        Me.imgInventory26.Image = Global.WinCDS.My.Resources.Resources.poorder
+        Me.imgInventory26.Location = New System.Drawing.Point(843, 70)
+        Me.imgInventory26.Name = "imgInventory26"
+        Me.imgInventory26.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory26.TabIndex = 121
+        Me.imgInventory26.TabStop = False
+        Me.imgInventory26.Tag = "poorder"
+        '
+        'imgInventory25
+        '
+        Me.imgInventory25.Image = Global.WinCDS.My.Resources.Resources.pofaxprint
+        Me.imgInventory25.Location = New System.Drawing.Point(781, 70)
+        Me.imgInventory25.Name = "imgInventory25"
+        Me.imgInventory25.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory25.TabIndex = 120
+        Me.imgInventory25.TabStop = False
+        Me.imgInventory25.Tag = "pofaxprint"
+        '
+        'imgInventory24
+        '
+        Me.imgInventory24.Image = Global.WinCDS.My.Resources.Resources.poemail
+        Me.imgInventory24.Location = New System.Drawing.Point(708, 70)
+        Me.imgInventory24.Name = "imgInventory24"
+        Me.imgInventory24.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory24.TabIndex = 119
+        Me.imgInventory24.TabStop = False
+        Me.imgInventory24.Tag = "poemail"
+        '
+        'imgInventory23
+        '
+        Me.imgInventory23.Image = Global.WinCDS.My.Resources.Resources.poeditview
+        Me.imgInventory23.Location = New System.Drawing.Point(640, 70)
+        Me.imgInventory23.Name = "imgInventory23"
+        Me.imgInventory23.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory23.TabIndex = 118
+        Me.imgInventory23.TabStop = False
+        Me.imgInventory23.Tag = "poeditview"
+        '
+        'imgInventory22
+        '
+        Me.imgInventory22.Image = Global.WinCDS.My.Resources.Resources.pocombine
+        Me.imgInventory22.Location = New System.Drawing.Point(567, 70)
+        Me.imgInventory22.Name = "imgInventory22"
+        Me.imgInventory22.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory22.TabIndex = 117
+        Me.imgInventory22.TabStop = False
+        Me.imgInventory22.Tag = "pocombine"
+        '
+        'imgInventory21
+        '
+        Me.imgInventory21.Image = Global.WinCDS.My.Resources.Resources.po
+        Me.imgInventory21.Location = New System.Drawing.Point(505, 70)
+        Me.imgInventory21.Name = "imgInventory21"
+        Me.imgInventory21.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory21.TabIndex = 116
+        Me.imgInventory21.TabStop = False
+        Me.imgInventory21.Tag = "po"
+        '
+        'imgInventory20
+        '
+        Me.imgInventory20.Image = Global.WinCDS.My.Resources.Resources.package
+        Me.imgInventory20.Location = New System.Drawing.Point(432, 70)
+        Me.imgInventory20.Name = "imgInventory20"
+        Me.imgInventory20.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory20.TabIndex = 115
+        Me.imgInventory20.TabStop = False
+        Me.imgInventory20.Tag = "package"
+        '
+        'imgInventory19
+        '
+        Me.imgInventory19.Image = Global.WinCDS.My.Resources.Resources.orderstatus
+        Me.imgInventory19.Location = New System.Drawing.Point(357, 70)
+        Me.imgInventory19.Name = "imgInventory19"
+        Me.imgInventory19.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory19.TabIndex = 114
+        Me.imgInventory19.TabStop = False
+        Me.imgInventory19.Tag = "orderstatus"
+        '
+        'imgInventory18
+        '
+        Me.imgInventory18.Image = Global.WinCDS.My.Resources.Resources.newitems
+        Me.imgInventory18.Location = New System.Drawing.Point(292, 70)
+        Me.imgInventory18.Name = "imgInventory18"
+        Me.imgInventory18.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory18.TabIndex = 113
+        Me.imgInventory18.TabStop = False
+        Me.imgInventory18.Tag = "newitems"
+        '
+        'imgInventory17
+        '
+        Me.imgInventory17.Image = Global.WinCDS.My.Resources.Resources.mini
+        Me.imgInventory17.Location = New System.Drawing.Point(219, 70)
+        Me.imgInventory17.Name = "imgInventory17"
+        Me.imgInventory17.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory17.TabIndex = 112
+        Me.imgInventory17.TabStop = False
+        Me.imgInventory17.Tag = "mini"
+        '
+        'imgInventory16
+        '
+        Me.imgInventory16.Image = Global.WinCDS.My.Resources.Resources.invreports
+        Me.imgInventory16.Location = New System.Drawing.Point(147, 70)
+        Me.imgInventory16.Name = "imgInventory16"
+        Me.imgInventory16.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory16.TabIndex = 111
+        Me.imgInventory16.TabStop = False
+        Me.imgInventory16.Tag = "invreport"
+        '
+        'imgInventory15
+        '
+        Me.imgInventory15.Image = Global.WinCDS.My.Resources.Resources.invpackmake
+        Me.imgInventory15.Location = New System.Drawing.Point(85, 70)
+        Me.imgInventory15.Name = "imgInventory15"
+        Me.imgInventory15.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory15.TabIndex = 110
+        Me.imgInventory15.TabStop = False
+        Me.imgInventory15.Tag = "invpackmake"
+        '
+        'imgInventory14
+        '
+        Me.imgInventory14.Image = Global.WinCDS.My.Resources.Resources.invpacklookup
+        Me.imgInventory14.Location = New System.Drawing.Point(19, 70)
+        Me.imgInventory14.Name = "imgInventory14"
+        Me.imgInventory14.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory14.TabIndex = 109
+        Me.imgInventory14.TabStop = False
+        Me.imgInventory14.Tag = "invpacklookup"
+        '
+        'imgInventory13
+        '
+        Me.imgInventory13.Image = Global.WinCDS.My.Resources.Resources.invpacklist
+        Me.imgInventory13.Location = New System.Drawing.Point(902, 19)
+        Me.imgInventory13.Name = "imgInventory13"
+        Me.imgInventory13.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory13.TabIndex = 108
+        Me.imgInventory13.TabStop = False
+        Me.imgInventory13.Tag = "invpacklist"
+        '
+        'imgInventory12
+        '
+        Me.imgInventory12.Image = Global.WinCDS.My.Resources.Resources.invpackedit
+        Me.imgInventory12.Location = New System.Drawing.Point(840, 19)
+        Me.imgInventory12.Name = "imgInventory12"
+        Me.imgInventory12.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory12.TabIndex = 107
+        Me.imgInventory12.TabStop = False
+        Me.imgInventory12.Tag = "invpackedit"
+        '
+        'imgInventory11
+        '
+        Me.imgInventory11.Image = Global.WinCDS.My.Resources.Resources.invdeltickets
+        Me.imgInventory11.Location = New System.Drawing.Point(763, 19)
+        Me.imgInventory11.Name = "imgInventory11"
+        Me.imgInventory11.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory11.TabIndex = 106
+        Me.imgInventory11.TabStop = False
+        Me.imgInventory11.Tag = "invdeltickets"
+        '
+        'imgInventory10
+        '
+        Me.imgInventory10.Image = Global.WinCDS.My.Resources.Resources.invdelpullloads
+        Me.imgInventory10.Location = New System.Drawing.Point(691, 19)
+        Me.imgInventory10.Name = "imgInventory10"
+        Me.imgInventory10.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory10.TabIndex = 105
+        Me.imgInventory10.TabStop = False
+        Me.imgInventory10.Tag = "invdelpullloads"
+        '
+        'imgInventory9
+        '
+        Me.imgInventory9.Image = Global.WinCDS.My.Resources.Resources.invdelmulti_trans
+        Me.imgInventory9.Location = New System.Drawing.Point(629, 19)
+        Me.imgInventory9.Name = "imgInventory9"
+        Me.imgInventory9.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory9.TabIndex = 104
+        Me.imgInventory9.TabStop = False
+        Me.imgInventory9.Tag = "invdelmulti-trans"
+        '
+        'imgInventory8
+        '
+        Me.imgInventory8.Image = Global.WinCDS.My.Resources.Resources.invdelmulti_lists
+        Me.imgInventory8.Location = New System.Drawing.Point(567, 19)
+        Me.imgInventory8.Name = "imgInventory8"
+        Me.imgInventory8.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory8.TabIndex = 103
+        Me.imgInventory8.TabStop = False
+        Me.imgInventory8.Tag = "invdelmulti-lists"
+        '
+        'imgInventory7
+        '
+        Me.imgInventory7.Image = Global.WinCDS.My.Resources.Resources.invdelmulti_cross
+        Me.imgInventory7.Location = New System.Drawing.Point(505, 19)
+        Me.imgInventory7.Name = "imgInventory7"
+        Me.imgInventory7.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory7.TabIndex = 102
+        Me.imgInventory7.TabStop = False
+        Me.imgInventory7.Tag = "invdelmulti-cross"
+        '
+        'imgInventory6
+        '
+        Me.imgInventory6.Image = Global.WinCDS.My.Resources.Resources.invdelcalendar
+        Me.imgInventory6.Location = New System.Drawing.Point(432, 19)
+        Me.imgInventory6.Name = "imgInventory6"
+        Me.imgInventory6.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory6.TabIndex = 101
+        Me.imgInventory6.TabStop = False
+        Me.imgInventory6.Tag = "invdelcalendar"
+        '
+        'imgInventory5
+        '
+        Me.imgInventory5.Image = Global.WinCDS.My.Resources.Resources.factoryshipments
+        Me.imgInventory5.Location = New System.Drawing.Point(357, 19)
+        Me.imgInventory5.Name = "imgInventory5"
+        Me.imgInventory5.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory5.TabIndex = 100
+        Me.imgInventory5.TabStop = False
+        Me.imgInventory5.Tag = "factoryshipments"
+        '
+        'imgInventory4
+        '
+        Me.imgInventory4.Image = Global.WinCDS.My.Resources.Resources.designtag
+        Me.imgInventory4.Location = New System.Drawing.Point(292, 19)
+        Me.imgInventory4.Name = "imgInventory4"
+        Me.imgInventory4.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory4.TabIndex = 99
+        Me.imgInventory4.TabStop = False
+        Me.imgInventory4.Tag = "designtag"
+        '
+        'imgInventory3
+        '
+        Me.imgInventory3.Image = Global.WinCDS.My.Resources.Resources.deliveries
+        Me.imgInventory3.Location = New System.Drawing.Point(219, 19)
+        Me.imgInventory3.Name = "imgInventory3"
+        Me.imgInventory3.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory3.TabIndex = 98
+        Me.imgInventory3.TabStop = False
+        Me.imgInventory3.Tag = "deliveries"
+        '
+        'imgInventory2
+        '
+        Me.imgInventory2.Image = Global.WinCDS.My.Resources.Resources.comm
+        Me.imgInventory2.Location = New System.Drawing.Point(147, 19)
+        Me.imgInventory2.Name = "imgInventory2"
+        Me.imgInventory2.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory2.TabIndex = 97
+        Me.imgInventory2.TabStop = False
+        Me.imgInventory2.Tag = "comm"
+        '
+        'imgInventory1
+        '
+        Me.imgInventory1.Image = Global.WinCDS.My.Resources.Resources.changecontents
+        Me.imgInventory1.Location = New System.Drawing.Point(85, 19)
+        Me.imgInventory1.Name = "imgInventory1"
+        Me.imgInventory1.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory1.TabIndex = 96
+        Me.imgInventory1.TabStop = False
+        Me.imgInventory1.Tag = "changecontents"
+        '
+        'imgInventory0
+        '
+        Me.imgInventory0.Image = Global.WinCDS.My.Resources.Resources.ashley
+        Me.imgInventory0.Location = New System.Drawing.Point(19, 19)
+        Me.imgInventory0.Name = "imgInventory0"
+        Me.imgInventory0.Size = New System.Drawing.Size(110, 110)
+        Me.imgInventory0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgInventory0.TabIndex = 95
+        Me.imgInventory0.TabStop = False
+        Me.imgInventory0.Tag = "ashley"
+        '
+        'imgMail7
+        '
+        Me.imgMail7.Location = New System.Drawing.Point(585, 19)
+        Me.imgMail7.Name = "imgMail7"
+        Me.imgMail7.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail7.TabIndex = 101
+        Me.imgMail7.TabStop = False
+        '
+        'imgMail6
+        '
+        Me.imgMail6.Location = New System.Drawing.Point(512, 19)
+        Me.imgMail6.Name = "imgMail6"
+        Me.imgMail6.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail6.TabIndex = 100
+        Me.imgMail6.TabStop = False
+        '
+        'imgMail5
+        '
+        Me.imgMail5.Location = New System.Drawing.Point(439, 22)
+        Me.imgMail5.Name = "imgMail5"
+        Me.imgMail5.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail5.TabIndex = 99
+        Me.imgMail5.TabStop = False
+        '
+        'imgMail4
+        '
+        Me.imgMail4.Location = New System.Drawing.Point(367, 22)
+        Me.imgMail4.Name = "imgMail4"
+        Me.imgMail4.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail4.TabIndex = 98
+        Me.imgMail4.TabStop = False
+        '
+        'imgMail3
+        '
+        Me.imgMail3.Location = New System.Drawing.Point(286, 19)
+        Me.imgMail3.Name = "imgMail3"
+        Me.imgMail3.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail3.TabIndex = 97
+        Me.imgMail3.TabStop = False
+        '
+        'imgMail2
+        '
+        Me.imgMail2.Location = New System.Drawing.Point(211, 19)
+        Me.imgMail2.Name = "imgMail2"
+        Me.imgMail2.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail2.TabIndex = 96
+        Me.imgMail2.TabStop = False
+        '
+        'imgMail1
+        '
+        Me.imgMail1.Location = New System.Drawing.Point(119, 19)
+        Me.imgMail1.Name = "imgMail1"
+        Me.imgMail1.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail1.TabIndex = 95
+        Me.imgMail1.TabStop = False
+        '
+        'imgMail0
+        '
+        Me.imgMail0.Location = New System.Drawing.Point(44, 19)
+        Me.imgMail0.Name = "imgMail0"
+        Me.imgMail0.Size = New System.Drawing.Size(56, 45)
+        Me.imgMail0.TabIndex = 94
+        Me.imgMail0.TabStop = False
+        '
+        'imgAccounting4
+        '
+        Me.imgAccounting4.Location = New System.Drawing.Point(341, 19)
+        Me.imgAccounting4.Name = "imgAccounting4"
+        Me.imgAccounting4.Size = New System.Drawing.Size(56, 45)
+        Me.imgAccounting4.TabIndex = 93
+        Me.imgAccounting4.TabStop = False
+        '
+        'imgAccounting3
+        '
+        Me.imgAccounting3.Location = New System.Drawing.Point(267, 19)
+        Me.imgAccounting3.Name = "imgAccounting3"
+        Me.imgAccounting3.Size = New System.Drawing.Size(56, 45)
+        Me.imgAccounting3.TabIndex = 92
+        Me.imgAccounting3.TabStop = False
+        '
+        'imgAccounting2
+        '
+        Me.imgAccounting2.Location = New System.Drawing.Point(183, 19)
+        Me.imgAccounting2.Name = "imgAccounting2"
+        Me.imgAccounting2.Size = New System.Drawing.Size(56, 45)
+        Me.imgAccounting2.TabIndex = 91
+        Me.imgAccounting2.TabStop = False
+        '
+        'imgAccounting1
+        '
+        Me.imgAccounting1.Location = New System.Drawing.Point(100, 19)
+        Me.imgAccounting1.Name = "imgAccounting1"
+        Me.imgAccounting1.Size = New System.Drawing.Size(56, 45)
+        Me.imgAccounting1.TabIndex = 90
+        Me.imgAccounting1.TabStop = False
+        '
+        'imgAccounting0
+        '
+        Me.imgAccounting0.Location = New System.Drawing.Point(16, 19)
+        Me.imgAccounting0.Name = "imgAccounting0"
+        Me.imgAccounting0.Size = New System.Drawing.Size(56, 45)
+        Me.imgAccounting0.TabIndex = 89
+        Me.imgAccounting0.TabStop = False
+        '
+        'imgDefault
+        '
+        Me.imgDefault.Image = Global.WinCDS.My.Resources.Resources.Network
+        Me.imgDefault.Location = New System.Drawing.Point(1139, 120)
+        Me.imgDefault.Name = "imgDefault"
+        Me.imgDefault.Size = New System.Drawing.Size(128, 128)
+        Me.imgDefault.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgDefault.TabIndex = 0
+        Me.imgDefault.TabStop = False
         '
         'imgFile37
         '
@@ -1004,1167 +2220,137 @@ Partial Class MainMenu4_Images
         Me.imgFile0.TabStop = False
         Me.imgFile0.Tag = "creditcardmanager"
         '
-        'fraAccounting
-        '
-        Me.fraAccounting.Controls.Add(Me.imgAccounting4)
-        Me.fraAccounting.Controls.Add(Me.imgAccounting3)
-        Me.fraAccounting.Controls.Add(Me.imgAccounting2)
-        Me.fraAccounting.Controls.Add(Me.imgAccounting1)
-        Me.fraAccounting.Controls.Add(Me.imgAccounting0)
-        Me.fraAccounting.Location = New System.Drawing.Point(14, 262)
-        Me.fraAccounting.Name = "fraAccounting"
-        Me.fraAccounting.Size = New System.Drawing.Size(404, 73)
-        Me.fraAccounting.TabIndex = 53
-        Me.fraAccounting.TabStop = False
-        Me.fraAccounting.Text = "Accounting Menu"
-        '
-        'imgAccounting4
-        '
-        Me.imgAccounting4.Location = New System.Drawing.Point(341, 19)
-        Me.imgAccounting4.Name = "imgAccounting4"
-        Me.imgAccounting4.Size = New System.Drawing.Size(56, 45)
-        Me.imgAccounting4.TabIndex = 93
-        Me.imgAccounting4.TabStop = False
-        '
-        'imgAccounting3
-        '
-        Me.imgAccounting3.Location = New System.Drawing.Point(267, 19)
-        Me.imgAccounting3.Name = "imgAccounting3"
-        Me.imgAccounting3.Size = New System.Drawing.Size(56, 45)
-        Me.imgAccounting3.TabIndex = 92
-        Me.imgAccounting3.TabStop = False
-        '
-        'imgAccounting2
-        '
-        Me.imgAccounting2.Location = New System.Drawing.Point(183, 19)
-        Me.imgAccounting2.Name = "imgAccounting2"
-        Me.imgAccounting2.Size = New System.Drawing.Size(56, 45)
-        Me.imgAccounting2.TabIndex = 91
-        Me.imgAccounting2.TabStop = False
-        '
-        'imgAccounting1
-        '
-        Me.imgAccounting1.Location = New System.Drawing.Point(100, 19)
-        Me.imgAccounting1.Name = "imgAccounting1"
-        Me.imgAccounting1.Size = New System.Drawing.Size(56, 45)
-        Me.imgAccounting1.TabIndex = 90
-        Me.imgAccounting1.TabStop = False
-        '
-        'imgAccounting0
-        '
-        Me.imgAccounting0.Location = New System.Drawing.Point(16, 19)
-        Me.imgAccounting0.Name = "imgAccounting0"
-        Me.imgAccounting0.Size = New System.Drawing.Size(56, 45)
-        Me.imgAccounting0.TabIndex = 89
-        Me.imgAccounting0.TabStop = False
-        '
-        'fraMailing
-        '
-        Me.fraMailing.Controls.Add(Me.imgMail7)
-        Me.fraMailing.Controls.Add(Me.imgMail6)
-        Me.fraMailing.Controls.Add(Me.imgMail5)
-        Me.fraMailing.Controls.Add(Me.imgMail4)
-        Me.fraMailing.Controls.Add(Me.imgMail3)
-        Me.fraMailing.Controls.Add(Me.imgMail2)
-        Me.fraMailing.Controls.Add(Me.imgMail1)
-        Me.fraMailing.Controls.Add(Me.imgMail0)
-        Me.fraMailing.Location = New System.Drawing.Point(426, 262)
-        Me.fraMailing.Name = "fraMailing"
-        Me.fraMailing.Size = New System.Drawing.Size(655, 80)
-        Me.fraMailing.TabIndex = 54
-        Me.fraMailing.TabStop = False
-        Me.fraMailing.Text = "Mailing Menu"
-        '
-        'imgMail7
-        '
-        Me.imgMail7.Location = New System.Drawing.Point(585, 19)
-        Me.imgMail7.Name = "imgMail7"
-        Me.imgMail7.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail7.TabIndex = 101
-        Me.imgMail7.TabStop = False
-        '
-        'imgMail6
-        '
-        Me.imgMail6.Location = New System.Drawing.Point(512, 19)
-        Me.imgMail6.Name = "imgMail6"
-        Me.imgMail6.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail6.TabIndex = 100
-        Me.imgMail6.TabStop = False
-        '
-        'imgMail5
-        '
-        Me.imgMail5.Location = New System.Drawing.Point(439, 22)
-        Me.imgMail5.Name = "imgMail5"
-        Me.imgMail5.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail5.TabIndex = 99
-        Me.imgMail5.TabStop = False
-        '
-        'imgMail4
-        '
-        Me.imgMail4.Location = New System.Drawing.Point(367, 22)
-        Me.imgMail4.Name = "imgMail4"
-        Me.imgMail4.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail4.TabIndex = 98
-        Me.imgMail4.TabStop = False
-        '
-        'imgMail3
-        '
-        Me.imgMail3.Location = New System.Drawing.Point(286, 19)
-        Me.imgMail3.Name = "imgMail3"
-        Me.imgMail3.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail3.TabIndex = 97
-        Me.imgMail3.TabStop = False
-        '
-        'imgMail2
-        '
-        Me.imgMail2.Location = New System.Drawing.Point(211, 19)
-        Me.imgMail2.Name = "imgMail2"
-        Me.imgMail2.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail2.TabIndex = 96
-        Me.imgMail2.TabStop = False
-        '
-        'imgMail1
-        '
-        Me.imgMail1.Location = New System.Drawing.Point(119, 19)
-        Me.imgMail1.Name = "imgMail1"
-        Me.imgMail1.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail1.TabIndex = 95
-        Me.imgMail1.TabStop = False
-        '
-        'imgMail0
-        '
-        Me.imgMail0.Location = New System.Drawing.Point(44, 19)
-        Me.imgMail0.Name = "imgMail0"
-        Me.imgMail0.Size = New System.Drawing.Size(56, 45)
-        Me.imgMail0.TabIndex = 94
-        Me.imgMail0.TabStop = False
-        '
-        'fraInventory
-        '
-        Me.fraInventory.Controls.Add(Me.imgInventory40)
-        Me.fraInventory.Controls.Add(Me.imgInventory39)
-        Me.fraInventory.Controls.Add(Me.imgInventory38)
-        Me.fraInventory.Controls.Add(Me.imgInventory37)
-        Me.fraInventory.Controls.Add(Me.imgInventory36)
-        Me.fraInventory.Controls.Add(Me.imgInventory35)
-        Me.fraInventory.Controls.Add(Me.imgInventory34)
-        Me.fraInventory.Controls.Add(Me.imgInventory33)
-        Me.fraInventory.Controls.Add(Me.imgInventory32)
-        Me.fraInventory.Controls.Add(Me.imgInventory31)
-        Me.fraInventory.Controls.Add(Me.imgInventory30)
-        Me.fraInventory.Controls.Add(Me.imgInventory29)
-        Me.fraInventory.Controls.Add(Me.imgInventory28)
-        Me.fraInventory.Controls.Add(Me.imgInventory27)
-        Me.fraInventory.Controls.Add(Me.imgInventory26)
-        Me.fraInventory.Controls.Add(Me.imgInventory25)
-        Me.fraInventory.Controls.Add(Me.imgInventory24)
-        Me.fraInventory.Controls.Add(Me.imgInventory23)
-        Me.fraInventory.Controls.Add(Me.imgInventory22)
-        Me.fraInventory.Controls.Add(Me.imgInventory21)
-        Me.fraInventory.Controls.Add(Me.imgInventory20)
-        Me.fraInventory.Controls.Add(Me.imgInventory19)
-        Me.fraInventory.Controls.Add(Me.imgInventory18)
-        Me.fraInventory.Controls.Add(Me.imgInventory17)
-        Me.fraInventory.Controls.Add(Me.imgInventory16)
-        Me.fraInventory.Controls.Add(Me.imgInventory15)
-        Me.fraInventory.Controls.Add(Me.imgInventory14)
-        Me.fraInventory.Controls.Add(Me.imgInventory13)
-        Me.fraInventory.Controls.Add(Me.imgInventory12)
-        Me.fraInventory.Controls.Add(Me.imgInventory11)
-        Me.fraInventory.Controls.Add(Me.imgInventory10)
-        Me.fraInventory.Controls.Add(Me.imgInventory9)
-        Me.fraInventory.Controls.Add(Me.imgInventory8)
-        Me.fraInventory.Controls.Add(Me.imgInventory7)
-        Me.fraInventory.Controls.Add(Me.imgInventory6)
-        Me.fraInventory.Controls.Add(Me.imgInventory5)
-        Me.fraInventory.Controls.Add(Me.imgInventory4)
-        Me.fraInventory.Controls.Add(Me.imgInventory3)
-        Me.fraInventory.Controls.Add(Me.imgInventory2)
-        Me.fraInventory.Controls.Add(Me.imgInventory1)
-        Me.fraInventory.Controls.Add(Me.imgInventory0)
-        Me.fraInventory.Location = New System.Drawing.Point(16, 341)
-        Me.fraInventory.Name = "fraInventory"
-        Me.fraInventory.Size = New System.Drawing.Size(998, 168)
-        Me.fraInventory.TabIndex = 55
-        Me.fraInventory.TabStop = False
-        Me.fraInventory.Text = "Inventory Menu"
-        '
-        'imgInventory40
-        '
-        Me.imgInventory40.Location = New System.Drawing.Point(798, 123)
-        Me.imgInventory40.Name = "imgInventory40"
-        Me.imgInventory40.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory40.TabIndex = 135
-        Me.imgInventory40.TabStop = False
-        '
-        'imgInventory39
-        '
-        Me.imgInventory39.Location = New System.Drawing.Point(726, 117)
-        Me.imgInventory39.Name = "imgInventory39"
-        Me.imgInventory39.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory39.TabIndex = 134
-        Me.imgInventory39.TabStop = False
-        '
-        'imgInventory38
-        '
-        Me.imgInventory38.Location = New System.Drawing.Point(664, 123)
-        Me.imgInventory38.Name = "imgInventory38"
-        Me.imgInventory38.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory38.TabIndex = 133
-        Me.imgInventory38.TabStop = False
-        '
-        'imgInventory37
-        '
-        Me.imgInventory37.Location = New System.Drawing.Point(602, 123)
-        Me.imgInventory37.Name = "imgInventory37"
-        Me.imgInventory37.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory37.TabIndex = 132
-        Me.imgInventory37.TabStop = False
-        '
-        'imgInventory36
-        '
-        Me.imgInventory36.Location = New System.Drawing.Point(541, 123)
-        Me.imgInventory36.Name = "imgInventory36"
-        Me.imgInventory36.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory36.TabIndex = 131
-        Me.imgInventory36.TabStop = False
-        '
-        'imgInventory35
-        '
-        Me.imgInventory35.Location = New System.Drawing.Point(476, 121)
-        Me.imgInventory35.Name = "imgInventory35"
-        Me.imgInventory35.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory35.TabIndex = 130
-        Me.imgInventory35.TabStop = False
-        '
-        'imgInventory34
-        '
-        Me.imgInventory34.Location = New System.Drawing.Point(410, 123)
-        Me.imgInventory34.Name = "imgInventory34"
-        Me.imgInventory34.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory34.TabIndex = 129
-        Me.imgInventory34.TabStop = False
-        '
-        'imgInventory33
-        '
-        Me.imgInventory33.Location = New System.Drawing.Point(346, 121)
-        Me.imgInventory33.Name = "imgInventory33"
-        Me.imgInventory33.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory33.TabIndex = 128
-        Me.imgInventory33.TabStop = False
-        '
-        'imgInventory32
-        '
-        Me.imgInventory32.Location = New System.Drawing.Point(281, 121)
-        Me.imgInventory32.Name = "imgInventory32"
-        Me.imgInventory32.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory32.TabIndex = 127
-        Me.imgInventory32.TabStop = False
-        '
-        'imgInventory31
-        '
-        Me.imgInventory31.Location = New System.Drawing.Point(219, 121)
-        Me.imgInventory31.Name = "imgInventory31"
-        Me.imgInventory31.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory31.TabIndex = 126
-        Me.imgInventory31.TabStop = False
-        '
-        'imgInventory30
-        '
-        Me.imgInventory30.Location = New System.Drawing.Point(149, 121)
-        Me.imgInventory30.Name = "imgInventory30"
-        Me.imgInventory30.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory30.TabIndex = 125
-        Me.imgInventory30.TabStop = False
-        '
-        'imgInventory29
-        '
-        Me.imgInventory29.Location = New System.Drawing.Point(87, 117)
-        Me.imgInventory29.Name = "imgInventory29"
-        Me.imgInventory29.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory29.TabIndex = 124
-        Me.imgInventory29.TabStop = False
-        '
-        'imgInventory28
-        '
-        Me.imgInventory28.Location = New System.Drawing.Point(19, 117)
-        Me.imgInventory28.Name = "imgInventory28"
-        Me.imgInventory28.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory28.TabIndex = 123
-        Me.imgInventory28.TabStop = False
-        '
-        'imgInventory27
-        '
-        Me.imgInventory27.Location = New System.Drawing.Point(905, 70)
-        Me.imgInventory27.Name = "imgInventory27"
-        Me.imgInventory27.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory27.TabIndex = 122
-        Me.imgInventory27.TabStop = False
-        '
-        'imgInventory26
-        '
-        Me.imgInventory26.Location = New System.Drawing.Point(843, 70)
-        Me.imgInventory26.Name = "imgInventory26"
-        Me.imgInventory26.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory26.TabIndex = 121
-        Me.imgInventory26.TabStop = False
-        '
-        'imgInventory25
-        '
-        Me.imgInventory25.Location = New System.Drawing.Point(781, 70)
-        Me.imgInventory25.Name = "imgInventory25"
-        Me.imgInventory25.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory25.TabIndex = 120
-        Me.imgInventory25.TabStop = False
-        '
-        'imgInventory24
-        '
-        Me.imgInventory24.Location = New System.Drawing.Point(708, 70)
-        Me.imgInventory24.Name = "imgInventory24"
-        Me.imgInventory24.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory24.TabIndex = 119
-        Me.imgInventory24.TabStop = False
-        '
-        'imgInventory23
-        '
-        Me.imgInventory23.Location = New System.Drawing.Point(640, 70)
-        Me.imgInventory23.Name = "imgInventory23"
-        Me.imgInventory23.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory23.TabIndex = 118
-        Me.imgInventory23.TabStop = False
-        '
-        'imgInventory22
-        '
-        Me.imgInventory22.Location = New System.Drawing.Point(567, 70)
-        Me.imgInventory22.Name = "imgInventory22"
-        Me.imgInventory22.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory22.TabIndex = 117
-        Me.imgInventory22.TabStop = False
-        '
-        'imgInventory21
-        '
-        Me.imgInventory21.Location = New System.Drawing.Point(505, 70)
-        Me.imgInventory21.Name = "imgInventory21"
-        Me.imgInventory21.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory21.TabIndex = 116
-        Me.imgInventory21.TabStop = False
-        '
-        'imgInventory20
-        '
-        Me.imgInventory20.Location = New System.Drawing.Point(432, 70)
-        Me.imgInventory20.Name = "imgInventory20"
-        Me.imgInventory20.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory20.TabIndex = 115
-        Me.imgInventory20.TabStop = False
-        '
-        'imgInventory19
-        '
-        Me.imgInventory19.Location = New System.Drawing.Point(357, 70)
-        Me.imgInventory19.Name = "imgInventory19"
-        Me.imgInventory19.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory19.TabIndex = 114
-        Me.imgInventory19.TabStop = False
-        '
-        'imgInventory18
-        '
-        Me.imgInventory18.Location = New System.Drawing.Point(292, 70)
-        Me.imgInventory18.Name = "imgInventory18"
-        Me.imgInventory18.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory18.TabIndex = 113
-        Me.imgInventory18.TabStop = False
-        '
-        'imgInventory17
-        '
-        Me.imgInventory17.Location = New System.Drawing.Point(219, 70)
-        Me.imgInventory17.Name = "imgInventory17"
-        Me.imgInventory17.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory17.TabIndex = 112
-        Me.imgInventory17.TabStop = False
-        '
-        'imgInventory16
-        '
-        Me.imgInventory16.Location = New System.Drawing.Point(147, 70)
-        Me.imgInventory16.Name = "imgInventory16"
-        Me.imgInventory16.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory16.TabIndex = 111
-        Me.imgInventory16.TabStop = False
-        '
-        'imgInventory15
-        '
-        Me.imgInventory15.Location = New System.Drawing.Point(85, 70)
-        Me.imgInventory15.Name = "imgInventory15"
-        Me.imgInventory15.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory15.TabIndex = 110
-        Me.imgInventory15.TabStop = False
-        '
-        'imgInventory14
-        '
-        Me.imgInventory14.Location = New System.Drawing.Point(19, 70)
-        Me.imgInventory14.Name = "imgInventory14"
-        Me.imgInventory14.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory14.TabIndex = 109
-        Me.imgInventory14.TabStop = False
-        '
-        'imgInventory13
-        '
-        Me.imgInventory13.Location = New System.Drawing.Point(902, 19)
-        Me.imgInventory13.Name = "imgInventory13"
-        Me.imgInventory13.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory13.TabIndex = 108
-        Me.imgInventory13.TabStop = False
-        '
-        'imgInventory12
-        '
-        Me.imgInventory12.Location = New System.Drawing.Point(840, 19)
-        Me.imgInventory12.Name = "imgInventory12"
-        Me.imgInventory12.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory12.TabIndex = 107
-        Me.imgInventory12.TabStop = False
-        '
-        'imgInventory11
-        '
-        Me.imgInventory11.Location = New System.Drawing.Point(763, 19)
-        Me.imgInventory11.Name = "imgInventory11"
-        Me.imgInventory11.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory11.TabIndex = 106
-        Me.imgInventory11.TabStop = False
-        '
-        'imgInventory10
-        '
-        Me.imgInventory10.Location = New System.Drawing.Point(691, 19)
-        Me.imgInventory10.Name = "imgInventory10"
-        Me.imgInventory10.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory10.TabIndex = 105
-        Me.imgInventory10.TabStop = False
-        '
-        'imgInventory9
-        '
-        Me.imgInventory9.Location = New System.Drawing.Point(629, 19)
-        Me.imgInventory9.Name = "imgInventory9"
-        Me.imgInventory9.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory9.TabIndex = 104
-        Me.imgInventory9.TabStop = False
-        '
-        'imgInventory8
-        '
-        Me.imgInventory8.Location = New System.Drawing.Point(567, 19)
-        Me.imgInventory8.Name = "imgInventory8"
-        Me.imgInventory8.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory8.TabIndex = 103
-        Me.imgInventory8.TabStop = False
-        '
-        'imgInventory7
-        '
-        Me.imgInventory7.Location = New System.Drawing.Point(505, 19)
-        Me.imgInventory7.Name = "imgInventory7"
-        Me.imgInventory7.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory7.TabIndex = 102
-        Me.imgInventory7.TabStop = False
-        '
-        'imgInventory6
-        '
-        Me.imgInventory6.Location = New System.Drawing.Point(432, 19)
-        Me.imgInventory6.Name = "imgInventory6"
-        Me.imgInventory6.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory6.TabIndex = 101
-        Me.imgInventory6.TabStop = False
-        '
-        'imgInventory5
-        '
-        Me.imgInventory5.Location = New System.Drawing.Point(357, 19)
-        Me.imgInventory5.Name = "imgInventory5"
-        Me.imgInventory5.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory5.TabIndex = 100
-        Me.imgInventory5.TabStop = False
-        '
-        'imgInventory4
-        '
-        Me.imgInventory4.Location = New System.Drawing.Point(292, 19)
-        Me.imgInventory4.Name = "imgInventory4"
-        Me.imgInventory4.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory4.TabIndex = 99
-        Me.imgInventory4.TabStop = False
-        '
-        'imgInventory3
-        '
-        Me.imgInventory3.Location = New System.Drawing.Point(219, 19)
-        Me.imgInventory3.Name = "imgInventory3"
-        Me.imgInventory3.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory3.TabIndex = 98
-        Me.imgInventory3.TabStop = False
-        '
-        'imgInventory2
-        '
-        Me.imgInventory2.Location = New System.Drawing.Point(147, 19)
-        Me.imgInventory2.Name = "imgInventory2"
-        Me.imgInventory2.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory2.TabIndex = 97
-        Me.imgInventory2.TabStop = False
-        '
-        'imgInventory1
-        '
-        Me.imgInventory1.Location = New System.Drawing.Point(85, 19)
-        Me.imgInventory1.Name = "imgInventory1"
-        Me.imgInventory1.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory1.TabIndex = 96
-        Me.imgInventory1.TabStop = False
-        '
-        'imgInventory0
-        '
-        Me.imgInventory0.Location = New System.Drawing.Point(19, 19)
-        Me.imgInventory0.Name = "imgInventory0"
-        Me.imgInventory0.Size = New System.Drawing.Size(56, 45)
-        Me.imgInventory0.TabIndex = 95
-        Me.imgInventory0.TabStop = False
-        '
-        'fraOrder
-        '
-        Me.fraOrder.Controls.Add(Me.imgOrder20)
-        Me.fraOrder.Controls.Add(Me.imgOrder19)
-        Me.fraOrder.Controls.Add(Me.imgOrder18)
-        Me.fraOrder.Controls.Add(Me.imgOrder17)
-        Me.fraOrder.Controls.Add(Me.imgOrder16)
-        Me.fraOrder.Controls.Add(Me.imgOrder15)
-        Me.fraOrder.Controls.Add(Me.imgOrder14)
-        Me.fraOrder.Controls.Add(Me.imgOrder13)
-        Me.fraOrder.Controls.Add(Me.imgOrder12)
-        Me.fraOrder.Controls.Add(Me.imgOrder11)
-        Me.fraOrder.Controls.Add(Me.imgOrder10)
-        Me.fraOrder.Controls.Add(Me.imgOrder9)
-        Me.fraOrder.Controls.Add(Me.imgOrder8)
-        Me.fraOrder.Controls.Add(Me.imgOrder7)
-        Me.fraOrder.Controls.Add(Me.imgOrder6)
-        Me.fraOrder.Controls.Add(Me.imgOrder5)
-        Me.fraOrder.Controls.Add(Me.imgOrder4)
-        Me.fraOrder.Controls.Add(Me.imgOrder3)
-        Me.fraOrder.Controls.Add(Me.imgOrder2)
-        Me.fraOrder.Controls.Add(Me.imgOrder1)
-        Me.fraOrder.Controls.Add(Me.imgOrder0)
-        Me.fraOrder.Location = New System.Drawing.Point(16, 515)
-        Me.fraOrder.Name = "fraOrder"
-        Me.fraOrder.Size = New System.Drawing.Size(1251, 99)
-        Me.fraOrder.TabIndex = 56
-        Me.fraOrder.TabStop = False
-        Me.fraOrder.Text = "Order Entry Menu"
-        '
-        'imgOrder20
-        '
-        Me.imgOrder20.Location = New System.Drawing.Point(1198, 45)
-        Me.imgOrder20.Name = "imgOrder20"
-        Me.imgOrder20.Size = New System.Drawing.Size(47, 45)
-        Me.imgOrder20.TabIndex = 156
-        Me.imgOrder20.TabStop = False
-        '
-        'imgOrder19
-        '
-        Me.imgOrder19.Location = New System.Drawing.Point(1198, 19)
-        Me.imgOrder19.Name = "imgOrder19"
-        Me.imgOrder19.Size = New System.Drawing.Size(47, 45)
-        Me.imgOrder19.TabIndex = 155
-        Me.imgOrder19.TabStop = False
-        '
-        'imgOrder18
-        '
-        Me.imgOrder18.Location = New System.Drawing.Point(1136, 23)
-        Me.imgOrder18.Name = "imgOrder18"
-        Me.imgOrder18.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder18.TabIndex = 154
-        Me.imgOrder18.TabStop = False
-        '
-        'imgOrder17
-        '
-        Me.imgOrder17.Location = New System.Drawing.Point(1074, 19)
-        Me.imgOrder17.Name = "imgOrder17"
-        Me.imgOrder17.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder17.TabIndex = 153
-        Me.imgOrder17.TabStop = False
-        '
-        'imgOrder16
-        '
-        Me.imgOrder16.Location = New System.Drawing.Point(1012, 19)
-        Me.imgOrder16.Name = "imgOrder16"
-        Me.imgOrder16.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder16.TabIndex = 152
-        Me.imgOrder16.TabStop = False
-        '
-        'imgOrder15
-        '
-        Me.imgOrder15.Location = New System.Drawing.Point(950, 23)
-        Me.imgOrder15.Name = "imgOrder15"
-        Me.imgOrder15.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder15.TabIndex = 151
-        Me.imgOrder15.TabStop = False
-        '
-        'imgOrder14
-        '
-        Me.imgOrder14.Location = New System.Drawing.Point(888, 19)
-        Me.imgOrder14.Name = "imgOrder14"
-        Me.imgOrder14.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder14.TabIndex = 150
-        Me.imgOrder14.TabStop = False
-        '
-        'imgOrder13
-        '
-        Me.imgOrder13.Location = New System.Drawing.Point(826, 19)
-        Me.imgOrder13.Name = "imgOrder13"
-        Me.imgOrder13.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder13.TabIndex = 149
-        Me.imgOrder13.TabStop = False
-        '
-        'imgOrder12
-        '
-        Me.imgOrder12.Location = New System.Drawing.Point(764, 19)
-        Me.imgOrder12.Name = "imgOrder12"
-        Me.imgOrder12.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder12.TabIndex = 148
-        Me.imgOrder12.TabStop = False
-        '
-        'imgOrder11
-        '
-        Me.imgOrder11.Location = New System.Drawing.Point(694, 19)
-        Me.imgOrder11.Name = "imgOrder11"
-        Me.imgOrder11.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder11.TabIndex = 147
-        Me.imgOrder11.TabStop = False
-        '
-        'imgOrder10
-        '
-        Me.imgOrder10.Location = New System.Drawing.Point(631, 19)
-        Me.imgOrder10.Name = "imgOrder10"
-        Me.imgOrder10.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder10.TabIndex = 146
-        Me.imgOrder10.TabStop = False
-        '
-        'imgOrder9
-        '
-        Me.imgOrder9.Location = New System.Drawing.Point(569, 19)
-        Me.imgOrder9.Name = "imgOrder9"
-        Me.imgOrder9.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder9.TabIndex = 145
-        Me.imgOrder9.TabStop = False
-        '
-        'imgOrder8
-        '
-        Me.imgOrder8.Location = New System.Drawing.Point(507, 19)
-        Me.imgOrder8.Name = "imgOrder8"
-        Me.imgOrder8.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder8.TabIndex = 144
-        Me.imgOrder8.TabStop = False
-        '
-        'imgOrder7
-        '
-        Me.imgOrder7.Location = New System.Drawing.Point(442, 19)
-        Me.imgOrder7.Name = "imgOrder7"
-        Me.imgOrder7.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder7.TabIndex = 143
-        Me.imgOrder7.TabStop = False
-        '
-        'imgOrder6
-        '
-        Me.imgOrder6.Location = New System.Drawing.Point(379, 19)
-        Me.imgOrder6.Name = "imgOrder6"
-        Me.imgOrder6.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder6.TabIndex = 142
-        Me.imgOrder6.TabStop = False
-        '
-        'imgOrder5
-        '
-        Me.imgOrder5.Location = New System.Drawing.Point(317, 19)
-        Me.imgOrder5.Name = "imgOrder5"
-        Me.imgOrder5.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder5.TabIndex = 141
-        Me.imgOrder5.TabStop = False
-        '
-        'imgOrder4
-        '
-        Me.imgOrder4.Location = New System.Drawing.Point(255, 19)
-        Me.imgOrder4.Name = "imgOrder4"
-        Me.imgOrder4.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder4.TabIndex = 140
-        Me.imgOrder4.TabStop = False
-        '
-        'imgOrder3
-        '
-        Me.imgOrder3.Location = New System.Drawing.Point(193, 23)
-        Me.imgOrder3.Name = "imgOrder3"
-        Me.imgOrder3.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder3.TabIndex = 139
-        Me.imgOrder3.TabStop = False
-        '
-        'imgOrder2
-        '
-        Me.imgOrder2.Location = New System.Drawing.Point(131, 19)
-        Me.imgOrder2.Name = "imgOrder2"
-        Me.imgOrder2.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder2.TabIndex = 138
-        Me.imgOrder2.TabStop = False
-        '
-        'imgOrder1
-        '
-        Me.imgOrder1.Location = New System.Drawing.Point(69, 19)
-        Me.imgOrder1.Name = "imgOrder1"
-        Me.imgOrder1.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder1.TabIndex = 137
-        Me.imgOrder1.TabStop = False
-        '
-        'imgOrder0
-        '
-        Me.imgOrder0.Location = New System.Drawing.Point(6, 19)
-        Me.imgOrder0.Name = "imgOrder0"
-        Me.imgOrder0.Size = New System.Drawing.Size(56, 45)
-        Me.imgOrder0.TabIndex = 136
-        Me.imgOrder0.TabStop = False
-        '
-        'fraInstallment
-        '
-        Me.fraInstallment.Controls.Add(Me.imgInstall26)
-        Me.fraInstallment.Controls.Add(Me.imgInstall25)
-        Me.fraInstallment.Controls.Add(Me.imgInstall24)
-        Me.fraInstallment.Controls.Add(Me.imgInstall23)
-        Me.fraInstallment.Controls.Add(Me.imgInstall22)
-        Me.fraInstallment.Controls.Add(Me.imgInstall21)
-        Me.fraInstallment.Controls.Add(Me.imgInstall20)
-        Me.fraInstallment.Controls.Add(Me.imgInstall19)
-        Me.fraInstallment.Controls.Add(Me.imgInstall18)
-        Me.fraInstallment.Controls.Add(Me.imgInstall17)
-        Me.fraInstallment.Controls.Add(Me.imgInstall16)
-        Me.fraInstallment.Controls.Add(Me.imgInstall15)
-        Me.fraInstallment.Controls.Add(Me.imgInstall14)
-        Me.fraInstallment.Controls.Add(Me.imgInstall13)
-        Me.fraInstallment.Controls.Add(Me.imgInstall12)
-        Me.fraInstallment.Controls.Add(Me.imgInstall11)
-        Me.fraInstallment.Controls.Add(Me.imgInstall10)
-        Me.fraInstallment.Controls.Add(Me.imgInstall9)
-        Me.fraInstallment.Controls.Add(Me.imgInstall8)
-        Me.fraInstallment.Controls.Add(Me.imgInstall7)
-        Me.fraInstallment.Controls.Add(Me.imgInstall6)
-        Me.fraInstallment.Controls.Add(Me.imgInstall5)
-        Me.fraInstallment.Controls.Add(Me.imgInstall4)
-        Me.fraInstallment.Controls.Add(Me.imgInstall3)
-        Me.fraInstallment.Controls.Add(Me.imgInstall2)
-        Me.fraInstallment.Controls.Add(Me.imgInstall1)
-        Me.fraInstallment.Controls.Add(Me.imgInstall0)
-        Me.fraInstallment.Location = New System.Drawing.Point(64, 541)
-        Me.fraInstallment.Name = "fraInstallment"
-        Me.fraInstallment.Size = New System.Drawing.Size(1245, 112)
-        Me.fraInstallment.TabIndex = 57
-        Me.fraInstallment.TabStop = False
-        Me.fraInstallment.Text = "Installment Menu"
-        '
-        'imgInstall26
-        '
-        Me.imgInstall26.Location = New System.Drawing.Point(456, 67)
-        Me.imgInstall26.Name = "imgInstall26"
-        Me.imgInstall26.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall26.TabIndex = 181
-        Me.imgInstall26.TabStop = False
-        '
-        'imgInstall25
-        '
-        Me.imgInstall25.Location = New System.Drawing.Point(401, 61)
-        Me.imgInstall25.Name = "imgInstall25"
-        Me.imgInstall25.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall25.TabIndex = 180
-        Me.imgInstall25.TabStop = False
-        '
-        'imgInstall24
-        '
-        Me.imgInstall24.Location = New System.Drawing.Point(339, 63)
-        Me.imgInstall24.Name = "imgInstall24"
-        Me.imgInstall24.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall24.TabIndex = 179
-        Me.imgInstall24.TabStop = False
-        '
-        'imgInstall23
-        '
-        Me.imgInstall23.Location = New System.Drawing.Point(271, 67)
-        Me.imgInstall23.Name = "imgInstall23"
-        Me.imgInstall23.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall23.TabIndex = 178
-        Me.imgInstall23.TabStop = False
-        '
-        'imgInstall22
-        '
-        Me.imgInstall22.Location = New System.Drawing.Point(209, 63)
-        Me.imgInstall22.Name = "imgInstall22"
-        Me.imgInstall22.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall22.TabIndex = 177
-        Me.imgInstall22.TabStop = False
-        '
-        'imgInstall21
-        '
-        Me.imgInstall21.Location = New System.Drawing.Point(147, 63)
-        Me.imgInstall21.Name = "imgInstall21"
-        Me.imgInstall21.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall21.TabIndex = 176
-        Me.imgInstall21.TabStop = False
-        '
-        'imgInstall20
-        '
-        Me.imgInstall20.Location = New System.Drawing.Point(85, 61)
-        Me.imgInstall20.Name = "imgInstall20"
-        Me.imgInstall20.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall20.TabIndex = 175
-        Me.imgInstall20.TabStop = False
-        '
-        'imgInstall19
-        '
-        Me.imgInstall19.Location = New System.Drawing.Point(14, 61)
-        Me.imgInstall19.Name = "imgInstall19"
-        Me.imgInstall19.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall19.TabIndex = 174
-        Me.imgInstall19.TabStop = False
-        '
-        'imgInstall18
-        '
-        Me.imgInstall18.Location = New System.Drawing.Point(1163, 12)
-        Me.imgInstall18.Name = "imgInstall18"
-        Me.imgInstall18.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall18.TabIndex = 173
-        Me.imgInstall18.TabStop = False
-        '
-        'imgInstall17
-        '
-        Me.imgInstall17.Location = New System.Drawing.Point(1095, 19)
-        Me.imgInstall17.Name = "imgInstall17"
-        Me.imgInstall17.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall17.TabIndex = 172
-        Me.imgInstall17.TabStop = False
-        '
-        'imgInstall16
-        '
-        Me.imgInstall16.Location = New System.Drawing.Point(1033, 12)
-        Me.imgInstall16.Name = "imgInstall16"
-        Me.imgInstall16.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall16.TabIndex = 171
-        Me.imgInstall16.TabStop = False
-        '
-        'imgInstall15
-        '
-        Me.imgInstall15.Location = New System.Drawing.Point(971, 16)
-        Me.imgInstall15.Name = "imgInstall15"
-        Me.imgInstall15.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall15.TabIndex = 170
-        Me.imgInstall15.TabStop = False
-        '
-        'imgInstall14
-        '
-        Me.imgInstall14.Location = New System.Drawing.Point(905, 19)
-        Me.imgInstall14.Name = "imgInstall14"
-        Me.imgInstall14.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall14.TabIndex = 169
-        Me.imgInstall14.TabStop = False
-        '
-        'imgInstall13
-        '
-        Me.imgInstall13.Location = New System.Drawing.Point(840, 19)
-        Me.imgInstall13.Name = "imgInstall13"
-        Me.imgInstall13.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall13.TabIndex = 168
-        Me.imgInstall13.TabStop = False
-        '
-        'imgInstall12
-        '
-        Me.imgInstall12.Location = New System.Drawing.Point(777, 16)
-        Me.imgInstall12.Name = "imgInstall12"
-        Me.imgInstall12.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall12.TabIndex = 167
-        Me.imgInstall12.TabStop = False
-        '
-        'imgInstall11
-        '
-        Me.imgInstall11.Location = New System.Drawing.Point(708, 16)
-        Me.imgInstall11.Name = "imgInstall11"
-        Me.imgInstall11.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall11.TabIndex = 166
-        Me.imgInstall11.TabStop = False
-        '
-        'imgInstall10
-        '
-        Me.imgInstall10.Location = New System.Drawing.Point(640, 16)
-        Me.imgInstall10.Name = "imgInstall10"
-        Me.imgInstall10.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall10.TabIndex = 165
-        Me.imgInstall10.TabStop = False
-        '
-        'imgInstall9
-        '
-        Me.imgInstall9.Location = New System.Drawing.Point(576, 19)
-        Me.imgInstall9.Name = "imgInstall9"
-        Me.imgInstall9.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall9.TabIndex = 164
-        Me.imgInstall9.TabStop = False
-        '
-        'imgInstall8
-        '
-        Me.imgInstall8.Location = New System.Drawing.Point(518, 19)
-        Me.imgInstall8.Name = "imgInstall8"
-        Me.imgInstall8.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall8.TabIndex = 163
-        Me.imgInstall8.TabStop = False
-        '
-        'imgInstall7
-        '
-        Me.imgInstall7.Location = New System.Drawing.Point(456, 16)
-        Me.imgInstall7.Name = "imgInstall7"
-        Me.imgInstall7.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall7.TabIndex = 162
-        Me.imgInstall7.TabStop = False
-        '
-        'imgInstall6
-        '
-        Me.imgInstall6.Location = New System.Drawing.Point(392, 16)
-        Me.imgInstall6.Name = "imgInstall6"
-        Me.imgInstall6.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall6.TabIndex = 161
-        Me.imgInstall6.TabStop = False
-        '
-        'imgInstall5
-        '
-        Me.imgInstall5.Location = New System.Drawing.Point(330, 16)
-        Me.imgInstall5.Name = "imgInstall5"
-        Me.imgInstall5.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall5.TabIndex = 160
-        Me.imgInstall5.TabStop = False
-        '
-        'imgInstall4
-        '
-        Me.imgInstall4.Location = New System.Drawing.Point(268, 12)
-        Me.imgInstall4.Name = "imgInstall4"
-        Me.imgInstall4.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall4.TabIndex = 159
-        Me.imgInstall4.TabStop = False
-        '
-        'imgInstall3
-        '
-        Me.imgInstall3.Location = New System.Drawing.Point(200, 12)
-        Me.imgInstall3.Name = "imgInstall3"
-        Me.imgInstall3.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall3.TabIndex = 158
-        Me.imgInstall3.TabStop = False
-        '
-        'imgInstall2
-        '
-        Me.imgInstall2.Location = New System.Drawing.Point(138, 16)
-        Me.imgInstall2.Name = "imgInstall2"
-        Me.imgInstall2.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall2.TabIndex = 157
-        Me.imgInstall2.TabStop = False
-        '
-        'imgInstall1
-        '
-        Me.imgInstall1.Location = New System.Drawing.Point(76, 12)
-        Me.imgInstall1.Name = "imgInstall1"
-        Me.imgInstall1.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall1.TabIndex = 156
-        Me.imgInstall1.TabStop = False
-        '
-        'imgInstall0
-        '
-        Me.imgInstall0.Location = New System.Drawing.Point(14, 16)
-        Me.imgInstall0.Name = "imgInstall0"
-        Me.imgInstall0.Size = New System.Drawing.Size(56, 45)
-        Me.imgInstall0.TabIndex = 155
-        Me.imgInstall0.TabStop = False
-        '
-        'framCustomFrames
-        '
-        Me.framCustomFrames.Controls.Add(Me.picResource19)
-        Me.framCustomFrames.Controls.Add(Me.picResource18)
-        Me.framCustomFrames.Controls.Add(Me.picResource17)
-        Me.framCustomFrames.Controls.Add(Me.picResource16)
-        Me.framCustomFrames.Controls.Add(Me.picResource15)
-        Me.framCustomFrames.Controls.Add(Me.picResource14)
-        Me.framCustomFrames.Controls.Add(Me.picResource13)
-        Me.framCustomFrames.Controls.Add(Me.picResource12)
-        Me.framCustomFrames.Controls.Add(Me.picResource11)
-        Me.framCustomFrames.Controls.Add(Me.picResource10)
-        Me.framCustomFrames.Controls.Add(Me.picResource9)
-        Me.framCustomFrames.Controls.Add(Me.picResource8)
-        Me.framCustomFrames.Controls.Add(Me.picResource7)
-        Me.framCustomFrames.Controls.Add(Me.picResource6)
-        Me.framCustomFrames.Controls.Add(Me.picResource5)
-        Me.framCustomFrames.Controls.Add(Me.picResource4)
-        Me.framCustomFrames.Controls.Add(Me.picResource3)
-        Me.framCustomFrames.Controls.Add(Me.picResource2)
-        Me.framCustomFrames.Controls.Add(Me.picResource1)
-        Me.framCustomFrames.Controls.Add(Me.picResource0)
-        Me.framCustomFrames.Location = New System.Drawing.Point(16, 656)
-        Me.framCustomFrames.Name = "framCustomFrames"
-        Me.framCustomFrames.Size = New System.Drawing.Size(1245, 76)
-        Me.framCustomFrames.TabIndex = 58
-        Me.framCustomFrames.TabStop = False
-        Me.framCustomFrames.Text = "Custom Frames"
-        '
-        'picResource19
-        '
-        Me.picResource19.Location = New System.Drawing.Point(1183, 31)
-        Me.picResource19.Name = "picResource19"
-        Me.picResource19.Size = New System.Drawing.Size(56, 45)
-        Me.picResource19.TabIndex = 201
-        Me.picResource19.TabStop = False
-        '
-        'picResource18
-        '
-        Me.picResource18.Location = New System.Drawing.Point(1189, 9)
-        Me.picResource18.Name = "picResource18"
-        Me.picResource18.Size = New System.Drawing.Size(56, 45)
-        Me.picResource18.TabIndex = 200
-        Me.picResource18.TabStop = False
-        '
-        'picResource17
-        '
-        Me.picResource17.Location = New System.Drawing.Point(1128, 9)
-        Me.picResource17.Name = "picResource17"
-        Me.picResource17.Size = New System.Drawing.Size(56, 45)
-        Me.picResource17.TabIndex = 199
-        Me.picResource17.TabStop = False
-        '
-        'picResource16
-        '
-        Me.picResource16.Location = New System.Drawing.Point(1066, 9)
-        Me.picResource16.Name = "picResource16"
-        Me.picResource16.Size = New System.Drawing.Size(56, 45)
-        Me.picResource16.TabIndex = 198
-        Me.picResource16.TabStop = False
-        '
-        'picResource15
-        '
-        Me.picResource15.Location = New System.Drawing.Point(1004, 19)
-        Me.picResource15.Name = "picResource15"
-        Me.picResource15.Size = New System.Drawing.Size(56, 45)
-        Me.picResource15.TabIndex = 197
-        Me.picResource15.TabStop = False
-        '
-        'picResource14
-        '
-        Me.picResource14.Location = New System.Drawing.Point(942, 19)
-        Me.picResource14.Name = "picResource14"
-        Me.picResource14.Size = New System.Drawing.Size(56, 45)
-        Me.picResource14.TabIndex = 196
-        Me.picResource14.TabStop = False
-        '
-        'picResource13
-        '
-        Me.picResource13.Location = New System.Drawing.Point(879, 9)
-        Me.picResource13.Name = "picResource13"
-        Me.picResource13.Size = New System.Drawing.Size(56, 45)
-        Me.picResource13.TabIndex = 195
-        Me.picResource13.TabStop = False
-        '
-        'picResource12
-        '
-        Me.picResource12.Location = New System.Drawing.Point(798, 19)
-        Me.picResource12.Name = "picResource12"
-        Me.picResource12.Size = New System.Drawing.Size(56, 45)
-        Me.picResource12.TabIndex = 194
-        Me.picResource12.TabStop = False
-        '
-        'picResource11
-        '
-        Me.picResource11.Location = New System.Drawing.Point(726, 19)
-        Me.picResource11.Name = "picResource11"
-        Me.picResource11.Size = New System.Drawing.Size(56, 45)
-        Me.picResource11.TabIndex = 193
-        Me.picResource11.TabStop = False
-        '
-        'picResource10
-        '
-        Me.picResource10.Location = New System.Drawing.Point(660, 9)
-        Me.picResource10.Name = "picResource10"
-        Me.picResource10.Size = New System.Drawing.Size(56, 45)
-        Me.picResource10.TabIndex = 192
-        Me.picResource10.TabStop = False
-        '
-        'picResource9
-        '
-        Me.picResource9.Location = New System.Drawing.Point(593, 9)
-        Me.picResource9.Name = "picResource9"
-        Me.picResource9.Size = New System.Drawing.Size(56, 45)
-        Me.picResource9.TabIndex = 191
-        Me.picResource9.TabStop = False
-        '
-        'picResource8
-        '
-        Me.picResource8.Location = New System.Drawing.Point(531, 9)
-        Me.picResource8.Name = "picResource8"
-        Me.picResource8.Size = New System.Drawing.Size(56, 45)
-        Me.picResource8.TabIndex = 190
-        Me.picResource8.TabStop = False
-        '
-        'picResource7
-        '
-        Me.picResource7.Location = New System.Drawing.Point(472, 9)
-        Me.picResource7.Name = "picResource7"
-        Me.picResource7.Size = New System.Drawing.Size(56, 45)
-        Me.picResource7.TabIndex = 189
-        Me.picResource7.TabStop = False
-        '
-        'picResource6
-        '
-        Me.picResource6.Location = New System.Drawing.Point(410, 9)
-        Me.picResource6.Name = "picResource6"
-        Me.picResource6.Size = New System.Drawing.Size(56, 45)
-        Me.picResource6.TabIndex = 188
-        Me.picResource6.TabStop = False
-        '
-        'picResource5
-        '
-        Me.picResource5.Location = New System.Drawing.Point(346, 9)
-        Me.picResource5.Name = "picResource5"
-        Me.picResource5.Size = New System.Drawing.Size(56, 45)
-        Me.picResource5.TabIndex = 187
-        Me.picResource5.TabStop = False
-        '
-        'picResource4
-        '
-        Me.picResource4.Location = New System.Drawing.Point(271, 9)
-        Me.picResource4.Name = "picResource4"
-        Me.picResource4.Size = New System.Drawing.Size(56, 45)
-        Me.picResource4.TabIndex = 186
-        Me.picResource4.TabStop = False
-        '
-        'picResource3
-        '
-        Me.picResource3.Location = New System.Drawing.Point(209, 9)
-        Me.picResource3.Name = "picResource3"
-        Me.picResource3.Size = New System.Drawing.Size(56, 45)
-        Me.picResource3.TabIndex = 185
-        Me.picResource3.TabStop = False
-        '
-        'picResource2
-        '
-        Me.picResource2.Location = New System.Drawing.Point(138, 9)
-        Me.picResource2.Name = "picResource2"
-        Me.picResource2.Size = New System.Drawing.Size(56, 45)
-        Me.picResource2.TabIndex = 184
-        Me.picResource2.TabStop = False
-        '
-        'picResource1
-        '
-        Me.picResource1.Location = New System.Drawing.Point(76, 17)
-        Me.picResource1.Name = "picResource1"
-        Me.picResource1.Size = New System.Drawing.Size(56, 45)
-        Me.picResource1.TabIndex = 183
-        Me.picResource1.TabStop = False
-        '
-        'picResource0
-        '
-        Me.picResource0.Location = New System.Drawing.Point(14, 18)
-        Me.picResource0.Name = "picResource0"
-        Me.picResource0.Size = New System.Drawing.Size(56, 45)
-        Me.picResource0.TabIndex = 182
-        Me.picResource0.TabStop = False
-        '
-        'imgDefault
-        '
-        Me.imgDefault.Image = Global.WinCDS.My.Resources.Resources.Network
-        Me.imgDefault.Location = New System.Drawing.Point(1139, 120)
-        Me.imgDefault.Name = "imgDefault"
-        Me.imgDefault.Size = New System.Drawing.Size(128, 128)
-        Me.imgDefault.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.imgDefault.TabIndex = 0
-        Me.imgDefault.TabStop = False
+        'imgMM11
+        '
+        Me.imgMM11.Image = Global.WinCDS.My.Resources.Resources.mInstallment_D
+        Me.imgMM11.Location = New System.Drawing.Point(858, 30)
+        Me.imgMM11.Name = "imgMM11"
+        Me.imgMM11.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM11.TabIndex = 24
+        Me.imgMM11.TabStop = False
+        Me.imgMM11.Tag = "installmentD"
+        '
+        'imgMM9
+        '
+        Me.imgMM9.Image = Global.WinCDS.My.Resources.Resources.mAccounting_D
+        Me.imgMM9.Location = New System.Drawing.Point(865, 19)
+        Me.imgMM9.Name = "imgMM9"
+        Me.imgMM9.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM9.TabIndex = 22
+        Me.imgMM9.TabStop = False
+        Me.imgMM9.Tag = "accountingD"
+        '
+        'imgMM5
+        '
+        Me.imgMM5.Image = Global.WinCDS.My.Resources.Resources.mInstallment_U
+        Me.imgMM5.Location = New System.Drawing.Point(570, 10)
+        Me.imgMM5.Name = "imgMM5"
+        Me.imgMM5.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM5.TabIndex = 18
+        Me.imgMM5.TabStop = False
+        Me.imgMM5.Tag = "installmentU"
+        '
+        'imgMM10
+        '
+        Me.imgMM10.Image = Global.WinCDS.My.Resources.Resources.mMailing_D
+        Me.imgMM10.Location = New System.Drawing.Point(1042, 13)
+        Me.imgMM10.Name = "imgMM10"
+        Me.imgMM10.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM10.TabIndex = 23
+        Me.imgMM10.TabStop = False
+        Me.imgMM10.Tag = "mailingD"
+        '
+        'imgMM7
+        '
+        Me.imgMM7.Image = Global.WinCDS.My.Resources.Resources.mOrder_D
+        Me.imgMM7.Location = New System.Drawing.Point(751, 19)
+        Me.imgMM7.Name = "imgMM7"
+        Me.imgMM7.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM7.TabIndex = 20
+        Me.imgMM7.TabStop = False
+        Me.imgMM7.Tag = "orderentryD"
+        '
+        'imgMM4
+        '
+        Me.imgMM4.Image = Global.WinCDS.My.Resources.Resources.mMailing_U
+        Me.imgMM4.Location = New System.Drawing.Point(462, 10)
+        Me.imgMM4.Name = "imgMM4"
+        Me.imgMM4.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM4.TabIndex = 17
+        Me.imgMM4.TabStop = False
+        Me.imgMM4.Tag = "mailingU"
+        '
+        'imgMM6
+        '
+        Me.imgMM6.Image = Global.WinCDS.My.Resources.Resources.mFile_D
+        Me.imgMM6.Location = New System.Drawing.Point(675, 19)
+        Me.imgMM6.Name = "imgMM6"
+        Me.imgMM6.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM6.TabIndex = 19
+        Me.imgMM6.TabStop = False
+        Me.imgMM6.Tag = "fileD"
+        '
+        'imgMM3
+        '
+        Me.imgMM3.Image = Global.WinCDS.My.Resources.Resources.mAccounting_U
+        Me.imgMM3.Location = New System.Drawing.Point(332, 10)
+        Me.imgMM3.Name = "imgMM3"
+        Me.imgMM3.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM3.TabIndex = 16
+        Me.imgMM3.TabStop = False
+        Me.imgMM3.Tag = "accountingU"
+        '
+        'imgMM2
+        '
+        Me.imgMM2.Image = Global.WinCDS.My.Resources.Resources.mInventory_U
+        Me.imgMM2.Location = New System.Drawing.Point(223, 10)
+        Me.imgMM2.Name = "imgMM2"
+        Me.imgMM2.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM2.TabIndex = 15
+        Me.imgMM2.TabStop = False
+        Me.imgMM2.Tag = "inventoryU"
+        '
+        'imgMM8
+        '
+        Me.imgMM8.Image = Global.WinCDS.My.Resources.Resources.mInventory_D
+        Me.imgMM8.Location = New System.Drawing.Point(950, 19)
+        Me.imgMM8.Name = "imgMM8"
+        Me.imgMM8.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM8.TabIndex = 21
+        Me.imgMM8.TabStop = False
+        Me.imgMM8.Tag = "inventoryD"
+        '
+        'imgMM1
+        '
+        Me.imgMM1.Image = Global.WinCDS.My.Resources.Resources.mOrder_U
+        Me.imgMM1.Location = New System.Drawing.Point(117, 10)
+        Me.imgMM1.Name = "imgMM1"
+        Me.imgMM1.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM1.TabIndex = 14
+        Me.imgMM1.TabStop = False
+        Me.imgMM1.Tag = "orderentryU"
+        '
+        'imgMM0
+        '
+        Me.imgMM0.Image = Global.WinCDS.My.Resources.Resources.mFile_U
+        Me.imgMM0.Location = New System.Drawing.Point(12, 10)
+        Me.imgMM0.Name = "imgMM0"
+        Me.imgMM0.Size = New System.Drawing.Size(160, 80)
+        Me.imgMM0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.imgMM0.TabIndex = 13
+        Me.imgMM0.TabStop = False
+        Me.imgMM0.Tag = "fileU"
         '
         'MainMenu4_Images
         '
@@ -2184,74 +2370,84 @@ Partial Class MainMenu4_Images
         Me.Text = "MainMenu4_Images"
         Me.fraMM.ResumeLayout(False)
         Me.fraMM.PerformLayout()
-        CType(Me.imgMM11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMM0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraFile.ResumeLayout(False)
         Me.fraFile.PerformLayout()
-        CType(Me.imgFile37, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile36, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile35, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile34, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile33, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile32, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile31, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile30, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile29, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile28, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile27, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile26, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile25, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile24, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile22, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgFile0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraAccounting.ResumeLayout(False)
-        CType(Me.imgAccounting4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgAccounting3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgAccounting2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgAccounting1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgAccounting0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraMailing.ResumeLayout(False)
-        CType(Me.imgMail7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgMail0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraInventory.ResumeLayout(False)
+        Me.fraInventory.PerformLayout()
+        Me.fraOrder.ResumeLayout(False)
+        Me.fraOrder.PerformLayout()
+        Me.fraInstallment.ResumeLayout(False)
+        Me.framCustomFrames.ResumeLayout(False)
+        CType(Me.picResource19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picResource0, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgInstall0, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgOrder0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgInventory40, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgInventory39, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgInventory38, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2293,78 +2489,70 @@ Partial Class MainMenu4_Images
         CType(Me.imgInventory2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgInventory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgInventory0, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.fraOrder.ResumeLayout(False)
-        CType(Me.imgOrder20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgOrder0, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.fraInstallment.ResumeLayout(False)
-        CType(Me.imgInstall26, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall25, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall24, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall22, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgInstall0, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.framCustomFrames.ResumeLayout(False)
-        CType(Me.picResource19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picResource0, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMail0, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgAccounting4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgAccounting3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgAccounting2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgAccounting1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgAccounting0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgDefault, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile37, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile36, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile35, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgFile0, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgMM0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

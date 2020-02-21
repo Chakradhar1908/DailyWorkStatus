@@ -591,11 +591,11 @@ Public Class MainMenu4
                     Select Case Index
                         Case 0
                             K = LCase(Replace(bvb0.Tag, " ", "")) & "D"
-                            'bvb0.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb0.Image = MainMenu4_Images.MenuImage("mm", K)
                             bvb0.Refresh()
                         Case 1
                             K = LCase(Replace(bvb1.Tag, " ", "")) & "D"
-                            'bvb1.Image = MainMenu4_Images.MenuImage("mm", K)
+                            bvb1.Image = MainMenu4_Images.MenuImage("mm", K)
                             bvb1.Refresh()
                         Case 2
                             K = LCase(Replace(bvb2.Tag, " ", "")) & "D"
@@ -859,6 +859,13 @@ Public Class MainMenu4
                             'End If
                         End If
                     Next
+                    For Each l As Control In Me.Controls
+                        If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+                            'If Len(p.Name) > 11 Then
+                            l.Hide()
+                            'End If
+                        End If
+                    Next
                     'imgMenuItem.Hide()
                     'lblMenuItem.Hide()
                 End If
@@ -964,7 +971,16 @@ Public Class MainMenu4
             For Each p As Control In Me.Controls
                 If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
                     'If Len(p.Name) > 11 Then
-                    p.Hide()
+                    'p.Hide()
+                    Me.Controls.Remove(p)
+                    'End If
+                End If
+            Next
+            For Each l As Control In Me.Controls
+                If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+                    'If Len(p.Name) > 11 Then
+                    'p.Hide()
+                    Me.Controls.Remove(l)
                     'End If
                 End If
             Next
@@ -1001,8 +1017,8 @@ Public Class MainMenu4
         End If
 
         If Li >= 0 Then
-            'For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
-            For I = LBound(MM.Items) + 1 To 7
+            For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
+                'For I = LBound(MM.Items) + 1 To 11
                 MI = MM.Items(I - 1)
                 TTT = IIf(MI.ControlCode = "", MI.ToolTipText, "[" & MI.ControlCode & "] " & MI.ToolTipText)
                 'Load imgMenuItem(I)
@@ -1040,23 +1056,35 @@ Public Class MainMenu4
                     'p.Location = New Point(195, 70)
                     p.Size = New Size(110, 110)
                     'l.Location = New Point(p.Left + p.Width / 2 - l.Width / 2, p.Top + p.Height + 6)
-                    l.Location = New Point(p.Left, p.Height + 90)
-                    l.AutoSize = True
+                    'l.Location = New Point(p.Left, p.Height + 90)
+                    l.Location = New Point(p.Left + 10, p.Height + p.Top)
+                    'If l.Text = "Purchase Orders..." Then
+                    '    l.Location = New Point(p.Left - 5, p.Height + p.Top)
+                    '    l.Font = New Drawing.Font("Arial", 10, FontStyle.Bold)
+                    '    l.TextAlign = ContentAlignment.TopRight
+                    '    l.AutoSize = False
+                    '    l.Size = New Size(120, 20)
+
+                    'Else
+                    '    l.Font = New Drawing.Font("Arial", 12, FontStyle.Bold)
+                    '    l.AutoSize = True
+                    'End If
                     l.Font = New Drawing.Font("Arial", 12, FontStyle.Bold)
+                    l.AutoSize = True
 
                 Else
-                    'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
-                    'imgMenuItem.Location = New Point(MI.Left, MI.Top)
-                    'imgMenuItem.Size = New Size(500, 500)
-                    'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
-                    'lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
-                    'lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
-                    'lblMenuItem(I).Alignment = 0
-                    'lblMenuItem.Alignment = 0
-                    'lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
-                    'lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
+                        'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
+                        'imgMenuItem.Location = New Point(MI.Left, MI.Top)
+                        'imgMenuItem.Size = New Size(500, 500)
+                        'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
+                        'lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
+                        'lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
+                        'lblMenuItem(I).Alignment = 0
+                        'lblMenuItem.Alignment = 0
+                        'lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
+                        'lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
 
-                    p.Location = New Point(MI.Left, MI.Top)
+                        p.Location = New Point(MI.Left, MI.Top)
                     p.Size = New Size(50, 50)
                     l.Location = New Point(p.Left + p.Width, p.Top + 6)
                     l.Size = New Size(400, l.Height)
@@ -1076,10 +1104,10 @@ Public Class MainMenu4
                 'lblMenuItem.BringToFront()
 
                 ToolTip1.SetToolTip(l, TTT)
-                p.Visible = True
+                'p.Visible = True
                 'p.BringToFront()
 
-                l.Visible = True
+                'l.Visible = True
                 'l.BringToFront()
                 Me.Controls.Add(p)
                 Me.Controls.Add(l)
