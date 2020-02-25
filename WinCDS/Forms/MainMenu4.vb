@@ -722,9 +722,15 @@ Public Class MainMenu4
 
     Private Sub imgMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles imgMenuItem.MouseEnter
         Dim I As Integer
+        Dim P As PictureBox
+
         Try
-            I = Mid(imgMenuItem.Name, 12)
-            MenuItemHighlight(I)
+            P = CType(sender, PictureBox)
+            I = Mid(P.Name, 12)
+            'MenuItemHighlight(I,, P)
+            P.Size = New Size(150, 150)
+            P.Location = New Point(P.Left + 20, P.Top + 20)
+            P.Refresh()
         Catch ex As System.InvalidCastException
         End Try
     End Sub
@@ -732,83 +738,126 @@ Public Class MainMenu4
     Private Sub imgMenuItem_MouseLeave(sender As Object, e As EventArgs) Handles imgMenuItem.MouseLeave
         'MenuItemHighlight(Index, True)
         Dim I As Integer
+        Dim P As PictureBox
+
         Try
-            I = Mid(imgMenuItem.Name, 12)
-            MenuItemHighlight(I, True)
+            P = CType(sender, PictureBox)
+            I = Mid(P.Name, 12)
+            'MenuItemHighlight(I, True, P)
+            P.Size = New Size(110, 110)
+            P.Location = New Point(P.Left + 20, P.Top + 20)
+            P.Refresh()
         Catch ex As InvalidCastException
         End Try
     End Sub
 
-    Public Sub MenuItemHighlight(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False)
+    'Private Sub lblMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles lblMenuItem.MouseEnter
+    '    Dim I As Integer
+    '    Dim L As Label
+
+    '    Try
+    '        L = CType(sender, Label)
+    '        I = Mid(L.Name, 12)
+    '        MenuItemHighlight(I,,, L)
+    '    Catch ex As System.InvalidCastException
+    '    End Try
+    'End Sub
+
+    'Private Sub lblMenuItem_MouseLeave(sender As Object, e As EventArgs) Handles lblMenuItem.MouseLeave
+    '    Dim I As Integer
+    '    Dim L As Label
+
+    '    Try
+    '        L = CType(sender, Label)
+    '        I = Mid(L.Name, 12)
+    '        MenuItemHighlight(I, True, , L)
+    '    Catch ex As InvalidCastException
+    '    End Try
+    'End Sub
+
+    Public Sub MenuItemHighlight(ByVal Index As Integer, Optional ByVal StopIt As Boolean = False, Optional ByVal P As PictureBox = Nothing)
         Const X As Double = 0.15
         Dim I As Integer, C As Integer
         Dim L As Integer, T As Integer
         Dim D As Integer
 
-        If Index < 0 Then
-            imgSelected.Visible = False
-            imgSubSelected.Visible = False
-            Exit Sub
-        End If
-
-
-        'If imgMenuItem(Index).Width > 1000 Then
-        If imgMenuItem.Width > 1000 Then
-            'L = imgMenuItem(Index).Left
-            L = imgMenuItem.Left
-            'T = imgMenuItem(Index).Top
-            T = imgMenuItem.Top
-
-            If StopIt Then
-                'imgMenuItem(Index).Top = imgMenuItem(Index).Top + 1920 * X
-                imgMenuItem.Top = imgMenuItem.Top + 1920 * X
-                'imgMenuItem(Index).Left = imgMenuItem(Index).Left + 1920 * X
-                imgMenuItem.Left = imgMenuItem.Left + 1920 * X
-                'imgMenuItem(Index).Width = 1920
-                imgMenuItem.Width = 1920
-                'imgMenuItem(Index).Height = 1920
-                imgMenuItem.Height = 1920
-                'imgMenuItem(Index).Effect = lvicNoEffects
-                'imgMenuItem.Effect = lvicNoEffects --------> Commented 2 lines because this property if of Alphaimage control.
-                'imgMenuItem(Index).Effects.GrayScale = lvicNoGrayScale
+        Try
+            If Index < 0 Then
                 imgSelected.Visible = False
-            Else
-                Dim Tk As Integer, Mk As Integer
-                C = 150
-                Tk = GetTickCount
-                Mk = Tk + C
-                Do While GetTickCount < Mk
-                    I = GetTickCount - Tk
-                    D = CLng(1920.0# * X * CDbl(I) / CDbl(C))
-                    'imgMenuItem(Index).Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
-                    'imgMenuItem.Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
-                    imgMenuItem.Location = New Point(L - D, T - D)
-                    imgMenuItem.Size = New Size(1920 + 2 * D, 1920 + 2 * D)
-                    'imgMenuItem(Index).Refresh()
-                    imgMenuItem.Refresh()
-                    'MoveControlTo imgSelected, imgMenuItem(Index), True
-                    MoveControlTo(imgSelected, imgMenuItem, True)
-                    imgSelected.Refresh()
-                Loop
-            End If
-        Else
-            If StopIt Then
                 imgSubSelected.Visible = False
-                'lblMenuItem(Index).BackStyle = cc2BackstyleTransparent
-            Else
-                MoveControl(imgSubSelected, -10000, , , , True, True)
-                'lblMenuItem(Index).ZOrder 0
-                lblMenuItem.BringToFront()
-                '        lblMenuItem(Index).AutoSize = True
-
-                '        lblMenuItem(Index).BackStyle = cc2BackstyleOpaque
-                '        lblMenuItem(Index).BackColor = vbRed
-                'imgSubSelected.Move lblMenuItem(Index).Left - 100, imgMenuItem(Index).Top + 20, 3800, lblMenuItem(Index).Height + 60
-                imgSubSelected.Location = New Point(lblMenuItem.Left - 100, imgMenuItem.Top + 20)
-                imgSubSelected.Size = New Size(3800, lblMenuItem.Height + 60)
-                'MoveControlTo imgSubSelected, lblMenuItem(Index)
+                Exit Sub
             End If
-        End If
+
+            'If imgMenuItem(Index).Width > 1000 Then
+            If P.Width > 100 Then
+                'L = imgMenuItem(Index).Left
+                L = P.Left
+                'T = imgMenuItem(Index).Top
+                T = P.Top
+
+                If StopIt Then
+                    'imgMenuItem(Index).Top = imgMenuItem(Index).Top + 1920 * X
+                    'P.Top = P.Top + 192 * X
+                    'imgMenuItem(Index).Left = imgMenuItem(Index).Left + 1920 * X
+                    'P.Left = P.Left + 192 * X
+                    'imgMenuItem(Index).Width = 1920
+                    'P.Width = 192
+                    'imgMenuItem(Index).Height = 1920
+                    'P.Height = 192
+                    'imgMenuItem(Index).Effect = lvicNoEffects
+                    'imgMenuItem.Effect = lvicNoEffects --------> Commented 2 lines because this property is of Alphaimage control.
+                    'imgMenuItem(Index).Effects.GrayScale = lvicNoGrayScale
+                    'imgSelected.Visible = False
+                    'P.BorderStyle = BorderStyle.None
+                    'P.Size = New Size(110, 110)
+                Else
+                    Dim Tk As Integer, Mk As Integer
+                    'C = 150
+                    C = 15
+                    Tk = GetTickCount
+                    Mk = Tk + C
+
+                    Do While GetTickCount < Mk
+                        I = GetTickCount - Tk
+                        'D = 1920.0# * X * I / C
+                        D = 192.0# * X * I / C
+                        'imgMenuItem(Index).Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
+                        'imgMenuItem.Move L - D, T - D, 1920 + 2 * D, 1920 + 2 * D
+                        P.Location = New Point(L - D, T - D)
+                        P.Size = New Size(192 + 2 * D, 192 + 2 * D)
+                        'imgMenuItem(Index).Refresh()
+                        P.Refresh()
+                        'MoveControlTo imgSelected, imgMenuItem(Index), True
+                        MoveControlTo(imgSelected, P, True)
+                        imgSelected.Refresh()
+                    Loop
+                    'P.BorderStyle = BorderStyle.Fixed3D
+                    'P.Size = New Size(170, 170)
+                End If
+            Else
+                If StopIt Then
+                    imgSubSelected.Visible = False
+                    'lblMenuItem(Index).BackStyle = cc2BackstyleTransparent
+                    'Lc.BorderStyle = BorderStyle.None
+                Else
+                    MoveControl(imgSubSelected, -10000, , , , True, True)
+                    'lblMenuItem(Index).ZOrder 0
+                    'Lc.BringToFront()
+                    'lblMenuItem(Index).AutoSize = True
+                    'Lc.AutoSize = True
+                    'lblMenuItem(Index).BackStyle = cc2BackstyleOpaque
+                    'Lc.BorderStyle = BorderStyle.Fixed3D
+                    'lblMenuItem(Index).BackColor = vbRed
+                    'Lc.BackColor = Color.Red
+                    'imgSubSelected.Move lblMenuItem(Index).Left - 100, imgMenuItem(Index).Top + 20, 3800, lblMenuItem(Index).Height + 60
+                    'imgSubSelected.Location = New Point(Lc.Left - 100, P.Top + 20)
+                    'imgSubSelected.Size = New Size(3800, Lc.Height + 60)
+                    'MoveControlTo imgSubSelected, lblMenuItem(Index)
+                    'MoveControlTo(imgSubSelected, Lc)
+                End If
+            End If
+        Catch ex As NullReferenceException
+        End Try
     End Sub
 
     'Private Sub imgMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
@@ -1055,6 +1104,7 @@ Public Class MainMenu4
                     p.Location = New Point(MI.Left, MI.Top)
                     'p.Location = New Point(195, 70)
                     p.Size = New Size(110, 110)
+                    'p.Size = New Size(56, 45)
                     'l.Location = New Point(p.Left + p.Width / 2 - l.Width / 2, p.Top + p.Height + 6)
                     'l.Location = New Point(p.Left, p.Height + 90)
                     l.Location = New Point(p.Left + 10, p.Height + p.Top)
@@ -1073,18 +1123,18 @@ Public Class MainMenu4
                     l.AutoSize = True
 
                 Else
-                        'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
-                        'imgMenuItem.Location = New Point(MI.Left, MI.Top)
-                        'imgMenuItem.Size = New Size(500, 500)
-                        'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
-                        'lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
-                        'lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
-                        'lblMenuItem(I).Alignment = 0
-                        'lblMenuItem.Alignment = 0
-                        'lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
-                        'lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
+                    'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
+                    'imgMenuItem.Location = New Point(MI.Left, MI.Top)
+                    'imgMenuItem.Size = New Size(500, 500)
+                    'lblMenuItem(I).Move imgMenuItem(I).Left + imgMenuItem(I).Width, imgMenuItem(I).Top + 60, 4000
+                    'lblMenuItem.Location = New Point(imgMenuItem.Left + imgMenuItem.Width, imgMenuItem.Top + 60)
+                    'lblMenuItem.Size = New Size(4000, lblMenuItem.Height)
+                    'lblMenuItem(I).Alignment = 0
+                    'lblMenuItem.Alignment = 0
+                    'lblMenuItem(I).Caption = Replace(lblMenuItem(I).Caption, vbCrLf, " ")
+                    'lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
 
-                        p.Location = New Point(MI.Left, MI.Top)
+                    p.Location = New Point(MI.Left, MI.Top)
                     p.Size = New Size(50, 50)
                     l.Location = New Point(p.Left + p.Width, p.Top + 6)
                     l.Size = New Size(400, l.Height)
@@ -1109,6 +1159,10 @@ Public Class MainMenu4
 
                 'l.Visible = True
                 'l.BringToFront()
+                AddHandler p.MouseEnter, AddressOf imgMenuItem_MouseEnter
+                AddHandler p.MouseLeave, AddressOf imgMenuItem_MouseLeave
+                'AddHandler l.MouseEnter, AddressOf lblMenuItem_MouseEnter
+                'AddHandler l.MouseLeave, AddressOf lblMenuItem_MouseLeave
                 Me.Controls.Add(p)
                 Me.Controls.Add(l)
             Next
@@ -1254,6 +1308,8 @@ Public Class MainMenu4
         imgStoreLogoBorder.Left = Me.Width + 50
         LockWindowUpdate(IntPtr.Zero)
     End Sub
+
+
 
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
         txtInfo.Text = AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True)
@@ -1418,3 +1474,4 @@ BadMove:
         Resume Next
     End Sub
 End Class
+

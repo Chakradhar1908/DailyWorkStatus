@@ -2476,5 +2476,122 @@
   <ItemGroup>
     <None Include="Resources\invreports1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\advert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\export1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\merge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\return2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\creditapps-new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\creditapps-old.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\estimator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oldapps.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\payview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-aging.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-closed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-delinquent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-latecharges.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-legal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-monthly.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-repo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reports2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-trial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-wholate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-writeoff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\revolving.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\void.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report-nonpayment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restore1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\return3.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

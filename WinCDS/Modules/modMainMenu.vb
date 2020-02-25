@@ -1975,7 +1975,7 @@ Module modMainMenu
         MyMenuAddItem(X, "viewstock", "&View Stock/Items", , , 5, , "Displays items, showing pricing (if authorized), stock and on order levels, and an item picture.", "Ctrl-K")
         MyMenuAddItem(X, "deliveries", "Customer &Deliveries...", , , 6, "#inventory:deliveries", "This opens the Customer Deliveries menu.")
         '  MyMenuAddItem X, "changecontents", "Chan&ge Contents/of Item", , , 6, , "This allows you to edit an inventory item.", "Ctrl-G"
-        MyMenuAddItem(X, "po", "&Purchase Orders...", , , 7, "#inventory:po", "This opens the Purchase Orders Menu.")
+        MyMenuAddItem(X, "po", "&Purchase/Orders...", , , 7, "#inventory:po", "This opens the Purchase Orders Menu.")
         MyMenuAddItem(X, "orderstatus", "Check Order S&tatus", , , 8, , "This lets you check the status of an order.", "Ctrl-T")
         MyMenuAddItem(X, "package", "Pac&kage Ticket Builder...", , , 9, "#inventory:package", "Opens the Package Ticket Builder Menu...")
         MyMenuAddItem(X, "comm", "Co&mmissions", , , 10, , "Opens the commissions report window.")
@@ -2417,9 +2417,15 @@ Again:
     Private Function X3() As Integer()
         Dim A() As Integer
         ReDim A(0 To 2)
-        A(0) = 4000
-        A(1) = 7600
-        A(2) = 11200
+        'A(0) = 4000
+        'A(1) = 7600
+        'A(2) = 11200
+        'X3 = A
+
+        'NOTE: REPLACED ABOVE VALUES WITH THE BELOW ONE. BECAUSE VB.NET MEASUREMENTS ARE IN PIXELS. NOT IN TWIPS.
+        A(0) = 250
+        A(1) = 500
+        A(2) = 800
         X3 = A
     End Function
 

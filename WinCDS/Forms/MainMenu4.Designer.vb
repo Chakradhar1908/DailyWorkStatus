@@ -36,6 +36,9 @@ Partial Class MainMenu4
         Me.cdgFile = New AxMSComDlg.AxCommonDialog()
         Me.MSComm1 = New AxMSCommLib.AxMSComm()
         Me.imgPicture = New System.Windows.Forms.PictureBox()
+        Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
+        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
+        Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.imlMM = New System.Windows.Forms.ImageList(Me.components)
         Me.lblLastBackup = New System.Windows.Forms.Label()
         Me.lblMenuCaption = New System.Windows.Forms.Label()
@@ -94,9 +97,6 @@ Partial Class MainMenu4
         Me.lblIDE = New System.Windows.Forms.Label()
         Me.lblDEMO = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
-        Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
-        Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -257,6 +257,37 @@ Partial Class MainMenu4
         Me.imgPicture.TabIndex = 8
         Me.imgPicture.TabStop = False
         Me.imgPicture.Visible = False
+        '
+        'datPicture
+        '
+        Me.datPicture.BackColor = System.Drawing.SystemColors.Control
+        Me.datPicture.CommandTimeout = 0
+        Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
+        Me.datPicture.ConnectionString = Nothing
+        Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
+        Me.datPicture.Location = New System.Drawing.Point(8, 72)
+        Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
+        Me.datPicture.Name = "datPicture"
+        Me.datPicture.Size = New System.Drawing.Size(74, 19)
+        Me.datPicture.TabIndex = 7
+        Me.datPicture.Text = "Adodc1"
+        Me.datPicture.Visible = False
+        '
+        'rtbStorePolicy
+        '
+        Me.rtbStorePolicy.Location = New System.Drawing.Point(134, 19)
+        Me.rtbStorePolicy.Name = "rtbStorePolicy"
+        Me.rtbStorePolicy.Size = New System.Drawing.Size(40, 38)
+        Me.rtbStorePolicy.TabIndex = 1
+        Me.rtbStorePolicy.Visible = False
+        '
+        'rtbn
+        '
+        Me.rtbn.Location = New System.Drawing.Point(180, 19)
+        Me.rtbn.Name = "rtbn"
+        Me.rtbn.Size = New System.Drawing.Size(40, 38)
+        Me.rtbn.TabIndex = 2
+        Me.rtbn.Visible = False
         '
         'imlMM
         '
@@ -727,37 +758,6 @@ Partial Class MainMenu4
         Me.lblDEMO.TabIndex = 65
         Me.lblDEMO.Text = "DEMO"
         Me.lblDEMO.Visible = False
-        '
-        'datPicture
-        '
-        Me.datPicture.BackColor = System.Drawing.SystemColors.Control
-        Me.datPicture.CommandTimeout = 0
-        Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
-        Me.datPicture.ConnectionString = Nothing
-        Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
-        Me.datPicture.Location = New System.Drawing.Point(8, 72)
-        Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
-        Me.datPicture.Name = "datPicture"
-        Me.datPicture.Size = New System.Drawing.Size(74, 19)
-        Me.datPicture.TabIndex = 7
-        Me.datPicture.Text = "Adodc1"
-        Me.datPicture.Visible = False
-        '
-        'rtbStorePolicy
-        '
-        Me.rtbStorePolicy.Location = New System.Drawing.Point(134, 19)
-        Me.rtbStorePolicy.Name = "rtbStorePolicy"
-        Me.rtbStorePolicy.Size = New System.Drawing.Size(40, 38)
-        Me.rtbStorePolicy.TabIndex = 1
-        Me.rtbStorePolicy.Visible = False
-        '
-        'rtbn
-        '
-        Me.rtbn.Location = New System.Drawing.Point(180, 19)
-        Me.rtbn.Name = "rtbn"
-        Me.rtbn.Size = New System.Drawing.Size(40, 38)
-        Me.rtbn.TabIndex = 2
-        Me.rtbn.Visible = False
         '
         'MainMenu4
         '
