@@ -723,14 +723,33 @@ Public Class MainMenu4
     Private Sub imgMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles imgMenuItem.MouseEnter
         Dim I As Integer
         Dim P As PictureBox
+        'Dim Lc As New Label
 
         Try
             P = CType(sender, PictureBox)
             I = Mid(P.Name, 12)
             'MenuItemHighlight(I,, P)
-            P.Size = New Size(150, 150)
-            P.Location = New Point(P.Left + 20, P.Top + 20)
-            P.Refresh()
+            'P.Size = New Size(140, 140)
+            'P.Location = New Point(P.Left + 20, P.Top + 20)
+            'P.Refresh()
+            'Lc = CType(sender, Label)
+
+            'imgMenuItem.Image = P.Image
+            'imgMenuItem.Size = New Size(135, 135)
+            'imgMenuItem.SizeMode = PictureBoxSizeMode.StretchImage
+            'imgMenuItem.Location = P.Location
+            'imgMenuItem.Visible = True
+            'P.Visible = False
+
+            P.BorderStyle = BorderStyle.Fixed3D
+
+            'For Each C As Control In Me.Controls
+            '    If C.Name = "lblMenuItem" & I Then
+            '        C.BringToFront()
+            '        Exit For
+            '    End If
+            'Next
+            'Lc.BringToFront()
         Catch ex As System.InvalidCastException
         End Try
     End Sub
@@ -744,9 +763,14 @@ Public Class MainMenu4
             P = CType(sender, PictureBox)
             I = Mid(P.Name, 12)
             'MenuItemHighlight(I, True, P)
-            P.Size = New Size(110, 110)
-            P.Location = New Point(P.Left + 20, P.Top + 20)
-            P.Refresh()
+            'P.Size = New Size(110, 110)
+            'P.Location = New Point(P.Left + 20, P.Top + 20)
+            'P.Refresh()
+
+            'imgMenuItem.Visible = False
+            'P.Visible = True
+
+            P.BorderStyle = BorderStyle.None
         Catch ex As InvalidCastException
         End Try
     End Sub
@@ -866,8 +890,11 @@ Public Class MainMenu4
     Private Sub imgMenuItem_Click(sender As Object, e As EventArgs) Handles imgMenuItem.Click
         'SelectMenuItem(Index)
         Dim I As Integer
-        I = Mid(imgMenuItem.Name, 12)
-        SelectMenuItem(I)
+        Dim P As PictureBox
+
+        P = CType(sender, PictureBox)
+        I = Mid(P.Name, 12)
+        SelectMenuItem(I,,, P)
     End Sub
 
     Private Sub lblMenuItem_Click(sender As Object, e As EventArgs) Handles lblMenuItem.Click
@@ -1158,20 +1185,24 @@ Public Class MainMenu4
                 'p.BringToFront()
 
                 'l.Visible = True
-                'l.BringToFront()
+                l.BringToFront()
                 AddHandler p.MouseEnter, AddressOf imgMenuItem_MouseEnter
                 AddHandler p.MouseLeave, AddressOf imgMenuItem_MouseLeave
+                AddHandler p.Click, AddressOf imgMenuItem_Click
                 'AddHandler l.MouseEnter, AddressOf lblMenuItem_MouseEnter
                 'AddHandler l.MouseLeave, AddressOf lblMenuItem_MouseLeave
+                'AddHandler l.MouseEnter, AddressOf imgMenuItem_MouseEnter
+                'AddHandler l.MouseLeave, AddressOf imgMenuItem_MouseLeave
                 Me.Controls.Add(p)
                 Me.Controls.Add(l)
             Next
         End If
     End Sub
 
-    Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "") As Boolean
+    Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "", Optional ByVal P As PictureBox = Nothing) As Boolean
         Dim X As Integer, F As String
         Dim Operation As String, Source As String, MI As MyMenuItem
+
         ActiveLog("MainMenu::SelectMenuItem(" & Index & ", " & ExplicitMenu & ", " & ExplicitOperation & ")", 5)
 
         Dim Fail As Boolean, FailMsg As String, FailTitle As String ' not really planning to fail
@@ -1182,8 +1213,10 @@ Public Class MainMenu4
             Source = lblMenuCaption.Tag
             'On Error Resume Next
             'Operation = ItemOptionOp(imgMenuItem(Index).Tag)
-            Operation = ItemOptionOp(imgMenuItem.Tag)
+            'Operation = ItemOptionOp(imgMenuItem.Tag)
+            Operation = ItemOptionOp(P.Tag)
         End If
+
         FailMsg = "You have encountered a program error or the resource has moved." & vbCrLf & "Please contact " & AdminContactCompany & " at " & AdminContactPhone2 & " immediately." & vbCrLf & "Thank-you, and sorry for the inconvenience." & vbCrLf & "Source=" & Source & vbCrLf & "Operation=" & Operation
         FailTitle = "Unknown Menu Function"
 
@@ -1308,8 +1341,6 @@ Public Class MainMenu4
         imgStoreLogoBorder.Left = Me.Width + 50
         LockWindowUpdate(IntPtr.Zero)
     End Sub
-
-
 
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
         txtInfo.Text = AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True)
