@@ -180,7 +180,6 @@ F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSRDC.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSWinsockLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.VJCZIPLib.dll
-F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 F:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.Chilkat_v9_5_0.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll

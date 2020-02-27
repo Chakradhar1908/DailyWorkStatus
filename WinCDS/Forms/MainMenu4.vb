@@ -991,12 +991,20 @@ Public Class MainMenu4
         'Unload lblHR(I)
         'Next
         'imgHR.Hide()
-        Dim c As Control
-        For Each c In Me.Controls
-            If Mid(c.Name, 1, 5) = "imgHR" And Len(c.Name) > 5 Then
-                c.Hide()
+
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 5) = "imgHR" And Len(C.Name) > 5 Then
+                'C.Hide()
+                Me.Controls.Remove(C)
             End If
         Next
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 5) = "lblHR" And Len(C.Name) > 5 Then
+                'C.Hide()
+                Me.Controls.Remove(C)
+            End If
+        Next
+
         UnloadHRs = True
     End Function
 
@@ -1005,14 +1013,42 @@ Public Class MainMenu4
         'N = imgHR.UBound + 1
         'Load imgHR(N)
         'Set imgHR(N).Picture = imgHR(0).Picture
-
         'MoveControl imgHR(N), X, Y, W, 300, True, True
-        MoveControl(imgHR, X, Y, W, 380, True, True)
+
         'Load lblHR(N)
         'lblHR(N).Caption = Caption
-        lblHR.Text = Caption
         'MoveControl lblHR(N), imgHR(N).Left + 120, imgHR(N).Top, , , True, True
-        MoveControl(lblHR, imgHR.Left + 120, imgHR.Top, , , True, True)
+
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 5) = "imgHR" Then
+                N = N + 1
+            End If
+        Next
+
+        Dim Pb As New PictureBox
+        Dim Lcc As New Label
+
+        Pb.Name = "imgHR" & N
+        Pb.Image = imgHR.Image
+        Pb.Location = New Point(X, Y)
+        Pb.Size = New Size(230, 28)
+        'MoveControl(P, X, Y, W, 380, True, True)
+
+        Lcc.Name = "lblHR" & N
+        Lcc.Text = Caption
+        'L.Location = New Point(P.Left, P.Top)
+        Lcc.Location = Pb.Location
+        Lcc.AutoSize = True
+        'MoveControl(L, P.Left + 120, P.Top, , , True, True)
+
+        'P.BringToFront()
+        'Lcc.BringToFront()
+        Pb.Visible = True
+        Lcc.Visible = True
+
+        Me.Controls.Add(Pb)
+        Me.Controls.Add(Lcc)
+
         LoadHR = True
     End Function
 
@@ -1041,6 +1077,9 @@ Public Class MainMenu4
         For Each p As Control In Me.Controls
             If Mid(p.Name, 1, 11) = "imgMenuItem" Then
                 I = I + 1
+                'If I > 1 Then
+                '    Exit For
+                'End If
             End If
         Next
         If I > 1 Then
@@ -1085,8 +1124,23 @@ Public Class MainMenu4
         UnloadHRs()
 
         If MM.Layout = eMyMenuLayouts.eMML_4x8x8 Or MM.Layout = eMyMenuLayouts.eMML_3x8x8 Then
-            If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 4000)
-            If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 4000)
+            'If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 4000)
+            'If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 200, 240)
+            'If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 4000)
+            'If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 600, 240)
+            If MM.SubTitle1 <> "" Then
+                'lblHR.Text = MM.SubTitle1
+                'lblHR.Location = New Point(200, 230)
+                'lblHR.AutoSize = True
+                'lblHR.Visible = True
+            End If
+
+            If MM.SubTitle2 <> "" Then
+                'lblHR2.Text = MM.SubTitle2
+                'lblHR2.Location = New Point(600, 230)
+                'lblHR2.AutoSize = True
+                'lblHR2.Visible = True
+            End If
         ElseIf MM.Layout = eMyMenuLayouts.eMML_3x2x4x4 Or MM.Layout = eMyMenuLayouts.eMML_4x2x4x4 Or MM.Layout = eMyMenuLayouts.eMML_4x2x5x5 Then
             If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 5700)
             If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 5700)
@@ -1164,7 +1218,8 @@ Public Class MainMenu4
                     p.Location = New Point(MI.Left, MI.Top)
                     p.Size = New Size(50, 50)
                     l.Location = New Point(p.Left + p.Width, p.Top + 6)
-                    l.Size = New Size(400, l.Height)
+                    'l.Size = New Size(400, l.Height)
+                    l.AutoSize = True
                     l.Text = Replace(l.Text, vbCrLf, " ")
 
                 End If

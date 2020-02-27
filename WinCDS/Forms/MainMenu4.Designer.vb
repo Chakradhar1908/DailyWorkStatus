@@ -53,7 +53,7 @@ Partial Class MainMenu4
         Me.imgSelected = New System.Windows.Forms.PictureBox()
         Me.imgSubSelected = New System.Windows.Forms.PictureBox()
         Me.imgMenuItem = New System.Windows.Forms.PictureBox()
-        Me.lblHR = New System.Windows.Forms.Label()
+
         Me.ttpMainMenu = New System.Windows.Forms.ToolTip(Me.components)
         Me.txtYearEnd = New System.Windows.Forms.TextBox()
         Me.txtInfo = New System.Windows.Forms.TextBox()
@@ -97,6 +97,7 @@ Partial Class MainMenu4
         Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.rtbn = New WinCDS.RichTextBoxNew()
+
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -398,7 +399,7 @@ Partial Class MainMenu4
         '
         Me.imgHR.Location = New System.Drawing.Point(311, 350)
         Me.imgHR.Name = "imgHR"
-        Me.imgHR.Size = New System.Drawing.Size(174, 36)
+        Me.imgHR.Size = New System.Drawing.Size(231, 28)
         Me.imgHR.TabIndex = 26
         Me.imgHR.TabStop = False
         Me.imgHR.Visible = False
@@ -429,17 +430,7 @@ Partial Class MainMenu4
         Me.imgMenuItem.TabIndex = 22
         Me.imgMenuItem.TabStop = False
         Me.imgMenuItem.Visible = False
-        '
-        'lblHR
-        '
-        Me.lblHR.AutoSize = True
-        Me.lblHR.Font = New System.Drawing.Font("Arial Narrow", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHR.Location = New System.Drawing.Point(328, 358)
-        Me.lblHR.Name = "lblHR"
-        Me.lblHR.Size = New System.Drawing.Size(88, 20)
-        Me.lblHR.TabIndex = 36
-        Me.lblHR.Text = "### HR Label"
-        Me.lblHR.Visible = False
+
         '
         'txtYearEnd
         '
@@ -758,12 +749,14 @@ Partial Class MainMenu4
         Me.rtbn.Size = New System.Drawing.Size(40, 38)
         Me.rtbn.TabIndex = 2
         Me.rtbn.Visible = False
+
         '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(865, 563)
+
         Me.Controls.Add(Me.lblDEMO)
         Me.Controls.Add(Me.lblIDE)
         Me.Controls.Add(Me.lblBETA)
@@ -781,7 +774,7 @@ Partial Class MainMenu4
         Me.Controls.Add(Me.lblStore0)
         Me.Controls.Add(Me.txtInfo)
         Me.Controls.Add(Me.txtYearEnd)
-        Me.Controls.Add(Me.lblHR)
+
         Me.Controls.Add(Me.bvb5)
         Me.Controls.Add(Me.bvb4)
         Me.Controls.Add(Me.bvb3)
@@ -863,7 +856,7 @@ Partial Class MainMenu4
     Friend WithEvents bvb3 As PictureBox
     Friend WithEvents bvb4 As PictureBox
     Friend WithEvents bvb5 As PictureBox
-    Friend WithEvents lblHR As Label
+
     Friend WithEvents ttpMainMenu As ToolTip
     Friend WithEvents txtYearEnd As TextBox
     Friend WithEvents txtInfo As TextBox
@@ -904,4 +897,5 @@ Partial Class MainMenu4
     Friend WithEvents lblIDE As Label
     Friend WithEvents lblDEMO As Label
     Friend WithEvents ToolTip1 As ToolTip
+
 End Class

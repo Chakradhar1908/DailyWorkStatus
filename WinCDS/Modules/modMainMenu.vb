@@ -2485,25 +2485,29 @@ Again:
 
     Private ReadOnly Property MenuSubItemTop1() As Integer
         Get
-            MenuSubItemTop1 = 4400
+            'MenuSubItemTop1 = 4400
+            MenuSubItemTop1 = 270
         End Get
     End Property
 
     Private ReadOnly Property MenuSubItemHeight() As Integer
         Get
-            MenuSubItemHeight = 465
+            'MenuSubItemHeight = 465
+            MenuSubItemHeight = 20
         End Get
     End Property
 
     Private ReadOnly Property MenuSubItemLeft1of2() As Integer
         Get
-            MenuSubItemLeft1of2 = 3400
+            'MenuSubItemLeft1of2 = 3400
+            MenuSubItemLeft1of2 = 200
         End Get
     End Property
 
     Private ReadOnly Property MenuSubItemLeft2of2() As Integer
         Get
-            MenuSubItemLeft2of2 = 8700
+            'MenuSubItemLeft2of2 = 8700
+            MenuSubItemLeft2of2 = 600
         End Get
     End Property
 
