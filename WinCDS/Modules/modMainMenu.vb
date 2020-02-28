@@ -1898,6 +1898,7 @@ Module modMainMenu
         ' Second sub-set begins @ 13
         MyMenuAddItem(X, "old-reports", "Report Archi&ve", , , 13, , "View historical reports.")
         MyMenuAddItem(X, "email", "Email Config/Pane&l", , , 14, , "This will open the email settings panel for sending email from WinCDS.")
+        'MyMenuAddItem(X, "email", "Email Config Pane&l", , , 14, , "This will open the email settings panel for sending email from WinCDS.")
         MyMenuAddItem(X, "creditcardmanager", "C&redit Card/Manager", , , 15, , "Click here to enter the credit card admin panel.", "Ctrl-L")
         MyMenuAddItem(X, "s3", "Ama&zon AWS", , , 16, , "Amazon AWS Simple Storage Solution Automatic Cloud-based Backup and Restore.")
         MyMenuAddItem(X, "ashley", "&Ashley Maintenance", , , 17, , "Opens the Ashley Vendor Price and Item Maintenance Panel for 888 Item Alignment.")
@@ -1975,7 +1976,7 @@ Module modMainMenu
         MyMenuAddItem(X, "viewstock", "&View Stock/Items", , , 5, , "Displays items, showing pricing (if authorized), stock and on order levels, and an item picture.", "Ctrl-K")
         MyMenuAddItem(X, "deliveries", "Customer &Deliveries...", , , 6, "#inventory:deliveries", "This opens the Customer Deliveries menu.")
         '  MyMenuAddItem X, "changecontents", "Chan&ge Contents/of Item", , , 6, , "This allows you to edit an inventory item.", "Ctrl-G"
-        MyMenuAddItem(X, "po", "&Purchase/Orders...", , , 7, "#inventory:po", "This opens the Purchase Orders Menu.")
+        MyMenuAddItem(X, "po", "&Purchase Orders...", , , 7, "#inventory:po", "This opens the Purchase Orders Menu.")
         MyMenuAddItem(X, "orderstatus", "Check Order S&tatus", , , 8, , "This lets you check the status of an order.", "Ctrl-T")
         MyMenuAddItem(X, "package", "Pac&kage Ticket Builder...", , , 9, "#inventory:package", "Opens the Package Ticket Builder Menu...")
         MyMenuAddItem(X, "comm", "Co&mmissions", , , 10, , "Opens the commissions report window.")
@@ -2493,7 +2494,7 @@ Again:
     Private ReadOnly Property MenuSubItemHeight() As Integer
         Get
             'MenuSubItemHeight = 465
-            MenuSubItemHeight = 20
+            MenuSubItemHeight = 30
         End Get
     End Property
 
@@ -2501,6 +2502,7 @@ Again:
         Get
             'MenuSubItemLeft1of2 = 3400
             MenuSubItemLeft1of2 = 200
+            'MenuSubItemLeft1of2 = 180
         End Get
     End Property
 
@@ -2508,6 +2510,7 @@ Again:
         Get
             'MenuSubItemLeft2of2 = 8700
             MenuSubItemLeft2of2 = 600
+            'MenuSubItemLeft2of2 = 650
         End Get
     End Property
 

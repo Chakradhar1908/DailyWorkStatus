@@ -922,29 +922,29 @@ Public Class MainMenu4
                 '    Unload imgMenuItem(I)
                 '    Unload lblMenuItem(I)
                 'Next
+                'For Each p As Control In Me.Controls
+                '    If Mid(p.Name, 1, 11) = "imgMenuItem" Then
+                '        I = I + 1
+                '    End If
+                'Next
+                'If I > 1 Then
                 For Each p As Control In Me.Controls
-                    If Mid(p.Name, 1, 11) = "imgMenuItem" Then
-                        I = I + 1
+                    If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
+                        'If Len(p.Name) > 11 Then
+                        p.Hide()
+                        'End If
                     End If
                 Next
-                If I > 1 Then
-                    For Each p As Control In Me.Controls
-                        If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
-                            'If Len(p.Name) > 11 Then
-                            p.Hide()
-                            'End If
-                        End If
-                    Next
-                    For Each l As Control In Me.Controls
-                        If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
-                            'If Len(p.Name) > 11 Then
-                            l.Hide()
-                            'End If
-                        End If
-                    Next
-                    'imgMenuItem.Hide()
-                    'lblMenuItem.Hide()
-                End If
+                For Each l As Control In Me.Controls
+                    If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+                        'If Len(p.Name) > 11 Then
+                        l.Hide()
+                        'End If
+                    End If
+                Next
+                '    'imgMenuItem.Hide()
+                '    'lblMenuItem.Hide()
+                'End If
 
                 'If imgStoreLogo.Picture = 0 Then Set imgStoreLogo.Picture = LoadPictureStd(StoreLogoFile())
                 'If IsNothing(imgStoreLogo.Image) Then imgStoreLogo.Image = LoadPictureStd(StoreLogoFile())
@@ -1004,7 +1004,8 @@ Public Class MainMenu4
                 Me.Controls.Remove(C)
             End If
         Next
-
+        lblHR.Visible = False
+        lblServ.Visible = False
         UnloadHRs = True
     End Function
 
@@ -1074,32 +1075,43 @@ Public Class MainMenu4
         'Next
         'imgMenuItem.Hide()
         'lblMenuItem.Hide()
+        'For Each p As Control In Me.Controls
+        '    If Mid(p.Name, 1, 11) = "imgMenuItem" Then
+        '        I = I + 1
+        '        'If I > 1 Then
+        '        '    Exit For
+        '        'End If
+        '    End If
+        'Next
+        'If I > 1 Then
         For Each p As Control In Me.Controls
-            If Mid(p.Name, 1, 11) = "imgMenuItem" Then
-                I = I + 1
-                'If I > 1 Then
-                '    Exit For
+            If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
+                'If Len(p.Name) > 11 Then
+                'p.Hide()
+                'RemoveHandler p.Click, AddressOf imgMenuItem_Click()
+                'AddHandler p.MouseEnter, AddressOf imgMenuItem_MouseEnter
+                'AddHandler p.MouseLeave, AddressOf imgMenuItem_MouseLeave
+                'AddHandler p.Click, AddressOf imgMenuItem_Click
+
+                Me.Controls.Remove(p)
+                p.Dispose()
+                'Me.Refresh()
+                'End If
+            End If
+
+        Next
+        Me.Refresh()
+        For Each l As Control In Me.Controls
+            If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+                'If Len(p.Name) > 11 Then
+                'p.Hide()
+                Me.Controls.Remove(l)
+                l.Dispose()
+                'Me.Refresh()
                 'End If
             End If
         Next
-        If I > 1 Then
-            For Each p As Control In Me.Controls
-                If Mid(p.Name, 1, 11) = "imgMenuItem" And Len(p.Name) > 11 Then
-                    'If Len(p.Name) > 11 Then
-                    'p.Hide()
-                    Me.Controls.Remove(p)
-                    'End If
-                End If
-            Next
-            For Each l As Control In Me.Controls
-                If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
-                    'If Len(p.Name) > 11 Then
-                    'p.Hide()
-                    Me.Controls.Remove(l)
-                    'End If
-                End If
-            Next
-        End If
+        'End If
 
         lblMenuCaption.Tag = MenuName
 
@@ -1129,22 +1141,23 @@ Public Class MainMenu4
             'If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 4000)
             'If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 600, 240)
             If MM.SubTitle1 <> "" Then
-                'lblHR.Text = MM.SubTitle1
-                'lblHR.Location = New Point(200, 230)
+                lblHR.Text = MM.SubTitle1
+                lblHR.Location = New Point(200, 250)
                 'lblHR.AutoSize = True
-                'lblHR.Visible = True
+                lblHR.Visible = True
+            End If
+            If MM.SubTitle2 <> "" Then
+                lblServ.Text = MM.SubTitle2
+                lblServ.Location = New Point(600, 250)
+                'lblServ.AutoSize = True
+                lblServ.Visible = True
             End If
 
-            If MM.SubTitle2 <> "" Then
-                'lblHR2.Text = MM.SubTitle2
-                'lblHR2.Location = New Point(600, 230)
-                'lblHR2.AutoSize = True
-                'lblHR2.Visible = True
-            End If
         ElseIf MM.Layout = eMyMenuLayouts.eMML_3x2x4x4 Or MM.Layout = eMyMenuLayouts.eMML_4x2x4x4 Or MM.Layout = eMyMenuLayouts.eMML_4x2x5x5 Then
-            If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 5700)
+                If MM.SubTitle1 <> "" Then LoadHR(MM.SubTitle1, 3200, 5700)
             If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 8700, 5700)
         End If
+
 
         If Li >= 0 Then
             For I = LBound(MM.Items) + 1 To UBound(MM.Items) + 1
@@ -1170,6 +1183,7 @@ Public Class MainMenu4
 
                 l.Name = "lblMenuItem" & I
                 l.Text = Replace(MI.Caption, "/", vbCrLf)
+                'l.Text = Replace(MI.Caption, "/", "")
 
                 ToolTip1.SetToolTip(p, TTT)
                 SetMenuItemImage(p, MenuName, MI.ImageKey)
@@ -1202,7 +1216,9 @@ Public Class MainMenu4
                     'End If
                     l.Font = New Drawing.Font("Arial", 12, FontStyle.Bold)
                     l.AutoSize = True
-
+                    AddHandler p.MouseEnter, AddressOf imgMenuItem_MouseEnter
+                    AddHandler p.MouseLeave, AddressOf imgMenuItem_MouseLeave
+                    AddHandler p.Click, AddressOf imgMenuItem_Click
                 Else
                     'imgMenuItem(I).Move MI.Left, MI.Top, 500, 500
                     'imgMenuItem.Location = New Point(MI.Left, MI.Top)
@@ -1216,12 +1232,20 @@ Public Class MainMenu4
                     'lblMenuItem.Text = Replace(lblMenuItem.Text, vbCrLf, " ")
 
                     p.Location = New Point(MI.Left, MI.Top)
-                    p.Size = New Size(50, 50)
+                    p.Size = New Size(30, 30)
+                    p.SizeMode = PictureBoxSizeMode.StretchImage
                     l.Location = New Point(p.Left + p.Width, p.Top + 6)
                     'l.Size = New Size(400, l.Height)
+                    l.Font = New Drawing.Font("Arial", 12, FontStyle.Bold)
                     l.AutoSize = True
                     l.Text = Replace(l.Text, vbCrLf, " ")
 
+                    'l.Refresh()
+                    'l.BringToFront()
+                    'l.Update()
+                    'Me.Refresh()
+                    'If l.Text = "Email ConfigPanel" Then Label1.Text = l.Text
+                    'If l.Text = "Email ConfigPanel" Then l.AutoSize = False : l.Width = 400
                 End If
                 'lblMenuItem(I).ToolTipText = TTT
                 'Debug.Print imgMenuItem(I).Left & "x" & imgMenuItem(I).Top & "..." & imgMenuItem(I).Width & "x" & imgMenuItem(I).Height & " - " & ScaleWidth & "x" & ScaleHeight
@@ -1241,9 +1265,7 @@ Public Class MainMenu4
 
                 'l.Visible = True
                 l.BringToFront()
-                AddHandler p.MouseEnter, AddressOf imgMenuItem_MouseEnter
-                AddHandler p.MouseLeave, AddressOf imgMenuItem_MouseLeave
-                AddHandler p.Click, AddressOf imgMenuItem_Click
+
                 'AddHandler l.MouseEnter, AddressOf lblMenuItem_MouseEnter
                 'AddHandler l.MouseLeave, AddressOf lblMenuItem_MouseLeave
                 'AddHandler l.MouseEnter, AddressOf imgMenuItem_MouseEnter
@@ -1274,6 +1296,22 @@ Public Class MainMenu4
 
         FailMsg = "You have encountered a program error or the resource has moved." & vbCrLf & "Please contact " & AdminContactCompany & " at " & AdminContactPhone2 & " immediately." & vbCrLf & "Thank-you, and sorry for the inconvenience." & vbCrLf & "Source=" & Source & vbCrLf & "Operation=" & Operation
         FailTitle = "Unknown Menu Function"
+
+        'These two For Each Loops are to hide sub menu items of File -> Utilities Menu.
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 11) = "imgMenuItem" And Len(C.Name) > 11 Then
+                'If Len(p.Name) > 11 Then
+                C.Hide()
+                'End If
+            End If
+        Next
+        For Each l As Control In Me.Controls
+            If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+                'If Len(p.Name) > 11 Then
+                l.Hide()
+                'End If
+            End If
+        Next
 
         If Microsoft.VisualBasic.Left(Operation, 1) = "#" Then
             GenericLoader(Mid(Operation, 2))
