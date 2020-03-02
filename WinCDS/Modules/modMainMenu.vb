@@ -770,7 +770,7 @@ Module modMainMenu
                         BillOSale.Show()
                         'MailCheck.HelpContextID = 42000
                         'MailCheck.optTelephone.Value = True
-                        MailCheck.optTelephone.Checked = True
+                        'MailCheck.optTelephone.Checked = True
                         MailCheck.HidePriorSales = True
                         MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
                         MailCheck.HidePriorSales = False

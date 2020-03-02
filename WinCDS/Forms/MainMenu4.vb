@@ -203,12 +203,16 @@ Public Class MainMenu4
 
     Private Sub lblMenuItem_MouseMove(sender As Object, e As MouseEventArgs) Handles lblMenuItem.MouseMove
         'If imgMenuItem(Index).Width < 1000 Then MenuItemHighlight Index
-        Dim I As Integer
-        Try
-            I = Mid(lblMenuItem.Name, 12)
-            If imgMenuItem.Width < 1000 Then MenuItemHighlight(I)
-        Catch ex As InvalidCastException
-        End Try
+        'Dim I As Integer
+        'Dim L As Label
+        'Try
+        '    'I = Mid(lblMenuItem.Name, 12)
+        '    'If imgMenuItem.Width < 1000 Then MenuItemHighlight(I)
+
+        '    'L = CType(sender, Label)
+        '    'L.ForeColor = Color.White
+        'Catch ex As InvalidCastException
+        'End Try
     End Sub
 
     Private Sub m_cHotKey_HotKeyPress(ByVal sName As String, ByVal eModifiers As cRegHotKey.EHKModifiers, ByVal eKey As KeyCodeConstants)
@@ -729,10 +733,12 @@ Public Class MainMenu4
             P = CType(sender, PictureBox)
             I = Mid(P.Name, 12)
             'MenuItemHighlight(I,, P)
-            'P.Size = New Size(140, 140)
+            P.Size = New Size(130, 130)
             'P.Location = New Point(P.Left + 20, P.Top + 20)
             'P.Refresh()
             'Lc = CType(sender, Label)
+            P.SizeMode = PictureBoxSizeMode.StretchImage
+            P.SendToBack()
 
             'imgMenuItem.Image = P.Image
             'imgMenuItem.Size = New Size(135, 135)
@@ -763,7 +769,7 @@ Public Class MainMenu4
             P = CType(sender, PictureBox)
             I = Mid(P.Name, 12)
             'MenuItemHighlight(I, True, P)
-            'P.Size = New Size(110, 110)
+            P.Size = New Size(110, 110)
             'P.Location = New Point(P.Left + 20, P.Top + 20)
             'P.Refresh()
 
@@ -1075,6 +1081,23 @@ Public Class MainMenu4
         'Next
         'imgMenuItem.Hide()
         'lblMenuItem.Hide()
+
+        'These two For Each Loops are to hide sub menu items of File -> Utilities, File -> Maintenance, File -> Web Development, Order Entry -> Service Module etc. Menu.
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 11) = "imgMenuItem" And Len(C.Name) > 11 Then
+                'If Len(p.Name) > 11 Then
+                C.Hide()
+                'End If
+            End If
+        Next
+        For Each l As Control In Me.Controls
+            If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+                'If Len(p.Name) > 11 Then
+                l.Hide()
+                'End If
+            End If
+        Next
+
         'For Each p As Control In Me.Controls
         '    If Mid(p.Name, 1, 11) = "imgMenuItem" Then
         '        I = I + 1
@@ -1092,7 +1115,7 @@ Public Class MainMenu4
                 'AddHandler p.MouseEnter, AddressOf imgMenuItem_MouseEnter
                 'AddHandler p.MouseLeave, AddressOf imgMenuItem_MouseLeave
                 'AddHandler p.Click, AddressOf imgMenuItem_Click
-
+                'p.Hide()
                 Me.Controls.Remove(p)
                 p.Dispose()
                 'Me.Refresh()
@@ -1100,11 +1123,12 @@ Public Class MainMenu4
             End If
 
         Next
-        Me.Refresh()
+        'Me.Refresh()
         For Each l As Control In Me.Controls
             If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
                 'If Len(p.Name) > 11 Then
                 'p.Hide()
+                'l.Hide()
                 Me.Controls.Remove(l)
                 l.Dispose()
                 'Me.Refresh()
@@ -1142,13 +1166,13 @@ Public Class MainMenu4
             'If MM.SubTitle2 <> "" Then LoadHR(MM.SubTitle2, 600, 240)
             If MM.SubTitle1 <> "" Then
                 lblHR.Text = MM.SubTitle1
-                lblHR.Location = New Point(200, 250)
+                lblHR.Location = New Point(200, 245)
                 'lblHR.AutoSize = True
                 lblHR.Visible = True
             End If
             If MM.SubTitle2 <> "" Then
                 lblServ.Text = MM.SubTitle2
-                lblServ.Location = New Point(600, 250)
+                lblServ.Location = New Point(600, 245)
                 'lblServ.AutoSize = True
                 lblServ.Visible = True
             End If
@@ -1202,7 +1226,7 @@ Public Class MainMenu4
                     'p.Size = New Size(56, 45)
                     'l.Location = New Point(p.Left + p.Width / 2 - l.Width / 2, p.Top + p.Height + 6)
                     'l.Location = New Point(p.Left, p.Height + 90)
-                    l.Location = New Point(p.Left + 10, p.Height + p.Top)
+                    l.Location = New Point(p.Left + 10, p.Height + p.Top + 5)
                     'If l.Text = "Purchase Orders..." Then
                     '    l.Location = New Point(p.Left - 5, p.Height + p.Top)
                     '    l.Font = New Drawing.Font("Arial", 10, FontStyle.Bold)
@@ -1239,7 +1263,9 @@ Public Class MainMenu4
                     l.Font = New Drawing.Font("Arial", 12, FontStyle.Bold)
                     l.AutoSize = True
                     l.Text = Replace(l.Text, vbCrLf, " ")
-
+                    'AddHandler l.MouseMove, AddressOf lblMenuItem_MouseMove
+                    AddHandler l.MouseEnter, AddressOf lblMenuItem_MouseEnter
+                    AddHandler l.MouseLeave, AddressOf lblMenuItem_MouseLeave
                     'l.Refresh()
                     'l.BringToFront()
                     'l.Update()
@@ -1298,20 +1324,20 @@ Public Class MainMenu4
         FailTitle = "Unknown Menu Function"
 
         'These two For Each Loops are to hide sub menu items of File -> Utilities Menu.
-        For Each C As Control In Me.Controls
-            If Mid(C.Name, 1, 11) = "imgMenuItem" And Len(C.Name) > 11 Then
-                'If Len(p.Name) > 11 Then
-                C.Hide()
-                'End If
-            End If
-        Next
-        For Each l As Control In Me.Controls
-            If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
-                'If Len(p.Name) > 11 Then
-                l.Hide()
-                'End If
-            End If
-        Next
+        'For Each C As Control In Me.Controls
+        '    If Mid(C.Name, 1, 11) = "imgMenuItem" And Len(C.Name) > 11 Then
+        '        'If Len(p.Name) > 11 Then
+        '        C.Hide()
+        '        'End If
+        '    End If
+        'Next
+        'For Each l As Control In Me.Controls
+        '    If Mid(l.Name, 1, 11) = "lblMenuItem" And Len(l.Name) > 11 Then
+        '        'If Len(p.Name) > 11 Then
+        '        l.Hide()
+        '        'End If
+        '    End If
+        'Next
 
         If Microsoft.VisualBasic.Left(Operation, 1) = "#" Then
             GenericLoader(Mid(Operation, 2))
@@ -1433,6 +1459,20 @@ Public Class MainMenu4
         KeyCatch.Left = Me.Width + 50
         imgStoreLogoBorder.Left = Me.Width + 50
         LockWindowUpdate(IntPtr.Zero)
+    End Sub
+
+    Private Sub lblMenuItem_MouseEnter(sender As Object, e As EventArgs) Handles lblMenuItem.MouseEnter
+        Dim L As Label
+        L = CType(sender, Label)
+        L.ForeColor = Color.Blue
+        L.BorderStyle = BorderStyle.Fixed3D
+    End Sub
+
+    Private Sub lblMenuItem_MouseLeave(sender As Object, e As EventArgs) Handles lblMenuItem.MouseLeave
+        Dim L As Label
+        L = CType(sender, Label)
+        L.ForeColor = Color.Black
+        L.BorderStyle = BorderStyle.None
     End Sub
 
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
