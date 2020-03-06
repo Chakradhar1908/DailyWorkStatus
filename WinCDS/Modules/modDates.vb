@@ -78,10 +78,13 @@ Module modDates
     Public Function DateStampFile(ByVal S As String, Optional ByVal DateAndTime As Boolean = False) As String
         DateStampFile = Replace(S, "$", IIf(DateAndTime, DateTimeStamp, DateStamp))
     End Function
+
     Public Function DateStamp(Optional ByVal D As Date = Nothing) As String
-        If CLng(D.ToString) = 0 Then D = Now
+        'If CLng(D.ToString) = 0 Then D = Now
+        If D = #1/1/0001# Then D = Now
         DateStamp = Format(D, "YYYYMMDD")
     End Function
+
     'Public Function DateBefore(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As String = "d") As Boolean
     Public Function DateBefore(ByVal Check As Date, ByVal Against As Date, Optional ByVal IncludeBound As Boolean = True, Optional ByVal Unit As DateInterval = DateInterval.Day) As Boolean
         Dim R As Integer

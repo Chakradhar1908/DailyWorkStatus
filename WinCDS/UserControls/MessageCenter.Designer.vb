@@ -29,6 +29,7 @@ Partial Class MessageCenter
         Me.iml = New System.Windows.Forms.ImageList(Me.components)
         Me.oX = New System.Windows.Forms.PictureBox()
         Me.X = New System.Windows.Forms.PictureBox()
+        Me.imlMessageCenter = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.img, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.oX, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.X, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,6 +86,12 @@ Partial Class MessageCenter
         Me.X.TabIndex = 3
         Me.X.TabStop = False
         '
+        'imlMessageCenter
+        '
+        Me.imlMessageCenter.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
+        Me.imlMessageCenter.ImageSize = New System.Drawing.Size(16, 16)
+        Me.imlMessageCenter.TransparentColor = System.Drawing.Color.Transparent
+        '
         'MessageCenter
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -108,4 +115,5 @@ Partial Class MessageCenter
     Friend WithEvents iml As ImageList
     Friend WithEvents oX As PictureBox
     Friend WithEvents X As PictureBox
+    Friend WithEvents imlMessageCenter As ImageList
 End Class

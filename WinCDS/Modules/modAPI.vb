@@ -204,11 +204,11 @@ Module modAPI
     Const GWW_HINSTANCE As Integer = (-6)
     Private Const IMAGE_ICON As Integer = 1
     Private Const LR_SHARED As Integer = &H8000&
-    Private Const WM_SETICON As Long = &H80
-    Private Const ICON_BIG As Long = 1
-    Private Const SM_CXSMICON As Long = 49
-    Private Const SM_CYSMICON As Long = 50
-    Private Const ICON_SMALL As Long = 0
+    Private Const WM_SETICON as integer = &H80
+    Private Const ICON_BIG as integer = 1
+    Private Const SM_CXSMICON as integer = 49
+    Private Const SM_CYSMICON as integer = 50
+    Private Const ICON_SMALL as integer = 0
 
     Public Structure RECT
         Dim Left As Integer

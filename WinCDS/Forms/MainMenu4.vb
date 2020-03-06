@@ -109,8 +109,10 @@ Public Class MainMenu4
     End Sub
 
     Private Sub ShowMsgs(Optional ByVal Show As Boolean = False)
-        'msgs.Move(4000, 2550, 8025, 2700)        msgs is a custom active control. Still not developed.
-        'msgs.Visible = Show And msgs.CheckMessages
+        'msgs.Move(4000, 2550, 8025, 2700)
+        msgs.Location = New Point(400, 250)
+        msgs.Size = New Size(800, 270)
+        msgs.Visible = Show And msgs.CheckMessages
     End Sub
 
     Private Sub MainMenu4_Deactivate(sender As Object, e As EventArgs) Handles MyBase.Deactivate
@@ -1458,6 +1460,7 @@ Public Class MainMenu4
         'lblStore2.Location = New Point(Me.ClientSize.Width - lblStore2.Width - 60, Me.ClientSize.Height - lblStore2.Height - 60)
         KeyCatch.Left = Me.Width + 50
         imgStoreLogoBorder.Left = Me.Width + 50
+        msgs.Left = Me.Width + 50
         LockWindowUpdate(IntPtr.Zero)
     End Sub
 

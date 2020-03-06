@@ -5,7 +5,8 @@
     Public Property EffectiveDate() As Date
         Get
             'EffectiveDate = IIf(CLng(EDate) = 0, Today, EDate)
-            EffectiveDate = IIf(IsNothing(EDate), Today, EDate)
+            'EffectiveDate = IIf(IsNothing(EDate), Today, EDate)
+            EffectiveDate = IIf(EDate = #1/1/0001#, Today, EDate)
             '  If IsDevelopment Then EffectiveDate = #9/10/2016#      ' For Testing
         End Get
         Set(value As Date)
@@ -15,7 +16,9 @@
     End Property
 
     Public Sub Reset()
-        Const xW as integer = 360
+        'Const xW As Integer = 360
+        Const xW As Integer = 36
+
         'X.Move Width - X.Width, 0
         X.Location = New Point(Width - X.Width, 0)
         X.Visible = False
