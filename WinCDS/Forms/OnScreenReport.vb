@@ -1,4 +1,5 @@
-﻿Public Class OnScreenReport
+﻿Imports WinCDS
+Public Class OnScreenReport
     Dim PoNo As Integer  ' Saved between calls to MakePO.
     Dim Margin As New CGrossMargin
     Dim MarginNo As Integer
@@ -109,23 +110,6 @@
         StoresSld = X
     End Sub
 
-    Private Sub EnableControls(ByVal OnOff As Boolean, Optional ByVal Processed As Boolean = False)
-        'MousePointer = IIf(OnOff, vbDefault, vbHourglass)
-        Me.Cursor = IIf(OnOff, Cursors.Default, Cursors.WaitCursor)
-
-        UGridIO1.GetDBGrid.Enabled = OnOff
-        UGridIO2.GetDBGrid.Enabled = OnOff
-        cmdNext.Enabled = OnOff
-        cmdPrint.Enabled = OnOff
-        cmdMenu.Enabled = OnOff
-        cmdMenu2.Enabled = OnOff
-        cmdNext2.Enabled = OnOff
-
-        cmdAdd.Enabled = OnOff And Not Processed
-        cmdReturn.Enabled = OnOff And Not Processed
-        cmdApply.Enabled = OnOff And Not Processed
-    End Sub
-
     Private Sub GetMarginRecords(ByVal LeaseNo As String)
         Dim cTa As CDataAccess, dT As Date
         Dim I As Integer
@@ -192,8 +176,9 @@
                 'If lblRate(0).Tag = "" Then
                 If lblRate0.Tag = "" Then
                     lblRate0.Tag = Margin.Quantity
-                    lblRate0 = GetTax2Rate(Margin.Quantity)
-                    lblRate0.ToolTipText = GetTax2String(Margin.Quantity)
+                    lblRate0.Text = GetTax2Rate(Margin.Quantity)
+                    'lblRate0.ToolTipText = GetTax2String(Margin.Quantity)
+                    ToolTip1.SetToolTip(lblRate0, GetTax2String(Margin.Quantity))
                 Else
                     CheckTaxLoc(Margin.Quantity)
                 End If
@@ -202,12 +187,12 @@
                 '        TaxLoc = Margin.Quantity + 1  ' bfh20090422 - not sure why this was out...  added if blocks
                 '      End If
             End If
-            ReadOut
+            ReadOut()
         Loop
 
         cTa.Records_Close()
         'Put in totals
-        RowCheck
+        RowCheck()
         UGridIO1.SetValueDisplay(Row, 6, "         TOTAL DUE -->")
         UGridIO1.SetValueDisplay(Row, 8, Format(OrdTotal, "###,###.00"))
         UGridIO1.Refresh()
@@ -215,6 +200,308 @@
         Row = Row + 1
     End Sub
 
+    Private Sub RowCheck()
+        If Row >= UGridIO1.MaxRows Then UGridIO1.MaxRows = UGridIO1.MaxRows + 100
+    End Sub
+
+    Public Sub ReadOut()
+        'grid gets loaded
+        If ReportsMode("I") Then
+            RowCheck()
+            UGridIO1.SetValueDisplay(Row, 0, Margin.Style)
+            UGridIO1.SetValueDisplay(Row, 1, Margin.Vendor)
+            UGridIO1.SetValueDisplay(Row, 2, Margin.Status)
+            UGridIO1.SetValueDisplay(Row, 3, Margin.Quantity)
+            UGridIO1.SetValueDisplay(Row, 4, Margin.Desc)
+            UGridIO1.SetValueDisplay(Row, 5, CurrencyFormat(Margin.SellPrice))
+            UGridIO1.Refresh()
+            Row = Row + 1
+        ElseIf ReportsMode("H") Or OrderMode("Credit") Then
+            If Microsoft.VisualBasic.Left(Margin.Desc, 25) = "PRICE WITH TAX BACKED OUT" Then
+                TaxBackedOut = True
+            End If
+            Dim KI As Long, KR As Double
+            RowCheck()
+            UGridIO1.SetValueDisplay(Row, 0, Margin.SaleNo)
+            UGridIO1.SetValueDisplay(Row, 1, Margin.Style)
+            UGridIO1.SetValueDisplay(Row, 2, Margin.Vendor)
+            UGridIO1.SetValueDisplay(Row, 3, Margin.Location)
+            UGridIO1.SetValueDisplay(Row, 4, Margin.Status)
+            UGridIO1.SetValueDisplay(Row, 5, Margin.Quantity)
+            UGridIO1.SetValueDisplay(Row, 6, Margin.Desc)
+            UGridIO1.SetValueDisplay(Row, 7, CurrencyFormat(Margin.SellPrice))
+            UGridIO1.SetValue(Row, 9, Margin.MarginLine)
+
+            If Not IsItem(Margin.Style) Then
+                IsKit = False
+            Else
+                If Not IsKit And Margin.SellPrice <> 0 Then
+                    UGridIO1.SetValue(Row, 10, CurrencyFormat(Margin.SellPrice))
+                ElseIf Not IsKit And Margin.SellPrice = 0 Then
+                    IsKit = True
+                    KitStart = Row
+                    KitTotalCost = Margin.Cost
+                    '        UGridIO1.SetValue Row, 10, CurrencyFormat(Margin.Cost)
+                ElseIf IsKit And Margin.SellPrice = 0 Then
+                    UGridIO1.SetValue(Row, 10, CurrencyFormat(Margin.Cost))
+                    KitTotalCost = KitTotalCost + Margin.Cost
+                ElseIf IsKit And Margin.SellPrice <> 0 Then
+                    UGridIO1.SetValue(Row, 10, CurrencyFormat(Margin.Cost))
+                    KitTotalCost = KitTotalCost + Margin.Cost
+                    IsKit = False
+                    If KitTotalCost <> 0 Then KR = Margin.SellPrice / KitTotalCost Else KR = 0
+                    For KI = KitStart To Row
+                        UGridIO1.SetValue(KI, 10, CurrencyFormat(GetPrice(UGridIO1.GetValue(KI, 10)) * KR))
+                    Next
+                End If
+            End If
+            UGridIO1.SetValue(Row, 11, Margin.Commission)  ' MJK 20131026
+            UGridIO1.Refresh()
+
+            Lines = Lines + 1
+            Row = Row + 1
+        End If
+    End Sub
+
+    Private Sub ChangeGrid2(ByVal Row As Long, ByVal Col As Long, ByVal NewVal As String)
+        If NewVal <> UGridIO2.GetValue(Row, Col) Then
+            UGridIO2.SetValueDisplay(Row, Col, NewVal)
+        End If
+    End Sub
+
+    Private Sub WriteOut()
+        WriteOutAddedItems = False
+        For Row = 0 To Counter - 1
+            If UGridIO2.GetValue(Row, 1) = "TAX1" Or UGridIO2.GetValue(Row, 1) = "TAX2" Then GoTo SkipRow
+            Margin.SaleNo = UGridIO2.GetValue(Row, 0)           'add stuff
+            Margin.Style = UGridIO2.GetValue(Row, 1)
+            Margin.Vendor = UGridIO2.GetValue(Row, 2)
+            Margin.Location = GetPrice(UGridIO2.GetValue(Row, 3))
+            Margin.Status = UGridIO2.GetValue(Row, 4)
+            Margin.Quantity = GetPrice(UGridIO2.GetValue(Row, 5))
+            Margin.Index = GetPrice(Index)
+
+            'BFH20081209 - Copied down DelDate for returns showing up correctly on Margin Report, Delivered by Salesperson
+            '      If Margin.Status = "DELTW" Then
+            If IsDelivered(Margin.Status) Then
+                Margin.DDelDat = Today
+            Else
+                Margin.DDelDat = ""
+                If Margin.Quantity < 0 Then
+                    ' bfh20080517 - no longer set deldate for cancelled items.
+                    '          Margin.DDelDat = Date
+                ElseIf Margin.Status = "ST" Then
+                    MessageBox.Show("To set up delivery dates for new items, go to the Check Order Status panel.", "Delivery Dates", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End If
+
+            Margin.Desc = UGridIO2.GetValue(Row, 6)
+            Margin.SellPrice = GetPrice(UGridIO2.GetValue(Row, 7))
+            Margin.Salesman = Sales
+            Margin.GM = 0
+
+            If Margin.Quantity < 0 Then                 ' returned items
+                ChgMarginStatus
+                ' These changes get saved in AddMarginLine.
+                Margin.Detail = DetailRec(Row)
+
+                Select Case Margin.Status
+                    Case "SS", "SSREC", "FND"
+                        Margin.RN = 0
+                    Case Else
+                        Margin.RN = InvRn(Row)
+                End Select
+                Margin.Cost = Cost(Row)
+                Margin.ItemFreight = Freight(Row)
+                '        Margin.DeptNo = GetDeptNoFromRn(Margin.Rn)
+                'BFH20140227 - this line removed...  If you set "C" on return item line, the commissions report prints out two lines.  The new xDEL line must not be marked as commissioned, even if the original was.
+                'Margin.Commission = UGridIO2.GetValue(Row, 11)  ' MJK 20131026
+            ElseIf Margin.SellPrice = 0 Then
+                ' didn't cause an addeditem in effect
+            Else                                        ' added items
+                Margin.Cost = Cost(Row)   ' BFH20140223 - wasn't resetting cost from first item.
+                If IsItem(Margin.Style) Then Margin.GM = CalculateGM(Margin.SellPrice, Margin.Cost + Margin.ItemFreight, , 0)
+                WriteOutAddedItems = True
+            End If
+
+            AddMarginLine                          ' Save margin record, create detail, etc.
+SkipRow:
+        Next
+    End Sub
+
+    Private Sub AddMarginLine()
+        Margin.MarginLine = 0         'add change
+        Margin.DeptNo = Depts(Row)    'Change this for multi-digit departments
+        If Margin.Vendor = "" Then
+            Margin.VendorNo = "000"
+        Else
+            Margin.VendorNo = Format(Trim(Vends(Row)), "000")
+        End If
+        Margin.CommPd = 0             ' Commission has not been paid on the adjustment.
+        'Margin.Commission = ""        ' No. Commission is carried through from parent row for returns.
+        If Margin.Commission <> "" And Margin.Quantity >= 0 Then Margin.Commission = "" ' Only returns could possibly have "C" here.  Others are unfortunate bleed-through cases.
+
+        If Trim(Margin.Style) <> "TAX1" And Trim(Margin.Style) <> "SUB" And Trim(Margin.Style) <> "--- Adj ---" Then
+
+            If Margin.Quantity < 0 Then   'returns
+                Margin.Status = "x" + Margin.Status
+
+                '04-14-2003 took out quantity added - sign
+                Margin.Cost = -Cost(Row) '* Val(Quantity(row)) 'changed - on 10-08-01
+                Margin.ItemFreight = -Freight(Row) ' * Val(Quantity(row)) 'changed - on 10-08-01
+            Else
+                If Val(Cost(Row)) = 0 Then Cost(Row) = 0
+                ' bfh20060123 - getitemcost
+                Margin.Cost = GetItemCost(Margin.Style, Margin.Location, , Margin.Quantity) '  Cost(Row) * Val(Quantity(Row))
+                Margin.ItemFreight = Freight(Row) * Margin.Quantity 'Val(Quantity(Row))
+            End If
+            Margin.SellDte = DateFormat(Now)
+            Margin.RN = InvRn(Row)    ' This is wrong if they've changed style!
+            If Margin.Location = 0 Then Margin.Location = GetPrice(txtLocation)
+        End If
+        If IsIn(Trim(Margin.Style), "TAX1", "SUB", "--- Adj ---") Then
+            Margin.Location = 0
+        End If
+
+        Margin.DataAccess().Records_Add()
+        Margin.Save()
+        MarginNo = Margin.MarginLine
+        If Not IsIn(Trim(Margin.Style), "TAX1", "SUB", "--- Adj ---") Then
+            Margin.Load CStr(MarginNo), "#MarginLine"
+    WhatToDo  ' Updates inventory count, creates detail, etc.
+            Margin.Save()    ' Save the new detail number.
+        End If
+        Margin.DataAccess.Records_Close()
+    End Sub
+
+    Private Sub ChgMarginStatus()
+        'change Original record to void
+        Dim Margin As New CGrossMargin, S As String
+        If Margin.Load(UGridIO2.GetValue(Row, 10), "#MarginLine") Then  '  CStr(MarginnoRec2(Row))
+            Select Case Trim(Margin.Status)
+                Case "SS"
+                    VoidPO Margin
+        Margin.Status = "xSS"
+                Case "SO"
+                    VoidPO Margin
+        ReturnToStock Margin
+        Margin.Status = "xSO"
+                Case "ST", "PO", "POREC", "SOREC", "DELTW", "LAW", "DELST", "DELPO", "DELPOR", "DELPOREC", "DEL"
+                    ReturnToStock Margin
+        Margin.Status = "x" & Margin.Status
+                Case "SSLAW"
+                    Margin.Status = "xSLAW"
+                Case "FND"
+                    Margin.Status = "xFND"
+                Case "SSREC"
+                    MsgBox "You MUST manually add this returned item into the inventory!", vbCritical
+        Margin.Status = "xSSRC"
+                Case "DELSO", "DELSOR", "DELSOREC", "DELSS", "DELSSR", "DELSSREC", "DELFND", "DELFN"
+                    ReturnToStock Margin
+        Margin.Status = "x" & Margin.Status
+            End Select
+
+            Margin.Save()
+        End If
+        DetailRec(Row) = Margin.Detail
+        InvRn(Row) = Margin.RN
+        Cost(Row) = Margin.Cost
+        Freight(Row) = Margin.ItemFreight
+        Depts(Row) = Margin.DeptNo
+        Vends(Row) = Margin.VendorNo
+
+        DisposeDA Margin
+End Sub
+
+    Private Sub CheckTaxLoc(ByVal tL As Long)
+        Dim X As Long, A As Long, B As Long
+        Dim CountlblRate As Integer
+
+        If TaxLocHandled(tL) Then Exit Sub
+
+        'X = lblRate.UBound + 1
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 7) = "lblRate" Then
+                CountlblRate = CountlblRate + 1
+            End If
+        Next
+        X = CountlblRate + 1
+        'Load txtDiffTax(X)
+        'txtDiffTax(X).Visible = True
+        For Each C As Control In Me.Controls
+            If C.Name = "txtDiffTax" & X Then
+                C.Visible = True
+                C.Text = ""
+                'txtDiffTax(X).Top = txtDiffTax(X - 1).Top + txtDiffTax(X).Height + 60
+                'txtBalDue.Top = txtDiffTax(X).Top + txtDiffTax(X).Height + 60
+                txtBalDue.Top = C.Top + C.Height + 6
+                Exit For
+            End If
+        Next
+        'Load lblRate(X)
+        'lblRate(X).Visible = True
+        For Each C As Control In Me.Controls
+            If C.Name = "lblRate" & X Then
+                C.Visible = True
+                C.Tag = tL
+                If tL = 0 Then
+                    C.Text = StoreSettings.SalesTax
+                    'lblRate(X).ToolTipText = "(default)"
+                    ToolTip1.SetToolTip(C, "(default)")
+                Else
+                    C.Text = GetTax2Rate(tL)
+                    'lblRate(X).ToolTipText = GetTax2String(tL)
+                    ToolTip1.SetToolTip(C, GetTax2String(tL))
+                End If
+                'lblRate(X).Top = lblRate(X - 1).Top + lblRate(X).Height + 60
+                'lblBalDue.Top = lblRate(X).Top + lblRate(X).Height + 120
+                lblBalDue.Top = C.Top + C.Height + 12
+                Exit For
+            End If
+        Next
+
+        'lblRate(X).Tag = tL
+        'If tL = 0 Then
+        '    lblRate(X) = StoreSettings.SalesTax
+        '    lblRate(X).ToolTipText = "(default)"
+        'Else
+        '    lblRate(X) = GetTax2Rate(tL)
+        '    lblRate(X).ToolTipText = GetTax2String(tL)
+        'End If
+        'lblRate(X).Top = lblRate(X - 1).Top + lblRate(X).Height + 60
+
+        'txtDiffTax(X) = ""
+        'txtDiffTax(X).Top = txtDiffTax(X - 1).Top + txtDiffTax(X).Height + 60
+
+        'lblBalDue.Top = lblRate(X).Top + lblRate(X).Height + 120
+        'txtBalDue.Top = txtDiffTax(X).Top + txtDiffTax(X).Height + 60
+
+        A = fraControls2.Top + fraControls2.Height + 12
+        B = txtBalDue.Top + txtBalDue.Height + 12
+        Height = IIf(A > B, A, B) + (Height - Me.ClientSize.Height)
+    End Sub
+
+    Private Function TaxLocHandled(ByVal tL As Long) As Boolean
+        Dim K As Long
+        Dim I As Integer
+
+        If lblRate0.Tag = "" Then Exit Function
+        'For K = txtDiffTax.LBound To txtDiffTax.UBound
+        '    If Val(lblRate(K)) = GetTax2Rate(tL) Then TaxLocHandled = True : Exit Function
+        'Next
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 10) = "txtDiffTax" Then
+                I = I + 1
+            End If
+        Next
+        For K = 0 To I
+            For Each C As Control In Me.Controls
+                If Mid(C.Name, 1, 7) = "lblRate" Then
+                    If Val(C.Text) = GetTax2Rate(tL) Then TaxLocHandled = True : Exit Function
+                End If
+            Next
+        Next
+    End Function
 
     Public Sub CustomerAdjustment()
         ' Load and show this form..
@@ -233,5 +520,1152 @@
         'cmdNext.Value = True
         cmdNext.PerformClick()
     End Sub
+
+    Private Sub MailCheckRef_CustomerFound(MailIndex As Integer, ByRef Cancel As Boolean) Handles MailCheckRef.CustomerFound
+        ' For reportsmode("H"), load customer info and continue report.
+        If ReportsMode("H") Then
+            Row = 0
+            Balance = 0
+            TotDue = 0
+            txtBalDue.Visible = True
+            lblBalDue.Visible = True
+            LoadCustomerInfo(MailIndex)
+
+            g_Holding.DataAccess.Records_OpenFieldIndexAtNumber("Index", Trim(Index), "LeaseNo")
+            'If Holding.Load(Trim(Index), "#Index") Then
+            If Not g_Holding.DataAccess.Record_EOF Then
+                Do While g_Holding.DataAccess.Records_Available
+                    PoNo = 0
+                    EnableControls(True)
+                    If Trim(g_Holding.Status) <> "V" Then
+                        OrdTotal = 0
+                        OrdTotal = Format(g_Holding.Sale - g_Holding.Deposit, "###,###.00")
+                        TotDue = TotDue + OrdTotal
+                        GetMarginRecords(g_Holding.LeaseNo)
+                        UGridIO1.Refresh()
+                        If Not g_Holding.DataAccess.Record_EOF Then Row = Row + 1
+                    End If
+                    'Holding.DataAccess.Records_MoveNext
+                Loop
+                txtBalDue.Text = CurrencyFormat(TotDue)
+            End If
+
+            SaleFound = True
+            Cancel = True
+            cmdApply.Enabled = True
+        End If
+    End Sub
+
+    Private Sub UGridIO1_DoubleClick(sender As Object, e As EventArgs) Handles UGridIO1.DoubleClick
+        ' This is a good place to stop.
+        If ReportsMode("H") And Trim(UGridIO1.GetValue(UGridIO1.Row, 0)) <> "" Then
+            ' Load up billosale
+            Order = "E"
+            MailCheck.optSaleNo.Checked = True
+            MailCheck.InputBox.Text = Trim(UGridIO1.GetValue(UGridIO1.Row, 0))
+            'MailCheck.cmdOK.Value = True
+            MailCheck.cmdOK.PerformClick()
+            BillOSale.Show()
+            BillOSale.cmdApplyBillOSale.Enabled = False
+            BillOSale.cmdCancel.Enabled = False
+
+            BillOSale.BillOSale2_Show()
+            BillOSale.cmdClear.Enabled = False
+            BillOSale.cmdNextSale.Enabled = False
+            BillOSale.cmdProcessSale.Enabled = False
+            BillOSale.ScanDn.Enabled = False
+            BillOSale.ScanUp.Enabled = False
+            BillOSale.UGridIO1.GetDBGrid.AllowUpdate = False
+            BillOSale.cmdMainMenu.Text = "Back"
+
+            modProgramState.Order = ""
+        End If
+    End Sub
+
+    Private Sub UGridIO2_AfterColUpdate(ColIndex As Integer) Handles UGridIO2.AfterColUpdate
+        'Debug.Print ColIndex, UGridIO2.GetValue(UGridIO2.row, ColIndex), UGridIO2.GetDBGrid.Text
+        '  Dim Row As Integer
+        If ColIndex = BillColumns.eQuant + 1 Then
+            UGridIO2.SetValue(UGridIO2.Row, 7, Format(GetPrice(UGridIO2.GetValue(UGridIO2.Row, 9)) * GetPrice(UGridIO2.Text), "###,##0.00"))
+            ' Don't change the per-item price.
+            UGridIO2.Refresh(True)
+            Recalculate
+        ElseIf ColIndex = BillColumns.ePrice + 1 Then
+            If Val(UGridIO2.GetValue(UGridIO2.Row, 5)) = 0 Then
+                UGridIO2.SetValue(UGridIO2.Row, 9, UGridIO2.Text)   ' Per-unit price
+            Else
+                UGridIO2.SetValue(UGridIO2.Row, 9, GetPrice(UGridIO2.Text) / UGridIO2.GetValue(UGridIO2.Row, 5)) ' Per-unit price
+            End If
+            '.SetValueDisplay Row, 7, Format(UGridIO2.GetDBGrid.Text, "###,##0.00")
+            UGridIO2.Refresh(True)
+            Recalculate
+        Else
+            UGridIO2.SetValue(UGridIO2.Row, ColIndex, UGridIO2.Text)
+        End If
+    End Sub
+
+    Public Sub Recalculate()
+        Dim Style As String, Desc As String, I As Long, ML As Long
+        Dim Cur As Decimal, Tax As Decimal, P As Decimal
+        Dim NewDiff As Decimal
+        Dim K As Long, KR As Double
+        Dim DiffTaxCount As Integer
+        '  Dim RemTax As Currency, AddTax As Currency
+
+        'For K = txtDiffTax.LBound To txtDiffTax.UBound
+        '    txtDiffTax(K) = CurrencyFormat(0)
+        'Next
+        For Each C As Control In Me.Controls
+            If Mid(C.Name, 1, 10) = "txtDiffTax" Then
+                C.Text = CurrencyFormat(0)
+                DiffTaxCount = DiffTaxCount + 1
+            End If
+        Next
+
+        Balance = 0
+        NonTaxable = 0
+        For I = 0 To Counter - 1
+            Cur = GetPrice(UGridIO2.GetValue(I, 7))
+            Balance = Balance + Cur
+            Style = UGridIO2.GetValue(I, 1)
+            Desc = UGridIO2.GetValue(I, 6)
+            ML = Val(UGridIO2.GetValue(I, 10))
+            If (Style = "DEL" And Not StoreSettings.bDeliveryTaxable) Or (Style = "LAB" And Not StoreSettings.bLaborTaxable) Then
+                NonTaxable = NonTaxable + Cur     ' Nontaxable
+            ElseIf Style = "TAX1" Or Style = "TAX2" Then
+                Tax = Tax + Cur
+                Balance = Balance - Cur
+            ElseIf Style = "NOTES" And microsoft.VisualBasic.Left(Desc, 25) = "PRICE WITH TAX BACKED OUT" Then
+                Balance = Balance - Cur
+            Else
+                ' Taxable
+                NewDiff = Cur
+                If Cur < 0 And TaxBackedOut Then
+                    '        NewDiff = NewDiff / (1 + Rate)
+                    Balance = GetPrice(Balance - Cur + NewDiff)
+                End If
+
+                If Not GetSalesTax Then  ' Get sales tax rate
+                    P = 0
+                    'For K = txtDiffTax.LBound To txtDiffTax.UBound
+                    '    KR = Val(lblRate(K))
+                    '    txtDiffTax(K) = CurrencyFormat(GetPrice(txtDiffTax(K)) + (NewDiff * KR))
+                    '    P = Round(P + GetPrice(NewDiff * KR), 2)
+                    '    If KR = 0 Then NonTaxable = NonTaxable + Cur
+                    'Next
+                    For K = 0 To DiffTaxCount
+                        For Each C As Control In Me.Controls
+                            If C.Name = "lblRate" & K Then
+                                KR = Val(C.Text)
+                            ElseIf C.Name = "txtDiffTax" & K Then
+                                C.Text = CurrencyFormat(GetPrice(C.Text) + (NewDiff * KR))
+                                P = Math.Round(P + GetPrice(NewDiff * KR), 2)
+                            End If
+                            If KR = 0 Then NonTaxable = NonTaxable + Cur
+                        Next
+
+                    Next
+                Else
+                    P = GetPrice(NewDiff * Rate)
+                    'txtDiffTax(0) = CurrencyFormat(GetPrice(txtDiffTax(0)) + P)
+                    txtDiffTax0.Text = CurrencyFormat(GetPrice(txtDiffTax0.Text) + P)
+                    If Val(Rate) = 0 Then NonTaxable = NonTaxable + Cur
+                End If
+                ' hard to differentiate..  But, notes can be negative and we must allow to remove them and their tax
+                '      If P < 0 Or Style = "NOTES" Then RemTax = RemTax + P Else AddTax = AddTax + P
+            End If
+            If I <> Counter - 1 Then UGridIO2.SetValueDisplay(I, 8, "")
+        Next
+
+        ' can't return more than we've charged!
+        If TaxLoc = 1 Then
+            If GetPrice(txtDiffTax0.Text) < 0 Then
+                '        RemTax = FitRange(-SaleTax1Amount, RemTax, 0)
+                '      txtDiffTax(0) = CurrencyFormat(FitRange(-SaleTax1Amount, RemTax, 0))
+                If Not InRange(-SaleTax1Amount, GetPrice(txtDiffTax0.Text), 0) Then
+                    Dim MsgTxt As String
+                    MsgTxt = MsgTxt & "Can't refund more tax than charged." & vbCrLf
+                    MsgTxt = MsgTxt & "Maximum tax refund is " & CurrencyFormat(SaleTax1Amount) & "." & vbCrLf
+                    '        MsgTxt = MsgTxt & vbCrLf & "Adjustment Cancelled."
+                    MessageBox.Show(MsgTxt, "Adjustment Alert", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) ' "Adjustment Cancelled"
+                    '        cmdApply.Enabled = False
+                End If
+                txtDiffTax0.Text = CurrencyFormat(FitRange(-SaleTax1Amount(), GetPrice(txtDiffTax0.Text), 0))
+            End If
+        Else
+            '            For K = txtDiffTax.LBound To txtDiffTax.UBound
+            '                If GetPrice(txtDiffTax(K)) < 0 Then
+            '                    If Not InRange(-SaleTax2Amount(lblRate(K).Tag), GetPrice(txtDiffTax(K)), GetPrice(txtDiffTax(K))) Then
+            '                        MsgBox "Can't refund more tax than charged." & vbCrLf & "Maximum tax refund is " & CurrencyFormat(SaleTax2Amount(lblRate(K).Tag)) & "." & vbCrLf2 & "Adjustment Cancelled.", vbExclamation, "Adjustment Cancelled"
+            ''        cmdApply.Enabled = False
+            '                    End If
+            '                    txtDiffTax(K) = CurrencyFormat(FitRange(-SaleTax2Amount(lblRate(K).Tag), GetPrice(txtDiffTax(K)), GetPrice(txtDiffTax(K))))
+            '                    '          RemTax = RemTax + GetPrice(txtDiffTax(K))
+            '                End If
+            '            Next
+            For K = 0 To DiffTaxCount
+                For Each C As Control In Me.Controls
+                    If C.Name = "txtDiffTax" & K And GetPrice(C.Text) < 0 Then
+                        For Each Cc As Control In Me.Controls
+                            If Cc.Name = "lblRate" & K Then
+                                If Not InRange(-SaleTax2Amount(Cc.Tag), GetPrice(C.Text), GetPrice(C.Text)) Then
+                                    MessageBox.Show("Can't refund more tax than charged." & vbCrLf & "Maximum tax refund is " & CurrencyFormat(SaleTax2Amount(Cc.Tag)) & "." & vbCrLf2 & "Adjustment Cancelled.", "Adjustment Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                End If
+                            End If
+                        Next
+                        For Each Ccc As Control In Me.Controls
+                            If C.Name = "lblRate" & K Then
+                                C.Text = CurrencyFormat(FitRange(-SaleTax2Amount(Ccc.Tag), GetPrice(C.Text), GetPrice(C.Text)))
+                            End If
+                        Next
+
+                    End If
+                Next
+            Next
+
+        End If
+
+        Tax = 0
+        'For K = txtDiffTax.LBound To txtDiffTax.UBound
+        '    Tax = Tax + Round(GetPrice(txtDiffTax(K)), 2)
+        'Next
+        For K = 0 To DiffTaxCount
+            For Each C As Control In Me.Controls
+                If C.Name = "txtDiffTax" & K Then
+                    Tax = Tax + Math.Round(GetPrice(C.Text), 2)
+                End If
+            Next
+        Next
+
+        UGridIO2.SetValueDisplay(Counter - 1, 8, CurrencyFormat(Balance))
+        If TaxLoc = 1 Then txtDiffTax0.Text = CurrencyFormat(Tax)
+        txtBalDue.Text = CurrencyFormat(GetPrice(lblPrevBal.Text) + Balance + IIf(TaxBackedOut, 0, Tax))
+        TotTax = Tax
+    End Sub
+
+    Public Function SaleTax2Amount(Optional ByVal Zone As Long = 0) As Decimal
+        Dim I As Long
+        For I = 1 To UGridIO1.LastRowUsed
+            If Trim(UGridIO1.GetValue(I, 1)) = "TAX2" Then
+                If Zone = 0 Or (Zone = UGridIO1.GetValue(I, 5)) Then
+                    SaleTax2Amount = SaleTax2Amount + GetPrice(UGridIO1.GetValue(I, 7))
+                End If
+            End If
+        Next
+    End Function
+
+    Public Function SaleTax1Amount() As Decimal
+        Dim I As Long
+        For I = 1 To UGridIO1.LastRowUsed
+            If Trim(UGridIO1.GetValue(I, 1)) = "TAX1" Then SaleTax1Amount = SaleTax1Amount + GetPrice(UGridIO1.GetValue(I, 7))
+        Next
+    End Function
+
+    Private Function GetSalesTax() As Boolean
+        If TaxLoc < 0 Then Exit Function
+        GetSalesTax = True
+        If TaxLoc = 0 Then
+            Rate = 0
+            'If cmdAdd.Value Then AskForTaxRate : GetSalesTax = False
+            If cmdAdd.Checked = True Then AskForTaxRate : GetSalesTax = False
+        ElseIf TaxLoc = 1 Then
+            Rate = GetStoreTax1()
+        Else
+            Rate = 0
+            GetSalesTax = False
+        End If
+        Rate = Val(Rate)
+    End Function
+
+    Private Sub AskForTaxRate()
+        Dim ST2L As Object, S As Object, N As Long
+        Dim Taxes() As Object, Tax As Object
+
+        If AskedForTaxRate Then Exit Sub
+        AskedForTaxRate = True
+        ST2L = QuerySalesTax2List()
+        ReDim Taxes(0 To (1 + SalesTax2Count))
+        Taxes(0) = StoreSettings.SalesTax & " (Default)"
+        N = 1
+        If SalesTax2Count > 0 Then
+            For Each S In ST2L
+                Taxes(N) = ST2L(N - 1)
+                N = N + 1
+            Next
+        End If
+        Taxes(N) = "Non-Taxable"
+
+        Tax = SelectOptionArray("Tax Rate", frmSelectOption.ESelOpts.SelOpt_List, Taxes, "Se&lect")
+
+        If Tax <= N Then
+            TaxLoc = Tax
+            If Tax = 1 Then
+                Rate = StoreSettings.SalesTax
+                lblRate0.Text = Rate
+                lblRate0.Tag = "" & (Tax - 1)
+            Else
+                Rate = QuerySalesTax2(TaxLoc - 2)
+                lblRate0.Text = Rate
+                lblRate0.Tag = "" & (Tax - 1)
+            End If
+        End If
+    End Sub
+
+    Private Sub OnScreenReport_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'QueryUnload event of vb6
+        'If UnloadMode = vbFormControlMenu Then
+        If e.CloseReason = CloseReason.UserClosing Then
+            If cmdMenu2.Visible Then
+                'cmdMenu2.Value = True  ' This unloads us and does other cleanup..
+                cmdMenu2.PerformClick()
+            ElseIf cmdMenu.Visible Then
+                'cmdMenu.Value = True  ' This unloads us and does other cleanup..
+                cmdMenu.PerformClick()
+            Else
+                'Cancel = True
+                e.Cancel = True
+            End If
+        End If
+
+        'Unload event of vb6
+        DisposeDA(MailCheckRef, Margin)
+        'Unload BillOSale
+        BillOSale.Close()
+        'Unload Me
+        Me.Close()
+    End Sub
+
+    Private Function LoadCustomerInfo(ByVal MailIndex As Long) As Boolean
+        'getmail name and index
+        Dim RS As ADODB.Recordset
+
+        RS = getRecordsetByTableLabelIndexNumber("Mail", "Index", CStr(MailIndex))
+        If Not RS.EOF Then
+            CopyMailRecordsetToMailNew(RS, Mail)
+            Index = Trim(Mail.Index)
+            LastName = Mail.Last
+            Tele = Mail.Tele
+            'Caption = "Customer Consolidated History:  " & Mail.Last & "  " & Mail.Tele
+            Text = "Customer Consolidated History:  " & Mail.Last & "  " & Mail.Tele
+            LoadCustomerInfo = True
+        Else
+            'MsgBox "This customer could not be found in the database.", vbExclamation
+            MessageBox.Show("This customer could not be found in the database.")
+            Index = ""
+            LastName = ""
+            Tele = ""
+            '    Telephone = False
+            LoadCustomerInfo = False
+        End If
+        RS.Close()
+        RS = Nothing
+    End Function
+
+    Private Property CurrentLine() As Long
+        Get
+            CurrentLine = mCurrentLine
+        End Get
+        Set(value As Long)
+            mCurrentLine = value
+        End Set
+    End Property
+
+    Private Sub EnableControls(ByVal OnOff As Boolean, Optional ByVal Processed As Boolean = False)
+        'MousePointer = IIf(OnOff, vbDefault, vbHourglass)
+        Cursor = IIf(OnOff, Cursors.Default, Cursors.WaitCursor)
+
+        UGridIO1.GetDBGrid.Enabled = OnOff
+        UGridIO2.GetDBGrid.Enabled = OnOff
+        cmdNext.Enabled = OnOff
+        cmdPrint.Enabled = OnOff
+        cmdMenu.Enabled = OnOff
+        cmdMenu2.Enabled = OnOff
+        cmdNext2.Enabled = OnOff
+
+        cmdAdd.Enabled = OnOff And Not Processed
+        cmdReturn.Enabled = OnOff And Not Processed
+        cmdApply.Enabled = OnOff And Not Processed
+    End Sub
+
+    Private Sub MailCheckRef_SaleFound(Holding As cHolding, ByRef Cancel As Boolean) Handles MailCheckRef.SaleFound
+        Dim S As String
+
+        S = Holding.Status
+        If S = "V" Then
+            MessageBox.Show("This sale is void and can not be changed.")
+            Cancel = True
+            Exit Sub
+        End If
+
+        SalePackageUpdate(Holding.LeaseNo) ' refresh it first... why not..
+
+
+        If IsIn(S, "D", "C", "B") Then
+            If Not AllowAdjustDel Then
+                MessageBox.Show("This sale is delivered and must be voided to change!")
+                Cancel = True
+                Exit Sub
+            End If
+            WasDelSale = True
+        Else
+            WasDelSale = False
+        End If
+
+        ' Load sale data into the form...
+        Row = 0
+        Balance = 0
+        TotDue = 0
+        txtBalDue.Visible = True
+        lblBalDue.Visible = True
+        OrdTotal = Format(Holding.Sale - Holding.Deposit, "###,###.00")
+        TotDue = TotDue + OrdTotal
+        GetMarginRecords(Holding.LeaseNo)
+        UGridIO1.Refresh()
+        txtBalDue.Text = CurrencyFormat(TotDue)
+        SaleFound = True
+        EnableControls(True)
+        Cancel = True
+    End Sub
+
+    Private Sub MailCheckRef_SaleNotFound() Handles MailCheckRef.SaleNotFound
+        ' Do nothing.. MailCheck will continue trying.
+        SaleFound = False
+    End Sub
+
+    Private Sub cmdNext_Click(sender As Object, e As EventArgs) Handles cmdNext.Click
+        'Next
+        ' Clean up subforms
+        'Unload BillOSale
+        BillOSale.Close()
+
+        EnableControls(True)
+        OrdTotal = 0
+        TotDue = 0
+        UGridIO1.Clear()
+        UGridIO1.Refresh()
+
+        ' Find the customer/sale with MailCheck instead of EntryForm.
+        '  If reportsmode("H") Or ordermode("Credit") Then
+        MailCheckRef = MailCheck
+        SaleFound = False
+        If ReportsMode("H") Then
+            MailCheckRef.optTelephone.Checked = True
+        Else
+            MailCheckRef.optSaleNo.Checked = True
+        End If
+        'MailCheckRef.Show vbModal, Me
+        MailCheckRef.ShowDialog(Me)
+        'Unload MailCheckRef
+        MailCheckRef.Close()
+        MailCheckRef = Nothing
+        'If Not SaleFound Then cmdMenu.Value = True
+        If Not SaleFound Then cmdMenu.PerformClick()
+    End Sub
+
+    Private Sub cmdNext2_Click(sender As Object, e As EventArgs) Handles cmdNext2.Click
+        'Unload Me
+        Me.Close()
+        'Load Me
+        CustomerAdjustment()
+    End Sub
+
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        PrintReport
+        Printer.EndDoc()
+    End Sub
+
+    Private Sub PrintReport()
+        OrdTotal = 0
+        TotDue = 0
+
+        Headings
+
+        '********************
+        ' read out grid and print
+        '********************
+        Dim X As Long
+
+        If ReportsMode("H") Then
+            For X = CurrentLine To UGridIO1.MaxRows - 1
+                Dim C As Long
+                For C = 0 To UGridIO1.MaxCols - 1
+                    If Counter = 60 Then
+                        Counter = 0
+                        Printer.NewPage()
+                        Headings
+                    End If
+
+                    Margin.SaleNo = UGridIO1.GetValue(X, 0)
+                    Margin.Style = UGridIO1.GetValue(X, 1)
+                    Margin.Vendor = UGridIO1.GetValue(X, 2)
+                    Margin.Location = GetPrice(UGridIO1.GetValue(X, 3))
+                    Margin.Status = UGridIO1.GetValue(X, 4)
+                    Margin.Quantity = GetPrice(UGridIO1.GetValue(X, 5))
+                    Margin.Desc = UGridIO1.GetValue(X, 6)
+                    Margin.SellPrice = GetPrice(UGridIO1.GetValue(X, 7))
+                Next
+
+                ' BFH20090811 - the alignment is wrong... this would fix it if it was finished
+                '            PrintToTab Printer, Margin.SaleNo, 0
+                '            PrintToTab Printer, Margin.Style, 12
+                '            PrintToTab Printer, Margin.Vendor, 32
+                '            PrintToTab Printer, Margin.Status, 50
+                '            PrintToTab Printer, Margin.Quantity, 58
+                '            Printer.FontSize = 8
+                '            PrintToTab Printer, Margin.Desc, 65
+                '            Printer.FontSize = 10
+                '            PrintToTab Printer, AlignString(CurrencyFormat(Margin.SellPrice), 13, vbAlignRight, False), 104
+
+
+                Printer.Print(Margin.SaleNo, TAB(12), Margin.Style, TAB(32), Microsoft.VisualBasic.Left(Margin.Vendor, 12), TAB(50), Margin.Status, TAB(58), Margin.Quantity, TAB(65))
+                Printer.FontSize = 8
+                Printer.Print(Microsoft.VisualBasic.Left(Margin.Desc, 34))
+                Printer.FontSize = 10
+                Printer.Print(TAB(104), AlignString(CurrencyFormat(Margin.SellPrice), 13, VBRUN.AlignConstants.vbAlignRight, False))
+                Counter = Counter + 1
+
+                If Trim(Margin.SaleNo) = "" And Microsoft.VisualBasic.Left(UCase(Margin.Style), 10) <> "SALE DATE:" Then
+                    OrdTotal = GetPrice(UGridIO1.GetValue(X, 8))
+                    Printer.Print(TAB(95), "Order Total:         ", AlignString(CurrencyFormat(OrdTotal), 13, VBRUN.AlignConstants.vbAlignRight, False)) ' Spc(NoOfSpaces2); PstrFieldText
+                    TotDue = TotDue + Format(OrdTotal, "###,###.00")
+
+                    Counter = Counter + 1
+                    OrdTotal = 0
+                End If
+                If Trim(UGridIO1.GetValue(X, 0)) = "" And Trim(UGridIO1.GetValue(X + 1, 0)) = "" And Trim(UGridIO1.GetValue(X + 2, 0)) = "" And Trim(UGridIO1.GetValue(X + 3, 0)) = "" Then Exit For
+            Next
+            Printer.Print()
+            Printer.Print(TAB(96), "Total Due:          ", AlignString(CurrencyFormat(TotDue), 13, VBRUN.AlignConstants.vbAlignRight, False)) 'Spc(NoOfSpaces2); PstrFieldText
+            Counter = Counter + 2
+        ElseIf ReportsMode("I") Then
+            ItemHistoryHeading
+            Counter = 0
+            '********************
+            ' read out grid and print
+            '********************
+
+            For X = CurrentLine To UGridIO1.MaxRows - 1
+                Margin.Style = UGridIO1.GetValue(X, 0)
+                Margin.Vendor = UGridIO1.GetValue(X, 1)
+                Margin.Status = UGridIO1.GetValue(X, 2)
+                Margin.Quantity = Val(UGridIO1.GetValue(X, 3))
+                Margin.Desc = UGridIO1.GetValue(X, 4)
+                Margin.SellPrice = GetPrice(UGridIO1.GetValue(X, 5))
+                Printer.Print(Margin.Style, TAB(24), Margin.Vendor, TAB(48), Margin.Status, TAB(57), Margin.Quantity, TAB(64), Microsoft.VisualBasic.Left(Margin.Desc, 35), TAB(113), AlignString(CurrencyFormat(Margin.SellPrice), 13, VBRUN.AlignConstants.vbAlignRight, False)) 'Spc(NoOfSpaces); strFieldText
+                Counter = Counter + 1
+
+                If Counter = 60 Then
+                    Printer.NewPage()
+                    Counter = 0
+                    ItemHistoryHeading
+                End If
+                If Trim(UGridIO1.GetValue(X, 0)) = "" And Trim(UGridIO1.GetValue(X + 1, 0)) = "" Then Exit For
+            Next
+        End If
+    End Sub
+
+    Private Sub ItemHistoryHeading()
+        Printer.FontName = "Arial"
+        Printer.FontSize = 18
+        Printer.CurrentY = 200
+        Printer.CurrentX = 0
+
+        Printer.Print(TAB(25), "Items Sold Since: ", Today) ' InvReports.ReportDate
+
+        Printer.FontSize = 8
+        Printer.CurrentY = 300
+        Printer.CurrentX = 0
+        Printer.Print("Date: ", DateFormat(Now))
+        Printer.Print("Time: ", Format(Now, "h:mm:ss am/pm"))
+
+        Printer.CurrentX = 10500
+        Printer.CurrentY = 300
+        Printer.Print("  Page:", Printer.Page)
+
+        Printer.CurrentY = 600
+        Printer.CurrentX = 0
+        PrintCentered(StoreSettings.Name & "  " & "  " & StoreSettings.Address & "  " & "  " & StoreSettings.City)
+
+        Printer.CurrentY = 800
+        Printer.FontSize = 10
+
+        Printer.FontBold = True
+        Printer.Print(" Style Number            Manufacturer              Status Quan        Description", TAB(110), "Sell Price")
+        Printer.FontBold = False
+    End Sub
+
+    Private Sub Headings()
+        If ReportsMode("H") Then
+            'Customer history
+            Printer.FontName = "Arial"
+            Printer.FontSize = 18
+            Printer.CurrentY = 200
+            Printer.CurrentX = 0
+
+            Printer.Print(TAB(15), "Customer Consolidated History:  ")
+
+            Printer.FontSize = 10
+            Printer.CurrentY = 300
+
+            Printer.Print(Mail.Last & "  " & Mail.Tele)
+            Printer.FontSize = 8
+
+            Printer.CurrentY = 300
+            Printer.CurrentX = 0
+            Printer.Print("Date: ", DateFormat(Now))
+            Printer.Print("Time: ", Format(Now, "h:mm:ss am/pm"))
+
+            Printer.CurrentX = 10500
+            Printer.CurrentY = 300
+            Printer.Print("Page:", Printer.Page)
+
+            Printer.CurrentY = 600
+            Printer.CurrentX = 0
+            PrintCentered(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City)
+            Printer.CurrentY = 800
+            Printer.FontSize = 10
+
+            Printer.FontSize = 12
+            Printer.CurrentY = 800
+            Printer.CurrentX = 0
+            Printer.FontBold = True
+            Printer.Print("Sale No   Style No       Manufacturer        Stat  Quan  Description                                       Price  Bal Due")
+            Printer.FontBold = False
+
+            Printer.CurrentX = 0
+            Printer.FontSize = 10
+        End If
+    End Sub
+
+    Private Sub cmdMenu_Click(sender As Object, e As EventArgs) Handles cmdMenu.Click
+        ' quit
+        'Unload BillOSale
+        BillOSale.Close()
+        'Unload Me
+        Me.Close()
+
+        If ReportsMode("I") Then
+            InvReports.Show()
+        ElseIf ReportsMode("H") Or OrderMode("Credit") Then
+            modProgramState.Order = ""
+            modProgramState.Reports = ""
+            MainMenu.Show()
+        End If
+    End Sub
+
+    Private Sub cmdMenu2_Click(sender As Object, e As EventArgs) Handles cmdMenu2.Click
+        On Error Resume Next
+        If SelectPrinter.SmallTags Then ' small tag was printed
+            Printer.EndDoc()
+            SelectPrinter.SmallTags = False
+        End If
+        'cmdMenu.Value = True
+        cmdMenu.PerformClick()
+    End Sub
+
+    Private Sub cmdReturn_Click(sender As Object, e As EventArgs) Handles cmdReturn.Click
+        Dim I As Long
+        On Error GoTo ErrHand
+        ' Copies from Grid 1 to Grid 2
+
+        If FirstTime = True Then
+            Row = 0                      '*** should be 0 but doesnt work
+            FirstTime = False
+        End If
+
+        If Row > 9 Then
+            MessageBox.Show("You're adjusting too many items.", "Too many adjustments", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub  ' Max number of rows
+        End If
+
+        Lines = UGridIO1.Row
+        If Microsoft.VisualBasic.Left(UGridIO1.GetValue(Lines, 4), 1) = "x" Then
+            MessageBox.Show("This item has already been returned.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        If Microsoft.VisualBasic.Left(UGridIO1.GetValue(Lines, 4), 2) = "VD" Then
+            MessageBox.Show("This item has already been voided.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        If Val(UGridIO1.GetValue(Lines, 5)) < 0 Then
+            MessageBox.Show("You cannot return items with a negative quantity already.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        For I = 0 To UGridIO2.MaxRows - 1
+            If UGridIO2.GetValue(I, 10) = UGridIO1.GetValue(Lines, 9) Then
+                If UGridIO2.GetValue(I, 10) = "" Then Exit Sub
+                MessageBox.Show("This item is already being returned.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+        Next
+
+        Select Case UCase(Trim(UGridIO1.GetValue(Lines, 1)))
+            Case "SUB", "--- ADJ ---" ', "TAX1", "TAX2"
+                MessageBox.Show("You can't return this item.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            Case "PAYMENT"
+                MessageBox.Show("You can't return payments this way.  Add a negative amount on the Payment On Account screen instead.")
+                Exit Sub
+            Case "TAX1", "TAX2"
+                If Row <> 0 Then
+                    MessageBox.Show("If you remove tax from a sale, it must be the only item adjusted.", "Cannot Remove Tax With Other Items", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+        End Select
+
+        'With UGridIO2
+        UGridIO2.SetValue(Row, 0, UGridIO1.GetValue(Lines, 0))       ' Sale
+        UGridIO2.SetValue(Row, 1, UGridIO1.GetValue(Lines, 1))       ' Style
+        UGridIO2.SetValue(Row, 2, UGridIO1.GetValue(Lines, 2))       ' Vendor
+        UGridIO2.SetValue(Row, 3, UGridIO1.GetValue(Lines, 3))       ' Loc
+        UGridIO2.SetValue(Row, 4, UGridIO1.GetValue(Lines, 4))       ' Status
+        UGridIO2.SetValue(Row, 5, -Val(UGridIO1.GetValue(Lines, 5))) ' Quantity
+        UGridIO2.SetValue(Row, 6, UGridIO1.GetValue(Lines, 6))       ' Description
+        UGridIO2.SetValue(Row, 7, -GetPrice(UGridIO1.GetValue(Lines, 10))) ' Price
+        UGridIO2.SetValue(Row, 8, "")  ' Difference, subject to Recalculate.
+        If Val(UGridIO1.GetValue(Lines, 5)) = 0 Then
+            UGridIO2.SetValue(Row, 9, UGridIO1.GetValue(Lines, 7))     ' Per-unit price
+        Else
+            UGridIO2.SetValue(Row, 9, UGridIO1.GetValue(Lines, 7) / UGridIO1.GetValue(Lines, 5))  ' Per-unit price
+        End If
+        UGridIO2.SetValue(Row, 10, UGridIO1.GetValue(Lines, 9))      ' Marginline
+        UGridIO2.SetValue(Row, 11, UGridIO1.GetValue(Lines, 11))     ' Commission
+
+        balRow = Row
+
+        Counter = Counter + 1
+        Row = Row + 1
+
+        If (UGridIO2.Row > 4) Then UGridIO2.MoveRowDown(Val(UGridIO2.Row - 4))
+        UGridIO2.Row = UGridIO2.Row + 1
+        UGridIO2.Refresh(True)
+
+        Recalculate()
+        Exit Sub
+ErrHand:
+        MessageBox.Show("An error occurred.  If this persists, please contact " & AdminContactString(Format:=1, Phone:=False) & "." & vbCrLf & "Err: " & Err.Number & " - " & Err.Description & vbCrLf & "Ref: OnScreenReport::cmdReturn_Click() - 1", "Processing Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    End Sub
+
+    Private Sub cmdAdd_Click(sender As Object, e As EventArgs) Handles cmdAdd.Click
+        'NOTE: cmdAdd is not button. It is checkbox with appearance set as button.
+
+        On Error GoTo ErrHand
+        'add items
+        If FirstTime Then
+            Row = 0                      '*** should be 0 but doesnt work
+            FirstTime = False
+        End If
+
+        If Row >= MaxAdjustments Then
+            MessageBox.Show("You're adding too many adjustments!", "Too many adjustments", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        Margin.Quantity = 0
+
+        '  txtLocation.Visible = True
+        '  lblLocation.Visible = True
+
+        '  InvCkStyle.Show vbModal
+        '  If Not InvCkStyle.Canceled Then AddInventory InvCkStyle.Rn, InvCkStyle.StyleCkIt
+        '  Unload InvCkStyle
+        'frmAdjustAdd.Show 1
+        frmAdjustAdd.ShowDialog(Me)
+        Exit Sub
+ErrHand:
+        MessageBox.Show("An error occurred.  If this persists, please contact " & AdminContactCompany & "." & vbCrLf & "Err: " & Err.Number & " - " & Err.Description & vbCrLf & "Ref: OnScreenReport::cmdAdd_Click() - 1", "Processing Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    End Sub
+
+    Private Sub cmdAdjustTax_Click(sender As Object, e As EventArgs) Handles cmdAdjustTax.Click
+        'Load frmAdjustTax
+        frmAdjustTax.LoadSale(SaleNo)
+        'frmAdjustTax.Show vbModal
+        frmAdjustTax.ShowDialog()
+        'Unload frmAdjustTax
+        frmAdjustTax.Close()
+        Exit Sub
+
+        Dim T1 As Boolean, T2 As Boolean, TAmt As Decimal
+        Dim R As VBA.VbMsgBoxResult, Z As Long
+
+        T1 = SaleHasTax1()
+        T2 = SaleHasTax2()
+
+        If T1 Then
+            TAmt = SaleTax1Amount()
+            R = MessageBox.Show("Remove default tax (TAX1 = " & StoreSettings.SalesTax & ")?", "Adjust Tax", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            If R = vbCancel Then Exit Sub
+            If R = vbYes Then
+                If TAmt = 0 Then
+                    MessageBox.Show("The total for this tax type is $0.00!", "No TAX1", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    AddInventory(0, "TAX1", "", 0, "", "", -TAmt)
+                End If
+                Exit Sub
+            End If
+        End If
+
+        If T2 Then
+            Z = SaleTax2Zone()
+            TAmt = SaleTax2Amount()
+            R = MessageBox.Show("Remove TAX2 (" & StoreSettings.SalesTax & ")?", "Adjust Tax", MessageBoxButtons.YesNoCancel)
+            If R = vbCancel Then Exit Sub
+            If R = vbYes Then
+                If TAmt = 0 Then
+                    MessageBox.Show("The total for this tax type is $0.00!", "No TAX1", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    AddInventory(0, "TAX1", "", 0, "", "", -TAmt)
+                End If
+                Exit Sub
+            End If
+        End If
+
+        If SaleTax1Amount() = 0 Then
+            R = MsgBox("Add default tax (Tax = " & StoreSettings.SalesTax & ")?", vbQuestion + vbYesNoCancel)
+            If R = vbCancel Then Exit Sub
+            If R = vbYes Then
+                TAmt = 55 '###!!!
+                AddInventory(0, "TAX1", "", 0, "", "", TAmt)
+                Exit Sub
+            End If
+        End If
+
+        R = MessageBox.Show("Add variable tax (Tax = " & StoreSettings.SalesTax & ")?", "", MessageBoxButtons.YesNoCancel)
+    End Sub
+
+    Public Sub AddInventory(ByVal RN As Long, ByVal StyleCkIt As String, Optional ByVal Status As String = "#", Optional ByVal Quan As Double = 1, Optional ByVal Desc As String = "#", Optional ByVal Vend As String = "#", Optional ByVal Price As Decimal = -1, Optional ByVal Location As Long = 0)
+        Dim InvData As CInvRec
+        Dim Lt As Decimal
+
+        Counter = Counter + 1
+        InvData = New CInvRec
+        StyleCkIt = Trim(StyleCkIt)
+        If Location <= 0 Then Location = StoresSld ' BFH20060815
+
+        If Microsoft.VisualBasic.Left(StyleCkIt, 4) = KIT_PFX Then
+            Dim TRec As CInvRec
+            Dim Tot As Decimal, PACK As Decimal, Factor As Double, Sum As Object
+            Dim RS As ADODB.Recordset, I As Long, Kst As String, Krn As Long, Kqu As Double, Kpr As Decimal
+
+            'Debug.Print "x": DoEvents
+            '    Status = SelectStatus()
+            'Debug.Print "y": DoEvents
+            '    If Status = "" Then Exit Sub
+
+            RS = GetRecordsetBySQL("SELECT * FROM [InvKit] WHERE [KitStyleNo]='" & StyleCkIt & "'", , GetDatabaseAtLocation(1))
+            If Not RS.EOF Then
+                Tot = IfNullThenZeroCurrency(RS("OnSale").Value)
+                PACK = IfNullThenZeroCurrency(RS("PackPrice").Value)
+                Price = PACK
+
+                Lt = IfNullThenZeroCurrency(RS("Landed").Value)
+
+                Factor = PACK / Tot
+                For I = 1 To Setup_MaxKitItems
+                    Kst = IfNullThenNilString(RS("Item" & I).Value)
+                    Krn = IfNullThenZero(RS("Item" & I & "Rec").Value)
+                    If IsFormLoaded("frmKitLevels") Then
+                        Kqu = frmKitLevels.ItemQuantityByStyle(IfNullThenNilString(RS("Item" & I).Value))
+                    Else
+                        Kqu = IfNullThenZeroDouble(RS("Quan" & I).Value)
+                    End If
+
+                    If Kst <> "" Then
+                        TRec = New CInvRec
+                        TRec.Load(Kst, "Style")
+                        Kpr = Math.Round(TRec.OnSale * Factor, 2)
+                        DisposeDA(TRec)
+
+                        If Sum + Kpr > PACK Then Kpr = PACK - Sum ' pennies, rounding, and perfection
+
+                        Sum = Sum + Kpr
+
+                        If Not StoreSettings.bShowPackageItemPrices Then
+                            AddInventory(Krn, Kst, Status, Kqu, , , 0, Location)
+                        Else
+                            Dim C As CInvRec, KP As Decimal
+                            C = New CInvRec
+                            C.Load(Kst, "Style")
+                            If Lt <> 0 Then
+                                KP = IfNullThenZeroCurrency(RS("PackPrice").Value) * C.Landed / Lt
+                            Else
+                                KP = 0
+                            End If
+                            AddInventory(Krn, Kst, Status, Kqu, , , KP, Location)
+                            DisposeDA(C)
+                        End If
+                    End If
+                Next
+            End If
+        End If
+
+        If RN <> 0 Then   'item in inventory else S/S
+            If Not InvData.Load(RN, "#Rn") Then
+                ' Couldn't load Style.
+            End If
+        End If
+
+        'Unload frmKitLevels
+        frmKitLevels.Close()
+
+        If Not Microsoft.VisualBasic.Left(StyleCkIt, 4) = KIT_PFX Or Not StoreSettings.bShowPackageItemPrices Then
+            UGridIO2.SetValueDisplay(Row, 0, Trim(SaleNo))
+            UGridIO2.SetValueDisplay(Row, 1, IIf(InvData.Style = "", StyleCkIt, InvData.Style))
+            UGridIO2.SetValueDisplay(Row, 2, IIf(Vend = "#", InvData.Vendor, Vend))
+            UGridIO2.SetValueDisplay(Row, 3, CStr(Location)) 'StoresSld '"1" ' Loc
+
+            If Microsoft.VisualBasic.Left(StyleCkIt, 4) = KIT_PFX Then Status = ""
+
+            If Status = "#" Then
+                If Val(RN) <> 0 Then   'item in inventory else S/S
+                    If IsUFO() Or IsAuthenTeak() Then
+                        UGridIO2.SetValueDisplay(Row, 4, "LAW")
+                    Else
+                        UGridIO2.SetValueDisplay(Row, 4, "ST")
+                    End If
+                ElseIf microsoft.VisualBasic.Left(StyleCkIt, 4) = KIT_PFX Then
+                    UGridIO2.SetValueDisplay(Row, 1, StyleCkIt)
+                    UGridIO2.SetValueDisplay(Row, 4, "ST")
+                Else
+                    UGridIO2.SetValueDisplay(Row, 1, StyleCkIt)
+                    UGridIO2.SetValueDisplay(Row, 4, "SS")
+                    If IsIn(StyleCkIt, "DEL", "LAB", "NOTES", "STAIN", "TAX1") Then UGridIO2.SetValueDisplay(Row, 4, " ")
+                End If
+            Else
+                UGridIO2.SetValueDisplay(Row, 4, Status)
+                If Status = "SS" Then UGridIO2.SetValueDisplay(Row, 1, StyleCkIt)
+            End If
+
+            UGridIO2.SetValueDisplay(Row, 5, Str(Quan))
+            UGridIO2.SetValueDisplay(Row, 6, IIf(Desc = "#", InvData.Desc, Desc))
+
+            Select Case StyleCkIt
+                Case "DEL" : UGridIO2.SetValueDisplay(Row, 6, "DELIVERY CHARGE")
+                Case "LAB" : UGridIO2.SetValueDisplay(Row, 6, "LABOR CHARGE")
+                Case "STAIN" : UGridIO2.SetValueDisplay(Row, 6, IIf(IsBFMyer, "SAFEWARE PROTECTION PLAN", "STAIN PROTECTION")) : UGridIO2.SetValueDisplay(Row, 5, "")
+            End Select
+
+            If Price <> -1 Then
+                UGridIO2.SetValueDisplay(Row, 7, Format(Price, "###,##0.00"))
+            Else
+                UGridIO2.SetValueDisplay(Row, 7, Format(InvData.OnSale * Quan, "###,##0.00"))
+            End If
+
+            balRow = Row                        ' This is handled by Recalculate.
+
+            InvRn(Row) = RN
+            Cost(Row) = GetItemCost(InvData.Style, Location, False, Quan) ' BFH20061010
+            Freight(Row) = InvData.Landed - InvData.Cost
+            Vends(Row) = InvData.VendorNo
+            Depts(Row) = InvData.DeptNo
+            DetailRec(Row) = Margin.Detail      'doesn't work
+            Quantity(Row) = 1 ' shouldn't this be  Val(Quan), not 1 ???????? -- bfh20090409
+
+            UGridIO2.SetValue(Row, 9, InvData.OnSale)    ' Single-item price
+
+            Row = Row + 1
+
+            If (UGridIO2.Row > 4) Then UGridIO2.MoveRowDown(Val(UGridIO2.Row - 4))
+            UGridIO2.Row = UGridIO2.Row + 1
+
+        End If
+        UGridIO2.Refresh()
+
+        DisposeDA(InvData)
+        Recalculate()
+    End Sub
+
+    Private Sub UGridIO2_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO2.BeforeColUpdate
+        Dim newValue As String, Row As Long
+
+        newValue = UGridIO2.Text
+        Row = UGridIO2.Row
+
+        If UGridIO2.GetValue(UGridIO2.Row, 1) = "NOTES" Then Exit Sub
+        If Val(OldValue) >= 0 And Val(newValue) < 0 Then
+
+            ' jk 20070626 I took this out to return an item from a package w/no selling price
+            ' MsgBox "Use Return to return an item.", vbExclamation, "Negative Add Prohibited"
+            ' Cancel = True
+        End If
+        'BFH20070424
+        '  If Val(OldValue) < 0 And Val(UGridIO2.Text) >= 0 Then
+        '    MsgBox "Use Add to add items.", vbExclamation, "Positive Return Prohibited"
+        '    Cancel = True
+        '  End If
+        If UGridIO2.GetValue(Row, 4) = "SO" And ColIndex = 5 Then
+            MessageBox.Show("Cannot adjust SO lines.", "SO Adjustment Prohibited'", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cancel = True
+        End If
+
+        If ColIndex = BillColumns.eQuant + 1 Then
+            If Val(UGridIO2.GetValue(Row, 5)) < 0 Then
+                Dim ML As Long, I As Long
+                Dim Sty As String
+                Dim C As Long, V As String, P As Decimal
+                Dim SaleAmt As Double
+                Dim X2 As Long
+                ML = UGridIO2.GetValue(Row, 10)
+                If ML = 0 Then Exit Sub
+
+                For I = 0 To UGridIO1.LastRowUsed
+                    If Val(UGridIO1.GetValue(I, 9)) = ML Then GoTo FoundML
+                Next
+
+                Exit Sub
+
+FoundML:
+
+                SaleAmt = Val(UGridIO1.GetValue(I, BillColumns.eQuant + 1))
+                If -Val(OldValue) <> SaleAmt Then
+                    MessageBox.Show("You have already adjusted this quatity during which an additional adjustment line for the amount not retruned was created." & vbCrLf & "To ensure the total value does not change, please restart the adjustment process for this sale if you need to change this again.")
+                    Exit Sub
+                End If
+
+                If MessageBox.Show("You are attempting to do a partial return." & vbCrLf2 & "In order to properly account for inventory, WinCDS will do a full return on this line, and will place the unreturned items as an additional line item." & vbCrLf2 & "Would you like to proceed?", "Comfirm Partial Return", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
+                    Cancel = True
+                    Exit Sub
+                End If
+
+                Cancel = True
+                X2 = UGridIO2.FirstEmptyRow
+                Sty = UGridIO2.GetValue(Row, BillColumns.eStyle + 1)
+                V = SaleAmt + Val(newValue)
+                P = GetPrice(UGridIO2.GetValue(X2 - 1, BillColumns.ePrice + 2)) + GetPrice(UGridIO2.GetValue(X2, BillColumns.ePrice + 1))
+                AddInventory(GetRNByStyle(Sty), Sty, , V, , , P)
+
+                For C = 0 To UGridIO2.MaxCols - 1
+                    If C = BillColumns.eQuant + 1 Then
+                        V = SaleAmt + Val(newValue)
+                    ElseIf C = BillColumns.ePrice + 1 Then
+                        V = FormatCurrency(GetPrice(UGridIO1.GetValue(I, C)) / Val(UGridIO1.GetValue(I, 5)) * Val(UGridIO2.GetValue(X2, 5)))
+                    ElseIf C = BillColumns.ePrice + 2 Then
+                        V = CurrencyFormat(GetPrice(UGridIO2.GetValue(X2 - 1, BillColumns.ePrice + 2)) + GetPrice(UGridIO2.GetValue(X2, BillColumns.ePrice + 1)))
+                    ElseIf C = 10 Then
+                        V = ""
+                    Else
+                        V = UGridIO1.GetValue(I, C)
+                    End If
+                    UGridIO2.SetValue(X2, C, V)
+                Next
+                Counter = Counter + 1
+                UGridIO2.Refresh()
+                Recalculate()
+            End If
+        End If
+    End Sub
+
+    Private Sub UGridIO2_RowColChange(LastRow As Object, LastCol As Object, newRow As Object, newCol As Object, ByRef Cancel As Boolean) Handles UGridIO2.RowColChange
+        PriorBal = 0 'used to tab off field
+
+        If mLoading = True Then Exit Sub
+        If Row = 0 Or FirstTime = True Then
+            If newRow <> 0 Then UGridIO2.Row = 0
+            If newCol <> 0 Then UGridIO2.Col = 0
+            Exit Sub
+        End If
+        'If IsEmpty(LastRow) And IsEmpty(LastCol) And IsEmpty(newRow) And IsEmpty(newCol) Then Exit Sub
+        If IsNothing(LastRow) And IsNothing(LastCol) And IsNothing(newRow) And IsNothing(newCol) Then Exit Sub
+        If newRow = -1 Then Exit Sub
+        If newRow >= Row Then Cancel = True : Exit Sub
+        CurrentLine = UGridIO2.Row
+        If Not IsNothing(newRow) Then
+            If LastRow = Str(newRow) And LastCol = newCol Then
+                Exit Sub
+            Else
+                On Error Resume Next
+                Select Case newCol
+' BFH20101110 - Commented out... Jerry's email was
+' "We still have this old adjustment in Customer Adjustment.  Please comment out."
+'        Case 4
+'          cmbGrid2.Tag = Format(newRow, "000") & Format(newCol, "000")
+'          cmbGrid2.Visible = False
+'          UGridIO2.AdjustControlToCell cmbGrid2, newRow, newCol, UGridIO2.Left, UGridIO2.Top
+'          cmbGrid2.Clear
+'          cmbGrid2.AddItem "ST"
+'          cmbGrid2.AddItem "SO"
+'          cmbGrid2.AddItem "SS"
+'          cmbGrid2.AddItem "FND"
+'          cmbGrid2.AddItem "PO"
+'          cmbGrid2.AddItem "SS"
+'          cmbGrid2.AddItem "SSLAW"
+'          cmbGrid2.AddItem "DELTW"
+'          cmbGrid2.Text = UGridIO2.GetValue(newRow, newCol)
+'          cmbGrid2.Visible = True
+'          cmbGrid2.SetFocus
+                    Case 2
+                        cmbGrid2.Tag = Format(newRow, "000") & Format(newCol, "000")
+                        cmbGrid2.Visible = False
+                        UGridIO2.AdjustControlToCell(cmbGrid2, newRow, newCol, UGridIO2.Left, UGridIO2.Top)
+                        LoadMfgNamesIntoComboBox(cmbGrid2, "", True, True)
+                        cmbGrid2.Text = UGridIO2.GetValue(newRow, newCol)
+                        cmbGrid2.Visible = True
+                        cmbGrid2.Select()
+                    Case Else
+                        cmbGrid2.Visible = False
+                End Select
+            End If
+        End If
+
+    End Sub
+
+    Private Sub cmbGrid2_Leave(sender As Object, e As EventArgs) Handles cmbGrid2.Leave
+        'Lost focus
+        On Error Resume Next
+        Dim R As Long, C As Long
+        cmbGrid2.Visible = False
+        UGridIO2.SetValue(Val(Microsoft.VisualBasic.Left(cmbGrid2.Tag, 3)), Val(Microsoft.VisualBasic.Right(cmbGrid2.Tag, 3)), cmbGrid2.Text)
+        '  UGridIO2.Col = UGridIO2.Col + 1
+        UGridIO2.Select()
+        R = UGridIO2.Row
+        C = UGridIO2.Col
+        UGridIO2.Refresh()
+        UGridIO2.Row = R
+        UGridIO2.Col = C
+    End Sub
+
+    Private Sub RowCheck()
+        If Row >= UGridIO1.MaxRows Then UGridIO1.MaxRows = UGridIO1.MaxRows + 100
+    End Sub
+
+    Public Function SaleHasTax1() As Boolean
+        Dim I As Long
+        For I = 1 To UGridIO1.LastRowUsed
+            If Trim(UGridIO1.GetValue(I, 1)) = "TAX1" Then SaleHasTax1 = True : Exit Function
+        Next
+    End Function
+
+    Public Function SaleHasTax2(Optional ByVal Zone As Long = 0) As Boolean
+        Dim I As Long
+        For I = 1 To UGridIO1.LastRowUsed
+            If Trim(UGridIO1.GetValue(I, 1)) = "TAX2" Then
+                If Zone = 0 Or (Zone = UGridIO1.GetValue(I, 5)) Then
+                    SaleHasTax2 = True
+                    Exit Function
+                End If
+            End If
+        Next
+    End Function
+
+    Public Function SaleTax2Zone(Optional ByVal Zone As Long = 0) As Long
+        Dim I As Long
+        For I = 1 To UGridIO1.LastRowUsed
+            If Trim(UGridIO1.GetValue(I, 1)) = "TAX2" Then
+                If Zone = 0 Then
+                    SaleTax2Zone = Val(UGridIO1.GetValue(I, 5))
+                    Exit Function
+                ElseIf Zone = UGridIO1.GetValue(I, 5) Then
+                    SaleTax2Zone = Zone
+                    Exit Function
+                End If
+            End If
+        Next
+    End Function
+
+    Public Function DeveloperEx() As String
+        DeveloperEx = "DCK Difference Tax" & vbCrLf & " Recalculate"
+    End Function
 
 End Class

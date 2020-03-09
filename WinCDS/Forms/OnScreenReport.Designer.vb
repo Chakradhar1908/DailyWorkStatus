@@ -22,6 +22,7 @@ Partial Class OnScreenReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.cmbManuf = New System.Windows.Forms.ComboBox()
         Me.lblCaption = New System.Windows.Forms.Label()
@@ -30,25 +31,26 @@ Partial Class OnScreenReport
         Me.lblBalDue2 = New System.Windows.Forms.Label()
         Me.UGridIO2 = New WinCDS.UGridIO()
         Me.fraControls1 = New System.Windows.Forms.GroupBox()
+        Me.txtLocation = New System.Windows.Forms.TextBox()
         Me.cmdMenu = New System.Windows.Forms.Button()
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdNext = New System.Windows.Forms.Button()
         Me.cmdAllStores = New System.Windows.Forms.Button()
-        Me.txtLocation = New System.Windows.Forms.TextBox()
         Me.fraControls2 = New System.Windows.Forms.GroupBox()
-        Me.cmdReturn = New System.Windows.Forms.Button()
-        Me.cmdAdd = New System.Windows.Forms.Button()
-        Me.cmdApply = New System.Windows.Forms.Button()
-        Me.cmdNext2 = New System.Windows.Forms.Button()
+        Me.cmdPrint2 = New System.Windows.Forms.Button()
         Me.cmdMenu2 = New System.Windows.Forms.Button()
+        Me.cmdNext2 = New System.Windows.Forms.Button()
+        Me.cmdApply = New System.Windows.Forms.Button()
+        Me.cmdReturn = New System.Windows.Forms.Button()
         Me.cmbGrid2 = New System.Windows.Forms.ComboBox()
         Me.cmdAdjustTax = New System.Windows.Forms.Button()
         Me.lblDiffTax = New System.Windows.Forms.Label()
         Me.lblBalDue = New System.Windows.Forms.Label()
         Me.txtDiffTax0 = New System.Windows.Forms.TextBox()
         Me.txtBalDue = New System.Windows.Forms.TextBox()
-        Me.cmdPrint2 = New System.Windows.Forms.Button()
         Me.lblRate0 = New System.Windows.Forms.Label()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cmdAdd = New System.Windows.Forms.CheckBox()
         Me.fraControls1.SuspendLayout()
         Me.fraControls2.SuspendLayout()
         Me.SuspendLayout()
@@ -134,12 +136,19 @@ Partial Class OnScreenReport
         Me.fraControls1.Controls.Add(Me.cmdPrint)
         Me.fraControls1.Controls.Add(Me.cmdNext)
         Me.fraControls1.Controls.Add(Me.cmdAllStores)
-        Me.fraControls1.Controls.Add(Me.fraControls2)
         Me.fraControls1.Location = New System.Drawing.Point(12, 353)
         Me.fraControls1.Name = "fraControls1"
         Me.fraControls1.Size = New System.Drawing.Size(274, 67)
         Me.fraControls1.TabIndex = 8
         Me.fraControls1.TabStop = False
+        '
+        'txtLocation
+        '
+        Me.txtLocation.Location = New System.Drawing.Point(117, 34)
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.Size = New System.Drawing.Size(79, 20)
+        Me.txtLocation.TabIndex = 4
+        Me.txtLocation.Visible = False
         '
         'cmdMenu
         '
@@ -177,63 +186,28 @@ Partial Class OnScreenReport
         Me.cmdAllStores.Text = "&All Stores"
         Me.cmdAllStores.UseVisualStyleBackColor = True
         '
-        'txtLocation
-        '
-        Me.txtLocation.Location = New System.Drawing.Point(117, 34)
-        Me.txtLocation.Name = "txtLocation"
-        Me.txtLocation.Size = New System.Drawing.Size(79, 20)
-        Me.txtLocation.TabIndex = 4
-        Me.txtLocation.Visible = False
-        '
         'fraControls2
         '
+        Me.fraControls2.Controls.Add(Me.cmdAdd)
         Me.fraControls2.Controls.Add(Me.cmdPrint2)
         Me.fraControls2.Controls.Add(Me.cmdMenu2)
         Me.fraControls2.Controls.Add(Me.cmdNext2)
         Me.fraControls2.Controls.Add(Me.cmdApply)
-        Me.fraControls2.Controls.Add(Me.cmdAdd)
         Me.fraControls2.Controls.Add(Me.cmdReturn)
-        Me.fraControls2.Location = New System.Drawing.Point(273, 36)
+        Me.fraControls2.Location = New System.Drawing.Point(330, 377)
         Me.fraControls2.Name = "fraControls2"
         Me.fraControls2.Size = New System.Drawing.Size(302, 58)
         Me.fraControls2.TabIndex = 9
         Me.fraControls2.TabStop = False
         '
-        'cmdReturn
+        'cmdPrint2
         '
-        Me.cmdReturn.Location = New System.Drawing.Point(6, 15)
-        Me.cmdReturn.Name = "cmdReturn"
-        Me.cmdReturn.Size = New System.Drawing.Size(47, 33)
-        Me.cmdReturn.TabIndex = 0
-        Me.cmdReturn.Text = "&Return"
-        Me.cmdReturn.UseVisualStyleBackColor = True
-        '
-        'cmdAdd
-        '
-        Me.cmdAdd.Location = New System.Drawing.Point(54, 15)
-        Me.cmdAdd.Name = "cmdAdd"
-        Me.cmdAdd.Size = New System.Drawing.Size(47, 33)
-        Me.cmdAdd.TabIndex = 1
-        Me.cmdAdd.Text = "&Add"
-        Me.cmdAdd.UseVisualStyleBackColor = True
-        '
-        'cmdApply
-        '
-        Me.cmdApply.Location = New System.Drawing.Point(102, 15)
-        Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(47, 33)
-        Me.cmdApply.TabIndex = 2
-        Me.cmdApply.Text = "Appl&y"
-        Me.cmdApply.UseVisualStyleBackColor = True
-        '
-        'cmdNext2
-        '
-        Me.cmdNext2.Location = New System.Drawing.Point(150, 15)
-        Me.cmdNext2.Name = "cmdNext2"
-        Me.cmdNext2.Size = New System.Drawing.Size(47, 33)
-        Me.cmdNext2.TabIndex = 3
-        Me.cmdNext2.Text = "Ne&xt"
-        Me.cmdNext2.UseVisualStyleBackColor = True
+        Me.cmdPrint2.Location = New System.Drawing.Point(246, 15)
+        Me.cmdPrint2.Name = "cmdPrint2"
+        Me.cmdPrint2.Size = New System.Drawing.Size(47, 33)
+        Me.cmdPrint2.TabIndex = 5
+        Me.cmdPrint2.Text = "&Print"
+        Me.cmdPrint2.UseVisualStyleBackColor = True
         '
         'cmdMenu2
         '
@@ -244,10 +218,37 @@ Partial Class OnScreenReport
         Me.cmdMenu2.Text = "Men&u"
         Me.cmdMenu2.UseVisualStyleBackColor = True
         '
+        'cmdNext2
+        '
+        Me.cmdNext2.Location = New System.Drawing.Point(150, 15)
+        Me.cmdNext2.Name = "cmdNext2"
+        Me.cmdNext2.Size = New System.Drawing.Size(47, 33)
+        Me.cmdNext2.TabIndex = 3
+        Me.cmdNext2.Text = "Ne&xt"
+        Me.cmdNext2.UseVisualStyleBackColor = True
+        '
+        'cmdApply
+        '
+        Me.cmdApply.Location = New System.Drawing.Point(102, 15)
+        Me.cmdApply.Name = "cmdApply"
+        Me.cmdApply.Size = New System.Drawing.Size(47, 33)
+        Me.cmdApply.TabIndex = 2
+        Me.cmdApply.Text = "Appl&y"
+        Me.cmdApply.UseVisualStyleBackColor = True
+        '
+        'cmdReturn
+        '
+        Me.cmdReturn.Location = New System.Drawing.Point(6, 15)
+        Me.cmdReturn.Name = "cmdReturn"
+        Me.cmdReturn.Size = New System.Drawing.Size(47, 33)
+        Me.cmdReturn.TabIndex = 0
+        Me.cmdReturn.Text = "&Return"
+        Me.cmdReturn.UseVisualStyleBackColor = True
+        '
         'cmbGrid2
         '
         Me.cmbGrid2.FormattingEnabled = True
-        Me.cmbGrid2.Location = New System.Drawing.Point(210, 453)
+        Me.cmbGrid2.Location = New System.Drawing.Point(149, 460)
         Me.cmbGrid2.Name = "cmbGrid2"
         Me.cmbGrid2.Size = New System.Drawing.Size(121, 21)
         Me.cmbGrid2.TabIndex = 10
@@ -295,15 +296,6 @@ Partial Class OnScreenReport
         Me.txtBalDue.Size = New System.Drawing.Size(100, 20)
         Me.txtBalDue.TabIndex = 15
         '
-        'cmdPrint2
-        '
-        Me.cmdPrint2.Location = New System.Drawing.Point(246, 15)
-        Me.cmdPrint2.Name = "cmdPrint2"
-        Me.cmdPrint2.Size = New System.Drawing.Size(47, 33)
-        Me.cmdPrint2.TabIndex = 5
-        Me.cmdPrint2.Text = "&Print"
-        Me.cmdPrint2.UseVisualStyleBackColor = True
-        '
         'lblRate0
         '
         Me.lblRate0.AutoSize = True
@@ -312,6 +304,17 @@ Partial Class OnScreenReport
         Me.lblRate0.Size = New System.Drawing.Size(40, 13)
         Me.lblRate0.TabIndex = 16
         Me.lblRate0.Text = "lblRate"
+        '
+        'cmdAdd
+        '
+        Me.cmdAdd.Appearance = System.Windows.Forms.Appearance.Button
+        Me.cmdAdd.AutoSize = True
+        Me.cmdAdd.Location = New System.Drawing.Point(59, 20)
+        Me.cmdAdd.Name = "cmdAdd"
+        Me.cmdAdd.Size = New System.Drawing.Size(36, 23)
+        Me.cmdAdd.TabIndex = 6
+        Me.cmdAdd.Text = "&Add"
+        Me.cmdAdd.UseVisualStyleBackColor = True
         '
         'OnScreenReport
         '
@@ -323,6 +326,7 @@ Partial Class OnScreenReport
         Me.Controls.Add(Me.txtDiffTax0)
         Me.Controls.Add(Me.lblBalDue)
         Me.Controls.Add(Me.lblDiffTax)
+        Me.Controls.Add(Me.fraControls2)
         Me.Controls.Add(Me.cmdAdjustTax)
         Me.Controls.Add(Me.cmbGrid2)
         Me.Controls.Add(Me.fraControls1)
@@ -340,6 +344,7 @@ Partial Class OnScreenReport
         Me.fraControls1.ResumeLayout(False)
         Me.fraControls1.PerformLayout()
         Me.fraControls2.ResumeLayout(False)
+        Me.fraControls2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -361,7 +366,6 @@ Partial Class OnScreenReport
     Friend WithEvents cmdMenu2 As Button
     Friend WithEvents cmdNext2 As Button
     Friend WithEvents cmdApply As Button
-    Friend WithEvents cmdAdd As Button
     Friend WithEvents cmdReturn As Button
     Friend WithEvents cmbGrid2 As ComboBox
     Friend WithEvents cmdAdjustTax As Button
@@ -371,4 +375,6 @@ Partial Class OnScreenReport
     Friend WithEvents txtBalDue As TextBox
     Friend WithEvents cmdPrint2 As Button
     Friend WithEvents lblRate0 As Label
+    Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents cmdAdd As CheckBox
 End Class

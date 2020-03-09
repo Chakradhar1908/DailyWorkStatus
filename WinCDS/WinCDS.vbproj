@@ -234,6 +234,18 @@
     <Compile Include="Forms\frmAbout.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmAdjustAdd.Designer.vb">
+      <DependentUpon>frmAdjustAdd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAdjustAdd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAdjustTax.Designer.vb">
+      <DependentUpon>frmAdjustTax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAdjustTax.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmAshleyEDI.Designer.vb">
       <DependentUpon>frmAshleyEDI.vb</DependentUpon>
     </Compile>
