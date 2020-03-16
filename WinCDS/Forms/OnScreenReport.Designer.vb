@@ -37,6 +37,7 @@ Partial Class OnScreenReport
         Me.cmdNext = New System.Windows.Forms.Button()
         Me.cmdAllStores = New System.Windows.Forms.Button()
         Me.fraControls2 = New System.Windows.Forms.GroupBox()
+        Me.cmdAdd = New System.Windows.Forms.CheckBox()
         Me.cmdPrint2 = New System.Windows.Forms.Button()
         Me.cmdMenu2 = New System.Windows.Forms.Button()
         Me.cmdNext2 = New System.Windows.Forms.Button()
@@ -50,7 +51,6 @@ Partial Class OnScreenReport
         Me.txtBalDue = New System.Windows.Forms.TextBox()
         Me.lblRate0 = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.cmdAdd = New System.Windows.Forms.CheckBox()
         Me.fraControls1.SuspendLayout()
         Me.fraControls2.SuspendLayout()
         Me.SuspendLayout()
@@ -200,6 +200,17 @@ Partial Class OnScreenReport
         Me.fraControls2.TabIndex = 9
         Me.fraControls2.TabStop = False
         '
+        'cmdAdd
+        '
+        Me.cmdAdd.Appearance = System.Windows.Forms.Appearance.Button
+        Me.cmdAdd.AutoSize = True
+        Me.cmdAdd.Location = New System.Drawing.Point(59, 20)
+        Me.cmdAdd.Name = "cmdAdd"
+        Me.cmdAdd.Size = New System.Drawing.Size(36, 23)
+        Me.cmdAdd.TabIndex = 6
+        Me.cmdAdd.Text = "&Add"
+        Me.cmdAdd.UseVisualStyleBackColor = True
+        '
         'cmdPrint2
         '
         Me.cmdPrint2.Location = New System.Drawing.Point(246, 15)
@@ -304,17 +315,6 @@ Partial Class OnScreenReport
         Me.lblRate0.Size = New System.Drawing.Size(40, 13)
         Me.lblRate0.TabIndex = 16
         Me.lblRate0.Text = "lblRate"
-        '
-        'cmdAdd
-        '
-        Me.cmdAdd.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cmdAdd.AutoSize = True
-        Me.cmdAdd.Location = New System.Drawing.Point(59, 20)
-        Me.cmdAdd.Name = "cmdAdd"
-        Me.cmdAdd.Size = New System.Drawing.Size(36, 23)
-        Me.cmdAdd.TabIndex = 6
-        Me.cmdAdd.Text = "&Add"
-        Me.cmdAdd.UseVisualStyleBackColor = True
         '
         'OnScreenReport
         '

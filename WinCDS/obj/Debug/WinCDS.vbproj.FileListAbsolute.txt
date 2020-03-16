@@ -247,6 +247,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.BillOSale.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Calendar.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.CalendarInstr.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.EditPO.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAdjustTax.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAutoWeb.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBackUpGeneric.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBarcode.resources
@@ -298,6 +299,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvKitStock.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvOrdStatus.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvPoPrint.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvPull.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvReports.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.InvStkRec.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.LaAwaySelect.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MailBookEmail.resources

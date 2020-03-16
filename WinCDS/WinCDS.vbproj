@@ -204,6 +204,12 @@
     <Compile Include="Forms\CalendarInstr.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\CustAdjRefund.Designer.vb">
+      <DependentUpon>CustAdjRefund.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CustAdjRefund.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\CustomerTypes.Designer.vb">
       <DependentUpon>CustomerTypes.vb</DependentUpon>
     </Compile>
@@ -1081,6 +1087,7 @@
     <Compile Include="Modules\mod2DataPictures.vb" />
     <Compile Include="Modules\mod2DataTransfers.vb" />
     <Compile Include="Modules\modAccessDBs.vb" />
+    <Compile Include="Modules\modAccounts.vb" />
     <Compile Include="Modules\modActiveLog.vb" />
     <Compile Include="Modules\modAddresses.vb" />
     <Compile Include="Modules\modAmericanHeritageInsurance.vb" />
@@ -1297,6 +1304,9 @@
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAdjustTax.resx">
+      <DependentUpon>frmAdjustTax.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAutoWeb.resx">
       <DependentUpon>frmAutoWeb.vb</DependentUpon>
     </EmbeddedResource>
@@ -1449,6 +1459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvPull.resx">
       <DependentUpon>InvPull.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InvReports.resx">
+      <DependentUpon>InvReports.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InvStkRec.resx">
       <DependentUpon>InvStkRec.vb</DependentUpon>

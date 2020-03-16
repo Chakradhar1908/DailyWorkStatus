@@ -650,7 +650,7 @@ Skip:
         DisposeDA(X)
     End Function
 
-    Public Function GetTax2Rate(ByVal tL As Long) As String
+    Public Function GetTax2Rate(ByVal tL As Integer) As String
         '::::GetTax2Rate
         ':::SUMMARY
         ': Gets Tax2 Rate.
@@ -660,14 +660,14 @@ Skip:
         ': - tL - Indicates the location.
         ':::RETURN
         ': String - Returns Tax2 Rate as a String.
-        Dim T As String, N As Long
+        Dim T As String, N As Integer
         On Error Resume Next
         T = GetTax2String(tL)
         N = InStr(T, " ")
         If N = 0 Then GetTax2Rate = T Else GetTax2Rate = Mid(T, 1, N - 1)
     End Function
 
-    Public Function SalesTax2Count() As Long
+    Public Function SalesTax2Count() As Integer
         '::::SalesTax2Count
         ':::SUMMARY
         ': Used to count SalesTax2.
@@ -682,4 +682,7 @@ Skip:
         SalesTax2Count = UBound(X) - LBound(X) + 1
     End Function
 
+    Public Function QuerySalesTax2Rate(ByVal ind As Integer) As Double
+        QuerySalesTax2Rate = GetTax2Rate(ind + 1)
+    End Function
 End Module
