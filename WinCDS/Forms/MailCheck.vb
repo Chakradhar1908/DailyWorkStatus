@@ -12,7 +12,8 @@ Public Class MailCheck
     'Private Const FRM_W1 As Integer = 8100
     Private Const FRM_W1 As Integer = 550
     'Private Const FRM_W2 As Integer = 3735
-    Private Const FRM_W2 As Integer = 545
+    'Private Const FRM_W2 As Integer = 545
+    Private Const FRM_W2 As Integer = 250
     'Private Const FRM_H1 As Integer = 3360
     Private Const FRM_H1 As Integer = 198
 
@@ -742,6 +743,7 @@ HandleErr:
         Height = FRM_H1
         Width = FRM_W2
 
+
         'SetButtonImage(cmdOK)
         'SetButtonImage(cmdCancel)
         SetButtonImage(cmdOK, 2)
@@ -766,7 +768,9 @@ HandleErr:
         , ExtraSort:="First, LeaseNo"
         )
 
-        optTelephone.Checked = True
+        If OnScreenReport.MailCheckSaleNoChecked = False Then
+            optTelephone.Checked = True
+        End If
         Setup()
     End Sub
 
@@ -892,7 +896,9 @@ HandleErr:
     End Sub
 
     Private Sub MailCheck_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        'If OnScreenReport.MailCheckSaleNoChecked = False Then
         If Width < FRM_W2 Then Width = FRM_W2
+        'End If
         'If ScaleWidth - lstMatches.Left - 120 > 0 Then lstMatches.Width = ScaleWidth - lstMatches.Left - 120
         'If Me.ClientSize.Width - lstMatches.Left - 120 > 0 Then lstMatches.Width = Me.ClientSize.Width - lstMatches.Left - 120
         If Me.ClientSize.Width - lstMatches.Left > 0 Then lstMatches.Width = Me.ClientSize.Width - lstMatches.Left - 10
@@ -984,7 +990,8 @@ HandleErr:
         CustomerTele = InputBox.Text
         'Width = 3735
         'Width = 8000
-        Width = FRM_W2
+        'Width = FRM_W2
+        Width = 545
         FormatAniTextBox(InputBox)
         InputBox.TabStop = True
         InputBox.TabIndex = 1
@@ -1140,5 +1147,9 @@ HandleErr:
 
     Private Sub optTelephone_CheckedChanged(sender As Object, e As EventArgs) Handles optTelephone.CheckedChanged
         optTelephone_Click(optTelephone, New EventArgs)
+    End Sub
+
+    Private Sub optSaleNo_CheckedChanged(sender As Object, e As EventArgs) Handles optSaleNo.CheckedChanged
+        optSaleNo_Click(optSaleNo, New EventArgs)
     End Sub
 End Class

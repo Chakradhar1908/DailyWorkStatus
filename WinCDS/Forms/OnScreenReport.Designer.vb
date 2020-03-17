@@ -23,13 +23,11 @@ Partial Class OnScreenReport
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.UGridIO1 = New WinCDS.UGridIO()
         Me.cmbManuf = New System.Windows.Forms.ComboBox()
         Me.lblCaption = New System.Windows.Forms.Label()
         Me.lblPrevBal2 = New System.Windows.Forms.Label()
         Me.lblPrevBal = New System.Windows.Forms.Label()
         Me.lblBalDue2 = New System.Windows.Forms.Label()
-        Me.UGridIO2 = New WinCDS.UGridIO()
         Me.fraControls1 = New System.Windows.Forms.GroupBox()
         Me.txtLocation = New System.Windows.Forms.TextBox()
         Me.cmdMenu = New System.Windows.Forms.Button()
@@ -51,23 +49,11 @@ Partial Class OnScreenReport
         Me.txtBalDue = New System.Windows.Forms.TextBox()
         Me.lblRate0 = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.UGridIO2 = New WinCDS.UGridIO()
+        Me.UGridIO1 = New WinCDS.UGridIO()
         Me.fraControls1.SuspendLayout()
         Me.fraControls2.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'UGridIO1
-        '
-        Me.UGridIO1.Activated = False
-        Me.UGridIO1.Col = 1
-        Me.UGridIO1.firstrow = 1
-        Me.UGridIO1.Loading = False
-        Me.UGridIO1.Location = New System.Drawing.Point(12, 12)
-        Me.UGridIO1.MaxCols = 2
-        Me.UGridIO1.MaxRows = 10
-        Me.UGridIO1.Name = "UGridIO1"
-        Me.UGridIO1.Row = 0
-        Me.UGridIO1.Size = New System.Drawing.Size(776, 159)
-        Me.UGridIO1.TabIndex = 1
         '
         'cmbManuf
         '
@@ -82,7 +68,7 @@ Partial Class OnScreenReport
         '
         Me.lblCaption.AutoSize = True
         Me.lblCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCaption.Location = New System.Drawing.Point(307, 215)
+        Me.lblCaption.Location = New System.Drawing.Point(353, 215)
         Me.lblCaption.Name = "lblCaption"
         Me.lblCaption.Size = New System.Drawing.Size(95, 31)
         Me.lblCaption.TabIndex = 3
@@ -91,7 +77,7 @@ Partial Class OnScreenReport
         'lblPrevBal2
         '
         Me.lblPrevBal2.AutoSize = True
-        Me.lblPrevBal2.Location = New System.Drawing.Point(504, 222)
+        Me.lblPrevBal2.Location = New System.Drawing.Point(670, 223)
         Me.lblPrevBal2.Name = "lblPrevBal2"
         Me.lblPrevBal2.Size = New System.Drawing.Size(69, 13)
         Me.lblPrevBal2.TabIndex = 4
@@ -100,11 +86,10 @@ Partial Class OnScreenReport
         'lblPrevBal
         '
         Me.lblPrevBal.AutoSize = True
-        Me.lblPrevBal.Location = New System.Drawing.Point(611, 224)
+        Me.lblPrevBal.Location = New System.Drawing.Point(747, 225)
         Me.lblPrevBal.Name = "lblPrevBal"
-        Me.lblPrevBal.Size = New System.Drawing.Size(39, 13)
+        Me.lblPrevBal.Size = New System.Drawing.Size(0, 13)
         Me.lblPrevBal.TabIndex = 5
-        Me.lblPrevBal.Text = "Label1"
         '
         'lblBalDue2
         '
@@ -115,20 +100,6 @@ Partial Class OnScreenReport
         Me.lblBalDue2.TabIndex = 6
         Me.lblBalDue2.Text = "Balance Due:"
         '
-        'UGridIO2
-        '
-        Me.UGridIO2.Activated = False
-        Me.UGridIO2.Col = 1
-        Me.UGridIO2.firstrow = 1
-        Me.UGridIO2.Loading = False
-        Me.UGridIO2.Location = New System.Drawing.Point(12, 234)
-        Me.UGridIO2.MaxCols = 2
-        Me.UGridIO2.MaxRows = 10
-        Me.UGridIO2.Name = "UGridIO2"
-        Me.UGridIO2.Row = 0
-        Me.UGridIO2.Size = New System.Drawing.Size(776, 96)
-        Me.UGridIO2.TabIndex = 7
-        '
         'fraControls1
         '
         Me.fraControls1.Controls.Add(Me.txtLocation)
@@ -136,7 +107,7 @@ Partial Class OnScreenReport
         Me.fraControls1.Controls.Add(Me.cmdPrint)
         Me.fraControls1.Controls.Add(Me.cmdNext)
         Me.fraControls1.Controls.Add(Me.cmdAllStores)
-        Me.fraControls1.Location = New System.Drawing.Point(12, 353)
+        Me.fraControls1.Location = New System.Drawing.Point(22, 353)
         Me.fraControls1.Name = "fraControls1"
         Me.fraControls1.Size = New System.Drawing.Size(274, 67)
         Me.fraControls1.TabIndex = 8
@@ -179,6 +150,7 @@ Partial Class OnScreenReport
         '
         'cmdAllStores
         '
+        Me.cmdAllStores.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdAllStores.Location = New System.Drawing.Point(7, 16)
         Me.cmdAllStores.Name = "cmdAllStores"
         Me.cmdAllStores.Size = New System.Drawing.Size(65, 35)
@@ -194,55 +166,55 @@ Partial Class OnScreenReport
         Me.fraControls2.Controls.Add(Me.cmdNext2)
         Me.fraControls2.Controls.Add(Me.cmdApply)
         Me.fraControls2.Controls.Add(Me.cmdReturn)
-        Me.fraControls2.Location = New System.Drawing.Point(330, 377)
+        Me.fraControls2.Location = New System.Drawing.Point(235, 421)
         Me.fraControls2.Name = "fraControls2"
-        Me.fraControls2.Size = New System.Drawing.Size(302, 58)
+        Me.fraControls2.Size = New System.Drawing.Size(331, 75)
         Me.fraControls2.TabIndex = 9
         Me.fraControls2.TabStop = False
         '
         'cmdAdd
         '
         Me.cmdAdd.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cmdAdd.AutoSize = True
-        Me.cmdAdd.Location = New System.Drawing.Point(59, 20)
+        Me.cmdAdd.Location = New System.Drawing.Point(60, 15)
         Me.cmdAdd.Name = "cmdAdd"
-        Me.cmdAdd.Size = New System.Drawing.Size(36, 23)
+        Me.cmdAdd.Size = New System.Drawing.Size(52, 54)
         Me.cmdAdd.TabIndex = 6
         Me.cmdAdd.Text = "&Add"
+        Me.cmdAdd.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.cmdAdd.UseVisualStyleBackColor = True
         '
         'cmdPrint2
         '
-        Me.cmdPrint2.Location = New System.Drawing.Point(246, 15)
+        Me.cmdPrint2.Location = New System.Drawing.Point(265, 15)
         Me.cmdPrint2.Name = "cmdPrint2"
-        Me.cmdPrint2.Size = New System.Drawing.Size(47, 33)
+        Me.cmdPrint2.Size = New System.Drawing.Size(56, 54)
         Me.cmdPrint2.TabIndex = 5
         Me.cmdPrint2.Text = "&Print"
         Me.cmdPrint2.UseVisualStyleBackColor = True
         '
         'cmdMenu2
         '
-        Me.cmdMenu2.Location = New System.Drawing.Point(198, 15)
+        Me.cmdMenu2.Location = New System.Drawing.Point(212, 15)
         Me.cmdMenu2.Name = "cmdMenu2"
-        Me.cmdMenu2.Size = New System.Drawing.Size(47, 33)
+        Me.cmdMenu2.Size = New System.Drawing.Size(54, 54)
         Me.cmdMenu2.TabIndex = 4
         Me.cmdMenu2.Text = "Men&u"
         Me.cmdMenu2.UseVisualStyleBackColor = True
         '
         'cmdNext2
         '
-        Me.cmdNext2.Location = New System.Drawing.Point(150, 15)
+        Me.cmdNext2.Location = New System.Drawing.Point(162, 15)
         Me.cmdNext2.Name = "cmdNext2"
-        Me.cmdNext2.Size = New System.Drawing.Size(47, 33)
+        Me.cmdNext2.Size = New System.Drawing.Size(51, 54)
         Me.cmdNext2.TabIndex = 3
         Me.cmdNext2.Text = "Ne&xt"
         Me.cmdNext2.UseVisualStyleBackColor = True
         '
         'cmdApply
         '
-        Me.cmdApply.Location = New System.Drawing.Point(102, 15)
+        Me.cmdApply.Location = New System.Drawing.Point(111, 15)
         Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(47, 33)
+        Me.cmdApply.Size = New System.Drawing.Size(52, 54)
         Me.cmdApply.TabIndex = 2
         Me.cmdApply.Text = "Appl&y"
         Me.cmdApply.UseVisualStyleBackColor = True
@@ -251,7 +223,7 @@ Partial Class OnScreenReport
         '
         Me.cmdReturn.Location = New System.Drawing.Point(6, 15)
         Me.cmdReturn.Name = "cmdReturn"
-        Me.cmdReturn.Size = New System.Drawing.Size(47, 33)
+        Me.cmdReturn.Size = New System.Drawing.Size(55, 54)
         Me.cmdReturn.TabIndex = 0
         Me.cmdReturn.Text = "&Return"
         Me.cmdReturn.UseVisualStyleBackColor = True
@@ -259,7 +231,7 @@ Partial Class OnScreenReport
         'cmbGrid2
         '
         Me.cmbGrid2.FormattingEnabled = True
-        Me.cmbGrid2.Location = New System.Drawing.Point(149, 460)
+        Me.cmbGrid2.Location = New System.Drawing.Point(102, 475)
         Me.cmbGrid2.Name = "cmbGrid2"
         Me.cmbGrid2.Size = New System.Drawing.Size(121, 21)
         Me.cmbGrid2.TabIndex = 10
@@ -267,7 +239,7 @@ Partial Class OnScreenReport
         '
         'cmdAdjustTax
         '
-        Me.cmdAdjustTax.Location = New System.Drawing.Point(509, 339)
+        Me.cmdAdjustTax.Location = New System.Drawing.Point(534, 356)
         Me.cmdAdjustTax.Name = "cmdAdjustTax"
         Me.cmdAdjustTax.Size = New System.Drawing.Size(35, 23)
         Me.cmdAdjustTax.TabIndex = 11
@@ -278,7 +250,7 @@ Partial Class OnScreenReport
         'lblDiffTax
         '
         Me.lblDiffTax.AutoSize = True
-        Me.lblDiffTax.Location = New System.Drawing.Point(552, 339)
+        Me.lblDiffTax.Location = New System.Drawing.Point(591, 352)
         Me.lblDiffTax.Name = "lblDiffTax"
         Me.lblDiffTax.Size = New System.Drawing.Size(80, 13)
         Me.lblDiffTax.TabIndex = 12
@@ -287,7 +259,7 @@ Partial Class OnScreenReport
         'lblBalDue
         '
         Me.lblBalDue.AutoSize = True
-        Me.lblBalDue.Location = New System.Drawing.Point(560, 361)
+        Me.lblBalDue.Location = New System.Drawing.Point(599, 374)
         Me.lblBalDue.Name = "lblBalDue"
         Me.lblBalDue.Size = New System.Drawing.Size(72, 13)
         Me.lblBalDue.TabIndex = 13
@@ -295,32 +267,59 @@ Partial Class OnScreenReport
         '
         'txtDiffTax0
         '
-        Me.txtDiffTax0.Location = New System.Drawing.Point(638, 336)
+        Me.txtDiffTax0.Location = New System.Drawing.Point(673, 349)
         Me.txtDiffTax0.Name = "txtDiffTax0"
-        Me.txtDiffTax0.Size = New System.Drawing.Size(100, 20)
+        Me.txtDiffTax0.Size = New System.Drawing.Size(59, 20)
         Me.txtDiffTax0.TabIndex = 14
         '
         'txtBalDue
         '
-        Me.txtBalDue.Location = New System.Drawing.Point(638, 362)
+        Me.txtBalDue.Location = New System.Drawing.Point(673, 375)
         Me.txtBalDue.Name = "txtBalDue"
-        Me.txtBalDue.Size = New System.Drawing.Size(100, 20)
+        Me.txtBalDue.Size = New System.Drawing.Size(59, 20)
         Me.txtBalDue.TabIndex = 15
         '
         'lblRate0
         '
-        Me.lblRate0.AutoSize = True
-        Me.lblRate0.Location = New System.Drawing.Point(744, 339)
+        Me.lblRate0.Location = New System.Drawing.Point(738, 356)
         Me.lblRate0.Name = "lblRate0"
         Me.lblRate0.Size = New System.Drawing.Size(40, 13)
         Me.lblRate0.TabIndex = 16
-        Me.lblRate0.Text = "lblRate"
+        '
+        'UGridIO2
+        '
+        Me.UGridIO2.Activated = False
+        Me.UGridIO2.Col = 1
+        Me.UGridIO2.firstrow = 1
+        Me.UGridIO2.Loading = False
+        Me.UGridIO2.Location = New System.Drawing.Point(12, 234)
+        Me.UGridIO2.MaxCols = 2
+        Me.UGridIO2.MaxRows = 10
+        Me.UGridIO2.Name = "UGridIO2"
+        Me.UGridIO2.Row = 0
+        Me.UGridIO2.Size = New System.Drawing.Size(776, 96)
+        Me.UGridIO2.TabIndex = 7
+        '
+        'UGridIO1
+        '
+        Me.UGridIO1.Activated = False
+        Me.UGridIO1.Col = 1
+        Me.UGridIO1.firstrow = 1
+        Me.UGridIO1.Loading = False
+        Me.UGridIO1.Location = New System.Drawing.Point(12, 12)
+        Me.UGridIO1.MaxCols = 2
+        Me.UGridIO1.MaxRows = 10
+        Me.UGridIO1.Name = "UGridIO1"
+        Me.UGridIO1.Row = 0
+        Me.UGridIO1.Size = New System.Drawing.Size(776, 159)
+        Me.UGridIO1.TabIndex = 1
         '
         'OnScreenReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 552)
+        Me.CancelButton = Me.cmdAllStores
+        Me.ClientSize = New System.Drawing.Size(800, 545)
         Me.Controls.Add(Me.lblRate0)
         Me.Controls.Add(Me.txtBalDue)
         Me.Controls.Add(Me.txtDiffTax0)
@@ -339,12 +338,12 @@ Partial Class OnScreenReport
         Me.Controls.Add(Me.UGridIO1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "OnScreenReport"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.fraControls1.ResumeLayout(False)
         Me.fraControls1.PerformLayout()
         Me.fraControls2.ResumeLayout(False)
-        Me.fraControls2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

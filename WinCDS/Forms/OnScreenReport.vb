@@ -57,6 +57,7 @@ Public Class OnScreenReport
 
     Const AllowAdjustDel As Boolean = True
     Const MaxAdjustments As Integer = 30
+    Public MailCheckSaleNoChecked As Boolean
 
     Private Sub OnScreenReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim P As Object
@@ -135,7 +136,9 @@ Public Class OnScreenReport
         ElseIf ReportsMode("H") Or OrderMode("Credit") Then
             fraControls1.Visible = True
             fraControls2.Visible = False
-            fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 120
+            'fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 120
+            fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 12
+            'Height = fraControls2.Top + fraControls1.Height + 120
             Height = fraControls2.Top + fraControls1.Height + 120
 
             If ReportsMode("H") Then  'customer history
@@ -157,8 +160,10 @@ Public Class OnScreenReport
             If OrderMode("Credit") Then
                 fraControls1.Visible = False
                 fraControls2.Visible = True
-                fraControls2.Top = UGridIO2.Top + UGridIO2.Height + 360
-                Height = fraControls2.Top + fraControls2.Height + 120 + (Height - Me.ClientSize.Height)
+                'fraControls2.Top = UGridIO2.Top + UGridIO2.Height + 360
+                fraControls2.Top = UGridIO2.Top + UGridIO2.Height + 36
+                'Height = fraControls2.Top + fraControls2.Height + 120 + (Height - Me.ClientSize.Height)
+                Height = fraControls2.Top + fraControls2.Height + 40 + (Height - Me.ClientSize.Height)
 
                 lblCaption.Text = "Customer Adjustment"
                 'cmdMenu2.Cancel = True
@@ -170,22 +175,26 @@ Public Class OnScreenReport
                 lblBalDue.Visible = True
 
                 'use for customer returns
-                UGridIO1.Height = 3000
+                'UGridIO1.Height = 3000
+                UGridIO1.Height = 200
                 UGridIO2.Visible = True
-                UGridIO2.Top = 4000
+                'UGridIO2.Top = 4000
+                UGridIO2.Top = 250
+                fraControls2.Top = UGridIO2.Top + UGridIO2.Height + 46
+
                 '    With UGridIO2
-                UGridIO2.AddColumn(0, "Sale No", 1000, True, False)
-                UGridIO2.AddColumn(1, "Style", 1700, False, False)
-                UGridIO2.AddColumn(2, "Manufacturer", 1700, False, False)
-                UGridIO2.AddColumn(3, "Loc", 500, False, False)
-                UGridIO2.AddColumn(4, "Status", 800, False, False)
-                UGridIO2.AddColumn(5, "Quan", 500, False, False)
-                UGridIO2.AddColumn(6, "Description", 2550, False, False)
-                UGridIO2.AddColumn(7, "Price", 1000, False, False, MSDBGrid.AlignmentConstants.dbgRight)
-                UGridIO2.AddColumn(8, "Difference", 1000, True, False, MSDBGrid.AlignmentConstants.dbgRight)
-                UGridIO2.AddColumn(9, "Unit Price", 1000, True, False, , False)
-                UGridIO2.AddColumn(10, "MarginLine", 1000, True, False, , False)
-                UGridIO2.AddColumn(11, "Commission", 1000, True, False, , False) ' MJK 20131026
+                UGridIO2.AddColumn(0, "Sale No", 80, True, False)
+                UGridIO2.AddColumn(1, "Style", 90, False, False)
+                UGridIO2.AddColumn(2, "Manufacturer", 150, False, False)
+                UGridIO2.AddColumn(3, "Loc", 30, False, False)
+                UGridIO2.AddColumn(4, "Status", 40, False, False)
+                UGridIO2.AddColumn(5, "Quan", 30, False, False)
+                UGridIO2.AddColumn(6, "Description", 180, False, False)
+                UGridIO2.AddColumn(7, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+                UGridIO2.AddColumn(8, "Difference", 80, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+                UGridIO2.AddColumn(9, "Unit Price", 80, True, False, , False)
+                UGridIO2.AddColumn(10, "MarginLine", 50, True, False, , False)
+                UGridIO2.AddColumn(11, "Commission", 50, True, False, , False) ' MJK 20131026
 
                 UGridIO2.GetColumn(7).NumberFormat = "###,##0.00"
                 UGridIO2.GetColumn(8).NumberFormat = "###,##0.00"
@@ -202,18 +211,18 @@ Public Class OnScreenReport
             TotDue = 0
             SubBalance = 0
             '  With UGridIO1
-            UGridIO1.AddColumn(0, "Sale No", 1000, True, False)
-            UGridIO1.AddColumn(1, "Style", 1700, True, False)
-            UGridIO1.AddColumn(2, "Manufacturer", 1700, True, False)
-            UGridIO1.AddColumn(3, "Loc", 500, True, False)
-            UGridIO1.AddColumn(4, "Status", 800, True, False)
-            UGridIO1.AddColumn(5, "Quan", 500, True, False, MSDBGrid.AlignmentConstants.dbgRight)
-            UGridIO1.AddColumn(6, "Description", 2550, True, False)
-            UGridIO1.AddColumn(7, "Price", 1000, True, False, MSDBGrid.AlignmentConstants.dbgRight)
-            UGridIO1.AddColumn(8, "Total Due", 1000, True, False, MSDBGrid.AlignmentConstants.dbgRight)
-            UGridIO1.AddColumn(9, "MarginLine", 1000, True, False, , False)
-            UGridIO1.AddColumn(10, "KitPrice", 1000, True, False, , False)
-            UGridIO1.AddColumn(11, "Commission", 1000, True, False, , False) ' MJK 20131026
+            UGridIO1.AddColumn(0, "Sale No", 80, True, False)
+            UGridIO1.AddColumn(1, "Style", 90, True, False)
+            UGridIO1.AddColumn(2, "Manufacturer", 150, True, False)
+            UGridIO1.AddColumn(3, "Loc", 30, True, False)
+            UGridIO1.AddColumn(4, "Status", 40, True, False)
+            UGridIO1.AddColumn(5, "Quan", 30, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(6, "Description", 180, True, False)
+            UGridIO1.AddColumn(7, "Price", 70, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(8, "Total Due", 70, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(9, "MarginLine", 70, True, False, , False)
+            UGridIO1.AddColumn(10, "KitPrice", 70, True, False, , False)
+            UGridIO1.AddColumn(11, "Commission", 50, True, False, , False) ' MJK 20131026
 
             UGridIO1.MaxCols = 12
             UGridIO1.MaxRows = 800
@@ -938,7 +947,8 @@ HandleErr:
         ' Customer and Sale information is loaded by MailCheck's Sale Found events.
         Show()
         'cmdNext.Value = True
-        cmdNext.PerformClick()
+        'cmdNext.PerformClick()
+        cmdNext_Click(cmdNext, New EventArgs)
     End Sub
 
     Public Sub CustomerHistory()
@@ -1382,12 +1392,14 @@ HandleErr:
             MailCheckRef.optTelephone.Checked = True
         Else
             MailCheckRef.optSaleNo.Checked = True
+            MailCheckSaleNoChecked = True
         End If
         'MailCheckRef.Show vbModal, Me
         MailCheckRef.ShowDialog(Me)
         'Unload MailCheckRef
         MailCheckRef.Close()
         MailCheckRef = Nothing
+        MailCheckSaleNoChecked = False
         'If Not SaleFound Then cmdMenu.Value = True
         If Not SaleFound Then cmdMenu.PerformClick()
     End Sub
