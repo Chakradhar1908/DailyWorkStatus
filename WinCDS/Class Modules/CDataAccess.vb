@@ -55,10 +55,12 @@ Public Class CDataAccess
             mIndex = value
         End Set
     End Property
+
     Friend Function Record_Count() As Integer
         On Error Resume Next
         Record_Count = Mrs.RecordCount
     End Function
+
     Friend Sub Records_Add()
         ' This is slow on large tables because it's actually running a query
         ' intended to get no records.  Let's find a quicker way.
@@ -77,6 +79,7 @@ Public Class CDataAccess
         mSubClass.SetRecordSet(Mrs)
         mUpdated = True
     End Sub
+
     Friend Sub Record_Update()
         mSubClass.SetRecordSet(Mrs)
         mUpdated = True

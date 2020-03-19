@@ -905,4 +905,207 @@ Public Class OrdStatus
 
         FocusQuantity()
     End Sub
+
+    Public Sub LoadAdjStyle(ByVal vRn As Integer)
+        Dim cIR As CInvRec, I As Integer
+        Dim SoS As Integer ' sold on sale
+        Dim S As String, P As Integer, RS As ADODB.Recordset, Amt As Integer
+
+        cIR = New CInvRec
+
+        If Not cIR.Load(vRn, "#Rn") Then
+            DisposeDA(cIR)
+            Exit Sub
+        End If
+
+        LoadOnOrder(cIR.Style)
+
+        lblTotAvail.Text = cIR.QueryTotalStock
+        For I = 1 To cOptionCount
+            SoS = 0 '### this could actually be computed from OnScreenReport. works for now
+            'StoreStockCaption(I) = cIR.QueryStock(I) - SoS
+            StoreStockCaption(I, cIR.QueryStock(I) - SoS)
+        Next
+
+        SoS = 0 '### this could actually be computed from OnScreenReport. works for now
+        If StoreSettings.bTagIncommingDistinct Or True Then ' BFH20140605 - To make Jerry happy...  he didn't like it not showing up...
+            P = StoresSld
+            S = "SELECT Sum(Loc" & P & ") AS Amt FROM [Detail] WHERE Style='" & cIR.Style & "' AND Trans='PO' AND Loc" & P & "<>0"
+            RS = GetRecordsetBySQL(S, , GetDatabaseInventory)
+            If Not RS.EOF Then Amt = IfNullThenZero(RS("Amt")) Else Amt = 0
+            RS = Nothing
+
+            If Amt < 0 Then Amt = 0
+            lblTagAmt.Text = cIR.QueryTotalOnOrder() - Amt - SoS
+            'lblTagAmt = cIR.QueryOnOrder(P) - Amt - SoS
+        Else ' chkTagIncommingDistinct wasn't selected
+            lblTagAmt.Text = cIR.QueryTotalOnOrder - SoS  'total available for sale (also decrease based on current sale's PO Sold)
+        End If
+
+        DisposeDA(cIR)
+    End Sub
+
+    Public Function QueryStatus() As String
+        If optLayaway.Checked = True Then
+            QueryStatus = "LAW"
+        ElseIf optReduceStock.Checked = True Then
+            QueryStatus = "ST"
+        ElseIf optSpecOrd.Checked = True Then
+            QueryStatus = "SO"
+        ElseIf optTagIncoming.Checked = True Then
+            QueryStatus = "PO"
+        ElseIf optTakeWith.Checked = True Then
+            QueryStatus = "DELTW"
+        End If
+    End Function
+
+    '    Private Property Let StoreStockCaption(ByVal Idx as integer, ByVal Str As String)
+    '  optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption = Str
+    'End Property
+    '    Private Property Get StoreStockCaption(ByVal Idx as integer) As String
+    '  StoreStockCaption = optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption
+    'End Property
+
+    'Private Function StoreStockCaption(ByVal Idx As Integer, Optional ByVal Str As Object = "") As Object
+    '    If Str <> "" Then        'Let property
+    '        'optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption = Str
+    '        Select Case Idx
+    '            Case 1
+    '                optStock1.Text = Str
+    '            Case 2
+    '                optStock2.Text = Str
+    '            Case 3
+    '                optStock3.Text = Str
+    '            Case 4
+    '                optStock4.Text = Str
+    '            Case 5
+    '                optStock5.Text = Str
+    '            Case 6
+    '                optStock6.Text = Str
+    '            Case 7
+    '                optStock7.Text = Str
+    '            Case 8
+    '                optStock8.Text = Str
+    '            Case 9
+    '                optStock9.Text = Str
+    '            Case 10
+    '                optStock11.Text = Str
+    '            Case 11
+    '                optStock11.Text = Str
+    '            Case 12
+    '                optStock12.Text = Str
+    '            Case 13
+    '                optStock13.Text = Str
+    '            Case 14
+    '                optStock14.Text = Str
+    '            Case 15
+    '                optStock15.Text = Str
+    '            Case 16
+    '                optStock16.Text = Str
+    '            Case 17
+    '                optStock17.Text = Str
+    '            Case 18
+    '                optStock18.Text = Str
+    '            Case 19
+    '                optStock19.Text = Str
+    '            Case 20
+    '                optStock20.Text = Str
+    '            Case 21
+    '                optStock21.Text = Str
+    '            Case 22
+    '                optStock22.Text = Str
+    '            Case 23
+    '                optStock23.Text = Str
+    '            Case 24
+    '                optStock24.Text = Str
+    '            Case 25
+    '                optStock25.Text = Str
+    '            Case 26
+    '                optStock26.Text = Str
+    '            Case 27
+    '                optStock27.Text = Str
+    '            Case 28
+    '                optStock28.Text = Str
+    '            Case 29
+    '                optStock29.Text = Str
+    '            Case 30
+    '                optStock30.Text = Str
+    '            Case 31
+    '                optStock31.Text = Str
+    '            Case 32
+    '                optStock32.Text = Str
+
+    '        End Select
+    '    Else
+    '        'Get property
+    '        'StoreStockCaption = optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption
+    '        Select Case Idx
+    '            Case 1
+    '                StoreStockCaption = optStock1.Text
+    '            Case 2
+    '                StoreStockCaption = optStock2.Text
+    '            Case 3
+    '                StoreStockCaption = optStock3.Text
+    '            Case 4
+    '                StoreStockCaption = optStock4.Text
+    '            Case 5
+    '                StoreStockCaption = optStock5.Text
+    '            Case 6
+    '                StoreStockCaption = optStock6.Text
+    '            Case 7
+    '                StoreStockCaption = optStock7.Text
+    '            Case 8
+    '                StoreStockCaption = optStock8.Text
+    '            Case 9
+    '                StoreStockCaption = optStock9.Text
+    '            Case 10
+    '                StoreStockCaption = optStock10.Text
+    '            Case 11
+    '                StoreStockCaption = optStock11.Text
+    '            Case 12
+    '                StoreStockCaption = optStock12.Text
+    '            Case 13
+    '                StoreStockCaption = optStock13.Text
+    '            Case 14
+    '                StoreStockCaption = optStock14.Text
+    '            Case 15
+    '                StoreStockCaption = optStock15.Text
+    '            Case 16
+    '                StoreStockCaption = optStock16.Text
+    '            Case 17
+    '                StoreStockCaption = optStock17.Text
+    '            Case 18
+    '                StoreStockCaption = optStock18.Text
+    '            Case 19
+    '                StoreStockCaption = optStock19.Text
+    '            Case 20
+    '                StoreStockCaption = optStock20.Text
+    '            Case 21
+    '                StoreStockCaption = optStock21.Text
+    '            Case 22
+    '                StoreStockCaption = optStock22.Text
+    '            Case 23
+    '                StoreStockCaption = optStock23.Text
+    '            Case 24
+    '                StoreStockCaption = optStock24.Text
+    '            Case 25
+    '                StoreStockCaption = optStock25.Text
+    '            Case 26
+    '                StoreStockCaption = optStock26.Text
+    '            Case 27
+    '                StoreStockCaption = optStock27.Text
+    '            Case 28
+    '                StoreStockCaption = optStock27.Text
+    '            Case 29
+    '                StoreStockCaption = optStock29.Text
+    '            Case 30
+    '                StoreStockCaption = optStock30.Text
+    '            Case 31
+    '                StoreStockCaption = optStock31.Text
+    '            Case 32
+    '                StoreStockCaption = optStock32.Text
+    '        End Select
+    '    End If
+    'End Function
+
 End Class

@@ -1304,6 +1304,9 @@
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAdjustAdd.resx">
+      <DependentUpon>frmAdjustAdd.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAdjustTax.resx">
       <DependentUpon>frmAdjustTax.vb</DependentUpon>
     </EmbeddedResource>

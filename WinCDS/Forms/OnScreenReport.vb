@@ -166,6 +166,7 @@ Public Class OnScreenReport
                 Height = fraControls2.Top + fraControls2.Height + 40 + (Height - Me.ClientSize.Height)
 
                 lblCaption.Text = "Customer Adjustment"
+                lblCaption.Left = Width / 3
                 'cmdMenu2.Cancel = True
                 Me.CancelButton = cmdMenu2
 
@@ -179,8 +180,9 @@ Public Class OnScreenReport
                 UGridIO1.Height = 200
                 UGridIO2.Visible = True
                 'UGridIO2.Top = 4000
-                UGridIO2.Top = 250
+                UGridIO2.Top = 265
                 fraControls2.Top = UGridIO2.Top + UGridIO2.Height + 46
+                fraControls2.Left = Width / 3
 
                 '    With UGridIO2
                 UGridIO2.AddColumn(0, "Sale No", 80, True, False)
@@ -380,6 +382,7 @@ CustNotFound:
 
         IsKit = False
         Do While cTa.Records_Available()
+            Margin.cDataAccess_GetRecordSet(cTa.RS)
             SaleNo = Margin.SaleNo
             LastName = Trim(Margin.Name)
             If Margin.Index <> 0 Then Index = Margin.Index
@@ -589,8 +592,10 @@ SkipRow:
         End If
 
         Margin.DataAccess().Records_Add()
+        Margin.cDataAccess_SetRecordSet(Margin.DataAccess.RS)
         Margin.Save()
         MarginNo = Margin.MarginLine
+
         If Not IsIn(Trim(Margin.Style), "TAX1", "SUB", "--- Adj ---") Then
             Margin.Load(CStr(MarginNo), "#MarginLine")
             WhatToDo()  ' Updates inventory count, creates detail, etc.
@@ -1693,7 +1698,6 @@ ErrHand:
 
     Private Sub cmdAdd_Click(sender As Object, e As EventArgs) Handles cmdAdd.Click
         'NOTE: cmdAdd is not button. It is checkbox with appearance set as button.
-
         On Error GoTo ErrHand
         'add items
         If FirstTime Then
@@ -1709,7 +1713,6 @@ ErrHand:
 
         '  txtLocation.Visible = True
         '  lblLocation.Visible = True
-
         '  InvCkStyle.Show vbModal
         '  If Not InvCkStyle.Canceled Then AddInventory InvCkStyle.Rn, InvCkStyle.StyleCkIt
         '  Unload InvCkStyle
@@ -2409,6 +2412,7 @@ ErrHand:
         tMargin.DataAccess.DataBase = Margin.DataAccess.DataBase
         tMargin.DataAccess.Records_OpenSQL("SELECT * FROM GrossMargin WHERE SaleNo='" & SaleNo & "'")
         Do While tMargin.DataAccess.Records_Available
+            tMargin.cDataAccess_GetRecordSet(tMargin.DataAccess.RS)
             If IsItem(tMargin.Style) Then
                 If Not IsDelivered(tMargin.Status) Then
                     OrderHasUndeliveredItems = True

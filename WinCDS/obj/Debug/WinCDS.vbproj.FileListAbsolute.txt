@@ -180,6 +180,7 @@ F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSRDC.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSWinsockLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.VJCZIPLib.dll
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 F:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.Chilkat_v9_5_0.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.cipwin32.dll
@@ -246,6 +247,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.BillOSale.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Calendar.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.CalendarInstr.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.EditPO.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAdjustAdd.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAdjustTax.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAutoWeb.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmBackUpGeneric.resources
