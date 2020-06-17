@@ -951,7 +951,7 @@ AnError:
         '  RowTop = DBGrid1.RowTop(RowNum)
     End Function
 
-    Public Sub AdjustControlToCell(Ctrl As Control, ByVal RowNum As Integer, ByVal ColNum As Integer, Left As Integer, Top As Integer)
+    Public Sub AdjustControlToCell(ByRef Ctrl As Control, ByVal RowNum As Integer, ByVal ColNum As Integer, Left As Integer, Top As Integer)
         Dim L As Single, T As Single, W As Single, H As Single
         'Dim C As MSDBGrid.Column
         Dim C As MSDataGridLib.Column
@@ -959,6 +959,10 @@ AnError:
         C = AxDataGrid1.Columns(ColNum)
         L = C.Left + Left
         T = AxDataGrid1.RowTop(RowNum) + Top
+
+        'L = C.Left
+        'T = AxDataGrid1.RowTop(RowNum)
+
         W = C.Width
         H = AxDataGrid1.RowHeight
         C = Nothing

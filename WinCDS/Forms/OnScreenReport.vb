@@ -2048,6 +2048,8 @@ FoundML:
                         cmbGrid2.Text = UGridIO2.GetValue(newRow, newCol)
                         cmbGrid2.Visible = True
                         cmbGrid2.Select()
+                        'cmbGrid2.Location = New Point(25, 350)
+                        cmbGrid2.BringToFront()
                     Case Else
                         cmbGrid2.Visible = False
                 End Select

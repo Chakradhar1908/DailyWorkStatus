@@ -73,7 +73,7 @@
 
     Private Sub frmAdjustAdd_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
         On Error Resume Next
-        optEnterStyle.Checked = True
+        'optEnterStyle.Checked = True
     End Sub
 
     Private Sub frmAdjustAdd_Load(sender As Object, e As EventArgs) Handles MyBase.Load

@@ -49,9 +49,9 @@ Partial Class OnScreenReport
         Me.txtBalDue = New System.Windows.Forms.TextBox()
         Me.lblRate0 = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         Me.UGridIO2 = New WinCDS.UGridIO()
         Me.UGridIO1 = New WinCDS.UGridIO()
-        Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         Me.fraControls1.SuspendLayout()
         Me.fraControls2.SuspendLayout()
         Me.SuspendLayout()
@@ -116,7 +116,7 @@ Partial Class OnScreenReport
         '
         'txtLocation
         '
-        Me.txtLocation.Location = New System.Drawing.Point(117, 34)
+        Me.txtLocation.Location = New System.Drawing.Point(119, 34)
         Me.txtLocation.Name = "txtLocation"
         Me.txtLocation.Size = New System.Drawing.Size(79, 20)
         Me.txtLocation.TabIndex = 4
@@ -167,7 +167,7 @@ Partial Class OnScreenReport
         Me.fraControls2.Controls.Add(Me.cmdNext2)
         Me.fraControls2.Controls.Add(Me.cmdApply)
         Me.fraControls2.Controls.Add(Me.cmdReturn)
-        Me.fraControls2.Location = New System.Drawing.Point(235, 421)
+        Me.fraControls2.Location = New System.Drawing.Point(235, 425)
         Me.fraControls2.Name = "fraControls2"
         Me.fraControls2.Size = New System.Drawing.Size(331, 75)
         Me.fraControls2.TabIndex = 9
@@ -239,7 +239,7 @@ Partial Class OnScreenReport
         'cmbGrid2
         '
         Me.cmbGrid2.FormattingEnabled = True
-        Me.cmbGrid2.Location = New System.Drawing.Point(102, 475)
+        Me.cmbGrid2.Location = New System.Drawing.Point(203, 279)
         Me.cmbGrid2.Name = "cmbGrid2"
         Me.cmbGrid2.Size = New System.Drawing.Size(121, 21)
         Me.cmbGrid2.TabIndex = 10
@@ -322,7 +322,7 @@ Partial Class OnScreenReport
         Me.UGridIO1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UGridIO1.Loading = False
         Me.UGridIO1.Location = New System.Drawing.Point(12, 12)
-        Me.UGridIO1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.UGridIO1.Margin = New System.Windows.Forms.Padding(4)
         Me.UGridIO1.MaxCols = 2
         Me.UGridIO1.MaxRows = 10
         Me.UGridIO1.Name = "UGridIO1"
