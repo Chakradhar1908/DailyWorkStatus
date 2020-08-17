@@ -905,8 +905,9 @@ Public Class ARPaySetUp
         ToolTip1.SetToolTip(lblLateChargesApplied, "Grace Period: " & StoreSettings.GracePeriod & " day(s)")
         optLate6.Checked = True
 
-        dteDate1.Value = DateFormat(Now)
-        AdjustFirstPay
+        'dteDate1.Value = DateFormat(Now)
+        dteDate1.Value = Date.Parse(DateFormat(Now), Globalization.CultureInfo.InvariantCulture)
+        AdjustFirstPay()
 
         txtArNo.Visible = False 'account No
         chkAutoARNO.Visible = False

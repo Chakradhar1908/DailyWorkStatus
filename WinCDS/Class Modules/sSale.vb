@@ -2,6 +2,7 @@
 Imports VBRUN
 Imports Microsoft.VisualBasic.Compatibility.VB6
 Imports System.Drawing
+Imports System.Globalization
 Public Class sSale
     Private mStore As Integer
     Private mSaleNo As String
@@ -1069,7 +1070,7 @@ DoneClearing:
 
         '-------
         'Dim pbox As New PictureBox
-        'pbox.Size = New Size(8000, 2000)
+        'pbox.Size = New Size(400, 120)
         'pbox.SizeMode = PictureBoxSizeMode.StretchImage
         'pbox.Image = Image.FromFile(StoreLogoFile(Store))
         '--------
@@ -1112,17 +1113,20 @@ DoneClearing:
             Dim opW As Integer, opH As Integer
             opW = Logo.Width
             opH = Logo.Height
-            PictureFitDimensions(opW, opH, 5775, 1525, True)
+            'PictureFitDimensions(opW, opH, 5775, 1525, True)
             'PictureFitDimensions(opW, opH, 400, 120, True)
-            'Printer.ScaleMode = ScaleModeConstants.vbTwip
-            Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
+            'Printer.ScaleMode = ScaleModeConstants.vbTwips
+            'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150 + (1525 - opH) / 2, opW, opH)
+            'Printer.PaintPicture(pbox.Image, 4000, 200, 1300, 400, 8000, 1150)
+            'Printer.PaintPicture(pbox.Image, 4000, 200, 4000, 1200, 8000, 1150)
             'Printer.PaintPicture(Logo, 3500, 150 + (1525 - opH) / 2, opW, opH)
             'Printer.PaintPicture(Image.FromFile(StoreLogoFile(Store)), Printer.Width / 2 - opW / 2, 150, opW, opH)
+            'Printer.PaintPicture(Image.FromFile(StoreLogoFile(Store)), 4000, 200, 2000, 2000)
             'Printer.PaintPicture(Logo, Printer.Width / 2 - opW / 2, 150, opW, opH, 9500, 1800)
             'Printer.PaintPicture(pbox.Image, 3500, 150, pbox.Width, pbox.Height, 6000, 300, pbox.Width + 300, pbox.Height + 300)
             'Printer.PaintPicture(pbox.Image, 3500, 150, pbox.Width, pbox.Height)
 
-
+            Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 4000, 200, 5000, 5000, 1200, 1000, 35000, 35000)
         End If
 
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1145,10 +1149,15 @@ DoneClearing:
         Printer.CurrentX = 1000
         Printer.CurrentY = 100
 
+        'Dim d As Date
         If IsUFO() Or IsSleepingSystems() Then
             Printer.Print(DateFormat(SaleDate) & "  " & TimeFormat(DateAndTime.TimeOfDay))
+            'd = Date.Parse(DateFormat(SaleDate), CultureInfo.InvariantCulture)
+            'Printer.Print(d & "  " & TimeFormat(DateAndTime.TimeOfDay))
         Else
             Printer.Print(DateFormat(SaleDate))
+            'd = Date.Parse(DateFormat(SaleDate), CultureInfo.InvariantCulture)
+            'Printer.Print(d)
         End If
         Printer.Print()
 

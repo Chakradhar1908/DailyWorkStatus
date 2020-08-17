@@ -30,10 +30,10 @@ Partial Class UGridIO
         'AxDataGrid1
         '
         Me.AxDataGrid1.DataSource = Nothing
-        Me.AxDataGrid1.Location = New System.Drawing.Point(0, 0)
+        Me.AxDataGrid1.Location = New System.Drawing.Point(12, 3)
         Me.AxDataGrid1.Name = "AxDataGrid1"
         Me.AxDataGrid1.OcxState = CType(resources.GetObject("AxDataGrid1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxDataGrid1.Size = New System.Drawing.Size(332, 70)
+        Me.AxDataGrid1.Size = New System.Drawing.Size(348, 80)
         Me.AxDataGrid1.TabIndex = 0
         '
         'UGridIO
@@ -42,11 +42,15 @@ Partial Class UGridIO
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.AxDataGrid1)
         Me.Name = "UGridIO"
-        Me.Size = New System.Drawing.Size(357, 96)
+        Me.Size = New System.Drawing.Size(363, 96)
         CType(Me.AxDataGrid1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents AxDataGrid1 As AxMSDataGridLib.AxDataGrid
+
+    'Friend WithEvents AxDataGrid1 As AxMSDataGridLib.AxDataGrid
+
+    'Friend WithEvents AxDataGrid1 As AxMSDataGridLib.AxDataGrid
 End Class

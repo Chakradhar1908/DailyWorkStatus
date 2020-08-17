@@ -46,6 +46,8 @@ Public Class MailCheck
     Private WithEvents objSource As CDbTypeAhead
     Public Event Cancelled(ByRef PreventUnload As Boolean, ByRef PreventMainMenu As Boolean)
     Private LastIndex As String                              ' For printing BillOSale Numbers.
+    Private MailCheckClose As Boolean
+
     'Public ItemdataValue As Object
     'Public SelectedItemValue As String
 
@@ -486,6 +488,7 @@ Public Class MailCheck
             'ZOrder 1  ' Do nothing.. stoopid form misbehaving.
         Else
             'Unload Me
+            MailCheckClose = True
             Me.Close()
         End If
     End Sub
@@ -907,9 +910,15 @@ HandleErr:
     Private Sub MailCheck_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         'This event is replacement for form unload and queryunload events of vb6.0
 
-        'This code line is from queryunload event.Commented becuase, there is no there is no Unloadmode=vbformcontrolmenu in vb.net
+        'Queryunload code
         'If UnloadMode = vbFormControlMenu Then Cancel = True ' cmdCancel.value = True   ' Still having problems with BillOSale.
+        If MailCheckClose = False Then
+            If e.CloseReason = CloseReason.UserClosing Then
+                e.Cancel = True
+            End If
+        End If
 
+        'Unload code
         'RemoveCustomFrame Me -> This line is not required. It is to set font and colors of a form using modNeoCaption module.
         objSourceTelephone = Nothing
         objSourceName = Nothing
@@ -1151,5 +1160,9 @@ HandleErr:
 
     Private Sub optSaleNo_CheckedChanged(sender As Object, e As EventArgs) Handles optSaleNo.CheckedChanged
         optSaleNo_Click(optSaleNo, New EventArgs)
+    End Sub
+
+    Private Sub lstMatches_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstMatches.SelectedIndexChanged
+
     End Sub
 End Class

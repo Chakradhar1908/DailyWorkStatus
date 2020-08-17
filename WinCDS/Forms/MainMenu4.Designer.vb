@@ -28,7 +28,7 @@ Partial Class MainMenu4
         Me.imlStandardButtons = New System.Windows.Forms.ImageList(Me.components)
         Me.txtPassword = New System.Windows.Forms.TextBox()
         Me.cmdEnterPassword = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnNewSale = New System.Windows.Forms.Button()
         Me.imlSmallButtons = New System.Windows.Forms.ImageList(Me.components)
         Me.rtb = New System.Windows.Forms.RichTextBox()
         Me.fraSupplies = New System.Windows.Forms.GroupBox()
@@ -99,6 +99,7 @@ Partial Class MainMenu4
         Me.lblHR = New System.Windows.Forms.Label()
         Me.lblServ = New System.Windows.Forms.Label()
         Me.msgs = New WinCDS.MessageCenter()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -175,15 +176,15 @@ Partial Class MainMenu4
         Me.cmdEnterPassword.UseVisualStyleBackColor = True
         Me.cmdEnterPassword.Visible = False
         '
-        'Button1
+        'btnNewSale
         '
-        Me.Button1.Location = New System.Drawing.Point(722, 534)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 6
-        Me.Button1.Text = "New Sale"
-        Me.Button1.UseVisualStyleBackColor = True
-        Me.Button1.Visible = False
+        Me.btnNewSale.Location = New System.Drawing.Point(722, 534)
+        Me.btnNewSale.Name = "btnNewSale"
+        Me.btnNewSale.Size = New System.Drawing.Size(75, 23)
+        Me.btnNewSale.TabIndex = 6
+        Me.btnNewSale.Text = "New Sale"
+        Me.btnNewSale.UseVisualStyleBackColor = True
+        Me.btnNewSale.Visible = False
         '
         'imlSmallButtons
         '
@@ -266,11 +267,11 @@ Partial Class MainMenu4
         '
         Me.datPicture.BackColor = System.Drawing.SystemColors.Control
         Me.datPicture.CommandTimeout = 0
-        Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
+        'Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
         Me.datPicture.ConnectionString = Nothing
-        Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
+        'Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
         Me.datPicture.Location = New System.Drawing.Point(8, 72)
-        Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
+        'Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
         Me.datPicture.Name = "datPicture"
         Me.datPicture.Size = New System.Drawing.Size(74, 19)
         Me.datPicture.TabIndex = 7
@@ -784,11 +785,21 @@ Partial Class MainMenu4
         Me.msgs.Size = New System.Drawing.Size(112, 49)
         Me.msgs.TabIndex = 69
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(600, 40)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(100, 31)
+        Me.Button2.TabIndex = 70
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'MainMenu4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(865, 563)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.msgs)
         Me.Controls.Add(Me.lblServ)
         Me.Controls.Add(Me.lblHR)
@@ -827,7 +838,7 @@ Partial Class MainMenu4
         Me.Controls.Add(Me.fraSupplies)
         Me.Controls.Add(Me.lblLastBackup)
         Me.Controls.Add(Me.lblMenuCaption)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnNewSale)
         Me.Controls.Add(Me.MenuStripWinCDS)
         Me.MainMenuStrip = Me.MenuStripWinCDS
         Me.Name = "MainMenu4"
@@ -865,7 +876,7 @@ Partial Class MainMenu4
     Friend WithEvents txtPassword As TextBox
     Friend WithEvents cmdEnterPassword As Button
     Friend WithEvents MSComm1 As AxMSCommLib.AxMSComm
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnNewSale As Button
     Friend WithEvents imlSmallButtons As ImageList
     Friend WithEvents datPicture As Compatibility.VB6.ADODC
     Friend WithEvents imgPicture As PictureBox
@@ -934,4 +945,5 @@ Partial Class MainMenu4
     Friend WithEvents lblHR As Label
     Friend WithEvents lblServ As Label
     Friend WithEvents msgs As MessageCenter
+    Friend WithEvents Button2 As Button
 End Class

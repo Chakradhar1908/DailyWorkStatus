@@ -45,6 +45,23 @@ Module modDates
         'DateFormat = "05/14/2019"
     End Function
 
+    'Public Function DateFormat2(ByVal dteDate As Date, Optional ByVal Separator As String = "") As String
+    '    Dim S As String
+    '    S = DateFormatString()
+    '    If Separator <> "" Then S = Replace(S, "/", Separator)
+
+    '    If IsNothing(dteDate) Then dteDate = ""
+    '    If Not IsDate(dteDate) Then
+    '        DateFormat2 = Space(Len(S))
+    '    Else
+    '        'DateFormat = Format(dteDate, S)
+    '        DateFormat2 = dteDate.ToString(S)
+
+    '        'DateFormat = dteDate.ToString("MM/dd/yyyy HH:mm:ss")
+    '    End If
+    '    'DateFormat = "05/14/2019"
+    'End Function
+
     Public Function DateFormatString() As String
         DateFormatString = "MM/dd/yyyy"
     End Function

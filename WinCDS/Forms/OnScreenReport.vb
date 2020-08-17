@@ -58,6 +58,7 @@ Public Class OnScreenReport
     Const AllowAdjustDel As Boolean = True
     Const MaxAdjustments As Integer = 30
     Public MailCheckSaleNoChecked As Boolean
+    Dim FromCmdMenu As Boolean
 
     Private Sub OnScreenReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim P As Object
@@ -118,7 +119,8 @@ Public Class OnScreenReport
             UGridIO1.AddColumn(2, "Status", 700, True, False)
             UGridIO1.AddColumn(3, "Quan", 550, True, False)
             UGridIO1.AddColumn(4, "Description", 4450, True, False)
-            UGridIO1.AddColumn(5, "Price", 1050, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            'UGridIO1.AddColumn(5, "Price", 1050, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(5, "Price", 1050, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
 
             UGridIO1.MaxCols = 6
             UGridIO1.MaxRows = 1000
@@ -192,8 +194,10 @@ Public Class OnScreenReport
                 UGridIO2.AddColumn(4, "Status", 40, False, False)
                 UGridIO2.AddColumn(5, "Quan", 30, False, False)
                 UGridIO2.AddColumn(6, "Description", 180, False, False)
-                UGridIO2.AddColumn(7, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
-                UGridIO2.AddColumn(8, "Difference", 80, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+                'UGridIO2.AddColumn(7, "Price", 70, False, False, MSDBGrid.AlignmentConstants.dbgRight)
+                UGridIO2.AddColumn(7, "Price", 70, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+                'UGridIO2.AddColumn(8, "Difference", 80, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+                UGridIO2.AddColumn(8, "Difference", 80, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
                 UGridIO2.AddColumn(9, "Unit Price", 80, True, False, , False)
                 UGridIO2.AddColumn(10, "MarginLine", 50, True, False, , False)
                 UGridIO2.AddColumn(11, "Commission", 50, True, False, , False) ' MJK 20131026
@@ -218,10 +222,12 @@ Public Class OnScreenReport
             UGridIO1.AddColumn(2, "Manufacturer", 150, True, False)
             UGridIO1.AddColumn(3, "Loc", 30, True, False)
             UGridIO1.AddColumn(4, "Status", 40, True, False)
-            UGridIO1.AddColumn(5, "Quan", 30, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            'UGridIO1.AddColumn(5, "Quan", 30, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(5, "Quan", 30, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
             UGridIO1.AddColumn(6, "Description", 180, True, False)
-            UGridIO1.AddColumn(7, "Price", 70, True, False, MSDBGrid.AlignmentConstants.dbgRight)
-            UGridIO1.AddColumn(8, "Total Due", 70, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(7, "Price", 70, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            'UGridIO1.AddColumn(8, "Total Due", 70, True, False, MSDBGrid.AlignmentConstants.dbgRight)
+            UGridIO1.AddColumn(8, "Total Due", 70, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
             UGridIO1.AddColumn(9, "MarginLine", 70, True, False, , False)
             UGridIO1.AddColumn(10, "KitPrice", 70, True, False, , False)
             UGridIO1.AddColumn(11, "Commission", 50, True, False, , False) ' MJK 20131026
@@ -1211,7 +1217,7 @@ HandleErr:
         GetSalesTax = True
         If TaxLoc = 0 Then
             Rate = 0
-            'If cmdAdd.Value Then AskForTaxRate : GetSalesTax = False
+            'If cmdAdd.Value Then AskForTaxRate : GetSalesTax = False  --> cmdAdd is a button in vb6. But in vb.net to get the same result, use checkbox. Read note in SelectEntry sub of AddOnAcc.vb form for clarity.
             If cmdAdd.Checked = True Then AskForTaxRate() : GetSalesTax = False
         ElseIf TaxLoc = 1 Then
             Rate = GetStoreTax1()
@@ -1259,16 +1265,21 @@ HandleErr:
     Private Sub OnScreenReport_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         'QueryUnload event of vb6
         'If UnloadMode = vbFormControlMenu Then
-        If e.CloseReason = CloseReason.UserClosing Then
-            If cmdMenu2.Visible Then
-                'cmdMenu2.Value = True  ' This unloads us and does other cleanup..
-                cmdMenu2.PerformClick()
-            ElseIf cmdMenu.Visible Then
-                'cmdMenu.Value = True  ' This unloads us and does other cleanup..
-                cmdMenu.PerformClick()
-            Else
-                'Cancel = True
-                e.Cancel = True
+        If FromCmdMenu = False Then
+            If e.CloseReason = CloseReason.UserClosing Then
+
+                If cmdMenu2.Visible Then
+                    'cmdMenu2.Value = True  ' This unloads us and does other cleanup..
+                    'cmdMenu2.PerformClick()
+                    cmdMenu2_Click(cmdMenu2, New EventArgs)
+                ElseIf cmdMenu.Visible Then
+                    'cmdMenu.Value = True  ' This unloads us and does other cleanup..
+                    'cmdMenu.PerformClick()
+                    cmdMenu_Click(cmdMenu, New EventArgs)
+                Else
+                    'Cancel = True
+                    e.Cancel = True
+                End If
             End If
         End If
 
@@ -1277,7 +1288,9 @@ HandleErr:
         'Unload BillOSale
         BillOSale.Close()
         'Unload Me
-        Me.Close()
+        If FromCmdMenu = False Then
+            Me.Close()
+        End If
     End Sub
 
     Private Function LoadCustomerInfo(ByVal MailIndex As Integer) As Boolean
@@ -1589,6 +1602,7 @@ HandleErr:
         'Unload BillOSale
         BillOSale.Close()
         'Unload Me
+        FromCmdMenu = True
         Me.Close()
 
         If ReportsMode("I") Then
@@ -1607,7 +1621,8 @@ HandleErr:
             SelectPrinter.SmallTags = False
         End If
         'cmdMenu.Value = True
-        cmdMenu.PerformClick()
+        'cmdMenu.PerformClick()
+        cmdMenu_Click(cmdMenu, New EventArgs)
     End Sub
 
     Private Sub cmdReturn_Click(sender As Object, e As EventArgs) Handles cmdReturn.Click
@@ -1922,7 +1937,7 @@ ErrHand:
         Recalculate()
     End Sub
 
-    Private Sub UGridIO2_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO2.BeforeColUpdate
+    Private Sub UGridIO2_BeforeColUpdate(ByVal ColIndex As Integer, ByRef OldValue As Object, ByRef Cancel As Integer) Handles UGridIO2.BeforeColUpdate
         Dim newValue As String, Row As Integer
 
         newValue = UGridIO2.Text

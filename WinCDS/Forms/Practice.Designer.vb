@@ -29,7 +29,7 @@ Partial Class Practice
         Me.lblLoc = New System.Windows.Forms.Label()
         Me.txtLoc = New System.Windows.Forms.TextBox()
         Me.fraStartupCrash = New System.Windows.Forms.GroupBox()
-        Me.updLoc = New AxComCtl2.AxUpDown()
+        Me.updLoc = New AxMSComCtl2.AxUpDown()
         CType(Me.updLoc, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -85,10 +85,10 @@ Partial Class Practice
         '
         'updLoc
         '
-        Me.updLoc.Location = New System.Drawing.Point(525, 390)
+        Me.updLoc.Location = New System.Drawing.Point(371, 71)
         Me.updLoc.Name = "updLoc"
         Me.updLoc.OcxState = CType(resources.GetObject("updLoc.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.updLoc.Size = New System.Drawing.Size(17, 31)
+        Me.updLoc.Size = New System.Drawing.Size(17, 50)
         Me.updLoc.TabIndex = 6
         '
         'Practice
@@ -117,5 +117,6 @@ Partial Class Practice
     Friend WithEvents lblLoc As Label
     Friend WithEvents txtLoc As TextBox
     Friend WithEvents fraStartupCrash As GroupBox
-    Friend WithEvents updLoc As AxComCtl2.AxUpDown
+    Friend WithEvents updLoc As AxMSComCtl2.AxUpDown
+    'Friend WithEvents updLoc As AxComCtl2.AxUpDown
 End Class

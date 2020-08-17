@@ -23,12 +23,12 @@ Partial Class AddOnAcc
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.fraControls = New System.Windows.Forms.GroupBox()
-        Me.cmdAdd = New System.Windows.Forms.Button()
-        Me.cmdAddToNew = New System.Windows.Forms.Button()
         Me.cmdNew = New System.Windows.Forms.Button()
-        Me.cmdRevolving = New System.Windows.Forms.Button()
+        Me.cmdAddToNew = New System.Windows.Forms.Button()
+        Me.cmdAdd = New System.Windows.Forms.Button()
         Me.lblHeadings = New System.Windows.Forms.Label()
         Me.lstAccounts = New System.Windows.Forms.ListBox()
+        Me.cmdRevolving = New System.Windows.Forms.CheckBox()
         Me.fraControls.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,15 +46,15 @@ Partial Class AddOnAcc
         Me.fraControls.TabStop = False
         Me.fraControls.Text = "Existing Account:"
         '
-        'cmdAdd
+        'cmdNew
         '
-        Me.cmdAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdAdd.Location = New System.Drawing.Point(6, 19)
-        Me.cmdAdd.Name = "cmdAdd"
-        Me.cmdAdd.Size = New System.Drawing.Size(119, 23)
-        Me.cmdAdd.TabIndex = 0
-        Me.cmdAdd.Text = "&Add On Account"
-        Me.cmdAdd.UseVisualStyleBackColor = True
+        Me.cmdNew.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdNew.Location = New System.Drawing.Point(6, 77)
+        Me.cmdNew.Name = "cmdNew"
+        Me.cmdNew.Size = New System.Drawing.Size(119, 23)
+        Me.cmdNew.TabIndex = 2
+        Me.cmdNew.Text = "&New Account"
+        Me.cmdNew.UseVisualStyleBackColor = True
         '
         'cmdAddToNew
         '
@@ -66,25 +66,15 @@ Partial Class AddOnAcc
         Me.cmdAddToNew.Text = "Add On &To New"
         Me.cmdAddToNew.UseVisualStyleBackColor = True
         '
-        'cmdNew
+        'cmdAdd
         '
-        Me.cmdNew.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdNew.Location = New System.Drawing.Point(6, 77)
-        Me.cmdNew.Name = "cmdNew"
-        Me.cmdNew.Size = New System.Drawing.Size(119, 23)
-        Me.cmdNew.TabIndex = 2
-        Me.cmdNew.Text = "&New Account"
-        Me.cmdNew.UseVisualStyleBackColor = True
-        '
-        'cmdRevolving
-        '
-        Me.cmdRevolving.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdRevolving.Location = New System.Drawing.Point(6, 106)
-        Me.cmdRevolving.Name = "cmdRevolving"
-        Me.cmdRevolving.Size = New System.Drawing.Size(119, 23)
-        Me.cmdRevolving.TabIndex = 3
-        Me.cmdRevolving.Text = "&Revolving"
-        Me.cmdRevolving.UseVisualStyleBackColor = True
+        Me.cmdAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdAdd.Location = New System.Drawing.Point(6, 19)
+        Me.cmdAdd.Name = "cmdAdd"
+        Me.cmdAdd.Size = New System.Drawing.Size(119, 23)
+        Me.cmdAdd.TabIndex = 0
+        Me.cmdAdd.Text = "&Add On Account"
+        Me.cmdAdd.UseVisualStyleBackColor = True
         '
         'lblHeadings
         '
@@ -102,6 +92,17 @@ Partial Class AddOnAcc
         Me.lstAccounts.Size = New System.Drawing.Size(321, 121)
         Me.lstAccounts.TabIndex = 2
         '
+        'cmdRevolving
+        '
+        Me.cmdRevolving.Appearance = System.Windows.Forms.Appearance.Button
+        Me.cmdRevolving.AutoSize = True
+        Me.cmdRevolving.Location = New System.Drawing.Point(6, 106)
+        Me.cmdRevolving.Name = "cmdRevolving"
+        Me.cmdRevolving.Size = New System.Drawing.Size(79, 25)
+        Me.cmdRevolving.TabIndex = 3
+        Me.cmdRevolving.Text = "&Revolving"
+        Me.cmdRevolving.UseVisualStyleBackColor = True
+        '
         'AddOnAcc
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -113,15 +114,16 @@ Partial Class AddOnAcc
         Me.Name = "AddOnAcc"
         Me.Text = "Make Selection"
         Me.fraControls.ResumeLayout(False)
+        Me.fraControls.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents fraControls As GroupBox
-    Friend WithEvents cmdRevolving As Button
     Friend WithEvents cmdNew As Button
     Friend WithEvents cmdAddToNew As Button
     Friend WithEvents cmdAdd As Button
     Friend WithEvents lblHeadings As Label
     Friend WithEvents lstAccounts As ListBox
+    Friend WithEvents cmdRevolving As CheckBox
 End Class

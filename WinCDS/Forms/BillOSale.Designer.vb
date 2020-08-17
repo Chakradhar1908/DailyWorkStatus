@@ -110,6 +110,7 @@ Partial Class BillOSale
         Me.cmdEmail = New System.Windows.Forms.Button()
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdChangePrice = New System.Windows.Forms.Button()
+        Me.imgCalendar = New System.Windows.Forms.PictureBox()
         Me.fraBOS2 = New System.Windows.Forms.GroupBox()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
@@ -117,10 +118,10 @@ Partial Class BillOSale
         Me.fraBOS2Commands = New System.Windows.Forms.GroupBox()
         Me.Notes_Open = New System.Windows.Forms.Button()
         Me.fraHover = New System.Windows.Forms.GroupBox()
+        Me.picHover = New System.Windows.Forms.PictureBox()
         Me.cmdNoChangePrice = New System.Windows.Forms.Button()
         Me.lblBalDueCaption = New System.Windows.Forms.Label()
         Me.BalDue = New System.Windows.Forms.TextBox()
-        Me.ugrFake = New WinCDS.UGridIO()
         Me.BillOfSale = New System.Windows.Forms.Label()
         Me.tmrHover = New System.Windows.Forms.Timer(Me.components)
         Me.tmrFormat = New System.Windows.Forms.Timer(Me.components)
@@ -130,23 +131,20 @@ Partial Class BillOSale
         Me.lblPrintType = New System.Windows.Forms.Label()
         Me.lblGrossSalesCaption = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.lblGrossSales = New System.Windows.Forms.Label()
-        Me.picHover = New System.Windows.Forms.PictureBox()
         Me.picFormatHelper = New System.Windows.Forms.PictureBox()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
-        Me.imgCalendar = New System.Windows.Forms.PictureBox()
+        Me.ugrFake = New WinCDS.UGridIO()
         Me.fraTimeWindow.SuspendLayout()
+        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraBOS2.SuspendLayout()
         Me.fraBOS2Commands.SuspendLayout()
         Me.fraHover.SuspendLayout()
+        CType(Me.picHover, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraButtons.SuspendLayout()
         Me.fraPrintType.SuspendLayout()
-        CType(Me.picHover, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picFormatHelper, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblDateCaption
@@ -167,7 +165,7 @@ Partial Class BillOSale
         Me.dteSaleDate.Location = New System.Drawing.Point(78, 5)
         Me.dteSaleDate.Name = "dteSaleDate"
         Me.dteSaleDate.Size = New System.Drawing.Size(118, 29)
-        Me.dteSaleDate.TabIndex = 1
+        Me.dteSaleDate.TabIndex = 36
         '
         'lblDelWeekday
         '
@@ -177,7 +175,7 @@ Partial Class BillOSale
         Me.lblDelWeekday.Location = New System.Drawing.Point(78, 39)
         Me.lblDelWeekday.Name = "lblDelWeekday"
         Me.lblDelWeekday.Size = New System.Drawing.Size(100, 27)
-        Me.lblDelWeekday.TabIndex = 2
+        Me.lblDelWeekday.TabIndex = 39
         '
         'chkDelivery
         '
@@ -186,7 +184,7 @@ Partial Class BillOSale
         Me.chkDelivery.Location = New System.Drawing.Point(8, 33)
         Me.chkDelivery.Name = "chkDelivery"
         Me.chkDelivery.Size = New System.Drawing.Size(64, 17)
-        Me.chkDelivery.TabIndex = 4
+        Me.chkDelivery.TabIndex = 37
         Me.chkDelivery.Text = "Delivery"
         Me.chkDelivery.UseVisualStyleBackColor = True
         '
@@ -197,7 +195,7 @@ Partial Class BillOSale
         Me.chkPickup.Location = New System.Drawing.Point(8, 51)
         Me.chkPickup.Name = "chkPickup"
         Me.chkPickup.Size = New System.Drawing.Size(64, 17)
-        Me.chkPickup.TabIndex = 5
+        Me.chkPickup.TabIndex = 38
         Me.chkPickup.Text = "Pick Up"
         Me.chkPickup.UseVisualStyleBackColor = True
         '
@@ -209,7 +207,7 @@ Partial Class BillOSale
         Me.optIndividual.Location = New System.Drawing.Point(45, 127)
         Me.optIndividual.Name = "optIndividual"
         Me.optIndividual.Size = New System.Drawing.Size(71, 18)
-        Me.optIndividual.TabIndex = 9
+        Me.optIndividual.TabIndex = 43
         Me.optIndividual.TabStop = True
         Me.optIndividual.Text = "Inidividual"
         Me.optIndividual.UseVisualStyleBackColor = True
@@ -221,7 +219,7 @@ Partial Class BillOSale
         Me.optBusiness.Location = New System.Drawing.Point(141, 127)
         Me.optBusiness.Name = "optBusiness"
         Me.optBusiness.Size = New System.Drawing.Size(70, 18)
-        Me.optBusiness.TabIndex = 10
+        Me.optBusiness.TabIndex = 44
         Me.optBusiness.Text = "Business"
         Me.optBusiness.UseVisualStyleBackColor = True
         '
@@ -271,7 +269,7 @@ Partial Class BillOSale
         Me.txtSaleNo.Location = New System.Drawing.Point(743, 7)
         Me.txtSaleNo.Name = "txtSaleNo"
         Me.txtSaleNo.Size = New System.Drawing.Size(120, 29)
-        Me.txtSaleNo.TabIndex = 1
+        Me.txtSaleNo.TabIndex = 46
         '
         'lblSaleNoCaption
         '
@@ -290,7 +288,7 @@ Partial Class BillOSale
         Me.lblStatusCaption.Location = New System.Drawing.Point(703, 76)
         Me.lblStatusCaption.Name = "lblStatusCaption"
         Me.lblStatusCaption.Size = New System.Drawing.Size(38, 14)
-        Me.lblStatusCaption.TabIndex = 18
+        Me.lblStatusCaption.TabIndex = 46
         Me.lblStatusCaption.Text = "Status"
         '
         'lblTypeCaption
@@ -300,7 +298,7 @@ Partial Class BillOSale
         Me.lblTypeCaption.Location = New System.Drawing.Point(711, 104)
         Me.lblTypeCaption.Name = "lblTypeCaption"
         Me.lblTypeCaption.Size = New System.Drawing.Size(30, 14)
-        Me.lblTypeCaption.TabIndex = 19
+        Me.lblTypeCaption.TabIndex = 47
         Me.lblTypeCaption.Text = "Type"
         '
         'lblAdvCaption
@@ -310,17 +308,17 @@ Partial Class BillOSale
         Me.lblAdvCaption.Location = New System.Drawing.Point(679, 131)
         Me.lblAdvCaption.Name = "lblAdvCaption"
         Me.lblAdvCaption.Size = New System.Drawing.Size(62, 14)
-        Me.lblAdvCaption.TabIndex = 20
+        Me.lblAdvCaption.TabIndex = 48
         Me.lblAdvCaption.Text = "Advertising"
         '
         'lblTaxCaption
         '
         Me.lblTaxCaption.AutoSize = True
         Me.lblTaxCaption.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTaxCaption.Location = New System.Drawing.Point(717, 158)
+        Me.lblTaxCaption.Location = New System.Drawing.Point(717, 154)
         Me.lblTaxCaption.Name = "lblTaxCaption"
         Me.lblTaxCaption.Size = New System.Drawing.Size(24, 14)
-        Me.lblTaxCaption.TabIndex = 21
+        Me.lblTaxCaption.TabIndex = 49
         Me.lblTaxCaption.Text = "Tax"
         '
         'SaleStatus
@@ -329,17 +327,17 @@ Partial Class BillOSale
         Me.SaleStatus.Location = New System.Drawing.Point(743, 70)
         Me.SaleStatus.Name = "SaleStatus"
         Me.SaleStatus.Size = New System.Drawing.Size(121, 20)
-        Me.SaleStatus.TabIndex = 22
+        Me.SaleStatus.TabIndex = 32
         '
         'cboCustType
         '
         Me.cboCustType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCustType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboCustType.FormattingEnabled = True
-        Me.cboCustType.Location = New System.Drawing.Point(743, 96)
+        Me.cboCustType.Location = New System.Drawing.Point(743, 95)
         Me.cboCustType.Name = "cboCustType"
         Me.cboCustType.Size = New System.Drawing.Size(121, 22)
-        Me.cboCustType.TabIndex = 23
+        Me.cboCustType.TabIndex = 33
         Me.ToolTipBillOSale.SetToolTip(Me.cboCustType, " Sets Special Pricing ")
         '
         'cboAdvertisingType
@@ -347,10 +345,10 @@ Partial Class BillOSale
         Me.cboAdvertisingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboAdvertisingType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboAdvertisingType.FormattingEnabled = True
-        Me.cboAdvertisingType.Location = New System.Drawing.Point(743, 123)
+        Me.cboAdvertisingType.Location = New System.Drawing.Point(743, 122)
         Me.cboAdvertisingType.Name = "cboAdvertisingType"
         Me.cboAdvertisingType.Size = New System.Drawing.Size(121, 22)
-        Me.cboAdvertisingType.TabIndex = 24
+        Me.cboAdvertisingType.TabIndex = 34
         Me.ToolTipBillOSale.SetToolTip(Me.cboAdvertisingType, " Sets Advertising Type In Customer Set Up ")
         '
         'cboTaxZone
@@ -358,10 +356,10 @@ Partial Class BillOSale
         Me.cboTaxZone.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTaxZone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboTaxZone.FormattingEnabled = True
-        Me.cboTaxZone.Location = New System.Drawing.Point(743, 150)
+        Me.cboTaxZone.Location = New System.Drawing.Point(743, 149)
         Me.cboTaxZone.Name = "cboTaxZone"
         Me.cboTaxZone.Size = New System.Drawing.Size(121, 22)
-        Me.cboTaxZone.TabIndex = 25
+        Me.cboTaxZone.TabIndex = 35
         '
         'dteDelivery
         '
@@ -371,7 +369,7 @@ Partial Class BillOSale
         Me.dteDelivery.Location = New System.Drawing.Point(77, 69)
         Me.dteDelivery.Name = "dteDelivery"
         Me.dteDelivery.Size = New System.Drawing.Size(133, 29)
-        Me.dteDelivery.TabIndex = 26
+        Me.dteDelivery.TabIndex = 40
         '
         'lblFirst
         '
@@ -403,7 +401,7 @@ Partial Class BillOSale
         'CustomerFirst
         '
         Me.CustomerFirst.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CustomerFirst.Location = New System.Drawing.Point(8, 154)
+        Me.CustomerFirst.Location = New System.Drawing.Point(5, 154)
         Me.CustomerFirst.Name = "CustomerFirst"
         Me.CustomerFirst.Size = New System.Drawing.Size(203, 26)
         Me.CustomerFirst.TabIndex = 0
@@ -420,26 +418,26 @@ Partial Class BillOSale
         '
         Me.Email.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Email.ForeColor = System.Drawing.Color.Blue
-        Me.Email.Location = New System.Drawing.Point(444, 156)
+        Me.Email.Location = New System.Drawing.Point(444, 154)
         Me.Email.Name = "Email"
         Me.Email.Size = New System.Drawing.Size(203, 22)
-        Me.Email.TabIndex = 33
+        Me.Email.TabIndex = 2
         '
         'CustomerAddress
         '
         Me.CustomerAddress.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CustomerAddress.Location = New System.Drawing.Point(8, 200)
+        Me.CustomerAddress.Location = New System.Drawing.Point(5, 200)
         Me.CustomerAddress.Name = "CustomerAddress"
         Me.CustomerAddress.Size = New System.Drawing.Size(417, 26)
-        Me.CustomerAddress.TabIndex = 34
+        Me.CustomerAddress.TabIndex = 3
         '
         'ShipToFirst
         '
         Me.ShipToFirst.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShipToFirst.Location = New System.Drawing.Point(444, 198)
+        Me.ShipToFirst.Location = New System.Drawing.Point(444, 200)
         Me.ShipToFirst.Name = "ShipToFirst"
         Me.ShipToFirst.Size = New System.Drawing.Size(203, 26)
-        Me.ShipToFirst.TabIndex = 35
+        Me.ShipToFirst.TabIndex = 20
         '
         'ShipToLast
         '
@@ -447,7 +445,7 @@ Partial Class BillOSale
         Me.ShipToLast.Location = New System.Drawing.Point(661, 200)
         Me.ShipToLast.Name = "ShipToLast"
         Me.ShipToLast.Size = New System.Drawing.Size(203, 26)
-        Me.ShipToLast.TabIndex = 36
+        Me.ShipToLast.TabIndex = 21
         '
         'lblAddr
         '
@@ -462,7 +460,7 @@ Partial Class BillOSale
         '
         Me.lblShipToAddressCaption.AutoSize = True
         Me.lblShipToAddressCaption.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShipToAddressCaption.Location = New System.Drawing.Point(594, 181)
+        Me.lblShipToAddressCaption.Location = New System.Drawing.Point(594, 185)
         Me.lblShipToAddressCaption.Name = "lblShipToAddressCaption"
         Me.lblShipToAddressCaption.Size = New System.Drawing.Size(101, 14)
         Me.lblShipToAddressCaption.TabIndex = 38
@@ -471,7 +469,7 @@ Partial Class BillOSale
         'lblShipFirst
         '
         Me.lblShipFirst.AutoSize = True
-        Me.lblShipFirst.Location = New System.Drawing.Point(443, 185)
+        Me.lblShipFirst.Location = New System.Drawing.Point(444, 185)
         Me.lblShipFirst.Name = "lblShipFirst"
         Me.lblShipFirst.Size = New System.Drawing.Size(26, 13)
         Me.lblShipFirst.TabIndex = 39
@@ -480,7 +478,7 @@ Partial Class BillOSale
         'lblShipLast
         '
         Me.lblShipLast.AutoSize = True
-        Me.lblShipLast.Location = New System.Drawing.Point(788, 184)
+        Me.lblShipLast.Location = New System.Drawing.Point(788, 185)
         Me.lblShipLast.Name = "lblShipLast"
         Me.lblShipLast.Size = New System.Drawing.Size(76, 13)
         Me.lblShipLast.TabIndex = 40
@@ -489,18 +487,18 @@ Partial Class BillOSale
         'AddAddress
         '
         Me.AddAddress.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AddAddress.Location = New System.Drawing.Point(8, 245)
+        Me.AddAddress.Location = New System.Drawing.Point(5, 245)
         Me.AddAddress.Name = "AddAddress"
         Me.AddAddress.Size = New System.Drawing.Size(417, 26)
-        Me.AddAddress.TabIndex = 41
+        Me.AddAddress.TabIndex = 4
         '
         'CustomerAddress2
         '
         Me.CustomerAddress2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CustomerAddress2.Location = New System.Drawing.Point(445, 246)
+        Me.CustomerAddress2.Location = New System.Drawing.Point(444, 245)
         Me.CustomerAddress2.Name = "CustomerAddress2"
         Me.CustomerAddress2.Size = New System.Drawing.Size(419, 26)
-        Me.CustomerAddress2.TabIndex = 42
+        Me.CustomerAddress2.TabIndex = 22
         '
         'lblAddAddr
         '
@@ -514,7 +512,7 @@ Partial Class BillOSale
         'lblShipAddr
         '
         Me.lblShipAddr.AutoSize = True
-        Me.lblShipAddr.Location = New System.Drawing.Point(442, 230)
+        Me.lblShipAddr.Location = New System.Drawing.Point(444, 229)
         Me.lblShipAddr.Name = "lblShipAddr"
         Me.lblShipAddr.Size = New System.Drawing.Size(45, 13)
         Me.lblShipAddr.TabIndex = 44
@@ -523,10 +521,10 @@ Partial Class BillOSale
         'CustomerCity
         '
         Me.CustomerCity.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CustomerCity.Location = New System.Drawing.Point(8, 290)
+        Me.CustomerCity.Location = New System.Drawing.Point(5, 290)
         Me.CustomerCity.Name = "CustomerCity"
         Me.CustomerCity.Size = New System.Drawing.Size(294, 22)
-        Me.CustomerCity.TabIndex = 45
+        Me.CustomerCity.TabIndex = 5
         '
         'CustomerZip
         '
@@ -534,7 +532,7 @@ Partial Class BillOSale
         Me.CustomerZip.Location = New System.Drawing.Point(308, 290)
         Me.CustomerZip.Name = "CustomerZip"
         Me.CustomerZip.Size = New System.Drawing.Size(117, 22)
-        Me.CustomerZip.TabIndex = 46
+        Me.CustomerZip.TabIndex = 6
         '
         'CustomerCity2
         '
@@ -542,7 +540,7 @@ Partial Class BillOSale
         Me.CustomerCity2.Location = New System.Drawing.Point(444, 290)
         Me.CustomerCity2.Name = "CustomerCity2"
         Me.CustomerCity2.Size = New System.Drawing.Size(279, 22)
-        Me.CustomerCity2.TabIndex = 47
+        Me.CustomerCity2.TabIndex = 23
         '
         'CustomerZip2
         '
@@ -550,7 +548,7 @@ Partial Class BillOSale
         Me.CustomerZip2.Location = New System.Drawing.Point(747, 290)
         Me.CustomerZip2.Name = "CustomerZip2"
         Me.CustomerZip2.Size = New System.Drawing.Size(117, 22)
-        Me.CustomerZip2.TabIndex = 48
+        Me.CustomerZip2.TabIndex = 24
         '
         'lblCity
         '
@@ -573,7 +571,7 @@ Partial Class BillOSale
         'lblShipCity
         '
         Me.lblShipCity.AutoSize = True
-        Me.lblShipCity.Location = New System.Drawing.Point(444, 275)
+        Me.lblShipCity.Location = New System.Drawing.Point(444, 274)
         Me.lblShipCity.Name = "lblShipCity"
         Me.lblShipCity.Size = New System.Drawing.Size(60, 13)
         Me.lblShipCity.TabIndex = 51
@@ -593,10 +591,10 @@ Partial Class BillOSale
         Me.cboPhone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboPhone1.FormattingEnabled = True
         Me.cboPhone1.Items.AddRange(New Object() {"Home Phone", "Cell Phone", "Work Phone"})
-        Me.cboPhone1.Location = New System.Drawing.Point(8, 327)
+        Me.cboPhone1.Location = New System.Drawing.Point(5, 327)
         Me.cboPhone1.Name = "cboPhone1"
         Me.cboPhone1.Size = New System.Drawing.Size(121, 22)
-        Me.cboPhone1.TabIndex = 53
+        Me.cboPhone1.TabIndex = 7
         Me.cboPhone1.Text = "Home Phone"
         '
         'cboPhone2
@@ -607,7 +605,7 @@ Partial Class BillOSale
         Me.cboPhone2.Location = New System.Drawing.Point(222, 327)
         Me.cboPhone2.Name = "cboPhone2"
         Me.cboPhone2.Size = New System.Drawing.Size(121, 22)
-        Me.cboPhone2.TabIndex = 54
+        Me.cboPhone2.TabIndex = 9
         Me.cboPhone2.Text = "Telephone2"
         '
         'cboPhone3
@@ -618,16 +616,16 @@ Partial Class BillOSale
         Me.cboPhone3.Location = New System.Drawing.Point(444, 327)
         Me.cboPhone3.Name = "cboPhone3"
         Me.cboPhone3.Size = New System.Drawing.Size(121, 22)
-        Me.cboPhone3.TabIndex = 55
+        Me.cboPhone3.TabIndex = 11
         Me.cboPhone3.Text = "Telephone3"
         '
         'CustomerPhone1
         '
         Me.CustomerPhone1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CustomerPhone1.Location = New System.Drawing.Point(8, 350)
+        Me.CustomerPhone1.Location = New System.Drawing.Point(5, 350)
         Me.CustomerPhone1.Name = "CustomerPhone1"
-        Me.CustomerPhone1.Size = New System.Drawing.Size(203, 22)
-        Me.CustomerPhone1.TabIndex = 56
+        Me.CustomerPhone1.Size = New System.Drawing.Size(188, 22)
+        Me.CustomerPhone1.TabIndex = 8
         Me.CustomerPhone1.Text = "702030320"
         '
         'CustomerPhone2
@@ -635,26 +633,26 @@ Partial Class BillOSale
         Me.CustomerPhone2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerPhone2.Location = New System.Drawing.Point(222, 350)
         Me.CustomerPhone2.Name = "CustomerPhone2"
-        Me.CustomerPhone2.Size = New System.Drawing.Size(203, 22)
-        Me.CustomerPhone2.TabIndex = 57
+        Me.CustomerPhone2.Size = New System.Drawing.Size(188, 22)
+        Me.CustomerPhone2.TabIndex = 10
         '
         'CustomerPhone3
         '
         Me.CustomerPhone3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerPhone3.Location = New System.Drawing.Point(444, 350)
         Me.CustomerPhone3.Name = "CustomerPhone3"
-        Me.CustomerPhone3.Size = New System.Drawing.Size(203, 22)
-        Me.CustomerPhone3.TabIndex = 58
+        Me.CustomerPhone3.Size = New System.Drawing.Size(188, 22)
+        Me.CustomerPhone3.TabIndex = 12
         '
         'txtSpecInst
         '
         Me.txtSpecInst.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSpecInst.Location = New System.Drawing.Point(8, 400)
+        Me.txtSpecInst.Location = New System.Drawing.Point(5, 400)
         Me.txtSpecInst.Multiline = True
         Me.txtSpecInst.Name = "txtSpecInst"
         Me.txtSpecInst.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtSpecInst.Size = New System.Drawing.Size(639, 38)
-        Me.txtSpecInst.TabIndex = 59
+        Me.txtSpecInst.TabIndex = 13
         '
         'lblSpecInstr
         '
@@ -668,10 +666,10 @@ Partial Class BillOSale
         'Sales1
         '
         Me.Sales1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Sales1.Location = New System.Drawing.Point(8, 458)
+        Me.Sales1.Location = New System.Drawing.Point(5, 458)
         Me.Sales1.Name = "Sales1"
         Me.Sales1.Size = New System.Drawing.Size(127, 22)
-        Me.Sales1.TabIndex = 61
+        Me.Sales1.TabIndex = 14
         '
         'Sales2
         '
@@ -679,7 +677,7 @@ Partial Class BillOSale
         Me.Sales2.Location = New System.Drawing.Point(219, 458)
         Me.Sales2.Name = "Sales2"
         Me.Sales2.Size = New System.Drawing.Size(127, 22)
-        Me.Sales2.TabIndex = 62
+        Me.Sales2.TabIndex = 16
         '
         'Sales3
         '
@@ -687,7 +685,7 @@ Partial Class BillOSale
         Me.Sales3.Location = New System.Drawing.Point(436, 458)
         Me.Sales3.Name = "Sales3"
         Me.Sales3.Size = New System.Drawing.Size(127, 22)
-        Me.Sales3.TabIndex = 63
+        Me.Sales3.TabIndex = 18
         '
         'SalesSplit1
         '
@@ -696,7 +694,7 @@ Partial Class BillOSale
         Me.SalesSplit1.Location = New System.Drawing.Point(145, 458)
         Me.SalesSplit1.Name = "SalesSplit1"
         Me.SalesSplit1.Size = New System.Drawing.Size(64, 24)
-        Me.SalesSplit1.TabIndex = 64
+        Me.SalesSplit1.TabIndex = 15
         '
         'SalesSplit2
         '
@@ -705,7 +703,7 @@ Partial Class BillOSale
         Me.SalesSplit2.Location = New System.Drawing.Point(356, 458)
         Me.SalesSplit2.Name = "SalesSplit2"
         Me.SalesSplit2.Size = New System.Drawing.Size(70, 24)
-        Me.SalesSplit2.TabIndex = 65
+        Me.SalesSplit2.TabIndex = 17
         '
         'SalesSplit3
         '
@@ -714,7 +712,7 @@ Partial Class BillOSale
         Me.SalesSplit3.Location = New System.Drawing.Point(573, 458)
         Me.SalesSplit3.Name = "SalesSplit3"
         Me.SalesSplit3.Size = New System.Drawing.Size(70, 24)
-        Me.SalesSplit3.TabIndex = 66
+        Me.SalesSplit3.TabIndex = 19
         '
         'lblSales1
         '
@@ -728,7 +726,7 @@ Partial Class BillOSale
         'lblSales2
         '
         Me.lblSales2.AutoSize = True
-        Me.lblSales2.Location = New System.Drawing.Point(219, 441)
+        Me.lblSales2.Location = New System.Drawing.Point(219, 443)
         Me.lblSales2.Name = "lblSales2"
         Me.lblSales2.Size = New System.Drawing.Size(42, 13)
         Me.lblSales2.TabIndex = 68
@@ -774,7 +772,7 @@ Partial Class BillOSale
         Me.dtpDelWindow2.Name = "dtpDelWindow2"
         Me.dtpDelWindow2.ShowUpDown = True
         Me.dtpDelWindow2.Size = New System.Drawing.Size(86, 21)
-        Me.dtpDelWindow2.TabIndex = 29
+        Me.dtpDelWindow2.TabIndex = 42
         '
         'lblTimeWindow
         '
@@ -794,7 +792,7 @@ Partial Class BillOSale
         Me.dtpDelWindow.Name = "dtpDelWindow"
         Me.dtpDelWindow.ShowUpDown = True
         Me.dtpDelWindow.Size = New System.Drawing.Size(86, 21)
-        Me.dtpDelWindow.TabIndex = 8
+        Me.dtpDelWindow.TabIndex = 41
         '
         'lblDelDate
         '
@@ -813,7 +811,7 @@ Partial Class BillOSale
         Me.opt30323.Location = New System.Drawing.Point(63, 37)
         Me.opt30323.Name = "opt30323"
         Me.opt30323.Size = New System.Drawing.Size(55, 17)
-        Me.opt30323.TabIndex = 7
+        Me.opt30323.TabIndex = 30
         Me.opt30323.TabStop = True
         Me.opt30323.Text = "30323"
         Me.ToolTipBillOSale.SetToolTip(Me.opt30323, "Click this for the wider DYMO Shipping labels.")
@@ -825,17 +823,17 @@ Partial Class BillOSale
         Me.opt30252.Location = New System.Drawing.Point(6, 37)
         Me.opt30252.Name = "opt30252"
         Me.opt30252.Size = New System.Drawing.Size(55, 17)
-        Me.opt30252.TabIndex = 6
+        Me.opt30252.TabIndex = 29
         Me.opt30252.Text = "30252"
         Me.ToolTipBillOSale.SetToolTip(Me.opt30252, " Dymo 330 Turbo ")
         Me.opt30252.UseVisualStyleBackColor = True
         '
         'cmdPrintLabel
         '
-        Me.cmdPrintLabel.Location = New System.Drawing.Point(125, 89)
+        Me.cmdPrintLabel.Location = New System.Drawing.Point(124, 88)
         Me.cmdPrintLabel.Name = "cmdPrintLabel"
         Me.cmdPrintLabel.Size = New System.Drawing.Size(66, 27)
-        Me.cmdPrintLabel.TabIndex = 9
+        Me.cmdPrintLabel.TabIndex = 31
         Me.cmdPrintLabel.Text = "&Print Label"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdPrintLabel, " Dymo 330 Turbo ")
         Me.cmdPrintLabel.UseVisualStyleBackColor = True
@@ -844,8 +842,8 @@ Partial Class BillOSale
         '
         Me.cmdCancel.Location = New System.Drawing.Point(94, 11)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(65, 58)
-        Me.cmdCancel.TabIndex = 8
+        Me.cmdCancel.Size = New System.Drawing.Size(65, 59)
+        Me.cmdCancel.TabIndex = 27
         Me.cmdCancel.Text = "&Cancel"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdCancel, " Cancels the sale ")
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -854,8 +852,8 @@ Partial Class BillOSale
         '
         Me.cmdApplyBillOSale.Location = New System.Drawing.Point(23, 11)
         Me.cmdApplyBillOSale.Name = "cmdApplyBillOSale"
-        Me.cmdApplyBillOSale.Size = New System.Drawing.Size(65, 58)
-        Me.cmdApplyBillOSale.TabIndex = 7
+        Me.cmdApplyBillOSale.Size = New System.Drawing.Size(65, 59)
+        Me.cmdApplyBillOSale.TabIndex = 26
         Me.cmdApplyBillOSale.Text = "&OK"
         Me.ToolTipBillOSale.SetToolTip(Me.cmdApplyBillOSale, "Processes the mailing list section ")
         Me.cmdApplyBillOSale.UseVisualStyleBackColor = True
@@ -968,6 +966,18 @@ Partial Class BillOSale
         Me.cmdChangePrice.UseVisualStyleBackColor = True
         Me.cmdChangePrice.Visible = False
         '
+        'imgCalendar
+        '
+        Me.imgCalendar.BackColor = System.Drawing.SystemColors.ButtonShadow
+        Me.imgCalendar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.imgCalendar.Image = Global.WinCDS.My.Resources.Resources.calendar
+        Me.imgCalendar.Location = New System.Drawing.Point(180, 39)
+        Me.imgCalendar.Name = "imgCalendar"
+        Me.imgCalendar.Size = New System.Drawing.Size(36, 27)
+        Me.imgCalendar.TabIndex = 6
+        Me.imgCalendar.TabStop = False
+        Me.ToolTipBillOSale.SetToolTip(Me.imgCalendar, "View the Delivery Calendar")
+        '
         'fraBOS2
         '
         Me.fraBOS2.BackColor = System.Drawing.SystemColors.Control
@@ -1054,6 +1064,15 @@ Partial Class BillOSale
         Me.fraHover.TabStop = False
         Me.fraHover.Visible = False
         '
+        'picHover
+        '
+        Me.picHover.Location = New System.Drawing.Point(45, 16)
+        Me.picHover.Name = "picHover"
+        Me.picHover.Size = New System.Drawing.Size(100, 50)
+        Me.picHover.TabIndex = 95
+        Me.picHover.TabStop = False
+        Me.picHover.Visible = False
+        '
         'cmdNoChangePrice
         '
         Me.cmdNoChangePrice.Location = New System.Drawing.Point(826, 81)
@@ -1079,20 +1098,6 @@ Partial Class BillOSale
         Me.BalDue.Name = "BalDue"
         Me.BalDue.Size = New System.Drawing.Size(136, 41)
         Me.BalDue.TabIndex = 92
-        '
-        'ugrFake
-        '
-        Me.ugrFake.Activated = False
-        Me.ugrFake.Col = 1
-        Me.ugrFake.firstrow = 1
-        Me.ugrFake.Loading = False
-        Me.ugrFake.Location = New System.Drawing.Point(8, 488)
-        Me.ugrFake.MaxCols = 2
-        Me.ugrFake.MaxRows = 10
-        Me.ugrFake.Name = "ugrFake"
-        Me.ugrFake.Row = 0
-        Me.ugrFake.Size = New System.Drawing.Size(817, 145)
-        Me.ugrFake.TabIndex = 107
         '
         'BillOfSale
         '
@@ -1123,10 +1128,10 @@ Partial Class BillOSale
         Me.fraButtons.Controls.Add(Me.cmdPrintLabel)
         Me.fraButtons.Controls.Add(Me.cmdCancel)
         Me.fraButtons.Controls.Add(Me.cmdApplyBillOSale)
-        Me.fraButtons.Location = New System.Drawing.Point(666, 346)
+        Me.fraButtons.Location = New System.Drawing.Point(665, 341)
         Me.fraButtons.Name = "fraButtons"
-        Me.fraButtons.Size = New System.Drawing.Size(198, 129)
-        Me.fraButtons.TabIndex = 102
+        Me.fraButtons.Size = New System.Drawing.Size(198, 126)
+        Me.fraButtons.TabIndex = 25
         Me.fraButtons.TabStop = False
         '
         'fraPrintType
@@ -1134,10 +1139,10 @@ Partial Class BillOSale
         Me.fraPrintType.Controls.Add(Me.opt30323)
         Me.fraPrintType.Controls.Add(Me.opt30252)
         Me.fraPrintType.Controls.Add(Me.lblPrintType)
-        Me.fraPrintType.Location = New System.Drawing.Point(7, 69)
+        Me.fraPrintType.Location = New System.Drawing.Point(6, 69)
         Me.fraPrintType.Name = "fraPrintType"
         Me.fraPrintType.Size = New System.Drawing.Size(112, 51)
-        Me.fraPrintType.TabIndex = 10
+        Me.fraPrintType.TabIndex = 28
         Me.fraPrintType.TabStop = False
         '
         'lblPrintType
@@ -1166,26 +1171,6 @@ Partial Class BillOSale
         Me.GroupBox1.TabIndex = 104
         Me.GroupBox1.TabStop = False
         '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(643, 5)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(33, 31)
-        Me.Button1.TabIndex = 105
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
-        Me.Button1.Visible = False
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(647, 46)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(28, 32)
-        Me.Button2.TabIndex = 106
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
-        Me.Button2.Visible = False
-        '
         'lblGrossSales
         '
         Me.lblGrossSales.AutoSize = True
@@ -1193,15 +1178,6 @@ Partial Class BillOSale
         Me.lblGrossSales.Name = "lblGrossSales"
         Me.lblGrossSales.Size = New System.Drawing.Size(0, 13)
         Me.lblGrossSales.TabIndex = 108
-        '
-        'picHover
-        '
-        Me.picHover.Location = New System.Drawing.Point(45, 16)
-        Me.picHover.Name = "picHover"
-        Me.picHover.Size = New System.Drawing.Size(100, 50)
-        Me.picHover.TabIndex = 95
-        Me.picHover.TabStop = False
-        Me.picHover.Visible = False
         '
         'picFormatHelper
         '
@@ -1221,17 +1197,20 @@ Partial Class BillOSale
         Me.imgLogo.TabIndex = 11
         Me.imgLogo.TabStop = False
         '
-        'imgCalendar
+        'ugrFake
         '
-        Me.imgCalendar.BackColor = System.Drawing.SystemColors.ButtonShadow
-        Me.imgCalendar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.imgCalendar.Image = Global.WinCDS.My.Resources.Resources.calendar
-        Me.imgCalendar.Location = New System.Drawing.Point(180, 39)
-        Me.imgCalendar.Name = "imgCalendar"
-        Me.imgCalendar.Size = New System.Drawing.Size(36, 27)
-        Me.imgCalendar.TabIndex = 6
-        Me.imgCalendar.TabStop = False
-        Me.ToolTipBillOSale.SetToolTip(Me.imgCalendar, "View the Delivery Calendar")
+        Me.ugrFake.Activated = False
+        Me.ugrFake.Col = 1
+        Me.ugrFake.firstrow = 1
+        Me.ugrFake.Loading = False
+        Me.ugrFake.Location = New System.Drawing.Point(5, 488)
+        Me.ugrFake.MaxCols = 2
+        Me.ugrFake.MaxRows = 10
+        Me.ugrFake.Name = "ugrFake"
+        Me.ugrFake.Row = 0
+        Me.ugrFake.Size = New System.Drawing.Size(817, 145)
+        Me.ugrFake.TabIndex = 45
+        Me.ugrFake.TabStop = False
         '
         'BillOSale
         '
@@ -1240,8 +1219,6 @@ Partial Class BillOSale
         Me.ClientSize = New System.Drawing.Size(874, 881)
         Me.Controls.Add(Me.ugrFake)
         Me.Controls.Add(Me.fraBOS2)
-        Me.Controls.Add(Me.Button2)
-        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.lblGrossSalesCaption)
         Me.Controls.Add(Me.dteDelivery)
         Me.Controls.Add(Me.fraButtons)
@@ -1325,17 +1302,17 @@ Partial Class BillOSale
         Me.Text = "BillOSale"
         Me.fraTimeWindow.ResumeLayout(False)
         Me.fraTimeWindow.PerformLayout()
+        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraBOS2.ResumeLayout(False)
         Me.fraBOS2.PerformLayout()
         Me.fraBOS2Commands.ResumeLayout(False)
         Me.fraHover.ResumeLayout(False)
+        CType(Me.picHover, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraButtons.ResumeLayout(False)
         Me.fraPrintType.ResumeLayout(False)
         Me.fraPrintType.PerformLayout()
-        CType(Me.picHover, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picFormatHelper, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1453,8 +1430,6 @@ Partial Class BillOSale
     Friend WithEvents UGridIO1 As UGridIO
     Friend WithEvents rtbStorePolicy As RichTextBoxNew
     Friend WithEvents rtb As RichTextBoxNew
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
     Friend WithEvents ugrFake As UGridIO
     Friend WithEvents lblGrossSales As Label
 End Class

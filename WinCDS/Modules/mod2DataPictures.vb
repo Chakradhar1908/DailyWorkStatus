@@ -1,4 +1,5 @@
 ﻿Imports stdole
+Imports ADODB
 Module mod2DataPictures
     Public Function FindDatabasePictureID(ByVal mLoc as integer, ByVal mType as integer, Optional ByVal mRef As String = "", Optional ByVal mIdx as integer = 1, Optional ByRef ImgCnt as integer = 0) as integer
         '::::FindDatabasePictureID
@@ -70,13 +71,14 @@ Module mod2DataPictures
             '.datPicture.Refresh
             .datPicture.Refresh()
             'If .datPicture.Recordset.RecordCount <> 0 Then
-            If .datPicture.Recordset.RecordCount <> 0 Then
-                'GetDatabasePicture = .imgPicture.Picture
-                GetDatabasePicture = .imgPicture.Image
-            End If
+            'If .datPicture.Recordset.RecordCount <> 0 Then
+            '    'GetDatabasePicture = .imgPicture.Picture
+            '    GetDatabasePicture = .imgPicture.Image
+            'End If
             '.datPicture.DataBase.Close
             .datPicture.ConnectionString = ""
         End With
+
     End Function
 
 End Module

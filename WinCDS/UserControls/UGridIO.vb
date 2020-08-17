@@ -31,7 +31,7 @@ Public Class UGridIO
     Public Event AfterInsert()
     Public Event AfterUpdate()
     Public Event BeforeColEdit(ByVal ColIndex As Integer, ByVal KeyAscii As Integer, Cancel As Integer)
-    Public Event BeforeColUpdate(ByVal ColIndex As Integer, OldValue As Object, Cancel As Integer)
+    Public Event BeforeColUpdate(ByVal ColIndex As Integer, ByRef OldValue As Object, ByRef Cancel As Integer)
     Public Event BeforeDelete(Cancel As Integer)
     Public Event BeforeInsert(Cancel As Integer)
     Public Event BeforeUpdate(Cancel As Integer)
@@ -66,12 +66,15 @@ Public Class UGridIO
         AxDataGrid1.Row = 0
         AxDataGrid1.Col = 1
         AxDataGrid1.Text = ""
+
     End Sub
 
     Public Sub ConnectData()
         Dim c As New ADODB.Connection
-
-        c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\CDSData\Store1\NewOrder\cdsdata.mdb"
+        'ConnString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source=" & DBName & PasswordProtectedDatabaseString & ";"
+        'c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\CDSData\Store1\NewOrder\cdsdata.mdb"
+        'c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & GetDatabaseAtLocation() & PasswordProtectedDatabaseString & ";"
+        c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & GetDatabaseAtLocation()
         c.CursorLocation = ADODB.CursorLocationEnum.adUseClient
         c.Open()
         'MsgBox(c.State)
@@ -140,6 +143,7 @@ Public Class UGridIO
     Public Sub AddColumn(ColOrder As Integer, Title As String, ColWidth As Integer, IsLocked As Boolean, AllowSizing As Boolean, Optional Align As Integer = 0, Optional IsVisible As Boolean = True)
         'Dim Col As MSDBGrid.Column
         Dim Col As MSDataGridLib.Column
+
         Col = GetColumn(ColOrder)
         With Col
             .Caption = Title
@@ -564,7 +568,6 @@ AnError:
         RaiseEvent AfterColEdit(e.colIndex)
     End Sub
 
-    'NOTE -----------------------AfterColUpdate is not required. It is not used in BillOSale form in vb6.0----------------------
     Private Sub AxDataGrid1_AfterColUpdate(sender As Object, e As AxMSDataGridLib.DDataGridEvents_AfterColUpdateEvent) Handles AxDataGrid1.AfterColUpdate
         RaiseEvent AfterColUpdate(e.colIndex)
     End Sub
@@ -675,6 +678,7 @@ AnError:
 
     Private Sub AxDataGrid1_SelChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_SelChangeEvent) Handles AxDataGrid1.SelChange
         RaiseEvent SelChange(e.cancel)
+
     End Sub
 
     Private Sub AxDataGrid1_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles AxDataGrid1.Validating
@@ -841,6 +845,34 @@ AnError:
     '    mRefresh = False
     '    RaiseEvent RowDelete(e.bookmark)
     '    DBGrid1.Scroll(0, -1)
+    '    mRefresh = True
+    'End Sub
+
+
+    'Public Sub UnboundDeleteRow(ByVal R As Integer)
+    '    '-----> Written this sub as a replacement for UnboundDeleteRow event. But it's continuation is UnboundReadData event which is difficult to replace because of its parameters
+    '    '-----> and keywords like RowBuffer etc. So this sub UnboundDeleteRow is not using.
+    '    Dim Index As Integer
+
+    '    'Index = Val(Bookmark)
+    '    Index = R
+
+    '    Dim I As Integer
+    '    Dim J As Integer
+    '    For I = Index To mMaxRows - 2
+    '        For J = 0 To mMaxCols - 1
+    '            GridArray(J, I) = GridArray(J, I + 1)
+    '        Next
+    '    Next
+
+    '    For J = 0 To mMaxCols - 1
+    '        GridArray(J, mMaxRows - 1) = ""
+    '    Next
+    '    mRefresh = False
+    '    'RaiseEvent RowDelete(Bookmark)
+    '    RaiseEvent RowDelete(R)
+    '    'DBGrid1.Scroll 0, -1
+    '    AxDataGrid1.Scroll(0, -1)
     '    mRefresh = True
     'End Sub
 
@@ -1152,5 +1184,6 @@ NoColumn:
         With AxDataGrid1
             .Bookmark = .RowBookmark(I)
         End With
+
     End Sub
 End Class

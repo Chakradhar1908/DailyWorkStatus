@@ -363,4 +363,25 @@ Module modService
         ChargeBackLetterOperationDesc = Oper
     End Function
 
+    Public Function GetMailIndexByServiceCallNo(ByRef ServiceCallNumber As Long) As Long
+        '::::GetMailIndexByServiceCallNo
+        ':::SUMMARY
+        ': Gets Mail Index with Service call number.
+        ':::DESCRIPTION
+        ': By calling this function, we gets Mail Index based on service call number.
+        ': Service Call Number is mostly used in part order form.
+        ':::PARAMETERS
+        ': - ServiceCallNumber - Indicates Service number.
+        ':::RETURN
+        ': - Long - Returns Mail Index as a long.
+        Dim cServ As clsServiceOrder
+        cServ = New clsServiceOrder
+        If cServ.Load(CStr(ServiceCallNumber), "#ServiceOrderNo") Then
+            GetMailIndexByServiceCallNo = cServ.MailIndex
+        Else
+            GetMailIndexByServiceCallNo = 0
+        End If
+        DisposeDA(cServ)
+    End Function
+
 End Module

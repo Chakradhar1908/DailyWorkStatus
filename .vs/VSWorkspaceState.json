@@ -2,7 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\WinCDS",
-    "\\WinCDS\\Forms"
+    "\\WinCDS\\bin",
+    "\\WinCDS\\bin\\Debug",
+    "\\WinCDS\\bin\\Release",
+    "\\WinCDS\\Connected Services",
+    "\\WinCDS\\Forms",
+    "\\WinCDS\\Modules",
+    "\\WinCDS\\My Project",
+    "\\WinCDS\\obj"
   ],
+  "SelectedNode": "\\WinCDS\\Forms\\BillOSale.vb",
   "PreviewInSolutionExplorer": false
 }

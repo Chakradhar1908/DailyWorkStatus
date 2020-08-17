@@ -1478,6 +1478,30 @@ Public Class MainMenu4
         L.BorderStyle = BorderStyle.None
     End Sub
 
+    Private Sub mnuFileExit_Click(sender As Object, e As EventArgs) Handles mnuFileExit.Click
+        End
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        ''Dim p As New PictureBox
+        ''p.Size = New Size(1300, 450)
+        ''p.Image = Image.FromFile(StoreLogoFile(0))
+        ''p.SizeMode = PictureBoxSizeMode.Normal
+        ''printer.PaintPicture(p.Image, 4000, 200, p.Image.Width, p.Image.Height, 8000, 1500, 1000, 300)
+        'Printer.CurrentX = 4000
+        'Printer.CurrentY = 200
+        ''Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 100, 500, 5000, 5000, 500, 1500, 35000, 35000)
+        'Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 4000, 200, 5000, 5000, 1200, 1000, 35000, 35000)
+        'Printer.EndDoc()
+        'Dim d As Date
+        'Dim SaleDate As String = "14-08-2020"
+        ''d = Date.Parse(DateFormat(SaleDate), System.Globalization.CultureInfo.InvariantCulture)
+        'SaleDate = Date.Parse(DateFormat(SaleDate), System.Globalization.CultureInfo.InvariantCulture)
+        'Printer.Print(SaleDate)
+        'Printer.EndDoc()
+        End
+    End Sub
+
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
         txtInfo.Text = AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True)
         'txtInfo.Locked = True
@@ -1526,7 +1550,7 @@ Public Class MainMenu4
         End If
     End Sub
 
-    Public Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Public Sub btnNewSale_Click(sender As Object, e As EventArgs) Handles btnNewSale.Click
         'Case "newsale"
         If CrippleBug("New Sales") Then Exit Sub
         If Not CheckAccess("Create Sales") Then Exit Sub

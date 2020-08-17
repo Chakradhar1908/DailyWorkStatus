@@ -243,7 +243,7 @@ NoSave:
         RS("ArNo").Value = IfNullThenNilString(Trim(ArNo))
     End Sub
 
-    Private Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
+    Public Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
         On Error Resume Next
         LeaseNo = IfNullThenNilString(Trim(RS("LeaseNo").Value))
         InitialLease = IfNullThenNilString(LeaseNo)

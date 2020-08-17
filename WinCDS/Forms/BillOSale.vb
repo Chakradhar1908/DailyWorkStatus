@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Compatibility.VB6
 Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Imports System.Globalization
 Public Class BillOSale
     Dim printer As New Printer
     Dim LeaseNo As String
@@ -77,9 +78,9 @@ Public Class BillOSale
     Public InstallmentTotal As Decimal
     Dim offY As Integer, offX As Integer
     Dim SplitKits As TriState
-    Dim NewVal As String
     Dim Margin As New CGrossMargin
     Dim I As Integer
+    Dim NewVal As String
 
     Private Sub cboPhone1_Enter(sender As Object, e As EventArgs) Handles cboPhone1.Enter
         ' This event is replacement for Gotfocus of vb6.0
@@ -100,8 +101,10 @@ Public Class BillOSale
         If e.KeyChar = "," Then
             'i = Asc(" ")
             e.KeyChar = " "
-        Else
+        ElseIf Asc(e.KeyChar) >= 48 And Asc(e.KeyChar) <= 57 Then
+            e.KeyChar = ""
             'i = Asc(UCase(e.KeyChar))
+        Else
             e.KeyChar = UCase(e.KeyChar)
         End If
         'i = Asc(UCase(e.KeyChar))
@@ -132,7 +135,11 @@ Public Class BillOSale
         'Dim i As Integer
         'KeyAscii = Asc(UCase(Chr(KeyAscii)))
         'i = Asc(UCase(e.KeyChar))
-        e.KeyChar = UCase(e.KeyChar)
+        If Asc(e.KeyChar) >= 48 And Asc(e.KeyChar) <= 57 Then
+            e.KeyChar = ""
+        Else
+            e.KeyChar = UCase(e.KeyChar)
+        End If
     End Sub
 
     Public Sub GetSpeechInputMode(ByRef Result As Boolean, ByVal SIType As String, ByVal CtrlName As String)
@@ -793,9 +800,8 @@ NextItem:
         'Left = (Screen.Width - Width) / 2   ' Center form horizontally.
         'Top = (Screen.Height - Height) / 2   ' Center form vertically.
 
-        dteSaleDate.Value = DateTime.Parse(DateFormat(Now))
-        'dteSaleDate.Value = Now
-        dteDelivery.Value = DateTime.Parse(DateFormat(Now))
+        dteSaleDate.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
+        dteDelivery.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
 
         Order = "A"     '------> It will be assigned in modMainMenu. Because modMainMenu code is not completed
         'temporarily assigned here to run the below select case Order code. After modMainMenu completed, 
@@ -820,7 +826,8 @@ NextItem:
             End If
 
             SaleStatus.Text = "New"
-            dteSaleDate.Value = DateFormat(Now)
+            'dteSaleDate.Value = DateFormat(Now)
+            dteSaleDate.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
         End If
 
         If Not OrderMode("A") Then
@@ -1604,14 +1611,14 @@ HandleErr:
         ReDim SelList(RS.RecordCount - 1)
         N = 0
         Do While Not RS.EOF
-            If IfNullThenNilString(RS("PrintPO")) = "V" Or IfNullThenNilString(RS("PrintPO")) = "v" Then
+            If IfNullThenNilString(RS("PrintPO").Value) = "V" Or IfNullThenNilString(RS("PrintPO").Value) = "v" Then
                 Status = "Void"
-            ElseIf IfNullThenNilString(RS("Posted")) <> "" Then
+            ElseIf IfNullThenNilString(RS("Posted").Value) <> "" Then
                 Status = "Received"
             Else
                 Status = "Open"
             End If
-            L = ArrangeString(RS("PoNo").Value, 10) & ArrangeString(DateFormat(RS("PoDate")), 12) & ArrangeString(RS("Quantity").Value, 4) & ArrangeString(Status, 6) & "Due:" & ArrangeString(DateFormat(IfNullThenNilString(RS("DueDate"))), 12)
+            L = ArrangeString(RS("PoNo").Value, 10) & ArrangeString(DateFormat(RS("PoDate").Value), 12) & ArrangeString(RS("Quantity").Value, 4) & ArrangeString(Status, 6) & "Due:" & ArrangeString(DateFormat(IfNullThenNilString(RS("DueDate").Value)), 12)
             SelList(N) = L
             N = N + 1
             RS.MoveNext()
@@ -2292,6 +2299,7 @@ HandleErr:
     End Sub
 
     Private Sub UGridIO1_RowDelete(LastRow As Object) Handles UGridIO1.RowDelete
+        ' This event will not fire. It will directly executing AfterDelete event.
         If UGridIO1.Row < NewStyleLine Then
             NewStyleLine = NewStyleLine - 1
         End If
@@ -2943,20 +2951,24 @@ HandleErr:
 
         ' "Date" Datepicker.
         TransDate = DateFormat(dteSaleDate.Value)
-        If CDate(TransDate) < Today Then
+
+        'If Convert.ToDateTime(TransDate) < Today Then
+        If Date.Parse(TransDate, CultureInfo.InvariantCulture) < Today Then
             If MessageBox.Show("Are you sure you want to change the date of the sale?" & vbCrLf &
               "This is not the delivery date.", "", MessageBoxButtons.YesNo) = DialogResult.No Then
                 dteSaleDate.Value = Today
                 TransDate = Today
             End If
         ElseIf IsWilkenfeld() Then
-            If CDate(TransDate) > DateAdd("d", 1, Date.Today) Then
+            'If Convert.ToDateTime(TransDate) > DateAdd("d", 1, Date.Today) Then
+            If Date.Parse(TransDate, CultureInfo.InvariantCulture) > DateAdd("d", 1, Date.Today) Then
                 MessageBox.Show("You can't set the sale date later than tomorrow.")
                 TransDate = Today
                 dteSaleDate.Value = Today
             End If
         Else
-            If CDate(TransDate) > Today Then
+            'If Convert.ToDateTime(TransDate) > Today Then
+            If Date.Parse(TransDate, CultureInfo.InvariantCulture) > Today Then
                 MessageBox.Show("You can't set the sale date later than today.")
                 TransDate = Today
                 dteSaleDate.Value = Today
@@ -3678,11 +3690,14 @@ HandleErr:
         End If
     End Sub
 
-    Private Sub UGridIO1_BeforeColUpdate(ColIndex As Integer, OldValue As Object, Cancel As Integer) Handles UGridIO1.BeforeColUpdate
+    Private Sub UGridIO1_BeforeColUpdate(ByVal ColIndex As Integer, ByRef OldValue As Object, ByRef Cancel As Integer) Handles UGridIO1.BeforeColUpdate
         'Dim NewVal As String
-
         With UGridIO1
-            NewVal = .Text
+            If ColIndex = 6 Then          'If condition is added. Becauase sometimes .Text property returns empty. mLastGridText property is storing the Text property value. So used it in place of .Text property.
+                NewVal = mLastGridText
+            Else
+                NewVal = .Text
+            End If
             Select Case ColIndex
                 Case BillColumns.eStyle  ' Style
                     If Len(NewVal) > Setup_2Data_StyleMaxLen Then .Text = Microsoft.VisualBasic.Left(NewVal, Setup_2Data_StyleMaxLen)
@@ -3803,7 +3818,8 @@ HandleErr:
         If chkDelivery.CheckState = 1 Then
             chkPickup.CheckState = 0
             If OrderMode("A") Then
-                dteDelivery.Value = DateFormat(Now)
+                'dteDelivery.Value = DateFormat(Now)
+                dteDelivery.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
                 dteDelivery.Visible = True
                 dteDelivery.Enabled = True
                 lblDelDate.Visible = False
@@ -3832,7 +3848,8 @@ HandleErr:
             If OrderMode("A") Then
                 dteDelivery.Visible = True
                 dteDelivery.Enabled = True
-                dteDelivery.Value = DateFormat(Now)
+                'dteDelivery.Value = DateFormat(Now)
+                dteDelivery.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
                 lblDelDate.Visible = False
                 ShowTimeWindowBox(True)
             End If
@@ -4104,8 +4121,37 @@ HandleErr:
     End Sub
 
     Private Sub UGridIO1_AfterDelete() Handles UGridIO1.AfterDelete
+        ' ----------> To delete selected grid row and update the grand total.
+        'UGridIO1.UnboundDeleteRow(UGridIO1.Row)
+        'Dim LastusedRow As Integer
+        'Dim CellVal As String
+
+        If UGridIO1.Row < NewStyleLine Then
+            NewStyleLine = NewStyleLine - 1
+        End If
+        ' ReCalculate  ' For some reason, calling this here adds a price to the second row of a kit.
+        ' We'll recalculate in the AfterDelete event instead.
+        If Trim(QueryStyle(X)) = "" Then StyleAddBegin(X) ' If there's nothing in the current style cell, force a selection.
+
+        'Dim Delrow As Integer
+        'LastusedRow = UGridIO1.LastRowUsed()
+        'Delrow = UGridIO1.Row
+        'SetPrice(Delrow, "")
+        'UGridIO1.Col = BillColumns.ePrice
+        'UGridIO1.Text = ""
+        UGridIO1.DeleteRow(UGridIO1.Row)
+        'ClearGrid()
+        'For r = 0 To LastusedRow - 1
+        '    'CellVal = QueryStyle(r)
+        '    'SetStyle(r, CellVal)
+        '    'SetGridField(r, BillColumns.eStyle, Microsoft.VisualBasic.Left(CellVal, Setup_2Data_StyleMaxLen), NoDisplay)
+        '    'SetGridField(r, BillColumns.eManufacturerNo, CellVal, NoDisplay)
+
+        '    RowCopy(r, r)
+        'Next
+
         Recalculate()
-        If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
+        'If UGridIO1.GetDBGrid.FirstRow = 1 Then UGridIO1.GetDBGrid.FirstRow = 0
         UGridIO1.Refresh(True)
     End Sub
 
@@ -4210,9 +4256,10 @@ HandleErr:
         End Set
     End Property
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        End
-    End Sub
+    'NOTE: This button is deleted from BillOSale form u.i. Temporarily added for exit purpose.
+    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    '    End
+    'End Sub
 
     Private Sub cmdMainMenu_Click(sender As Object, e As EventArgs) Handles cmdMainMenu.Click
         If SaleHasCCTransactions And cmdProcessSale.Enabled = True Then
@@ -4322,7 +4369,8 @@ HandleErr:
             '    f = New BillOSale
             '    f.Show()
             'End If
-            MainMenu4.Button1_Click(Button1, New EventArgs)
+            'MainMenu4.Button1_Click(Button1, New EventArgs)
+            MainMenu4.btnNewSale_Click(MainMenu4.btnNewSale, New EventArgs)
             'BillOSale_Load(Me, New EventArgs)
             'MailCheck.optTelephone.Checked = True -> Commeneted this line, because in vb.net, mailcheck form load event must execute before this line.
             'MailCheck.HidePriorSales = True
@@ -4335,7 +4383,8 @@ HandleErr:
             Me.Close()
             'Show()
             'Show()
-            MainMenu4.Button1_Click(Button1, New EventArgs)
+            'MainMenu4.Button1_Click(Button1, New EventArgs)
+            MainMenu4.btnNewSale_Click(MainMenu4.btnNewSale, New EventArgs)
             MailCheck.optSaleNo.Checked = True
         End If
         'frmSalesList.SalesCode = ""
@@ -4350,23 +4399,25 @@ HandleErr:
         'MailCheck.LookUpCustomer(MailCheck.ItemdataValue, True, MailCheck.SelectedItemValue)
     End Sub
 
-    Public Sub ShowMailCheckForm()
-        '----------IMP NOTE-----------
-        '--------This code block is to show MailCheck form. After completion of Main menu form, remove this code block. Because after completion of Main menu
-        '--------this code will be available in modMainMenu and this form will connect from modMainMenu code.
+    'Public Sub ShowMailCheckForm()
+    '    '----------IMP NOTE-----------
+    '    '--------This code block is to show MailCheck form. After completion of Main menu form, remove this code block. Because after completion of Main menu
+    '    '--------this code will be available in modMainMenu and this form will connect from modMainMenu code.
 
-        'MailCheck.MailCheck_Load(MailCheck, New EventArgs)
-        'MailCheck.optTelephone.Checked = True
-        MailCheck.HidePriorSales = True
-        MailCheck.ShowDialog(Me)  ' If this is loaded "vbModal, BillOSale", lockup may occur.
-        'MailCheck.optTelephone.Checked = True
-        MailCheck.HidePriorSales = False
-        'Unload MailCheck
-        MailCheck.Close()
-        '-----------------
-    End Sub
+    '    'MailCheck.MailCheck_Load(MailCheck, New EventArgs)
+    '    'MailCheck.optTelephone.Checked = True
+    '    MailCheck.HidePriorSales = True
+    '    MailCheck.ShowDialog(Me)  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+    '    'MailCheck.optTelephone.Checked = True
+    '    MailCheck.HidePriorSales = False
+    '    'Unload MailCheck
+    '    MailCheck.Close()
+    '    '-----------------
+    'End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        ShowMailCheckForm()
-    End Sub
+    'Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    'NOTE: This button is removed from the BillOSale form. Please read IMP NOTE of above commented "ShowMailCheckForm" sub.
+    '    ShowMailCheckForm()
+    'End Sub
+
 End Class
