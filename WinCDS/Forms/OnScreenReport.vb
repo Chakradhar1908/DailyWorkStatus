@@ -67,7 +67,7 @@ Public Class OnScreenReport
         'SetButtonImage(cmdAdd, 0). Below line is replacement for it. Because, it is checkbox not button, so loaded image directly here instead caling setbuttonimage funtion.
         cmdAdd.Image = MainMenu.imlStandardButtons.Images(0)
 
-        SetButtonImage(cmdApply, 1)
+        SetButtonImage(cmdApply, 2)
         SetButtonImage(cmdNext2, 6)
         SetButtonImage(cmdMenu2, 9)
         SetButtonImage(cmdPrint2, 19)

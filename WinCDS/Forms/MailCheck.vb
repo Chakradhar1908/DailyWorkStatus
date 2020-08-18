@@ -489,7 +489,8 @@ Public Class MailCheck
         Else
             'Unload Me
             MailCheckClose = True
-            Me.Close()
+            'Me.Close()
+            Hide()
         End If
     End Sub
 
@@ -912,7 +913,7 @@ HandleErr:
 
         'Queryunload code
         'If UnloadMode = vbFormControlMenu Then Cancel = True ' cmdCancel.value = True   ' Still having problems with BillOSale.
-        If MailCheckClose = False Then
+        If MailCheckClose = False Then   'IMP NOTE: Added this If block to skip the next if block. Otherwise, e.cancel=true is executing and this form is not cloing.
             If e.CloseReason = CloseReason.UserClosing Then
                 e.Cancel = True
             End If

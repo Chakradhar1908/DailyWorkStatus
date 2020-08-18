@@ -169,7 +169,7 @@ Partial Class OnScreenReport
         Me.fraControls2.Controls.Add(Me.cmdReturn)
         Me.fraControls2.Location = New System.Drawing.Point(235, 425)
         Me.fraControls2.Name = "fraControls2"
-        Me.fraControls2.Size = New System.Drawing.Size(331, 75)
+        Me.fraControls2.Size = New System.Drawing.Size(274, 75)
         Me.fraControls2.TabIndex = 9
         Me.fraControls2.TabStop = False
         '
@@ -195,6 +195,7 @@ Partial Class OnScreenReport
         Me.cmdPrint2.Text = "&Print"
         Me.ToolTip1.SetToolTip(Me.cmdPrint2, " Return to main menu ")
         Me.cmdPrint2.UseVisualStyleBackColor = True
+        Me.cmdPrint2.Visible = False
         '
         'cmdMenu2
         '

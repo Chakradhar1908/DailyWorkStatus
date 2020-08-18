@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class AddOnAcc
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,15 +20,15 @@ Partial Class AddOnAcc
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.fraControls = New System.Windows.Forms.GroupBox()
+        Me.cmdRevolving = New System.Windows.Forms.CheckBox()
         Me.cmdNew = New System.Windows.Forms.Button()
         Me.cmdAddToNew = New System.Windows.Forms.Button()
         Me.cmdAdd = New System.Windows.Forms.Button()
         Me.lblHeadings = New System.Windows.Forms.Label()
         Me.lstAccounts = New System.Windows.Forms.ListBox()
-        Me.cmdRevolving = New System.Windows.Forms.CheckBox()
         Me.fraControls.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -39,17 +39,29 @@ Partial Class AddOnAcc
         Me.fraControls.Controls.Add(Me.cmdAddToNew)
         Me.fraControls.Controls.Add(Me.cmdAdd)
         Me.fraControls.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fraControls.Location = New System.Drawing.Point(12, 6)
+        Me.fraControls.Location = New System.Drawing.Point(8, 6)
         Me.fraControls.Name = "fraControls"
-        Me.fraControls.Size = New System.Drawing.Size(131, 139)
+        Me.fraControls.Size = New System.Drawing.Size(131, 146)
         Me.fraControls.TabIndex = 0
         Me.fraControls.TabStop = False
         Me.fraControls.Text = "Existing Account:"
         '
+        'cmdRevolving
+        '
+        Me.cmdRevolving.Appearance = System.Windows.Forms.Appearance.Button
+        Me.cmdRevolving.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdRevolving.Location = New System.Drawing.Point(6, 116)
+        Me.cmdRevolving.Name = "cmdRevolving"
+        Me.cmdRevolving.Size = New System.Drawing.Size(119, 25)
+        Me.cmdRevolving.TabIndex = 3
+        Me.cmdRevolving.Text = "&Revolving"
+        Me.cmdRevolving.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.cmdRevolving.UseVisualStyleBackColor = True
+        '
         'cmdNew
         '
         Me.cmdNew.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdNew.Location = New System.Drawing.Point(6, 77)
+        Me.cmdNew.Location = New System.Drawing.Point(6, 87)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(119, 23)
         Me.cmdNew.TabIndex = 2
@@ -59,7 +71,7 @@ Partial Class AddOnAcc
         'cmdAddToNew
         '
         Me.cmdAddToNew.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdAddToNew.Location = New System.Drawing.Point(6, 48)
+        Me.cmdAddToNew.Location = New System.Drawing.Point(6, 58)
         Me.cmdAddToNew.Name = "cmdAddToNew"
         Me.cmdAddToNew.Size = New System.Drawing.Size(119, 23)
         Me.cmdAddToNew.TabIndex = 1
@@ -69,7 +81,7 @@ Partial Class AddOnAcc
         'cmdAdd
         '
         Me.cmdAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdAdd.Location = New System.Drawing.Point(6, 19)
+        Me.cmdAdd.Location = New System.Drawing.Point(6, 29)
         Me.cmdAdd.Name = "cmdAdd"
         Me.cmdAdd.Size = New System.Drawing.Size(119, 23)
         Me.cmdAdd.TabIndex = 0
@@ -87,34 +99,26 @@ Partial Class AddOnAcc
         'lstAccounts
         '
         Me.lstAccounts.FormattingEnabled = True
-        Me.lstAccounts.Location = New System.Drawing.Point(159, 23)
+        Me.lstAccounts.Location = New System.Drawing.Point(152, 22)
         Me.lstAccounts.Name = "lstAccounts"
-        Me.lstAccounts.Size = New System.Drawing.Size(321, 121)
+        Me.lstAccounts.Size = New System.Drawing.Size(328, 134)
         Me.lstAccounts.TabIndex = 2
-        '
-        'cmdRevolving
-        '
-        Me.cmdRevolving.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cmdRevolving.AutoSize = True
-        Me.cmdRevolving.Location = New System.Drawing.Point(6, 106)
-        Me.cmdRevolving.Name = "cmdRevolving"
-        Me.cmdRevolving.Size = New System.Drawing.Size(79, 25)
-        Me.cmdRevolving.TabIndex = 3
-        Me.cmdRevolving.Text = "&Revolving"
-        Me.cmdRevolving.UseVisualStyleBackColor = True
         '
         'AddOnAcc
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(490, 154)
+        Me.ClientSize = New System.Drawing.Size(485, 162)
         Me.Controls.Add(Me.lstAccounts)
         Me.Controls.Add(Me.lblHeadings)
         Me.Controls.Add(Me.fraControls)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "AddOnAcc"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Make Selection"
         Me.fraControls.ResumeLayout(False)
-        Me.fraControls.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

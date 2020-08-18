@@ -1,13 +1,12 @@
-﻿Public Class AddOnAcc
+﻿Imports VBRUN
+Public Class AddOnAcc
     Public Typee As String
     Public ServiceNo As String
-
     Private ArNo As String
     Private mDisallowNew As Boolean  ' Property to disable Add feature.
-    Private ShowMode as integer
+    Private ShowMode As Integer
     Private SelectedValue As String
     Private mRevolved As Boolean
-
     Private Const Sp As String = "   "
     Private Const Sp2 As String = "  "
     Private Const Sp1 As String = " "
@@ -19,16 +18,15 @@
         DisallowNew = True
         ShowMode = 1
 
-
         ' Load the sales.
         ' If we can't load anything, the caller handle it.
         Dim tHold As New cHolding
         If Not tHold.Load(MailIndex, "#Index") Then Exit Function
+
         Do Until tHold.DataAccess.Record_EOF
             If ArNoIsAddOnRecord(tHold.LeaseNo) Then GoTo SkipItem
             'lstAccounts.AddItem ArrangeString(tHold.LeaseNo, 10, vbAlignRight) & Sp1 & ArrangeString(DescribeHoldingStatus(tHold.Status), 6, vbAlignRight) & Sp1 & ArrangeString(FormatCurrency(tHold.Sale), 12, vbAlignRight) & Sp1 & ArrangeString(FormatCurrency(tHold.Sale - tHold.Deposit), 12, vbAlignRight)
-            'lstAccounts.Items.Add(ArrangeString(tHold.LeaseNo, 10, ContentAlignment.MiddleRight) & Sp1 & ArrangeString(DescribeHoldingStatus(tHold.Status), 6, ContentAlignment.MiddleRight) & Sp1 & ArrangeString(FormatCurrency(tHold.Sale), 12, ContentAlignment.MiddleRight) & Sp1 & ArrangeString(FormatCurrency(tHold.Sale - tHold.Deposit), 12, ContentAlignment.MiddleRight))
-            lstAccounts.Items.Add(tHold.LeaseNo)
+            lstAccounts.Items.Add(ArrangeString(tHold.LeaseNo, 10, AlignConstants.vbAlignRight) & Sp1 & Space(10) & ArrangeString(DescribeHoldingStatus(tHold.Status), 6, AlignConstants.vbAlignRight) & Sp1 & Space(5) & ArrangeString(FormatCurrency(tHold.Sale), 12, AlignConstants.vbAlignRight) & Sp1 & Space(8) & ArrangeString(FormatCurrency(tHold.Sale - tHold.Deposit), 12, AlignConstants.vbAlignRight))
             tHold.DataAccess.Records_MoveNext()
             tHold.cDataAccess_GetRecordSet(tHold.DataAccess.RS)
 SkipItem:
@@ -39,7 +37,7 @@ SkipItem:
         If lstAccounts.Items.Count = 1 Then
             SelectEntry(0)
         Else
-            lblHeadings.Text = ArrangeString("Sale", 10, ContentAlignment.MiddleRight) & Sp1 & ArrangeString("Status", 6) & Sp1 & ArrangeString("Total", 12, ContentAlignment.MiddleRight) & Sp1 & ArrangeString("Balance", 12, ContentAlignment.MiddleRight)
+            lblHeadings.Text = ArrangeString("Sale", 8, AlignConstants.vbAlignRight) & Sp1 & Space(13) & ArrangeString("Status", 6) & Sp1 & Space(8) & ArrangeString("Total", 12, AlignConstants.vbAlignRight) & Sp1 & Space(11) & ArrangeString("Balance", 12, AlignConstants.vbAlignRight)
             cmdAdd.Text = "Select Sale"
             cmdNew.Text = "New Sale"
             If Not cmdNew.Enabled Then
@@ -52,7 +50,7 @@ SkipItem:
             Else
                 'Me.Show vbModal, frmParent
                 NoFormLoad = True
-                Me.ShowDialog(frmParent)
+                Me.ShowDialog(OnScreenReport)
             End If
         End If
         GetSaleNumber = SelectedValue  ' Set by command buttons..
@@ -65,7 +63,7 @@ SkipItem:
         Set(value As Boolean)
             mDisallowNew = value
             cmdNew.Enabled = Not value
-            AddOnAcc_Load(Me, New EventArgs)
+            AddOnAcc_Load(Me, New EventArgs) 'IMP NOTE: Called form load explicitly here to override its default execution. In the default execution, it will firing after loading data in to listview using GetSaleNumber function and clearing all the loaded data.
         End Set
     End Property
 
@@ -75,11 +73,12 @@ SkipItem:
             Exit Sub
         End If
         'SelectedValue = ExtractArNoFromList(lstAccounts.List(SelInd))
-        SelectedValue = ExtractArNoFromList(lstAccounts.GetItemText(SelInd))
-        'If cmdRevolving.Value = True Then SelectedValue = AddRevolvingSuffix(SelectedValue) ---> This a button in vb6.0. But here in vb.net, it will be a checkbox. Read below Note.
+        SelectedValue = ExtractArNoFromList(lstAccounts.Items(SelInd).ToString)
+        'If cmdRevolving.Value = True Then SelectedValue = AddRevolvingSuffix(SelectedValue) ---> IMP NOTE: This a button in vb6.0. But here in vb.net, it will be a checkbox. Read below Note.
         If cmdRevolving.Checked = True Then
             SelectedValue = AddRevolvingSuffix(SelectedValue)
         End If
+
         'Note:  FOR THE ABOVE ERROR, REFER BOOKMARK BUTTON.VALUE
         'SOLUTION FOR THE ERROR, READ THE BELOW FOUR LINES.
         'The VB6 code used a button that stayed clicked when pressed it until it was pressed again and it unclicked.  
@@ -209,7 +208,7 @@ SkipItem:
     End Function
 
     Private Sub AddOnAcc_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If NoFormLoad = False Then
+        If NoFormLoad = False Then 'IMP NOTE: Added this If block to override its default execution which clearing the data in the listview for Name option.
             'SetCustomFrame Me, ncBasicDialog
             mRevolved = False
             AdjustForm()
@@ -228,7 +227,6 @@ SkipItem:
             fraControls.Text = ""
             lblHeadings.Text = "Service No  Name             Telephone"
             cmdRevolving.Visible = False
-
 
             '' Removed 20140223 before ever getting used
             '  ElseIf OrderMode("A") And ModifiedRevolvingChargeEnabled() And False Then
@@ -256,4 +254,40 @@ SkipItem:
         'Unload event code
         'RemoveCustomFrame Me
     End Sub
+
+    Private Sub cmdAdd_Click(sender As Object, e As EventArgs) Handles cmdAdd.Click
+        'add on
+        If ShowMode >= 1 Then
+            'SelectEntry lstAccounts.ListIndex
+            SelectEntry(lstAccounts.SelectedIndex)
+            Exit Sub
+        End If
+
+        Typee = ArAddOn_Add
+
+        If Not OrderMode("S") Then    ' Installment
+            'If lstAccounts.ListIndex < 0 Then
+            If lstAccounts.SelectedIndex < 0 Then
+                MessageBox.Show("You must select an account to add on to!")
+                Exit Sub
+            End If
+            'ArNo = AddOnAcc.lstAccounts.List(lstAccounts.ListIndex)
+            ArNo = lstAccounts.Items(lstAccounts.SelectedIndex).ToString
+            Hide()
+        Else                          ' Service
+            If lstAccounts.SelectedIndex < 0 Then
+                MessageBox.Show(" You must select a service call to add on to! ")
+                Exit Sub
+            End If
+            'ServiceNo = Val(Left(AddOnAcc.lstAccounts.List(lstAccounts.ListIndex), 14))
+            ServiceNo = Val(Microsoft.VisualBasic.Left(lstAccounts.Items(lstAccounts.SelectedIndex).ToString, 14))
+            Hide()
+        End If
+    End Sub
+
+    Private Sub lstAccounts_DoubleClick(sender As Object, e As EventArgs) Handles lstAccounts.DoubleClick
+        'cmdAdd.Value = True
+        cmdAdd_Click(cmdAdd, New EventArgs)
+    End Sub
+
 End Class
