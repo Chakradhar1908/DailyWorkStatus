@@ -41,6 +41,7 @@
         'If IsMissing(T) Then T = 0
         If IsNothing(T) Then T = 0
         'If IsNull(T) Then Exit Function '0
+        If IsDBNull(T) Then T = 0
         If IsNothing(T) Then IfNullThenZero = 0 : Exit Function '0
 
         If Val(T) < -2147483648.0# Then

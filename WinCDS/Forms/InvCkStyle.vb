@@ -100,11 +100,11 @@ Public Class InvCkStyle
         ElseIf Not (ReportsMode("ET") Or OpenedMe = "InvKitStock") Then
             optKitVendors.Visible = False
             'Robert Koernke -- Tweeking Email 5/10/2017 - Simple form adjustment
-            cmdApply.Top = cmdApply.Top - 450
-            cmdDesc.Top = cmdDesc.Top - 450
-            cmdCancel.Top = cmdCancel.Top - 450
-            cmdBarcode.Top = cmdBarcode.Top - 450
-            Height = Height - 500
+            'cmdApply.Top = cmdApply.Top - 25    ----> NOTE: These five lines of code is to move the buttons a bit above. Cause optkitvendors visible is false, so to cover the blank space. But it is not required. Original design is enough. So commented the lines.
+            'cmdDesc.Top = cmdDesc.Top - 25
+            'cmdCancel.Top = cmdCancel.Top - 25
+            'cmdBarcode.Top = cmdBarcode.Top - 25
+            'Height = Height - 30
         End If
     End Sub
 
@@ -730,7 +730,7 @@ HandleErr:
 
     Private Sub InvCkStyle_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         'If KeyCode = vbKeyF2 Then cmdBarcode_Click()
-        If e.KeyCode = Keys.F2 Then cmdBarcode.PerformClick()
+        If e.KeyCode = Keys.F2 Then cmdBarcode_Click(cmdBarcode, New EventArgs)
     End Sub
 
     Private Sub InvCkStyle_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize

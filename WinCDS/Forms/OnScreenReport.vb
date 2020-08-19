@@ -1070,6 +1070,7 @@ HandleErr:
             If Mid(C.Name, 1, 10) = "txtDiffTax" Then
                 C.Text = CurrencyFormat(0)
                 DiffTaxCount = DiffTaxCount + 1
+                'Exit For
             End If
         Next
 
@@ -1180,7 +1181,7 @@ HandleErr:
         'For K = txtDiffTax.LBound To txtDiffTax.UBound
         '    Tax = Tax + Round(GetPrice(txtDiffTax(K)), 2)
         'Next
-        For K = 0 To DiffTaxCount
+        For K = 0 To DiffTaxCount - 1
             For Each C As Control In Me.Controls
                 If C.Name = "txtDiffTax" & K Then
                     Tax = Tax + Math.Round(GetPrice(C.Text), 2)

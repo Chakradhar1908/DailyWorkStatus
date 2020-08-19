@@ -647,8 +647,10 @@ Public Class OrdStatus
     Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
         Dim I As Integer, LocAvailable As Double
         Dim ScheduledForTransfer As Double
+
         If Not ValidateQuantity() Then
-            MsgBox("Please enter a quantity.", vbCritical, "Error")
+            'MsgBox("Please enter a quantity.", vbCritical, "Error")
+            MessageBox.Show("Please enter a quantity.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             FocusQuantity(True)
             Exit Sub
         End If
@@ -661,7 +663,8 @@ Public Class OrdStatus
             End If
 
             If LocAvailable - Val(Quan.Text) < 0 And Not optSpecOrd.Checked = True Then
-                If MsgBox("Caution: Over Selling Item!", vbExclamation + vbOKCancel, "Warning", , , , , , False) = vbCancel Then Exit Sub
+                'If MsgBox("Caution: Over Selling Item!", vbExclamation + vbOKCancel, "Warning", , , , , , False) = vbCancel Then Exit Sub
+                If MessageBox.Show("Caution: Over Selling Item!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.Cancel Then Exit Sub
             End If
             Hide()
             Exit Sub
@@ -675,13 +678,13 @@ Public Class OrdStatus
                 '"Both stores sell these items into the Red.  One store had -76 items"
                 '"Can you modify so that if orig balance is less than 0 not to pop up?"
                 If Val(StoreStockCaption(StoreStock)) >= 0 Then
-                    If MsgBox("Location " & StoreStock & " has " & FormatQuantity(ScheduledForTransfer) & " item(s) scheduled to be transfered to other location(s)." & vbCrLf & "This may cause inventory to not be available.", vbOKCancel, "Pending Transfers") = vbCancel Then
+                    'If MsgBox("Location " & StoreStock & " has " & FormatQuantity(ScheduledForTransfer) & " item(s) scheduled to be transfered to other location(s)." & vbCrLf & "This may cause inventory to not be available.", vbOKCancel, "Pending Transfers") = vbCancel Then
+                    If MessageBox.Show("Location " & StoreStock & " has " & FormatQuantity(ScheduledForTransfer) & " item(s) scheduled to be transfered to other location(s)." & vbCrLf & "This may cause inventory to not be available.", "Pending Transfers", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
                         FocusQuantity(True)
                         Exit Sub
                     End If
                 End If
             End If
-
 
 
             Dim X As Integer
@@ -723,7 +726,6 @@ Public Class OrdStatus
         End If
         'Unload OrdStatus
         Me.Close()
-
     End Sub
 
     Private Function ValidateQuantity() As Boolean
@@ -932,7 +934,7 @@ Public Class OrdStatus
             P = StoresSld
             S = "SELECT Sum(Loc" & P & ") AS Amt FROM [Detail] WHERE Style='" & cIR.Style & "' AND Trans='PO' AND Loc" & P & "<>0"
             RS = GetRecordsetBySQL(S, , GetDatabaseInventory)
-            If Not RS.EOF Then Amt = IfNullThenZero(RS("Amt")) Else Amt = 0
+            If Not RS.EOF Then Amt = IfNullThenZero(RS("Amt").Value) Else Amt = 0
             RS = Nothing
 
             If Amt < 0 Then Amt = 0

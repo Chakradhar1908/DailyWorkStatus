@@ -203,6 +203,7 @@ Partial Class InvCkStyle
         Me.Controls.Add(Me.optSearchByVendor)
         Me.Controls.Add(Me.optSearchByStyle)
         Me.Controls.Add(Me.fraSearch)
+        Me.KeyPreview = True
         Me.Name = "InvCkStyle"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Enter Style Number"
