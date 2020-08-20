@@ -311,7 +311,7 @@ Partial Class OnScreenReport
         Me.UGridIO2.MaxRows = 10
         Me.UGridIO2.Name = "UGridIO2"
         Me.UGridIO2.Row = 0
-        Me.UGridIO2.Size = New System.Drawing.Size(776, 96)
+        Me.UGridIO2.Size = New System.Drawing.Size(776, 105)
         Me.UGridIO2.TabIndex = 7
         '
         'UGridIO1
