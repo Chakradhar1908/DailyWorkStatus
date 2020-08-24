@@ -259,7 +259,7 @@ Partial Class OnScreenReport
         'lblDiffTax
         '
         Me.lblDiffTax.AutoSize = True
-        Me.lblDiffTax.Location = New System.Drawing.Point(591, 369)
+        Me.lblDiffTax.Location = New System.Drawing.Point(591, 379)
         Me.lblDiffTax.Name = "lblDiffTax"
         Me.lblDiffTax.Size = New System.Drawing.Size(80, 13)
         Me.lblDiffTax.TabIndex = 12
@@ -268,7 +268,7 @@ Partial Class OnScreenReport
         'lblBalDue
         '
         Me.lblBalDue.AutoSize = True
-        Me.lblBalDue.Location = New System.Drawing.Point(599, 393)
+        Me.lblBalDue.Location = New System.Drawing.Point(599, 403)
         Me.lblBalDue.Name = "lblBalDue"
         Me.lblBalDue.Size = New System.Drawing.Size(72, 13)
         Me.lblBalDue.TabIndex = 13
@@ -276,7 +276,7 @@ Partial Class OnScreenReport
         '
         'txtDiffTax0
         '
-        Me.txtDiffTax0.Location = New System.Drawing.Point(673, 366)
+        Me.txtDiffTax0.Location = New System.Drawing.Point(673, 376)
         Me.txtDiffTax0.Name = "txtDiffTax0"
         Me.txtDiffTax0.ReadOnly = True
         Me.txtDiffTax0.Size = New System.Drawing.Size(59, 20)
@@ -285,7 +285,7 @@ Partial Class OnScreenReport
         '
         'txtBalDue
         '
-        Me.txtBalDue.Location = New System.Drawing.Point(673, 389)
+        Me.txtBalDue.Location = New System.Drawing.Point(673, 399)
         Me.txtBalDue.Name = "txtBalDue"
         Me.txtBalDue.ReadOnly = True
         Me.txtBalDue.Size = New System.Drawing.Size(59, 20)

@@ -377,7 +377,7 @@ Public Class UGridIO
         '   End With
         GetValueDisplay = GridArray(Col, Row)
     End Function
-
+    Dim LoadtimeBottomRow As Integer
     Public Sub SetValueDisplay(Row As Integer, Col As Integer, Value As String)
         'Debug.Print "SetValueDisplay: " & " " & row & " " & col & " " & value & " ";
 
@@ -398,6 +398,9 @@ Public Class UGridIO
                 BottomRow = 0
             Else
                 BottomRow = .RowBookmark(.VisibleRows - 1)
+                If LoadtimeBottomRow = 0 Then
+                    LoadtimeBottomRow = BottomRow
+                End If
                 'If (.VisibleRows <> 0) Then BottomRow = .RowBookmark(.VisibleRows - 1)
             End If
             '        Debug.Print "A: " & DBGrid1.Bookmark & ", " & bm & ", " & TopRow & ", " & BottomRow
@@ -410,19 +413,24 @@ Public Class UGridIO
                 On Error Resume Next
                 '.Bookmark = Str(Row)
                 '.Bookmark = .Bookmark + 1
-                .Row = Row
+                If LoadtimeBottomRow <> BottomRow Then
+                    .Row = Row - (BottomRow - LoadtimeBottomRow)
+                Else
+                    .Row = Row
+                End If
 
                 On Error GoTo softError
-                On Error Resume Next
-                '.Row = 1
-                If Value = ".00" Then Value = ""
-                .Text = Value
-                .FirstRow = TopRow + 1
-            End If
-            On Error GoTo AnError
+                    On Error Resume Next
+                    '.Row = 1
+                    If Value = ".00" Then Value = ""
+                    .Text = Value
+                    .FirstRow = TopRow + 1
+                End If
+                On Error GoTo AnError
             'bm = .Bookmark
             On Error Resume Next
             '.Bookmark = BM
+            '.Bookmark = 0
             .Col = OldCol
         End With
         '      Debug.Print "B: " & DBGrid1.Bookmark & ", " & bm & ", " & TopRow & ", " & BottomRow

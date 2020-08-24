@@ -1,0 +1,946 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2017/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>New Sale code snippet</Title>
+    </Header>
+    <Snippet>
+      <Code Language="VB">
+        <![CDATA[
+          
+        1. <ItemData Property>
+              <VB6.0>
+                  lstSalesmen.itemData(lstSalesmen.NewIndex) = Sm(EE, 2)
+                  DeptNo.Text = cboDeptName.itemData(cboDeptName.ListIndex)
+              </VB6.0>
+              
+              <VB.NET>
+                  Note: ItemData is a built in property in vb6.0. In vb.net, it is totally removed. 
+                  To get the same functionality in vb.net, custom class is required and call the class wherever ItemData is used in vb6.0. 
+                  Here I am created a custom class "Public Class ItemDataClass".
+                  
+                  Dim idc As ItemDataClass
+                  idc = cboAdvertisingType.Items(cboAdvertisingType.SelectedIndex)
+                  Mail.CustType = idc.ItemData
+                  
+                  Public Class ItemDataClass
+                    Private Iname As String
+                    Private Itemid As Object
+
+                    Public Sub New()
+                      Iname = ""
+                      Itemid = 0
+                    End Sub
+                    Public Sub New(ByVal Name As String, ByVal Id As Object)
+                      Iname = Name
+                      Itemid = Id
+                    End Sub
+                    Public Property Itemname As String
+                      Get
+                        Return Iname
+                      End Get
+                      Set(value As String)
+                        Iname = value
+                      End Set
+                    End Property
+                    Public Property ItemData As Object
+                      Get
+                        Return Itemid
+                      End Get
+                      Set(value As Object)
+                         Itemid = value
+                      End Set
+                    End Property
+                    Public Overrides Function ToString() As String
+                        Return Iname
+                    End Function
+                  End Class
+              </VB.NET>
+           </ItemData Property>
+           
+        
+        2. <Blank Rows in Grid in New Sale>
+              <VB6.0>
+              
+                Note:> In vb6.0, "ApproxCount" property will display the no.of blank rows. In vb.net this property is readonly.
+                              
+                Public Property Let MaxRows(ByVal T As Long)
+                  mMaxRows = T
+                  On Error Resume Next
+                  DBGrid1.ApproxCount = T            
+                  ' This can error if GridArray hasn't been initialized yet, and that's okay.
+                  If T <> UBound(GridArray, 2) Then
+                    ReDim Preserve GridArray(UBound(GridArray, 1), T)
+                  End If
+                End Property
+
+              </VB6.0>
+              
+              <VB.NET>
+              
+                  Note:> In vb.net, this property is readonly. So commented here. And to show the blank rows similar to vb6.0 New Sale,
+                        created one temporary table with blank rows and assigned it to the grid. See the below ConnectData function.
+                        
+                  Public Property MaxRows() As Integer
+                    Get
+                      Return mMaxRows
+                    End Get
+                    Set(value As Integer)
+                        mMaxRows = value
+                        On Error Resume Next
+                        'AxDataGrid1.ApproxCount=value  
+                                                                   
+                        ' This can error if GridArray hasn't been initialized yet, and that's okay.
+                        If value <> UBound(GridArray, 2) Then
+                          ReDim Preserve GridArray(UBound(GridArray, 1), value)
+                        End If
+                    End Set
+                    
+                    Public Sub ConnectData()
+                        Dim c As New ADODB.Connection
+                          'ConnString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source=" & DBName & PasswordProtectedDatabaseString & ";"
+                          'c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\CDSData\Store1\NewOrder\cdsdata.mdb"
+                          'c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & GetDatabaseAtLocation() & PasswordProtectedDatabaseString & ";"
+                          c.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & GetDatabaseAtLocation()
+                          c.CursorLocation = ADODB.CursorLocationEnum.adUseClient
+                          c.Open()
+                  
+                          Dim r As New ADODB.Recordset
+                          r.CursorLocation = ADODB.CursorLocationEnum.adUseClient
+                          r.Open("select * from temptable", c, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic)
+                          AxDataGrid1.DataSource = r    ---------Note:> Here I am assigned temptable with blank rows to grid control.
+                          'c.Close()
+                    End Sub
+              </VB.NET>
+           </Blank Rows in Grid in New Sale>
+       
+        3. <Property events: StoreStock>
+              <VB6.0>
+                Public Property Get StoreStock() As Long
+                  Dim I As Long
+                  For I = optStock.LBound To optStock.UBound
+                    If optStock(I) Then StoreStock = I: Exit Property
+                  Next
+                End Property
+                Public Property Let StoreStock(ByVal X As Long)
+                  optStock(FitRange(optStock.LBound, X, optStock.UBound)).Value = True
+                End Property
+              </VB6.0
+          
+              Note: In vb6.0, created one Control Array for all the 32 stock location buttons. With Control Array, above Get and Let with two lines is enough.
+                  In vb.net, Control Array is removed. Because it is object oriented program, this feature will not support. So here in vb.net every control (stock loc) will be
+                  referenced individually. This is required for "StoreStock", "StoreStockCaption", "StoreStockToolTipText", "StoreStockLocTip".
+                  
+              <VB.NET>
+                Public Property StoreStock() As Integer
+                  Get
+                    Dim I As Integer
+                    'For I = optStock.LBound To optStock.UBound
+                    '    If optStock(I) Then StoreStock = I : Exit Property
+                    'Next
+                    For I = 1 To Setup_MaxStores
+                      If optStock1.Checked = True Then StoreStock = I : Exit Property
+                      If optStock2.Checked = True Then StoreStock = I : Exit Property
+                      If optStock3.Checked = True Then StoreStock = I : Exit Property
+                      If optStock4.Checked = True Then StoreStock = I : Exit Property
+                      If optStock5.Checked = True Then StoreStock = I : Exit Property
+                      If optStock6.Checked = True Then StoreStock = I : Exit Property
+                      If optStock7.Checked = True Then StoreStock = I : Exit Property
+                      If optStock8.Checked = True Then StoreStock = I : Exit Property
+                      If optStock9.Checked = True Then StoreStock = I : Exit Property
+                      If optStock10.Checked = True Then StoreStock = I : Exit Property
+                      If optStock11.Checked = True Then StoreStock = I : Exit Property
+                      If optStock12.Checked = True Then StoreStock = I : Exit Property
+                      If optStock13.Checked = True Then StoreStock = I : Exit Property
+                      If optStock14.Checked = True Then StoreStock = I : Exit Property
+                      If optStock15.Checked = True Then StoreStock = I : Exit Property
+                      If optStock16.Checked = True Then StoreStock = I : Exit Property
+                      If optStock17.Checked = True Then StoreStock = I : Exit Property
+                      If optStock18.Checked = True Then StoreStock = I : Exit Property
+                      If optStock19.Checked = True Then StoreStock = I : Exit Property
+                      If optStock20.Checked = True Then StoreStock = I : Exit Property
+                      If optStock21.Checked = True Then StoreStock = I : Exit Property
+                      If optStock22.Checked = True Then StoreStock = I : Exit Property
+                      If optStock23.Checked = True Then StoreStock = I : Exit Property
+                      If optStock24.Checked = True Then StoreStock = I : Exit Property
+                      If optStock25.Checked = True Then StoreStock = I : Exit Property
+                      If optStock26.Checked = True Then StoreStock = I : Exit Property
+                      If optStock27.Checked = True Then StoreStock = I : Exit Property
+                      If optStock28.Checked = True Then StoreStock = I : Exit Property
+                      If optStock29.Checked = True Then StoreStock = I : Exit Property
+                      If optStock30.Checked = True Then StoreStock = I : Exit Property
+                      If optStock31.Checked = True Then StoreStock = I : Exit Property
+                      If optStock32.Checked = True Then StoreStock = I : Exit Property
+
+                    Next
+                  End Get
+                  Set(value As Integer)
+                    Select Case value
+                      Case 1
+                        optStock1.Checked = True
+                      Case 2
+                        optStock2.Checked = True
+                      Case 3
+                        optStock3.Checked = True
+                      Case 4
+                        optStock4.Checked = True
+                      Case 5
+                        optStock5.Checked = True
+                      Case 6
+                        optStock6.Checked = True
+                      Case 7
+                        optStock7.Checked = True
+                      Case 8
+                        optStock8.Checked = True
+                      Case 9
+                        optStock9.Checked = True
+                      Case 10
+                        optStock10.Checked = True
+                      Case 11
+                        optStock11.Checked = True
+                      Case 12
+                        optStock12.Checked = True
+                      Case 13
+                        optStock13.Checked = True
+                      Case 14
+                        optStock14.Checked = True
+                      Case 15
+                        optStock15.Checked = True
+                      Case 16
+                        optStock16.Checked = True
+                      Case 17
+                        optStock17.Checked = True
+                      Case 18
+                        optStock18.Checked = True
+                      Case 19
+                        optStock19.Checked = True
+                      Case 20
+                        optStock20.Checked = True
+                      Case 21
+                        optStock21.Checked = True
+                      Case 22
+                        optStock22.Checked = True
+                      Case 23
+                        optStock23.Checked = True
+                      Case 24
+                        optStock24.Checked = True
+                      Case 25
+                        optStock25.Checked = True
+                      Case 26
+                        optStock26.Checked = True
+                      Case 27
+                        optStock27.Checked = True
+                      Case 28
+                        optStock28.Checked = True
+                      Case 29
+                        optStock29.Checked = True
+                      Case 30
+                        optStock30.Checked = True
+                      Case 31
+                        optStock31.Checked = True
+                      Case 32
+                        optStock32.Checked = True
+                    End Select
+                  End Set
+                End Property
+              </VB.NET>
+            </Property events: StoreStock>
+        
+        4. <Property events: StoreStockCaption>
+              <VB6.0>
+                  Private Property Let StoreStockCaption(ByVal Idx As Long, ByVal Str As String)
+                    optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption = Str
+                  End Property
+                  Private Property Get StoreStockCaption(ByVal Idx As Long) As String
+                    StoreStockCaption = optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption
+                  End Property
+              </VB6.0>
+              
+              <VB.NET>
+                Private Function StoreStockCaption(ByVal I As Integer, Optional ByVal Caption As String = "") As String
+                  'For I = 1 To cOptionCount
+                  '    StoreStockCaption(I) = Left(BillOSale.GetBalance(I) - BillOSale.ItemsSoldOnSale(bsStyle, I, 1), 4)
+                  'Next
+                  ' If Caption ="" Then is for Get property of vb6
+                  ' Else part is for Let property of vb6
+
+                  Select Case I
+                    Case 1
+                      If Caption = "" Then '-> For get property of vb6
+                        StoreStockCaption = optStock1.Text
+                      Else                 '-> Forlet property of vb6  
+                        optStock1.Text = Caption
+                      End If
+                    Case 2
+                      If Caption = "" Then
+                        StoreStockCaption = optStock2.Text
+                      Else
+                        optStock2.Text = Caption
+                      End If
+                    Case 3
+                      If Caption = "" Then
+                        StoreStockCaption = optStock3.Text
+                      Else
+                        optStock3.Text = Caption
+                      End If
+                    Case 4
+                      If Caption = "" Then
+                        StoreStockCaption = optStock4.Text
+                      Else
+                        optStock4.Text = Caption
+                      End If
+                    Case 5
+                      If Caption = "" Then
+                         StoreStockCaption = optStock5.Text
+                      Else
+                         optStock5.Text = Caption
+                      End If
+                    Case 6
+                      If Caption = "" Then
+                        StoreStockCaption = optStock6.Text
+                      Else
+                        optStock6.Text = Caption
+                      End If
+                    Case 7
+                      If Caption = "" Then
+                        StoreStockCaption = optStock7.Text
+                      Else
+                        optStock7.Text = Caption
+                      End If
+                    Case 8
+                      If Caption = "" Then
+                        StoreStockCaption = optStock8.Text
+                      Else
+                        optStock8.Text = Caption
+                      End If
+                    Case 9
+                      If Caption = "" Then
+                        StoreStockCaption = optStock9.Text
+                      Else
+                        optStock9.Text = Caption
+                      End If
+                    Case 10
+                      If Caption = "" Then
+                        StoreStockCaption = optStock10.Text
+                      Else
+                        optStock10.Text = Caption
+                      End If
+                    Case 11
+                      If Caption = "" Then
+                        StoreStockCaption = optStock11.Text
+                      Else
+                        optStock11.Text = Caption
+                      End If
+                    Case 12
+                      If Caption = "" Then
+                        StoreStockCaption = optStock12.Text
+                      Else
+                        optStock12.Text = Caption
+                      End If
+                    Case 13
+                      If Caption = "" Then
+                        StoreStockCaption = optStock13.Text
+                      Else
+                        optStock13.Text = Caption
+                      End If
+                    Case 14
+                      If Caption = "" Then
+                        StoreStockCaption = optStock14.Text
+                      Else
+                        optStock14.Text = Caption
+                      End If
+                    Case 15
+                      If Caption = "" Then
+                        StoreStockCaption = optStock15.Text
+                      Else
+                        optStock15.Text = Caption
+                      End If
+                    Case 16
+                      If Caption = "" Then
+                        StoreStockCaption = optStock16.Text
+                      Else
+                        optStock16.Text = Caption
+                      End If
+                    Case 17
+                      If Caption = "" Then
+                        StoreStockCaption = optStock17.Text
+                      Else
+                        optStock17.Text = Caption
+                      End If
+                    Case 18
+                      If Caption = "" Then
+                        StoreStockCaption = optStock18.Text
+                      Else
+                        optStock18.Text = Caption
+                      End If
+                    Case 19
+                      If Caption = "" Then
+                        StoreStockCaption = optStock19.Text
+                      Else
+                        optStock19.Text = Caption
+                      End If
+                    Case 20
+                      If Caption = "" Then
+                        StoreStockCaption = optStock20.Text
+                      Else
+                        optStock20.Text = Caption
+                      End If
+                    Case 21
+                      If Caption = "" Then
+                        StoreStockCaption = optStock21.Text
+                      Else
+                        optStock21.Text = Caption
+                      End If
+                    Case 22
+                      If Caption = "" Then
+                        StoreStockCaption = optStock22.Text
+                      Else
+                        optStock22.Text = Caption
+                      End If
+                    Case 23
+                      If Caption = "" Then
+                        StoreStockCaption = optStock23.Text
+                      Else
+                        optStock23.Text = Caption
+                      End If
+                    Case 24
+                      If Caption = "" Then
+                        StoreStockCaption = optStock24.Text
+                      Else
+                        optStock24.Text = Caption
+                      End If
+                    Case 25
+                      If Caption = "" Then
+                        StoreStockCaption = optStock25.Text
+                      Else
+                        optStock25.Text = Caption
+                      End If
+                    Case 26
+                      If Caption = "" Then
+                        StoreStockCaption = optStock26.Text
+                      Else
+                        optStock26.Text = Caption
+                      End If
+                    Case 27
+                      If Caption = "" Then
+                        StoreStockCaption = optStock27.Text
+                      Else
+                        optStock27.Text = Caption
+                      End If
+                    Case 28
+                      If Caption = "" Then
+                        StoreStockCaption = optStock28.Text
+                      Else
+                        optStock28.Text = Caption
+                      End If
+                    Case 29
+                      If Caption = "" Then
+                         StoreStockCaption = optStock29.Text
+                      Else
+                        optStock29.Text = Caption
+                      End If
+                    Case 30
+                      If Caption = "" Then
+                        StoreStockCaption = optStock30.Text
+                      Else
+                        optStock30.Text = Caption
+                      End If
+                    Case 31
+                      If Caption = "" Then
+                        StoreStockCaption = optStock31.Text
+                      Else
+                        optStock31.Text = Caption
+                      End If
+                    Case 32
+                      If Caption = "" Then
+                        StoreStockCaption = optStock32.Text
+                      Else
+                        optStock32.Text = Caption
+                      End If
+                  End Select
+                End Function
+              </VB.NET>
+           </Property events: StoreStockCaption>
+        
+        5. <Property StoreStockToolTipText>
+              <VB6.0>
+                Private Property Let StoreStockToolTipText(ByVal Idx As Long, ByVal Str As String)
+                  optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).ToolTipText = Str
+                End Property
+              </VB6.0>
+              
+              <VB.NET>
+                Private Sub StoreStockToolTipText(ByVal I As Integer)
+                  'For I = 1 To cOptionCount
+                  Select Case I
+                    Case 1
+                      ToolTip1.SetToolTip(optStock1, StoreSettings(I).Address)
+                    Case 2
+                      ToolTip1.SetToolTip(optStock2, StoreSettings(I).Address)
+                    Case 3
+                      ToolTip1.SetToolTip(optStock3, StoreSettings(I).Address)
+                    Case 4
+                      ToolTip1.SetToolTip(optStock4, StoreSettings(I).Address)
+                    Case 5
+                      ToolTip1.SetToolTip(optStock5, StoreSettings(I).Address)
+                    Case 6
+                      ToolTip1.SetToolTip(optStock6, StoreSettings(I).Address)
+                    Case 7
+                      ToolTip1.SetToolTip(optStock7, StoreSettings(I).Address)
+                    Case 8
+                      ToolTip1.SetToolTip(optStock8, StoreSettings(I).Address)
+                    Case 9
+                      ToolTip1.SetToolTip(optStock9, StoreSettings(I).Address)
+                    Case 10
+                      ToolTip1.SetToolTip(optStock10, StoreSettings(I).Address)
+                    Case 11
+                      ToolTip1.SetToolTip(optStock11, StoreSettings(I).Address)
+                    Case 12
+                      ToolTip1.SetToolTip(optStock12, StoreSettings(I).Address)
+                    Case 13
+                      ToolTip1.SetToolTip(optStock13, StoreSettings(I).Address)
+                    Case 14
+                      ToolTip1.SetToolTip(optStock14, StoreSettings(I).Address)
+                    Case 15
+                      ToolTip1.SetToolTip(optStock15, StoreSettings(I).Address)
+                    Case 16
+                      ToolTip1.SetToolTip(optStock16, StoreSettings(I).Address)
+                    Case 17
+                      ToolTip1.SetToolTip(optStock17, StoreSettings(I).Address)
+                    Case 18
+                      ToolTip1.SetToolTip(optStock18, StoreSettings(I).Address)
+                    Case 19
+                      ToolTip1.SetToolTip(optStock19, StoreSettings(I).Address)
+                    Case 20
+                      ToolTip1.SetToolTip(optStock20, StoreSettings(I).Address)
+                    Case 21
+                      ToolTip1.SetToolTip(optStock21, StoreSettings(I).Address)
+                    Case 22
+                      ToolTip1.SetToolTip(optStock22, StoreSettings(I).Address)
+                    Case 23
+                      ToolTip1.SetToolTip(optStock23, StoreSettings(I).Address)
+                    Case 24
+                      ToolTip1.SetToolTip(optStock24, StoreSettings(I).Address)
+                    Case 25
+                      ToolTip1.SetToolTip(optStock25, StoreSettings(I).Address)
+                    Case 26
+                      ToolTip1.SetToolTip(optStock26, StoreSettings(I).Address)
+                    Case 27
+                      ToolTip1.SetToolTip(optStock27, StoreSettings(I).Address)
+                    Case 28
+                      ToolTip1.SetToolTip(optStock28, StoreSettings(I).Address)
+                    Case 29
+                      ToolTip1.SetToolTip(optStock29, StoreSettings(I).Address)
+                    Case 30
+                      ToolTip1.SetToolTip(optStock30, StoreSettings(I).Address)
+                    Case 31
+                      ToolTip1.SetToolTip(optStock31, StoreSettings(I).Address)
+                    Case 32
+                      ToolTip1.SetToolTip(optStock32, StoreSettings(I).Address)
+                  End Select
+                  'Next
+                End Sub
+              </VB.NET>
+           </Property StoreStockToolTipText>
+        
+        6. <Property StoreStockLocTip>
+              <VB6.0>
+                  Private Property Let StoreStockLocTip(ByVal Idx As Long, ByVal Str As String)
+                    lblLoc(FitRange(optStock.LBound, Idx, optStock.UBound)).ToolTipText = Str
+                  End Property
+              </VB6.0>
+              
+              <VB.NET>
+                  Private Sub StoreStockLocTip(ByVal I As Integer)
+                    'For I = 1 To cOptionCount
+                    Select Case I
+                      Case 1
+                        ToolTip1.SetToolTip(lblLoc1, StoreSettings(I).Address)
+                      Case 2
+                        ToolTip1.SetToolTip(lblLoc2, StoreSettings(I).Address)
+                      Case 3
+                        ToolTip1.SetToolTip(lblLoc3, StoreSettings(I).Address)
+                      Case 4
+                        ToolTip1.SetToolTip(lblLoc4, StoreSettings(I).Address)
+                      Case 5
+                        ToolTip1.SetToolTip(lblLoc5, StoreSettings(I).Address)
+                      Case 6
+                        ToolTip1.SetToolTip(lblLoc6, StoreSettings(I).Address)
+                      Case 7
+                        ToolTip1.SetToolTip(lblLoc7, StoreSettings(I).Address)
+                      Case 8
+                        ToolTip1.SetToolTip(lblLoc8, StoreSettings(I).Address)
+                      Case 9
+                        ToolTip1.SetToolTip(lblLoc9, StoreSettings(I).Address)
+                      Case 10
+                        ToolTip1.SetToolTip(lblLoc10, StoreSettings(I).Address)
+                      Case 11
+                        ToolTip1.SetToolTip(lblLoc11, StoreSettings(I).Address)
+                      Case 12
+                        ToolTip1.SetToolTip(lblLoc12, StoreSettings(I).Address)
+                      Case 13
+                        ToolTip1.SetToolTip(lblLoc13, StoreSettings(I).Address)
+                      Case 14
+                        ToolTip1.SetToolTip(lblLoc14, StoreSettings(I).Address)
+                      Case 15
+                        ToolTip1.SetToolTip(lblLoc15, StoreSettings(I).Address)
+                      Case 16
+                        ToolTip1.SetToolTip(lblLoc16, StoreSettings(I).Address)
+                      Case 17
+                        ToolTip1.SetToolTip(lblLoc17, StoreSettings(I).Address)
+                      Case 18
+                        ToolTip1.SetToolTip(lblLoc18, StoreSettings(I).Address)
+                      Case 19
+                        ToolTip1.SetToolTip(lblLoc19, StoreSettings(I).Address)
+                      Case 20
+                        ToolTip1.SetToolTip(lblLoc20, StoreSettings(I).Address)
+                      Case 21
+                        ToolTip1.SetToolTip(lblLoc21, StoreSettings(I).Address)
+                      Case 22
+                        ToolTip1.SetToolTip(lblLoc22, StoreSettings(I).Address)
+                      Case 23
+                        ToolTip1.SetToolTip(lblLoc23, StoreSettings(I).Address)
+                      Case 24
+                        ToolTip1.SetToolTip(lblLoc24, StoreSettings(I).Address)
+                      Case 25
+                        ToolTip1.SetToolTip(lblLoc25, StoreSettings(I).Address)
+                      Case 26
+                        ToolTip1.SetToolTip(lblLoc26, StoreSettings(I).Address)
+                      Case 27
+                        ToolTip1.SetToolTip(lblLoc27, StoreSettings(I).Address)
+                      Case 28
+                        ToolTip1.SetToolTip(lblLoc28, StoreSettings(I).Address)
+                      Case 29
+                        ToolTip1.SetToolTip(lblLoc29, StoreSettings(I).Address)
+                      Case 30
+                        ToolTip1.SetToolTip(lblLoc30, StoreSettings(I).Address)
+                      Case 31
+                        ToolTip1.SetToolTip(lblLoc31, StoreSettings(I).Address)
+                      Case 32
+                        ToolTip1.SetToolTip(lblLoc32, StoreSettings(I).Address)
+                    End Select
+                    'Next
+                  End Sub     
+              </VB.NET>
+           </Property StoreStockLocTip>
+        
+        7. <SetButtonImage>
+              Note: In vb6.0, all the buttons loaded with images along with the text like OK, Cancel, Save, Edit etc. For this every image in imagelist has an identity of string type.
+                    In vb.net, it will be replaced with an integer. In vb.net imagelist stores each image by assigning a unique integer value. So need to change the code and also
+                    calling the SetButtonImage to replace string with integer.
+                    
+              <VB6.0>
+                  Private Sub Calendar_Load()
+                    Dim AllStores As Boolean
+
+                    'SetButtonImage(cmdMenu, "menu")
+                    'SetButtonImage(cmdManifest, "calendar")
+                    'SetButtonImage(cmdPrint, "print")
+                    'SetButtonImage(cmdInstr, "zoom")
+                    'SetButtonImage(cmdMap, "map")
+                    'SetButtonImage(cmdDDT, "south")
+              </VB6.0>
+              
+              <VB.NET>
+                  SetButtonImage(cmdMenu, 9)
+                  SetButtonImage(cmdManifest, 18)
+                  SetButtonImage(cmdPrint, 19)
+                  SetButtonImage(cmdInstr, 20)
+                  SetButtonImage(cmdMap, 21)
+                  SetButtonImage(cmdDDT, 13)
+              </VB.NET>
+              
+            <VB6.0>
+                Public Sub SetButtonImage(ByRef cmd As CommandButton, Optional ByVal ImageName As String = "", Optional ByVal MiniButton As Boolean = False)
+                  '::::SetButtonImage
+                  ':::SUMMARY
+                  ': Set image on CmdButton control
+                  ':::DESCRIPTION
+                  ': Initializes a command button image.  The button must already be set to type Graphical, as these cannot be set in code.
+                  ':
+                  '::Available Image Keys:
+                  ': - calc,gear,config,notes,none,calendar,cancel
+                  ': - rStop,rDelete,rInfo,rNext,rAdd,rPrefs,rReload,rSearch
+                  ': - ok,clear,map,import,print,menu,back,forward
+                  ': - zoom,preview,next,previous,next1,previous1,delete,plus,minus,refresh
+                  ': - south,west,east,north
+                  ':::PARAMETERS
+                  ': - cmd - Indicates the Command Button.
+                  ': - ImageName - Indicates the Image Name.
+                  ': - MiniButton - Indicates whether it is true or false.
+                  Dim T As String
+                  If cmd.Style <> vbButtonGraphical Then
+                      Debug.Print "Bad button"
+                      If IsDevelopment Then
+                          Err.Raise -1, "Development Code", "Not a graphical button: " & cmd.Name
+                          Stop
+                      End If
+                  End If
+                  cmd.UseMaskColor = True
+                  cmd.MaskColor = vbWhite
+                  If ImageName = "" Then
+                      T = LCase(cmd.Name)
+                      If LCase(Left(T, 3)) = "cmd" Then T = Mid(T, 4)
+                      If IsIn(T, "ok", "apply", "post", "done", "close", "process") Then
+                          ImageName = "ok"
+                      ElseIf T Like "*preview" Then
+                          ImageName = "preview"
+                      ElseIf T = "cancel" Then
+                          ImageName = "cancel"
+                      ElseIf T = "clear" Then
+                          ImageName = "clear"
+                      ElseIf IsIn(T, "config", "settings", "setup", "options", "save") Then
+                          ImageName = "config"
+                      ElseIf T = "print" Then
+                          ImageName = "print"
+                      ElseIf T Like "*menu*" Then
+                          ImageName = "menu"
+                      ElseIf T Like "*next*" Then
+                          ImageName = "next"
+                      ElseIf T Like "*prev*" Then
+                          ImageName = "previous"
+                      ElseIf T Like "*del*" Then
+                          ImageName = "delete"
+                      ElseIf T Like "*calendar*" Then
+                          ImageName = "calendar"
+                      ElseIf T Like "*refresh*" Then
+                          ImageName = "refresh"
+                      ElseIf T Like "*down*" Then
+                          ImageName = "south"
+                      ElseIf T Like "*up*" Then
+                          ImageName = "north"
+                      Else
+                          ImageName = "ok"
+                      End If
+                  End If
+  
+                  If MiniButton Then
+                      Set cmd.Picture = MiniButtonImage(LCase(ImageName))
+                  Else
+                      Set cmd.Picture = StandardButtonImage(LCase(ImageName))
+                  End If
+                End Sub
+            </VB6.0>
+            
+            <VB.NET>
+                Public Sub SetButtonImage(ByRef cmd As Button, Optional ByVal ImageIndex As Integer = -1, Optional ByVal MiniButton As Boolean = False)
+                    If MiniButton Then
+                      'cmd.Picture = MiniButtonImage(LCase(ImageName))
+                      'cmd.Image = MiniButtonImage(LCase(ImageName))
+                      cmd.Image = MiniButtonImage(ImageIndex)
+                    Else
+                      'cmd.Picture = StandardButtonImage(LCase(ImageName))
+                      'cmd.Image = StandardButtonImage(LCase(ImageName))
+                      'cmd.Image = StandardButtonImage(ImageIndex)
+                      cmd.Image = MainMenu.imlStandardButtons.Images(ImageIndex)
+                      cmd.ImageAlign = ContentAlignment.MiddleCenter
+                      cmd.TextAlign = ContentAlignment.BottomCenter
+                      cmd.TextImageRelation = TextImageRelation.ImageAboveText
+                    End If
+                End Sub
+            </VB.NET>
+           </SetButtonImage>
+        
+        8. <Types>
+              Note: Types are not supported in vb.net. Types will be replaced with Enumerators.
+              
+              <VB6.0>
+                  Public Type MyMenu
+                    Name As String
+                    ParentMenu As String
+                    Caption As String
+                    Visible As Boolean
+                    Layout As eMyMenuLayouts
+                    HCID As Long
+  
+                    ImageW As Long
+                    ImageH As Long
+                    vSP As Long
+
+  
+                    ImageSource As Object 'ImageList
+                    CaptionStyle As eCaptionStyles
+                    CaptionMargin As Long
+                    MaskColor As Long
+  
+                    Items() As MyMenuItem
+                    HRs() As MyMenuHR
+  
+                    SubTitle1 As String
+                    SubTitle2 As String
+                  End Type
+              </VB6.0>
+              
+              <VB.NET>
+                  Public Structure MyMenu
+                    Dim Name As String
+                    Dim ParentMenu As String
+                    Dim Caption As String
+                    Dim Visible As Boolean
+                    Dim Layout As eMyMenuLayouts
+                    Dim HCID As Integer
+
+                    Dim ImageW As Integer
+                    Dim ImageH As Integer
+                    Dim vSP As Integer
+
+
+                    Dim ImageSource As Object 'ImageList
+                    Dim CaptionStyle As eCaptionStyles
+                    Dim CaptionMargin As Integer
+                    Dim MaskColor As Integer
+
+                    Dim Items() As MyMenuItem
+                    Dim HRs() As MyMenuHR
+
+                    Dim SubTitle1 As String
+                    Dim SubTitle2 As String
+                  End Structure
+              </VB.NET>
+           </Types>
+        
+        9. <Form Query Unload and Unload Events>
+              
+              <VB6.0>
+                  Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer) ' BOS
+                    If UnloadMode = vbFormControlMenu Then Cancel = True
+                    '  If UnloadMode = vbFormControlMenu Then cmdCancel.Value = True
+                  End Sub
+
+                  Private Sub Form_Unload(Cancel As Integer)
+                    On Error Resume Next
+                    DisposeDA Margin
+                    'VerifyMailRecUnique MailRec, vbTrue  ' clear it if it was saved..
+                    MailRec = 0
+
+                    Unload frmSalesList
+                    Unload OrdSelect
+  
+                    ' These shouldn't be necessary, but something sloppy is happening.
+                    Unload InvDefault
+                    '  Unload InvCkStyle
+                  End Sub
+              </VB6.0>
+              
+              Note: Form QueryUnload and Unload events are not supported in vb.net. It will replaced with a single event FormClosing. Need to join both events code in a single event.
+          
+              <VB.NET>
+                  Private Sub BillOSale_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+                    ' This is replacement for form_unload event of vb 6.0
+                    ' This event is replacement for form_queryunload event also.
+                    ' Here both form_unload and form_queryunload event code is combined. Because, in vb.net there are no separte events. For both, formclosing is the event.
+
+                    'If UnloadMode = vbFormControlMenu Then Cancel = True  -This line is from Form_queryunload event of vb6.0
+                    'If e.CloseReason = CloseReason.UserClosing Then -> These three lines are replacement for the above line. But commented, because while closing of billosale form, for any reason, it is taking as CloseReason.UserClosing only.
+                    '    e.Cancel = True
+                    'End If
+
+                    On Error Resume Next   'From here, this code is of form unload event of vb6.0. 
+                    DisposeDA(Marginn)
+                    'VerifyMailRecUnique MailRec, vbTrue  ' clear it if it was saved..
+                    MailRec = 0
+
+                    'Unload frmSalesList
+                    frmSalesList.Close()
+
+                    'Unload OrdSelect
+                    OrdSelect.Close()
+                    ' These shouldn't be necessary, but something sloppy is happening.
+                    'Unload InvDefault
+                    InvDefault.Close()
+                    '  Unload InvCkStyle
+                  End Sub
+              </VB.NET>
+            </Form Query Unload and Unload Events>
+            
+        10. <PROPERTY EVENTS>
+              <VB6.0>
+                  Private Property Get Loc() As String
+                    Loc = QueryLoc(CurrentLine)
+                    If Loc = "" Then Loc = "0"
+                  End Property
+                  Private Property Let Loc(ByVal T As String)
+                    If T = "0" Then T = ""
+                    SetLoc CurrentLine, T, False
+                  End Property
+              </VB6.0>
+          
+              Note: In vb6.0, property events are Get, Let and Set. In vb.net Set option is not available. Get and Let will be in a single event.
+              
+              <VB.NET>
+                Private Property Loc() As String
+                  Get
+                    Loc = QueryLoc(CurrentLine)
+                    If Loc = "" Then Loc = "0"
+                  End Get
+                  Set(value As String)
+                    If value = "0" Then value = ""
+                    SetLoc(CurrentLine, value, False)
+                  End Set
+                End Property
+              </VB.NET>
+            </PROPERTY EVENTS>
+        
+        11. <KEY PRESS EVENT>
+              <VB6.0>
+                  Public Sub UGridIO1_KeyPress(KeyAscii As Integer)
+                    ResetLastLoginExpiry
+                    Select Case UGridIO1.Col
+                      Case BillColumns.eStyle
+                      Case BillColumns.eManufacturer
+                        KeyAscii = Asc(UCase(Chr(KeyAscii)))
+                        If KeyAscii = Asc(",") Then KeyAscii = Asc(";"): '   change , to ;
+              </VB6.0
+          
+              Note: KeyPress event parameters and return values are changed in vb.net
+              
+              <VB.NET>
+                  Private Sub UGridIO1_KeyPress(sender As Object, e As KeyPressEventArgs)
+                    ResetLastLoginExpiry()
+                    Select Case UGridIO1.Col
+                        Case BillColumns.eStyle
+                        Case BillColumns.eManufacturer
+                          'KeyAscii = Asc(UCase(Chr(KeyAscii)))
+                          e.KeyChar = UCase(e.KeyChar)
+                          'If KeyAscii = Asc(",") Then KeyAscii = Asc(";") :                 '   change , to ;
+                          If e.KeyChar = "," Then e.KeyChar = ";"
+               </VB.NET>
+            </KEY PRESS EVENT>
+           
+        12. <LoadSalesSplitBoxes>
+              <VB6.0>
+                Private Sub LoadSalesSplitBoxes()
+                  Dim L As Variant, N As Long
+                  For Each L In Array(SalesSplit1, SalesSplit2, SalesSplit3)
+                    L.Clear
+                    L.AddItem "0%"
+                  For N = 5 To 30 Step 5: L.AddItem AlignString(N, 3) & "%": Next
+                    L.AddItem "33.33%"
+                  Next
+                End Sub
+              </VB6.0>
+          
+              <VB.net>
+                Private Sub LoadSalesSplitBoxes()
+                  Dim N As Integer
+                  Dim L As Object
+                  Dim A() As Object = {SalesSplit1, SalesSplit2, SalesSplit3}
+
+                  'For Each L In Array(SalesSplit1, SalesSplit2, SalesSplit3)
+                  For Each L In A
+                     L.items.Clear
+                    'L.AddItem("0%")
+                    L.items.add("0%")
+
+                  For N = 5 To 30 Step 5 : L.items.add(AlignString(N, 3) & "%") : Next
+                    'L.AddItem("33.33%")
+                    L.items.add("33.33%")
+                  Next
+                End Sub
+              </VB.net>
+           </LoadSalesSplitBoxes>
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
