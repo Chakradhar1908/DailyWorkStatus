@@ -286,8 +286,8 @@ Public Class UGridIO
                     'Debug.Print "Moving grid to row " & Fro & "+" & Row & "."
                 End If
             End If
-            '     If (row <> -1) Then .row = row
-            RowColChange_Active = True
+                '     If (row <> -1) Then .row = row
+                RowColChange_Active = True
         End With
     End Sub
 

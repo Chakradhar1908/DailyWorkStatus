@@ -731,6 +731,7 @@ HandleErr:
 
         ' This is always a new record.
         InvDetail.DataAccess.Records_Add()
+        InvDetail.cDataAccess_SetRecordSet(InvDetail.DataAccess.RS)
         InvDetail.Save()
         Detail = InvDetail.DetailID
         Margin.Detail = Detail
@@ -1679,23 +1680,40 @@ HandleErr:
                 End If
         End Select
 
-        'With UGridIO2
-        UGridIO2.SetValue(Row, 0, UGridIO1.GetValue(Lines, 0))       ' Sale
-        UGridIO2.SetValue(Row, 1, UGridIO1.GetValue(Lines, 1))       ' Style
-        UGridIO2.SetValue(Row, 2, UGridIO1.GetValue(Lines, 2))       ' Vendor
-        UGridIO2.SetValue(Row, 3, UGridIO1.GetValue(Lines, 3))       ' Loc
-        UGridIO2.SetValue(Row, 4, UGridIO1.GetValue(Lines, 4))       ' Status
-        UGridIO2.SetValue(Row, 5, -Val(UGridIO1.GetValue(Lines, 5))) ' Quantity
-        UGridIO2.SetValue(Row, 6, UGridIO1.GetValue(Lines, 6))       ' Description
-        UGridIO2.SetValue(Row, 7, -GetPrice(UGridIO1.GetValue(Lines, 10))) ' Price
-        UGridIO2.SetValue(Row, 8, "")  ' Difference, subject to Recalculate.
+        'With UGridIO2             
+        'IMP NOTE: The below code lines Of SetValue will be replaced With SetValueDisplay. Cause In vb6.0, using UnboundReadData event data will be displaying in UGridIO2 grid.
+        'In vb.net, this event is not available. So Setvalue will be replaced with SetValueDisplay.
+
+        'UGridIO2.SetValue(Row, 0, UGridIO1.GetValue(Lines, 0))       ' Sale
+        UGridIO2.SetValueDisplay(Row, 0, UGridIO1.GetValue(Lines, 0))       ' Sale
+        'UGridIO2.SetValue(Row, 1, UGridIO1.GetValue(Lines, 1))       ' Style
+        UGridIO2.SetValueDisplay(Row, 1, UGridIO1.GetValue(Lines, 1))       ' Style
+        'UGridIO2.SetValue(Row, 2, UGridIO1.GetValue(Lines, 2))       ' Vendor
+        UGridIO2.SetValueDisplay(Row, 2, UGridIO1.GetValue(Lines, 2))       ' Vendor
+        'UGridIO2.SetValue(Row, 3, UGridIO1.GetValue(Lines, 3))       ' Loc
+        UGridIO2.SetValueDisplay(Row, 3, UGridIO1.GetValue(Lines, 3))       ' Loc
+        'UGridIO2.SetValue(Row, 4, UGridIO1.GetValue(Lines, 4))       ' Status
+        UGridIO2.SetValueDisplay(Row, 4, UGridIO1.GetValue(Lines, 4))       ' Status
+        'UGridIO2.SetValue(Row, 5, -Val(UGridIO1.GetValue(Lines, 5))) ' Quantity
+        UGridIO2.SetValueDisplay(Row, 5, -Val(UGridIO1.GetValue(Lines, 5))) ' Quantity
+        'UGridIO2.SetValue(Row, 6, UGridIO1.GetValue(Lines, 6))       ' Description
+        UGridIO2.SetValueDisplay(Row, 6, UGridIO1.GetValue(Lines, 6))       ' Description
+        'UGridIO2.SetValue(Row, 7, -GetPrice(UGridIO1.GetValue(Lines, 10))) ' Price
+        UGridIO2.SetValueDisplay(Row, 7, -GetPrice(UGridIO1.GetValue(Lines, 10))) ' Price
+        'UGridIO2.SetValue(Row, 8, "")  ' Difference, subject to Recalculate.
+        UGridIO2.SetValueDisplay(Row, 8, "")  ' Difference, subject to Recalculate.
+
         If Val(UGridIO1.GetValue(Lines, 5)) = 0 Then
-            UGridIO2.SetValue(Row, 9, UGridIO1.GetValue(Lines, 7))     ' Per-unit price
+            'UGridIO2.SetValue(Row, 9, UGridIO1.GetValue(Lines, 7))     ' Per-unit price
+            UGridIO2.SetValueDisplay(Row, 9, UGridIO1.GetValue(Lines, 7))     ' Per-unit price
         Else
-            UGridIO2.SetValue(Row, 9, UGridIO1.GetValue(Lines, 7) / UGridIO1.GetValue(Lines, 5))  ' Per-unit price
+            'UGridIO2.SetValue(Row, 9, UGridIO1.GetValue(Lines, 7) / UGridIO1.GetValue(Lines, 5))  ' Per-unit price
+            UGridIO2.SetValueDisplay(Row, 9, UGridIO1.GetValue(Lines, 7) / UGridIO1.GetValue(Lines, 5))  ' Per-unit price
         End If
-        UGridIO2.SetValue(Row, 10, UGridIO1.GetValue(Lines, 9))      ' Marginline
-        UGridIO2.SetValue(Row, 11, UGridIO1.GetValue(Lines, 11))     ' Commission
+        'UGridIO2.SetValue(Row, 10, UGridIO1.GetValue(Lines, 9))      ' Marginline
+        UGridIO2.SetValueDisplay(Row, 10, UGridIO1.GetValue(Lines, 9))      ' Marginline
+        'UGridIO2.SetValue(Row, 11, UGridIO1.GetValue(Lines, 11))     ' Commission
+        UGridIO2.SetValueDisplay(Row, 11, UGridIO1.GetValue(Lines, 11))     ' Commission
 
         balRow = Row
 

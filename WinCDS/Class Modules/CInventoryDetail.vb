@@ -115,7 +115,7 @@ NoSave:
         LocationValid = True
     End Function
 
-    Private Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
+    Public Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
         Dim I As Integer
         On Error Resume Next
         ' mDataAccess.Count + 1
