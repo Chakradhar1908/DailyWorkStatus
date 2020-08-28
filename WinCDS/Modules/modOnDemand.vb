@@ -13,6 +13,7 @@
         Dim Location As String
         Dim Install As String
     End Structure
+
     Private ODList() As OnDemandDef, ODInit As Boolean
     Public OnDemandUpdate As Boolean
     Public OfflineUpdate As Boolean

@@ -251,7 +251,6 @@ Public Class MailCheck
             DisposeDA(tHold, RS)
             'Unload Me
             Me.Close()
-
             Exit Sub
         End If
 
@@ -488,9 +487,9 @@ Public Class MailCheck
             'ZOrder 1  ' Do nothing.. stoopid form misbehaving.
         Else
             'Unload Me
-            MailCheckClose = True
+            'MailCheckClose = True
             'Me.Close()
-            Hide()
+            Me.Hide()
         End If
     End Sub
 
@@ -913,11 +912,11 @@ HandleErr:
 
         'Queryunload code
         'If UnloadMode = vbFormControlMenu Then Cancel = True ' cmdCancel.value = True   ' Still having problems with BillOSale.
-        If MailCheckClose = False Then   'IMP NOTE: Added this If block to skip the next if block. Otherwise, e.cancel=true is executing and this form is not cloing.
-            If e.CloseReason = CloseReason.UserClosing Then
-                e.Cancel = True
-            End If
-        End If
+        'If MailCheckClose = False Then   'IMP NOTE: Added this If block to skip the next if block. Otherwise, e.cancel=true is executing and this form is not cloing.
+        '    If e.CloseReason = CloseReason.UserClosing Then
+        '        e.Cancel = True
+        '    End If
+        'End If
 
         'Unload code
         'RemoveCustomFrame Me -> This line is not required. It is to set font and colors of a form using modNeoCaption module.

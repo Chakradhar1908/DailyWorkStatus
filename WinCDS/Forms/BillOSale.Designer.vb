@@ -111,6 +111,7 @@ Partial Class BillOSale
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdChangePrice = New System.Windows.Forms.Button()
         Me.imgCalendar = New System.Windows.Forms.PictureBox()
+        Me.cmdNoChangePrice = New System.Windows.Forms.Button()
         Me.fraBOS2 = New System.Windows.Forms.GroupBox()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
@@ -119,7 +120,6 @@ Partial Class BillOSale
         Me.Notes_Open = New System.Windows.Forms.Button()
         Me.fraHover = New System.Windows.Forms.GroupBox()
         Me.picHover = New System.Windows.Forms.PictureBox()
-        Me.cmdNoChangePrice = New System.Windows.Forms.Button()
         Me.lblBalDueCaption = New System.Windows.Forms.Label()
         Me.BalDue = New System.Windows.Forms.TextBox()
         Me.BillOfSale = New System.Windows.Forms.Label()
@@ -197,6 +197,7 @@ Partial Class BillOSale
         Me.chkPickup.Size = New System.Drawing.Size(64, 17)
         Me.chkPickup.TabIndex = 38
         Me.chkPickup.Text = "Pick Up"
+        Me.ToolTipBillOSale.SetToolTip(Me.chkPickup, " Check on to set up a pick up ")
         Me.chkPickup.UseVisualStyleBackColor = True
         '
         'optIndividual
@@ -400,51 +401,51 @@ Partial Class BillOSale
         '
         'CustomerFirst
         '
-        Me.CustomerFirst.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CustomerFirst.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerFirst.Location = New System.Drawing.Point(5, 154)
         Me.CustomerFirst.Name = "CustomerFirst"
-        Me.CustomerFirst.Size = New System.Drawing.Size(203, 26)
+        Me.CustomerFirst.Size = New System.Drawing.Size(203, 25)
         Me.CustomerFirst.TabIndex = 0
         '
         'CustomerLast
         '
-        Me.CustomerLast.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CustomerLast.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerLast.Location = New System.Drawing.Point(222, 154)
         Me.CustomerLast.Name = "CustomerLast"
-        Me.CustomerLast.Size = New System.Drawing.Size(203, 26)
+        Me.CustomerLast.Size = New System.Drawing.Size(203, 25)
         Me.CustomerLast.TabIndex = 1
         '
         'Email
         '
-        Me.Email.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Email.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Email.ForeColor = System.Drawing.Color.Blue
         Me.Email.Location = New System.Drawing.Point(444, 154)
         Me.Email.Name = "Email"
-        Me.Email.Size = New System.Drawing.Size(203, 22)
+        Me.Email.Size = New System.Drawing.Size(203, 25)
         Me.Email.TabIndex = 2
         '
         'CustomerAddress
         '
-        Me.CustomerAddress.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CustomerAddress.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerAddress.Location = New System.Drawing.Point(5, 200)
         Me.CustomerAddress.Name = "CustomerAddress"
-        Me.CustomerAddress.Size = New System.Drawing.Size(417, 26)
+        Me.CustomerAddress.Size = New System.Drawing.Size(417, 22)
         Me.CustomerAddress.TabIndex = 3
         '
         'ShipToFirst
         '
-        Me.ShipToFirst.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ShipToFirst.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShipToFirst.Location = New System.Drawing.Point(444, 200)
         Me.ShipToFirst.Name = "ShipToFirst"
-        Me.ShipToFirst.Size = New System.Drawing.Size(203, 26)
+        Me.ShipToFirst.Size = New System.Drawing.Size(203, 25)
         Me.ShipToFirst.TabIndex = 20
         '
         'ShipToLast
         '
-        Me.ShipToLast.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ShipToLast.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShipToLast.Location = New System.Drawing.Point(661, 200)
         Me.ShipToLast.Name = "ShipToLast"
-        Me.ShipToLast.Size = New System.Drawing.Size(203, 26)
+        Me.ShipToLast.Size = New System.Drawing.Size(203, 25)
         Me.ShipToLast.TabIndex = 21
         '
         'lblAddr
@@ -486,18 +487,18 @@ Partial Class BillOSale
         '
         'AddAddress
         '
-        Me.AddAddress.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AddAddress.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.AddAddress.Location = New System.Drawing.Point(5, 245)
         Me.AddAddress.Name = "AddAddress"
-        Me.AddAddress.Size = New System.Drawing.Size(417, 26)
+        Me.AddAddress.Size = New System.Drawing.Size(417, 22)
         Me.AddAddress.TabIndex = 4
         '
         'CustomerAddress2
         '
-        Me.CustomerAddress2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CustomerAddress2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerAddress2.Location = New System.Drawing.Point(444, 245)
         Me.CustomerAddress2.Name = "CustomerAddress2"
-        Me.CustomerAddress2.Size = New System.Drawing.Size(419, 26)
+        Me.CustomerAddress2.Size = New System.Drawing.Size(419, 22)
         Me.CustomerAddress2.TabIndex = 22
         '
         'lblAddAddr
@@ -624,16 +625,15 @@ Partial Class BillOSale
         Me.CustomerPhone1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerPhone1.Location = New System.Drawing.Point(5, 350)
         Me.CustomerPhone1.Name = "CustomerPhone1"
-        Me.CustomerPhone1.Size = New System.Drawing.Size(188, 22)
+        Me.CustomerPhone1.Size = New System.Drawing.Size(203, 22)
         Me.CustomerPhone1.TabIndex = 8
-        Me.CustomerPhone1.Text = "702030320"
         '
         'CustomerPhone2
         '
         Me.CustomerPhone2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CustomerPhone2.Location = New System.Drawing.Point(222, 350)
         Me.CustomerPhone2.Name = "CustomerPhone2"
-        Me.CustomerPhone2.Size = New System.Drawing.Size(188, 22)
+        Me.CustomerPhone2.Size = New System.Drawing.Size(203, 22)
         Me.CustomerPhone2.TabIndex = 10
         '
         'CustomerPhone3
@@ -689,29 +689,29 @@ Partial Class BillOSale
         '
         'SalesSplit1
         '
-        Me.SalesSplit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SalesSplit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SalesSplit1.FormattingEnabled = True
         Me.SalesSplit1.Location = New System.Drawing.Point(145, 458)
         Me.SalesSplit1.Name = "SalesSplit1"
-        Me.SalesSplit1.Size = New System.Drawing.Size(64, 24)
+        Me.SalesSplit1.Size = New System.Drawing.Size(64, 21)
         Me.SalesSplit1.TabIndex = 15
         '
         'SalesSplit2
         '
-        Me.SalesSplit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SalesSplit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SalesSplit2.FormattingEnabled = True
         Me.SalesSplit2.Location = New System.Drawing.Point(356, 458)
         Me.SalesSplit2.Name = "SalesSplit2"
-        Me.SalesSplit2.Size = New System.Drawing.Size(70, 24)
+        Me.SalesSplit2.Size = New System.Drawing.Size(70, 21)
         Me.SalesSplit2.TabIndex = 17
         '
         'SalesSplit3
         '
-        Me.SalesSplit3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SalesSplit3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SalesSplit3.FormattingEnabled = True
         Me.SalesSplit3.Location = New System.Drawing.Point(573, 458)
         Me.SalesSplit3.Name = "SalesSplit3"
-        Me.SalesSplit3.Size = New System.Drawing.Size(70, 24)
+        Me.SalesSplit3.Size = New System.Drawing.Size(70, 21)
         Me.SalesSplit3.TabIndex = 19
         '
         'lblSales1
@@ -825,7 +825,7 @@ Partial Class BillOSale
         Me.opt30252.Size = New System.Drawing.Size(55, 17)
         Me.opt30252.TabIndex = 29
         Me.opt30252.Text = "30252"
-        Me.ToolTipBillOSale.SetToolTip(Me.opt30252, " Dymo 330 Turbo ")
+        Me.ToolTipBillOSale.SetToolTip(Me.opt30252, "Select this option for narrow DYMO address labels.")
         Me.opt30252.UseVisualStyleBackColor = True
         '
         'cmdPrintLabel
@@ -978,6 +978,16 @@ Partial Class BillOSale
         Me.imgCalendar.TabStop = False
         Me.ToolTipBillOSale.SetToolTip(Me.imgCalendar, "View the Delivery Calendar")
         '
+        'cmdNoChangePrice
+        '
+        Me.cmdNoChangePrice.Location = New System.Drawing.Point(826, 81)
+        Me.cmdNoChangePrice.Name = "cmdNoChangePrice"
+        Me.cmdNoChangePrice.Size = New System.Drawing.Size(28, 23)
+        Me.cmdNoChangePrice.TabIndex = 98
+        Me.ToolTipBillOSale.SetToolTip(Me.cmdNoChangePrice, "Disable Changing Prices")
+        Me.cmdNoChangePrice.UseVisualStyleBackColor = True
+        Me.cmdNoChangePrice.Visible = False
+        '
         'fraBOS2
         '
         Me.fraBOS2.BackColor = System.Drawing.SystemColors.Control
@@ -995,6 +1005,7 @@ Partial Class BillOSale
         Me.fraBOS2.Controls.Add(Me.BalDue)
         Me.fraBOS2.Controls.Add(Me.cmdPrint)
         Me.fraBOS2.Controls.Add(Me.cmdChangePrice)
+        Me.fraBOS2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fraBOS2.Location = New System.Drawing.Point(0, 182)
         Me.fraBOS2.Name = "fraBOS2"
         Me.fraBOS2.Size = New System.Drawing.Size(864, 408)
@@ -1073,31 +1084,25 @@ Partial Class BillOSale
         Me.picHover.TabStop = False
         Me.picHover.Visible = False
         '
-        'cmdNoChangePrice
-        '
-        Me.cmdNoChangePrice.Location = New System.Drawing.Point(826, 81)
-        Me.cmdNoChangePrice.Name = "cmdNoChangePrice"
-        Me.cmdNoChangePrice.Size = New System.Drawing.Size(28, 23)
-        Me.cmdNoChangePrice.TabIndex = 98
-        Me.cmdNoChangePrice.UseVisualStyleBackColor = True
-        Me.cmdNoChangePrice.Visible = False
-        '
         'lblBalDueCaption
         '
         Me.lblBalDueCaption.AutoSize = True
-        Me.lblBalDueCaption.Location = New System.Drawing.Point(654, 339)
+        Me.lblBalDueCaption.Location = New System.Drawing.Point(665, 339)
         Me.lblBalDueCaption.Name = "lblBalDueCaption"
-        Me.lblBalDueCaption.Size = New System.Drawing.Size(87, 13)
+        Me.lblBalDueCaption.Size = New System.Drawing.Size(69, 13)
         Me.lblBalDueCaption.TabIndex = 91
-        Me.lblBalDueCaption.Text = "      Balance Due"
+        Me.lblBalDueCaption.Text = "Balance Due"
+        Me.lblBalDueCaption.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'BalDue
         '
+        Me.BalDue.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BalDue.Location = New System.Drawing.Point(645, 355)
         Me.BalDue.Multiline = True
         Me.BalDue.Name = "BalDue"
-        Me.BalDue.Size = New System.Drawing.Size(136, 41)
+        Me.BalDue.Size = New System.Drawing.Size(103, 38)
         Me.BalDue.TabIndex = 92
+        Me.BalDue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'BillOfSale
         '
@@ -1203,12 +1208,12 @@ Partial Class BillOSale
         Me.ugrFake.Col = 1
         Me.ugrFake.firstrow = 1
         Me.ugrFake.Loading = False
-        Me.ugrFake.Location = New System.Drawing.Point(5, 488)
+        Me.ugrFake.Location = New System.Drawing.Point(5, 608)
         Me.ugrFake.MaxCols = 2
         Me.ugrFake.MaxRows = 10
         Me.ugrFake.Name = "ugrFake"
         Me.ugrFake.Row = 0
-        Me.ugrFake.Size = New System.Drawing.Size(817, 145)
+        Me.ugrFake.Size = New System.Drawing.Size(817, 139)
         Me.ugrFake.TabIndex = 45
         Me.ugrFake.TabStop = False
         '
@@ -1299,7 +1304,7 @@ Partial Class BillOSale
         Me.MaximizeBox = False
         Me.Name = "BillOSale"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-        Me.Text = "BillOSale"
+        Me.Text = "BILL OF SALE"
         Me.fraTimeWindow.ResumeLayout(False)
         Me.fraTimeWindow.PerformLayout()
         CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).EndInit()

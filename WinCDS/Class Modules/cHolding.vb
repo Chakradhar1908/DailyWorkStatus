@@ -67,6 +67,7 @@
         On Error Resume Next
         mDataAccess.Dispose()
     End Sub
+
     Public Function Load(ByVal KeyVal As String, Optional ByVal KeyName As String = "") As Boolean
         ' Checks the database for a matching LeaseNo.
         ' Returns True if the load was successful, false otherwise.
@@ -119,7 +120,7 @@ NoSave:
     Public Function Void() As Boolean
         ' Make sure this holding record is able to be voided.
         If Trim(LeaseNo) = "" Then Exit Function
-        If Status = "V" Then MsgBox("This sale is already void.", vbInformation) : Void = True : Exit Function
+        If Status = "V" Then MessageBox.Show("This sale is already void.") : Void = True : Exit Function
 
         LogFile("VoidSale", "cHolding.Void() - BEFORE VOID  - LeaseNo=" & LeaseNo & ", Status=" & Status & ", Sale=" & Sale & ", Desposit=" & Deposit, False)
         If OrdVoid.VoidOrder(LeaseNo) Then
@@ -172,7 +173,7 @@ NoSave:
 
         Dim GM As CGrossMargin, GM2 As CGrossMargin
         If LeaseNo = "" Then
-            MsgBox("Attempting to add interest before setting sale number.", vbCritical, "Error")
+            MessageBox.Show("Attempting to add interest before setting sale number.", "Error")
             Exit Function
         End If
         GM = New CGrossMargin
@@ -260,6 +261,4 @@ NoSave:
         ArNo = IfNullThenNilString(Trim(RS("ArNo").Value))
         '    AutoMargStart = rs("AutoMargStart")
     End Sub
-
-
 End Class

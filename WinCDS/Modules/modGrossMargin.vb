@@ -2,6 +2,7 @@
 Module modGrossMargin
     Private Const SoldTagFlag As String = "tg"
     Private PrepareMLForPackages_SaleNo As String, PrepareMLForPackages_cGM As CGrossMargin
+
     Public Function DescHasSoldTagPrinted(ByVal Desc As String) As Boolean
         DescHasSoldTagPrinted = Left(Desc, Len(SoldTagFlag)) = SoldTagFlag
     End Function

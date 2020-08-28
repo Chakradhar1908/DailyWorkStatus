@@ -899,6 +899,7 @@ NextItem:
         End If
 
         LoadSalesSplitBoxes()
+        CustomerFirst.Select()
     End Sub
 
     Public Sub BillOSale2_Show()
@@ -3902,20 +3903,19 @@ HandleErr:
             Exit Sub
         End If
 
-        'NOTE: REMOVE THIS COMMENT LATER.
-        'If Trim(Email.Text) = "" And OrderMode("A") And StoreSettings.bRequestEmail And Email.Tag = "" Then
-        '    If CustomerLast.Text <> "" Then
-        '        If MsgBox("Add Customer Email?", vbExclamation + vbYesNo + vbDefaultButton2) = vbYes Then
-        '            On Error Resume Next
-        '            Email.Select()
-        '            Exit Sub
-        '        Else
-        '            Email.Tag = "x"
-        '        End If
-        '    Else
-        '        Email.Tag = "x"
-        '    End If
-        'End If
+        If Trim(Email.Text) = "" And OrderMode("A") And StoreSettings.bRequestEmail And Email.Tag = "" Then
+            If CustomerLast.Text <> "" Then
+                If MessageBox.Show("Add Customer Email?", "Customer Email", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                    On Error Resume Next
+                    Email.Select()
+                    Exit Sub
+                Else
+                    Email.Tag = "x"
+                End If
+            Else
+                Email.Tag = "x"
+            End If
+        End If
 
         If Trim(CustomerLast.Text) = "" Or Trim(CustomerLast.Text) = "CASH & CARRY" Then
             If Trim(CustomerFirst.Text) <> "" Or Trim(CustomerAddress.Text) <> "" Or Trim(AddAddress.Text) <> "" Or Trim(CustomerCity.Text) <> "" Or Trim(CustomerZip.Text) <> "" Or Trim(CustomerPhone1.Text) <> "" Then

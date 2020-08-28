@@ -490,10 +490,12 @@ NoSave:
                             M = M & "Item Desc:" & vbTab & Desc & vbCrLf
                             M = M & "Original Desc: " & vbTab & InvData.Desc & vbCrLf2
                             M = M & "Was this piece the same as the standard pieces?"
-                            If MsgBox(M, vbQuestion + vbYesNo, "Descriptions are Different") = vbYes Then
+                            'If MsgBox(M, vbQuestion + vbYesNo, "Descriptions are Different") = vbYes Then
+                            If MessageBox.Show(M, "Descriptions are Different", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                                 InvData.OnHand = InvData.OnHand + Quantity
                             Else
-                                MsgBox("Item not added to " & Style & vbCrLf & "Returned item must be manually entered into system.", vbInformation, "Quantity Not Updated")
+                                'MsgBox("Item not added to " & Style & vbCrLf & "Returned item must be manually entered into system.", vbInformation, "Quantity Not Updated")
+                                MessageBox.Show("Item not added to " & Style & vbCrLf & "Returned item must be manually entered into system.", "Quantity Not Updated")
                                 PrintHardCopyOfDeliveredReturn()
                             End If
                         Else
@@ -501,12 +503,14 @@ NoSave:
                         End If
                     ElseIf IsIn(tS, "DELFND", "DELFN") Then
                         ' THIS ONE WILL ONLY BE HIT IF THE FND ITEM IS ACTUALLY A REAL STYLE NUMBER...  SEE BELOW FOR USUAL CASE
-                        MsgBox("Returned FND items are not automatically added back to stock." & vbCrLf & "It must be manually entered into the system to properly reflect quantity changes.")
+                        'MsgBox("Returned FND items are not automatically added back to stock." & vbCrLf & "It must be manually entered into the system to properly reflect quantity changes.")
+                        MessageBox.Show("Returned FND items are not automatically added back to stock." & vbCrLf & "It must be manually entered into the system to properly reflect quantity changes.")
                         PrintHardCopyOfDeliveredReturn()
                     ElseIf IsIn(tS, "DELSS", "DELSSR", "DELSSREC") Then
                         InvData.OnHand = InvData.OnHand + Quantity
-                        If MsgBox("The item " & Style & " was a Special Special piece." & vbCrLf & "We recorded a cost of " & InvData.Cost & " for this style." & vbCrLf & "Is this correct?", vbQuestion + vbYesNo, "Verify Special Special Pricing") = vbNo Then
-                            MsgBox("Please manually update the pricing for this item.")
+                        'If MsgBox("The item " & Style & " was a Special Special piece." & vbCrLf & "We recorded a cost of " & InvData.Cost & " for this style." & vbCrLf & "Is this correct?", vbQuestion + vbYesNo, "Verify Special Special Pricing") = vbNo Then
+                        If MessageBox.Show("The item " & Style & " was a Special Special piece." & vbCrLf & "We recorded a cost of " & InvData.Cost & " for this style." & vbCrLf & "Is this correct?", "Verify Special Special Pricing", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
+                            MessageBox.Show("Please manually update the pricing for this item.")
                             PrintHardCopyOfDeliveredReturn()
                         End If
                     Else      ' item isn't a 'DELSO', 'DELFND'/'DELFN', 'DELSS'
@@ -522,7 +526,7 @@ NoSave:
                 Dim InvDetail As CInventoryDetail
                 InvDetail = New CInventoryDetail
                 If Not InvDetail.Load(CStr(Detail), "#DetailID") Then
-                    MsgBox("Error returning " & Style & " to stock: Can't load Detail record #" & Detail & ".", vbCritical, "Error!")
+                    MessageBox.Show("Error returning " & Style & " to stock: Can't load Detail record #" & Detail & ".", "Error!")
                 Else
                     ' Deletes the line entry
                     InvDetail.Trans = "VD"
@@ -553,12 +557,12 @@ NoSave:
             '  It should only prompt if an item was actually returned to stock.
             If Location >= 1 Then
                 If IsIn(Trim(Status), "ST", "SOREC", "POREC") Or IsDelivered(Status) Then
-                    If MsgBox("Make New Ticket For Style No: " & InvData.Style, vbYesNo + vbQuestion) = vbYes Then
+                    If MessageBox.Show("Make New Ticket For Style No: " & InvData.Style, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                         With InvData
                             SelectPrinter.PrintTags(.Style, .Desc, .Landed, .List, .OnSale, .DeptNo, .DeptNo & .VendorNo, .Vendor, .Available, .Comments)
                         End With
                         If SelectPrinter.SmallTags Then ' small tag was printed
-                            Printer.EndDoc()
+                            printer.EndDoc()
                             SelectPrinter.SmallTags = False
                         End If
                     End If
@@ -567,17 +571,17 @@ NoSave:
         Else
             ' Special-Special items can't be loaded, of course.
             If IsIn(tS, "SSREC", "DELSS", "DELSSREC", "DELSSR") Then
-                MsgBox("You must manually add this Special Special received item into stock!", vbExclamation)
+                MessageBox.Show("You must manually add this Special Special received item into stock!")
                 PrintHardCopyOfDeliveredReturn()
             ElseIf IsIn(tS, "DELFN", "DELFND") Then
-                MsgBox("Returned FND items are not automatically added back to stock." & vbCrLf & "It must be manually entered into the system to properly reflect quantity changes." & vbCrLf & "Printing reminder notice...", vbInformation, "Quantity not updated")
+                MessageBox.Show("Returned FND items are not automatically added back to stock." & vbCrLf & "It must be manually entered into the system to properly reflect quantity changes." & vbCrLf & "Printing reminder notice...", "Quantity not updated")
                 PrintHardCopyOfDeliveredReturn()
             ElseIf IsIn(tS, "DELSO", "DELSOR", "DELSOREC") Then
                 ' it's a little odd for this one to hit...  SOs should be already in the 2data table (and
                 ' hence have a valid rn number which this is the failure to load clause of)...
                 ' but, if we can't find the item in the 2data table, we certainly can't update it..
                 ' we display a message and print the reminder notice
-                MsgBox("This item could not be updated automatically because the RN number could not be located." & vbCrLf & "Its quantity must be updated manually to preserve an accurate inventory." & vbCrLf & "Printing reminder notice...", vbInformation, "Quantity not updated")
+                MessageBox.Show("This item could not be updated automatically because the RN number could not be located." & vbCrLf & "Its quantity must be updated manually to preserve an accurate inventory." & vbCrLf & "Printing reminder notice...", "Quantity not updated")
                 PrintHardCopyOfDeliveredReturn()
             End If
         End If

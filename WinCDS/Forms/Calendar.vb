@@ -81,8 +81,10 @@ Public Class Calendar
         Dim SQL As String, EndDate As Date
 
         If Store = 0 Then Store = StoresSld
-        StartDate = DateFormat(StartDate)
-        EndDate = DateFormat(DateAdd("d", DayCount - 1, StartDate))
+        'StartDate = DateFormat(StartDate)
+        StartDate = Date.Parse(DateFormat(StartDate), Globalization.CultureInfo.InvariantCulture)
+        'EndDate = DateFormat(DateAdd("d", DayCount - 1, StartDate))
+        EndDate = Date.Parse(DateFormat(DateAdd("d", DayCount - 1, StartDate)), Globalization.CultureInfo.InvariantCulture)
         '  sql = " SELECT DISTINCT (DateDiff('d',#" & StartDate & "#,[DelDate])) AS [Index], DelDate, SaleNo, Name, iif(PorD='P', 'P', '') as PD" _
         '      & " FROM GrossMargin" _
         '      & " WHERE DelDate BETWEEN #" & StartDate & "# AND #" & EndDate & "#" _
@@ -263,7 +265,8 @@ Public Class Calendar
         NumPages = 1
         LastY = -1
         ' Data initialization and validation
-        StartDate = DateFormat(StartDate)
+        'StartDate = DateFormat(StartDate)
+        StartDate = Date.Parse(DateFormat(StartDate), Globalization.CultureInfo.InvariantCulture)
 
         'Printer initialization
         'Printer.Font = "Arial"
@@ -518,7 +521,8 @@ HandleErr:
         ReDim Rows(DayCount)
 
         ' Data initialization and validation
-        StartDate = DateFormat(StartDate)
+        'StartDate = DateFormat(StartDate)
+        StartDate = Date.Parse(DateFormat(StartDate), Globalization.CultureInfo.InvariantCulture)
 
         'MousePointer = vbHourglass
         Me.Cursor = Cursors.WaitCursor

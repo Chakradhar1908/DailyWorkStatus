@@ -397,7 +397,8 @@ CustNotFound:
 
             If dT <> DateValue(Margin.SellDte) Then
                 UGridIO1.SetValueDisplay(Row, 1, "SALE DATE:")
-                UGridIO1.SetValueDisplay(Row, 2, Margin.SellDte)
+                'UGridIO1.SetValueDisplay(Row, 2, Margin.SellDte)
+                UGridIO1.SetValueDisplay(Row, 2, DateFormat(Margin.SellDte))
                 UGridIO1.SetValueDisplay(Row, 6, "Store #" & StoresSld)
                 UGridIO1.Refresh()
                 Row = Row + 1
@@ -970,7 +971,8 @@ HandleErr:
         OnScreenReport_Load(Me, New EventArgs)
         Show()
         'cmdNext.Value = True
-        cmdNext.PerformClick()
+        'cmdNext.PerformClick()
+        cmdNext_Click(cmdNext, New EventArgs)
     End Sub
 
     Private Sub MailCheckRef_CustomerFound(MailIndex As Integer, ByRef Cancel As Boolean) Handles MailCheckRef.CustomerFound
@@ -1401,7 +1403,22 @@ HandleErr:
         EnableControls(True)
         OrdTotal = 0
         TotDue = 0
-        UGridIO1.Clear()
+
+        Dim Lastrow As Integer
+        Lastrow = UGridIO1.LastRowUsed
+
+        UGridIO1.Clear()  'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.
+
+        For r = 0 To Lastrow
+            UGridIO1.Row = r
+            For c = 0 To 11
+                On Error Resume Next
+                UGridIO1.Col = c
+                UGridIO1.Text = ""
+            Next
+        Next
+        '------
+
         UGridIO1.Refresh()
 
         ' Find the customer/sale with MailCheck instead of EntryForm.
@@ -1421,13 +1438,15 @@ HandleErr:
         MailCheckRef = Nothing
         MailCheckSaleNoChecked = False
         'If Not SaleFound Then cmdMenu.Value = True
-        If Not SaleFound Then cmdMenu.PerformClick()
+        If Not SaleFound Then cmdMenu_Click(cmdMenu, New EventArgs)
     End Sub
 
     Private Sub cmdNext2_Click(sender As Object, e As EventArgs) Handles cmdNext2.Click
         'Unload Me
-        Me.Close()
+        'Me.Close()
         'Load Me
+        Me.Hide()
+        'Me.Show()
         CustomerAdjustment()
     End Sub
 
@@ -1802,7 +1821,8 @@ ErrHand:
         End If
 
         If SaleTax1Amount() = 0 Then
-            R = MsgBox("Add default tax (Tax = " & StoreSettings.SalesTax & ")?", vbQuestion + vbYesNoCancel)
+            'R = MsgBox("Add default tax (Tax = " & StoreSettings.SalesTax & ")?", vbQuestion + vbYesNoCancel)
+            R = MessageBox.Show("Add default tax (Tax = " & StoreSettings.SalesTax & ")?", "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             If R = vbCancel Then Exit Sub
             If R = vbYes Then
                 TAmt = 55 '###!!!

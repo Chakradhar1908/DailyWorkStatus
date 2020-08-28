@@ -117,9 +117,11 @@ Public Class CDataAccess
         mUpdated = False
         If Err.Number <> 0 Then Records_OpenSQL = False Else Records_OpenSQL = True
     End Function
+
     Friend Function getIndexSQL(ByRef Index As String, Optional ByRef OrderBy As String = "") As String
         getIndexSQL = getFieldIndexSQL(Field:=Me.Index, Index:=Index, OrderBy:=OrderBy)
     End Function
+
     Friend Function getFieldIndexSQL(ByRef Field As String, ByRef Index As String, Optional ByRef OrderBy As String = "") As String
         getFieldIndexSQL = " SELECT [" & Me.Table & "].*" _
         & " From [" & Me.Table & "]" _
@@ -134,6 +136,7 @@ Public Class CDataAccess
             )
         mUpdated = False
     End Function
+
     Friend Function getFieldIndexSQLNumber(ByRef Field As String, ByRef Index As String, Optional ByRef OrderBy As String = "") As String
         If Index = "" Then Index = "-1"
         getFieldIndexSQLNumber = " SELECT [" & Me.Table & "].*" _
@@ -149,6 +152,7 @@ Public Class CDataAccess
             )
         mUpdated = False
     End Function
+
     Friend Function getFieldIndexSQLDate(ByRef Field As String, ByRef Index As String) As String
         If Index = "" Then Index = "-1"
         getFieldIndexSQLDate = " SELECT [" & Me.Table & "].*" _
@@ -198,15 +202,18 @@ HandleErr:
         Mrs.Close()
         Mrs = Nothing
     End Sub
+
     Friend Function Record_EOF() As Boolean
         If Mrs Is Nothing Then Record_EOF = True : Exit Function
         Record_EOF = Mrs.EOF
     End Function
+
     Friend Sub Records_Close()
         If mUpdated Then Records_Update()
         Mrs.Close()
         Mrs = Nothing
     End Sub
+
     Friend Function Records_Open(Optional ByRef OrderBy As String = "", Optional ByRef ErrMsg As String = "") As Boolean
         Mrs = getRecordsetByTableLabelIndex _
         (File:=DataBase _
@@ -256,6 +263,7 @@ HandleErr:
         Records_MoveAbsolute = True
 BadMove:
     End Function
+
     Friend Function Value(ByRef Field As String) As String
         On Error Resume Next
         Value = Mrs(Field).Value
