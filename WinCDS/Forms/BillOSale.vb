@@ -336,7 +336,7 @@ Public Class BillOSale
         If MailMode("ADD/Edit") Or ArMode("S", "A") Then cmdApplyBillOSale.Enabled = True
 
         '---------> NOTE: 'Remove this line later after complete coding has been done.     <----------
-        cmdApplyBillOSale.Enabled = True
+        'cmdApplyBillOSale.Enabled = True
     End Sub
 
     Private Sub DoPrintType(Optional ByVal DoShow As Boolean = False)
@@ -779,6 +779,7 @@ NextItem:
     End Sub
 
     Private Sub BillOSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If ViewSaleSelected = True Then Exit Sub
         UpdateForm()
         SetButtonImage(cmdApplyBillOSale, 2)
         SetButtonImage(cmdCancel, 3)
@@ -803,7 +804,7 @@ NextItem:
         dteSaleDate.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
         dteDelivery.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
 
-        Order = "A"     '------> It will be assigned in modMainMenu. Because modMainMenu code is not completed
+        'Order = "A"     '------> It will be assigned in modMainMenu. Because modMainMenu code is not completed
         'temporarily assigned here to run the below select case Order code. After modMainMenu completed, 
         'remove this line Order = "A" from here.
 
@@ -951,13 +952,13 @@ NextItem:
         SetButtonImage(cmdClear, 3)
         SetButtonImage(Notes_Open, 17)
 
-        SetButtonImageSmall(cmdChangePrice, 0)
-        SetButtonImageSmall(cmdNoChangePrice, 2)
-        SetButtonImageSmall(ScanUp123, 5)
-        SetButtonImageSmall(ScanDn, 4)
-        SetButtonImageSmall(cmdPrint, 3)
-        SetButtonImageSmall(cmdEmail, 1)
-        SetButtonImageSmall(cmdSoldTags, 6)
+        'SetButtonImageSmall(cmdChangePrice, 0)
+        'SetButtonImageSmall(cmdNoChangePrice, 2)
+        'SetButtonImageSmall(ScanUp123, 5)
+        'SetButtonImageSmall(ScanDn, 4)
+        'SetButtonImageSmall(cmdPrint, 3)
+        'SetButtonImageSmall(cmdEmail, 1)
+        'SetButtonImageSmall(cmdSoldTags, 6)
 
         If CustomerLast.Text = "CASH & CARRY" Then  'added 01-31-2003 to prevent a cash&Carry
             Index = 0 '""
@@ -1061,7 +1062,7 @@ NextItem:
         'Const FRM_TALL_H = 700
         Const FRM_TALL_H = 660
 
-        If BoS2 <> vbUseDefault Then                 '----------> Remove the if block comment later.
+        If BoS2 <> vbUseDefault Then
             fraBOS2.Visible = BoS2
             'fraBOS2.Left = IIf(BoS2, 0, -15000)
             fraBOS2.Left = IIf(BoS2, 0, -900)
@@ -4074,7 +4075,24 @@ HandleErr:
         HoverPic(True, UGridIO1.GetValue(Val(tmrHover.Tag), 0), 0, Val(tmrHover.Tag))
     End Sub
 
-    Private Sub UGridIO1_DoubleClick(sender As Object, e As EventArgs) Handles UGridIO1.DoubleClick
+    'Private Sub UGridIO1_DoubleClick(sender As Object, e As EventArgs) Handles UGridIO1.DoubleClick
+    '    X = UGridIO1.Row
+    '    Select Case UGridIO1.Col
+    '        Case BillColumns.eStyle
+    '            Style_DblClick()
+    '        Case BillColumns.eManufacturer
+    '        Case BillColumns.eDescription
+    '        Case BillColumns.eStatus
+    '            Status_DblClick()
+    '        Case BillColumns.ePrice
+    '            'Pop up a discount window?  -- Disabled until we decide how we want it to go.
+    '            'Dim Discount As String
+    '            'If Not CheckAccess("Give Discounts", True, False, True) Then Exit Sub
+    '            'Discount = InputBox("Enter discount percentage:", , "0")
+    '    End Select
+    'End Sub
+
+    Private Sub UGridIO1_DblClick() Handles UGridIO1.DblClick
         X = UGridIO1.Row
         Select Case UGridIO1.Col
             Case BillColumns.eStyle
@@ -4091,7 +4109,7 @@ HandleErr:
         End Select
     End Sub
 
-    Private Sub UGridIO1_MouseMoveOverCell(ByVal Col As Integer, ByVal Row As Integer)
+    Private Sub UGridIO1_MouseMoveOverCell(ByVal Col As Integer, ByVal Row As Integer) Handles UGridIO1.MouseMoveOverCell
         On Error Resume Next
 
         ResetLastLoginExpiry()
@@ -4100,12 +4118,15 @@ HandleErr:
         If OrderMode("A", "E") Then    ' show hover pic in sale creation and viewing
             'Debug.Print "Col=" & Col, "row=" & Row & ", x=[" & tmrHover.Tag & "]"
             If Col = 0 Then
-                If tmrHover.Tag <> "" And CInt(tmrHover.Tag) = Row Then Exit Sub
+                If tmrHover.Tag <> "" Then
+                    If CInt(tmrHover.Tag) = Row Then Exit Sub
+                End If
                 tmrHover.Tag = Row
                 HoverTimer(True)
             Else
                 HoverTimer()
             End If
+
             If OrderMode("E") Then
                 If Col = 5 Then
                     FormatTimer(True, Row)
@@ -4398,6 +4419,9 @@ HandleErr:
         'f.ShowDialog()
         'MailCheck.LookUpCustomer(MailCheck.ItemdataValue, True, MailCheck.SelectedItemValue)
     End Sub
+
+
+
 
     'Public Sub ShowMailCheckForm()
     '    '----------IMP NOTE-----------

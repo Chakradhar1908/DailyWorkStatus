@@ -621,6 +621,7 @@ AnError:
         RaiseEvent Change()
     End Sub
 
+    'AxDataGrid1_ClickEvent is not required. It is not vb6.0 WinCDS.
     'Private Sub AxDataGrid1_ClickEvent(sender As Object, e As EventArgs) Handles AxDataGrid1.ClickEvent
     '    mKeyPressed = False
     '    RaiseEvent ClickEvent()
@@ -675,10 +676,10 @@ AnError:
         End If
     End Sub
 
-    'Private Sub AxDataGrid1_MouseMoveEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_MouseMoveEvent) Handles AxDataGrid1.MouseMoveEvent
-    '    RaiseEvent Mouse_Move(e.button, e.shift, e.x, e.y)
-    '    RaiseEvent MouseMoveOverCell(AxDataGrid1.ColContaining(e.x), AxDataGrid1.RowContaining(e.y))
-    'End Sub
+    Private Sub AxDataGrid1_MouseMoveEvent(sender As Object, e As AxMSDataGridLib.DDataGridEvents_MouseMoveEvent) Handles AxDataGrid1.MouseMoveEvent
+        RaiseEvent Mouse_Move(e.button, e.shift, e.x, e.y)
+        RaiseEvent MouseMoveOverCell(AxDataGrid1.ColContaining(e.x), AxDataGrid1.RowContaining(e.y))
+    End Sub
 
     Private Sub AxDataGrid1_OnAddNew(sender As Object, e As EventArgs) Handles AxDataGrid1.OnAddNew
         RaiseEvent OnAddNew()
@@ -686,7 +687,6 @@ AnError:
 
     Private Sub AxDataGrid1_SelChange(sender As Object, e As AxMSDataGridLib.DDataGridEvents_SelChangeEvent) Handles AxDataGrid1.SelChange
         RaiseEvent SelChange(e.cancel)
-
     End Sub
 
     Private Sub AxDataGrid1_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles AxDataGrid1.Validating
@@ -1194,4 +1194,5 @@ NoColumn:
         End With
 
     End Sub
+
 End Class

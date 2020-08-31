@@ -128,7 +128,7 @@ CantOpen:
 
         If FileToOpen <> "" Then File = FileToOpen
         'mRichTextBox.LoadFile(File, RichTextBox.Rtf)
-        mRichTextBox.LoadFile(File)
+        mRichTextBox.LoadFile(File, RichTextBoxStreamType.RichText)
         Exit Sub
 
 HandleErr:

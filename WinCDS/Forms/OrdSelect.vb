@@ -586,7 +586,7 @@
 
 
         ' Disable sales tax if it's already used.
-        If BillOSale.HasTax1 Then optTax1.Enabled = False '- -----> Remove this line comment later.
+        If BillOSale.HasTax1 Then optTax1.Enabled = False
         '    BillOSale.HasTax1 replaces the following check...  BFH20050113
         '    Dim I As integer
         '    For I = 0 To BillOSale.UGridIO1.MaxRows - 1
@@ -600,9 +600,9 @@
         optTax2.Enabled = False
         optNoTax2.Enabled = False
         If Trim(QuerySalesTax2(0)) <> "" Then optTax2.Enabled = True : optNoTax2.Enabled = True '- -----------> Moved this line To Sub New.
-        If IsCanadian() Then optNoTax2.Enabled = False                                                             '----------> Remove the comment later.
+        If IsCanadian() Then optNoTax2.Enabled = False
 
-        If BillOSale.IsGridFull Then                                                                               '----------> Remove the if block comment later.
+        If BillOSale.IsGridFull Then
             optEnterStyle.Enabled = False
             optStain.Enabled = False
             optDelivery.Enabled = False

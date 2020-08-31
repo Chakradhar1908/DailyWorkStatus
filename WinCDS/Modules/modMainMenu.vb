@@ -91,7 +91,7 @@ Module modMainMenu
     Private mExportTaskList As Boolean
     Public MenuItemCount As Integer
     Public Const MainMenuType As String = "MainMenu4"
-
+    Public ViewSaleSelected As Boolean
     'Public ReadOnly Property frmSplash As frmSplash2
     '    Get
     '        Return frmSplas
@@ -827,6 +827,7 @@ Module modMainMenu
                         MainMenu.Hide()
                         Order = "E"
                         'BillOSale.HelpContextID = 45000
+                        ViewSaleSelected = True
                         BillOSale.Show()
                         BillOSale.BillOSale2_Show()
                         'MailCheck.HelpContextID = 45000
