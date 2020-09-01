@@ -527,7 +527,7 @@ Public Class MailCheck
         ' (http://www.rational.com/tryit/quantify_nt/index.jsp)
 
         ' Reset for next sale
-        'BillOSale.UGridIO1.Clear()      'BFH20120825 - ADDED GRID CLEAR CUZ PAYMENT WAS KEEPING PREVIOUS SALE LINES
+        BillOSale.UGridIO1.Clear()      'BFH20120825 - ADDED GRID CLEAR CUZ PAYMENT WAS KEEPING PREVIOUS SALE LINES
 
         MarginNo = 0
         FirstRec = 0
@@ -542,7 +542,9 @@ Public Class MailCheck
         If cTa.Record_Count > MaxLines Then
             MessageBox.Show("ERROR!!" & vbCrLf2 & "This sale has " & cTa.Record_Count & " lines." & vbCrLf2 & "The maximum number of lines for a sale is " & MaxLines & "." & vbCrLf2 & "Please contact " & AdminContactName & " at " & AdminContactPhone & " immediately with how you created this sale." & vbCrLf2 & "NOTE:  The full sale is not displayed.", "Unable to view sale", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+
         Do While cTa.Records_Available()
+            cTable.cDataAccess_GetRecordSet(cTa.RS)
             If X >= MaxLines + 1 Then Exit Do
             Margin = cTable
 
@@ -771,8 +773,10 @@ HandleErr:
         , ExtraSort:="First, LeaseNo"
         )
 
-        If OnScreenReport.MailCheckSaleNoChecked = False Then
+        If MailCheckSaleNoChecked = False Then
             optTelephone.Checked = True
+        ElseIf MailCheckSaleNoChecked = True Then
+            optSaleNo.Checked = True
         End If
         Setup()
     End Sub
@@ -899,7 +903,7 @@ HandleErr:
     End Sub
 
     Private Sub MailCheck_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-        'If OnScreenReport.MailCheckSaleNoChecked = False Then
+        'If MailCheckSaleNoChecked = False Then
         If Width < FRM_W2 Then Width = FRM_W2
         'End If
         'If ScaleWidth - lstMatches.Left - 120 > 0 Then lstMatches.Width = ScaleWidth - lstMatches.Left - 120

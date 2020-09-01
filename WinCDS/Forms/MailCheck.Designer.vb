@@ -149,6 +149,7 @@ Partial Class MailCheck
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmdCancel
         Me.ClientSize = New System.Drawing.Size(529, 159)
         Me.Controls.Add(Me.lblMatches)
         Me.Controls.Add(Me.lstMatches)
@@ -159,8 +160,7 @@ Partial Class MailCheck
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "MailCheck"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "MailCheck"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.fraInputType.ResumeLayout(False)
         Me.fraInputType.PerformLayout()
         Me.ResumeLayout(False)

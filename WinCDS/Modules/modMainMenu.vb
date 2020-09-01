@@ -92,6 +92,7 @@ Module modMainMenu
     Public MenuItemCount As Integer
     Public Const MainMenuType As String = "MainMenu4"
     Public ViewSaleSelected As Boolean
+    Public MailCheckSaleNoChecked As Boolean
     'Public ReadOnly Property frmSplash As frmSplash2
     '    Get
     '        Return frmSplas
@@ -771,6 +772,7 @@ Module modMainMenu
                         'MailCheck.HelpContextID = 42000
                         'MailCheck.optTelephone.Value = True
                         'MailCheck.optTelephone.Checked = True
+                        MailCheckSaleNoChecked = False
                         MailCheck.HidePriorSales = True
                         MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
                         MailCheck.HidePriorSales = False
@@ -827,15 +829,17 @@ Module modMainMenu
                         MainMenu.Hide()
                         Order = "E"
                         'BillOSale.HelpContextID = 45000
-                        ViewSaleSelected = True
+                        'ViewSaleSelected = True
                         BillOSale.Show()
                         BillOSale.BillOSale2_Show()
                         'MailCheck.HelpContextID = 45000
                         'MailCheck.optSaleNo.Value = True
-                        MailCheck.optSaleNo.Checked = True
+                        'MailCheck.optSaleNo.Checked = True
+                        MailCheckSaleNoChecked = True
                         MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
                         'Unload MailCheck
                         MailCheck.Close()
+
                     Case "voidsale"
                         If CrippleBug("Voiding Sales") Then Exit Function
                         If Not CheckAccess("Void Sales") Then Exit Function

@@ -57,7 +57,7 @@ Public Class OnScreenReport
 
     Const AllowAdjustDel As Boolean = True
     Const MaxAdjustments As Integer = 30
-    Public MailCheckSaleNoChecked As Boolean
+    'Public MailCheckSaleNoChecked As Boolean
     Dim FromCmdMenu As Boolean
 
     Private Sub OnScreenReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load

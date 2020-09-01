@@ -779,7 +779,7 @@ NextItem:
     End Sub
 
     Private Sub BillOSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If ViewSaleSelected = True Then Exit Sub
+        'If ViewSaleSelected = True Then Exit Sub
         UpdateForm()
         SetButtonImage(cmdApplyBillOSale, 2)
         SetButtonImage(cmdCancel, 3)
@@ -925,7 +925,7 @@ NextItem:
             .AddColumn(3, "Status", 50, False, False)
             .AddColumn(4, "Quant.", 50, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(5, "Description", 250, False, False)
-            .AddColumn(6, "Price", 70, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
+            .AddColumn(6, "Price", 90, False, False, MSDataGridLib.AlignmentConstants.dbgRight)
             .AddColumn(7, "VendorNo", 0, True, False, , False)
             .AddColumn(8, "TransID", 0, True, False, , False) '->This column is not there in vb6 wincds. Added here because, it will showing as Column9 at runtime.
             .AddColumn(9, "Col9", 0, True, False,, False)
@@ -952,13 +952,13 @@ NextItem:
         SetButtonImage(cmdClear, 3)
         SetButtonImage(Notes_Open, 17)
 
-        'SetButtonImageSmall(cmdChangePrice, 0)
-        'SetButtonImageSmall(cmdNoChangePrice, 2)
-        'SetButtonImageSmall(ScanUp123, 5)
-        'SetButtonImageSmall(ScanDn, 4)
-        'SetButtonImageSmall(cmdPrint, 3)
-        'SetButtonImageSmall(cmdEmail, 1)
-        'SetButtonImageSmall(cmdSoldTags, 6)
+        SetButtonImageSmall(cmdChangePrice, 0)
+        SetButtonImageSmall(cmdNoChangePrice, 2)
+        SetButtonImageSmall(ScanUp123, 5)
+        SetButtonImageSmall(ScanDn, 4)
+        SetButtonImageSmall(cmdPrint, 3)
+        SetButtonImageSmall(cmdEmail, 1)
+        SetButtonImageSmall(cmdSoldTags, 6)
 
         If CustomerLast.Text = "CASH & CARRY" Then  'added 01-31-2003 to prevent a cash&Carry
             Index = 0 '""
@@ -998,7 +998,9 @@ NextItem:
             With .GetDBGrid
                 '.RowHeight = .Height / (items_per_page + 2) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
                 '.RowHeight = .Height / (18 + 2) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
-                .RowHeight = .Height / (18) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
+
+                'NOTE: Below line is commented, cause rowheight is assigned at designtime properties at ugridio custom componenet development place.
+                '.RowHeight = .Height / (18) ' This handles the height of the individual rows. Which will indirectly effect the number of rows displayed.
                 .Height = .RowHeight * 20
             End With
             .Activated = True
