@@ -1552,8 +1552,8 @@ Public Class MainMenu4
 
     Public Sub btnNewSale_Click(sender As Object, e As EventArgs) Handles btnNewSale.Click
         'Case "newsale"
-        If CrippleBug("New Sales") Then Exit Sub
-        If Not CheckAccess("Create Sales") Then Exit Sub
+        'If CrippleBug("New Sales") Then Exit Sub
+        'If Not CheckAccess("Create Sales") Then Exit Sub
         Order = "A"
         'frmSalesList.SafeSalesClear = True
         frmSalesList.SalesCode = ""
@@ -1567,6 +1567,55 @@ Public Class MainMenu4
         'MailCheck.optTelephone.Value = True
         MailCheck.HidePriorSales = True
         'MailCheck.Show vbModal  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+        MailCheckSaleNoChecked = False
+        MailCheck.ShowDialog()
+        MailCheck.HidePriorSales = False
+        'Unload MailCheck
+        MailCheck.Close()
+    End Sub
+
+    Public Sub NextSaleNewSale()
+        'Case "newsale"
+        'If CrippleBug("New Sales") Then Exit Sub
+        'If Not CheckAccess("Create Sales") Then Exit Sub
+        'Order = "A"
+        'frmSalesList.SafeSalesClear = True
+        frmSalesList.SalesCode = ""
+        'Unload BillOSale
+        BillOSale.Close()
+        MainMenu.Hide()
+        'BillOSale.HelpContextID = 42000
+        'BillOSale.HelpContextID = 42002
+        BillOSale.Show()
+        'MailCheck.HelpContextID = 42000
+        'MailCheck.optTelephone.Value = True
+        MailCheck.HidePriorSales = True
+        'MailCheck.Show vbModal  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+        MailCheckSaleNoChecked = False
+        MailCheck.ShowDialog()
+        MailCheck.HidePriorSales = False
+        'Unload MailCheck
+        MailCheck.Close()
+    End Sub
+
+    Public Sub NextSaleVoidSale()
+        'Case "newsale"
+        'If CrippleBug("New Sales") Then Exit Sub
+        'If Not CheckAccess("Create Sales") Then Exit Sub
+        'Order = "A"
+        'frmSalesList.SafeSalesClear = True
+        frmSalesList.SalesCode = ""
+        'Unload BillOSale
+        BillOSale.Close()
+        MainMenu.Hide()
+        'BillOSale.HelpContextID = 42000
+        'BillOSale.HelpContextID = 42002
+        BillOSale.Show()
+        'MailCheck.HelpContextID = 42000
+        'MailCheck.optTelephone.Value = True
+        'MailCheck.HidePriorSales = True
+        'MailCheck.Show vbModal  ' If this is loaded "vbModal, BillOSale", lockup may occur.
+        MailCheckSaleNoChecked = True
         MailCheck.ShowDialog()
         MailCheck.HidePriorSales = False
         'Unload MailCheck

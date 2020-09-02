@@ -81,6 +81,7 @@ Public Class BillOSale
     Dim Margin As New CGrossMargin
     Dim I As Integer
     Dim NewVal As String
+    Dim FromFormLoad As Boolean
 
     Private Sub cboPhone1_Enter(sender As Object, e As EventArgs) Handles cboPhone1.Enter
         ' This event is replacement for Gotfocus of vb6.0
@@ -800,6 +801,8 @@ NextItem:
         'Height = Screen.Height * 0.75  ' Set height of form.
         'Left = (Screen.Width - Width) / 2   ' Center form horizontally.
         'Top = (Screen.Height - Height) / 2   ' Center form vertically.
+
+        FromFormLoad = True '---Added this boolean variable to skip saledate and delivery date datepicker controls's valuechanged event. Similar event in vb6.0 is "Change". It is not executing in form load time. But in vb.net, valuechanged event is executing. So, to skip it used this variable.
 
         dteSaleDate.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
         dteDelivery.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
@@ -2945,13 +2948,20 @@ HandleErr:
     End Sub
 
     Private Sub dteDelivery_ValueChanged(sender As Object, e As EventArgs) Handles dteDelivery.ValueChanged
-        lblDelDate.Text = DateFormat(dteDelivery.Value)
+        'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteDelivery_Change() EVENT OF VB6.0
+        If FromFormLoad = True Then Exit Sub  'NOTE: Added this line to skip this event if it is from form load.
+
+        'lblDelDate.Text = DateFormat(dteDelivery.Value)
+        lblDelDate.Text = dteDelivery.Value
+        lblDelDate.Text = Date.Parse(lblDelDate.Text, CultureInfo.InvariantCulture)
+        lblDelDate.Text = Replace(lblDelDate.Text, "-", "/")
         DelDate = dteDelivery.Value
         SetDelWeekday(dteDelivery.Value)
     End Sub
 
     Private Sub dteSaleDate_ValueChanged(sender As Object, e As EventArgs) Handles dteSaleDate.ValueChanged
         'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteSaleDate_Change() EVENT OF VB6.0
+        If FromFormLoad = True Then Exit Sub 'NOTE: Added this line to skip this event if it is from form load.
 
         ' "Date" Datepicker.
         TransDate = DateFormat(dteSaleDate.Value)
@@ -4364,7 +4374,6 @@ HandleErr:
             Sale = 0
             'Unload Me
             Me.Close()
-            'Me.Hide()
             'Unload OrdSelect
             OrdSelect.Close()
             'Unload OrdStatus
@@ -4382,7 +4391,7 @@ HandleErr:
             Mail.Index = ""
             X = 0
 
-            'Me.Show()
+            'Show()
             'Dim f As BillOSale
             'If IsNothing(f) Then
             '    f = New BillOSale
@@ -4393,10 +4402,12 @@ HandleErr:
             '    f.Show()
             'End If
             'MainMenu4.Button1_Click(Button1, New EventArgs)
-            MainMenu4.btnNewSale_Click(MainMenu4.btnNewSale, New EventArgs)
+            'MainMenu4.btnNewSale_Click(MainMenu4.btnNewSale, New EventArgs)
             'BillOSale_Load(Me, New EventArgs)
             'MailCheck.optTelephone.Checked = True -> Commeneted this line, because in vb.net, mailcheck form load event must execute before this line.
             'MailCheck.HidePriorSales = True
+            'MailCheckSaleNoChecked = False
+            MainMenu4.NextSaleNewSale()
         Else
             cmdNextSale.Enabled = True
             'Unload ArApp
@@ -4407,8 +4418,10 @@ HandleErr:
             'Show()
             'Show()
             'MainMenu4.Button1_Click(Button1, New EventArgs)
-            MainMenu4.btnNewSale_Click(MainMenu4.btnNewSale, New EventArgs)
-            MailCheck.optSaleNo.Checked = True
+            'MainMenu4.btnNewSale_Click(MainMenu4.btnNewSale, New EventArgs)
+            'MailCheck.optSaleNo.Checked = True
+            'MailCheckSaleNoChecked = True
+            MainMenu4.NextSaleVoidSale()
         End If
         'frmSalesList.SalesCode = ""
         'MailCheck.Show vbModal

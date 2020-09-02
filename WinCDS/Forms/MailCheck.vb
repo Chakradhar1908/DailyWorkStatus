@@ -552,11 +552,13 @@ Public Class MailCheck
             If FirstRec = 0 Then
                 FirstRec = Margin.MarginLine
                 On Error Resume Next
-                BillOSale.dteSaleDate.Value = DateFormat(Margin.SellDte)
+                'BillOSale.dteSaleDate.Value =DateFormat(Margin.SellDte)
+                BillOSale.dteSaleDate.Value = Date.Parse(DateFormat(Margin.SellDte), Globalization.CultureInfo.InvariantCulture)
                 On Error GoTo 0
                 If IsDate(Margin.DDelDat) Then
                     BillOSale.lblDelDate.Text = DateFormat(Margin.DDelDat)
-                    BillOSale.dteDelivery.Value = Margin.DDelDat
+                    'BillOSale.dteDelivery.Value = Margin.DDelDat
+                    BillOSale.dteDelivery.Value = Date.Parse(Margin.DDelDat, Globalization.CultureInfo.InvariantCulture)
                 Else
                     BillOSale.lblDelDate.Text = ""
                 End If
