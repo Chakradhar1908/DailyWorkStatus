@@ -750,7 +750,6 @@ HandleErr:
         Height = FRM_H1
         Width = FRM_W2
 
-
         'SetButtonImage(cmdOK)
         'SetButtonImage(cmdCancel)
         SetButtonImage(cmdOK, 2)
@@ -781,6 +780,9 @@ HandleErr:
             optSaleNo.Checked = True
         End If
         Setup()
+
+        Me.Left = (Screen.PrimaryScreen.Bounds.Width - Me.Width) / 2
+        Me.Top = (Screen.PrimaryScreen.Bounds.Height - Me.Height) / 2
     End Sub
 
     Private Sub Setup()

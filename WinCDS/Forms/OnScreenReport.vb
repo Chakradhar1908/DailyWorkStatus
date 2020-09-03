@@ -62,6 +62,7 @@ Public Class OnScreenReport
 
     Private Sub OnScreenReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim P As Object
+
         SetButtonImage(cmdReturn, 11)
 
         'SetButtonImage(cmdAdd, 0). Below line is replacement for it. Because, it is checkbox not button, so loaded image directly here instead caling setbuttonimage funtion.
@@ -244,6 +245,9 @@ Public Class OnScreenReport
             Exit Sub
         End If
         mLoading = False
+
+        'Me.Left = (Screen.PrimaryScreen.Bounds.Width - Me.Width) / 2
+        'Me.Top = (Screen.PrimaryScreen.Bounds.Height - Me.Height) / 2
     End Sub
 
     Private Sub OnScreenReport()

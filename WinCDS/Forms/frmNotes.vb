@@ -78,13 +78,13 @@ Public Class frmNotes
             End Select
         End If
         'cmdCancel.Value = True
-        cmdCancel.PerformClick()
+        cmdCancel_Click(cmdCancel, New EventArgs)
         Exit Sub
 NoSave:
         Dim X As VbMsgBoxResult
         X = MessageBox.Show("Note failed to save" & vbCrLf & Err.Description, "Note not saved", MessageBoxButtons.RetryCancel)
         'If X = vbCancel Then cmdCancel.Value = True
-        If X = vbCancel Then cmdCancel.PerformClick()
+        If X = vbCancel Then cmdCancel_Click(cmdCancel, New EventArgs)
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
@@ -93,7 +93,7 @@ NoSave:
     End Sub
 
     Private Sub AddOldNote(ByVal D As String, ByVal N As String)
-        txtOldNotes.Text = "------ " & DateFormat(D) & "  Time: " & Format(D, "h:mm:ss am/pm") & " ------" & vbCrLf & N & vbCrLf2 & txtOldNotes.Text
+        txtOldNotes.Text = "------ " & Date.Parse(DateFormat(D), Globalization.CultureInfo.InvariantCulture) & "  Time: " & Format(D, "h:mm:ss am/pm") & " ------" & vbCrLf & N & vbCrLf2 & txtOldNotes.Text
     End Sub
 
 End Class

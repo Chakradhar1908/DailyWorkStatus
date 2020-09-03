@@ -68,6 +68,7 @@ Partial Class MailCheck
         '
         'cmdCancel
         '
+        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdCancel.Location = New System.Drawing.Point(159, 42)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(50, 52)
@@ -160,7 +161,7 @@ Partial Class MailCheck
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "MailCheck"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.fraInputType.ResumeLayout(False)
         Me.fraInputType.PerformLayout()
         Me.ResumeLayout(False)

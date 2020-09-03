@@ -1639,6 +1639,8 @@ Public Class MainMenu4
             'Left = Screen.Width - Width / 2
             'Left = (Screen.PrimaryScreen.Bounds.Width - Width) / 2
 
+            ShowFormCenter()
+
             'Me.Location = New Point((Screen.PrimaryScreen.Bounds.Width - Width) / 2, (Screen.PrimaryScreen.Bounds.Height - Height) / 2)
             mnuHelpScreenShare.Visible = IsCDSComputer("prototype")
             '  If IsIDE And IsDevelopment Then InitHotKeysLocal
@@ -1653,6 +1655,13 @@ Public Class MainMenu4
         Catch ex As ArgumentException
             'ArgumentException will raise because before adodc control(datPicture) connection code to execute in another form, this MainMenu4 form will executes.
         End Try
+    End Sub
+
+    Public Sub ShowFormCenter()
+        Dim Screen As System.Drawing.Rectangle
+        Screen = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea()
+        Me.Top = (Screen.Height \ 2) - (Me.Height \ 2)
+        Me.Left = (Screen.Width \ 2) - (Me.Width \ 2)
     End Sub
 
     Private Sub AdjustFormForLargeFonts()

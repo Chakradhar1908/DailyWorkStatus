@@ -81,7 +81,6 @@ Public Class BillOSale
     Dim Margin As New CGrossMargin
     Dim I As Integer
     Dim NewVal As String
-    Dim FromFormLoad As Boolean
 
     Private Sub cboPhone1_Enter(sender As Object, e As EventArgs) Handles cboPhone1.Enter
         ' This event is replacement for Gotfocus of vb6.0
@@ -351,14 +350,14 @@ Public Class BillOSale
         End If
     End Sub
 
-    Private Sub cmdShowBodyOfSale_Click(sender As Object, e As EventArgs) Handles cmdShowBodyOfSale.Click
-        If OrderMode("A") Then
-            'cmdApplyBillOSale.Value = True
-            cmdApplyBillOSale.PerformClick()
-        Else
-            BillOSale2_Show()
-        End If
-    End Sub
+    'Private Sub cmdShowBodyOfSale_Click(sender As Object, e As EventArgs)
+    '    If OrderMode("A") Then
+    '        'cmdApplyBillOSale.Value = True
+    '        cmdApplyBillOSale.PerformClick()
+    '    Else
+    '        BillOSale2_Show()
+    '    End If
+    'End Sub
 
     Private Sub cmdSoldTags_Click(sender As Object, e As EventArgs) Handles cmdSoldTags.Click
         Dim I As Integer, X As Integer, DoAll As Boolean
@@ -418,7 +417,9 @@ NextItem:
         QueryGridField = UGridIO1.GetValue(RowNum, ColNum)
     End Function
 
-    Private Sub DatepickerValuechanged(sender As Object, e As EventArgs) Handles dtpDelWindow.ValueChanged, dtpDelWindow2.ValueChanged
+    'NOTE: Below line is commented, because for Change event of vb6.0, closeup event is replacement in vb.net. But here I wrote it in ValueChanged event. So commented it.
+    'Private Sub DatepickerValuechanged(sender As Object, e As EventArgs) Handles dtpDelWindow.ValueChanged, dtpDelWindow2.ValueChanged
+    Private Sub DatepickerValuechanged(sender As Object, e As EventArgs) Handles dtpDelWindow.CloseUp, dtpDelWindow2.CloseUp
         'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dtpDelWindow_Change(Index As Integer) OF VB 6.0.
         Dim D1 As Date, D2 As Date
 
@@ -794,6 +795,7 @@ NextItem:
         'Me.Height = 8910 'reset to long version
         Me.Top = 0
 
+
         'This example sets the size of a form to 75 percent of screen size
         'and centers the form when it is loaded. To try this example,
         'paste the code into the Declarations section of a form.
@@ -801,8 +803,6 @@ NextItem:
         'Height = Screen.Height * 0.75  ' Set height of form.
         'Left = (Screen.Width - Width) / 2   ' Center form horizontally.
         'Top = (Screen.Height - Height) / 2   ' Center form vertically.
-
-        FromFormLoad = True '---Added this boolean variable to skip saledate and delivery date datepicker controls's valuechanged event. Similar event in vb6.0 is "Change". It is not executing in form load time. But in vb.net, valuechanged event is executing. So, to skip it used this variable.
 
         dteSaleDate.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
         dteDelivery.Value = Date.Parse(DateFormat(Now), CultureInfo.InvariantCulture)
@@ -2947,48 +2947,48 @@ HandleErr:
         If Len(txtSaleNo.Text) > 7 Then e.KeyChar = Convert.ToChar(32)
     End Sub
 
-    Private Sub dteDelivery_ValueChanged(sender As Object, e As EventArgs) Handles dteDelivery.ValueChanged
-        'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteDelivery_Change() EVENT OF VB6.0
-        If FromFormLoad = True Then Exit Sub  'NOTE: Added this line to skip this event if it is from form load.
+    'Private Sub dteDelivery_ValueChanged(sender As Object, e As EventArgs) Handles dteDelivery.ValueChanged
+    ' NOTE: Commented this code because ValueChanged event is not replacement for Change event of VB6.0. Closeup event is the replacement
+    '    'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteDelivery_Change() EVENT OF VB6.0
 
-        'lblDelDate.Text = DateFormat(dteDelivery.Value)
-        lblDelDate.Text = dteDelivery.Value
-        lblDelDate.Text = Date.Parse(lblDelDate.Text, CultureInfo.InvariantCulture)
-        lblDelDate.Text = Replace(lblDelDate.Text, "-", "/")
-        DelDate = dteDelivery.Value
-        SetDelWeekday(dteDelivery.Value)
-    End Sub
+    '    'lblDelDate.Text = DateFormat(dteDelivery.Value)
+    '    lblDelDate.Text = dteDelivery.Value
+    '    lblDelDate.Text = Date.Parse(lblDelDate.Text, CultureInfo.InvariantCulture)
+    '    lblDelDate.Text = Replace(lblDelDate.Text, "-", "/")
+    '    DelDate = dteDelivery.Value
+    '    SetDelWeekday(dteDelivery.Value)
+    'End Sub
 
-    Private Sub dteSaleDate_ValueChanged(sender As Object, e As EventArgs) Handles dteSaleDate.ValueChanged
-        'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteSaleDate_Change() EVENT OF VB6.0
-        If FromFormLoad = True Then Exit Sub 'NOTE: Added this line to skip this event if it is from form load.
+    'Private Sub dteSaleDate_ValueChanged(sender As Object, e As EventArgs) Handles dteSaleDate.ValueChanged
+    ' NOTE: Commented this code because ValueChanged event is not replacement for Change event of VB6.0. Closeup event is the replacement
+    '    'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteSaleDate_Change() EVENT OF VB6.0
 
-        ' "Date" Datepicker.
-        TransDate = DateFormat(dteSaleDate.Value)
+    '    ' "Date" Datepicker.
+    '    TransDate = DateFormat(dteSaleDate.Value)
 
-        'If Convert.ToDateTime(TransDate) < Today Then
-        If Date.Parse(TransDate, CultureInfo.InvariantCulture) < Today Then
-            If MessageBox.Show("Are you sure you want to change the date of the sale?" & vbCrLf &
-              "This is not the delivery date.", "", MessageBoxButtons.YesNo) = DialogResult.No Then
-                dteSaleDate.Value = Today
-                TransDate = Today
-            End If
-        ElseIf IsWilkenfeld() Then
-            'If Convert.ToDateTime(TransDate) > DateAdd("d", 1, Date.Today) Then
-            If Date.Parse(TransDate, CultureInfo.InvariantCulture) > DateAdd("d", 1, Date.Today) Then
-                MessageBox.Show("You can't set the sale date later than tomorrow.")
-                TransDate = Today
-                dteSaleDate.Value = Today
-            End If
-        Else
-            'If Convert.ToDateTime(TransDate) > Today Then
-            If Date.Parse(TransDate, CultureInfo.InvariantCulture) > Today Then
-                MessageBox.Show("You can't set the sale date later than today.")
-                TransDate = Today
-                dteSaleDate.Value = Today
-            End If
-        End If
-    End Sub
+    '    'If Convert.ToDateTime(TransDate) < Today Then
+    '    If Date.Parse(TransDate, CultureInfo.InvariantCulture) < Today Then
+    '        If MessageBox.Show("Are you sure you want to change the date of the sale?" & vbCrLf &
+    '          "This is not the delivery date.", "", MessageBoxButtons.YesNo) = DialogResult.No Then
+    '            dteSaleDate.Value = Today
+    '            TransDate = Today
+    '        End If
+    '    ElseIf IsWilkenfeld() Then
+    '        'If Convert.ToDateTime(TransDate) > DateAdd("d", 1, Date.Today) Then
+    '        If Date.Parse(TransDate, CultureInfo.InvariantCulture) > DateAdd("d", 1, Date.Today) Then
+    '            MessageBox.Show("You can't set the sale date later than tomorrow.")
+    '            TransDate = Today
+    '            dteSaleDate.Value = Today
+    '        End If
+    '    Else
+    '        'If Convert.ToDateTime(TransDate) > Today Then
+    '        If Date.Parse(TransDate, CultureInfo.InvariantCulture) > Today Then
+    '            MessageBox.Show("You can't set the sale date later than today.")
+    '            TransDate = Today
+    '            dteSaleDate.Value = Today
+    '        End If
+    '    End If
+    'End Sub
 
     Public Sub SetQuan(ByVal RowNum As Integer, ByVal CellVal As String, Optional ByVal NoDisplay As Boolean = False)
         If CellVal = "0" Then CellVal = ""
@@ -4223,6 +4223,15 @@ HandleErr:
         StyleAddBegin(0)
     End Sub
 
+    Private Sub cmdShowBodyOfSale_Click(sender As Object, e As EventArgs) Handles cmdShowBodyOfSale.Click
+        If OrderMode("A") Then
+            'cmdApplyBillOSale.Value = True
+            cmdApplyBillOSale_Click(cmdApplyBillOSale, New EventArgs)
+        Else
+            BillOSale2_Show()
+        End If
+    End Sub
+
     Public Property LocEnabled() As Boolean
         Get
             LocEnabled = UGridIO1.GetColumn(BillColumns.eLoc).Locked
@@ -4435,6 +4444,47 @@ HandleErr:
         'MailCheck.LookUpCustomer(MailCheck.ItemdataValue, True, MailCheck.SelectedItemValue)
     End Sub
 
+
+    Private Sub dteSaleDate_CloseUp(sender As Object, e As EventArgs) Handles dteSaleDate.CloseUp
+        'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteSaleDate_Change() EVENT OF VB6.0
+
+        ' "Date" Datepicker.
+        TransDate = DateFormat(dteSaleDate.Value)
+
+        'If Convert.ToDateTime(TransDate) < Today Then
+        If Date.Parse(TransDate, CultureInfo.InvariantCulture) < Today Then
+            If MessageBox.Show("Are you sure you want to change the date of the sale?" & vbCrLf &
+              "This is not the delivery date.", "", MessageBoxButtons.YesNo) = DialogResult.No Then
+                dteSaleDate.Value = Today
+                TransDate = Today
+            End If
+        ElseIf IsWilkenfeld() Then
+            'If Convert.ToDateTime(TransDate) > DateAdd("d", 1, Date.Today) Then
+            If Date.Parse(TransDate, CultureInfo.InvariantCulture) > DateAdd("d", 1, Date.Today) Then
+                MessageBox.Show("You can't set the sale date later than tomorrow.")
+                TransDate = Today
+                dteSaleDate.Value = Today
+            End If
+        Else
+            'If Convert.ToDateTime(TransDate) > Today Then
+            If Date.Parse(TransDate, CultureInfo.InvariantCulture) > Today Then
+                MessageBox.Show("You can't set the sale date later than today.")
+                TransDate = Today
+                dteSaleDate.Value = Today
+            End If
+        End If
+    End Sub
+
+    Private Sub dteDelivery_CloseUp(sender As Object, e As EventArgs) Handles dteDelivery.CloseUp
+        'NOTE: THIS EVENT IS REPLACEMENT FOR Private Sub dteDelivery_Change() EVENT OF VB6.0
+
+        'lblDelDate.Text = DateFormat(dteDelivery.Value)
+        lblDelDate.Text = dteDelivery.Value
+        lblDelDate.Text = Date.Parse(lblDelDate.Text, CultureInfo.InvariantCulture)
+        lblDelDate.Text = Replace(lblDelDate.Text, "-", "/")
+        DelDate = dteDelivery.Value
+        SetDelWeekday(dteDelivery.Value)
+    End Sub
 
 
 

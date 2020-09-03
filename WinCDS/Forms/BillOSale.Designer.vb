@@ -87,7 +87,6 @@ Partial Class BillOSale
         Me.lblSales1 = New System.Windows.Forms.Label()
         Me.lblSales2 = New System.Windows.Forms.Label()
         Me.lblSales3 = New System.Windows.Forms.Label()
-        Me.cmdShowBodyOfSale = New System.Windows.Forms.Button()
         Me.fraTimeWindow = New System.Windows.Forms.GroupBox()
         Me.dtpDelWindow2 = New System.Windows.Forms.DateTimePicker()
         Me.lblTimeWindow = New System.Windows.Forms.Label()
@@ -135,6 +134,7 @@ Partial Class BillOSale
         Me.picFormatHelper = New System.Windows.Forms.PictureBox()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.ugrFake = New WinCDS.UGridIO()
+        Me.cmdShowBodyOfSale = New System.Windows.Forms.Button()
         Me.fraTimeWindow.SuspendLayout()
         CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraBOS2.SuspendLayout()
@@ -228,7 +228,7 @@ Partial Class BillOSale
         '
         Me.StoreName.AutoSize = True
         Me.StoreName.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StoreName.Location = New System.Drawing.Point(330, 5)
+        Me.StoreName.Location = New System.Drawing.Point(366, 4)
         Me.StoreName.Name = "StoreName"
         Me.StoreName.Size = New System.Drawing.Size(143, 29)
         Me.StoreName.TabIndex = 12
@@ -238,7 +238,7 @@ Partial Class BillOSale
         '
         Me.StoreAddress.AutoSize = True
         Me.StoreAddress.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StoreAddress.Location = New System.Drawing.Point(330, 29)
+        Me.StoreAddress.Location = New System.Drawing.Point(351, 34)
         Me.StoreAddress.Name = "StoreAddress"
         Me.StoreAddress.Size = New System.Drawing.Size(172, 29)
         Me.StoreAddress.TabIndex = 13
@@ -248,7 +248,7 @@ Partial Class BillOSale
         '
         Me.StoreCity.AutoSize = True
         Me.StoreCity.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StoreCity.Location = New System.Drawing.Point(341, 50)
+        Me.StoreCity.Location = New System.Drawing.Point(376, 63)
         Me.StoreCity.Name = "StoreCity"
         Me.StoreCity.Size = New System.Drawing.Size(122, 29)
         Me.StoreCity.TabIndex = 14
@@ -258,7 +258,7 @@ Partial Class BillOSale
         '
         Me.StorePhone.AutoSize = True
         Me.StorePhone.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StorePhone.Location = New System.Drawing.Point(342, 79)
+        Me.StorePhone.Location = New System.Drawing.Point(386, 95)
         Me.StorePhone.Name = "StorePhone"
         Me.StorePhone.Size = New System.Drawing.Size(103, 19)
         Me.StorePhone.TabIndex = 15
@@ -741,16 +741,6 @@ Partial Class BillOSale
         Me.lblSales3.TabIndex = 69
         Me.lblSales3.Text = "Sales 3"
         '
-        'cmdShowBodyOfSale
-        '
-        Me.cmdShowBodyOfSale.Location = New System.Drawing.Point(585, 856)
-        Me.cmdShowBodyOfSale.Name = "cmdShowBodyOfSale"
-        Me.cmdShowBodyOfSale.Size = New System.Drawing.Size(110, 23)
-        Me.cmdShowBodyOfSale.TabIndex = 72
-        Me.cmdShowBodyOfSale.Text = "&Show Body Of Sale"
-        Me.cmdShowBodyOfSale.UseVisualStyleBackColor = True
-        Me.cmdShowBodyOfSale.Visible = False
-        '
         'fraTimeWindow
         '
         Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow2)
@@ -1220,13 +1210,22 @@ Partial Class BillOSale
         Me.ugrFake.TabStop = False
         Me.ugrFake.Visible = False
         '
+        'cmdShowBodyOfSale
+        '
+        Me.cmdShowBodyOfSale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdShowBodyOfSale.Location = New System.Drawing.Point(380, 553)
+        Me.cmdShowBodyOfSale.Name = "cmdShowBodyOfSale"
+        Me.cmdShowBodyOfSale.Size = New System.Drawing.Size(114, 23)
+        Me.cmdShowBodyOfSale.TabIndex = 109
+        Me.cmdShowBodyOfSale.Text = "&Show Body Of Sale"
+        Me.cmdShowBodyOfSale.UseVisualStyleBackColor = True
+        '
         'BillOSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(874, 621)
         Me.Controls.Add(Me.fraBOS2)
-        Me.Controls.Add(Me.ugrFake)
         Me.Controls.Add(Me.lblGrossSalesCaption)
         Me.Controls.Add(Me.dteDelivery)
         Me.Controls.Add(Me.fraButtons)
@@ -1235,7 +1234,6 @@ Partial Class BillOSale
         Me.Controls.Add(Me.BillOfSale)
         Me.Controls.Add(Me.lblDelDate)
         Me.Controls.Add(Me.fraTimeWindow)
-        Me.Controls.Add(Me.cmdShowBodyOfSale)
         Me.Controls.Add(Me.lblSales3)
         Me.Controls.Add(Me.lblSales2)
         Me.Controls.Add(Me.lblSales1)
@@ -1302,6 +1300,8 @@ Partial Class BillOSale
         Me.Controls.Add(Me.dteSaleDate)
         Me.Controls.Add(Me.lblDateCaption)
         Me.Controls.Add(Me.lblGrossSales)
+        Me.Controls.Add(Me.ugrFake)
+        Me.Controls.Add(Me.cmdShowBodyOfSale)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Location = New System.Drawing.Point(100, 0)
         Me.MaximizeBox = False
@@ -1392,7 +1392,6 @@ Partial Class BillOSale
     Friend WithEvents lblSales1 As Label
     Friend WithEvents lblSales2 As Label
     Friend WithEvents lblSales3 As Label
-    Friend WithEvents cmdShowBodyOfSale As Button
     Friend WithEvents fraTimeWindow As GroupBox
     Friend WithEvents dtpDelWindow2 As DateTimePicker
     Friend WithEvents lblTimeWindow As Label
@@ -1440,4 +1439,5 @@ Partial Class BillOSale
     Friend WithEvents rtb As RichTextBoxNew
     Friend WithEvents ugrFake As UGridIO
     Friend WithEvents lblGrossSales As Label
+    Friend WithEvents cmdShowBodyOfSale As Button
 End Class
