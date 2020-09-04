@@ -950,7 +950,7 @@ NextItem:
         'SetButtonImage(cmdClear, "cancel")
         'SetButtonImage(Notes_Open, "notes")
         SetButtonImage(cmdProcessSale, 2)
-        SetButtonImage(cmdNextSale, 5)
+        SetButtonImage(cmdNextSale, 6)
         SetButtonImage(cmdMainMenu, 9)
         SetButtonImage(cmdClear, 3)
         SetButtonImage(Notes_Open, 17)
@@ -2096,7 +2096,7 @@ ExitHere:
         If cboAdvertisingType.SelectedIndex = -1 Then
             Mail.CustType = 0
         Else
-            'Mail.CustType = cboAdvertisingType.itemData(cboAdvertisingType.SelectedIndex)
+            'Mail.CustType = cboAdvertisingType.itemData(cboAdvertisingType.ListIndex)
             'NOTE: THE ABOVE LINE WILL BE REPLACED WITH THE BELOW THREE LINES TO GET THE ITEMDATA VALUE USING ITEMDATACLASS
             'CUSTOM CLASS.
             Dim idc As ItemDataClass

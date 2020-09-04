@@ -577,7 +577,7 @@ HandleErr:
         SetButtonImage(cmdCancel, 3)
         'SetCustomFrame(Me, ncBasicDialog)  -> Not required. It is just for formatting like colors, font etc.
         ColorDatePicker(dtePayDate)
-        Left = 2800
+        'Left = 2800
 
         If OrderMode("D") Then          ' D (payment) changed to only current date BFH20100129
             dtePayDate.Value = Today
@@ -589,7 +589,7 @@ HandleErr:
         TransDate = dtePayDate.Value
 
         X = MailCheck.X
-        Top = IIf(X > 8, 1000, 3500)
+        'Top = IIf(X > 8, 1000, 3500)
 
         ' These lines refer to the global Holding object.
         ' They'll be reworked after I've researched all the side effects.
@@ -681,6 +681,514 @@ HandleErr:
         'cboAccount.AddItem Code
         'cboAccount.itemData(cboAccount.NewIndex) = AccountVal
         cboAccount.Items.Add(New ItemDataClass(Code, AccountVal))
+    End Sub
+
+    Private Sub chkPayAll_Click(sender As Object, e As EventArgs) Handles chkPayAll.Click
+        If chkPayAll.Checked = 1 And PayMethod <> PayListItem(cdsPayTypes.cdsPT_StoreFinance) Then
+            txtAmount.Text = BillOSale.BalDue.Text
+        Else
+            txtAmount.Text = ""
+        End If
+    End Sub
+
+    Private Sub cboAccount_Click(sender As Object, e As EventArgs) Handles cboAccount.Click
+        '  cboAccount.List(cboAccount.ListIndex) = left(cboAccount.List(cboAccount.ListIndex), 14)
+        'PayMethod = Trim(Left(cboAccount.List(cboAccount.ListIndex), 14))
+        PayMethod = Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex), 14))
+        If PayTypeIsFinance(PayMethod) And Not AllowPartialFinancing Then
+            txtAmount.Text = ""
+            txtAmount.Enabled = False
+        Else
+            txtAmount.Enabled = True
+        End If
+    End Sub
+
+    Private Sub cmdChangeDate_Click(sender As Object, e As EventArgs) Handles cmdChangeDate.Click
+        If Not dtePayDate.Enabled Then
+            If Not RequestManagerApproval("Change Payment Dates") Then
+                MessageBox.Show("You do not have access to change the payment date.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub ' Match passwords or fail.
+            End If
+        End If
+        dtePayDate.Enabled = Not dtePayDate.Enabled
+        If dtePayDate.Enabled Then
+            cmdChangeDate.Text = "Lock"
+        Else
+            cmdChangeDate.Text = "Change"
+        End If
+    End Sub
+
+    Private Sub cmdOk_Click(sender As Object, e As EventArgs) Handles cmdOk.Click
+        LockOn = False
+        ' OK button
+        ' The functions under this repeatedly load and unload the Holding record by LeaseNo.
+        ' I'd like to load it once and save it after.
+        ' Lucky for us, the global Holding is already defined and opened to the current record.
+        ' Unfortunately, we don't know what side effects will be caused by updating it.
+        ' So we're going to create a new instance, load the same record, and work with that.
+        ' It'll be saved and updated at the end of this function.
+
+        ' This form is loaded by "Payment On Account" and "Deliver Sale" menus.
+        ' The significant difference in processing is "Deliver Sale" requires the
+        ' entire balance to be accounted for, resulting in the possibility of many
+        ' payments per load of the form.
+
+        Dim objHolding As New cHolding
+        Dim StayOnOrder As Boolean, TPM As String
+        TPM = Trim(PayMethod)
+
+        If dtePayDate.Value = NullDate Then
+            If MessageBox.Show("Did you mean to make this payment on " & NullDate & "?", "", MessageBoxButtons.YesNo) = DialogResult.No Then
+                MessageBox.Show("It appears you have found a bug in the software!  Please contact " & AdminContactString(Format:=1, Phone:=False) & " to have this issue resolved.", "Ooops!")
+                Exit Sub  ' Bad initialization check.
+            End If
+        End If
+
+        ' Prepare the Holding object to accept info.
+        objHolding.Load(g_Holding.LeaseNo)  ' Load the most current info.
+
+        'added 03-20-2003 for pressing ok when balance due and no money entered
+        If BillOSale.BalDue.Text <> 0 And Val(txtAmount.Text) = 0 And Not IsIn(objHolding.Status, "S", "F", "E") Then
+            If Not PayTypeIsFinance(TPM) Then
+                MessageBox.Show("There is still a balance due.  Please enter the payment amount or change payment type to Back Order, Outside Finance Company, or Store Finance.", "Cannot Finish -- Balance Still Due")
+                DisposeDA(objHolding)
+                Exit Sub
+            End If
+
+            'BFH20161026 - This may not be the place for this, but it works here.
+            '              Added because we now allow partial payment by "Outside Finance", and not just
+            '              the full payment amount.  This forces a zero amount to be read as "Pay All".
+            '    If PayTypeIs(TPM) = cdsPT_OutsideFinance Then
+            '      txtAmount = FormatCurrency(BillOSale.BalDue)
+            '    End If
+        End If
+
+
+
+        ' BFH20070521
+        If GetPrice(txtAmount.Text) > GetPrice(BillOSale.BalDue.Text) Then
+            If MessageBox.Show("You entered a sale amount of " & txtAmount.Text & "." & vbCrLf & "This is more than the balance due of " & BillOSale.BalDue.Text & "." & vbCrLf2 & "Do you really want to OVERPAY the sale?", "Confirm Overpayment", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then
+                DisposeDA(objHolding)
+                Exit Sub
+            End If
+        End If
+
+        If objHolding.Status = "D" And objHolding.Sale - objHolding.Deposit = 0 And GetPrice(txtAmount.Text) <> 0 Then
+            If MessageBox.Show("You are making a payment on a fully-paid, delivered sale." & vbCrLf & "This will change this sale to Back Ordered.", "Confirm Status Change", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
+                Exit Sub
+            Else
+                objHolding.Status = "B"
+                objHolding.Save()
+            End If
+        End If
+
+        If chkPayAll.Checked = 1 And cboAccount.SelectedIndex < 0 Then
+            MessageBox.Show("Please select a payment type.")
+            DisposeDA(objHolding)
+            Exit Sub
+        End If
+
+        If PayTypeIs(TPM) = cdsPayTypes.cdsPT_BackOrder Then txtAmount.Text = 0
+
+        DoControls(False)
+        frmCCAd.Advertize()
+        BillOSale.cmdMainMenu.Enabled = False
+
+        ' Major bug:
+        '  When the order is Status F (Store Finance) and Order is B (Deliver Sale),
+        '  we're not being allowed to close this form without paying it off in full. This is
+        '  improper, the form should close without requiring payment.
+
+        'xxxxxxxxxxxxx Payment On Sale xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        If OrderMode("D") And IsIn(MailCheck.OrigStatus, "O", "L", "1", "2", "3", "4") Then
+            'payment on account - open order
+            If PayTypeIs(TPM) = cdsPayTypes.cdsPT_StoreFinance Then
+
+                ' ************************************
+                ' bfh20050815
+                ' code snippet taken from ordselect's store finance payment option...
+                If Val(BillOSale.Index) = 0 Then
+                    MessageBox.Show("You cannot set up an Installment Contract without the Customer's Name & Address!", "No Name or Address")
+                    DoControls(True)
+                    Exit Sub
+                End If
+                If Len(Trim(BillOSale.CustomerPhone1.Text)) < 1 Then
+                    MessageBox.Show("You cannot set up an Installment Contract without the Customer's Telephone Number.", "No Telephone Number")
+                    DoControls(True)
+                    Exit Sub
+                End If
+
+                '        ArStatus = "C"  'sets status to call lease no
+                'Unload ARPaySetUp
+                ARPaySetUp.Close()
+                ARPaySetUp.Show()
+                DisposeDA(objHolding)
+                Exit Sub
+                ' ************************************
+            Else
+                If Not PaymentOnAccount() Then DoControls(True) : Exit Sub
+                PostPaymentOnAccount(objHolding)
+            End If
+            Application.DoEvents()
+        ElseIf OrderMode("D") Or IsIn(MailCheck.OrigStatus, "E", "C", "B", "S", "F") Then
+            Dim OrgDeposit As Decimal
+            'changed 07-10-01 lets you deliver the balance of the items and pay off sale!
+            If IsIn(MailCheck.OrigStatus, "E", "C", "B", "S", "F") Then
+                If Val(BillOSale.BalDue) <> 0 Then
+                    ' BFH20161101 - Change Orig Deposit, because we could have multiple things in here...
+                    '        OrgDeposit = BillOSale.BalDue
+                    OrgDeposit = BillOSale.SaleTotal("paid")
+                End If
+            End If
+
+            'pay off back order, finance, store finance
+            If GetPrice(txtAmount.Text) <> 0 Then
+                If Not PaymentOnAccount() Then DoControls(True) : Exit Sub
+            End If
+
+            'BFH20150410 We were running into a situtation where the recalculated balance did not match the
+            ' displayed balance (from Holding). We tried changing the sale, but that threw accounting off.
+            ' Instead, we perform a check here.  If it is displaying a virtually 0.00 Balance Due, but
+            ' the Recalculate has another figure (often hundreds of dollars), we "deliver" the sale, and
+            ' let the system process it.  The numbers are technically wrong on the sale, as they are missing
+            ' an adjustment somewhere, but this was deemed a better fix, simply by not having these errors
+            ' show up.  I suppose, if someone were to do the adding up on the sale, and catch this, we
+            ' may have to revisit this again, unless we find the problem in the adjustment process, as the
+            ' balance error can be either in the customer's or store's benefit.  For now, this will
+            ' have to do.
+            Dim BalanceBefore As Decimal
+            BalanceBefore = GetPrice(BillOSale.BalDue.Text)
+            ' bfh20050929...   made recalculate here not refigure taxes
+            BillOSale.Recalculate(True)
+            If Math.Abs(BalanceBefore) <= 0.03 And Math.Abs(GetPrice(BillOSale.BalDue.Text)) > 0.03 Then
+                BillOSale.BalDue.Text = CurrencyFormat(BalanceBefore)
+            End If
+            If True Then
+                If Math.Abs(Val(BillOSale.BalDue)) <= 0.03 Then
+                    OrgHoldingStatus = "D"
+                    objHolding.Status = "D"
+                End If
+            Else
+                If Val(BillOSale.BalDue) = 0# Then
+                    OrgHoldingStatus = "D"
+                    objHolding.Status = "D"
+                End If
+            End If
+
+            PostPaymentOnAccount(objHolding)
+
+            If IsIn(MailCheck.OrigStatus, "E", "C", "B", "S", "F") Then
+                Account = IIf(MailCheck.OrigStatus = "B", "11200", "11300")
+                If MailCheck.OrigStatus = "B" Then
+                    Money = -GetPrice(txtAmount.Text)
+                Else
+                    If GetPrice(txtAmount.Text) <> 0 And Val(BillOSale.BalDue) = 0 Then 'pay off backorder
+                        Money = -OrgDeposit
+                    Else
+                        Money = -GetPrice(txtAmount.Text) ' bfh20051117 - partial payment of back order...
+                    End If
+                End If
+                Cash()
+            ElseIf MailCheck.OrigStatus = "D" And objHolding.Status = "B" Then
+                '' The odd case where they put a payment on a fully paid/delivered sale..
+                '' Creates a back-order.  This adds the 11200 entry into [Cash]
+                Account = "11200"
+                Money = -GetPrice(txtAmount.Text)
+                Cash()
+            End If
+
+            'xxxxxxxxxxxxx Deliver Sale xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        ElseIf OrderMode("B") And IsIn(Status, "", "T", "TT", "TTT") Then
+            'deliver sale pay off in full
+            '    If PayTypeIsIn(TPM, cdsPT_StoreFinance, cdsPT_OutsideFinance) And GetPrice(txtAmount) = 0 Then txtAmount = BillOSale.BalDue
+            If Status = "" Then
+                If Not PaymentOnAccount() Then DoControls(True) : Exit Sub 'prepaid order before delivery
+                DeliverSale(objHolding)
+            Else
+                If Not PaymentOnAccount() Then DoControls(True) : Exit Sub
+                BackOrderBal(objHolding)
+            End If
+            objHolding.Save() ' we save later too, but there's a possible Exit Sub in the middle here (see below)
+            Application.DoEvents()
+
+            If PayTypeIsFinance(TPM) Then
+                If Status = "" Then
+                    'backorder the entire balance
+                    LeaseNo = BillOSale.BillOfSale.Text
+                    Money = BillOSale.BalDue.Text
+                    Account = IIf(PayTypeIs(TPM) = cdsPayTypes.cdsPT_BackOrder, "11200", "11300") 'BFH20080710 - SF changed to 11300 from 11200
+                    Note = BillOSale.CustomerLast.Text
+
+                    If PayTypeIsOutsideFinance(cboAccount.Text) And GetPrice(txtAmount.Text) <> GetPrice(BillOSale.BalDue.Text) And GetPrice(txtAmount.Text) <> 0 Then
+                        '
+                    Else
+                        Cash()
+                    End If
+                End If
+
+                If Installment And OrderMode("B") And MailCheck.OrigStatus = "O" And TPM = PayListItem(cdsPayTypes.cdsPT_StoreFinance) Then
+                    ARPaySetUp.Show() 'vbModal, BillOSale
+                    'Unload Me
+                    Me.Close()
+                    BillOSale.cmdMainMenu.Enabled = True
+                    Exit Sub
+                    ' If ArPaySetUp is cancelled, unselect the combo and remove the GM line.
+                End If
+            End If
+
+            If (Not PayTypeIsFinance(TPM)) Or (PayTypeIsOutsideFinance(TPM) And (GetPrice(txtAmount.Text) <> GetPrice(BillOSale.BalDue.Text)) And (GetPrice(txtAmount.Text) <> 0)) Then
+                If Val(BillOSale.BalDue.Text) > 0 Then
+                    ' This happens when the current payment is less than the total owed.
+                    MessageBox.Show("Order Not Complete!  You must Pay Off, Backorder or Finance Balance!")
+                    X = X + 1
+                    If Status = "" Then Status = "T" Else Status = "TT" 'temp
+                    ' Abnormal exit - force continuation of order.
+                    StayOnOrder = True
+                ElseIf Val(BillOSale.BalDue.Text) < 0 Then
+                    ' This happens when the current payment is less than the total owed.
+                    MessageBox.Show("NOTE: You have overpaid on this order." & vbCrLf & "You must leave a zero balance.", "Notice")
+                    X = X + 1
+                    Status = "TTT"
+                    '        If Status = "" Then Status = "TTT" Else Status = "TT" 'temp
+                    ' Abnormal exit - force continuation of order.
+                    StayOnOrder = True
+                End If
+            End If
+        End If
+        objHolding.Save()
+        FinishRoutine(StayOnOrder)
+        DisposeDA(objHolding)
+    End Sub
+
+    Private Sub BackOrderBal(ByRef Holding As cHolding)
+        'NOT backorder, finance, or store finance
+        'If Not IsIn(CStr(cboAccount.itemData(cboAccount.ListIndex)), "7", "8", "11") Then
+        If Not IsIn(CType(cboAccount.Items(cboAccount.SelectedIndex), ItemDataClass).ItemData, "7", "8", "11") Then
+            '  If cboAccount.ItemData(cboAccount.ListIndex) <> 7 And cboAccount.ItemData(cboAccount.ListIndex) <> 8 And cboAccount.ItemData(cboAccount.ListIndex) <> 11 Then
+            LeaseNo = BillOSale.BillOfSale.Text
+            Money = Deposit
+            'Account = cboAccount.itemData(cboAccount.ListIndex) ' Val(cboAccount.ListIndex) + 1 ' BFH20151014
+            Account = CType(cboAccount.Items(cboAccount.SelectedIndex), ItemDataClass).ItemData  ' Val(cboAccount.ListIndex) + 1 ' BFH20151014
+            Note = BillOSale.CustomerLast.Text
+            LeaseNo = BillOSale.BillOfSale.Text
+            Name1 = "PA " + BillOSale.CustomerLast.Text
+            Written = "0.00"
+            TaxCharged1 = "0.00"
+            ArCashSls = "0.00"
+            Controll = -txtAmount.Text
+            UndSls = "0.00"
+            DelSls = "0.00"
+            TaxRec1 = "0.00"
+        Else
+            '  End If
+            '
+            '  If cboAccount.ItemData(cboAccount.ListIndex) = 7 Or cboAccount.ItemData(cboAccount.ListIndex) = 8 Or cboAccount.ItemData(cboAccount.ListIndex) = 11 Then
+            LeaseNo = BillOSale.BillOfSale.Text
+            Money = BillOSale.BalDue.Text
+            Account = IIf(cboAccount.Text = "BACK ORDER", "11200", "11300")
+            Note = BillOSale.CustomerLast.Text
+
+            Name1 = "BO " + BillOSale.CustomerLast.Text
+            Written = "0.00"
+            TaxCharged1 = "0.00"
+            ArCashSls = "0.00"
+
+            If Status = "T" Then 'if second payment is made before backorder
+                Controll = "0.00"
+            ElseIf Status = "TT" Then
+                Controll = -Controll 'if second payment is made before backorder
+            End If
+
+            UndSls = "0.00"
+            DelSls = "0.00"
+            InvDel.TaxRec2 = "0.00"
+            InvDel.TaxRec1 = "0.00"
+            TaxRec1 = "0.00"
+        End If
+
+        Cashier = GetCashierName
+        Cash()
+
+        If Not IsIn(Status, "T", "TT") Then Audit()
+
+        'If Trim(Left(cboAccount.List(cboAccount.ListIndex), 14)) = "OUTSIDE FIN CO" Then
+        If Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex), 14)) = "OUTSIDE FIN CO" Then
+            Status = "C" : Holding.Status = "C" : BillOSale.SaleStatus.Text = "Finance Co"
+            'ElseIf Trim(Left(cboAccount.List(cboAccount.ListIndex), 10)) = "BACK ORDER" Then
+        ElseIf Trim(microsoft.VisualBasic.Left(cboAccount.items(cboAccount.selectedIndex), 10)) = "BACK ORDER" Then
+            Status = "B" : Holding.Status = "B" : BillOSale.SaleStatus.Text = "Back Order"
+            'ElseIf Trim(Left(cboAccount.List(cboAccount.ListIndex), 13)) = "STORE FINANCE" Then
+        ElseIf Trim(microsoft.VisualBasic.Left(cboAccount.items(cboAccount.selectedIndex), 13)) = "STORE FINANCE" Then
+            Status = "F" : Holding.Status = "F" : BillOSale.SaleStatus.Text = "Store Finance"
+        End If
+
+        Holding.Deposit = Holding.Deposit + Deposit
+        TotDeposit = Holding.Deposit
+
+    End Sub
+
+    Public ReadOnly Property AllowPartialFinancing() As Boolean
+        Get
+            AllowPartialFinancing = False
+            AllowPartialFinancing = AllowPartialFinancing Or IsDevelopment()    ' DEV MODE
+            AllowPartialFinancing = AllowPartialFinancing Or IsPitUSA
+        End Get
+    End Property
+
+    Private Sub DeliverSale(ByRef Holding As cHolding)
+        Dim MD As Decimal, TR As Decimal
+        cmdCancel.Enabled = False   'delivery mode.  if you make first payment you cannot cancel
+
+        LeaseNo = BillOSale.BillOfSale.Text
+        Money = Deposit
+
+        'If cboAccount.ListIndex < 0 Then cboAccount.ListIndex = 0
+        If cboAccount.SelectedIndex < 0 Then cboAccount.SelectedIndex = 0
+        'Account = cboAccount.itemData(cboAccount.ListIndex)
+        Account = CType(cboAccount.Items(cboAccount.SelectedIndex), ItemDataClass).ItemData
+        Note = BillOSale.CustomerLast.Text
+        Cashier = GetCashierName
+
+        '  If PayTypeIs(cboAccount.Text) = cdsPT_OutsideFinance And GetPrice(txtAmount) <> GetPrice(BillOSale.BalDue) Then
+        '    '
+        '  Else
+        Cash()
+        '  End If
+
+        On Error GoTo HandleErr
+        OrgHoldingStatus = Holding.Status
+        'Used when creating a back order the first time!
+
+        Sale = GetPrice(Holding.Sale)
+
+
+        Holding.Status = "D"
+        If PayTypeIs(PayMethod) = cdsPayTypes.cdsPT_OutsideFinance3 Then
+            If BillOSale.BalDue.Text = 0 Or GetPrice(txtAmount.Text) = 0 Then   ' If the full price is not paid, do not change entire sale status!!
+                Holding.Status = "C"
+            End If
+        ElseIf PayTypeIs(PayMethod) = cdsPayTypes.cdsPT_BackOrder Then
+            Holding.Status = "B"
+        ElseIf PayTypeIs(PayMethod) = cdsPayTypes.cdsPT_StoreFinance Then
+            Holding.Status = "F"
+        End If
+
+        ' Balance due prior to delivery
+        MD = InvDel.MiscDisc
+        If MD <> 0 Then
+            If InvDel.TaxRec1 <> 0 Then
+                TR = MD * GetStoreTax1()
+            Else
+                TR = MD * Val(QuerySalesTax2(Val(InvDel.Tax2Zone) - 1))
+            End If
+        End If
+
+        LeaseNo = BillOSale.BillOfSale.Text
+        Name1 = "DS " & BillOSale.CustomerLast.Text
+        Written = "0.00"
+        TaxCharged1 = -TR
+        ArCashSls = -Sale
+        Controll = BillOSale.SaleTotal("paid") - GetPrice(txtAmount.Text) - BillOSale.SaleTotal(PayListItem(cdsPayTypes.cdsPT_OutsideFinance3)) ' Trim(Holding.Deposit)
+        UndSls = -Sale
+        DelSls = MailCheck.GrossSale - InvDel.TaxRec1 - InvDel.TaxRec2 + TR
+        TaxRec1 = InvDel.TaxRec1 + InvDel.TaxRec2 - TR
+
+        ' BFH20051013 - is this right??  it means no additional entries are added when
+        ' doing a 'delivery' on a delivered sale..
+        ' So, make a payment accidentily and use delivery to correct it leaves no record in
+        ' audit of the 'fixing payment'...  but what are the side-effects of allowing it?
+        ' --> probably, it should just make a new "PA" line
+        If OrgHoldingStatus <> "D" Then 'already delivered  added 8-20-01
+            '    If PayTypeIs(cboAccount.Text) = cdsPT_OutsideFinance And GetPrice(txtAmount) <> GetPrice(BillOSale.BalDue) Then
+            '      '
+            '    Else
+            If MailCheck.OrigStatus <> "D" Then DeliveredAuditRecord = Audit()
+            '    End If
+
+            ' If it's a store finance and there is a partial outside finance, we need to create the back order here..
+            ' (For the same reason we took it out of the Controll value above...)
+            If OrderMode("B") And IsIn(Holding.Status, "F", "C", "D") And BillOSale.SaleTotal(PayListItem(cdsPayTypes.cdsPT_OutsideFinance3)) <> 0 Then
+                AddNewCashJournalRecord("11300", BillOSale.SaleTotal(PayListItem(cdsPayTypes.cdsPT_OutsideFinance3)), BillOSale.BillOfSale.Text, "", dtePayDate.Value)
+            End If
+
+            DeliveredPayment = GetPrice(txtAmount.Text)
+
+            ' bfh20051013 - note above, that the payment recorded was holding.deposit, not txtAmount...
+            ' this means that if they paid ABOVE the amount, we should have an extra audit line to record
+            ' this amount over what was still due
+            '    If GetPrice(txtAmount) > Holding.Deposit Then
+
+            If GetPrice(txtAmount.Text) <> (Holding.Sale - Holding.Deposit) Then
+                Name1 = "PA " & BillOSale.CustomerLast.Text
+                ArCashSls = 0
+                UndSls = 0
+                DelSls = 0
+                TaxRec1 = 0
+                Controll = 0
+                If GetPrice(txtAmount.Text) > (Holding.Sale - Holding.Deposit) Then
+                    Controll = -(GetPrice(txtAmount.Text) - (Holding.Sale - Holding.Deposit)) ' this should be the appropriate adjusted value
+                    '      Else
+                    '        Controll = -(GetPrice(Holding.Deposit) + GetPrice(txtAmount))
+                End If
+
+                If Controll <> 0 Then Audit()
+            End If
+
+
+            '    If GetPrice(txtAmount) > (Holding.Sale - Holding.Deposit) Then
+            '      ' leaseno, written, taxcharged:  already set w/ appropriate values
+            '      Name1 = "PA " & BillOSale.CustomerLast
+            '      ArCashSls = 0
+            '      UndSls = 0
+            '      DelSls = 0
+            '      TaxRec1 = 0
+            '      Controll = -(GetPrice(txtAmount) - (Holding.Sale - Holding.Deposit)) ' this should be the appropriate adjusted value
+            ''      Controll = -(GetPrice(txtAmount) - (Holding.Deposit)) ' this should be the appropriate adjusted value
+            '      If Controll <> 0 Then
+            '        Audit   ' create the second audit line for this overpayment on account... this should balance the audit report for overpayment and not change the DS line
+            '      End If
+            '    End If
+        Else    ' second or subsequent time they've delivered this sale
+            ' leaseno, written, taxcharged:  already set w/ appropriate values
+            If GetPrice(txtAmount.Text) <> 0 Then
+                Name1 = "PA " & BillOSale.CustomerLast.Text
+                ArCashSls = 0
+                UndSls = 0
+                DelSls = 0
+                TaxRec1 = 0
+                Controll = -GetPrice(txtAmount.Text)    ' in the redeliver case, this should be the full amount paid
+                Audit()   ' create the second audit line for this overpayment on account
+            End If
+        End If
+
+        Holding.Deposit = Holding.Deposit + Deposit
+        TotDeposit = Holding.Deposit
+
+        MailCheck.Controll = "0"
+        Exit Sub
+
+HandleErr:
+
+        ' not correct entry
+        If Err.Number = 13 Then
+            MessageBox.Show("You have entered an incorrect payment!")
+            txtAmount.Text = ""
+            BillOSale.X = X
+            BillOSale.SetPrice(X, "")
+            If BillOSale.X > 0 Then
+                BillOSale.X = X - 1
+                BillOSale.SetPrice(X - 1, "")
+            End If
+
+            Err.Clear()
+            On Error GoTo 0
+            X = X - 2
+            If X < 0 Then X = 0
+            txtAmount.Select()
+            Exit Sub
+
+            Resume
+        End If
     End Sub
 
 End Class

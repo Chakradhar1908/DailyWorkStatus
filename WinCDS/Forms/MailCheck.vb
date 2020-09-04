@@ -407,7 +407,7 @@ Public Class MailCheck
             End If
             'Load OrdPay
             'OrdPay.HelpContextID = 44000
-            OrdPay.Show()
+            OrdPay.Show(BillOSale)
         End If
 
         If OrderMode("E") Then
