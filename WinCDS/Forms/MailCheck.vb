@@ -26,7 +26,8 @@ Public Class MailCheck
     Public Event SaleFound(ByVal Holding As cHolding, ByRef Cancel As Boolean)
     Public Index As String
     Public ReturnHolding As Boolean                          ' Option for customer lookups.
-    Public OrigStatus As String
+    'Public OrigStatus As String
+    Public Shared OrigStatus As String
     Public GrossSale As Decimal
     Public CheckOut As String
     Public OldTele As String

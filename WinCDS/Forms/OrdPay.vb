@@ -32,8 +32,8 @@ Public Class OrdPay
     Public X As Integer                  ' BillOSale.GrossMargin checks this.
     Public Sale As Decimal           ' Called by ArPaySetup
     Public TotDeposit As Decimal     ' Called by ArPaySetup
-
     Private LockOn As Boolean         ' Used to simulate Modal state
+    Dim OrdPayCancelButtonSelected As Boolean
 
     Public Sub FinanceOnAccount(ByVal ArNo As String)
         Dim X As Integer, GM As CGrossMargin, objHolding As cHolding
@@ -684,24 +684,25 @@ HandleErr:
     End Sub
 
     Private Sub chkPayAll_Click(sender As Object, e As EventArgs) Handles chkPayAll.Click
-        If chkPayAll.Checked = 1 And PayMethod <> PayListItem(cdsPayTypes.cdsPT_StoreFinance) Then
+        If chkPayAll.Checked = True And PayMethod <> PayListItem(cdsPayTypes.cdsPT_StoreFinance) Then
             txtAmount.Text = BillOSale.BalDue.Text
         Else
             txtAmount.Text = ""
         End If
     End Sub
 
-    Private Sub cboAccount_Click(sender As Object, e As EventArgs) Handles cboAccount.Click
-        '  cboAccount.List(cboAccount.ListIndex) = left(cboAccount.List(cboAccount.ListIndex), 14)
-        'PayMethod = Trim(Left(cboAccount.List(cboAccount.ListIndex), 14))
-        PayMethod = Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex), 14))
-        If PayTypeIsFinance(PayMethod) And Not AllowPartialFinancing Then
-            txtAmount.Text = ""
-            txtAmount.Enabled = False
-        Else
-            txtAmount.Enabled = True
-        End If
-    End Sub
+    'NOTE: THIS CODE IS COMMENTED, CAUSE CLICK EVENT OF COMBOBOX WILL NOT EXECUTE LIKE IN VB6.0. IN VB.NET, SELECTEDINDEXCHANGED WILL WORK.
+    'Private Sub cboAccount_Click(sender As Object, e As EventArgs) Handles cboAccount.Click
+    '    '  cboAccount.List(cboAccount.ListIndex) = left(cboAccount.List(cboAccount.ListIndex), 14)
+    '    'PayMethod = Trim(Left(cboAccount.List(cboAccount.ListIndex), 14))
+    '    PayMethod = Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex).ToString, 14))
+    '    If PayTypeIsFinance(PayMethod) And Not AllowPartialFinancing Then
+    '        txtAmount.Text = ""
+    '        txtAmount.Enabled = False
+    '    Else
+    '        txtAmount.Enabled = True
+    '    End If
+    'End Sub
 
     Private Sub cmdChangeDate_Click(sender As Object, e As EventArgs) Handles cmdChangeDate.Click
         If Not dtePayDate.Enabled Then
@@ -782,7 +783,7 @@ HandleErr:
             End If
         End If
 
-        If chkPayAll.Checked = 1 And cboAccount.SelectedIndex < 0 Then
+        If chkPayAll.Checked = True And cboAccount.SelectedIndex < 0 Then
             MessageBox.Show("Please select a payment type.")
             DisposeDA(objHolding)
             Exit Sub
@@ -1012,19 +1013,18 @@ HandleErr:
         If Not IsIn(Status, "T", "TT") Then Audit()
 
         'If Trim(Left(cboAccount.List(cboAccount.ListIndex), 14)) = "OUTSIDE FIN CO" Then
-        If Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex), 14)) = "OUTSIDE FIN CO" Then
+        If Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex).ToString, 14)) = "OUTSIDE FIN CO" Then
             Status = "C" : Holding.Status = "C" : BillOSale.SaleStatus.Text = "Finance Co"
             'ElseIf Trim(Left(cboAccount.List(cboAccount.ListIndex), 10)) = "BACK ORDER" Then
-        ElseIf Trim(microsoft.VisualBasic.Left(cboAccount.items(cboAccount.selectedIndex), 10)) = "BACK ORDER" Then
+        ElseIf Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex).ToString, 10)) = "BACK ORDER" Then
             Status = "B" : Holding.Status = "B" : BillOSale.SaleStatus.Text = "Back Order"
             'ElseIf Trim(Left(cboAccount.List(cboAccount.ListIndex), 13)) = "STORE FINANCE" Then
-        ElseIf Trim(microsoft.VisualBasic.Left(cboAccount.items(cboAccount.selectedIndex), 13)) = "STORE FINANCE" Then
+        ElseIf Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex).ToString, 13)) = "STORE FINANCE" Then
             Status = "F" : Holding.Status = "F" : BillOSale.SaleStatus.Text = "Store Finance"
         End If
 
         Holding.Deposit = Holding.Deposit + Deposit
         TotDeposit = Holding.Deposit
-
     End Sub
 
     Public ReadOnly Property AllowPartialFinancing() As Boolean
@@ -1034,6 +1034,112 @@ HandleErr:
             AllowPartialFinancing = AllowPartialFinancing Or IsPitUSA
         End Get
     End Property
+
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
+        Dim objHolding As cHolding
+        LockOn = False
+
+        ' Cancel
+        If OrderMode("B") Then
+            If DeliveredAuditRecord <> 0 Then
+                'BFH20150620 - This line was missing a "space" after the "PA" portion.
+                ExecuteRecordsetBySQL("UPDATE Audit SET Name1='PA '+Mid(Name1,3), ArCashSls=0, UndSls=0, DelSls=0, TaxRec1=0, Controll=" & -DeliveredPayment & " WHERE AuditID=" & DeliveredAuditRecord, , GetDatabaseAtLocation)
+                DeliveredAuditRecord = 0
+                DeliveredPayment = 0
+                objHolding = New cHolding
+                objHolding.Load(g_Holding.LeaseNo)  ' Load the most current info.
+                objHolding.Status = OrgHoldingStatus
+                objHolding.Save()
+                DisposeDA(objHolding)
+            End If
+            Receipt = False
+            FinishRoutine(False)
+            Exit Sub
+        End If
+
+        If MessageBox.Show("Any More To Pay On?", "WinCDS", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+            'Unload OrdPay
+            Close()
+            '    Unload BillOSale
+            MailCheck.FirstRec = 0
+            TotDeposit = 0
+            Deposit = 0
+            'frmSalesList.SafeSalesClear = True
+            frmSalesList.SalesCode = ""
+            MailCheck.optSaleNo.Checked = True
+            'MailCheck.Show vbModal
+            MailCheck.ShowDialog()
+            Exit Sub
+
+        Else
+            TransDate = ""
+            'Unload OrdPay
+            Close()
+            '    Unload BillOSale
+            'Unload BillOSale
+            BillOSale.Close()
+            MainMenu.Show()
+            MailCheck.FirstRec = 0
+            TotDeposit = 0
+            Deposit = 0
+            frmSalesList.SalesCode = ""
+            MailCheck.InputBox.Text = ""
+            OrdPayCancelButtonSelected = True
+            Exit Sub
+        End If
+
+        'Unload OrdPay
+        Close()
+        '  Unload BillOSale
+        'Unload BillOSale
+        BillOSale.Close()
+        MainMenu.Show()
+        MailCheck.FirstRec = 0
+        TotDeposit = 0
+        Deposit = 0
+        frmSalesList.SalesCode = ""
+    End Sub
+
+    Private Sub OrdPay_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+        If Not OrderMode("B", "D") Then Exit Sub
+        If Not IsFormLoaded("ARPaySetup") Then LockOn = True
+        If IsIn(HoldingStatusRepresents(BillOSale.SaleStatus.Text), "E", "C", "S", "F") Then TakeNoPayment
+    End Sub
+
+    Public Function TakeNoPayment(Optional ByVal Prevent As Boolean = True) As Boolean
+        Const H = 1455
+        On Error Resume Next
+        txtNoPay.Visible = Prevent
+        'txtNoPay.ZOrder 0
+        txtNoPay.BringToFront()
+    End Function
+
+    Private Sub OrdPay_Deactivate(sender As Object, e As EventArgs) Handles MyBase.Deactivate
+        If Not IsFormLoaded("ARPaySetup") Then
+            If LockOn Then
+                tmrLockOn.Enabled = False
+                tmrLockOn.Interval = 100
+                tmrLockOn.Enabled = True
+                'On Error Resume Next
+                '      BillOSale.Show
+                '      BillOSale.BillOSale2_Show
+                '      Show
+            End If
+        End If
+    End Sub
+
+    Private Sub tmrLockOn_Tick(sender As Object, e As EventArgs) Handles tmrLockOn.Tick
+        'Debug.Print "OrdPay::tmrLockOn_Timer"
+        tmrLockOn.Enabled = False
+        On Error Resume Next
+
+        If OrdPayCancelButtonSelected = True Then Exit Sub
+        If Not IsFormLoaded("BillOSale") Then
+            BillOSale.Show()
+            BillOSale.BillOSale2_Show()
+        End If
+        Show()
+    End Sub
 
     Private Sub DeliverSale(ByRef Holding As cHolding)
         Dim MD As Decimal, TR As Decimal
@@ -1191,4 +1297,40 @@ HandleErr:
         End If
     End Sub
 
+    Private Sub dtePayDate_CloseUp(sender As Object, e As EventArgs) Handles dtePayDate.CloseUp
+        TransDate = dtePayDate.Value
+    End Sub
+
+    Private Sub txtAmount_Enter(sender As Object, e As EventArgs) Handles txtAmount.Enter
+        SelectContents(txtAmount)
+    End Sub
+
+    Private Function AccountCode() As Integer
+        'AccountCode = cboAccount.List(cboAccount.ListIndex)
+        AccountCode = cboAccount.Items(cboAccount.SelectedIndex).ToString
+    End Function
+
+    Private Sub txtNoPay_DoubleClick(sender As Object, e As EventArgs) Handles txtNoPay.DoubleClick
+        TakeNoPayment(False)
+    End Sub
+
+    Private Sub chkPayAll_CheckedChanged(sender As Object, e As EventArgs) Handles chkPayAll.CheckedChanged
+
+    End Sub
+
+    Private Sub cboAccount_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboAccount.SelectedIndexChanged
+        '  cboAccount.List(cboAccount.ListIndex) = left(cboAccount.List(cboAccount.ListIndex), 14)
+        'PayMethod = Trim(Left(cboAccount.List(cboAccount.ListIndex), 14))
+        PayMethod = Trim(Microsoft.VisualBasic.Left(cboAccount.Items(cboAccount.SelectedIndex).ToString, 14))
+        If PayTypeIsFinance(PayMethod) And Not AllowPartialFinancing Then
+            txtAmount.Text = ""
+            txtAmount.Enabled = False
+        Else
+            txtAmount.Enabled = True
+        End If
+    End Sub
+
+    Private Sub txtAmount_Leave(sender As Object, e As EventArgs) Handles txtAmount.Leave
+        txtAmount.Text = CurrencyFormat(GetPrice(txtAmount.Text))
+    End Sub
 End Class
