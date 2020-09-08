@@ -1,9 +1,9 @@
 ﻿Public Class frmSalesList
     Dim Sm As Object
-    Private mSalesCode As String
+    Private Shared mSalesCode As String
     Private medotclose As Boolean
 
-    Public Property SalesCode() As String
+    Public Shared Property SalesCode() As String
         Get
             SalesCode = mSalesCode
         End Get

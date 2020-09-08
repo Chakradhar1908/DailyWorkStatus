@@ -109,7 +109,7 @@ Public Class OrdPay
         End If
 
         'If cboAccount.List(cboAccount.ListIndex) = "" Then
-        If cboAccount.SelectedText = "" Then
+        If cboAccount.Items(cboAccount.SelectedIndex).ToString = "" Then
             cboAccount.SelectedIndex = 0
         End If
 
@@ -230,7 +230,7 @@ HandleErr:
         DeliveredPayment = 0
 
         If OrderMode("B") Then
-            If MessageBox.Show("Any More To Deliver?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            If MessageBox.Show("Any More To Deliver?", "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 'Unload OrdPay
                 Me.Close()
                 'Unload ArCard
@@ -300,7 +300,7 @@ HandleErr:
             BillOSale.UGridIO1.GetDBGrid.Refresh() 'bfh20060113 - refresh & doevents added for cosmetic fix
             Application.DoEvents()
 
-            If MessageBox.Show("Any More To Pay On?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            If MessageBox.Show("Any More To Pay On?", "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 PayMethod = ""
                 BillOSale.cmdMainMenu.Enabled = True
                 'Unload OrdPay
@@ -452,7 +452,7 @@ HandleErr:
             TaxRec1 = "0.00"
             Audit() 'puts a o entry in Audit
             If Money > 0 Then Holding.LastPay = DateFormat(TransDate)
-        ElseIf OrderMode("D", "B") And Not PayTypeIsIn(cboAccount.SelectedText, cdsPayTypes.cdsPT_MiscDiscount) Then
+        ElseIf OrderMode("D", "B") And Not PayTypeIsIn(cboAccount.Text, cdsPayTypes.cdsPT_MiscDiscount) Then
             Holding.Deposit = GetPrice(Holding.Deposit) + Money
             LeaseNo = BillOSale.BillOfSale.Text
             Name1 = "PA " + BillOSale.CustomerLast.Text
@@ -473,7 +473,7 @@ HandleErr:
             If Money > 0 Then Holding.LastPay = DateFormat(TransDate)
         End If
 
-        If PayTypeIsIn(cboAccount.SelectedText, cdsPayTypes.cdsPT_MiscDiscount) Then  'Discount On Sale  07-10-01  This one is being used
+        If PayTypeIsIn(cboAccount.Text, cdsPayTypes.cdsPT_MiscDiscount) Then  'Discount On Sale  07-10-01  This one is being used
             LeaseNo = BillOSale.BillOfSale.Text
             Name1 = "CA " + BillOSale.CustomerLast.Text
             Written = -txtAmount.Text

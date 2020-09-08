@@ -33,10 +33,12 @@ Public Class MailCheck
     Public OldTele As String
     Public FirstRec As Integer
     Public LastRec As Integer
-    Public X As Integer                         ' Wacky link to bos2 grid line.
+    'Public X As Integer                         ' Wacky link to bos2 grid line.
+    Public Shared X As Integer                         ' Wacky link to bos2 grid line.
     Dim Margin As CGrossMargin
     Public Lease As String
-    Public SalesPerson As String
+    'Public SalesPerson As String
+    Public Shared SalesPerson As String
     Public ArCashSls As Decimal
     Public Controll As Decimal
     Public TaxCode As Integer

@@ -23,7 +23,8 @@ Public Class BillOSale
     Public KitLines As Integer             ' Number of lines in the current kit - for OrdStatus.
     Public MailRec As Integer
     Public Sale As Decimal
-    Public RN As Integer
+    'Public RN As Integer
+    Public Shared RN As Integer
     Public NsRec1 As Integer, NsRec2 As Integer, NsRec3 As Integer, NsRec4 As Integer, NsRec5 As Integer, NsRec6 As Integer
     Private Ba(0 To Setup_MaxStores_DB - 1) As Integer
     Private OO(0 To Setup_MaxStores_DB - 1) As Integer
@@ -38,7 +39,8 @@ Public Class BillOSale
     Public Typpe As String              ' Used by BillOSale.cmdApplyBillOSale_Click.
 
     Private AddingItem As Boolean       ' While this is true, don't load OrdSelect on Style_GotFocus.
-    Private mCurrentLine As Integer        ' Current line selected
+    'Private mCurrentLine As Integer        ' Current line selected
+    Private Shared mCurrentLine As Integer        ' Current line selected
     Dim mLastRecord As Integer             ' Used by Mailcheck.GetOrder
     Dim Detail As Integer
     Dim Marginn As New CGrossMargin
@@ -1083,7 +1085,7 @@ NextItem:
         End If
     End Sub
 
-    Public Property X() As Integer
+    Public Shared Property X() As Integer
         Get
             X = CurrentLine
         End Get
@@ -2029,7 +2031,7 @@ HandleErr:
         Resume Next
     End Sub
 
-    Public Property CurrentLine() As Integer
+    Public Shared Property CurrentLine() As Integer
         Get
             CurrentLine = mCurrentLine
         End Get
