@@ -561,7 +561,8 @@ Public Class MailCheck
                 If IsDate(Margin.DDelDat) Then
                     BillOSale.lblDelDate.Text = DateFormat(Margin.DDelDat)
                     'BillOSale.dteDelivery.Value = Margin.DDelDat
-                    BillOSale.dteDelivery.Value = Date.Parse(Margin.DDelDat, Globalization.CultureInfo.InvariantCulture)
+                    'BillOSale.dteDelivery.Value = Date.Parse(Margin.DDelDat, Globalization.CultureInfo.InvariantCulture)
+                    BillOSale.dteDelivery.Value = Date.Parse(Margin.DDelDat)
                 Else
                     BillOSale.lblDelDate.Text = ""
                 End If

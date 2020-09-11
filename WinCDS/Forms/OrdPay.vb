@@ -151,7 +151,8 @@ Public Class OrdPay
         If OrderMode("B") Then BillOSale.SetStatus(X, "DEL")
         BillOSale.SetQuan(X, TypeCode)
 
-        L = Trim(Microsoft.VisualBasic.Left(pType, 20) & " " & TransDate & "  " & Memo.Text & Replace(Mid(Approval, 11), "Approval", "Appr"))
+        'L = Trim(Microsoft.VisualBasic.Left(pType, 20) & " " & TransDate & "  " & Memo.Text & Replace(Mid(Approval, 11), "Approval", "Appr"))
+        L = Trim(Microsoft.VisualBasic.Left(pType, 20) & " " & Date.Parse(DateFormat(TransDate)) & "  " & Memo.Text & Replace(Mid(Approval, 11), "Approval", "Appr"))
         If FinanceArNo <> "" Then L = L & "  Account #" & FinanceArNo
         If CCPayment Then L = ArrangeString(L, 46) & ArrangeString("I Authorize The Above Transaction:", 46) & "X ______________________________"
         BillOSale.SetDesc(X, L)

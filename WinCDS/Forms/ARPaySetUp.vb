@@ -3706,16 +3706,6 @@ Skip:
         End If
     End Sub
 
-    Private Sub optLate6_Click(sender As Object, e As EventArgs) Handles optLate6.Click
-        If IsRevolvingCharge(txtArNo.Text) Then
-            '    DueOn = RevolvingStatementDay
-        Else
-            DueOn = 1
-        End If
-        If Not NoAdjust Then AdjustFirstPay(1)
-        UpdateLateCaptions()
-    End Sub
-
     Private Sub optLate16_Click(sender As Object, e As EventArgs) Handles optLate16.Click
         DueOn = 10
         If Not NoAdjust Then AdjustFirstPay(10)
@@ -4427,6 +4417,27 @@ Skip:
 
     Private Sub txtFinanceAmount_TextChanged(sender As Object, e As EventArgs) Handles txtFinanceAmount.TextChanged
         UpdateTotalCaption()
+    End Sub
+
+    'NOTE: COMMENTED BELOW CODE, CAUSE RADIO BUTTON CLICK EVENT OF VB6.0 WILL NOT WORK IN VB.NET. REPLACED IT WITH CHECKEDCHANGED EVENT.
+    'Private Sub optLate6_Click(sender As Object, e As EventArgs) Handles optLate6.Click
+    '    If IsRevolvingCharge(txtArNo.Text) Then
+    '        '    DueOn = RevolvingStatementDay
+    '    Else
+    '        DueOn = 1
+    '    End If
+    '    If Not NoAdjust Then AdjustFirstPay(1)
+    '    UpdateLateCaptions()
+    'End Sub
+
+    Private Sub optLate6_CheckedChanged(sender As Object, e As EventArgs) Handles optLate6.CheckedChanged
+        If IsRevolvingCharge(txtArNo.Text) Then
+            '    DueOn = RevolvingStatementDay
+        Else
+            DueOn = 1
+        End If
+        If Not NoAdjust Then AdjustFirstPay(1)
+        UpdateLateCaptions()
     End Sub
 
     Private Sub WageAssignment() ' New Age & Jeffro Furniture
