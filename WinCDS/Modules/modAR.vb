@@ -206,7 +206,7 @@
                 nDay = DateAndTime.Day(nDay)
             End If
 
-            nDay = CLng(Val(nDay))
+            nDay = CInt(Val(nDay))
             AdjustedGracePeriod = StoreSettings(StoreNo).GracePeriod
             If True Then
                 AdjustedGracePeriod = AdjustedGracePeriod - IIf(HasGracePeriod And nDay = 1, 1, 0)

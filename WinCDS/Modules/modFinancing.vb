@@ -90,14 +90,14 @@ BadVBARateFunction:
         tIntST = 0
 
         Do While Not RS.EOF
-            F = IfNullThenNilString(RS("Type"))
+            F = IfNullThenNilString(RS("Type").Value)
             '    Debug.Print F
             If IsSale Or F Like "NewSal*" Then
                 If F Like "NewSal*" Then
                     IsSale = True
-                    Sale = IfNullThenZeroCurrency(RS("Charges"))
-                    Deposit = IfNullThenZeroCurrency(RS("Credits"))
-                    Prev = IfNullThenZeroCurrency(RS("Balance")) - IfNullThenZeroCurrency(RS("Charges")) + IfNullThenZeroCurrency(RS("Credits"))
+                    Sale = IfNullThenZeroCurrency(RS("Charges").Value)
+                    Deposit = IfNullThenZeroCurrency(RS("Credits").Value)
+                    Prev = IfNullThenZeroCurrency(RS("Balance").Value) - IfNullThenZeroCurrency(RS("Charges").Value) + IfNullThenZeroCurrency(RS("Credits").Value)
                     DocFee = 0
                     tLife = 0
                     tAcc = 0
@@ -108,12 +108,12 @@ BadVBARateFunction:
                 Else
                     Select Case F
                         Case arPT_New
-                        Case arPT_Doc : DocFee = IfNullThenZeroCurrency(RS("Charges"))
-                        Case arPT_Lif : tLife = IfNullThenZeroCurrency(RS("Charges"))
-                        Case arPT_Acc : tAcc = IfNullThenZeroCurrency(RS("Charges"))
-                        Case arPT_Pro : tProp = IfNullThenZeroCurrency(RS("Charges"))
-                        Case arPT_Int : tInt = IfNullThenZeroCurrency(RS("Charges"))
-                        Case arPT_Tax : tIntST = IfNullThenZeroCurrency(RS("Charges"))
+                        Case arPT_Doc : DocFee = IfNullThenZeroCurrency(RS("Charges").Value)
+                        Case arPT_Lif : tLife = IfNullThenZeroCurrency(RS("Charges").Value)
+                        Case arPT_Acc : tAcc = IfNullThenZeroCurrency(RS("Charges").Value)
+                        Case arPT_Pro : tProp = IfNullThenZeroCurrency(RS("Charges").Value)
+                        Case arPT_Int : tInt = IfNullThenZeroCurrency(RS("Charges").Value)
+                        Case arPT_Tax : tIntST = IfNullThenZeroCurrency(RS("Charges").Value)
                     End Select
                 End If
             End If
@@ -140,10 +140,12 @@ BadVBARateFunction:
         nDate = DateAdd("d", -G, nDate)
         QueryDueDate = DaySeek(nDate, nDay, False)
         If AsString Then QueryDueDate = DueDateFormat(QueryDueDate)
+        'If AsString Then QueryDueDate = Date.Parse(DueDateFormat(QueryDueDate), Globalization.CultureInfo.InvariantCulture)
     End Function
 
     Public Function DueDateFormat(ByVal D As Date) As String
         DueDateFormat = Format(D, "MMM dd")
+        'DueDateFormat = Format(D, "MMM dd yyyy")
     End Function
 
     Public Function GetArCreditHistory(ByVal ArNo As String, Optional ByRef RunAsDate As String = "", Optional ByVal nMonths As Integer = 24, Optional ByVal StoreNo As Integer = 0) As String

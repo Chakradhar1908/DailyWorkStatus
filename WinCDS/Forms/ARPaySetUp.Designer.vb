@@ -881,7 +881,6 @@ Partial Class ARPaySetUp
         Me.optLate26.Name = "optLate26"
         Me.optLate26.Size = New System.Drawing.Size(177, 17)
         Me.optLate26.TabIndex = 3
-        Me.optLate26.TabStop = True
         Me.optLate26.Text = "Due On The 20th.  Late on 26th"
         Me.optLate26.UseVisualStyleBackColor = True
         '
@@ -892,7 +891,6 @@ Partial Class ARPaySetUp
         Me.optLate16.Name = "optLate16"
         Me.optLate16.Size = New System.Drawing.Size(177, 17)
         Me.optLate16.TabIndex = 2
-        Me.optLate16.TabStop = True
         Me.optLate16.Text = "Due On The 10th.  Late on 16th"
         Me.optLate16.UseVisualStyleBackColor = True
         '
@@ -903,7 +901,6 @@ Partial Class ARPaySetUp
         Me.optLate6.Name = "optLate6"
         Me.optLate6.Size = New System.Drawing.Size(164, 17)
         Me.optLate6.TabIndex = 1
-        Me.optLate6.TabStop = True
         Me.optLate6.Text = "Due On The 1st.  Late on 6th"
         Me.optLate6.UseVisualStyleBackColor = True
         '

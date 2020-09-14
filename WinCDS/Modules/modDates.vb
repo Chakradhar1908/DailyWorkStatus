@@ -130,6 +130,7 @@ Module modDates
     Public Function DayAfter(ByVal mDate As Date, Optional ByVal Value As Integer = 1) As Date
         DayAfter = DayAdd(mDate, Value)
     End Function
+
     Public Function DayBefore(ByVal mDate As Date, Optional ByVal Value As Integer = 1) As Date
         DayBefore = DayAdd(mDate, -Value)
     End Function

@@ -81,7 +81,12 @@ Public Class ARPaySetUp
         End Get
     End Property
 
-    Private Sub cboCashOption_Click(sender As Object, e As EventArgs) Handles cboCashOption.Click
+    'NOTE: THIS CODE IS COMMENTED, CAUSE CLICK EVENT OF COMBOBOX WILL NOT EXECUTE LIKE IN VB6.0. IN VB.NET, SELECTEDINDEXCHANGED WILL WORK.
+    'Private Sub cboCashOption_Click(sender As Object, e As EventArgs) Handles cboCashOption.Click
+    '    OneOrTheOther(False)
+    'End Sub
+
+    Private Sub cboCashOption_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCashOption.SelectedIndexChanged
         OneOrTheOther(False)
     End Sub
 
@@ -1492,6 +1497,7 @@ Public Class ARPaySetUp
                 DueOn = 10
             ElseIf DateAndTime.Day(dteDate2.Value) >= 11 And DateAndTime.Day(dteDate2.Value) <= 20 Then
                 optLate26.Checked = True
+                'optLate26_Click(optLate26, New EventArgs)
                 DueOn = 20
             ElseIf DateAndTime.Day(dteDate2.Value) >= 21 And DateAndTime.Day(dteDate2.Value) <= 31 Or DateAndTime.Day(dteDate2.Value) = 1 Then
                 optLate6.Checked = True
@@ -1520,13 +1526,13 @@ Public Class ARPaySetUp
         End If
     End Sub
 
-    Private Sub mDBAccess_GetRecordNotFound()   ' called if not found
+    Private Sub mDBAccess_GetRecordNotFound() Handles mDBAccess.GetRecordNotFound    ' called if not found
         'MsgBox "Record not found"
         mArNo = -1
         DBInterest = 0
     End Sub
 
-    Private Sub mDBAccess_GetRecordEvent(RS As ADODB.Recordset)
+    Private Sub mDBAccess_GetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.GetRecordEvent
         ' finds old record
 
         '**** show old account on screen and choose new account or Add On *****
@@ -1593,7 +1599,7 @@ Public Class ARPaySetUp
         Loop
     End Sub
 
-    Public Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset)
+    Public Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.SetRecordEvent
         On Error GoTo ErrorHandler
         'called to write the record to info file
 
@@ -1679,7 +1685,7 @@ ErrorHandler:
         Resume Next
     End Sub
 
-    Public Sub mDBAccessTransactions_SetRecordEvent(RS As ADODB.Recordset)   ' called to write the record
+    Public Sub mDBAccessTransactions_SetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.SetRecordEvent    ' called to write the record
         '    RS("ArNo") = mArNo
         RS("ArNo").Value = ArNo
         If BillOSale.Index = 0 Then BillOSale.Index = MailRec 'this is for Add on sales from old account set up
@@ -1776,7 +1782,8 @@ ErrorHandler:
     Private Sub UpdateLateCaptions()
         'BFH20170713 - Changed to show Grace applied LATE DATE
         ' I believe these should show the LATE date...  typically, GRACE is only applied on late notices, and that is what this is about
-        optLate6.Text = "Due on 1st, Late on " & QueryLateDate(1, dteDate2.Value, , False)
+        'optLate6.Text = "Due on 1st, Late on " & QueryLateDate(1, dteDate2.Value, , False)
+        optLate6.Text = "Due on 1st, Late on " & Replace(QueryLateDate(1, dteDate2.Value, , False), "-", "/")
         optLate16.Text = "Due on 10th, Late on " & QueryLateDate(10, dteDate2.Value, , False)
         optLate26.Text = "Due on 20th, Late on " & QueryLateDate(20, dteDate2.Value, , False)
     End Sub
@@ -3667,16 +3674,18 @@ Skip:
 
         '--------------
         'This code block is for Query unload event of vb6.0
-        If OrderMode("B") Then  'deliver sale
-            'If UnloadMode = vbFormControlMenu Then Cancel = True
-            If e.CloseReason = CloseReason.UserClosing Then e.Cancel = True
-            Exit Sub
-        End If
+        'NOTE: BELOW TWO CODE BLOCKS ARE COMMENTED, CAUSE e.CloseReason = CloseReason.UserClosing WILL BE TRUE FOR ALL THE TIME WITHOUT USE CLOSING ONLY.
+
+        'If OrderMode("B") Then  'deliver sale
+        '    'If UnloadMode = vbFormControlMenu Then Cancel = True
+        '    If e.CloseReason = CloseReason.UserClosing Then e.Cancel = True
+        '    Exit Sub
+        'End If
 
         'If UnloadMode = vbFormControlMenu Then
-        If e.CloseReason = CloseReason.UserClosing Then
-            UnloadARPaySetUp = True
-        End If
+        'If e.CloseReason = CloseReason.UserClosing Then
+        '    UnloadARPaySetUp = True
+        'End If
         '------------------------
 
         'This block of code is for Form Unload event of vb6.0. Cause in vb.net, there are no two separate events unload and queryunload. So joined both events 
@@ -3706,23 +3715,45 @@ Skip:
         End If
     End Sub
 
-    Private Sub optLate16_Click(sender As Object, e As EventArgs) Handles optLate16.Click
+    'NOTE: RADIO BUTTON CLICK EVENT OF VB6.0 WILL NOT WORK IN VB.NET. REPLACED IT WITH CHECKEDCHANGED EVENT.
+    'Private Sub optLate16_Click(sender As Object, e As EventArgs) Handles optLate16.Click
+    '    DueOn = 10
+    '    If Not NoAdjust Then AdjustFirstPay(10)
+    '    UpdateLateCaptions()
+    'End Sub
+
+    Private Sub optLate16_CheckedChanged(sender As Object, e As EventArgs) Handles optLate16.CheckedChanged
         DueOn = 10
         If Not NoAdjust Then AdjustFirstPay(10)
         UpdateLateCaptions()
     End Sub
 
-    Private Sub optLate26_Click(sender As Object, e As EventArgs) Handles optLate26.Click
+    'NOTE: RADIO BUTTON CLICK EVENT OF VB6.0 WILL NOT WORK IN VB.NET. REPLACED IT WITH CHECKEDCHANGED EVENT.
+    'Private Sub optLate26_Click(sender As Object, e As EventArgs) Handles optLate26.Click
+    '    DueOn = 20
+    '    If Not NoAdjust Then AdjustFirstPay(20)
+    '    UpdateLateCaptions()
+    'End Sub
+
+    Private Sub optLate26_CheckedChanged(sender As Object, e As EventArgs) Handles optLate26.CheckedChanged
         DueOn = 20
         If Not NoAdjust Then AdjustFirstPay(20)
         UpdateLateCaptions()
     End Sub
 
-    Private Sub optMonthly_Click(sender As Object, e As EventArgs) Handles optMonthly.Click
+    'Private Sub optMonthly_Click(sender As Object, e As EventArgs) Handles optMonthly.Click
+    '    Recalculate()
+    'End Sub
+
+    Private Sub optMonthly_CheckedChanged(sender As Object, e As EventArgs) Handles optMonthly.CheckedChanged
         Recalculate()
     End Sub
 
-    Private Sub optWeekly_Click(sender As Object, e As EventArgs) Handles optWeekly.Click
+    'Private Sub optWeekly_Click(sender As Object, e As EventArgs) Handles optWeekly.Click
+    '    Recalculate()
+    'End Sub
+
+    Private Sub optWeekly_CheckedChanged(sender As Object, e As EventArgs) Handles optWeekly.CheckedChanged
         Recalculate()
     End Sub
 
@@ -3962,7 +3993,13 @@ Skip:
         SelectContents(txtSubTotal)
     End Sub
 
-    Private Sub dteDate1_ValueChanged(sender As Object, e As EventArgs) Handles dteDate1.ValueChanged
+    'Private Sub dteDate1_ValueChanged(sender As Object, e As EventArgs) Handles dteDate1.ValueChanged
+    '    AdjustFirstPay()
+    '    CheckLateDay()
+    '    UpdateLateCaptions()
+    'End Sub
+
+    Private Sub dteDate1_CloseUp(sender As Object, e As EventArgs) Handles dteDate1.CloseUp
         AdjustFirstPay()
         CheckLateDay()
         UpdateLateCaptions()
@@ -3972,7 +4009,16 @@ Skip:
         If Not NoAdjust Then CheckLateDay()  ' No changes needed.
     End Sub
 
-    Private Sub cboDeferred_Click(sender As Object, e As EventArgs) Handles cboDeferred.Click
+    'Private Sub cboDeferred_Click(sender As Object, e As EventArgs) Handles cboDeferred.Click
+    '    Dim tRate As Double
+    '    OneOrTheOther(True)
+    '    AdjustFirstPay()
+
+    '    tRate = APR
+    '    Recalculate()
+    'End Sub
+
+    Private Sub cboDeferred_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboDeferred.SelectedIndexChanged
         Dim tRate As Double
         OneOrTheOther(True)
         AdjustFirstPay()
@@ -4252,7 +4298,31 @@ Skip:
         End If
     End Sub
 
-    Private Sub optJointLife0_Click(sender As Object, e As EventArgs) Handles optJointLife0.Click
+    'NOTE: REPLACED CLICK EVENT WITH CHECKEDCHANGED EVENT. CAUSE CLICK EVENT OF VB6.0 WILL NOT WORK EXACTLY IN VB.NET.
+    'Private Sub optJointLife0_Click(sender As Object, e As EventArgs) Handles optJointLife0.Click
+    '    'turn on life
+    '    If chkLife.Checked = True Then
+    '        GetLife()
+    '    End If
+
+    '    Recalculate()
+
+    '    ' Moved into Recalculate.  This was giving different answers depending what was clicked.
+    '    '  If IsElmore Or IsLott Or IsMidSouth Or IsBoyd Or IsTreehouse Or IsBlueSky Then
+    '    '    Recalculate
+    '    '  Else
+    '    '    txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance)) + GetPrice(txtUnemploymentInsurance)
+    '    '    FinanceCharge = ((txtFinanceAmount * InterestRate) / 12 * Months)
+    '    '    txtFinanceCharges = CurrencyFormat(FinanceCharge)
+    '    '    If optWeekly Then
+    '    '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / (Months * 4)
+    '    '    Else
+    '    '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / Months
+    '    '    End If
+    '    '    txtPaymentWillBe = CurrencyFormat(Payment)
+    '    ' End If
+    'End Sub
+    Private Sub optJointLife0_CheckedChanged(sender As Object, e As EventArgs) Handles optJointLife0.CheckedChanged
         'turn on life
         If chkLife.Checked = True Then
             GetLife()
@@ -4276,7 +4346,32 @@ Skip:
         ' End If
     End Sub
 
-    Private Sub optJointLife1_Click(sender As Object, e As EventArgs) Handles optJointLife1.Click
+    'NOTE: REPLACED CLICK EVENT WITH CHECKEDCHANGED EVENT.
+    'Private Sub optJointLife1_Click(sender As Object, e As EventArgs) Handles optJointLife1.Click
+    '    'turn on life
+    '    If chkLife.Checked = True Then
+    '        GetLife()
+    '    End If
+
+    '    Recalculate()
+
+    '    ' Moved into Recalculate.  This was giving different answers depending what was clicked.
+    '    '  If IsElmore Or IsLott Or IsMidSouth Or IsBoyd Or IsTreehouse Or IsBlueSky Then
+    '    '    Recalculate
+    '    '  Else
+    '    '    txtFinanceAmount = CurrencyFormat(GetPrice(txtSubTotal) + GetPrice(txtDocFee) + GetPrice(txtLifeInsurance) + GetPrice(txtAccidentInsurance) + GetPrice(txtPropertyInsurance)) + GetPrice(txtUnemploymentInsurance)
+    '    '    FinanceCharge = ((txtFinanceAmount * InterestRate) / 12 * Months)
+    '    '    txtFinanceCharges = CurrencyFormat(FinanceCharge)
+    '    '    If optWeekly Then
+    '    '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / (Months * 4)
+    '    '    Else
+    '    '      Payment = (GetPrice(txtFinanceAmount) + FinanceCharge) / Months
+    '    '    End If
+    '    '    txtPaymentWillBe = CurrencyFormat(Payment)
+    '    ' End If
+    'End Sub
+
+    Private Sub optJointLife1_CheckedChanged(sender As Object, e As EventArgs) Handles optJointLife1.CheckedChanged
         'turn on life
         If chkLife.Checked = True Then
             GetLife()
@@ -4698,7 +4793,8 @@ Skip:
         SetDefaultsInstallment()
         dteDate1.Value = Today
         'dteDate1_Change
-        dteDate1_ValueChanged(dteDate1, New EventArgs)
+        'dteDate1_ValueChanged(dteDate1, New EventArgs)
+        dteDate1_CloseUp(dteDate1, New EventArgs)
 
         T = New cTransaction
         T.DataAccess.DataBase = GetDatabaseAtLocation()
