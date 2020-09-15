@@ -1783,7 +1783,7 @@ ErrorHandler:
         'BFH20170713 - Changed to show Grace applied LATE DATE
         ' I believe these should show the LATE date...  typically, GRACE is only applied on late notices, and that is what this is about
         'optLate6.Text = "Due on 1st, Late on " & QueryLateDate(1, dteDate2.Value, , False)
-        optLate6.Text = "Due on 1st, Late on " & Replace(QueryLateDate(1, dteDate2.Value, , False), "-", "/")
+        optLate6.Text = "Due on 1st, Late on " & QueryLateDate(1, dteDate2.Value, , False)
         optLate16.Text = "Due on 10th, Late on " & QueryLateDate(10, dteDate2.Value, , False)
         optLate26.Text = "Due on 20th, Late on " & QueryLateDate(20, dteDate2.Value, , False)
     End Sub

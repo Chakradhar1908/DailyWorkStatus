@@ -130,7 +130,8 @@ BadVBARateFunction:
             G = AdjustedGracePeriod(nDay)
             QueryLateDate = DateAdd("d", G, QueryLateDate)
         End If
-        If AsString Then QueryLateDate = DueDateFormat(QueryLateDate)
+        'If AsString Then QueryLateDate = DueDateFormat(QueryLateDate)
+        If AsString Then QueryLateDate = Date.Parse(DueDateFormat(QueryLateDate), Globalization.CultureInfo.InvariantCulture)
     End Function
 
     Public Function QueryDueDate(ByVal nDay As Integer, Optional ByVal nDate As Date = NullDate, Optional ByVal AsString As Boolean = True, Optional ByVal NoGraceAdj As Boolean = False) As Date
@@ -139,13 +140,13 @@ BadVBARateFunction:
         G = IIf(NoGraceAdj, 0, AdjustedGracePeriod(nDay))
         nDate = DateAdd("d", -G, nDate)
         QueryDueDate = DaySeek(nDate, nDay, False)
-        If AsString Then QueryDueDate = DueDateFormat(QueryDueDate)
-        'If AsString Then QueryDueDate = Date.Parse(DueDateFormat(QueryDueDate), Globalization.CultureInfo.InvariantCulture)
+        'If AsString Then QueryDueDate = DueDateFormat(QueryDueDate)
+        If AsString Then QueryDueDate = Date.Parse(DueDateFormat(QueryDueDate), Globalization.CultureInfo.InvariantCulture)
     End Function
 
     Public Function DueDateFormat(ByVal D As Date) As String
-        DueDateFormat = Format(D, "MMM dd")
-        'DueDateFormat = Format(D, "MMM dd yyyy")
+        'DueDateFormat = Format(D, "MMM dd")
+        DueDateFormat = Format(D, "MMM dd yyyy")
     End Function
 
     Public Function GetArCreditHistory(ByVal ArNo As String, Optional ByRef RunAsDate As String = "", Optional ByVal nMonths As Integer = 24, Optional ByVal StoreNo As Integer = 0) As String
