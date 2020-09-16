@@ -3,6 +3,9 @@ Imports VBRUN
 Imports Microsoft.VisualBasic.Interaction
 Imports stdole
 Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports System
+Imports System.Globalization
+Imports System.Threading
 Public Class MainMenu4
     'Private Const FRM_W_MIN As Integer = 14355
     Private Const FRM_W_MIN As Integer = 1000
@@ -1652,6 +1655,8 @@ Public Class MainMenu4
             '---------      NOTE: BELOW CODE LINE IS NOT IN VB6.  ------------
             'imgPicture.DataBindings.Clear()  NOTE: REMOVE THIS COMMENTE IF imgPicture.DataBindings.Add will expect Clear first before Add.
             imgPicture.DataBindings.Add("Image", datPicture, "Picture")
+
+
         Catch ex As ArgumentException
             'ArgumentException will raise because before adodc control(datPicture) connection code to execute in another form, this MainMenu4 form will executes.
         End Try
@@ -1662,6 +1667,84 @@ Public Class MainMenu4
         Screen = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea()
         Me.Top = (Screen.Height \ 2) - (Me.Height \ 2)
         Me.Left = (Screen.Width \ 2) - (Me.Width \ 2)
+    End Sub
+
+    Public Sub SetCulture()
+        'en-IN
+        'en-GB
+        'MessageBox.Show(CultureInfo.CurrentCulture.Name)  en-IN
+        'MessageBox.Show(CultureInfo.CurrentUICulture.Name) en-GB
+
+        '    Public Class Example
+        '{
+        '   Public Static void Main()
+        '   {
+        '      // Display the name of the current thread culture.
+        '      Console.WriteLine("CurrentCulture is {0}.", CultureInfo.CurrentCulture.Name);
+
+        '      // Change the current culture to th-TH.
+        '      CultureInfo.CurrentCulture = New CultureInfo("th-TH", false);
+        '      Console.WriteLine("CurrentCulture is now {0}.", CultureInfo.CurrentCulture.Name);
+
+        '      // Display the name of the current UI culture.
+        '      Console.WriteLine("CurrentUICulture is {0}.", CultureInfo.CurrentUICulture.Name);
+
+        '      // Change the current UI culture to ja-JP.
+        '      CultureInfo.CurrentUICulture = New CultureInfo( "ja-JP", false );
+        '      Console.WriteLine("CurrentUICulture is now {0}.", CultureInfo.CurrentUICulture.Name);
+        '   }
+        '}
+        '// The example displays the following output:
+        '//       CurrentCulture Is en-US.
+        '//       CurrentCulture Is now th-TH.
+        '//       CurrentUICulture Is en-US.
+        '//       CurrentUICulture Is now ja-JP.
+
+        'Option 1)    'Dim ci As CultureInfo
+        'ci = New CultureInfo("en-US")
+        'CultureInfo.DefaultThreadCurrentCulture = ci
+        'CultureInfo.CurrentCulture = ci
+        'CultureInfo.CurrentCulture = New CultureInfo("en-US", False)
+        'MessageBox.Show(ci.Name)
+
+        'Option 2) Dim CC As CultureInfo = CultureInfo.CurrentCulture
+        'Dim Cui As CultureInfo = CultureInfo.CurrentUICulture
+
+        'If CC.Name <> "en-US" Then
+        '    Dim Nci As CultureInfo
+        '    Nci = New CultureInfo("en-US", False)
+        '    'CultureInfo.CurrentCulture = Nci
+        '    CultureInfo.DefaultThreadCurrentCulture = Nci
+        'End If
+
+        'If Cui.Name <> "en-US" Then
+        '    Dim Nui As CultureInfo
+        '    Nui = New CultureInfo("en-US", False)
+        '    'CultureInfo.CurrentUICulture = Nui
+        '    CultureInfo.DefaultThreadCurrentUICulture = Cui
+        'End If
+
+        'Option 3) System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
+        'Option4:  
+        'NOTE: Later move this function to MainModule.vb and call it from there. Because in MainModule.vb, Sub Main is there which is the start up object. And it is calling from MainMenu4.vb load event.
+        Dim C As CultureInfo
+        If Thread.CurrentThread.CurrentCulture.Name <> "en-US" Then
+            C = CultureInfo.CreateSpecificCulture("en-US")
+            CultureInfo.DefaultThreadCurrentCulture = C
+            CultureInfo.DefaultThreadCurrentUICulture = C
+            Thread.CurrentThread.CurrentCulture = C
+            Thread.CurrentThread.CurrentUICulture = C
+        End If
+    End Sub
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        SetCulture()  'NOTE: Later move this function to MainModule.vb and call from there. Because in MainModule.vb, Sub Main is there which is the start up object.
     End Sub
 
     Private Sub AdjustFormForLargeFonts()

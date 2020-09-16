@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+﻿Imports System.Globalization
+Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class OrdPay
     Dim Status As String             ' Used by cmdOK, needs to be saved between clicks..
     Dim OrgHoldingStatus As String   ' Original Holding Status.
@@ -1329,6 +1330,19 @@ HandleErr:
         Else
             txtAmount.Enabled = True
         End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        'Dim ri As RegionInfo
+        'ri = New RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID)
+        'MessageBox.Show(ri.ISOCurrencySymbol)
+
+        'Dim c As CultureInfo = CultureInfo.CurrentUICulture
+        'MessageBox.Show(c.Name)
+        'en-IN
+        'en-GB
+        MessageBox.Show(CultureInfo.CurrentCulture.Name)
+        MessageBox.Show(CultureInfo.CurrentUICulture.Name)
     End Sub
 
     Private Sub txtAmount_Leave(sender As Object, e As EventArgs) Handles txtAmount.Leave

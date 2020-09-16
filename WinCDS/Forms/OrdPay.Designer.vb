@@ -49,12 +49,14 @@ Partial Class OrdPay
         Me.lblSaleTitle = New System.Windows.Forms.Label()
         Me.txtNoPay = New System.Windows.Forms.TextBox()
         Me.tmrLockOn = New System.Windows.Forms.Timer(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.fraMain.SuspendLayout()
         Me.fraControl.SuspendLayout()
         Me.SuspendLayout()
         '
         'fraMain
         '
+        Me.fraMain.Controls.Add(Me.Button1)
         Me.fraMain.Controls.Add(Me.fraControl)
         Me.fraMain.Controls.Add(Me.Memo)
         Me.fraMain.Controls.Add(Me.cboAccount)
@@ -311,6 +313,15 @@ Partial Class OrdPay
         'tmrLockOn
         '
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(296, 237)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(78, 25)
+        Me.Button1.TabIndex = 40
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'OrdPay
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -356,4 +367,5 @@ Partial Class OrdPay
     Friend WithEvents lblSaleTitle As Label
     Friend WithEvents txtNoPay As TextBox
     Friend WithEvents tmrLockOn As Timer
+    Friend WithEvents Button1 As Button
 End Class
