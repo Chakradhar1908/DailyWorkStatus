@@ -268,4 +268,19 @@ Failure:
         If Minutes = 0 Then SuppressMessagesUntil = Nothing : Exit Sub
         SuppressMessagesUntil = DateAdd("m", Minutes, Now)
     End Sub
+
+    Public Function SelectDate(Optional ByVal Def As String = NullDateString, Optional ByVal vCaption As String = "Select Date:") As String
+        '::::SelectDate
+        ':::SUMMARY
+        ': Raise a date select form.
+        ':::DESCRIPTION
+        ': Prompt user to enter a daet.
+        ':::PARAMETERS
+        ': - Def - Initial date on display
+        ': - vCaption - Allow a custom caption
+        ':::RETURN
+        ': String - Date value selected.
+        SelectDate = frmSelectDate.SelectDate(Def, vCaption)
+    End Function
+
 End Module

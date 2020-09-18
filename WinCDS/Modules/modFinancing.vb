@@ -298,7 +298,8 @@ BadVBARateFunction:
 
         ' convert due date to late date
         AdjustDays = 0 ' IIf(IsBoyd, 0, 1) ' 0 makes it show up late on the 10th.  1 makes it show up late on the 11th.
-        BillingDate = Format(FirstPay, "MM/" & (PaidBy + AdjustDays) & "/YYYY")
+        'BillingDate = Format(FirstPay, "MM/" & (PaidBy + AdjustDays) & "/YYYY")
+        BillingDate = Format(FirstPay, "MM/" & (PaidBy + AdjustDays) & "/yyyy")
         'BFH20170216 - This shouldn't happen...  PaidBy isn't == Day(FirstPay)...  But, it does.
         If DateBefore(BillingDate, FirstPay, False) Then BillingDate = DateAdd("m", 1, BillingDate)
         LastPaymentDate = DateAdd("m", Months, FirstPay)

@@ -448,4 +448,25 @@
         DisposeDA(H)
     End Function
 
+    Public Function ArStatusComboValueFromAccountStatus(ByVal S As String) As String
+        '::::ArStatusComboValueFromAccountStatus
+        ':::SUMMARY
+        ': Used to get Ar status Combo value from Account status.
+        ':::DESCRIPTION
+        ': This function is used to select Ar Status combo value from Account Status.
+        ':::PARAMETERS
+        ': - S - Indiactes Ar Status as a String.
+        ':::RETURN
+        ': String - Returns the result as a String.
+        Select Case S
+            Case arST_Open : ArStatusComboValueFromAccountStatus = arSD_O
+            Case arST_Clos : ArStatusComboValueFromAccountStatus = arSD_C
+            Case arST_Void : ArStatusComboValueFromAccountStatus = arSD_V
+            Case arST_Writ : ArStatusComboValueFromAccountStatus = arSD_W
+            Case arST_Repo : ArStatusComboValueFromAccountStatus = arSD_R
+            Case arST_Lega : ArStatusComboValueFromAccountStatus = arSD_L
+            Case arST_Bank : ArStatusComboValueFromAccountStatus = arSD_Y
+        End Select
+    End Function
+
 End Module

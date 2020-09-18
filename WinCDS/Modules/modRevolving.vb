@@ -696,4 +696,40 @@ ProcessError:
         DressTelephoneLabel = DressTelephoneLabel & " "
     End Function
 
+    Public Function ConvertToRevolvingCharge(ByRef ArNo As String) As Boolean
+        ' This can never happen, says Jerry. MJK20140223
+        Exit Function
+
+        '  ' Already revolving? Already an R account with this prefix?
+        '  ' Message should probably be handled in the converter for better detail.
+        '  'MsgBox "Failed to convert to a revolving account.", vbCritical + vbOKOnly, "Conversion Failure"
+        '
+        '  ' This may be very wrong - is it better to close the old account and open a new?
+        '
+        '  ConvertToRevolvingCharge = False
+        '
+        '  Dim NewArno As String
+        '  NewArno = ArNo & RevolvingSuffix()
+        '  Dim SQL As String, RS As Recordset
+        '  SQL = "select count(*) as cnt from InstallmentInfo where ArNo=""" & ProtectSQL(NewArno) & """"
+        '  Set RS = GetRecordsetBySQL(SQL)
+        '  If RS("cnt") > 0 Then
+        '    ' Fail because there's already a revolving charge with this prefix.
+        '    MsgBox "There's already a revolving charge starting with " & ArNo & ".", vbCritical + vbOKOnly, "Conversion Failure"
+        '    DisposeDA RS
+        '    Exit Function
+        '  End If
+        '  DisposeDA RS
+        '
+        '  ' ArNo is referenced in InstallmentInfo,ArApp, and Transactions.  Update all references.
+        '  SQL = "update InstallmentInfo set ArNo=""" & ProtectSQL(NewArno) & """ where ArNo=""" & ProtectSQL(ArNo) & """"
+        '  ExecuteRecordsetBySQL SQL
+        '  SQL = "update ArApp set ArNo=""" & ProtectSQL(NewArno) & """ where ArNo=""" & ProtectSQL(ArNo) & """"
+        '  ExecuteRecordsetBySQL SQL
+        '  SQL = "update Transactions set ArNo=""" & ProtectSQL(NewArno) & """ where ArNo=""" & ProtectSQL(ArNo) & """"
+        '  ExecuteRecordsetBySQL SQL
+        '
+        '  ConvertToRevolvingCharge = True
+    End Function
+
 End Module

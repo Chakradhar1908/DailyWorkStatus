@@ -23,7 +23,7 @@
 
     ' These need to be eliminated, to speed up the whole program.
     'GDM Form variable to indicate that we are processing a move button
-    Public UsingMoveButton As Boolean
+    Public Shared UsingMoveButton As Boolean
     Public f_strDirection As String 'GDM
 
     Private Const NON_ALERT_COLOR as integer = &H6666CC
@@ -74,6 +74,7 @@
 
     Dim cmdApplyValue As Boolean                 ' Used to determine whether this button has been clicked.
     Dim cmdReceiptValue As Boolean               ' Future Languages do not support command button value property
+    Public PriorBal As Decimal
 
     Public Sub ShowArCardForDisplayOnly(ByVal nArNo As String, Optional ByVal Modal As Boolean = True, Optional ByVal AllowClose As Boolean = False, Optional ByVal AllowContractChange As Boolean = False)
         Dim OldAR As String
@@ -417,7 +418,7 @@ HandleErr:
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         If CLng(GetPrice(lblBalance.Text)) <> 0 Then
             If Val(InterestTax) >= 0 Then
-                InterestTaxCredit = ProRata(InterestTax, Val(txtMonths), txtLastPay.Text, AsOfDate)  ' BFH20080703 - this should probably refund the full amount??
+                InterestTaxCredit = ProRata(InterestTax, Val(txtMonths.Text), txtLastPay.Text, AsOfDate)  ' BFH20080703 - this should probably refund the full amount??
             End If
         End If
         If SAC Then InterestTaxCredit = InterestTax
@@ -743,8 +744,8 @@ ErrorHandler:
         Dim R As ADODB.Recordset
         R = GetRecordsetBySQL("SELECT * FROM [Transactions] WHERE [ArNo]=""" & ProtectSQL(ArNo) & """ ORDER BY [TransDate] ASC, [TransactionID] ASC", , GetDatabaseAtLocation())
         Do While Not R.EOF
-            If LCase(Microsoft.VisualBasic.Left(R("Type").Value, 7)) = LCase(arPT_New) Then AlreadyMadeSameAsCash = False
-            If LCase(Microsoft.VisualBasic.Left(R("Receipt").Value, 12)) = "same as cash" Then AlreadyMadeSameAsCash = True
+            If LCase(Microsoft.VisualBasic.Left(R("Type").Value & "", 7)) = LCase(arPT_New) Then AlreadyMadeSameAsCash = False
+            If LCase(Microsoft.VisualBasic.Left(R("Receipt").Value & "", 12)) = "same as cash" Then AlreadyMadeSameAsCash = True
             R.MoveNext
         Loop
         DisposeDA(R)
@@ -817,6 +818,187 @@ TryAgain:
         'Unload Me
         Me.Close()
         MainMenu.Show()
+    End Sub
+
+    Private Sub mDBAccess_GetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.GetRecordEvent    ' called if record is found
+        'Debug.Print "ArCard.mDBAccess_GetRecordEvent"
+        Dim Tid As String
+        lblBalance.Text = ""
+        lblLateCharge.Text = ""
+        'BackColor = &H8000000F
+
+        Status = RS("Status").Value
+
+        On Error Resume Next
+        Err.Clear()
+        cboStatus.SelectedIndex = 0
+        cboStatus.Text = ArStatusComboValueFromAccountStatus(Status)
+        'If IsIn(Status, "W", "R", "L", "Y") Then BackColor = ALERT_COLOR
+        If IsIn(Status, "W", "R", "L", "Y") Then BackColor = Color.Blue
+        If Err.Number <> 0 Then MessageBox.Show("Invalid Installment Info Status: [" & Status & "]", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        On Error GoTo 0
+
+        EnableFrame(Me, fraPrint, Status <> arST_Void)
+        EnableFrame(Me, fraNav, Status <> arST_Void)
+        EnableFrame(Me, fraPaymentOptions, Status <> arST_Void)
+        EnableFrame(Me, fraEditOptions, Status <> arST_Void)
+        EnableFrame(Me, fraTerms, Status <> arST_Void)
+        EnableFrame(Me, fraBalance, Status <> arST_Void)
+        EnableFrame(Me, fraPrintType, Status <> arST_Void)
+
+        cmdCreditApp.Enabled = Status <> arST_Void
+        cmdDetail.Enabled = Status <> arST_Void
+        Notes_Open.Enabled = Status <> arST_Void
+        cmdPayoff.Enabled = Status <> arST_Void And Not IsRevolvingCharge(RS("ArNo").Value)
+        cmdPrint.Enabled = Status <> arST_Void
+        cmdPrintCard.Enabled = Status <> arST_Void
+        cmdReceipt.Enabled = Status <> arST_Void
+        cmdReprintContract.Enabled = Not IsRevolvingCharge(RS("ArNo").Value) ' no contract for revolving accounts MJK20140218
+
+        mArNo = IfNullThenNilString(RS("ArNo").Value)
+        ' Save new Account Record value in Arno
+        ArNo = mArNo
+        MailRec = IfNullThenNilString(RS("MailIndex").Value)
+        lblAccount.Text = IfNullThenNilString(RS("ArNo").Value)
+        ' lblLastName = IfNullThenNilString(rs!LastName)
+        Status = IfNullThenNilString(RS("Status").Value)
+        txtFinanced.Text = CurrencyFormat(IfNullThenZeroCurrency(RS("Financed").Value))
+        Financed = IfNullThenZeroCurrency(RS("Financed").Value)
+        txtMonths.Text = IfNullThenNilString(RS("Months").Value)
+        Months = txtMonths.Text
+        txtRate.Text = IfNullThenNilString(RS("Rate").Value)
+        lblAPR.Text = FormatQuantity(IfNullThenZeroDouble(RS("APR").Value), 2) & " APR"
+
+        ReCalcArCreditHistory
+
+        txtPayPeriod.Text = IfNullThenNilString(RS("Period").Value)
+        txtMonthlyPayment.Text = CurrencyFormat(IfNullThenNilString(RS("PerMonth").Value))
+        txtLateChargeAmount.Text = CurrencyFormat(IfNullThenNilString(RS("LateCharge").Value))
+        txtPaidBy.Text = IfNullThenNilString(RS("LateDueOn").Value)
+        txtDelivery.Text = DateFormat(IfNullThenNilString(RS("DeliveryDate").Value))
+        txtFirstPay.Text = DateFormat(IfNullThenNilString(RS("FirstPayment").Value))
+        txtSameAsCash.Text = IfNullThenNilString(RS("CashOpt").Value)
+        CashOpt = GetPrice(txtSameAsCash.Text)
+        cmdMakeSameAsCash.Enabled = ArMode("Edit") And Not IsIn(Status, "V", "C", "W", "L", "R") 'And getprice(txtSameAsCash) > 0
+        Balance = IfNullThenZeroCurrency(RS("Balance").Value)
+        lblBalance.Text = CurrencyFormat(Balance) 'IfNullThenNilString(RS!Balance))
+        TotPaid = IfNullThenZeroCurrency(RS("TotPaid").Value)
+        ' allow for opening late charge balance
+        lblLateCharge.Text = CurrencyFormat(IfNullThenNilString(RS("LateChargeBal").Value))
+        LateChargeBal = lblLateCharge.Text
+        txtPaidBy.Enabled = Not IsRevolvingCharge(RS("ArNo").Value)
+        If IsRevolvingCharge(RS("ArNo").Value) Then
+            ''txtLateChargeAmount = CurrencyFormat(GetPrice(lblBalance) * GetPrice(txtRate) / 100)
+            'txtLateChargeAmount = CalculateRevolvingInterest(RS!ArNo) ' as of the next cycle? ' Maintain the field in ArCard and frmRevolving as balances change..
+        End If
+        'lastpay
+        txtLastPay.Text = DateAdd("m", Months - 1, txtFirstPay.Text)
+
+        SendNotice = IfNullThenNilString(RS("SendNotice").Value)
+        If SendNotice = "" Or Val(SendNotice) = 0 Then
+            'chkSendAllMail.Value = 1
+            chkSendAllMail.Checked = True
+        Else
+            'chkSendAllMail.Value = 0
+            chkSendAllMail.Checked = False
+        End If
+
+
+        On Error Resume Next
+        INTEREST = IfNullThenZeroCurrency(RS("INTEREST").Value)
+        InterestTax = IfNullThenZeroCurrency(RS("InterestSalesTax").Value)
+        Life = IfNullThenZeroCurrency(RS("Life").Value)
+        Accident = IfNullThenZeroCurrency(RS("Accident").Value)
+        Prop = IfNullThenZeroCurrency(RS("Prop").Value)
+        IUI = IfNullThenZeroCurrency(RS("IUI").Value)
+        PriorBal = GetPrice(lblBalance.Text)
+
+        lblSSN.Text = IfNullThenNilString(RS("HisSS").Value)
+        lblCreditLimit.Text = FormatCurrency(IfNullThenZeroCurrency(RS("CreditLimit").Value))
+        lblApprovalTerms.Text = IfNullThenNilString(RS("ApprovalTerms").Value)
+
+        ' Form has been filled, time to compare master record with children.
+        ' Financed should equal ChildFinanced + Interest + DocFee + ...?
+        '   but docfee is recorded in Transactions and nowhere else.
+        ' Balance should equal ChildCharges + ...?
+        ' This doesn't have to be right forever.  It's only here to make sure payments are getting recorded on sales.
+        If IsRevolvingCharge(ArNo) Then
+            Dim ChildCharges As Decimal, ChildFinanced As Decimal
+            Dim Inst As New cInstallment
+            Inst.Load(ArNo)
+            ChildFinanced = Inst.SaleFinanced()
+            ChildCharges = Inst.SaleBalance()
+            DisposeDA(Inst)
+            ' Mismatch may be OK.  Accounts can be added with balances not tracked by sale.
+            '    If GetPrice(lblBalance) <> ChildCharges + GetPrice(LateChargeBal) + INTEREST Then
+            '      Debug.Print "Balance mismatch on Account " & ArNo; " - Balance " & lblBalance & " (" & ChildCharges & " + " & GetPrice(LateChargeBal) & " + " & GetPrice(INTEREST) & ")"
+            '    End If
+            LoadSaleBalances
+            cmdSaleTotals.Visible = True
+        Else
+            UGrSaleTotals.MaxRows = 1
+            UGrSaleTotals.Clear
+            cmdSaleTotals.Visible = False
+        End If
+    End Sub
+
+    Public Sub ReCalcArCreditHistory(Optional ByVal ChooseDate As Boolean = False)
+        Dim D As String
+
+        If ChooseDate Then
+            If IsDate(Trim(Mid(lblPaymentHistory.Text, 7))) Then D = MonthAdd(DateValue(Trim(Mid(lblPaymentHistory.Text, 7))), 2)
+            D = SelectDate(D)
+            If D = NullDate Then D = Today
+        Else
+            D = Today
+        End If
+
+        txtPaymentHistory.Text = WrapLongText(GetArCreditHistory(mArNo, D, 24), 12)
+        'Debug.Print "ArCard PHP: " & Trim(Replace(txtPaymentHistory, vbCrLf, ""))
+        lblPaymentHistory.Text = "Date: " & DateFormat(D)
+        'lblPaymentHistory.ToolTipText = "Effective Date: " & DateFormat(D)
+        ToolTip1.SetToolTip(lblPaymentHistory, "Effective Date: " & DateFormat(D))
+        txtPaymentHistory.Visible = Trim(txtPaymentHistory.Text) <> ""
+        lblPaymentHistory.Visible = txtPaymentHistory.Visible
+    End Sub
+
+    Private Sub LoadSaleBalances()
+        Dim H As New cHolding, Row As Long, RunningTotal As Decimal, StatementDay As Date
+        StatementDay = DateAdd("d", RevolvingStatementDay() - DateAndTime.Day(Today), Today)
+        H.Load(ArNo, "ArNo")
+
+        UGrSaleTotals.Clear
+        UGrSaleTotals.MaxRows = Max(H.DataAccess.Record_Count, 1)
+        Do Until H.DataAccess.Record_EOF
+            '      If H.Sale - H.Deposit > 0 Then
+            UGrSaleTotals.SetValueDisplay(Row, 0, H.LeaseNo)
+            UGrSaleTotals.SetValueDisplay(Row, 1, FormatCurrency(H.Sale - H.Deposit))
+            UGrSaleTotals.SetValueDisplay(Row, 2, FormatCurrency(H.CalculateRevolvingInterest(IfNullThenZero(CashOpt), StatementDay, Val(txtRate))))
+            RunningTotal = RunningTotal + H.Sale - H.Deposit
+            Row = Row + 1
+            '     End If
+            H.DataAccess.Records_MoveNext()
+        Loop
+
+        If INTEREST > 0 Then
+            UGrSaleTotals.MaxRows = UGrSaleTotals.MaxRows + 1
+            UGrSaleTotals.SetValueDisplay(Row, 0, "Interest")
+            UGrSaleTotals.SetValueDisplay(Row, 1, FormatCurrency(INTEREST))
+            UGrSaleTotals.SetValueDisplay(Row, 2, FormatCurrency(INTEREST * Val(txtRate) / 100))
+            RunningTotal = RunningTotal + INTEREST
+            Row = Row + 1
+        End If
+
+        If Balance > RunningTotal Then
+            UGrSaleTotals.MaxRows = UGrSaleTotals.MaxRows + 1
+            UGrSaleTotals.SetValueDisplay(Row, 0, "Account")
+            UGrSaleTotals.SetValueDisplay(Row, 1, FormatCurrency(Balance - RunningTotal))
+            UGrSaleTotals.SetValueDisplay(Row, 2, FormatCurrency((Balance - RunningTotal * Val(txtRate) / 100) * RevolvingMonthsInterest(IfNullThenZeroDate(txtDelivery), StatementDay, IfNullThenZero(CashOpt))))
+            Row = Row + 1
+        End If
+
+        UGrSaleTotals.Refresh
+        DisposeDA(H)
     End Sub
 
 End Class

@@ -261,4 +261,12 @@ NoSave:
         ArNo = IfNullThenNilString(Trim(RS("ArNo").Value))
         '    AutoMargStart = rs("AutoMargStart")
     End Sub
+
+    Public Function CalculateRevolvingInterest(ByRef CashOpt As Long, ByRef ChargeDate As Date, ByRef Rate As Double) As Currency
+        ' CashOpt and Rate come from the Installment account, ChargeDate from the caller.
+        If DateAdd("m", CashOpt, SaleDate) <= ChargeDate Then
+            CalculateRevolvingInterest = (Sale - Deposit) * Rate / 100
+        End If
+    End Function
+
 End Class

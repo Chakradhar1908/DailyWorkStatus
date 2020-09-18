@@ -194,4 +194,26 @@ NoSave:
         DisposeDA(Trans)
     End Function
 
+    Public Function SaleFinanced() As Decimal
+        ' Sum(Sale) for all open sales on this ArNo
+        Dim H As New cHolding
+        H.Load(ArNo, "ArNo")
+        Do Until H.DataAccess.Record_EOF
+            If H.Sale > H.Deposit And H.Status = "S" Then SaleFinanced = SaleFinanced + H.Sale
+            H.DataAccess.Records_MoveNext()
+        Loop
+        DisposeDA(H)
+    End Function
+
+    Public Function SaleBalance() As Decimal
+        ' Load all sales with this ArNo, return Sum(Sale-Deposit)
+        Dim H As New cHolding
+        H.Load(ArNo, "ArNo")
+        Do Until H.DataAccess.Record_EOF
+            If H.Status = "S" Then SaleBalance = SaleBalance + H.Sale - H.Deposit
+            H.DataAccess.Records_MoveNext()
+        Loop
+        DisposeDA(H)
+    End Function
+
 End Class

@@ -22,6 +22,7 @@ Partial Class ArCard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.lblTotalPayoff = New System.Windows.Forms.Label()
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.cmdEdit = New System.Windows.Forms.Button()
@@ -84,6 +85,21 @@ Partial Class ArCard
         Me.lblTele1Caption = New System.Windows.Forms.Label()
         Me.lblTele2Caption = New System.Windows.Forms.Label()
         Me.lblTele3Caption = New System.Windows.Forms.Label()
+        Me.fraPrint = New System.Windows.Forms.GroupBox()
+        Me.fraNav = New System.Windows.Forms.GroupBox()
+        Me.fraTerms = New System.Windows.Forms.GroupBox()
+        Me.fraBalance = New System.Windows.Forms.GroupBox()
+        Me.fraPrintType = New System.Windows.Forms.GroupBox()
+        Me.cmdCreditApp = New System.Windows.Forms.Button()
+        Me.cmdDetail = New System.Windows.Forms.Button()
+        Me.Notes_Open = New System.Windows.Forms.Button()
+        Me.cmdPrintCard = New System.Windows.Forms.Button()
+        Me.lblAPR = New System.Windows.Forms.Label()
+        Me.chkSendAllMail = New System.Windows.Forms.CheckBox()
+        Me.lblPaymentHistory = New System.Windows.Forms.Label()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cmdSaleTotals = New System.Windows.Forms.Button()
+        Me.UGrSaleTotals = New WinCDS.UGridIO()
         Me.SuspendLayout()
         '
         'lblTotalPayoff
@@ -608,17 +624,163 @@ Partial Class ArCard
         'lblTele3Caption
         '
         Me.lblTele3Caption.AutoSize = True
-        Me.lblTele3Caption.Location = New System.Drawing.Point(601, 263)
+        Me.lblTele3Caption.Location = New System.Drawing.Point(588, 263)
         Me.lblTele3Caption.Name = "lblTele3Caption"
         Me.lblTele3Caption.Size = New System.Drawing.Size(80, 13)
         Me.lblTele3Caption.TabIndex = 60
         Me.lblTele3Caption.Text = "lblTele3Caption"
         '
+        'fraPrint
+        '
+        Me.fraPrint.Location = New System.Drawing.Point(55, 486)
+        Me.fraPrint.Name = "fraPrint"
+        Me.fraPrint.Size = New System.Drawing.Size(145, 55)
+        Me.fraPrint.TabIndex = 61
+        Me.fraPrint.TabStop = False
+        Me.fraPrint.Text = "fraPrint"
+        '
+        'fraNav
+        '
+        Me.fraNav.Location = New System.Drawing.Point(219, 486)
+        Me.fraNav.Name = "fraNav"
+        Me.fraNav.Size = New System.Drawing.Size(145, 55)
+        Me.fraNav.TabIndex = 62
+        Me.fraNav.TabStop = False
+        Me.fraNav.Text = "fraNav"
+        '
+        'fraTerms
+        '
+        Me.fraTerms.Location = New System.Drawing.Point(387, 486)
+        Me.fraTerms.Name = "fraTerms"
+        Me.fraTerms.Size = New System.Drawing.Size(145, 55)
+        Me.fraTerms.TabIndex = 63
+        Me.fraTerms.TabStop = False
+        Me.fraTerms.Text = "GroupBox1"
+        '
+        'fraBalance
+        '
+        Me.fraBalance.Location = New System.Drawing.Point(559, 486)
+        Me.fraBalance.Name = "fraBalance"
+        Me.fraBalance.Size = New System.Drawing.Size(145, 55)
+        Me.fraBalance.TabIndex = 64
+        Me.fraBalance.TabStop = False
+        Me.fraBalance.Text = "fraBalance"
+        '
+        'fraPrintType
+        '
+        Me.fraPrintType.Location = New System.Drawing.Point(724, 498)
+        Me.fraPrintType.Name = "fraPrintType"
+        Me.fraPrintType.Size = New System.Drawing.Size(145, 55)
+        Me.fraPrintType.TabIndex = 65
+        Me.fraPrintType.TabStop = False
+        Me.fraPrintType.Text = "GroupBox1"
+        '
+        'cmdCreditApp
+        '
+        Me.cmdCreditApp.Location = New System.Drawing.Point(219, 28)
+        Me.cmdCreditApp.Name = "cmdCreditApp"
+        Me.cmdCreditApp.Size = New System.Drawing.Size(75, 23)
+        Me.cmdCreditApp.TabIndex = 66
+        Me.cmdCreditApp.Text = "Credi&t App"
+        Me.cmdCreditApp.UseVisualStyleBackColor = True
+        '
+        'cmdDetail
+        '
+        Me.cmdDetail.Location = New System.Drawing.Point(219, 62)
+        Me.cmdDetail.Name = "cmdDetail"
+        Me.cmdDetail.Size = New System.Drawing.Size(75, 23)
+        Me.cmdDetail.TabIndex = 67
+        Me.cmdDetail.Text = "&Detail"
+        Me.cmdDetail.UseVisualStyleBackColor = True
+        '
+        'Notes_Open
+        '
+        Me.Notes_Open.Location = New System.Drawing.Point(219, 100)
+        Me.Notes_Open.Name = "Notes_Open"
+        Me.Notes_Open.Size = New System.Drawing.Size(75, 23)
+        Me.Notes_Open.TabIndex = 68
+        Me.Notes_Open.Text = "&Notes"
+        Me.Notes_Open.UseVisualStyleBackColor = True
+        '
+        'cmdPrintCard
+        '
+        Me.cmdPrintCard.Location = New System.Drawing.Point(219, 134)
+        Me.cmdPrintCard.Name = "cmdPrintCard"
+        Me.cmdPrintCard.Size = New System.Drawing.Size(75, 23)
+        Me.cmdPrintCard.TabIndex = 69
+        Me.cmdPrintCard.Text = "&Print"
+        Me.cmdPrintCard.UseVisualStyleBackColor = True
+        '
+        'lblAPR
+        '
+        Me.lblAPR.AutoSize = True
+        Me.lblAPR.Location = New System.Drawing.Point(606, 293)
+        Me.lblAPR.Name = "lblAPR"
+        Me.lblAPR.Size = New System.Drawing.Size(63, 13)
+        Me.lblAPR.TabIndex = 70
+        Me.lblAPR.Text = "##.## APR"
+        '
+        'chkSendAllMail
+        '
+        Me.chkSendAllMail.AutoSize = True
+        Me.chkSendAllMail.Location = New System.Drawing.Point(650, 344)
+        Me.chkSendAllMail.Name = "chkSendAllMail"
+        Me.chkSendAllMail.Size = New System.Drawing.Size(87, 17)
+        Me.chkSendAllMail.TabIndex = 71
+        Me.chkSendAllMail.Text = "Send All Mail"
+        Me.chkSendAllMail.UseVisualStyleBackColor = True
+        '
+        'lblPaymentHistory
+        '
+        Me.lblPaymentHistory.AutoSize = True
+        Me.lblPaymentHistory.Location = New System.Drawing.Point(721, 182)
+        Me.lblPaymentHistory.Name = "lblPaymentHistory"
+        Me.lblPaymentHistory.Size = New System.Drawing.Size(94, 13)
+        Me.lblPaymentHistory.TabIndex = 72
+        Me.lblPaymentHistory.Text = "Date: 00/00/0000"
+        '
+        'cmdSaleTotals
+        '
+        Me.cmdSaleTotals.Location = New System.Drawing.Point(219, 168)
+        Me.cmdSaleTotals.Name = "cmdSaleTotals"
+        Me.cmdSaleTotals.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSaleTotals.TabIndex = 73
+        Me.cmdSaleTotals.Text = "Sale Totals"
+        Me.cmdSaleTotals.UseVisualStyleBackColor = True
+        '
+        'UGrSaleTotals
+        '
+        Me.UGrSaleTotals.Activated = False
+        Me.UGrSaleTotals.Col = 1
+        Me.UGrSaleTotals.firstrow = 1
+        Me.UGrSaleTotals.Loading = False
+        Me.UGrSaleTotals.Location = New System.Drawing.Point(650, 365)
+        Me.UGrSaleTotals.MaxCols = 2
+        Me.UGrSaleTotals.MaxRows = 10
+        Me.UGrSaleTotals.Name = "UGrSaleTotals"
+        Me.UGrSaleTotals.Row = 0
+        Me.UGrSaleTotals.Size = New System.Drawing.Size(230, 85)
+        Me.UGrSaleTotals.TabIndex = 74
+        '
         'ArCard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(988, 604)
+        Me.Controls.Add(Me.UGrSaleTotals)
+        Me.Controls.Add(Me.cmdSaleTotals)
+        Me.Controls.Add(Me.lblPaymentHistory)
+        Me.Controls.Add(Me.chkSendAllMail)
+        Me.Controls.Add(Me.lblAPR)
+        Me.Controls.Add(Me.cmdPrintCard)
+        Me.Controls.Add(Me.Notes_Open)
+        Me.Controls.Add(Me.cmdDetail)
+        Me.Controls.Add(Me.cmdCreditApp)
+        Me.Controls.Add(Me.fraPrintType)
+        Me.Controls.Add(Me.fraBalance)
+        Me.Controls.Add(Me.fraTerms)
+        Me.Controls.Add(Me.fraNav)
+        Me.Controls.Add(Me.fraPrint)
         Me.Controls.Add(Me.lblTele3Caption)
         Me.Controls.Add(Me.lblTele2Caption)
         Me.Controls.Add(Me.lblTele1Caption)
@@ -750,4 +912,19 @@ Partial Class ArCard
     Friend WithEvents lblTele1Caption As Label
     Friend WithEvents lblTele2Caption As Label
     Friend WithEvents lblTele3Caption As Label
+    Friend WithEvents fraPrint As GroupBox
+    Friend WithEvents fraNav As GroupBox
+    Friend WithEvents fraTerms As GroupBox
+    Friend WithEvents fraBalance As GroupBox
+    Friend WithEvents fraPrintType As GroupBox
+    Friend WithEvents cmdCreditApp As Button
+    Friend WithEvents cmdDetail As Button
+    Friend WithEvents Notes_Open As Button
+    Friend WithEvents cmdPrintCard As Button
+    Friend WithEvents lblAPR As Label
+    Friend WithEvents chkSendAllMail As CheckBox
+    Friend WithEvents lblPaymentHistory As Label
+    Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents cmdSaleTotals As Button
+    Friend WithEvents UGrSaleTotals As UGridIO
 End Class

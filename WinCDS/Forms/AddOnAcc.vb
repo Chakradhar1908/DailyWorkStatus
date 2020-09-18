@@ -1,6 +1,6 @@
 ﻿Imports VBRUN
 Public Class AddOnAcc
-    Public Typee As String
+    Public Shared Typee As String
     Public ServiceNo As String
     Private ArNo As String
     Private mDisallowNew As Boolean  ' Property to disable Add feature.
@@ -161,7 +161,7 @@ SkipItem:
         Me.Close()
     End Function
 
-    Public Function GetMarginLine(ByVal ServiceCallNo As Long, Optional ByRef frmParent As Form = Nothing) As Integer
+    Public Function GetMarginLine(ByVal ServiceCallNo As Integer, Optional ByRef frmParent As Form = Nothing) As Integer
         ' All we have is a service call number.
         Dim MailIndex As Integer
 
@@ -247,9 +247,9 @@ SkipItem:
     Private Sub AddOnAcc_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         'Query unload event code
         'If UnloadMode = vbFormControlMenu Then Cancel = True
-        If e.CloseReason = CloseReason.UserClosing Then
-            e.Cancel = True
-        End If
+        'If e.CloseReason = CloseReason.UserClosing Then      NOTE : THIS CONDITION BLOCK IS COMMENTED, BECAUSE EVERYTIME WHETHER USER CLOSED OR SOME OTHER REASON, THIS BLOCK WILL BECOME TRUE.
+        '    e.Cancel = True
+        'End If
 
         'Unload event code
         'RemoveCustomFrame Me
@@ -268,7 +268,7 @@ SkipItem:
         If Not OrderMode("S") Then    ' Installment
             'If lstAccounts.ListIndex < 0 Then
             If lstAccounts.SelectedIndex < 0 Then
-                MessageBox.Show("You must select an account to add on to!")
+                MessageBox.Show("You must select an account to add on to!", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             'ArNo = AddOnAcc.lstAccounts.List(lstAccounts.ListIndex)
@@ -276,7 +276,7 @@ SkipItem:
             Hide()
         Else                          ' Service
             If lstAccounts.SelectedIndex < 0 Then
-                MessageBox.Show(" You must select a service call to add on to! ")
+                MessageBox.Show(" You must select a service call to add on to! ", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             'ServiceNo = Val(Left(AddOnAcc.lstAccounts.List(lstAccounts.ListIndex), 14))
@@ -290,4 +290,79 @@ SkipItem:
         cmdAdd_Click(cmdAdd, New EventArgs)
     End Sub
 
+    Private Sub cmdAddToNew_Click(sender As Object, e As EventArgs) Handles cmdAddToNew.Click
+        If ShowMode >= 1 Then
+            'SelectEntry lstAccounts.ListIndex
+            SelectEntry(lstAccounts.SelectedIndex)
+            Exit Sub
+        End If
+
+        Typee = ArAddOn_AdT
+
+        If Not OrderMode("S") Then    ' Installment
+            If lstAccounts.SelectedIndex < 0 Then
+                MessageBox.Show("You must select an account to add on to!", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            'ArNo = AddOnAcc.lstAccounts.List(lstAccounts.ListIndex)
+            ArNo = lstAccounts.Items(lstAccounts.SelectedIndex).ToString
+            Hide()
+        Else                          ' Service
+            If lstAccounts.SelectedIndex < 0 Then
+                MessageBox.Show(" You must select a service call to add on to! ", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            'ServiceNo = Val(Left(AddOnAcc.lstAccounts.List(lstAccounts.ListIndex), 14))
+            ServiceNo = Val(Microsoft.VisualBasic.Left(lstAccounts.Items(lstAccounts.SelectedIndex).ToString, 14))
+            Hide()
+        End If
+
+    End Sub
+
+    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
+        If DisallowNew Then Exit Sub
+
+        Typee = ArAddOn_New
+        'Unload Me
+        Me.Close()
+    End Sub
+
+    Private Sub cmdRevolving_CheckedChanged(sender As Object, e As EventArgs) Handles cmdRevolving.CheckedChanged
+
+    End Sub
+
+    Private Sub cmdRevolving_Click(sender As Object, e As EventArgs) Handles cmdRevolving.Click
+        ' Transform existing selected account into revolving
+        ' What does that mean?
+        ' Add " R" to ArNo
+        If OrderMode("A") And lstAccounts.SelectedIndex >= 0 Then
+            Dim ArNo As String
+            'ArNo = ExtractArNoFromList(lstAccounts.List(lstAccounts.ListIndex))
+            ArNo = ExtractArNoFromList(lstAccounts.Items(lstAccounts.SelectedIndex).ToString)
+            If ConvertToRevolvingCharge(ArNo) Then
+                ' Converted, refresh the list and submit
+                'lstAccounts.List(lstAccounts.ListIndex) = lstAccounts.List(lstAccounts.ListIndex) & RevolvingSuffix() '
+                'lstAccounts.List(lstAccounts.ListIndex) = Replace(lstAccounts.List(lstAccounts.ListIndex), ArNo, AddRevolvingSuffix(ArNo), , 1)
+                lstAccounts.Items(lstAccounts.SelectedIndex) = Replace(lstAccounts.Items(lstAccounts.SelectedIndex).ToString, ArNo, AddRevolvingSuffix(ArNo), , 1)
+                Typee = ArAddOn_Rev
+                mRevolved = True
+                'cmdAdd.Value = True
+                cmdAdd_Click(cmdAdd, New EventArgs)
+            Else
+                ' Already revolving? Already an R account with this prefix?  Failure is handled in modRevolving.
+            End If
+        End If
+    End Sub
+
+    'This event is replacement for lstAccounts_Click event of vb6.0.
+    Private Sub lstAccounts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstAccounts.SelectedIndexChanged
+        ' If revolving is allowed and it's not already revolving, show the R button
+        cmdRevolving.Enabled = False
+        If OrderMode("A") And lstAccounts.SelectedIndex >= 0 And False Then ' Removed 20140223 before ever getting used
+            If Not IsRevolvingCharge(ExtractArNoFromList(lstAccounts.Items(lstAccounts.SelectedIndex).ToString)) Then
+                cmdRevolving.Enabled = True
+            End If
+        End If
+
+    End Sub
 End Class

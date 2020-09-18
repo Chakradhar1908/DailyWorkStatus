@@ -11,6 +11,7 @@
     Public Event RecordUpdated(RS As ADODB.Recordset)
     Private FetchProgress As Object
 
+
     ' if 'SetNew:=True' will always create a new record
     Public Function getRecordset(Optional ByVal Always As Boolean = True, Optional ByVal SetNew As Boolean = False, Optional ByVal QuietErrors As Boolean = False, Optional ByVal ErrMsg As String = "", Optional ByVal ProgressForm As Object = False) As ADODB.Recordset
         On Error GoTo AnError
