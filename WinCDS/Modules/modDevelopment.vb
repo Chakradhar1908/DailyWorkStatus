@@ -8,8 +8,7 @@ Module modDevelopment
     Public Const EXE_CHANNEL_ID_ALPHA As String = "1"
     Public Const EXE_CHANNEL_DEV As String = "dev"
     Public Const EXE_CHANNEL_ID_DEV As String = "2"
-
-    Private Const UnitCount as integer = 11
+    Private Const UnitCount As Integer = 11
 
     Public Function IsCDSComputer(Optional ByRef Unit As String = "", Optional ByVal SetIt As Boolean = False) As Boolean
         ' it may be a good idea to change these values every now and again to prevent their abuse.
@@ -137,6 +136,7 @@ Module modDevelopment
         Unit = Rec
         '  End If
     End Function
+
     Public Function IsDevelopment() As Boolean
         On Error Resume Next
         IsDevelopment = False
@@ -145,16 +145,19 @@ Module modDevelopment
         '  If IsDevChannel Then IsDevelopment = True: Exit Function
         Err.Clear()
     End Function
+
     Public Function IsDevelopmentMANUAL(Optional ByVal doSet As VbTriState = vbUseDefault) As Boolean
         If doSet = vbTrue Then MANUAL_DEV_MODE = True
         If doSet = vbFalse Then MANUAL_DEV_MODE = False
 
         IsDevelopmentMANUAL = MANUAL_DEV_MODE
     End Function
+
     Public Function IsDevelopmentSTANDARD() As Boolean
         '  IsDevelopmentSTANDARD = ReadFile(UpdateFolder & "DEV.TXT") = "DEVELOPMENT"
-        IsDevelopmentSTANDARD = FileExists(UpdateFolder & "DEV.TXT")
+        IsDevelopmentSTANDARD = FileExists(UpdateFolder() & "DEV.TXT")
     End Function
+
     Public Function ExeChannelDescriptor(Optional ByVal DevChannel As String = "production") As String
         Select Case LCase(DevChannel)
             Case EXE_CHANNEL_BETA : ExeChannelDescriptor = EXE_CHANNEL_ID_BETA

@@ -11,7 +11,7 @@
         ' Convert a string to a byte array and pass to EncodeBase64Byte function (above)
         ' for Base64 conversion. Convert byte array back to a string and return.
         ' ******************************************************************************
-        Dim tmpByte() As Byte, iPtr as integer
+        Dim tmpByte() As Byte, iPtr As Integer
 
         EncodeBase64String = Nothing
         For iPtr = 0 To 63
@@ -27,6 +27,7 @@
             Text.Encoding.Default.GetString(tmpByte)
         End If
     End Function
+
     Public Function DecodeBase64String(ByVal str2Decode As String) As String
 
         ' ******************************************************************************
@@ -45,7 +46,7 @@
         '
         ' ******************************************************************************
 
-        Dim lPtr as integer
+        Dim lPtr As Integer
         Dim iValue As Integer
         Dim iLen As Integer
         Dim iCtr As Integer
@@ -87,6 +88,7 @@
         DecodeBase64String = strDecode
 
     End Function
+
     Private Function EncodeBase64Byte(ByRef InArray() As Byte, Optional ByVal AddCRLF As Boolean = False) As Byte()
         '******************************************************************************
         ' Synopsis:     Base 64 encode a byte array
@@ -100,11 +102,11 @@
         '   character.
         '******************************************************************************
 
-        Dim lInPtr as integer         ' pointer into input array
-        Dim lOutPtr as integer         ' pointer into output array
+        Dim lInPtr As Integer         ' pointer into input array
+        Dim lOutPtr As Integer         ' pointer into output array
         Dim outArray() As Byte         ' output byte array buffer
-        Dim lLen as integer         ' number of extra bytes past 3 byte boundry
-        Dim iNewLine as integer         ' line counter
+        Dim lLen As Integer         ' number of extra bytes past 3 byte boundry
+        Dim iNewLine As Integer         ' line counter
 
         ' if size of input array is not a multiple of 3,
         ' increase it to the next multiple of 3
@@ -157,5 +159,4 @@
         EncodeBase64Byte = outArray
 
     End Function
-
 End Module

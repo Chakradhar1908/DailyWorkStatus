@@ -18,6 +18,7 @@
         Dim lpszZipFN As String           ' directory to extract to.
         Dim lpszExtractDir As String
     End Structure
+
     Private Structure USERFUNCTION
         ' Callbacks:
         Dim lptrPrnt As Object            ' Pointer to application's print routine
@@ -42,16 +43,20 @@
         Dim lNumMembers As Integer        ' Total number of files in the archive
         Dim cchComment As Integer      ' Flag indicating whether comment in archive.
     End Structure
+
     Private Structure UNZIPnames
         'Dim S(0 To 1023) As String
         Dim S() As String
     End Structure
+
     Private Structure CBChar
         Dim Ch() As Byte
     End Structure
+
     Private Structure CBCh
         Dim Ch() As Byte
     End Structure
+
     Private m_bCancel As Boolean
     Private m_cUnzip As cZipUnzip
     Private Delegate Function DelUnzipPrintCallback(ByRef fName As CBChar, ByVal X As Integer) As Integer
@@ -364,5 +369,4 @@ ErrorHandler:
             End If
         End If
     End Function
-
 End Module

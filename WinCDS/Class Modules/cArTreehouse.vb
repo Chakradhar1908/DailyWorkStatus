@@ -374,5 +374,4 @@
             MonthlyPayment = (CA + LifePremium + AccidentPremium + PropertyPremium + IUIPremium) / (AN / ODF)
         End Get
     End Property
-
 End Class

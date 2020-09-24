@@ -2,6 +2,7 @@
 Module modDates
     Public Const NullDate As Date = #1/1/2001#
     Public Const NullDateString As String = "1/1/2001"
+
     Public Function DateInRange(ByVal TestDate As String, ByVal StartDate As Date, ByVal EndDate As Date) As Boolean
         DateInRange = False
         If Not IsDate(TestDate) Then Exit Function
@@ -72,6 +73,7 @@ Module modDates
         If Len(dteDay) = 1 Then Exit Function
         GetDay = UCase(Format(dteDay, "DDD"))
     End Function
+
     Public Function TimeFormat(ByVal dteDate As Object) As String
         Dim S As String
         S = TimeFormatString()
@@ -88,10 +90,12 @@ Module modDates
     Public Function TimeFormatString() As String
         TimeFormatString = "hh:mm ampm"
     End Function
+
     Public Function DateTimeStamp(Optional ByVal D As Date = Nothing) As String
         If CLng(D.ToString) = 0 Then D = Now
         DateTimeStamp = Format(D, "YYYYMMDDHHmm")
     End Function
+
     Public Function DateStampFile(ByVal S As String, Optional ByVal DateAndTime As Boolean = False) As String
         DateStampFile = Replace(S, "$", IIf(DateAndTime, DateTimeStamp, DateStamp))
     End Function
@@ -232,5 +236,4 @@ Module modDates
         If Not IsDate(D) Then D = Today
         WeeksAgo = DateAdd("d", Weeks / 7, DateValue(D))
     End Function
-
 End Module

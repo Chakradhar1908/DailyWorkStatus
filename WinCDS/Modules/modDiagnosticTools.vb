@@ -55,5 +55,4 @@
         MessageBox.Show("Complete!", "Data Upload Finished", MessageBoxButtons.OK, MessageBoxIcon.Information)
         DiagnosticDataUpload = True
     End Function
-
 End Module

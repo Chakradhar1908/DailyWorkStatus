@@ -205,7 +205,7 @@ Again:
                         If txtSwipe.Text <> "" Then
                             ' BFH20110405 - REQUIRES TRACK 2 NOW, CUZ TRANSACTION CENTRAL CAN'T READ TRACK 1
                             If Not CreditCardSwipeValid(txtSwipe.Text, True) Then
-                                MsgBox("Could not get card data.", vbExclamation, "Did not read card")
+                                MessageBox.Show("Could not get card data.", "Did not read card", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 GoTo Again
                             End If
                         End If
@@ -532,5 +532,4 @@ Again:
         'Unload Me
         Me.Close()
     End Function
-
 End Class

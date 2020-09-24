@@ -45,5 +45,4 @@ Done:
             Case "gif" : HTTPImageType = "image/gif"
         End Select
     End Function
-
 End Module

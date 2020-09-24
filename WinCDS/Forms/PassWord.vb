@@ -8,7 +8,7 @@
     ' The form will be used to collect passwords for inline validation.
     ' It will also be used to change an account password.
 
-    Dim Mode as integer      ' 1 = Get, 2 = Change.
+    Dim Mode As Integer      ' 1 = Get, 2 = Change.
     Dim PWEntry As String
 
     Public Function GetPassword(Optional ByRef ParentForm As Form = Nothing, Optional ByVal Reason As String = "", Optional ByVal Zone As String = "") As String
@@ -64,5 +64,4 @@
         'Show vbModal, ParentForm
         ShowDialog(ParentForm)
     End Sub
-
 End Class

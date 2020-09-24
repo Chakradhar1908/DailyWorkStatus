@@ -754,5 +754,4 @@ Success:
 
         OfflineUpdateSourceFolder = ""
     End Function
-
 End Module

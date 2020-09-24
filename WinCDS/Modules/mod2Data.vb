@@ -31,6 +31,7 @@
         ': Boolean - Returns whether it is true or not.
         TableExists = DatabaseTableExists(IIf(Location <= 0, GetDatabaseInventory, GetDatabaseAtLocation(Location)), TableName)
     End Function
+
     Public Function DatabaseTableExists(ByVal DatabaseName As String, ByVal TableName As String) As Boolean
         '::::DatabaseTableExists
         ':::SUMMARY
@@ -52,9 +53,11 @@
         RS.Close()
         RS = Nothing
     End Function
+
     Public Function QuerySalesTax2(ByVal ind As Integer) As String
         QuerySalesTax2 = GetTax2String(ind + 1, True)
     End Function
+
     Public Sub LoadAdvTypesIntoComboBox(ByRef Cbo As ComboBox, Optional ByVal StoreNum As Integer = 0, Optional ByVal NoExtras As Boolean = False)
         '::::LoadAdvTypesIntoComboBox
         ':::SUMMARY
@@ -104,6 +107,7 @@
             Loop
         End If
     End Sub
+
     Public Sub LoadSalesTax2IntoComboBox(ByRef Cbo As ComboBox, Optional ByVal StoreNum As Integer = 0, Optional ByVal Separated As Boolean = False, Optional ByVal OnlyName As Boolean = False)
         '::::LoadSalesTax2IntoComboBox
         ':::SUMMARY
@@ -150,6 +154,7 @@
         Next
 SalesTaxError:
     End Sub
+
     Public Function GetRNByStyle(ByVal Style As String) As Integer
         '::::GetRNByStyle
         ':::SUMMARY
@@ -165,6 +170,7 @@ SalesTaxError:
         If X.Load(Style, "Style") Then GetRNByStyle = X.RN
         DisposeDA(X)
     End Function
+
     Public Function QuickShowPOForStyle(ByVal Style As String, Optional ByVal OpenClosed As TriState = vbTrue) As Boolean
         '::::QuickShowPOForStyle
         ':::SUMMARY
@@ -202,6 +208,7 @@ SalesTaxError:
             'EditPO.QuickViewPO(S)
         End If
     End Function
+
     Public Function GetSalesTax2(Optional ByVal StoreNum As Integer = 0) As String()
         ':::: GetSalesTax2
         ':::SUMMARY
@@ -237,6 +244,7 @@ SalesTaxError:
         GetSalesTax2 = D
 SalesTaxError:
     End Function
+
     Public Function GetTax2String(ByVal tL As Integer, Optional ByVal QuietError As Boolean = False) As String
         '::::GetTax2String
         ':::SUMMARY
@@ -258,6 +266,7 @@ SalesTaxError:
         GetTax2String = Taxes(tL)
 GetTax2StringFailure:
     End Function
+
     Public Function SalesTax2File(Optional ByVal StoreNum As Integer = 0) As String
         '::::SalesTax2File
         ':::SUMMARY
@@ -270,6 +279,7 @@ GetTax2StringFailure:
         If StoreNum = 0 Then StoreNum = StoresSld
         SalesTax2File = StoreFolder(StoreNum) & "SALESTAX2.DAT"
     End Function
+
     Public Function GetVendorNoFromName(ByVal VendorName As String) As String
         '::::GetVendorNoFromName
         ':::SUMMARY
@@ -288,6 +298,7 @@ GetTax2StringFailure:
         RS.Close()
         RS = Nothing
     End Function
+
     Public Function GetDeptNoFromStyle(ByVal Style As String) As String
         '::::GetDeptNoFromStyle
         ':::SUMMARY
@@ -302,6 +313,7 @@ GetTax2StringFailure:
         'T = GetRNFromStyleNo(Style)
         'If T <> 0 Then GetDeptNoFromStyle = GetDeptNoFromRn(T)
     End Function
+
     Public Function GetDeptFromStyleNo(ByVal Style As String) As String
         '::::GetDeptFromStyleNo
         ':::SUMMARY
@@ -322,6 +334,7 @@ GetTax2StringFailure:
         End If
         RS = Nothing
     End Function
+
     Public Function GetVendorByStyle(ByVal Style As String, Optional ByRef VendorNo As String = "", Optional ByRef DeptNo As String = "") As String
         '::::GetVendorByStyle
         ':::SUMMARY

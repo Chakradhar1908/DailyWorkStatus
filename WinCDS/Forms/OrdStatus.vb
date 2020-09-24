@@ -747,7 +747,7 @@ Public Class OrdStatus
 
         If LocAvailable - Val(Quan.Text) < 0 Then
             ', , , , , , False
-            If MsgBox("Caution: Over Selling Item!", vbExclamation + vbOKCancel, "Warning") = vbCancel Then
+            If MessageBox.Show("Caution: Over Selling Item!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.Cancel Then
                 CheckQuan = False
             End If
         ElseIf LocAvailable - Val(Quan.Text) = 0 Then
@@ -818,6 +818,7 @@ Public Class OrdStatus
 
         FocusQuantity()
     End Sub
+
     Private Sub NoPO()
         '    Dim I as integer
         '    Dim HideAndShow As Boolean, DisableAndEnable As Boolean
@@ -1109,5 +1110,4 @@ Public Class OrdStatus
     '        End Select
     '    End If
     'End Function
-
 End Class

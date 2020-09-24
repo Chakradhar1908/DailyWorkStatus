@@ -1,11 +1,11 @@
 ﻿Module modSalesJournal
     Public Const SalesJournal_FILE As String = "AUDIT2" & ".exe"
-    Public Const SalesJournal_FILE_RecordSize as integer = 112
+    Public Const SalesJournal_FILE_RecordSize As Integer = 112
     Public Const SalesJournal_TABLE As String = "Audit"
     Public Const SalesJournal_INDEX As String = "SaleNo"
 
     Structure SalesJournalNew
-        Dim AuditID as integer
+        Dim AuditID As Integer
         Dim SaleNo As String
         Dim Name1 As String
         Dim TransDate As String
@@ -16,7 +16,7 @@
         Dim UndSls As Decimal
         Dim DelSls As Decimal
         Dim TaxRec1 As Decimal
-        Dim TaxCode as integer
+        Dim TaxCode As Integer
         Dim Salesman As String
         Dim NonTaxable As Decimal
         Dim Cashier As String
@@ -27,7 +27,7 @@
   ByVal SaleNo As String, ByVal Name As String, ByVal TransDate As Date,
   ByVal Written As Decimal, ByVal TaxCharged1 As Decimal, ByVal ArCashSls As Decimal,
   ByVal Control As Decimal, ByVal UndSls As Decimal, ByVal DelSls As Decimal,
-  ByVal TaxRec1 As Decimal, ByVal TaxCode as integer,
+  ByVal TaxRec1 As Decimal, ByVal TaxCode As Integer,
   ByVal Salesman As String, Optional ByVal NonTaxable As Decimal = 0,
   Optional ByVal Cashier As String = "", Optional ByVal mTerminal As String = "") As Boolean
         '::::AddNewAuditRecord
@@ -80,6 +80,7 @@
         SetRecordsetByTableLabelIndex(RS, SalesJournal_TABLE, SalesJournal_INDEX, "-1", GetDatabaseAtLocation)
         RS = Nothing
     End Sub
+
     Public Sub SalesJournalNew_RecordSet_Get(ByRef Sj As SalesJournalNew, ByRef RS As ADODB.Recordset)
         '::::SalesJournalNew_RecordSet_Get
         ':::SUMMARY
@@ -137,5 +138,4 @@
         If Not RS.EOF Then LastAuditID = RS("AuditID").Value
         RS = Nothing
     End Function
-
 End Module

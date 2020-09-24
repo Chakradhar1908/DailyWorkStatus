@@ -978,15 +978,19 @@ Public Class MainMenu4
     Private Function ItemOptionCaption(ByVal S As String) As String
         ItemOptionCaption = CSVField(S, 1)
     End Function
+
     Private Function ItemOptionMenu(ByVal S As String) As String
         ItemOptionMenu = CSVField(S, 2)
     End Function
+
     Private Function ItemOptionOp(ByVal S As String) As String
         ItemOptionOp = CSVField(S, 3)
     End Function
+
     Private Function ItemOptionSrc(ByVal S As String) As String
         ItemOptionSrc = CSVField(S, 4)
     End Function
+
     Public Function ItemOptionHotKeys(ByVal S As String) As String
         ItemOptionHotKeys = CSVField(S, 5)
     End Function
@@ -1391,18 +1395,23 @@ Public Class MainMenu4
     Private Sub mnuHelpSupport_Click()
         LaunchAutoVNC()
     End Sub
+
     Private Sub mnuHelpUploadLogs_Click()
         DiagnosticDataUpload(Logs:=True)
     End Sub
+
     Private Sub mnuHelpUploadData_Click()
         DiagnosticDataUpload()
     End Sub
+
     Private Sub mnuHelpContact_Click()
         MessageBox.Show(AdminContactCompany & vbCrLf2 & AdminContactString(0, True, False, True, True, True, True, True, True, True), "Company Contact Information")
     End Sub
+
     Private Sub mnuHelpContents_Click()
         ShowHelp()
     End Sub
+
     Private Sub mnuHelpAbout_Click()
         'frmVersionControl.Show 1
         frmVersionControl.ShowDialog()

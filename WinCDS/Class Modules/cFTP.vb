@@ -1,46 +1,48 @@
 ﻿Public Class cFTP
     Private Const DBL_DAYZEROBIAS As Double = 109205.0#   ' Abs(CDbl(#01-01-1601#))
     Private Const DBL_MILLISECONDPERDAY As Double = 10000000.0# * 60.0# * 60.0# * 24.0# / 10000.0#
-    Private Const BUFFERSIZE as integer = 4 * 1024
+    Private Const BUFFERSIZE As Integer = 4 * 1024
 
-    Private m_hOpen as integer
-    Private m_hConnection as integer
-    Private m_dwType as integer
-    Private m_dwSeman as integer
+    Private m_hOpen As Integer
+    Private m_hConnection As Integer
+    Private m_dwType As Integer
+    Private m_dwSeman As Integer
     Private m_sErrorMessage As String
     Private m_sErrorSource As String
-    Private Const MAX_PATH as integer = 260
-    Private Const INTERNET_FLAG_RELOAD as integer = &H80000000
-    Private Const FILE_ATTRIBUTE_NORMAL as integer = &H80
-    Private Const INTERNET_FLAG_PASSIVE as integer = &H8000000
-    Private Const FORMAT_MESSAGE_FROM_HMODULE as integer = &H800
-    Private Const GENERIC_READ as integer = &H80000000
-    Private Const GENERIC_WRITE as integer = &H40000000
-    Private Const ERROR_NO_MORE_FILES as integer = 18
-    Private Const INTERNET_AUTODIAL_FORCE_ONLINE as integer = 1
-    Private Const INTERNET_OPEN_TYPE_PRECONFIG as integer = 0
-    Private Const INTERNET_INVALID_PORT_NUMBER as integer = 0
-    Private Const INTERNET_SERVICE_FTP as integer = 1
-    Private Const FTP_TRANSFER_TYPE_BINARY as integer = &H2
-    Private Const FTP_TRANSFER_TYPE_ASCII as integer = &H1
-    Private Declare Function InternetAutodial Lib "wininet.dll" (ByVal dwFlags as integer, ByVal dwReserved as integer) as integer
-    Private Declare Function InternetOpen Lib "wininet.dll" Alias "InternetOpenA" (ByVal sAgent As String, ByVal lAccessType as integer, ByVal sProxyName As String, ByVal sProxyBypass As String, ByVal lFlags as integer) as integer
-    Private Declare Function InternetConnect Lib "wininet.dll" Alias "InternetConnectA" (ByVal hInternetSession as integer, ByVal sServerName As String, ByVal nServerPort As Integer, ByVal sUserName As String, ByVal sPassword As String, ByVal lService as integer, ByVal lFlags as integer, ByVal lContext as integer) as integer
-    Private Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet as integer) as integer
-    Private Declare Function FtpOpenFile Lib "wininet.dll" Alias "FtpOpenFileA" (ByVal hFtpSession as integer, ByVal sBuff As String, ByVal Access as integer, ByVal Flags as integer, ByVal Context as integer) as integer
-    Private Declare Function InternetWriteFile Lib "wininet.dll" (ByVal hFile as integer, ByRef sBuffer As Byte, ByVal lNumBytesToWrite as integer, dwNumberOfBytesWritten as integer) As Integer
-    Private Declare Function FtpSetCurrentDirectory Lib "wininet.dll" Alias "FtpSetCurrentDirectoryA" (ByVal hFtpSession as integer, ByVal lpszDirectory As String) As Boolean
-    Private Declare Function FtpCreateDirectory Lib "wininet.dll" Alias "FtpCreateDirectoryA" (ByVal hFtpSession as integer, ByVal lpszName As String) As Boolean
-    Private Declare Function InternetGetLastResponseInfo Lib "wininet.dll" Alias "InternetGetLastResponseInfoA" (ByRef lpdwError as integer, ByVal lpszErrorBuffer As String, ByRef lpdwErrorBufferLength as integer) As Boolean
-    Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags as integer, ByVal lpSource as integer, ByVal dwMessageId as integer, ByVal dwLanguageId as integer, ByVal lpBuffer As String, ByVal nSize as integer, Arguments as integer) as integer
-    Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpLibFileName As String) as integer
+    Private Const MAX_PATH As Integer = 260
+    Private Const INTERNET_FLAG_RELOAD As Integer = &H80000000
+    Private Const FILE_ATTRIBUTE_NORMAL As Integer = &H80
+    Private Const INTERNET_FLAG_PASSIVE As Integer = &H8000000
+    Private Const FORMAT_MESSAGE_FROM_HMODULE As Integer = &H800
+    Private Const GENERIC_READ As Integer = &H80000000
+    Private Const GENERIC_WRITE As Integer = &H40000000
+    Private Const ERROR_NO_MORE_FILES As Integer = 18
+    Private Const INTERNET_AUTODIAL_FORCE_ONLINE As Integer = 1
+    Private Const INTERNET_OPEN_TYPE_PRECONFIG As Integer = 0
+    Private Const INTERNET_INVALID_PORT_NUMBER As Integer = 0
+    Private Const INTERNET_SERVICE_FTP As Integer = 1
+    Private Const FTP_TRANSFER_TYPE_BINARY As Integer = &H2
+    Private Const FTP_TRANSFER_TYPE_ASCII As Integer = &H1
+    Private Declare Function InternetAutodial Lib "wininet.dll" (ByVal dwFlags As Integer, ByVal dwReserved As Integer) As Integer
+    Private Declare Function InternetOpen Lib "wininet.dll" Alias "InternetOpenA" (ByVal sAgent As String, ByVal lAccessType As Integer, ByVal sProxyName As String, ByVal sProxyBypass As String, ByVal lFlags As Integer) As Integer
+    Private Declare Function InternetConnect Lib "wininet.dll" Alias "InternetConnectA" (ByVal hInternetSession As Integer, ByVal sServerName As String, ByVal nServerPort As Integer, ByVal sUserName As String, ByVal sPassword As String, ByVal lService As Integer, ByVal lFlags As Integer, ByVal lContext As Integer) As Integer
+    Private Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Integer) As Integer
+    Private Declare Function FtpOpenFile Lib "wininet.dll" Alias "FtpOpenFileA" (ByVal hFtpSession As Integer, ByVal sBuff As String, ByVal Access As Integer, ByVal Flags As Integer, ByVal Context As Integer) As Integer
+    Private Declare Function InternetWriteFile Lib "wininet.dll" (ByVal hFile As Integer, ByRef sBuffer As Byte, ByVal lNumBytesToWrite As Integer, dwNumberOfBytesWritten As Integer) As Integer
+    Private Declare Function FtpSetCurrentDirectory Lib "wininet.dll" Alias "FtpSetCurrentDirectoryA" (ByVal hFtpSession As Integer, ByVal lpszDirectory As String) As Boolean
+    Private Declare Function FtpCreateDirectory Lib "wininet.dll" Alias "FtpCreateDirectoryA" (ByVal hFtpSession As Integer, ByVal lpszName As String) As Boolean
+    Private Declare Function InternetGetLastResponseInfo Lib "wininet.dll" Alias "InternetGetLastResponseInfoA" (ByRef lpdwError As Integer, ByVal lpszErrorBuffer As String, ByRef lpdwErrorBufferLength As Integer) As Boolean
+    Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags As Integer, ByVal lpSource As Integer, ByVal dwMessageId As Integer, ByVal dwLanguageId As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, Arguments As Integer) As Integer
+    Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpLibFileName As String) As Integer
     <VBFixedString(2048)> Dim sBuffer As String
     Public Sub SetTransferBinary()
         m_dwType = FTP_TRANSFER_TYPE_BINARY
     End Sub
+
     Public Sub SetModePassive()
         m_dwSeman = INTERNET_FLAG_PASSIVE
     End Sub
+
     Public Function OpenConnection(ByVal sServer As String, ByVal sUser As String, ByVal sPassword As String, Optional ByVal Port As Integer = INTERNET_INVALID_PORT_NUMBER) As Boolean
         CloseConnection()
 
@@ -62,14 +64,15 @@
         '--- success
         OpenConnection = True
     End Function
+
     Public Function UploadFile(ByVal sLocal As String, ByVal sRemote As String) As Boolean
-        Dim hFile as integer
+        Dim hFile As Integer
         Dim baData() As Byte
-        Dim lWritten as integer
-        Dim lSize as integer
-        Dim lSum as integer
-        Dim lIdx as integer
-        Dim NFile as integer
+        Dim lWritten As Integer
+        Dim lSize As Integer
+        Dim lSum As Integer
+        Dim lIdx As Integer
+        Dim NFile As Integer
         Dim bCancel As Boolean
 
         hFile = FtpOpenFile(m_hConnection, sRemote, GENERIC_WRITE, m_dwType, 0)
@@ -111,6 +114,7 @@ QH:
         FileClose(NFile)
         InternetCloseHandle(hFile)
     End Function
+
     Public Sub CloseConnection()
         If m_hConnection <> 0 Then
             InternetCloseHandle(m_hConnection)
@@ -121,6 +125,7 @@ QH:
             m_hOpen = 0
         End If
     End Sub
+
     Public Function SetDirectory(ByVal sDir As String) As Boolean
         If FtpSetCurrentDirectory(m_hConnection, sDir) = 0 Then
             pvSetLastError(Err.LastDllError, "SetDirectory:FtpSetCurrentDirectory")
@@ -129,6 +134,7 @@ QH:
         '--- success
         SetDirectory = True
     End Function
+
     Public Function CreateDirectory(ByVal sDirectory As String) As Boolean
         If FtpCreateDirectory(m_hConnection, sDirectory) = 0 Then
             pvSetLastError(Err.LastDllError, "CreateDirectory:FtpCreateDirectory")
@@ -137,7 +143,8 @@ QH:
         '--- success
         CreateDirectory = True
     End Function
-    Private Sub pvSetLastError(ByVal dwError as integer, ByRef sFunc As String)
+
+    Private Sub pvSetLastError(ByVal dwError As Integer, ByRef sFunc As String)
         'Dim sBuffer As String * 2048
 
         m_sErrorSource = sFunc
@@ -153,9 +160,9 @@ QH:
             m_sErrorMessage = "Error " & dwError
         End If
     End Sub
+
     Private Function STR_APP_NAME() As String
         'STR_APP_NAME = App.ProductName
         STR_APP_NAME = Application.ProductName
     End Function
-
 End Class

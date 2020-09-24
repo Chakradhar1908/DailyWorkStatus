@@ -55,5 +55,4 @@
         '** Tip 2: Avoid using Graphical Style property of buttons, checkboxes and option buttons
         '          Doing so will prevent them from being themed.
     End Sub
-
 End Module

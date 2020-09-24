@@ -267,7 +267,7 @@ ServerLockedFailed:
         DoAsk = True
 
         If DoAsk Then
-            If MsgBox(ProgramName & " can't connect to the server." & vbCrLf & "Is this computer the server?", vbCritical + vbYesNo + vbDefaultButton2) = vbYes Then
+            If MessageBox.Show(ProgramName & " can't connect to the server." & vbCrLf & "Is this computer the server?", "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                 ConfirmM = ""
                 ConfirmM = ConfirmM & "--- WARNING --- WARNING --- WARNING --- WARNING --- WARNING --- WARNING ---" & vbCrLf
                 ConfirmM = ConfirmM & "" & vbCrLf
@@ -288,7 +288,7 @@ ServerLockedFailed:
                 ConfirmM = ConfirmM & vbCrLf
                 ConfirmM = ConfirmM & "If this is the server, enter the word SERVER in the box below." & vbCrLf
 
-                If MsgBox(ConfirmM, vbOKCancel + vbDefaultButton2, "CONFIRM SERVER") = vbOK Then
+                If MessageBox.Show(ConfirmM, "CONFIRM SERVER", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2) = DialogResult.OK Then
                     ' This is the only clause that doesn't immediately end the program
                     VerifyIsServerOnWorkstation = True
                     Exit Function
@@ -301,11 +301,11 @@ ServerLockedFailed:
                 ConfirmM = ConfirmM & "be run without the network running and Drive I mapped to the server." & vbCrLf
                 ConfirmM = ConfirmM & vbCrLf
                 ConfirmM = ConfirmM & "Please either configure your network or wait until it connects before restarting the software."
-                MsgBox(ConfirmM, vbExclamation, "Exiting WinCDS")
+                MessageBox.Show(ConfirmM, "Exiting WinCDS")
                 End
             End If
         Else
-            MsgBox("Please make sure Drive I is mapped to the correct computer, then try again.", vbCritical)
+            MessageBox.Show("Please make sure Drive I is mapped to the correct computer, then try again.", "WinCDS")
             End
         End If
     End Function
@@ -502,17 +502,17 @@ ServerLockedFailed:
             WriteFile(TempFile, "TEST", True, True)
             On Error GoTo TestReadFailed
             Res = ReadFile(TempFile)
-            If Res <> "TEST" Then MsgBox("Test write to temp file " & TempFile & " failed." & vbCrLf & "Result (Len=" & Len(Res) & "):" & vbCrLf & Res, vbCritical)
+            If Res <> "TEST" Then MessageBox.Show("Test write to temp file " & TempFile & " failed." & vbCrLf & "Result (Len=" & Len(Res) & "):" & vbCrLf & Res, "WinCDS")
             On Error GoTo TestClearFailed
             Kill(TempFile)
         End If
         Exit Function
 
 TestWriteFailed:
-        MsgBox("Failed to write temp file " & TempFile & "." & vbCrLf & Err.Description, vbCritical)
+        MessageBox.Show("Failed to write temp file " & TempFile & "." & vbCrLf & Err.Description, "WinCDS")
         Exit Function
 TestReadFailed:
-        MsgBox("Failed to read temp file " & TempFile & "." & vbCrLf & Err.Description, vbCritical)
+        MessageBox.Show("Failed to read temp file " & TempFile & "." & vbCrLf & Err.Description, "WinCDS")
         Exit Function
 TestClearFailed:
         If Err.Number = 53 Then
@@ -523,7 +523,7 @@ TestClearFailed:
         'BFH20160627
         ' Jerry wanted this commented out.  Absolutely horrible idea.
         '  If IsDevelopment Then
-        MsgBox("Failed to clear temp file " & TempFile & "." & vbCrLf & Err.Description, vbCritical)
+        MessageBox.Show("Failed to clear temp file " & TempFile & "." & vbCrLf & Err.Description, "WinCDS")
         '  End If
         Exit Function
     End Function
@@ -548,7 +548,7 @@ TestClearFailed:
         UseFolder = UseFolder & DIRSEP
 
         If TestWrite Then
-            If Not CanWriteToFolder(UseFolder) Then MsgBox("Test write to temp folder " & UseFolder & "testwrite.txt" & " failed.", vbCritical)
+            If Not CanWriteToFolder(UseFolder) Then MessageBox.Show("Test write to temp folder " & UseFolder & "testwrite.txt" & " failed.", "WinCDS")
         End If
 
         TempFolder = UseFolder

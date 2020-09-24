@@ -1,8 +1,8 @@
 ﻿Public Class clsServiceItemParts
-    Public ServiceItemPartsId as integer
-    Public ServiceItemsId as integer
-    Public ServiceOrderNumber as integer
-    Public MarginNo as integer
+    Public ServiceItemPartsId As Integer
+    Public ServiceItemsId As Integer
+    Public ServiceOrderNumber As Integer
+    Public MarginNo As Integer
     Public Style As String
     Public Desc As String
     Public Vendor As String
@@ -22,6 +22,7 @@
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
+
     Public Function Save() As Boolean
         On Error GoTo NoSave
         ' This instructs the class (in one simple call) to save its data members to the database.
@@ -39,5 +40,4 @@ NoSave:
         Err.Clear()
         Save = False
     End Function
-
 End Class

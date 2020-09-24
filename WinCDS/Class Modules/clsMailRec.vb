@@ -1,5 +1,5 @@
 ﻿Public Class clsMailRec
-    Public Index as integer
+    Public Index As Integer
     Public Last As String
     Public First As String
     Public Address As String
@@ -13,13 +13,13 @@
     Public Special As String
     Public MailType As String
     Public CustType As String
-    Public TypeIndex as integer
+    Public TypeIndex As Integer
     Public Blank As String
     Public Email As String
     Public Business As Boolean
     Public CreditCard As String
     Public ExpDate As String
-    Public TaxZone as integer
+    Public TaxZone As Integer
     Private WithEvents mDataAccess As CDataAccess
     'Implements CDataAccess
     Private Const TABLE_NAME As String = "Mail"
@@ -134,5 +134,4 @@
         RS("ExpDate").Value = IfNullThenNilString(Trim(ExpDate))
         RS("TaxZone").Value = TaxZone
     End Sub
-
 End Class

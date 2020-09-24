@@ -24,6 +24,7 @@
             IfNullThenNilString = ""
         End Try
     End Function
+
     Public Function IfNullThenZero(ByVal T As Object) As Integer
         '::::IfNullThenZero
         ':::SUMMARY
@@ -52,6 +53,7 @@
             IfNullThenZero = Val(T)
         End If
     End Function
+
     Public Function IfNullThenZeroCurrency(ByVal T As Object) As Decimal
         '::::IfNullThenZeroCurrency
         ':::SUMMARY
@@ -74,6 +76,7 @@
         'IfNullThenZeroCurrency = IIf(IsNull(T), 0#, T)
         IfNullThenZeroCurrency = IIf(IsNothing(T), 0#, T)
     End Function
+
     Public Function IfNullThenZeroDouble(ByVal T As Object) As Double
         '::::IfNullThenZeroDouble
         ':::SUMMARY
@@ -93,6 +96,7 @@
         'IfNullThenZeroDouble = IIf(IsNull(T), 0, T)
         IfNullThenZeroDouble = IIf(IsNothing(T), 0, T)
     End Function
+
     Public Function ProtectSQL(ByVal Str As String, Optional ByVal UseDoubleQuotes As Boolean = True) As String
         '::::ProtectSQL
         ':::SUMMARY
@@ -111,6 +115,7 @@
         End If
         ProtectSQL = Str
     End Function
+
     Public Function IfNullThenZeroDate(ByVal T As Object) As Date
         '::::IfNullThenZeroDate
         ':::SUMMARY
@@ -134,6 +139,7 @@
         IfNullThenZeroDate = CDate(IIf(IsNothing(T), 0, T))
 
     End Function
+
     Public Function IfZeroThenNilString(ByVal T As Object) As String
         '::::IfZeroThenNilString
         ':::SUMMARY
@@ -240,5 +246,4 @@ BadNumber:
         SQLDateRange = "([" & FieldName & "] BETWEEN #" & FromDate & "# AND #" & toDate & "#)"
         If IncludeAND Then SQLDateRange = " AND " & SQLDateRange & " "
     End Function
-
 End Module

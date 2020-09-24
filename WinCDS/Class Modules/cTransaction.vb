@@ -74,6 +74,4 @@ NoSave:
             If TransactionID = 0 Then TransactionID = -1
         End Get
     End Property
-
-
 End Class

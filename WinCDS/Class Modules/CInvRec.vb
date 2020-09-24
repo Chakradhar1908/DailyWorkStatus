@@ -26,7 +26,7 @@
 
     Public MinStk As Double
     Public Freight As Double
-    Public FreightType as integer  ' 0 == percentage, 1 == $$ amount
+    Public FreightType As Integer  ' 0 == percentage, 1 == $$ amount
     Public GM As String
     Public MarkUp As Double
     Public Spiff As Decimal
@@ -164,7 +164,7 @@
             Case 4
                 Sales4 = Sales4 + Quan
             Case Else
-                MsgBox("Error: Can't determine which quarter " & DateSold & " is in.")
+                MessageBox.Show("Error: Can't determine which quarter " & DateSold & " is in.", "WinCDS")
         End Select
     End Sub
 
@@ -326,5 +326,4 @@
         SQL = SQL & " WHERE Style='" & Style & "' AND PrintPO <> 'V' and Posted <> 'X' AND Left([Name],5)='Stock'"
         ExecuteRecordsetBySQL(SQL, , GetDatabaseInventory)
     End Sub
-
 End Class

@@ -276,5 +276,4 @@ Out:
 
         P.Progress(N, Max, Str, True)
     End Sub
-
 End Class

@@ -43,7 +43,7 @@ Module modCDSPayTypes
         cdsPTM_PayItem = 3
     End Enum
     Private Const cdsPayTypeMode_Min As Integer = cdsPayTypeMode.cdsPTM_Standard
-    Private Const cdsPayTypeMode_Max as integer = cdsPayTypeMode.cdsPTM_PayItem
+    Private Const cdsPayTypeMode_Max As Integer = cdsPayTypeMode.cdsPTM_PayItem
 
     Public Enum cdsPayTypes
         cdsPT_NONE = 0
@@ -66,8 +66,9 @@ Module modCDSPayTypes
         cdsPT_OutsideFinance4 = 17
         cdsPT_OutsideFinance5 = 18
     End Enum
-    Private Const cdsPayType_Min as integer = cdsPayTypes.cdsPT_Cash
-    Private Const cdsPayType_Max as integer = cdsPayTypes.cdsPT_OutsideFinance5
+    Private Const cdsPayType_Min As Integer = cdsPayTypes.cdsPT_Cash
+    Private Const cdsPayType_Max As Integer = cdsPayTypes.cdsPT_OutsideFinance5
+
     Public Function PayTypeIs(ByVal PaymentType As String) As cdsPayTypes
         '::::PayTypeIs
         ':::SUMMARY
@@ -88,7 +89,7 @@ Module modCDSPayTypes
         ':  that existing and future payment types will always be captured.
         ':  Always be sure to only use these function to reference and supply any payment type throughout WinCDS,
         ':  Including adding a Payment Mode if necessary.
-        Dim I as integer
+        Dim I As Integer
         Dim A(), L
 
         PayTypeIs = cdsPayTypes.cdsPT_NONE
@@ -105,12 +106,15 @@ Module modCDSPayTypes
             Next
         Next
     End Function
+
     Public Function PayTypeIsOutsideFinance(ByVal PayTypeString As String) As Boolean
         PayTypeIsOutsideFinance = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_OutsideFinance, cdsPayTypes.cdsPT_OutsideFinance2, cdsPayTypes.cdsPT_OutsideFinance3, cdsPayTypes.cdsPT_OutsideFinance4, cdsPayTypes.cdsPT_OutsideFinance5)
     End Function
+
     Public Function PayListItem(ByVal pt As cdsPayTypes) As String
         PayListItem = PayTypeName(pt, cdsPayTypeMode.cdsPTM_PayItem, True)
     End Function
+
     Public Function PayTypeName(ByVal pt As cdsPayTypes, Optional ByVal Abbr As cdsPayTypeMode = cdsPayTypeMode.cdsPTM_Standard, Optional ByVal Upper As Boolean = True, Optional ByVal doSeek As Boolean = False) As String
         '::::PayTypeName
         ':::SUMMARY
@@ -179,6 +183,7 @@ Module modCDSPayTypes
         Loaded = True
         PayTypeList = A
     End Function
+
     Public Function PayTypeIsIn(ByVal PaymentMode As String, Optional ByVal PayT_A As cdsPayTypes = -1, Optional ByVal PayT_B As cdsPayTypes = -1, Optional ByVal PayT_C As cdsPayTypes = -1, Optional ByVal PayT_D As cdsPayTypes = -1, Optional ByVal PayT_E As cdsPayTypes = -1, Optional ByVal PayT_F As cdsPayTypes = -1, Optional ByVal PayT_G As cdsPayTypes = -1, Optional ByVal PayT_H As cdsPayTypes = -1) As Boolean
         PayTypeIsIn = IsIn(PayTypeIs(PaymentMode), PayT_A, PayT_B, PayT_C, PayT_D, PayT_E, PayT_F, PayT_G, PayT_H)
     End Function
@@ -275,5 +280,4 @@ Module modCDSPayTypes
         PayTypeIsStoreCard = PayTypeIsIn(PayTypeString, cdsPayTypes.cdsPT_StoreCreditCard)
         'PayTypeIsStoreCard = IsIn(PayTypeIs(PayTypeString), cdsPT_StoreCreditCard)
     End Function
-
 End Module

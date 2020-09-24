@@ -216,12 +216,14 @@ Module modAPI
         Dim Right As Integer
         Dim Bottom As Integer
     End Structure
+
     Public Structure BLENDFUNCTION
         Dim BlendOp As Byte
         Dim BlendFlags As Byte
         Dim SourceConstantAlpha As Byte
         Dim AlphaFormat As Byte
     End Structure
+
     Public Structure VersionInformationType
         Dim StructureVersion As String
         Dim FileVersion As String
@@ -235,6 +237,7 @@ Module modAPI
         Dim FileType As String
         Dim FileSubtype As String
     End Structure
+
     Private Structure VS_FIXEDFILEINFO
         Dim dwSignature As Integer
         Dim dwStrucVersionl As Integer      ' e.g. = &h0000 = 0
@@ -529,11 +532,11 @@ Module modAPI
         ReDim Buffer(0 To Info_size - 1)
         If GetFileVersionInfo(FILE_Name, 0&, Info_size,
       Buffer(1)) = 0 Then
-            MsgBox("Error getting version information")
+            MessageBox.Show("Error getting version information", "WinCDS")
             Exit Function
         End If
         If VerQueryValue(Buffer(1), "\", Info_address, Fixed_File_Info_Size) = 0 Then
-            MsgBox("Error getting fixed file version information")
+            MessageBox.Show("Error getting fixed file version information", "WinCDS")
             Exit Function
         End If
 

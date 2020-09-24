@@ -19,6 +19,7 @@
         ' Virtual INI Sections (used for Installing an INI to alter WinCDS)
         iniSection_InstallSQL = 250
     End Enum
+
     Public Structure StoreInfo
         Dim refLoaded As Boolean
         Dim refFileDate As Date
@@ -204,8 +205,8 @@
         Public PostTermInterestRate As Double
 
         ' +++ This is the end of the StoreInfo type..  If you don't know where else to add the new setting, add it here.  Then, find the 5 other places in the code and add it there.
-
     End Structure
+
     Private mStoreSettings(Setup_MaxStores) As StoreInfo
     Public Const STORE_INI_SECTION_STORE_SETTINGS As String = "Store Settings"
     Public Const STORE_INI_SECTION_SALE_OPTIONS As String = "Sale Options"
@@ -223,7 +224,6 @@
     Public Const STORE_INI_SECTION_TRAX_OPTIONS As String = "Service-TRAX"
 
     Public Const STORE_INI_SECTION_INSTALL_SQL As String = "Install-SQL"
-
 
     Private Function CreateStoreInformationFile(Optional ByVal nStoreNo As Integer = 0, Optional ByVal StoreFileName As String = "") As String
         If StoreFileName = "" Then StoreFileName = StoreFile(nStoreNo)
@@ -272,7 +272,7 @@
                             If DateAfter2(Now, NextTry, True, "s") Then
                                 Tries = Tries + 1
                                 If Tries > 3 Then
-                                    MsgBox("Could not open store settings file:" & vbCrLf & StoreFile(nStoreNo), vbCritical, "Error Reading Settings")
+                                    MessageBox.Show("Could not open store settings file:" & vbCrLf & StoreFile(nStoreNo), "Error Reading Settings")
                                     Exit Do
                                 End If
                                 mStoreSettings(nStoreNo) = GetStoreInformation(nStoreNo, , Succeeded)
@@ -302,6 +302,7 @@
     Public Function StoreFile(Optional ByVal StoreNum As Integer = 0) As String
         StoreFile = StoreINIFile(StoreNum)
     End Function
+
     Public Function StoreINIFile(Optional ByVal StoreNum As Integer = 0) As String
         Dim F As String
         If StoreNum <= 0 Then StoreNum = StoresSld
@@ -312,7 +313,7 @@
 
         On Error Resume Next
         If Not DirExists(StoreFolder(1)) Then ' Always Loc 1
-            MsgBox("Directory " & StoreFolder(1) & " must exist." & vbCrLf & "Many other things will most likely fail because this directory cannot be found.", vbCritical, ProgramName & " Critical Error")
+            MessageBox.Show("Directory " & StoreFolder(1) & " must exist." & vbCrLf & "Many other things will most likely fail because this directory cannot be found.", ProgramName & " Critical Error")
         End If
 
         ' 20060623 - Moving to server for setup files..
@@ -325,6 +326,7 @@
             CreateStoreInformationFile(StoreNum, StoreINIFile)
         End If
     End Function
+
     Public Function StoreSettingSectionKey(ByVal nSection As IniSections_StoreSettings) As String
         Select Case nSection
 '    case iniSection_UNKNOWN        ' DEFAULT TO Store Settings Ection
@@ -349,6 +351,7 @@
             Case Else : StoreSettingSectionKey = STORE_INI_SECTION_STORE_SETTINGS
         End Select
     End Function
+
     Public Function ResetStoreSettings() As Boolean
         Dim Discard As Integer, I As Integer
         ResetStoreSettings = False
@@ -357,6 +360,7 @@
             Discard = StoreSettings(I, True).GracePeriod
         Next
     End Function
+
     Public Function GetStoreInformation(Optional ByVal StoreNum As Integer = 0, Optional ByVal Quiet As Boolean = False, Optional ByRef Success As Boolean = False, Optional ByVal AltFileName As String = "") As StoreInfo
         GetStoreInformation = GetStoreInformationINI(StoreNum, Quiet, Success, AltFileName)
         '  If ReadIniValue(StoreINIFile(StoreNum), STORE_INI_SECTION_STORE_SETTINGS, "Name") = "" Then
@@ -365,6 +369,7 @@
         '    GetStoreInformation = GetStoreInformationINI(StoreNum, Quiet, Success, AltFileName)
         '  End If
     End Function
+
     Private Function SaveStoreInformationINI(ByRef SI As StoreInfo, Optional ByVal StoreNum As Integer = 0, Optional ByVal AltFileName As String = "")
         Dim F As String, FF As Integer, I As Integer
         Dim Section As String
@@ -588,6 +593,7 @@
 
         DoOtherSaves(SI)
     End Function
+
     Private Function GetStoreInformationINI(Optional ByVal StoreNum As Integer = 0, Optional ByVal Quiet As Boolean = False, Optional ByRef Success As Boolean = False, Optional ByVal AltFileName As String = "") As StoreInfo
         ' Simple function to retrieve basic store info.
         Dim C As Integer, S As String, X As String
@@ -824,7 +830,7 @@
         Exit Function
 
 NoFile:
-        If Not Quiet Then MsgBox("Can't load information for Store " & StoreNum & ".", vbExclamation)
+        If Not Quiet Then MessageBox.Show("Can't load information for Store " & StoreNum & ".")
         Success = False
     End Function
 
@@ -1109,5 +1115,4 @@ InstallFail:
 
         End With
     End Function
-
 End Module

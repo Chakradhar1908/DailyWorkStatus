@@ -118,5 +118,4 @@
     Public Function IsAfterWindow(ByVal T As Date) As Boolean
         IsAfterWindow = DateDiff("n", WindowTo, TimeValue(T)) > 0
     End Function
-
 End Class

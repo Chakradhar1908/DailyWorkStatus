@@ -34,6 +34,7 @@ AnError:
             If Len(CleanAni) < Req Then CleanAni = ""
         End If
     End Function
+
     Public Function FormatAniTextBox(ByRef tBox As TextBox) As Integer
         Dim OrigAni As String, OrigPos As Integer, OrigLen As Integer, OrigSel As Integer
         Dim tempAni As String, tempPos As Integer, tempLen As Integer, tempSel As Integer
@@ -133,6 +134,7 @@ AnError:
             DressAni = tempAni
         End If
     End Function
+
     Public Function CurrencyFormat(ByVal curMoney As Object, Optional ByVal Strip00 As Boolean = False, Optional ByVal DollarSign As Boolean = False, Optional ByVal NoCommas As Boolean = False) As String
         '::::CurrencyFormat
         ':::SUMMARY
@@ -152,6 +154,7 @@ AnError:
         If DollarSign = True Then CurrencyFormat = "$" & CurrencyFormat
         If NoCommas Then CurrencyFormat = Replace(CurrencyFormat, ",", "")
     End Function
+
     Public Function CurrencyFormatString() As String
 
         '::::CurrencyFormatString

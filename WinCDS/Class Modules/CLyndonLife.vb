@@ -205,5 +205,4 @@ AnError:
         Debug.Print("Error in CNetPayout A")
         AA = -9999
     End Function
-
 End Class

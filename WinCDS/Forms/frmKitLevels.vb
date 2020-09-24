@@ -128,7 +128,6 @@
     '  lblItem(Index).Caption = vData
     'End Property
 
-
     Public ReadOnly Property ItemQuantity(ByVal Index As Integer) As Double
         Get
             If Index < 0 Then Exit Property
@@ -1102,7 +1101,7 @@
 
     Private Sub cmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
         If OverSold Then
-            If MsgBox("Caution: Over Selling Kit!", vbCritical + vbOKCancel, "Warning") = vbCancel Then Exit Sub
+            If MessageBox.Show("Caution: Over Selling Kit!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) = DialogResult.Cancel Then Exit Sub
         End If
 
         Cancelled = False
@@ -1222,7 +1221,7 @@
         T = New CInvRec
         If Line <> 0 Then
             If Not T.Load(ItemStyle(Line), "Style") Then
-                MsgBox("Could not load inventory record.")
+                MessageBox.Show("Could not load inventory record.", "WinCDS")
                 DisposeDA(T)
                 Exit Function
             End If
@@ -1241,7 +1240,7 @@
 Skip:
         Next
         If X = 0 Then
-            MsgBox("No locations have On Order.")
+            MessageBox.Show("No locations have On Order.", "WinCDS")
             DisposeDA(T)
             Exit Function
         End If
@@ -1333,13 +1332,13 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
     Private Sub txtKitQuantity_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtKitQuantity.Validating
         Dim I As Integer
         If Val(txtKitQuantity.Text) <> Trunc(Val(txtKitQuantity.Text)) And Not AllowPartialKits Then
-            MsgBox("No decimals allowed on kit quantities.", vbInformation, "Data Error")
+            MessageBox.Show("No decimals allowed on kit quantities.", "Data Error")
             e.Cancel = True
             Exit Sub
         End If
 
         If Val(txtKitQuantity.Text) <= 0 Then
-            MsgBox("Invalid number.  Please enter a valid number or press cancel.", vbInformation, "Data Error")
+            MessageBox.Show("Invalid number.  Please enter a valid number or press cancel.", "Data Error")
             Exit Sub
         End If
 
@@ -1362,7 +1361,6 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
 
     End Sub
 
-
     'Private Sub tmrReload_Tick(sender As Object, e As EventArgs) Handles tmrReload.Tick
     '    tmrReload.Enabled = False
     '    LoadKit(mLocation, status, Style, Quantity)
@@ -1373,5 +1371,4 @@ Optional ByRef KI10 As String = "", Optional ByVal KQ10 As Double = 0)
     '    tmrReload.Interval = 100
     '    tmrReload.Enabled = True
     'End Sub
-
 End Class

@@ -291,5 +291,4 @@ NextOne:
         ParseResponse = True
 Failure:
     End Function
-
 End Class

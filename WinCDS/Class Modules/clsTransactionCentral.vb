@@ -150,12 +150,14 @@ Public Class clsTransactionCentral
         LogText("")
         LogText("------  " & TransactionName & "  ------")
     End Sub
+
     Private Sub CCQSStart(ByRef S As String, ByRef A As String)
         S = ""
         S = S & A & "MerchantID=" & MerchantID
         A = "&"
         S = S & A & "RegKey=" & RegKey
     End Sub
+
     Private Function DoTransaction(ByVal Action As String, ByVal QS As String, ByRef Res As clsHashTable, Optional ByVal ProgressBar As Boolean = True, Optional ByVal ForceRetries As Integer = -1) As Boolean
         Dim R As String, I As Integer, FL As String
         LogStartFunction("Transaction Central: " & Action)
@@ -206,13 +208,14 @@ Public Class clsTransactionCentral
     Private Function HandleResponse(ByVal Action As String, ByVal QS As String, ByVal R As String, ByRef Res As clsHashTable, Optional ByVal FailureMessage As String = "") As Boolean
         Dim TransID As String, Status As String, Msg As String
         If R = "" Then
-            MsgBox("Communication Failed." & IIf(FailureMessage <> "", vbCrLf & FailureMessage, ""))
+            MessageBox.Show("Communication Failed." & IIf(FailureMessage <> "", vbCrLf & FailureMessage, "WinCDS"))
             If DoExtraLog Then LogText("Communication Failed (" & Action & "):  Host Returned an Empty String" & IIf(FailureMessage <> "", vbCrLf & FailureMessage, ""))
             Exit Function
         End If
 
         If Not ParseResponse(R, Res) Then
-            MsgBox("Declined." & IIf(IsDevelopment, vbCrLf & "Parse Failed." & vbCrLf & Action & vbCrLf & QS, ""), vbDefaultButton3)
+            'MsgBox("Declined." & IIf(IsDevelopment, vbCrLf & "Parse Failed." & vbCrLf & Action & vbCrLf & QS, ""), vbDefaultButton3)
+            MessageBox.Show("Declined." & IIf(IsDevelopment, vbCrLf & "Parse Failed." & vbCrLf & Action & vbCrLf & QS, ""))
             LogText("Parse Failed, Msg: " & R)
             Exit Function
         End If
@@ -227,9 +230,10 @@ Public Class clsTransactionCentral
 
         If Val(TransID) = 0 Then
             If IsDevelopment() Then
-                MsgBox("Declined: " & Msg & IIf(IsDevelopment, vbCrLf & Action & vbCrLf & "TransID: 0" & vbCrLf & QS, ""), vbDefaultButton3)
+                'MsgBox("Declined: " & Msg & IIf(IsDevelopment, vbCrLf & Action & vbCrLf & "TransID: 0" & vbCrLf & QS, ""), vbDefaultButton3)
+                MessageBox.Show("Declined: " & Msg & IIf(IsDevelopment, vbCrLf & Action & vbCrLf & "TransID: 0" & vbCrLf & QS, ""))
             Else
-                MsgBox("Declined.")
+                MessageBox.Show("Declined.", "WinCDS")
             End If
             LogText("Purchase failed: " & Msg & ", TransID: 0" & vbCrLf & QS)
             LogText("QS=" & QS)
@@ -239,7 +243,8 @@ Public Class clsTransactionCentral
         LogText("TransID: " & TransID)
 
         If Status = "Declined" Then
-            MsgBox("Declined." & IIf(IsDevelopment, vbCrLf & Action & vbCrLf & "TransID: " & TransID, ""), vbDefaultButton3)
+            'MsgBox("Declined." & IIf(IsDevelopment, vbCrLf & Action & vbCrLf & "TransID: " & TransID, ""), vbDefaultButton3)
+            MessageBox.Show("Declined." & IIf(IsDevelopment, vbCrLf & Action & vbCrLf & "TransID: " & TransID, ""))
             LogText("Transaction Declined: " & Msg & ", TransID=" & TransID)
             Exit Function
         End If
@@ -346,11 +351,13 @@ Public Class clsTransactionCentral
             End If
         End If
     End Sub
+
     Private ReadOnly Property DoExtraLog() As Boolean
         Get
             '  DoExtraLog = IsMattressKing
         End Get
     End Property
+
     Private Function ParseResponse(ByVal Body As String, ByRef Returns As clsHashTable) As Boolean
         Dim A As Integer, B As Integer, Ck As Boolean, X As Integer
         Dim ResultType As String, ResponseType As String
@@ -590,5 +597,4 @@ Again:
         ExecBlindCredit = Val(TransID) <> 0
 #End If
     End Function
-
 End Class

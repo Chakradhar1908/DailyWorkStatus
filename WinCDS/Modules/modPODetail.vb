@@ -2,8 +2,8 @@
     Public Const PODetail_TABLE As String = "PO"
     Public Const PODetail_INDEX As String = "PoNo"
 
-    Public Function GetPoNo() as integer
-        Dim OldPoNo as integer
+    Public Function GetPoNo() As Integer
+        Dim OldPoNo As Integer
         '  This is how PO Numbers used to be generated...  Now we want to be able to specify them at will,
         '  but also have an incrementer, so it means we will need to not just look at Max() anymore.. (*sniff*)
         OldPoNo = GetTableRecordMax(File:=GetDatabaseInventory, Table:=PODetail_TABLE, Field:=PODetail_INDEX) + 1
@@ -29,11 +29,11 @@
             SetConfigAutoNumber(PODetail_INDEX, GetPoNo)
         Loop
     End Function
+
     Public Function PoNoExists(ByVal PoNo As String) As Boolean
         Dim RS As ADODB.Recordset
         RS = GetRecordsetBySQL("SELECT * FROM PO WHERE PONO=" & Val(PoNo), , GetDatabaseInventory)
         PoNoExists = Not RS.EOF
         RS = Nothing
     End Function
-
 End Module

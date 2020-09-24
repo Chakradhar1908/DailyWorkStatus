@@ -37,10 +37,12 @@
             Load = True
         End If
     End Function
+
     Public Sub Dispose()
         On Error Resume Next
         mDataAccess.Dispose()
     End Sub
+
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
@@ -75,5 +77,4 @@
         Mfg = IfNullThenNilString(RS("Mfg").Value)
         RN = IfNullThenNilString(RS("Rn").Value)
     End Sub
-
 End Class

@@ -4,6 +4,7 @@ Imports VBA
 Module modDebugging
     Private mTerm As Integer
     Private mSection As String
+
     Public Function LogFile(ByVal File As String, ByVal Text As String, Optional ByVal NoDateStamp As Boolean = True, Optional ByVal PreventNL As Boolean = False) As Boolean
         Dim TDesc As String, P As String, Ext As String
 
@@ -112,6 +113,7 @@ IDEInUse:
     Public Function ErrMsg(ByVal Text As String, Optional ByVal Style As MsgBoxStyle = vbCritical, Optional ByVal AltTitle As String = "") As VbMsgBoxResult
         ErrMsg = ErrorMsg(Text, Style, AltTitle)
     End Function
+
     Public Function ErrorMsg(ByVal Text As String, Optional ByVal Style As MsgBoxStyle = MsgBoxStyle.DefaultButton1, Optional ByVal AltTitle As String = "") As VbMsgBoxResult
         Dim Num As Integer, Desc As String, M As String
         Num = Err.Number

@@ -130,5 +130,4 @@ OutOfLoop:
         'On Error Resume Next
         MakeRequestOnly = True
     End Function
-
 End Class

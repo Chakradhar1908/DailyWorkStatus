@@ -1,6 +1,6 @@
 ﻿Module modActiveLog
     Private mActiveLogLines As clsHashTable, mActiveLogClasses As clsHashTable
-    Public Sub ActiveLog(ByVal Msg As String, Optional ByVal Priority as integer = 9) ', Optional ByVal ToFile As String = "")
+    Public Sub ActiveLog(ByVal Msg As String, Optional ByVal Priority As Integer = 9) ', Optional ByVal ToFile As String = "")
         '::::ActiveLog
         ':::SUMMARY
         ': Enter an ActiveLog entry
@@ -9,7 +9,7 @@
         ':::PARAMETERS
         ': - Msg
         ': - Priority
-        Dim N as integer, Clss As String
+        Dim N As Integer, Clss As String
         'MsgBox "ActiveLog"
         N = InStr(Msg, "::")
         If N <= 0 Then
@@ -45,8 +45,9 @@
         '    LOGFILE "ActiveLog", Priority & " " & Class & " - " & Msg
         '  End If
     End Function
+
     Private Function ActiveLogLimit()
-        Dim N as integer, I as integer, X as integer, S As String
+        Dim N As Integer, I As Integer, X As Integer, S As String
         On Error Resume Next
         S = GetCDSSetting("Permission Monitor")
         X = Val(CSVField(S, 8, "200"))
@@ -59,9 +60,10 @@
             mActiveLogLines.Remove(N)
         Next
     End Function
-    Private Function ActiveLogClassNumber(ByVal ClassName As String, Optional ByVal CreateIt As Boolean = True) as integer
 
-        Dim I as integer
+    Private Function ActiveLogClassNumber(ByVal ClassName As String, Optional ByVal CreateIt As Boolean = True) As Integer
+        Dim I As Integer
+
         If mActiveLogClasses Is Nothing Then
             mActiveLogClasses = New clsHashTable
             mActiveLogClasses.Add(0, "General")
@@ -76,6 +78,7 @@
             ActiveLogClassNumber = -1
         End If
     End Function
+
     Public Sub ActiveLogClear()
         '::::ActiveLogClear
         ':::SUMMARY
@@ -85,6 +88,7 @@
         mActiveLogLines = Nothing
         mActiveLogClasses = Nothing
     End Sub
+
     Public Sub ActiveLogLoadClasses(ByRef Cmb As ComboBox)
         '::::ActiveLogLoadClasses
         ':::SUMMARY
@@ -93,7 +97,7 @@
         ': This funcion is used to load Active Log Classes and used to display using ComboBox.
         ':::PARAMETERS
         ': - Cmb
-        Dim X As String, I as integer
+        Dim X As String, I As Integer
         X = Cmb.Text
         If mActiveLogClasses Is Nothing Then mActiveLogClasses = New clsHashTable
         'If Cmb.ListCount = mActiveLogClasses.Count + 1 Then Exit Sub
@@ -118,7 +122,8 @@
         On Error Resume Next
         Cmb.Text = X
     End Sub
-    Public Function ActiveLogLines(Optional ByVal Classx As String = "All", Optional ByVal MaxPriority as integer = 9, Optional ByVal Timestamp As Boolean = False)
+
+    Public Function ActiveLogLines(Optional ByVal Classx As String = "All", Optional ByVal MaxPriority As Integer = 9, Optional ByVal Timestamp As Boolean = False)
         '::::ActiveLogLines
         ':::SUMMARY
         ': Load Output Lines
@@ -130,8 +135,8 @@
         ': - Timestamp
         ':::RETURN
         ': - Variant of String()
-        Dim N as integer, L As String, E
-        Dim M As String, C As String, P as integer, T As Date
+        Dim N As Integer, L As String, E
+        Dim M As String, C As String, P As Integer, T As Date
         On Error Resume Next
         If mActiveLogLines Is Nothing Then mActiveLogLines = New clsHashTable
         N = MinArray(mActiveLogLines.Keys)
@@ -150,5 +155,4 @@
         Loop
         ActiveLogLines = L
     End Function
-
 End Module

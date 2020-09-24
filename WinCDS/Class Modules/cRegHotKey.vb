@@ -12,12 +12,14 @@ Public Class cRegHotKey
     Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags As Integer, lpSource As Object, ByVal dwMessageId As Integer, ByVal dwLanguageId As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, Arguments As Integer) As Integer
     Private Const FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
     Private Const FORMAT_MESSAGE_IGNORE_INSERTS As Integer = &H200
+
     Public Enum EHKModifiers
         MOD_ALT = &H1&
         MOD_CONTROL = &H2&
         MOD_SHIFT = &H4&
         MOD_WIN = &H8&
     End Enum
+
     Private Structure tHotKeyInfo
         Dim sName As String
         Dim sAtomName As String

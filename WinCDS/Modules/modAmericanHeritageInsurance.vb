@@ -989,5 +989,4 @@
         End If
         AmericanHeritage_Acc = AmericanHeritage_Acc * (Amount / 100)
     End Function
-
 End Module

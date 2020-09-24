@@ -226,5 +226,4 @@ ExitWaitLoop:
             End If
         Next
     End Function
-
 End Module

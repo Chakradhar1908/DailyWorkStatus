@@ -150,7 +150,7 @@ NoSave:
     End Sub
 
     Public Sub cDataAccess_GetRecordSet(RS As ADODB.Recordset)
-        Dim I as integer
+        Dim I As Integer
         On Error Resume Next
         DetailID = RS("DetailID").Value
         Style = IfNullThenNilString(RS("Style").Value)
@@ -182,5 +182,4 @@ NoSave:
             If GetLocationQuantity(I) Then GetFirstLocationWithPositiveQuantity = I : Exit Function
         Next
     End Function
-
 End Class

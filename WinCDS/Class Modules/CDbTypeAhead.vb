@@ -245,5 +245,4 @@
         Locate = mRS
         mUpdated = False
     End Function
-
 End Class

@@ -160,6 +160,7 @@ Public Class MailCheck
             CopyMailRecordsetToMailNew(RS, tMail)
             Customer = "Old"
             RaiseEvent CustomerFound(CLng(tMail.Index), Cancel)
+            'RaiseEvent CustomerFound(CInt(tMail.Index), Cancel)
             If Cancel Then
                 DisposeDA(tHold, RS)
                 'Unload Me

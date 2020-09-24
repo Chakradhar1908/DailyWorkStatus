@@ -35,6 +35,7 @@
                 IsItem = True
         End Select
     End Function
+
     Public Function IsNote(ByVal Style As String) As Boolean
         '::::IsNote
         ':::SUMMARY
@@ -47,6 +48,7 @@
         ': Boolean - Returns True.
         IsNote = (Trim(Style) = styNOT)
     End Function
+
     Public Function IsDLS(ByVal Style As String) As Boolean
         ':::SUMMARY
         ': Is Delivery / Labor / Stain Protection Charge (Style)
@@ -58,6 +60,7 @@
         ': Boolean
         IsDLS = Trim(Style) = styDEL Or Trim(Style) = styLAB Or Trim(Style) = stySTA
     End Function
+
     Public Function IsDelivered(ByVal Status As String) As Boolean
         '::::IsDelivered
         ':::SUMMARY
@@ -73,6 +76,7 @@
         If Left(Trim(Status), 3) = staPFDEL Then IsDelivered = True
         '  If Trim(Status) = "VDDEL" Then IsDelivered = True   ' I'm not sure this is right.  No, it's very bad.  Make a special case when VDDEL is treated as delivered.
     End Function
+
     Public Function IsVoid(ByVal Status As String) As Boolean
         '::::IsVoid
         ':::SUMMARY
@@ -85,6 +89,7 @@
         ': Boolean
         IsVoid = (Trim(Status) = staVoi Or Left(Trim(Status), 2) = staPFVoi)
     End Function
+
     Public Function IsPayment(ByVal Style As String) As Boolean
         '::::IsPayment
         ':::SUMMARY
@@ -97,6 +102,7 @@
         ': Boolean
         IsPayment = (Trim(Style) = styPAY)
     End Function
+
     Public Function IsDiscount(ByVal Style As String) As Boolean
         '::::IsDiscount
         ':::SUMMARY
@@ -109,6 +115,7 @@
         ': Boolean
         IsDiscount = Trim(Style) = styDIS
     End Function
+
     Public Function IsADJ(ByVal Style As String) As Boolean
         '::::IsADJ
         ':::SUMMARY

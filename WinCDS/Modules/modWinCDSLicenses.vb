@@ -1,6 +1,6 @@
 ﻿Module modWinCDSLicenses
     Public Const LICENSE_DEMO As String = "DEMO"
-    Public Const LICENSE_DEMO_STORE_ALLOWANCE as integer = 2
+    Public Const LICENSE_DEMO_STORE_ALLOWANCE As Integer = 2
     Public Const LICENSE_STORES_1 As String = "23986"
     Public Const LICENSE_STORES_2 As String = "46523"
     Public Const LICENSE_STORES_3 As String = "59893"
@@ -52,8 +52,8 @@
         LicensedNoOfStores = ConvertWinCDSLicenseCode(GetWinCDSLicense)
     End Function
 
-    Public Function ConvertWinCDSLicenseCode(ByVal Code As String, Optional ByRef Valid As Boolean = False) as integer
-        Dim I as integer
+    Public Function ConvertWinCDSLicenseCode(ByVal Code As String, Optional ByRef Valid As Boolean = False) As Integer
+        Dim I As Integer
 
         ConvertWinCDSLicenseCode = 0
         ' Takes a license code, returns the number of licensed stores.
@@ -68,10 +68,12 @@
             Exit Function
         End If
     End Function
+
     Public Function GetWinCDSLicense() As String
         GetWinCDSLicense = GetCDSSetting("License")
     End Function
-    Public Function WinCDSLicenseCode(Optional ByVal StoreCount as integer = 0) As String
+
+    Public Function WinCDSLicenseCode(Optional ByVal StoreCount As Integer = 0) As String
         WinCDSLicenseCode = 0
         If StoreCount <= 0 Or StoreCount > Setup_MaxStores_DB Then Exit Function
         '  If StoreCount > Setup_MaxStores Then Exit Function
@@ -86,21 +88,23 @@
       LICENSE_STORES_25, LICENSE_STORES_26, LICENSE_STORES_27, LICENSE_STORES_28,
       LICENSE_STORES_29, LICENSE_STORES_30, LICENSE_STORES_31, LICENSE_STORES_32)
     End Function
-    Public ReadOnly Property ActiveNoOfLocations() as integer
+
+    Public ReadOnly Property ActiveNoOfLocations() As Integer
         Get
             ActiveNoOfLocations = NoOfActiveLocations
         End Get
     End Property
-    Public ReadOnly Property NoOfActiveLocations() as integer
+
+    Public ReadOnly Property NoOfActiveLocations() As Integer
         Get
-            Dim I as integer
+            Dim I As Integer
             If mActiveLocations > 0 Then NoOfActiveLocations = mActiveLocations : Exit Property
 
             For I = 1 To Setup_MaxStores
                 If Dir(StoreFile(I)) = "" Then Exit For
                 mActiveLocations = I
             Next
-            If LicensedNoOfStores > mActiveLocations Then mActiveLocations = LicensedNoOfStores
+            If LicensedNoOfStores() > mActiveLocations Then mActiveLocations = LicensedNoOfStores()
             NoOfActiveLocations = mActiveLocations
         End Get
     End Property
@@ -183,7 +187,7 @@
                 S = S & "    Abort - Encounter the user fail message." & vbCrLf
                 S = S & "    Retry - Open " & ProgramName & " regardless of this error." & vbCrLf
                 S = S & "   Ignore - Reset the demo expiry date."
-                R = MsgBox(S, vbAbortRetryIgnore + vbExclamation, tCaption)
+                R = MessageBox.Show(S, tCaption, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Exclamation)
                 Select Case R
                     Case vbAbort
                     Case vbRetry : Exit Function
@@ -200,5 +204,4 @@
             End If
         End If
     End Function
-
 End Module

@@ -1,18 +1,18 @@
 ﻿Public Class ArCard
-    Private Const FRM_W as integer = 10525
-    Private Const FRM_H_MIN as integer = 7290
-    Private Const FRM_H_MAX as integer = 13000
+    Private Const FRM_W As Integer = 10525
+    Private Const FRM_H_MIN As Integer = 7290
+    Private Const FRM_H_MAX As Integer = 13000
 
     Private WithEvents mDBAccess As CDbAccessGeneral
     Private WithEvents mDBAccessTransactions As CDbAccessGeneral
 
-    Public PayCount as integer
+    Public PayCount As Integer
     Private PayLog() As PaymentRecord ' Array for tracking payments, for receipts
 
     Private altPayType As String    ' used for a couple specialty operations like payoffs
     Public ArNo As String
     Public Status As String
-    Public MailRec as integer
+    Public MailRec As Integer
     Public DocCredit As Decimal
     Public LifeCredit As Decimal
     Public AccidentCredit As Decimal
@@ -26,15 +26,15 @@
     Public Shared UsingMoveButton As Boolean
     Public f_strDirection As String 'GDM
 
-    Private Const NON_ALERT_COLOR as integer = &H6666CC
-    Private Const ALERT_COLOR as integer = &H6666CC ' '&HC0&
+    Private Const NON_ALERT_COLOR As Integer = &H6666CC
+    Private Const ALERT_COLOR As Integer = &H6666CC ' '&HC0&
 
     Dim Mail As MailNew
     Dim Mail2 As MailNew2
 
     Dim mArNo As String
-    Dim CustRec as integer
-    Dim CashOpt as integer
+    Dim CustRec As Integer
+    Dim CashOpt As Integer
 
     Public INTEREST As Decimal
     Public InterestTax As Decimal
@@ -62,7 +62,7 @@
     Dim LateChargeBal As String
     Dim Months As String
     Dim SendNotice As String
-    Dim Counter as integer
+    Dim Counter As Integer
 
     Dim Approval As String
 
@@ -196,7 +196,7 @@
         Exit Sub
 
         'Does Not Find Customer
-        If MsgBox("Name Not In Data Base:  Try Again?", vbYesNo + vbExclamation) = vbYes Then
+        If MessageBox.Show("Name Not In Data Base:  Try Again?", "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
             ' Retry
             Exit Sub
         End If
@@ -963,11 +963,11 @@ TryAgain:
     End Sub
 
     Private Sub LoadSaleBalances()
-        Dim H As New cHolding, Row As Long, RunningTotal As Decimal, StatementDay As Date
+        Dim H As New cHolding, Row As Integer, RunningTotal As Decimal, StatementDay As Date
         StatementDay = DateAdd("d", RevolvingStatementDay() - DateAndTime.Day(Today), Today)
         H.Load(ArNo, "ArNo")
 
-        UGrSaleTotals.Clear
+        UGrSaleTotals.Clear()
         UGrSaleTotals.MaxRows = Max(H.DataAccess.Record_Count, 1)
         Do Until H.DataAccess.Record_EOF
             '      If H.Sale - H.Deposit > 0 Then
@@ -997,8 +997,244 @@ TryAgain:
             Row = Row + 1
         End If
 
-        UGrSaleTotals.Refresh
+        UGrSaleTotals.Refresh()
         DisposeDA(H)
     End Sub
 
+    Private Sub ClearVars()
+        ArNo = ""
+        MailRec = 0
+        DocCredit = 0 : LifeCredit = 0 : AccidentCredit = 0 : PropertyCredit = 0 : IUICredit = 0 : InterestCredit = 0 : InterestTaxCredit = 0
+
+        mArNo = ""
+        CustRec = 0 : PriorBal = 0 : CashOpt = 0 : INTEREST = 0 : InterestTax = -0 : Life = 0 : Accident = 0 : Prop = 0 : IUI = 0
+        Charges = 0 : Credits = 0 : Balance = 0 : TotPaid = 0 : Status = "" : TransType = ""
+        Payoff = "" : PayoffSameAsCash = False : StatusChg = ""
+        Receipt = "" : NewTypee = ""
+
+        TransDate = "" : LastPayDate = "" : LastPay = "" : LateChargeBal = ""
+        Months = "" : SendNotice = "" : Counter = 0
+        ClearPayments()
+    End Sub
+
+    Private Sub CloseForm()
+        UGrSaleTotals.Visible = False
+        UGridIO1.Visible = False
+        Notes_Frame.Visible = False
+
+        OpenFormAs = ""
+        'Height = 6800
+        'Height = UGridIO1.Top + (Height - ScaleHeight)
+        Height = UGridIO1.Top + (Height - Me.ClientSize.Height)
+    End Sub
+
+    Private Sub ArCard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim Screen As System.Drawing.Rectangle
+        ClearVars()
+        LoadArStatusCombo(cboStatus)
+
+        StatusChg = ""
+        'filFile = FXFolder()
+        filFile.Path = FXFolder()
+        cboStatus.Enabled = False
+        txtPayMemo.Visible = False 'Pay memo
+        lblPayMemo.Visible = False
+
+        cmdHistory.Visible = False ' IsMichaels
+
+        Text = "Customer Account Card:  " & StoreSettings.Name & "  " & StoreSettings.Address
+        CloseForm()
+        Top = 0
+        Left = (Screen.Width - Width) / 2  'NOTE: If not work, refer ShowFormCenter() of MainMenu4.vb form.
+        Text = "Customer Account Card:  " & StoreSettings.Name & "  " & StoreSettings.Address
+
+        '  cmdReceipt.Enabled = (not armode("Edit")) ' BFH20061218  ' off again, BFH20070125
+        cmdMakeSameAsCash.Visible = ArMode("Edit")
+
+        If ArMode("Edit") Then
+            cboStatus.Enabled = True
+
+            Text = "EDIT Customer Accounts:  " & StoreSettings.Name & "  " & StoreSettings.Address
+            fraPaymentOptions.Visible = False
+            fraEditOptions.Visible = True
+            optEditType17.Visible = StoreSettings.bInstallmentInterestIsTaxable
+            optEditType18.Visible = UseIUI() ' Credit IUI
+
+            cmdPayoff.Enabled = False
+        Else
+            optPayType8.Visible = False
+            fraPaymentOptions.Visible = True
+            fraEditOptions.Visible = False
+        End If
+
+        If ArMode("P") Then Text = "Payment on Account:  " & StoreSettings.Name & "  " & StoreSettings.Address
+
+        UGridIO1.GetDBGrid.AllowUpdate = False
+        UGridIO1.AddColumn(0, "Date", 1350, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+        UGridIO1.AddColumn(1, "Type", 1350, True, False, MSDataGridLib.AlignmentConstants.dbgLeft)
+        UGridIO1.AddColumn(2, "Charges", 1250, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+        UGridIO1.AddColumn(3, "Credits", 1250, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+        UGridIO1.AddColumn(4, "Balance", 1250, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+        UGridIO1.AddColumn(5, "Pay Memo/Receipt", 2700, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+        UGridIO1.MaxCols = 6
+        UGridIO1.MaxRows = 500
+        UGridIO1.Initialize()
+        UGridIO1.Activated = True
+        UGridIO1.Refresh()
+        UGridIO1.Col = 0
+        UGridIO1.Row = 0
+
+        PayOpt = 1
+        DDate.Value = DateFormat(Today)
+
+        DoPrintType()
+
+        'cmdSaleTotals.Move cmdPayoff.Left, cmdPayoff.Top, cmdPayoff.Width, cmdPayoff.Height
+        cmdSaleTotals.Location = New Point(cmdPayoff.Left, cmdPayoff.Top)
+        cmdSaleTotals.Size = New Size(cmdPayoff.Width, cmdPayoff.Height)
+        'UGrSaleTotals.Move UGridIO1.Left, UGridIO1.Top, UGridIO1.Width, UGridIO1.Height
+        UGrSaleTotals.Location = New Point(UGridIO1.Left, UGridIO1.Top)
+        UGrSaleTotals.Size = New Size(UGridIO1.Width, UGridIO1.Height)
+        UGrSaleTotals.GetDBGrid.AllowUpdate = False
+        UGrSaleTotals.AddColumn(0, "Sale", 1350, True, False, MSDataGridLib.AlignmentConstants.dbgRight)
+        UGrSaleTotals.AddColumn(1, "Balance", 1350, True, False, MSDataGridLib.AlignmentConstants.dbgLeft)
+        UGrSaleTotals.AddColumn(2, "Next Interest*", 1350, True, False, MSDataGridLib.AlignmentConstants.dbgLeft)
+        UGrSaleTotals.MaxCols = 3
+        UGrSaleTotals.MaxRows = 1
+        UGrSaleTotals.Initialize()
+        UGrSaleTotals.Activated = True
+        UGrSaleTotals.Refresh()
+        UGrSaleTotals.Col = 0
+        UGrSaleTotals.Row = 0
+    End Sub
+
+    Private Sub DoPrintType()
+        opt30323.Checked = (DefaultMailingLabelType() = 30323)
+        opt30252.Checked = (DefaultMailingLabelType() <> 30323)
+    End Sub
+
+    Public Property PayOpt() As Integer
+        Get
+            Dim I As Integer
+            If Not fraPaymentOptions.Visible Then Exit Property
+            'For I = optPayType.LBound To optPayType.UBound
+            '    If optPayType(I) Then PayOpt = I : Exit Property
+            'Next
+            If optPayType1.Checked = True Then PayOpt = I : Exit Property
+            If optPayType2.Checked = True Then PayOpt = I : Exit Property
+            If optPayType3.Checked = True Then PayOpt = I : Exit Property
+            If optPayType4.Checked = True Then PayOpt = I : Exit Property
+            If optPayType5.Checked = True Then PayOpt = I : Exit Property
+            If optPayType6.Checked = True Then PayOpt = I : Exit Property
+            If optPayType7.Checked = True Then PayOpt = I : Exit Property
+            If optPayType8.Checked = True Then PayOpt = I : Exit Property
+            If optPayType9.Checked = True Then PayOpt = I : Exit Property
+        End Get
+        Set(value As Integer)
+            'Dim I as integer
+            'For I = optPayType.LBound To optPayType.UBound
+            '    optPayType(I) = (vData = I)
+            'Next
+            If value = 1 Then
+                optPayType1.Checked = True
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+
+            If value = 2 Then
+                optPayType2.Checked = True
+                optPayType1.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 3 Then
+                optPayType3.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 4 Then
+                optPayType4.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 5 Then
+                optPayType5.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 6 Then
+                optPayType6.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 7 Then
+                optPayType7.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType8.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 8 Then
+                optPayType8.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType9.Checked = False
+            End If
+            If value = 9 Then
+                optPayType9.Checked = True
+                optPayType1.Checked = False
+                optPayType2.Checked = False
+                optPayType3.Checked = False
+                optPayType4.Checked = False
+                optPayType5.Checked = False
+                optPayType6.Checked = False
+                optPayType7.Checked = False
+                optPayType8.Checked = False
+            End If
+        End Set
+    End Property
 End Class

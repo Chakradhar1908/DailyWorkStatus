@@ -594,6 +594,12 @@
     <Compile Include="Forms\frmScannerDownload.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmSelectDate.Designer.vb">
+      <DependentUpon>frmSelectDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSelectDate.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmSelectOption.Designer.vb">
       <DependentUpon>frmSelectOption.vb</DependentUpon>
     </Compile>
@@ -1408,6 +1414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSalesList.resx">
       <DependentUpon>frmSalesList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelectDate.resx">
+      <DependentUpon>frmSelectDate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectOption.resx">
       <DependentUpon>frmSelectOption.vb</DependentUpon>

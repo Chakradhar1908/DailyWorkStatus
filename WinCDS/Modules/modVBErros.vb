@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Module modVBErros
     Dim Printer As New Printer
-    Private vbErrors_Number as integer, vbErrors_Number_Hex As String, vbErrors_Description As String
+    Private vbErrors_Number As Integer, vbErrors_Number_Hex As String, vbErrors_Description As String
 
     Public Function CheckStandardErrors(Optional ByVal Operation As String = "", Optional ByVal DefaultNotification As String = "") As Boolean
         CheckStandardErrors = vbErrorsParse()
@@ -138,6 +138,7 @@ Module modVBErros
         CheckStandardErrors = vbErrorsParse(True)
         If DefaultNotification <> "" Then vbErrorsMessage(DefaultNotification)
     End Function
+
     Private Function vbErrorsParse(Optional ByVal ClearOnly As Boolean = False) As Boolean
         vbErrorsParse = False
 
@@ -156,6 +157,7 @@ Module modVBErros
 
         vbErrorsParse = True        ' Return True when there is an error
     End Function
+
     Public Function ErrNoPrinter(Optional ByVal Operation As String = "") As Boolean
         Dim S As String
         vbErrorsParse()
@@ -177,6 +179,7 @@ Module modVBErros
             ErrNoPrinter = vbErrorsMessage(S, "Printer Error", vbFalse, Operation)
         End If
     End Function
+
     Public Function ErrDBErrors(Optional ByVal Operation As String = "") As Boolean
         Dim S As String, M As Boolean
 
@@ -200,6 +203,7 @@ Module modVBErros
                 '      ReportError S, vbErrors_Number, vbErrors_Description
         End Select
     End Function
+
     Private Function vbErrorsMessage(ByVal Msg As String, Optional ByVal Task As String = "Error", Optional ByVal Critical As TriState = vbUseDefault, Optional ByVal Operation As String = "") As Boolean
         Dim Style As MsgBoxStyle
 
@@ -213,5 +217,4 @@ Module modVBErros
         End Select
         MsgBox(Msg, Style, ProgramName & " " & Trim(Task) & IIf(Operation = "", "", " - " & Operation))
     End Function
-
 End Module

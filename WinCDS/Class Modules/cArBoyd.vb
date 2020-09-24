@@ -316,5 +316,4 @@
             TotalOfPayments = CurrencyFormat(MonthlyPayment * N)
         End Get
     End Property
-
 End Class

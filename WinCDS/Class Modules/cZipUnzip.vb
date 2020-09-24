@@ -4,6 +4,7 @@
     Private m_tZipContents() As tZipContents
     Private m_sUnzipFolder As String
     Private m_tDCL As DCLIST
+
     Private Structure tZipContents
         Dim sName As String
         Dim sFolder As String
@@ -16,6 +17,7 @@
         Dim fEncryped As Boolean
         Dim fSelected As Boolean
     End Structure
+
     Public Enum EUZOverWriteResponse
         euzDoNotOverwrite = 100
         euzOverwriteThisFile = 102
@@ -183,5 +185,4 @@
     Friend Sub Service(ByVal sMsg As String, ByRef bCancel As Boolean)
         RaiseEvent Cancel(sMsg, bCancel)
     End Sub
-
 End Class

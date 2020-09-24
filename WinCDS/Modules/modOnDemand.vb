@@ -207,5 +207,4 @@ OnDemandInstallFail:
     Private Function ComputerVersionsINI() As String
         ComputerVersionsINI = InventFolder() & "versions.txt"
     End Function
-
 End Module

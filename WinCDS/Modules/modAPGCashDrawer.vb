@@ -51,5 +51,4 @@ Module modAPGCashDrawer
         On Error Resume Next
         MainMenu.Controls.Remove(C)
     End Function
-
 End Module

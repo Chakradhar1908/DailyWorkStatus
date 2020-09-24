@@ -10,6 +10,7 @@
     Public Sub New()
         CDataAccess_Init()
     End Sub
+
     Public Sub CDataAccess_Init()
         mDataAccess = New CDataAccess
         With mDataAccess
@@ -23,6 +24,7 @@
     Public Function DataAccess() As CDataAccess
         DataAccess = mDataAccess
     End Function
+
     Private Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
         On Error Resume Next
         RS("AdvertisingType").Value = Trim(AdType)

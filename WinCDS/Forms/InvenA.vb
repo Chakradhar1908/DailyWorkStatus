@@ -27,7 +27,7 @@ Public Class InvenA
         If SearchObj.Load(Style.Text) Then
             ' Record was found.
             If InvenMode("A") Then
-                MsgBox("This Style Number is already in use.  Add a -1, -2, -3 ect. to the end of the style number.", vbExclamation)
+                MessageBox.Show("This Style Number is already in use.  Add a -1, -2, -3 ect. to the end of the style number.", "WinCDS")
                 Me.Style.Text = ""
                 'Unload Me
                 Exit Function
@@ -43,7 +43,7 @@ Public Class InvenA
                 If InvRec.Load(Style.Text, "Style") Then
                     ' Style existed at one point.
                     Dim C As VbMsgBoxResult
-                    C = MsgBox("This style number has been deactivated." & vbCrLf & "You can restore it using the File menu." & vbCrLf2 & "Would you like to restore this item now?", vbExclamation + vbYesNo + vbDefaultButton2, "Item Exists, but is Deleted")
+                    C = MessageBox.Show("This style number has been deactivated." & vbCrLf & "You can restore it using the File menu." & vbCrLf2 & "Would you like to restore this item now?", "Item Exists, but is Deleted", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2)
                     If C = vbYes Then DoInvRestore(Style.Text)
                     DisposeDA(InvRec)
                     '            Unload Me
@@ -53,9 +53,9 @@ Public Class InvenA
                         ' Style has never existed, it's ok to create.
                     Else
                         If Style.Text = "" Then
-                            MsgBox("Blank styles are not accepted.", vbExclamation)
+                            MessageBox.Show("Blank styles are not accepted.", "WinCDS")
                         Else
-                            MsgBox("Invalid style Number: " & Style.Text & vbCrLf & "You may only use these characters: A-Z, 0-9, Space, $ % + - . /", vbExclamation, "Invalid Style")
+                            MessageBox.Show("Invalid style Number: " & Style.Text & vbCrLf & "You may only use these characters: A-Z, 0-9, Space, $ % + - . /", "Invalid Style")
                         End If
                         Style.Text = ""
                         'Unload Me
@@ -95,7 +95,7 @@ HandleErr:
 
         If Trim(SearchRn) <> "" Then RN = SearchRn
         If Trim(RN) = "" Then
-            MsgBox("Invalid Search Rn in InvenA.GetRec.", vbCritical, "Error")
+            MessageBox.Show("Invalid Search Rn in InvenA.GetRec.", "Error")
             Exit Sub
         End If
 
@@ -383,5 +383,4 @@ BadPicture:
         fraStLocScroll.Width = IIf(LicensedNoOfStores > 8, 11412, 5772)
         picItem.Height = IIf(LicensedNoOfStores > 8, 3255, 4695)
     End Sub
-
 End Class

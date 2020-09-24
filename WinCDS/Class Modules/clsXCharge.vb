@@ -54,7 +54,6 @@ Public Class clsXCharge
     Public ApprovedAmountResult As String
     Public BalanceAmountResult As String
 
-
     Private IsManuallyEntered As Boolean  ' Is the CCNum privately entered?
 
     Private Enum PinPadResults
@@ -103,7 +102,7 @@ Public Class clsXCharge
                         ' if they do cancel, we must cancel the partial transaction, because it has already gone through.
                         Dim R As VbMsgBoxResult
                         LogText("Partial Approval Amount: " & ApprovedAmountResult & " (Tot=" & GetPrice(Amount) & ")... Cancelling Transaction", 2)
-                        R = MsgBox("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", vbExclamation + vbOKCancel, "Partial Approval on Credit Card")
+                        R = MessageBox.Show("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", "Partial Approval on Credit Card", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
                         If R = vbCancel Then
                             LogText("Partially Approved Transaction CANCELLED at users request", 1)
                             Success = CancelTransaction()
@@ -155,7 +154,7 @@ Public Class clsXCharge
                     ' if they do cancel, we must cancel the partial transaction, because it has already gone through.
                     Dim RR As VbMsgBoxResult
                     LogText("Partial Approval Debit Amount: " & ApprovedAmountResult & " (Tot=" & GetPrice(Amount) & ")... Cancelling Transaction", 2)
-                    RR = MsgBox("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", vbExclamation + vbOKCancel, "Partial Approval on Credit Card")
+                    RR = MessageBox.Show("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", "Partial Approval on Credit Card", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
                     If RR = vbCancel Then
                         LogText("Partially Approved Transaction CANCELLED at users request", 1)
                         Success = CancelDebitTransaction()
@@ -342,7 +341,7 @@ Again:
         Pin = "" : key = ""
         X = PP.Init(HH)
         If X = 5 Then
-            MsgBox("No Pin Pad configured." & vbCrLf & "You must set up your Pin Pad Device in the Store Setup section.", vbCritical, "No Pinpad Configured")
+            MessageBox.Show("No Pin Pad configured." & vbCrLf & "You must set up your Pin Pad Device in the Store Setup section.", "No Pinpad Configured", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Cancelled = True
             PP = Nothing
             Exit Sub
@@ -400,7 +399,7 @@ Again:
                 End If
             End If
 
-            MsgBox("Could not locate transaction folder." & vbCrLf & dLT & StoreNo, vbCritical, "X-Charge Not Installed?")
+            MessageBox.Show("Could not locate transaction folder." & vbCrLf & dLT & StoreNo, "X-Charge Not Installed?", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             '  DefaultTransactionFolder = ""
         End Get
     End Property
@@ -435,13 +434,13 @@ Again:
         On Error Resume Next
         CreatePinPadObject = New PINPadDevice.PINPad
         If CreatePinPadObject Is Nothing Then
-            MsgBox("Could not initiate Pin Pad Device Interface", vbExclamation, "Missing DLL??")
+            MessageBox.Show("Could not initiate Pin Pad Device Interface", "Missing DLL??", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Function
         End If
     End Function
 
     Private Sub PinPadResult(ByRef PP As PINPad, ByRef x As Integer)
-        If x <> 0 Then MsgBox(PP.GetResultMessage(x), vbExclamation, "Pin Error (" & x & ")")
+        If x <> 0 Then MessageBox.Show(PP.GetResultMessage(x), "Pin Error (" & x & ")", MessageBoxButtons.OK, MessageBoxIcon.Warning)
     End Sub
 
     Public Function ExecReturn(Optional ByVal Prompt As Boolean = True) As Boolean
@@ -513,5 +512,4 @@ Again:
         End If
         ExecGiftReturn = Success
     End Function
-
 End Class

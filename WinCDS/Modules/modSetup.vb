@@ -110,6 +110,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
             If IsCDSComputer("laptop") Then Setup_2Data_StyleMaxLen = 32
         End Get
     End Property
+
     Public Sub UpdatePermStatus()
         '::::UpdatePermStatus
         ':::SUMMARY
@@ -117,6 +118,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         If Not IsFormLoaded("frmPermissionMonitor") Then Exit Sub
         frmPermissionMonitor.Update()
     End Sub
+
     Public Function GetStoreTax1() As Double
         '::::GetStoreTax1
         ':::SUMMARY
@@ -125,6 +127,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         ':Returns the primary tax rate.  The rate can be entered on the store setup page.
         GetStoreTax1 = StoreSettings.SalesTax
     End Function
+
     Public Function AdminContactString(
     Optional ByVal Format As Integer = 0,
     Optional ByVal Version As Boolean = True,
@@ -203,6 +206,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         End Select
         AdminContactString = S
     End Function
+
     Public Function SoftwareVersion(Optional ByVal ForDisplay As Boolean = True, Optional ByVal WithRevision As Boolean = True, Optional ByVal WithProgramName As Boolean = False, Optional ByVal wHash As Boolean = False, Optional ByVal ShowStoreName As Boolean = False, Optional ByVal ShowOSVersion As Boolean = False) As String
         '::::SoftwareVersion
         ':::SUMMARY
@@ -251,6 +255,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         'LogStartup "SoftwareVersion: l"
         'LogStartup "SoftwareVersion: m"
     End Function
+
     Public Function SoftwareCopyright(Optional ByVal Shortx As Boolean = False) As String
         '::::SoftwareCopyright
         ':::SUMMARY
@@ -261,6 +266,7 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         SoftwareCopyright = SoftwareCopyright & "(c) " & CopyrightYears & ", " & AdminContactCompany & "."
         If Not Shortx Then SoftwareCopyright = SoftwareCopyright & vbCrLf & "All rights reserved." & vbCrLf
     End Function
+
     Public Function SoftwareVersionHash() As String
         '::::SoftwareVersionHash
         ':::SUMMARY
@@ -385,5 +391,4 @@ Public Const FONT_C128_REGULAR As String = "xCode 128 Regular"
         ': Sets the date of the last patch run.
         SetConfigTableValue("LastPatchDate", vData)
     End Sub
-
 End Module

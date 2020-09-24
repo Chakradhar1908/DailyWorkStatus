@@ -211,7 +211,7 @@ SkipItem:
         ExecuteRecordsetBySQL(sSql, , GetDatabaseAtLocation(), False, "Error creating department: " & DeptName)
 
         If CheckDepartmentExistsInternal(DeptName) = -1 Then
-            MsgBox("Failed to create department [" & DeptName & "].", vbCritical, "Department Creation Failure")
+            MessageBox.Show("Failed to create department [" & DeptName & "].", "Department Creation Failure")
         End If
 
         ReloadDepartments()         ' Mark cache as invalid.

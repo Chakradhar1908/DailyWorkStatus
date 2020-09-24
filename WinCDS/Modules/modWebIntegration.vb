@@ -103,5 +103,4 @@
         T = Replace(T, "_", "--uscor--")
         GetYahooCVSID = LCase(T)
     End Function
-
 End Module

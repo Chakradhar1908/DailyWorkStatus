@@ -63,14 +63,14 @@
 
         If Z >= LBound(Sm, 1) And Z <= UBound(Sm, 1) Then
             If Sm(Z, 2) = "" Then
-                MsgBox("Salesman Error #2: Added salesman (" & lstSalesmen.Text & ") with a blank salesman number!", vbCritical)
+                MessageBox.Show("Salesman Error #2: Added salesman (" & lstSalesmen.Text & ") with a blank salesman number!", "WinCDS")
             Else
                 SalesCode = Trim(SalesCode & " " & Sm(Z, 2))
                 BillOSale.SalesCode = SalesCode
             End If
             'Debug.Print "Selected salesman " & Sm(Z, 2) & " (" & Sm(Z, 1) & ")"
         Else
-            MsgBox("Salesman Error #3: Added salesman (" & lstSalesmen.Text & ") without a salesman number!", vbCritical)
+            MessageBox.Show("Salesman Error #3: Added salesman (" & lstSalesmen.Text & ") without a salesman number!", "WinCDS")
         End If
     End Sub
 

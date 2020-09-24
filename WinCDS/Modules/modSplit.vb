@@ -87,7 +87,8 @@
         'SplitCount = IIf(B.ToString = "", 1, IIf(C.ToString = "", 2, 3))
         SplitCount = IIf(B.Text = "", 1, IIf(C.Text = "", 2, 3))
     End Function
-    Public Function GetSalesSplit(ByVal IA As String, ByVal iB As String, ByVal iC As String, ByVal Count as integer) As String
+
+    Public Function GetSalesSplit(ByVal IA As String, ByVal iB As String, ByVal iC As String, ByVal Count As Integer) As String
         Dim A As Double, B As Double, C As Double
         Dim dA As Boolean, dB As Boolean, DC As Boolean
         Dim X As Double
@@ -142,7 +143,8 @@
         End If
         GetSalesSplit = FormatSplit(A) & " " & FormatSplit(B) & " " & FormatSplit(C)
     End Function
-    Public Sub ParseSalesSplit(ByVal SS As String, ByRef A As Double, ByRef B As Double, ByRef C As Double, ByVal Count as integer)
+
+    Public Sub ParseSalesSplit(ByVal SS As String, ByRef A As Double, ByRef B As Double, ByRef C As Double, ByVal Count As Integer)
         Dim sA As String, sb As String, sC As String
         Dim L As Object
         SS = Trim(SS)
@@ -165,11 +167,12 @@
         B = SplitValue(sb)
         C = SplitValue(sC)
     End Sub
+
     Public Function SplitValue(ByVal Split As String) As Double
         SplitValue = Val(Replace(Split, "%", ""))
     End Function
+
     Public Function FormatSplit(ByVal Split As Double) As String
         FormatSplit = Format(Split, "0.0#")
     End Function
-
 End Module

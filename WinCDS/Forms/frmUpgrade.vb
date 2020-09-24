@@ -253,5 +253,4 @@
         UpgradeNoMessages = True
         DoSilentUpdate()
     End Sub
-
 End Class

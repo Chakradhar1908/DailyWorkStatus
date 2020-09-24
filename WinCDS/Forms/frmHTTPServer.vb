@@ -33,5 +33,4 @@
         'sck(0).Close
         sck0.Close()
     End Sub
-
 End Class

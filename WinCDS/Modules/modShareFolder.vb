@@ -117,5 +117,4 @@ Module modShareFolder
         '  MsgBox WinSysError(Res)
         ShareAdd = (Res = NERR_Success Or Res = NERR_DuplicateShare)
     End Function
-
 End Module

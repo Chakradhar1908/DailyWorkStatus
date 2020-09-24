@@ -38,5 +38,4 @@
 
         MD5_Hash = strHash
     End Function
-
 End Class

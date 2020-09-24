@@ -2540,5 +2540,4 @@ ErrHand:
         g_Holding.Deposit = g_Holding.Deposit + GetPrice(Amt)
         g_Holding.Save()
     End Sub
-
 End Class

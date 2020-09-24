@@ -26,8 +26,8 @@
         <VBFixedString(7)> Dim MarginLine As String
     End Structure
 
-    Public Poid as integer
-    Public PoNo as integer
+    Public Poid As Integer
+    Public PoNo As Integer
     Public SaleNo As String
     Public PoDate As String
     Public Name As String
@@ -37,21 +37,21 @@
     Public Style As String
     Public Desc As String
     Public Cost As Decimal
-    Public Location as integer
-    Public SoldTo as integer
-    Public ShipTo as integer
-    Public Note1 as integer
-    Public Note2 as integer
-    Public Note3 as integer
-    Public Note4 as integer
+    Public Location As Integer
+    Public SoldTo As Integer
+    Public ShipTo As Integer
+    Public Note1 As Integer
+    Public Note2 As Integer
+    Public Note3 As Integer
+    Public Note4 As Integer
     Public PoNotes As String
     Public AckInv As String
     Public PrintPo As String
     Public Posted As String
-    Public wCost as integer
-    Public RN as integer
-    Public Detail as integer
-    Public MarginLine as integer
+    Public wCost As Integer
+    Public RN As Integer
+    Public Detail As Integer
+    Public MarginLine As Integer
     Public ShiptoName As String
     Public ShipToAddress As String
     Public ShipToCity As String
@@ -141,5 +141,4 @@ NoSave:
         ' Move to the first record if we can, and return success.
         If DataAccess.Records_Available Then Load = True
     End Function
-
 End Class

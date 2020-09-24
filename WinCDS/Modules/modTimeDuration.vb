@@ -1,12 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.Interaction
 Module modTimeDuration
-    Const DUR_MS_S as integer = 1000
-    Const DUR_S_M as integer = 60
-    Const DUR_M_H as integer = 60
-    Const DUR_H_D as integer = 24
-    Const DUR_D_W as integer = 7
-    Const DUR_D_T as integer = 30
-    Const DUR_D_Y as integer = 365
+    Const DUR_MS_S As Integer = 1000
+    Const DUR_S_M As Integer = 60
+    Const DUR_M_H As Integer = 60
+    Const DUR_H_D As Integer = 24
+    Const DUR_D_W As Integer = 7
+    Const DUR_D_T As Integer = 30
+    Const DUR_D_Y As Integer = 365
 
     Public Enum TimeDurationStyles
         tdsty_Text = 0
@@ -26,7 +26,7 @@ Module modTimeDuration
         tseg_Y
     End Enum
 
-    Public Function DescribeTimeDurationMS(ByVal Ms as integer, Optional ByVal Style As TimeDurationStyles = TimeDurationStyles.tdsty_Text, Optional ByVal Resolution As TimeSegments = TimeSegments.tseg_Y) As String
+    Public Function DescribeTimeDurationMS(ByVal Ms As Integer, Optional ByVal Style As TimeDurationStyles = TimeDurationStyles.tdsty_Text, Optional ByVal Resolution As TimeSegments = TimeSegments.tseg_Y) As String
         DescribeTimeDurationMS = DescribeTimeDuration(Ms / DUR_MS_S, Style, Resolution)
     End Function
 
@@ -181,5 +181,4 @@ Render:
         TimeRemaining = DescribeTimeDurationMS(IIf(UseCurr, RemainingTicks, LastReturn) + 1000, TimeDurationStyles.tdsty_Clock) '+ 1000 because you NEVER show 0s...  0s means done, not 1s remaining.
         LastResult = TimeRemaining
     End Function
-
 End Module

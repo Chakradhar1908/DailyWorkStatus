@@ -64,6 +64,7 @@ Module modStringFunctions
             If IsInStr(Source, L) Then IsInStrArray = True : Exit Function
         Next
     End Function
+
     Public Function AlignString(ByVal Source As String, ByVal DesiredLength As Integer, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignRight, Optional ByVal Truncate As Boolean = False) As String
         '::::AlignString
         ':::SUMMARY
@@ -105,6 +106,7 @@ Module modStringFunctions
             End Select
         End If
     End Function
+
     Public Function WrapLongText(ByVal Inp As String, ByVal MaxLen As Integer, Optional ByVal NL As String = vbCrLf, Optional ByVal NavigateWordSplit As Boolean = False) As String
         '::::WrapLongText
         ':::SUMMARY
@@ -125,9 +127,11 @@ Module modStringFunctions
         F = SplitLongText(Inp, MaxLen, NavigateWordSplit)
         WrapLongText = Join(F, NL)
     End Function
+
     Public Function ArrangeString(ByVal Source As String, ByVal Length As Integer, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal Truncate As Boolean = True) As String
         ArrangeString = AlignString(Source, Length, Alignment, Truncate)
     End Function
+
     Public Function SplitLongText(ByVal Inp As String, ByVal MaxLen As Integer, Optional ByVal CareAboutWords As Boolean = True) As Object
         '::::SplitLongText
         ':::SUMMARY
@@ -163,6 +167,7 @@ Module modStringFunctions
         Next
         SplitLongText = Out
     End Function
+
     Public Function LastWhiteSpace(ByVal Inp As String, Optional ByVal nPos As Integer = 0) As Integer
         '::::LastWhiteSpace
         ':::SUMMARY
@@ -202,6 +207,7 @@ Module modStringFunctions
         If LL > LastWhiteSpace Then LastWhiteSpace = LL
         If LastWhiteSpace < 0 Then LastWhiteSpace = 0
     End Function
+
     Public Function NLTrim(ByVal Str As String) As String
         '::::NLTrim
         ':::SUMMARY
@@ -225,6 +231,7 @@ Module modStringFunctions
         Loop
         NLTrim = Str
     End Function
+
     Public Function Slug(ByVal S As String, Optional ByVal MaxLen As Integer = 0) As String
         '::::slug
         ':::SUMMARY
@@ -245,6 +252,7 @@ Module modStringFunctions
         ':  ArrangeString, StringNumerals, ReduceString
         Slug = ReduceString(S)
     End Function
+
     Public Function AugmentByRightLetter(ByVal CurrentArNo As String, Optional ByVal UpperCase As Boolean = True) As String
         '::::AugmentByRightLetter
         ':::SUMMARY
@@ -271,6 +279,7 @@ Module modStringFunctions
             AugmentByRightLetter = Left(CurrentArNo, Len(CurrentArNo) - 1) & Chr(Asc(C) + 1)
         End If
     End Function
+
     Public Function ReduceString(ByVal Src As String, Optional ByVal Allowed As String = "", Optional ByVal Subst As String = "-", Optional ByVal MaxLen As Integer = 0, Optional ByVal bLCase As Boolean = True) As String
         '::::ReduceString
         ':::SUMMARY
@@ -412,7 +421,7 @@ Module modStringFunctions
         WrapLongTextByPrintWidth = Out
     End Function
 
-    Public Function RandomAlphaNumString(ByVal nLen as integer) As String
+    Public Function RandomAlphaNumString(ByVal nLen As Integer) As String
         '::::RandomAlphaNumString
         ':::SUMMARY
         ': generates a random alphanumeirc string of a given length
@@ -426,7 +435,7 @@ Module modStringFunctions
         ':  String
         ':::SEE ALSO
         ': CreateUniqueID
-        Dim I as integer, C As Byte
+        Dim I As Integer, C As Byte
 
         RandomAlphaNumString = ""
         Randomize()
@@ -441,5 +450,4 @@ Module modStringFunctions
             End Select
         Next
     End Function
-
 End Module

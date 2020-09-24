@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.Compatibility.VB6
 Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Public Class Calendar
-    Private Const MAX_DAY_COLUMNS as integer = 31
+    Private Const MAX_DAY_COLUMNS As Integer = 31
     ' This form is loaded modal by InvOrdStatus and BillOSale.
     Private mLoadedByForm As Boolean
     Private mGridMoving As Boolean
@@ -26,7 +26,7 @@ Public Class Calendar
 
     Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
         ' Update the column label..
-        Dim OldRow as integer
+        Dim OldRow As Integer
 
         If mGridMoving Then Exit Sub
         If grid.Rows < 2 Then Exit Sub
@@ -55,7 +55,7 @@ Public Class Calendar
         ' I wish there were a more automatic way to do this..
 
         If Not mGridMoving Then Exit Sub
-        Dim TR as integer, TW as integer, OldCol as integer, mGridDescHeight as integer
+        Dim TR As Integer, TW As Integer, OldCol As Integer, mGridDescHeight As Integer
         OldCol = grid.Col
         grid.Row = 1
         For TR = 0 To grid.Cols - 1
@@ -77,7 +77,7 @@ Public Class Calendar
         CalendarInstr.ShowDialog()
     End Sub
 
-    Public Function GetDeliveryCalendarData(ByVal StartDate As Date, ByVal DayCount as integer, Optional ByVal Store as integer = 0, Optional ByVal WithRecord As Boolean = False, Optional ByVal AllowSLDN As Boolean = False) As ADODB.Recordset
+    Public Function GetDeliveryCalendarData(ByVal StartDate As Date, ByVal DayCount As Integer, Optional ByVal Store As Integer = 0, Optional ByVal WithRecord As Boolean = False, Optional ByVal AllowSLDN As Boolean = False) As ADODB.Recordset
         Dim SQL As String, EndDate As Date
 
         If Store = 0 Then Store = StoresSld
@@ -126,7 +126,7 @@ Public Class Calendar
     End Sub
 
     Private Sub PrintDayDeliveryManifest()
-        Dim Whenn As Date, CD As ADODB.Recordset, RD As ADODB.Recordset, X As String, Y as integer
+        Dim Whenn As Date, CD As ADODB.Recordset, RD As ADODB.Recordset, X As String, Y As Integer
         Whenn = DateAdd("d", grid.Col, Today)
 
         OutputToPrinter = True
@@ -174,7 +174,7 @@ Public Class Calendar
     End Sub
 
     Private Sub PrintManifestHeader(ByVal Whenn As Date)
-        Dim Y as integer
+        Dim Y As Integer
         Printer.FontSize = 20
         Printer.FontBold = True
         PrintAligned(StoreSettings.Name, AlignmentConstants.vbCenter)
@@ -199,7 +199,7 @@ Public Class Calendar
     End Sub
 
     Private Sub cmdMap_Click(sender As Object, e As EventArgs) Handles cmdMap.Click
-        Dim I as integer, DCount as integer, Ty As String
+        Dim I As Integer, DCount As Integer, Ty As String
 
         ActiveLog("Calendar::OpenMap", 5)
         If Not AllowMap Then Exit Sub ' They have to have mapping components
@@ -254,11 +254,11 @@ Public Class Calendar
         PrintCalendar(D, MAX_DAY_COLUMNS)
     End Sub
 
-    Private Sub PrintCalendar(ByVal StartDate As Date, ByVal DayCount as integer)
-        Dim Y as integer, LastY as integer
-        Dim NumPages as integer, PageColCount as integer
-        Dim ColCount as integer, ColRepeats as integer, ColRows as integer, newCol As Boolean
-        Dim MaxItemsPerColumn as integer, MaxPageColCount as integer
+    Private Sub PrintCalendar(ByVal StartDate As Date, ByVal DayCount As Integer)
+        Dim Y As Integer, LastY As Integer
+        Dim NumPages As Integer, PageColCount As Integer
+        Dim ColCount As Integer, ColRepeats As Integer, ColRows As Integer, newCol As Boolean
+        Dim MaxItemsPerColumn As Integer, MaxPageColCount As Integer
 
         MaxItemsPerColumn = 50
         MaxPageColCount = 7
@@ -296,7 +296,7 @@ Public Class Calendar
             If newCol Then
                 ' Print date headers from the last date to the current.
                 ' This prints empty columns for days with no deliveries.
-                Dim I as integer
+                Dim I As Integer
                 For I = LastY + 1 To Y
                     ' Do we need a new page?
                     ColCount = ColCount + 1
@@ -356,7 +356,7 @@ HandleErr:
         Resume Next
     End Sub
 
-    Private Sub PrintDeliveryCalendarHeader(ByVal DayCount as integer, ByVal NumPages as integer)
+    Private Sub PrintDeliveryCalendarHeader(ByVal DayCount As Integer, ByVal NumPages As Integer)
         ' Set the printer font and position for document title
         Printer.FontSize = 16
         Printer.FontBold = True
@@ -370,8 +370,8 @@ HandleErr:
         PrintCentered(StoreSettings.Name & "  " & "  " & StoreSettings.Address & "  " & "  " & StoreSettings.City)
     End Sub
 
-    Private Sub PrintDeliveryCalendarDateHeader(ByVal StartDate As Date, ByVal Offset as integer, ByVal ColNum as integer, ByVal ColRepeats as integer)
-        Dim Rm as integer
+    Private Sub PrintDeliveryCalendarDateHeader(ByVal StartDate As Date, ByVal Offset As Integer, ByVal ColNum As Integer, ByVal ColRepeats As Integer)
+        Dim Rm As Integer
         ' Set the printer font and position for day and date labels
         Printer.FontBold = True
         Printer.FontSize = 12
@@ -413,7 +413,7 @@ HandleErr:
 
     Private Function CheckAllowMap() As Boolean
         Dim C As String, cX As String, L As String, Lx As String
-        Dim MI(0 To 45) As String, I as integer
+        Dim MI(0 To 45) As String, I As Integer
         Dim N As Object, M As Object
 
         C = LocalRoot & "Program Files\"
@@ -431,9 +431,9 @@ HandleErr:
         For Each M In MI
             'For Each N In Array(C, cX, L, Lx)
             For Each N In A
-                    If FileExists(N & M) Then CheckAllowMap = True : Exit Function
-                    Next
-                Next
+                If FileExists(N & M) Then CheckAllowMap = True : Exit Function
+            Next
+        Next
     End Function
 
     Private Sub Calendar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -468,7 +468,7 @@ HandleErr:
 
         If Width > Screen.PrimaryScreen.Bounds.Width Then
             ' Form is too wide for some customers!
-            Dim GridBorder as integer
+            Dim GridBorder As Integer
             GridBorder = Width - grid.Width
             'Width = Screen.Width
             Width = Screen.PrimaryScreen.Bounds.Width
@@ -477,7 +477,7 @@ HandleErr:
             ' txtDayLabel and lblDayLabel are the caption entry boxes..
             ' fraButtons contains the Back/Print buttons.
             If cmdApply.Left + cmdApply.Width > Width Then
-                Dim Diff as integer, Diff2 as integer
+                Dim Diff As Integer, Diff2 As Integer
                 Diff = cmdApply.Left - fraButtons.Left
                 Diff2 = cmdApply.Left - txtDayLabel.Left
 
@@ -497,14 +497,14 @@ HandleErr:
         End If
     End Sub
 
-    Private Sub LoadGrid(ByVal StartDate As Date, ByVal DayCount as integer, Optional ByVal AllStores As Boolean = False)
+    Private Sub LoadGrid(ByVal StartDate As Date, ByVal DayCount As Integer, Optional ByVal AllStores As Boolean = False)
         Dim cDelDesc As clsDeliveryDateDesc
         Dim RS As ADODB.Recordset
-        Dim I as integer, Rows() as integer
-        Dim XIndex as integer
-        Dim SaleNm As String, SaleNo As String, SalePD As String, SaleStr as integer
+        Dim I As Integer, Rows() As Integer
+        Dim XIndex As Integer
+        Dim SaleNm As String, SaleNo As String, SalePD As String, SaleStr As Integer
         Dim SaleTS As String, SaleCY As String
-        Dim X as integer, StartStore as integer, EndStore as integer
+        Dim X As Integer, StartStore As Integer, EndStore As Integer
         Dim Transfers As New Collection
         Dim DoSkip As Boolean
 
@@ -628,7 +628,7 @@ Skip:
     Public Sub TestPrinterLocations()
         Printer.FontSize = 8
         Printer.FontBold = False
-        Dim I as integer
+        Dim I As Integer
         For I = 1 To 7
             ' At size 8, an offset of 1 is 72 units.
             Printer.Print(TAB(PrinterPosition(I, 1)))
@@ -637,7 +637,7 @@ Skip:
         Printer.KillDoc()
     End Sub
 
-    Private Function GetSaleNoFromText(ByVal Text As String, Optional ByRef StoreNo as integer = 0) As String
+    Private Function GetSaleNoFromText(ByVal Text As String, Optional ByRef StoreNo As Integer = 0) As String
         If Microsoft.VisualBasic.Left(Text, 1) = "L" Then
             GetSaleNoFromText = Trim(Mid(Text, 20))
             StoreNo = Val(Mid(Text, 2, 2))
@@ -650,7 +650,7 @@ Skip:
     Private Sub grid_DblClick(sender As Object, e As EventArgs) Handles grid.DblClick
         If mLoadedByForm Then Exit Sub  ' This doesn't work if we're loaded modally.
         If grid.Row < 2 Then Exit Sub
-        Dim tSaleNo As String, tStore as integer
+        Dim tSaleNo As String, tStore As Integer
         tSaleNo = GetSaleNoFromText(grid.Text, tStore)
         If Microsoft.VisualBasic.Right(tSaleNo, 2) = " T" Then tSaleNo = Trim(Mid(tSaleNo, 1, Len(tSaleNo) - 2))
         If InStr(tSaleNo, "(") <> 0 Then
@@ -698,7 +698,7 @@ Skip:
 
     Private Sub grid_EnterCell(sender As Object, e As EventArgs) Handles grid.EnterCell
         Dim MapEnabled As Boolean, InstrEnabled As Boolean, ManiEnabled As Boolean
-        Dim I as integer, K As String
+        Dim I As Integer, K As String
 
         MapEnabled = False
         InstrEnabled = False
@@ -723,7 +723,7 @@ Skip:
     End Sub
 
     Private Sub grid_RowColChange(sender As Object, e As EventArgs) Handles grid.RowColChange
-        Dim OldRow as integer
+        Dim OldRow As Integer
 
         If mGridMoving Then Exit Sub
         If grid.Rows < 2 Then Exit Sub
@@ -735,7 +735,7 @@ Skip:
         lblDayLabel.Text = "Enter delivery zone for " & grid.Text & "."
 
         If False Then   ' for now, too slow..
-            Dim I as integer, C As Double, L As String, LC as integer
+            Dim I As Integer, C As Double, L As String, LC As Integer
             For I = 2 To grid.Rows - 1
                 L = GetSaleNoFromText(grid.get_TextMatrix(I, grid.Col), LC)
                 C = C + GetCubesOnSale(L, Mid(grid.Text, 6), LC)
@@ -792,7 +792,7 @@ Skip:
     Public Sub DDT_GenerateCSV(ByVal D As String)
         Dim CD As ADODB.Recordset
         Dim T As String, C As String
-        Dim II as integer, IA as integer, iB as integer
+        Dim II As Integer, IA As Integer, iB As Integer
         Dim Ty As String
 
         T = DDT_Header()
@@ -862,7 +862,7 @@ Skip:
 
     Public Sub DDT_UploadData(ByVal D As String)
         Dim CD As ADODB.Recordset
-        Dim II as integer, IA as integer, iB as integer
+        Dim II As Integer, IA As Integer, iB As Integer
         Dim StoreData As Collection
 
         If chkMultiple.Checked = True Then
@@ -887,5 +887,4 @@ Skip:
         DDT_DoUploadData(D, StoreData)
         ProgressForm()
     End Sub
-
 End Class

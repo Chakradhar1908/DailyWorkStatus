@@ -2,8 +2,7 @@
     Public Result As String
     Public Location as integer
     Public Cancelled As Boolean
-    Public Poid as integer
-
+    Public Poid as Integer
     Private mStatus As String
 
     Public Sub SetupForm(ByVal nStyle As String, ByVal nStatus As String, ByVal nLocation As String, Optional ByVal Poid as integer = 0)
@@ -13,6 +12,7 @@
         txtLoc.Text = nLocation
         ConvertTo = ""
     End Sub
+
     Public Property Style() As String
         Get
             Style = lblStyle.Text
@@ -64,10 +64,11 @@
                     optST.Visible = False
                     optTW.Visible = False
                 Case Else
-                    MsgBox("Unknown status: " & value)
+                    MessageBox.Show("Unknown status: " & value, "WinCDS")
             End Select
         End Set
     End Property
+
     Public Property ConvertTo() As String
         Get
             If optNn.Checked Then ConvertTo = ""

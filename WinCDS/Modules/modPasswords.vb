@@ -3,27 +3,27 @@
     Private LastLoginPriv As String
 
     Private LastLoginExpiry As Date
-    Private Const SECURITY_PASSWORD_TIMEOUT as integer = 180
+    Private Const SECURITY_PASSWORD_TIMEOUT As Integer = 180
 
     Private Const BACKDOOR_PROGRAMMER As String = "QkFDS0RPT1I="
     Private Const BACKDOOR_USERNAME As String = "BACKDOOR"
-    Private Const BACKDOOR_0 as integer = 2048  ' Shut off all but programmer back door
-    Private Const BACKDOOR_1 as integer = 1
-    Private Const BACKDOOR_2 as integer = 2
-    Private Const BACKDOOR_3 as integer = 4
-    Private Const BACKDOOR_4 as integer = 8
-    Private Const BACKDOOR_5 as integer = 16
-    Private Const BACKDOOR_6 as integer = 32
-    Private Const BACKDOOR_7 as integer = 64
-    Private Const BACKDOOR_8 as integer = 128
-    Private Const BACKDOOR_9 as integer = 256
-    Private Const BACKDOOR_A as integer = 512
-    Private Const BACKDOOR_B as integer = 1024
-    Private Const BACKDOOR_C as integer = 2048
-    Private Const BACKDOOR_D as integer = 4096
-    Private Const BACKDOOR_E as integer = 8192
-    Private Const BACKDOOR_F as integer = 16384
-    Private Const BACKDOOR_P as integer = 32767 '  FFF, 2048
+    Private Const BACKDOOR_0 As Integer = 2048  ' Shut off all but programmer back door
+    Private Const BACKDOOR_1 As Integer = 1
+    Private Const BACKDOOR_2 As Integer = 2
+    Private Const BACKDOOR_3 As Integer = 4
+    Private Const BACKDOOR_4 As Integer = 8
+    Private Const BACKDOOR_5 As Integer = 16
+    Private Const BACKDOOR_6 As Integer = 32
+    Private Const BACKDOOR_7 As Integer = 64
+    Private Const BACKDOOR_8 As Integer = 128
+    Private Const BACKDOOR_9 As Integer = 256
+    Private Const BACKDOOR_A As Integer = 512
+    Private Const BACKDOOR_B As Integer = 1024
+    Private Const BACKDOOR_C As Integer = 2048
+    Private Const BACKDOOR_D As Integer = 4096
+    Private Const BACKDOOR_E As Integer = 8192
+    Private Const BACKDOOR_F As Integer = 16384
+    Private Const BACKDOOR_P As Integer = 32767 '  FFF, 2048
 
     Private Const SECURITY_NAME_BACKDOOR As String = BACKDOOR_USERNAME
     Private Const SECURITY_NAME_DEMO As String = "DEMO"
@@ -56,7 +56,7 @@
     Private Const BACKDOOR_PASSWORDE As String = "{DC7221D5-770F-B547-B2C5-9D4D4080B1AD}"
     Private Const BACKDOOR_PASSWORDF As String = "{BE86C4B0-0AB2-0149-89C6-F5EF46F6FA56}"
 
-    Private Const BACKDOOR_PASSWORD_MAX as integer = 15
+    Private Const BACKDOOR_PASSWORD_MAX As Integer = 15
 
     Public Enum ComputerSecurityLevels
         seclevOfficeComputer = 0
@@ -65,7 +65,7 @@
     End Enum
     Public Structure PermissionOption
         Dim OptionDesc As String
-        Dim OptionID as integer
+        Dim OptionID As Integer
     End Structure
 
     Public ReadOnly Property LastLoginExpired() As Boolean
@@ -119,7 +119,7 @@
         ':::RETURN
         ': Boolean - Returns True if the specified account validates and has access to Zone, else false.
         Dim CheckAllStores As Boolean
-        Dim TargetZone as integer, Security As ComputerSecurityLevels
+        Dim TargetZone As Integer, Security As ComputerSecurityLevels
         Dim PwdOK As Boolean
 
         TargetZone = QueryPrivZone(Zone)
@@ -220,7 +220,7 @@
             Exit Function
         End If
 
-        Dim Emp As clsEmployee, FromStore as integer, ToStore as integer, I as integer
+        Dim Emp As clsEmployee, FromStore As Integer, ToStore As Integer, I As Integer
 
         If CheckAllStores Then
             FromStore = 1
@@ -263,8 +263,8 @@
         Next
     End Function
 
-    Private Function QueryPrivZone(ByRef Zone As String) as integer
-        Dim I as integer
+    Private Function QueryPrivZone(ByRef Zone As String) As Integer
+        Dim I As Integer
         LoadPermOptions
         For I = LBound(PermOptions) To UBound(PermOptions)
             If Trim(PermOptions(I).OptionDesc) = Trim(Zone) Then
@@ -274,8 +274,8 @@
         Next
     End Function
 
-    Private Function CheckPrivLevel(ByRef PrivZone as integer, ByRef PrivHas As String) As Boolean
-        Dim I as integer, Priv As String
+    Private Function CheckPrivLevel(ByRef PrivZone As Integer, ByRef PrivHas As String) As Boolean
+        Dim I As Integer, Priv As String
         If PrivHas = "" Then Exit Function                ' No privs supplied - fail.
         If InStr(PrivHas, "A") > 0 Then                   ' Admin - ok.
             If Left(Trim(QueryPrivDesc(PrivZone)), 7) = "Prevent" Then           ' But prevent nothing
@@ -378,12 +378,15 @@
             End If
         End If
     End Sub
+
     Private Function PasswordTextbox() As TextBox
         PasswordTextbox = MainMenu.txtPassword
     End Function
+
     Private Function PasswordCommandButton() As Button
         PasswordCommandButton = MainMenu.cmdEnterPassword
     End Function
+
     Public Function Backdoor(ByVal Pwd As String) As Boolean
         '::::Backdoor
         ':::SUMMARY
@@ -395,7 +398,7 @@
         ': - Pwd
         ':::RETURN
         ': Boolean
-        Dim Mode as integer
+        Dim Mode As Integer
         Mode = BACKDOOR_1   ' default is to only use password #1
         Pwd = UCase(Pwd)
 
@@ -428,6 +431,7 @@
         If Not Backdoor And (Mode And BACKDOOR_F) Then Backdoor = (Pwd = BACKDOOR_PASSWORDF)
         If Not Backdoor And (Mode And BACKDOOR_P) Then Backdoor = (Pwd = DecodeBase64String(BACKDOOR_PROGRAMMER))
     End Function
+
     Public Sub LoadPermOptions()
         '::::LoadPermOptions
         ':::SUMMARY
@@ -537,8 +541,8 @@
         Exit Function
 
 ErrCrypt:
-        MsgBox("Error encrypting " & Plaintext & " for " & UserName & "." & vbCrLf &
-    "Please contact " & AdminContactString(Format:=1, Phone:=False) & " immediately!", vbCritical, ProgramErrorTitle)
+        MessageBox.Show("Error encrypting " & Plaintext & " for " & UserName & "." & vbCrLf &
+    "Please contact " & AdminContactString(Format:=1, Phone:=False) & " immediately!", ProgramErrorTitle)
     End Function
 
     Private Function StringValue(ByVal Inp As String) As Integer
@@ -585,7 +589,7 @@ ErrCrypt:
         Rnd(-1)                            ' Prepare the randomizer for a repeatable sequence.
         Randomize(StringValue(UserName))   ' Initialize the repeatable sequence by username.
         Dim I As Integer
-        For I = 1 To 16 : Rnd() :
+        For I = 1 To 16 : Rnd()
         Next        ' Discard the first 16 random numbers.
         For I = 1 To Len(EncText)         ' Encrypt each character in the password.
             Decrypt = Decrypt & CryptCharacter(Mid(EncText, I, 1), Rnd, False)
@@ -593,8 +597,8 @@ ErrCrypt:
         Exit Function
 
 ErrCrypt:
-        MsgBox("Error decrypting " & EncText & " for " & UserName & "." & vbCrLf &
-    "Please contact " & AdminContactString(Format:=1, Phone:=False) & " immediately!", vbCritical, ProgramErrorTitle)
+        MessageBox.Show("Error decrypting " & EncText & " for " & UserName & "." & vbCrLf &
+    "Please contact " & AdminContactString(Format:=1, Phone:=False) & " immediately!", ProgramErrorTitle)
     End Function
 
     Public Sub LogOut()
@@ -627,5 +631,4 @@ ErrCrypt:
             IsLoggedIn = Not LastLoginExpired
         End Get
     End Property
-
 End Module

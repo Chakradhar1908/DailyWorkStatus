@@ -50,7 +50,8 @@ Public Class clsXChargeXpressLink
             Msg = "Failure: "
             Msg = Msg & Res.Item("REASON")  '  can fail...
             Msg = Msg & Res.Item("DESCRIPTION")
-            MsgBox(">> " & Msg)
+            'MsgBox(">> " & Msg)
+            MessageBox.Show(">> " & Msg)
             Exit Function
         End If
         ExecPurchase = True
@@ -62,7 +63,7 @@ Public Class clsXChargeXpressLink
             ' if they do cancel, we must cancel the partial transaction, because it has already gone through.
             Dim R As VbMsgBoxResult
             LogText("Partial Approval Amount: " & ApprovedAmountResult & " (Tot=" & GetPrice(Amount) & ")... Cancelling Transaction")
-            R = MsgBox("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", vbExclamation + vbOKCancel, "Partial Approval on Credit Card")
+            R = MessageBox.Show("Amount was partially approved." & vbCrLf & "You can use an additional tender type, or cancel this partial transaction." & vbCrLf2 & "Press OK to continue, or Cancel this transaction.", "Partial Approval on Credit Card", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
             If R = vbCancel Then
                 LogText("Partially Approved Transaction CANCELLED at users request")
                 ExecPurchase = False
@@ -184,7 +185,7 @@ Public Class clsXChargeXpressLink
 
         C = CreateObject("eXpressLink.XCeXpressLink")
         If C.IsXCClientRunning Then
-            MsgBox("XCharge Client is already running." & vbCrLf & "Close the current window before processing Credit Card.")
+            MessageBox.Show("XCharge Client is already running." & vbCrLf & "Close the current window before processing Credit Card.")
             LogText("XCXL - eXpressLink: Already Running")
             Exit Function
         End If
@@ -193,7 +194,7 @@ Public Class clsXChargeXpressLink
 
         R = C.ExecuteXCClient(Args, 1)
         If R = 0 Then
-            MsgBox("Failed to start XCharge")
+            MessageBox.Show("Failed to start XCharge", "WinCDS")
             LogText("XCXL - eXpressLink: Failed to start")
             Exit Function
         End If
@@ -351,5 +352,4 @@ Public Class clsXChargeXpressLink
         ExecGiftReturn = True
 #End If
     End Function
-
 End Class

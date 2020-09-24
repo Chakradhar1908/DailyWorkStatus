@@ -32,7 +32,7 @@
         End Get
     End Property
 
-    Public Function SiteDepartmentURL(ByVal DeptName As String, Optional ByVal PageNum as integer = 1) As String
+    Public Function SiteDepartmentURL(ByVal DeptName As String, Optional ByVal PageNum As Integer = 1) As String
         SiteDepartmentURL = "/dept/" & ProtectFileName(DeptName) & PageNum & ".html"
     End Function
 
@@ -48,5 +48,4 @@
         FN = Replace(FN, "'", "")
         ProtectFileName = LCase(FN)
     End Function
-
 End Class

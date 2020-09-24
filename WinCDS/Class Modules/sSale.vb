@@ -234,7 +234,7 @@ NextItem:
         Dim dV As String, dVN As String, dDpt As Integer, dLc As Integer
 
         If Not OkToProcess(TDesc, SpecifiedSaleNo) Then
-            If TDesc <> "" Then MsgBox(TDesc, vbOKOnly + vbExclamation, "Sale not ready")
+            If TDesc <> "" Then MessageBox.Show(TDesc, "Sale not ready", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Function
         End If
 
@@ -624,6 +624,7 @@ Optional ByVal TransID As String = "") As Boolean
     Private Sub DiscountVendorAndDept(ByVal I As Integer, ByRef V As String, ByRef vN As String, ByRef Dept As Integer, ByRef vLoc As Integer)
         Dim J As Integer
         Dim SD As String
+
         On Error Resume Next
         For J = I To 1 Step -1
             If IsItem(QueryStyle(J)) And Not (WantCheckDisposal() And GetDeptNoFromStyle(QueryStyle(J)) = DisposalDepartment()) Then
@@ -631,7 +632,8 @@ Optional ByVal TransID As String = "") As Boolean
                 vN = GetVendorNoFromName(V)
                 SD = GetDeptFromStyleNo(QueryStyle(J))
                 If SD = "" Then Exit Sub
-                Dept = CLng(SD)
+                'Dept = CLng(SD)
+                Dept = CInt(SD)
                 vLoc = QueryLoc(J)
                 Exit Sub
             End If
@@ -796,8 +798,6 @@ Optional ByVal TransID As String = "") As Boolean
                 '        AddNewCashJournalRecord "11300", tP, SaleNo, "", Date
                 '      End If
         End Select
-
-
     End Function
 
     Private Function PrintInvoices(ByVal vSaleNo As String)
@@ -922,7 +922,6 @@ DoneClearing:
         QueryDesc = Left(Items(Index - 1).Desc, Setup_2Data_DescMaxLen)
     End Function
 
-
     Public Property LAB() As Decimal
         Get
             LAB = mLab
@@ -959,6 +958,7 @@ DoneClearing:
 
     Public Function SaleHasBedding() As Boolean
         Dim DeptChk As Integer
+
         If IsSleepCity Then DeptChk = 0
         If IsBarrs Then DeptChk = 6
         Dim SD As String
@@ -967,7 +967,8 @@ DoneClearing:
             S = Items(I - 1).Style
             SD = GetDeptFromStyleNo(S)
             If SD = "" Then Exit Function
-            D = CLng(SD)
+            'D = CLng(SD)
+            D = CInt(SD)
             If D = DeptChk Then
                 SaleHasBedding = True
                 Exit Function
@@ -975,10 +976,10 @@ DoneClearing:
         Next
     End Function
 
-
     Public Function SaleHasDisposal() As Boolean
         Dim DeptChk As Integer
         Dim SD As String
+
         DeptChk = DisposalDepartment()
         '  If IsSleepCity Then DeptChk = 10
         '  If IsBarrs Then DeptChk = 10
@@ -987,7 +988,8 @@ DoneClearing:
             S = Items(I - 1).Style
             SD = GetDeptFromStyleNo(S)
             If SD = "" Then Exit Function
-            D = CLng(SD)
+            'D = CLng(SD)
+            D = CInt(SD)
             If D = DeptChk Then
                 SaleHasDisposal = True
                 Exit Function
@@ -1295,7 +1297,6 @@ DoneClearing:
         Printer.FontSize = 6
         Printer.CurrentX = 6200 : Printer.CurrentY = 2400
         Printer.Print("First", SPC(37), "Last/Company")
-
 
         Printer.CurrentX = 6200 : Printer.CurrentY = 2800
         Printer.Print("Address")

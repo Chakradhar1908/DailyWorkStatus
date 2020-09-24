@@ -79,7 +79,7 @@
         Exit Sub
 
 HandleErr:
-        MsgBox(" Access Init: " & Err.Description, , Err.Number)
+        MessageBox.Show(" Access Init: " & Err.Description, "WinCDS")
     End Sub
 
     Private Sub mDBInvKit_Init()
@@ -111,5 +111,4 @@ HandleErr:
         'Unload mInvCkStyle
         mInvCkStyle.Close()
     End Sub
-
 End Class

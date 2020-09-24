@@ -28,18 +28,21 @@ Module ShellOut
     Private Declare Function EnumProcesses Lib "psapi.dll" (lpidProcess As Integer, ByVal Cb As Integer, cbNeeded As Integer) As Integer
     Private Declare Function EnumProcessModules Lib "psapi.dll" (ByVal hProcess As Integer, lphModule As Integer, ByVal Cb As Integer, lpcbNeeded As Integer) As Integer
     Private Declare Function GetModuleBaseName Lib "psapi.dll" Alias "GetModuleBaseNameA" (ByVal hProcess As Integer, ByVal hModule As Integer, ByVal lpFileName As String, ByVal nSize As Integer) As Integer
+
     Enum EnSW
         enSW_HIDE = 0
         enSW_NORMAL = 1
         enSW_MAXIMIZE = 3
         enSW_MINIMIZE = 6
     End Enum
+
     Public Structure PROCESS_INFORMATION
         Dim hProcess As Integer
         Dim hThread As Integer
         Dim dwProcessId As Integer
         Dim dwThreadId As Integer
     End Structure
+
     Public Structure STARTUPINFO
         Dim Cb As Integer
         'Dim lpReserved As Integer ' !!! must be Long for Unicode string
@@ -64,6 +67,7 @@ Module ShellOut
         Dim hStdOutput As Integer
         Dim hStdError As Integer
     End Structure
+
     Private Structure OSVERSIONINFO
         Dim dwOSVersionInfoSize As Integer
         Dim dwMajorVersion As Integer
@@ -72,6 +76,7 @@ Module ShellOut
         Dim dwPlatformId As Integer
         <VBFixedString(128)> Dim szCSDVersion As String
     End Structure
+
     Private Structure PROCESSENTRY32
         Dim dwSize As Integer
         Dim cntUsage As Integer
@@ -194,7 +199,7 @@ RunError:
 ErrorRoutineResume:
         Exit Sub
 ErrorRoutineErr:
-        MsgBox("AppShell.Form1.ShellOut: ", Err.Description)
+        MessageBox.Show("AppShell.Form1.ShellOut: ", Err.Description)
         Resume Next
     End Sub
 
@@ -398,5 +403,4 @@ HandleErr:
         TerminateProcess(pId, 0&)
         KillProcessID = True
     End Function
-
 End Module

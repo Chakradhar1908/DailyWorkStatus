@@ -1,6 +1,6 @@
 ﻿Module dbSQL
     ' get number of records
-    Public Function getRecordsetCountByTable(ByRef Table As String, Optional ByRef File As String = "") as integer
+    Public Function getRecordsetCountByTable(ByRef Table As String, Optional ByRef File As String = "") As Integer
         '::::getRecordsetCountByTable
         ':::SUMMARY
         ': Used to get the Recordset Count.
@@ -14,7 +14,7 @@
         getRecordsetCountByTable = getRecordsetCountBySQL(SQL:="SELECT [" & Table & "].*" & " FROM " & Table, File:=File)
     End Function
     ' get number of records
-    Public Function getRecordsetCountBySQL(ByRef SQL As String, Optional ByRef File As String = "") as integer
+    Public Function getRecordsetCountBySQL(ByRef SQL As String, Optional ByRef File As String = "") As Integer
         '::::getRecordsetCountBySQL
         ':::SUMMARY
         ': Used to get Number of Records.
@@ -119,6 +119,7 @@
         ':::RETURN
         GetEmptyRecordsetByTable = GetRecordsetBySQL(GetEmptySQLByTable(Table), Always, File, QuietErrors)
     End Function
+
     Public Function GetEmptySQLByTable(ByVal Table As String) As String
         '::::GetEmptySQLByTable
         ':::SUMMARY
@@ -261,6 +262,7 @@
                 & Order
 
     End Function
+
     Public Function SQLCurrency(ByVal Amount As Decimal) As String
         '::::SQLCurrency
         ':::SUMMARY
@@ -274,6 +276,7 @@
         ': String - Returns the Result as a String.
         SQLCurrency = CurrencyFormat(Amount, , , True) ' both $ and , break sql statements w/ currencies
     End Function
+
     Public Function GetTableRecordMax(
           Table As String _
         , Field As String _
@@ -294,6 +297,7 @@
         ': Long - The max Index
         GetTableRecordMax = GetTableRecordFunction(functionType:="Max", Table:=Table, Field:=Field, fieldType:=fieldType, File:=File)
     End Function
+
     Public Function GetTableRecordFunction(
           ByVal Table As String _
         , ByVal Field As String _
@@ -406,5 +410,4 @@ HandleErr:
 
         SQLDate = Delimiter & DateFormat(DateValue(vDate), "/") & Delimiter
     End Function
-
 End Module

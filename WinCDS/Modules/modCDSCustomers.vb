@@ -4,16 +4,19 @@
             IsUFO = CheckStoreName("united", "ufo", "the warehouse")
         End Get
     End Property
+
     Public ReadOnly Property IsPalazzo() As Boolean
         Get
             IsPalazzo = CheckStoreName("Palazzo")
         End Get
     End Property
+
     Public ReadOnly Property IsGrizzlys() As Boolean
         Get
             IsGrizzlys = CheckStoreName("GRIZZLY'S", "BEAR NAKED")
         End Get
     End Property
+
     Public ReadOnly Property IsFurnOne() As Boolean
         Get
             IsFurnOne = CheckStoreName("FURNITURE ONE")
@@ -25,26 +28,31 @@
             IsWilkenfeld = CheckStoreName("Wilkenfeld")
         End Get
     End Property
+
     Public ReadOnly Property IsBFMyer() As Boolean
         Get
             IsBFMyer = CheckStoreName("B. F. Myers Furniture", "BFMyer")
         End Get
     End Property
+
     Public ReadOnly Property IsBarrs() As Boolean
         Get
             IsBarrs = CheckStoreName("Barr")
         End Get
     End Property
+
     Public ReadOnly Property IsSleepCity() As Boolean
         Get
             IsSleepCity = CheckStoreName("Sleep City")
         End Get
     End Property
+
     Public ReadOnly Property IsSleepingSystems() As Boolean
         Get
             IsSleepingSystems = CheckStoreName("Sleeping Systems")
         End Get
     End Property
+
     Public Function CheckStoreName(ByVal CHK1 As String, Optional ByVal CHK2 As String = "", Optional ByVal CHK3 As String = "", Optional ByVal CHK4 As String = "", Optional ByVal CHK5 As String = "", Optional ByVal CHK6 As String = "", Optional ByVal CHK7 As String = "", Optional ByVal CHK8 As String = "", Optional ByVal CHK9 As String = "", Optional ByVal CHK10 As String = "") As Boolean
 
         CheckStoreName = False
@@ -60,12 +68,13 @@
         If CheckStoreName1(CHK9) Then CheckStoreName = True
         If CheckStoreName1(CHK10) Then CheckStoreName = True
     End Function
+
     Private Function CheckStoreName1(ByVal CHK As String, Optional ByVal SN As String = "") As Boolean
-        Dim R As String, I as integer
+        Dim R As String, I As Integer
 
         CheckStoreName1 = False
         If IP_CONTROL Then
-            If CHK = ExternalIPAddress Then CheckStoreName1 = True
+            If CHK = ExternalIPAddress() Then CheckStoreName1 = True
         End If
 
         If SN = "" Then
@@ -90,6 +99,7 @@
 
         If Len(CHK) > 0 And (Left(SN, Len(CHK)) = CHK) Then CheckStoreName1 = True
     End Function
+
     Public ReadOnly Property IsDoddsLtd() As Boolean
         Get
             IsDoddsLtd = CheckStoreName("Dodd's Furniture Ltd.", "Dodds")
@@ -395,5 +405,4 @@
         ' This will ensure we reset their credentials on every startup...
         ResetAWSFile(True)
     End Function
-
 End Module

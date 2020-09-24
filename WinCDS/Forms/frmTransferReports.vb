@@ -1,12 +1,13 @@
 ﻿Public Class frmTransferReports
     Private mMode As String
+
     Public Property Mode() As String
         Get
             Mode = mMode
         End Get
         Set(value As String)
             mMode = value
-            Arrange
+            Arrange()
         End Set
     End Property
 
@@ -27,5 +28,4 @@
         End Select
         Enabled = True
     End Sub
-
 End Class

@@ -48,5 +48,4 @@ PostDAOError:
         MessageBox.Show("DAO Compact Clean-up failed." & vbCrLf & "[" & Err.Number & "]: " & Err.Description, "Could not Compact / Repair DB")
         Exit Sub
     End Sub
-
 End Module

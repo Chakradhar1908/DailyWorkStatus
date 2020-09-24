@@ -623,5 +623,4 @@ NoMoreTransferItems:
         If Not IsDate(DateIn) Then DateIn = Today
         DDT_XMLDate = Format(DateValue(DateIn), "yyyy-mm-dd")
     End Function
-
 End Module

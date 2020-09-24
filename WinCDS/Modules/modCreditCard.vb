@@ -73,7 +73,7 @@
 Handler:
         Dim X As String
         X = frmCashRegisterQuantity.DBG
-        MsgBox("Error in ProcessCC (" & Err.Number & ") [" & DBG & "-" & X & "]:" & Err.Description)
+        MessageBox.Show("Error in ProcessCC (" & Err.Number & ") [" & DBG & "-" & X & "]:" & Err.Description)
     End Function
 
     Public Function ProcessDebit(ByRef Amount As Decimal, ByRef pType As String, ByRef Approval As String, Optional ByRef CardTypeCode As Integer = 0, Optional ByRef TransID As String = "", Optional ByVal RefId As String = "") As Boolean

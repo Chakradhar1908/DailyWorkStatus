@@ -3,13 +3,12 @@ Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Module modSupportForms
     'NOTE: BELOW LINES ARE COMMENTED. THESE FOUR FORMS ARE TO SHOW THE PROGRESS OF DELIVERY CALENDAR DATA WHILE LOADING TIME.
     'THESE FORMS ARE USING UCPBAR AND GIF89A CUSTOM AND ACTIVEX CONTROLS WHICH ARE NOT SUPPORTING IN VB.NET
-
     Private PR As frmProgress
     Private PR2 As frmProgress2
     Private PR3 As FrmProgress3
     Private PS As frmProgressStatic
-
     Private SuppressMessagesUntil As Date
+
     Public Enum ProgressBarStyle
         prgDefault = 0
         prg3DFloat = 1
@@ -282,5 +281,4 @@ Failure:
         ': String - Date value selected.
         SelectDate = frmSelectDate.SelectDate(Def, vCaption)
     End Function
-
 End Module

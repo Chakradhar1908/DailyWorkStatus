@@ -1,11 +1,12 @@
 ﻿Module modErrorReporting
     Private ErrorContext As String
-    Private ErrorNumber as integer, ErrorDesc As String
+    Private ErrorNumber As Integer, ErrorDesc As String
     Private Const ErrPrefix As String = "err_"
     Private ProgramState As String
     Private VarDump As String
     Private CompInfo As String
-    Public Function ReportError(Optional ByVal vErrorContext As String = "", Optional ByVal vErrorNumber as integer = 0, Optional ByVal vErrorDesc As String = "") As Boolean
+
+    Public Function ReportError(Optional ByVal vErrorContext As String = "", Optional ByVal vErrorNumber As Integer = 0, Optional ByVal vErrorDesc As String = "") As Boolean
         '::::ReportError
         ':::SUMMARY
         ': Generates a new WinCDS `crash dump`
@@ -16,7 +17,7 @@
         ':::SEE ALSO
         ': CleanOldErrorReports
         Dim T As String, F As String
-        Dim S as integer, X as integer
+        Dim S As Integer, X As Integer
 
         Const DO_ZIP As Boolean = True
 
@@ -43,24 +44,27 @@
         ReportError = DiagnosticErrorUpload(ErrorReportingFolder & F)
         Debug.Print("Upload Cost: " & DescribeTimeDurationMS(GetTickCount - X))
     End Function
+
     Private Function ReportError_PrepareReport() As Boolean
         On Error Resume Next
         '  ProgressForm 0, 1, "Preparing Error Context...", vbAbortRetryIgnore, , , prgIndefinite
         ReportError_BuildScreenshots()
         'ProgramState = ReportError_BuildProgramState
         'VarDump = ReportError_BuildVarDump
-        CompInfo = ComputerInformationString
+        CompInfo = ComputerInformationString()
         '  ProgressForm
 
         ReportError_PrepareReport = True
     End Function
+
     Private ReadOnly Property ErrorReportingFolder() As String
         Get
             ErrorReportingFolder = InventFolder()
         End Get
     End Property
+
     Private Function ReportError_WriteToFolder(ByVal Folder As String) As Boolean
-        Dim L, I as integer
+        Dim L, I As Integer
         'SavePicture(Screenshot, Folder & "Screenshot.bmp")
         'For I = 0 To Forms.Count - 1
         On Error Resume Next
@@ -74,8 +78,9 @@
         WriteFile(Folder & "CompInfo.txt", CompInfo)
 
     End Function
-    Private Function ReportError_BuildScreenshots() as integer
-        Dim I as integer, L, Val As String
+
+    Private Function ReportError_BuildScreenshots() As Integer
+        Dim I As Integer, L, Val As String
         Dim T As String
         Dim S() As String
         'Screenshot = CaptureScreen
@@ -88,14 +93,14 @@
         '    tForms(I) = "FORM " & Format(I, "00") & ": " & Forms(I).Name
         '    S = TLIObjectMembers(Forms(I))
         For Each L In S
-                If IsIn(L, "_Default", "Name", "MouseX", "MouseY", "CurrentMenuIndex") Then GoTo DoContinue
-                On Error Resume Next
-                Val = ""
+            If IsIn(L, "_Default", "Name", "MouseX", "MouseY", "CurrentMenuIndex") Then GoTo DoContinue
+            On Error Resume Next
+            Val = ""
             'Val = CallByName(Forms(I), L, vbGet)
             On Error Resume Next
             'If Val <> "" Then tForms(I) = tForms(I) & N & "     " & AlignString(Forms(I).Name & "." & L, 28, vbAlignRight) & " = " & Val
 DoContinue:
-            Next
+        Next
         'Next
     End Function
     '    Private Function ReportError_BuildProgramState() As String
@@ -192,7 +197,7 @@ DoContinue:
         On Error Resume Next
         Dim Tx As String, L As String, C As String
         Dim M As String, N As String
-        Dim I as integer
+        Dim I As Integer
         On Error Resume Next
         'Dim K As New frmWinsock
 
@@ -268,5 +273,4 @@ DoContinue:
 
         ComputerInformationString = Tx
     End Function
-
 End Module

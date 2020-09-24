@@ -330,5 +330,4 @@ QuickExit:
         objTaskFolder.DeleteTask(TaskName, 0)
         ScheduledTaskDeleteTask = True
     End Function
-
 End Module

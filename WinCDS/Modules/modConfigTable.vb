@@ -22,6 +22,7 @@
         RS = Nothing
 BadConfigTable:
     End Function
+
     Public Function SetConfigTableValue(ByVal FieldName As String, ByVal Value As String) As Boolean
         '::::SetConfigTableValue
         ':::SUMMARY
@@ -42,7 +43,8 @@ BadConfigTable:
         End If
         SetConfigTableValue = True
     End Function
-    Public Function GetConfigAutoNumber(ByVal AN_Name As String, Optional ByVal MinValue as integer = 0, Optional ByVal ConvertValue as integer = -1) as integer
+
+    Public Function GetConfigAutoNumber(ByVal AN_Name As String, Optional ByVal MinValue As Integer = 0, Optional ByVal ConvertValue As Integer = -1) As Integer
         '::::GetConfigAutoNumber
         ':::SUMMARY
         ': Return Config Auto-Number Value
@@ -55,7 +57,7 @@ BadConfigTable:
         ': - [ConvertValue] - Optional. Used to convert from file-based AN to config field.
         ':::RETURN
         ': Long - Returns the result as a long value.
-        Dim T As String, N as integer
+        Dim T As String, N As Integer
         AN_Name = "AutoNumber_" & AN_Name
         T = GetConfigTableValue(AN_Name)
 
@@ -74,6 +76,7 @@ BadConfigTable:
         SetConfigTableValue(AN_Name, N)
         GetConfigAutoNumber = N
     End Function
+
     Public Function SetConfigAutoNumber(ByVal AN_Name As String, ByVal Value As String) As Boolean
         '::::SetConfigAutoNumber
         ':::SUMMARY
@@ -123,5 +126,4 @@ BadConfigTable:
             SetConfigTableValue(K, DateTimeStamp)
         End If
     End Function
-
 End Module

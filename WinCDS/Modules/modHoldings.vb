@@ -78,6 +78,7 @@
             Case Else : DescribeHoldingStatus = hStat
         End Select
     End Function
+
     Public Function LeaseNoExists(ByVal LeaseNo As String) As Boolean
         Dim objHolding As cHolding
         objHolding = New cHolding
@@ -93,7 +94,7 @@
         If Not ForceAutomatic And StoreSettings.bManualBillofSaleNo Then  'Manual BillofSale
             If LeaseNoExists(Specified) Then  ' First, check for duplicates.
                 '###  Add something here to the calling function know it's failed?
-                MsgBox("This lease number already exists.  Please try again.", vbCritical, "Duplicate Sale Number")
+                MessageBox.Show("This lease number already exists.  Please try again.", "Duplicate Sale Number")
             Else
                 GetLeaseNumber = Specified
             End If
@@ -184,7 +185,7 @@ BadFile:
                 Application.DoEvents()
                 Resume
             Case 76 ' Path not found
-                If MsgBox("Can't access " & fName & ", try again?", vbYesNo, "File Error") = vbYes Then
+                If MessageBox.Show("Can't access " & fName & ", try again?", "File Error", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     Resume
                 Else
                     End

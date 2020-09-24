@@ -24,5 +24,4 @@
         'Unload mInvCkStyle
         mInvCkStyle.Close()
     End Sub
-
 End Class

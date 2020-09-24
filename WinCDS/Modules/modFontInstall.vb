@@ -59,5 +59,4 @@ FontRegisterFail:
         SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) 'Notify other open applications of the font change
         Install_TTF = FontExists(FontName)
     End Function
-
 End Module

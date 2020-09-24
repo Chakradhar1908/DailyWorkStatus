@@ -6,7 +6,7 @@
     '  hundred users per store, this shouldn't be much of an issue.
 
     ' Field declarations.
-    Public ID as integer  ' Autonumber
+    Public ID As Integer  ' Autonumber
     Public SalesID As String
     Public CommRate As String
     Public Active As Boolean
@@ -68,5 +68,4 @@
     Private Function EncryptionKey() As String
         EncryptionKey = LastName
     End Function
-
 End Class

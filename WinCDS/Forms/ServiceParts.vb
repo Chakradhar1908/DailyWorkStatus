@@ -145,5 +145,4 @@
         cmdMovePrevious.Enabled = Navigate
         cmdMoveSearch.Enabled = Search
     End Sub
-
 End Class

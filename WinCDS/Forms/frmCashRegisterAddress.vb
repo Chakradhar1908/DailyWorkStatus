@@ -102,5 +102,4 @@
 
         LoadAddressFromMailRec()
     End Sub
-
 End Class

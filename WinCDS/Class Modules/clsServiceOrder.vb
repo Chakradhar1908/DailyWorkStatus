@@ -1,8 +1,8 @@
 ﻿Public Class clsServiceOrder
-    Public ServiceOrderNo as integer
+    Public ServiceOrderNo As Integer
     Public LastName As String
     Public Telphone As String
-    Public MailIndex as integer
+    Public MailIndex As Integer
     Public SaleNo As String
     Public ServiceOnDate As String
     Public DateOfClaim As Date
@@ -110,5 +110,4 @@ NoSave:
             StopEnd = ""
         End If
     End Sub
-
 End Class

@@ -1,7 +1,7 @@
 ﻿Imports stdole
 Imports ADODB
 Module mod2DataPictures
-    Public Function FindDatabasePictureID(ByVal mLoc as integer, ByVal mType as integer, Optional ByVal mRef As String = "", Optional ByVal mIdx as integer = 1, Optional ByRef ImgCnt as integer = 0) as integer
+    Public Function FindDatabasePictureID(ByVal mLoc As Integer, ByVal mType As Integer, Optional ByVal mRef As String = "", Optional ByVal mIdx As Integer = 1, Optional ByRef ImgCnt As Integer = 0) As Integer
         '::::FindDatabasePictureID
         ':::SUMMARY
         ': Used to find PictureID from Database.
@@ -9,7 +9,7 @@ Module mod2DataPictures
         ': This function is used to find PictureID from Database through sql statement.
         ':::PARAMETERS
         ':::RETURN
-        Dim RS As ADODB.Recordset, S As String, I as integer
+        Dim RS As ADODB.Recordset, S As String, I As Integer
         S = ""
         S = S & "SELECT PictureID FROM Pictures WHERE 1=1 "
         S = S & "AND PictureType=" & mType & " "
@@ -29,7 +29,7 @@ Module mod2DataPictures
         RS = Nothing
     End Function
 
-    Public Function GetDatabasePictureToTempFile(ByVal PicID as integer) As String
+    Public Function GetDatabasePictureToTempFile(ByVal PicID As Integer) As String
         '::::GetDatabasePictureToTempFile
         ':::SUMMARY
         ': Gets Pictures from Database to temp file.
@@ -52,7 +52,7 @@ Module mod2DataPictures
     End Function
 
     'Public Function GetDatabasePicture(ByVal PicID as integer) As StdPicture
-    Public Function GetDatabasePicture(ByVal PicID as integer) As Image
+    Public Function GetDatabasePicture(ByVal PicID As Integer) As Image
         '::::GetDatabasePicture
         ':::SUMMARY
         ': Gets Pictures from Database.
@@ -78,7 +78,5 @@ Module mod2DataPictures
             '.datPicture.DataBase.Close
             .datPicture.ConnectionString = ""
         End With
-
     End Function
-
 End Module

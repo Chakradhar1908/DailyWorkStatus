@@ -100,5 +100,4 @@ Module modVistaUAC
     Public Function UACIsAdmin() As Boolean
         UACIsAdmin = IsUserAnAdmin <> 0
     End Function
-
 End Module

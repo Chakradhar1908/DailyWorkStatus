@@ -131,6 +131,7 @@
         RS.Close()
         RS = Nothing
     End Function
+
     Public Function AccountHasRecentARNotes(ByVal MailIndex As Integer) As Boolean
         '::::AccountHasRecentARNotes
         ':::SUMMARY
@@ -469,4 +470,33 @@
         End Select
     End Function
 
+    Public Sub LoadArStatusCombo(ByVal mCbo As ComboBox)
+        '::::LoadArStatusCombo
+        ':::SUMMARY
+        ': Load Ar Status from given list in ComboBox.
+        ':::DESCRIPTION
+        ': This function is used to load list of Ar statuses listed in ComboBox.
+        ':::PARAMETERS
+        ': - mCbo
+        ':::RETURN
+
+        mCbo.Items.Clear()
+        'mCbo.AddItem arSD_O, 0
+        mCbo.Items.Insert(0, arSD_O)
+        'mCbo.AddItem arSD_C, 1
+        mCbo.Items.Insert(1, arSD_C)
+        'mCbo.AddItem arSD_V, 2
+        mCbo.Items.Insert(2, arSD_V)
+        'mCbo.AddItem arSD_W, 3
+        mCbo.Items.Insert(3, arSD_W)
+        'mCbo.AddItem arSD_R, 4
+        mCbo.Items.Insert(4, arSD_R)
+        'mCbo.AddItem arSD_L, 5
+        mCbo.Items.Insert(5, arSD_L)
+        'mCbo.AddItem arSD_Y, 6
+        mCbo.Items.Insert(6, arSD_Y)
+        'mCbo.ListIndex = 0
+        mCbo.SelectedIndex = 0
+    End Sub
 End Module
+

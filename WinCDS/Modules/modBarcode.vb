@@ -89,7 +89,7 @@ Module modBarcode
         Loop
 
         If Printer.FontName <> T Then
-            MsgBox("Barcode " & T & " not installed.", vbExclamation, "No Barcodes")
+            MessageBox.Show("Barcode " & T & " not installed.", "No Barcodes")
             Exit Function
         End If
         SelectBarcodeFont = True

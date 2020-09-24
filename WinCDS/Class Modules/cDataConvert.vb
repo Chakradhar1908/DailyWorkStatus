@@ -1,11 +1,9 @@
 ﻿Imports WinCDS
-
 Public Class cDataConvert
     Private mSubClass As cDataConvert
     Private mDatabase As String
     Private mTable As String
     Private mIndex As String
-
 
     'Friend Property Get SubClass() As cDataConvert :   SubClass = mSubClass: End Property
     'Friend Property Let SubClass(ByRef T As cDataConvert) : Set mSubClass = T: End Property
@@ -47,23 +45,25 @@ Public Class cDataConvert
             mIndex = value
         End Set
     End Property
+
     Private Sub aFromFile()
 
     End Sub
     Public Sub FileOpen() : End Sub
     'Public Property Get FileRecords() as integer : End Sub
-    Public ReadOnly Property FileRecords as integer
+    Public ReadOnly Property FileRecords As Integer
         Get
             Return 0
         End Get
     End Property
     Public Sub FileClose() : End Sub
-    Public Sub SetRecordSet(ByRef Index as integer, ByRef RS As ADODB.Recordset) : End Sub
+    Public Sub SetRecordSet(ByRef Index As Integer, ByRef RS As ADODB.Recordset) : End Sub
     Public Sub ConvertExceptions(ByRef RS As ADODB.Recordset) : End Sub
 
-    Friend Function Count() as integer
+    Friend Function Count() As Integer
         Count = getRecordsetCountByTable(File:=mDatabase, Table:=mTable)  'OVERFLOW
     End Function
+
     Friend Function ConvertData() As Boolean
         Dim Count As Integer
 
@@ -76,11 +76,12 @@ Public Class cDataConvert
         End If
         FromFile()
     End Function
+
     Private Sub FromFile()
         Dim DoForce As Boolean, Special As Boolean, Res As Boolean
         Dim Data As Calendar
-        Dim I as integer
-        Dim maxIndex as integer
+        Dim I As Integer
+        Dim maxIndex As Integer
         Dim RS As ADODB.Recordset
         'Dim O As cPODetail, P As cPOReceived
         Dim O As Object = New cPODetail

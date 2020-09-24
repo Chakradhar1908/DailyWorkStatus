@@ -34,6 +34,7 @@ Module modStores
         StoreNum = FitRange(1, StoreNum, Setup_MaxStores)
         StoreLogoPicture = LoadPictureStd(StoreLogoFile(StoreNum))
     End Function
+
     Public Function DefaultMailingLabelType() As String
         '::::DefaultMailingLabelType
         ':::SUMMARY
@@ -47,6 +48,7 @@ Module modStores
         DefaultMailingLabelType = "30252"
         '  DefaultMailingLabelType = "30323"
     End Function
+
     Public Property SecurityLevel() As ComputerSecurityLevels
         Get
             Dim T As String
@@ -58,6 +60,7 @@ Module modStores
             SaveCDSSetting("Location", value)
         End Set
     End Property
+
     Public Function StoreLogoFile(Optional ByVal StoreNum As Integer = 0) As String
         '::::StoreLogoFile
         ':::SUMMARY
@@ -72,6 +75,7 @@ Module modStores
         If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
         StoreLogoFile = FXFile("Store" & StoreNum & "Logo")
     End Function
+
     Public Function BOSFile(Optional ByVal StoreNum As Integer = 0) As String
         '::::BOSFile
         ':::SUMMARY
@@ -86,17 +90,20 @@ Module modStores
         If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
         BOSFile = NewOrderFolder(StoreNum) & "BillSale.Dat"
     End Function
+
     Public ReadOnly Property PasswordProtectedDatabase() As Boolean
         Get
             PasswordProtectedDatabase = DatabasePassword <> ""
         End Get
     End Property
+
     Public ReadOnly Property PasswordProtectedDatabaseString() As String
         Get
             If Not PasswordProtectedDatabase Then Exit Property
             PasswordProtectedDatabaseString = ";Jet OLEDB:Database Password=" & DatabasePassword
         End Get
     End Property
+
     Public Property DatabasePassword() As String
         Get
             DatabasePassword = mDatabasePassword
@@ -108,6 +115,7 @@ Module modStores
             mDatabasePassword = value
         End Set
     End Property
+
     Public Property mDatabasePassword() As String
         Get
             mDatabasePassword = DecodeBase64String(GetCDSSetting("DB-Password"))
@@ -252,5 +260,4 @@ NotLoaded:
         Err.Clear()
         Resume Next
     End Function
-
 End Module

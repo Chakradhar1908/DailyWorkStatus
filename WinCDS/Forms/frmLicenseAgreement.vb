@@ -32,5 +32,4 @@
 
         LicenseAgreed = GetConfigTableValue(Key_LAV) = LicenseVersion
     End Function
-
 End Class

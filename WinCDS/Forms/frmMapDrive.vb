@@ -43,7 +43,7 @@ Again:
                         Me.Cursor = Cursors.Default
 
                         If Not IDriveIsMapped() Then
-                            If MsgBox("Could not map I:\ drive." & vbCrLf2 & "Would you like to try again?", vbOKCancel + vbExclamation, "Map Drive Failed") = vbOK Then
+                            If MessageBox.Show("Could not map I:\ drive." & vbCrLf2 & "Would you like to try again?", "Map Drive Failed", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.OK Then
                                 GoTo Again
                             End If
                             MessageBox.Show("You will have to map the I:\ drive manually in order to use the software in workstation mode.", "Map Drive Failed")
@@ -60,5 +60,4 @@ Again:
         Me.Close()
         InitialSetup = True
     End Function
-
 End Class

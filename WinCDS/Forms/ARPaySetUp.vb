@@ -2,7 +2,6 @@
 Imports VBRUN
 Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Imports VBA
-
 Public Class ARPaySetUp
     Dim WithEvents mDBAccess As CDbAccessGeneral
     Dim WithEvents mDBAccessTransactions As CDbAccessGeneral
@@ -220,7 +219,7 @@ Public Class ARPaySetUp
             'Payment = CalculateRevolvingPayment(RevolvingCurrentFinancedAmount(txtArNo) + GetPrice(txtTotalBalance) - GetPrice(txtPrevBalance), chkRoundUp.Value)
             txtFinanceAmount.Text = CurrencyFormat(txtSubTotal.Text + GetPrice(txtDocFee.Text) + GetPrice(txtLifeInsurance.Text) + GetPrice(txtAccidentInsurance.Text) + GetPrice(txtPropertyInsurance.Text) + GetPrice(txtUnemploymentInsurance.Text))
             txtTotalBalance.Text = CurrencyFormat(GetPrice(txtFinanceAmount.Text) + GetPrice(txtFinanceCharges.Text))
-            Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance.Text), chkRoundUp.Checked, CLng(Months))
+            Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance.Text), chkRoundUp.Checked, Months)
             APR = StoreSettings.ModifiedRevolvingRate
             If APR Then
                 InterestRate = Rate * 0.01 / 12 'CalculateSIR(NewBalance, Rate, Months)
@@ -515,7 +514,7 @@ Public Class ARPaySetUp
             End If
 
             '      APR = CalculateAPR(B.Cash, B.FinanceCharge, Val(txtMonthsToFinance), Val(cboDeferred.Text))
-            UpdateAPRLabel
+            UpdateAPRLabel()
             NewBalance = B.AmountFinanced
             FinanceCharge = B.FinanceCharge
 
@@ -575,7 +574,7 @@ Public Class ARPaySetUp
             txtPaymentWillBe.Text = CurrencyFormat(Payment)
 
             APR = InterestRate ' Val(txtRate) ' CalculateAPR(C.AmountFinanced, C.FC, Val(txtMonthsToFinance), Val(cboDeferred.Text))
-            UpdateAPRLabel
+            UpdateAPRLabel()
             NewBalance = C.AmountFinanced
 
             FinanceCharge = C.FC
@@ -600,7 +599,7 @@ Public Class ARPaySetUp
             If chkUnemployment.Checked <> False Then IUI = GetIUI()
             NewBalance = txtSubTotal.Text + DocFee + Life + Accident + Prop + IUI
 
-            RecalculateFinancing
+            RecalculateFinancing()
 
             If IsYeatts Then
                 txtRate.Text = ""
@@ -621,7 +620,7 @@ Public Class ARPaySetUp
             End If
         End If      ' END:  If Not Elmore Then
 
-        CalculateLateCharge
+        CalculateLateCharge()
 
         If IsElmore Then
             Dim T As CLyndonLife
@@ -639,7 +638,7 @@ Public Class ARPaySetUp
             T.AHInsuranceOn = (chkAccident.Checked = True)
             T.PropertyInsuranceOn = (chkProperty.Checked = True)
 
-            T.Calculate
+            T.Calculate()
             txtLifeInsurance.Text = CurrencyFormat(Math.Round(T.LifeInsurance, 2))
             txtAccidentInsurance.Text = CurrencyFormat(Math.Round(T.AHInsurance, 2))
             txtPropertyInsurance.Text = CurrencyFormat(Math.Round(T.PropertyInsurance, 2))
@@ -928,7 +927,7 @@ Public Class ARPaySetUp
         lblAccountNo.Visible = False
 
 
-        SetDefaultsInstallment ' MJK20140218
+        SetDefaultsInstallment() ' MJK20140218
 
         If OrderMode("A", "D") Then   'New Sale or Payment - Direct Deliver Sales
             cmdCancel.Text = "Cancel Set-Up"
@@ -1051,7 +1050,7 @@ Public Class ARPaySetUp
                         chkAutoARNO.Visible = True
                         If IsRevolvingCharge(mArNo) Then
                             txtArNo.Text = mArNo & RevolvingSuffixLetter
-                            SetDefaultsRevolving
+                            SetDefaultsRevolving()
                         Else
                             txtArNo.Text = ArAddOnAccount(mArNo)  ' mArNo & "A"
                         End If
@@ -1178,8 +1177,6 @@ Public Class ARPaySetUp
             '
         End If
 
-
-
         If True Then
             PrevousBal = GetPrice(txtPrevBalance.Text)
             PrevousBal = CurrencyFormat(PrevousBal)
@@ -1301,7 +1298,8 @@ Public Class ARPaySetUp
             FinanceCharge = INTEREST
             FinanceChargeSalesTax = 0
             'Payment = CalculateRevolvingPayment(RevolvingCurrentFinancedAmount(txtArNo) + GetPrice(txtTotalBalance) - GetPrice(txtPrevBalance), chkRoundUp.Value)
-            Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance.Text), chkRoundUp.Checked, CLng(Months))
+            'Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance.Text), chkRoundUp.Checked, CLng(Months))
+            Payment = CalculateRevolvingPayment(GetPrice(txtTotalBalance.Text), chkRoundUp.Checked, Months)
             APR = StoreSettings.ModifiedRevolvingRate
         Else
             If (FinanceCharge) <> 0 And (Months + DeferredMonths) <> -1 And NewBalance <> 0 Then
@@ -1799,7 +1797,7 @@ ErrorHandler:
         RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
         If RS.RecordCount = 0 Then NeedCreditApp = True
         If Not NeedCreditApp Then
-            If MsgBox("Edit Credit Application?", vbQuestion + vbYesNo + vbDefaultButton2, "Credit App On File") = vbYes Then NeedCreditApp = True
+            If MessageBox.Show("Edit Credit Application?", "Credit App On File", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then NeedCreditApp = True
         End If
     End Function
 
@@ -2284,7 +2282,7 @@ ErrorHandler:
 
         If IsDevelopmentMANUAL() Then GoTo JUST1FORM  'BFH20080301 - DEBUGGING
 
-        If UseAmericanNationalInsurance Then InsuranceFormTreeHouse : Exit Sub
+        If UseAmericanNationalInsurance Then InsuranceFormTreeHouse() : Exit Sub
 
         If IsBoyd() Or IsUFO() Then Counter = 3 Else Counter = 2
         If JustOnePlease Then Counter = 1
@@ -2479,7 +2477,7 @@ ErrorHandler:
             Printer.FontBold = False
             Printer.FontSize = 8
 
-            CalculateLastPay
+            CalculateLastPay()
 
             'Deposit
             Printer.CurrentX = 10000
@@ -2507,8 +2505,8 @@ ErrorHandler:
 
         If IsElmore Then
             If GetPrice(txtLifeInsurance.Text) > 0 Or GetPrice(txtAccidentInsurance.Text) > 0 Or GetPrice(txtPropertyInsurance.Text) > 0 Or GetPrice(txtUnemploymentInsurance.Text) > 0 Then
-                InsuranceForm
-                InsuranceForm
+                InsuranceForm()
+                InsuranceForm()
             End If
 
         ElseIf IsLott Then ' IsMidSouth Then ' Or IsLott
@@ -2538,8 +2536,8 @@ JUSTFORM:
         End If
 
         If IsJeffros() Or IsChicago() Or IsCarpet() Then
-            WageAssignment
-            WageAssignment
+            WageAssignment()
+            WageAssignment()
         End If
 
         Exit Sub
@@ -2700,7 +2698,6 @@ ErrorHandler:
         CheckStandardErrors("Installment Print Coupons")
         Working(False, False)
         Exit Sub
-
     End Sub
 
     Private Sub InsuranceFormTreeHouse()
@@ -3514,8 +3511,6 @@ Skip:
             Printer.Print("All Sales Final!  We do not accept returns or exchanges for merchandise ordered.  Any Special Orders Cancelled will be subject to 25% restocking fee.")
             Printer.Print("The First Payment of an installmant contract will be due 30 days after delivery.  Current payment still due on existing balance.")
             Printer.Print("Received in good condition:")
-
-
 
             '   ElseIf UseAmericanNationalInsurance Then
             '    Printer.FontSize = 6

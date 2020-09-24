@@ -59,5 +59,4 @@
 
         GetCurrentTimeZoneOffset = Tmp
     End Function
-
 End Module

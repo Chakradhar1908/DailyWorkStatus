@@ -21,14 +21,16 @@
             ExecuteRecordsetBySQL(SQL, , dB)
         Next
     End Sub
+
     Private Function UseItemCost(Optional ByVal Recalculate As Boolean = False) As Boolean
         If Recalculate Then mCheckedForItemCostTable = False
         If Not mCheckedForItemCostTable Then mUseItemCost = TableExists(0, "ItemCost") : mCheckedForItemCostTable = True
         UseItemCost = mUseItemCost
     End Function
-    Public Function GetItemCost(ByVal StyleNo As String, Optional ByVal Location as integer = 0, Optional ByVal DeleteEntry As Boolean = True, Optional ByVal Count As Double = 1, Optional ByRef DetailID as integer = 0, Optional ByVal CatalogOnly As Boolean = False) As Decimal
+
+    Public Function GetItemCost(ByVal StyleNo As String, Optional ByVal Location As Integer = 0, Optional ByVal DeleteEntry As Boolean = True, Optional ByVal Count As Double = 1, Optional ByRef DetailID As Integer = 0, Optional ByVal CatalogOnly As Boolean = False) As Decimal
         Dim Cond As String, dB As String
-        Dim R As ADODB.Recordset, ID as integer, User As Boolean
+        Dim R As ADODB.Recordset, ID As Integer, User As Boolean
         Dim C As New CInvRec
 
         GetItemCost = 0
@@ -55,7 +57,7 @@
         ' this, however, should fully bulletproof the routine and let us do
         ' the inventory cost report more efficiently later
         If Count > 1 And Not DeleteEntry Then
-            Dim Cnt as integer
+            Dim Cnt As Integer
             Cond = ""
             Cond = Cond & "SELECT"
             Cond = Cond & " TOP " & Count & " *"
@@ -80,7 +82,7 @@
             Do While Not R.EOF
                 GetItemCost = GetItemCost + R("Cost").Value
                 Cnt = Cnt + 1
-                R.MoveNext
+                R.MoveNext()
             Loop
             DisposeDA(R)
 

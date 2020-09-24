@@ -76,7 +76,5 @@
         'IA Iowa  NY New York  WV West Virginia
         'KS Kansas  NC North Carolina  WI Wisconsin
         'KY Kentucky  ND North Dakota  WY Wyoming
-
     End Function
-
 End Module

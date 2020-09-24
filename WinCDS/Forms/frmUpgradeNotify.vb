@@ -19,5 +19,4 @@
         End If
         SetAlwaysOnTop(Me)
     End Sub
-
 End Class

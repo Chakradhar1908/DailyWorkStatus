@@ -100,6 +100,38 @@ Partial Class ArCard
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.cmdSaleTotals = New System.Windows.Forms.Button()
         Me.UGrSaleTotals = New WinCDS.UGridIO()
+        Me.lblPayMemo = New System.Windows.Forms.Label()
+        Me.cmdHistory = New System.Windows.Forms.Button()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.optEditType18 = New System.Windows.Forms.RadioButton()
+        Me.optEditType17 = New System.Windows.Forms.RadioButton()
+        Me.optEditType16 = New System.Windows.Forms.RadioButton()
+        Me.optEditType15 = New System.Windows.Forms.RadioButton()
+        Me.optEditType14 = New System.Windows.Forms.RadioButton()
+        Me.optEditType13 = New System.Windows.Forms.RadioButton()
+        Me.optEditType12 = New System.Windows.Forms.RadioButton()
+        Me.optEditType11 = New System.Windows.Forms.RadioButton()
+        Me.optEditType10 = New System.Windows.Forms.RadioButton()
+        Me.optEditType9 = New System.Windows.Forms.RadioButton()
+        Me.optEditType8 = New System.Windows.Forms.RadioButton()
+        Me.optEditType7 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.optPayType8 = New System.Windows.Forms.RadioButton()
+        Me.optPayType9 = New System.Windows.Forms.RadioButton()
+        Me.optPayType7 = New System.Windows.Forms.RadioButton()
+        Me.optPayType6 = New System.Windows.Forms.RadioButton()
+        Me.optPayType5 = New System.Windows.Forms.RadioButton()
+        Me.optPayType4 = New System.Windows.Forms.RadioButton()
+        Me.optPayType3 = New System.Windows.Forms.RadioButton()
+        Me.optPayType2 = New System.Windows.Forms.RadioButton()
+        Me.optPayType1 = New System.Windows.Forms.RadioButton()
+        Me.UGridIO1 = New WinCDS.UGridIO()
+        Me.DDate = New System.Windows.Forms.DateTimePicker()
+        Me.opt30252 = New System.Windows.Forms.RadioButton()
+        Me.opt30323 = New System.Windows.Forms.RadioButton()
+        Me.Notes_Frame = New System.Windows.Forms.GroupBox()
+        Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblTotalPayoff
@@ -762,11 +794,360 @@ Partial Class ArCard
         Me.UGrSaleTotals.Size = New System.Drawing.Size(230, 85)
         Me.UGrSaleTotals.TabIndex = 74
         '
+        'lblPayMemo
+        '
+        Me.lblPayMemo.AutoSize = True
+        Me.lblPayMemo.Location = New System.Drawing.Point(787, 56)
+        Me.lblPayMemo.Name = "lblPayMemo"
+        Me.lblPayMemo.Size = New System.Drawing.Size(64, 13)
+        Me.lblPayMemo.TabIndex = 75
+        Me.lblPayMemo.Text = "lblPayMemo"
+        '
+        'cmdHistory
+        '
+        Me.cmdHistory.Location = New System.Drawing.Point(836, 106)
+        Me.cmdHistory.Name = "cmdHistory"
+        Me.cmdHistory.Size = New System.Drawing.Size(75, 23)
+        Me.cmdHistory.TabIndex = 76
+        Me.cmdHistory.Text = "cmdHistory"
+        Me.cmdHistory.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.optEditType18)
+        Me.GroupBox1.Controls.Add(Me.optEditType17)
+        Me.GroupBox1.Controls.Add(Me.optEditType16)
+        Me.GroupBox1.Controls.Add(Me.optEditType15)
+        Me.GroupBox1.Controls.Add(Me.optEditType14)
+        Me.GroupBox1.Controls.Add(Me.optEditType13)
+        Me.GroupBox1.Controls.Add(Me.optEditType12)
+        Me.GroupBox1.Controls.Add(Me.optEditType11)
+        Me.GroupBox1.Controls.Add(Me.optEditType10)
+        Me.GroupBox1.Controls.Add(Me.optEditType9)
+        Me.GroupBox1.Controls.Add(Me.optEditType8)
+        Me.GroupBox1.Controls.Add(Me.optEditType7)
+        Me.GroupBox1.Location = New System.Drawing.Point(38, 565)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(756, 78)
+        Me.GroupBox1.TabIndex = 77
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "GroupBox1"
+        '
+        'optEditType18
+        '
+        Me.optEditType18.AutoSize = True
+        Me.optEditType18.Location = New System.Drawing.Point(522, 55)
+        Me.optEditType18.Name = "optEditType18"
+        Me.optEditType18.Size = New System.Drawing.Size(96, 17)
+        Me.optEditType18.TabIndex = 11
+        Me.optEditType18.TabStop = True
+        Me.optEditType18.Text = "RadioButton12"
+        Me.optEditType18.UseVisualStyleBackColor = True
+        '
+        'optEditType17
+        '
+        Me.optEditType17.AutoSize = True
+        Me.optEditType17.Location = New System.Drawing.Point(420, 55)
+        Me.optEditType17.Name = "optEditType17"
+        Me.optEditType17.Size = New System.Drawing.Size(96, 17)
+        Me.optEditType17.TabIndex = 10
+        Me.optEditType17.TabStop = True
+        Me.optEditType17.Text = "RadioButton11"
+        Me.optEditType17.UseVisualStyleBackColor = True
+        '
+        'optEditType16
+        '
+        Me.optEditType16.AutoSize = True
+        Me.optEditType16.Location = New System.Drawing.Point(319, 55)
+        Me.optEditType16.Name = "optEditType16"
+        Me.optEditType16.Size = New System.Drawing.Size(96, 17)
+        Me.optEditType16.TabIndex = 9
+        Me.optEditType16.TabStop = True
+        Me.optEditType16.Text = "RadioButton10"
+        Me.optEditType16.UseVisualStyleBackColor = True
+        '
+        'optEditType15
+        '
+        Me.optEditType15.AutoSize = True
+        Me.optEditType15.Location = New System.Drawing.Point(221, 55)
+        Me.optEditType15.Name = "optEditType15"
+        Me.optEditType15.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType15.TabIndex = 8
+        Me.optEditType15.TabStop = True
+        Me.optEditType15.Text = "RadioButton9"
+        Me.optEditType15.UseVisualStyleBackColor = True
+        '
+        'optEditType14
+        '
+        Me.optEditType14.AutoSize = True
+        Me.optEditType14.Location = New System.Drawing.Point(125, 55)
+        Me.optEditType14.Name = "optEditType14"
+        Me.optEditType14.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType14.TabIndex = 7
+        Me.optEditType14.TabStop = True
+        Me.optEditType14.Text = "RadioButton8"
+        Me.optEditType14.UseVisualStyleBackColor = True
+        '
+        'optEditType13
+        '
+        Me.optEditType13.AutoSize = True
+        Me.optEditType13.Location = New System.Drawing.Point(17, 55)
+        Me.optEditType13.Name = "optEditType13"
+        Me.optEditType13.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType13.TabIndex = 6
+        Me.optEditType13.TabStop = True
+        Me.optEditType13.Text = "RadioButton7"
+        Me.optEditType13.UseVisualStyleBackColor = True
+        '
+        'optEditType12
+        '
+        Me.optEditType12.AutoSize = True
+        Me.optEditType12.Location = New System.Drawing.Point(521, 19)
+        Me.optEditType12.Name = "optEditType12"
+        Me.optEditType12.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType12.TabIndex = 5
+        Me.optEditType12.TabStop = True
+        Me.optEditType12.Text = "RadioButton6"
+        Me.optEditType12.UseVisualStyleBackColor = True
+        '
+        'optEditType11
+        '
+        Me.optEditType11.AutoSize = True
+        Me.optEditType11.Location = New System.Drawing.Point(420, 19)
+        Me.optEditType11.Name = "optEditType11"
+        Me.optEditType11.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType11.TabIndex = 4
+        Me.optEditType11.TabStop = True
+        Me.optEditType11.Text = "RadioButton5"
+        Me.optEditType11.UseVisualStyleBackColor = True
+        '
+        'optEditType10
+        '
+        Me.optEditType10.AutoSize = True
+        Me.optEditType10.Location = New System.Drawing.Point(317, 19)
+        Me.optEditType10.Name = "optEditType10"
+        Me.optEditType10.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType10.TabIndex = 3
+        Me.optEditType10.TabStop = True
+        Me.optEditType10.Text = "RadioButton4"
+        Me.optEditType10.UseVisualStyleBackColor = True
+        '
+        'optEditType9
+        '
+        Me.optEditType9.AutoSize = True
+        Me.optEditType9.Location = New System.Drawing.Point(221, 19)
+        Me.optEditType9.Name = "optEditType9"
+        Me.optEditType9.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType9.TabIndex = 2
+        Me.optEditType9.TabStop = True
+        Me.optEditType9.Text = "RadioButton3"
+        Me.optEditType9.UseVisualStyleBackColor = True
+        '
+        'optEditType8
+        '
+        Me.optEditType8.AutoSize = True
+        Me.optEditType8.Location = New System.Drawing.Point(125, 19)
+        Me.optEditType8.Name = "optEditType8"
+        Me.optEditType8.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType8.TabIndex = 1
+        Me.optEditType8.TabStop = True
+        Me.optEditType8.Text = "RadioButton2"
+        Me.optEditType8.UseVisualStyleBackColor = True
+        '
+        'optEditType7
+        '
+        Me.optEditType7.AutoSize = True
+        Me.optEditType7.Location = New System.Drawing.Point(17, 19)
+        Me.optEditType7.Name = "optEditType7"
+        Me.optEditType7.Size = New System.Drawing.Size(90, 17)
+        Me.optEditType7.TabIndex = 0
+        Me.optEditType7.TabStop = True
+        Me.optEditType7.Text = "RadioButton1"
+        Me.optEditType7.UseVisualStyleBackColor = True
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.optPayType8)
+        Me.GroupBox2.Controls.Add(Me.optPayType9)
+        Me.GroupBox2.Controls.Add(Me.optPayType7)
+        Me.GroupBox2.Controls.Add(Me.optPayType6)
+        Me.GroupBox2.Controls.Add(Me.optPayType5)
+        Me.GroupBox2.Controls.Add(Me.optPayType4)
+        Me.GroupBox2.Controls.Add(Me.optPayType3)
+        Me.GroupBox2.Controls.Add(Me.optPayType2)
+        Me.GroupBox2.Controls.Add(Me.optPayType1)
+        Me.GroupBox2.Location = New System.Drawing.Point(24, 444)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(916, 36)
+        Me.GroupBox2.TabIndex = 78
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "GroupBox2"
+        '
+        'optPayType8
+        '
+        Me.optPayType8.AutoSize = True
+        Me.optPayType8.Location = New System.Drawing.Point(722, 12)
+        Me.optPayType8.Name = "optPayType8"
+        Me.optPayType8.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType8.TabIndex = 9
+        Me.optPayType8.TabStop = True
+        Me.optPayType8.Text = "RadioButton1"
+        Me.optPayType8.UseVisualStyleBackColor = True
+        '
+        'optPayType9
+        '
+        Me.optPayType9.AutoSize = True
+        Me.optPayType9.Location = New System.Drawing.Point(826, 13)
+        Me.optPayType9.Name = "optPayType9"
+        Me.optPayType9.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType9.TabIndex = 8
+        Me.optPayType9.TabStop = True
+        Me.optPayType9.Text = "RadioButton1"
+        Me.optPayType9.UseVisualStyleBackColor = True
+        '
+        'optPayType7
+        '
+        Me.optPayType7.AutoSize = True
+        Me.optPayType7.Location = New System.Drawing.Point(606, 13)
+        Me.optPayType7.Name = "optPayType7"
+        Me.optPayType7.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType7.TabIndex = 7
+        Me.optPayType7.TabStop = True
+        Me.optPayType7.Text = "RadioButton1"
+        Me.optPayType7.UseVisualStyleBackColor = True
+        '
+        'optPayType6
+        '
+        Me.optPayType6.AutoSize = True
+        Me.optPayType6.Location = New System.Drawing.Point(519, 13)
+        Me.optPayType6.Name = "optPayType6"
+        Me.optPayType6.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType6.TabIndex = 6
+        Me.optPayType6.TabStop = True
+        Me.optPayType6.Text = "RadioButton1"
+        Me.optPayType6.UseVisualStyleBackColor = True
+        '
+        'optPayType5
+        '
+        Me.optPayType5.AutoSize = True
+        Me.optPayType5.Location = New System.Drawing.Point(423, 13)
+        Me.optPayType5.Name = "optPayType5"
+        Me.optPayType5.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType5.TabIndex = 5
+        Me.optPayType5.TabStop = True
+        Me.optPayType5.Text = "RadioButton1"
+        Me.optPayType5.UseVisualStyleBackColor = True
+        '
+        'optPayType4
+        '
+        Me.optPayType4.AutoSize = True
+        Me.optPayType4.Location = New System.Drawing.Point(306, 14)
+        Me.optPayType4.Name = "optPayType4"
+        Me.optPayType4.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType4.TabIndex = 4
+        Me.optPayType4.TabStop = True
+        Me.optPayType4.Text = "RadioButton1"
+        Me.optPayType4.UseVisualStyleBackColor = True
+        '
+        'optPayType3
+        '
+        Me.optPayType3.AutoSize = True
+        Me.optPayType3.Location = New System.Drawing.Point(208, 14)
+        Me.optPayType3.Name = "optPayType3"
+        Me.optPayType3.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType3.TabIndex = 3
+        Me.optPayType3.TabStop = True
+        Me.optPayType3.Text = "RadioButton1"
+        Me.optPayType3.UseVisualStyleBackColor = True
+        '
+        'optPayType2
+        '
+        Me.optPayType2.AutoSize = True
+        Me.optPayType2.Location = New System.Drawing.Point(104, 14)
+        Me.optPayType2.Name = "optPayType2"
+        Me.optPayType2.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType2.TabIndex = 2
+        Me.optPayType2.TabStop = True
+        Me.optPayType2.Text = "RadioButton1"
+        Me.optPayType2.UseVisualStyleBackColor = True
+        '
+        'optPayType1
+        '
+        Me.optPayType1.AutoSize = True
+        Me.optPayType1.Location = New System.Drawing.Point(8, 14)
+        Me.optPayType1.Name = "optPayType1"
+        Me.optPayType1.Size = New System.Drawing.Size(90, 17)
+        Me.optPayType1.TabIndex = 1
+        Me.optPayType1.TabStop = True
+        Me.optPayType1.Text = "RadioButton1"
+        Me.optPayType1.UseVisualStyleBackColor = True
+        '
+        'UGridIO1
+        '
+        Me.UGridIO1.Activated = False
+        Me.UGridIO1.Col = 1
+        Me.UGridIO1.firstrow = 1
+        Me.UGridIO1.Loading = False
+        Me.UGridIO1.Location = New System.Drawing.Point(746, 235)
+        Me.UGridIO1.MaxCols = 2
+        Me.UGridIO1.MaxRows = 10
+        Me.UGridIO1.Name = "UGridIO1"
+        Me.UGridIO1.Row = 0
+        Me.UGridIO1.Size = New System.Drawing.Size(216, 88)
+        Me.UGridIO1.TabIndex = 79
+        '
+        'DDate
+        '
+        Me.DDate.Location = New System.Drawing.Point(677, 28)
+        Me.DDate.Name = "DDate"
+        Me.DDate.Size = New System.Drawing.Size(200, 20)
+        Me.DDate.TabIndex = 80
+        '
+        'opt30252
+        '
+        Me.opt30252.AutoSize = True
+        Me.opt30252.Location = New System.Drawing.Point(902, 533)
+        Me.opt30252.Name = "opt30252"
+        Me.opt30252.Size = New System.Drawing.Size(55, 17)
+        Me.opt30252.TabIndex = 81
+        Me.opt30252.Text = "30252"
+        Me.opt30252.UseVisualStyleBackColor = True
+        '
+        'opt30323
+        '
+        Me.opt30323.AutoSize = True
+        Me.opt30323.Checked = True
+        Me.opt30323.Location = New System.Drawing.Point(912, 566)
+        Me.opt30323.Name = "opt30323"
+        Me.opt30323.Size = New System.Drawing.Size(55, 17)
+        Me.opt30323.TabIndex = 82
+        Me.opt30323.TabStop = True
+        Me.opt30323.Text = "30323"
+        Me.opt30323.UseVisualStyleBackColor = True
+        '
+        'Notes_Frame
+        '
+        Me.Notes_Frame.Location = New System.Drawing.Point(841, 152)
+        Me.Notes_Frame.Name = "Notes_Frame"
+        Me.Notes_Frame.Size = New System.Drawing.Size(136, 52)
+        Me.Notes_Frame.TabIndex = 83
+        Me.Notes_Frame.TabStop = False
+        Me.Notes_Frame.Text = "Notes_Frame"
+        '
         'ArCard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(988, 604)
+        Me.ClientSize = New System.Drawing.Size(988, 655)
+        Me.Controls.Add(Me.Notes_Frame)
+        Me.Controls.Add(Me.opt30323)
+        Me.Controls.Add(Me.opt30252)
+        Me.Controls.Add(Me.DDate)
+        Me.Controls.Add(Me.UGridIO1)
+        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.cmdHistory)
+        Me.Controls.Add(Me.lblPayMemo)
         Me.Controls.Add(Me.UGrSaleTotals)
         Me.Controls.Add(Me.cmdSaleTotals)
         Me.Controls.Add(Me.lblPaymentHistory)
@@ -845,6 +1226,10 @@ Partial Class ArCard
         Me.Controls.Add(Me.lblTotalPayoff)
         Me.Name = "ArCard"
         Me.Text = "ArCardvb"
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -927,4 +1312,34 @@ Partial Class ArCard
     Friend WithEvents ToolTip1 As ToolTip
     Friend WithEvents cmdSaleTotals As Button
     Friend WithEvents UGrSaleTotals As UGridIO
+    Friend WithEvents lblPayMemo As Label
+    Friend WithEvents cmdHistory As Button
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents optEditType18 As RadioButton
+    Friend WithEvents optEditType17 As RadioButton
+    Friend WithEvents optEditType16 As RadioButton
+    Friend WithEvents optEditType15 As RadioButton
+    Friend WithEvents optEditType14 As RadioButton
+    Friend WithEvents optEditType13 As RadioButton
+    Friend WithEvents optEditType12 As RadioButton
+    Friend WithEvents optEditType11 As RadioButton
+    Friend WithEvents optEditType10 As RadioButton
+    Friend WithEvents optEditType9 As RadioButton
+    Friend WithEvents optEditType8 As RadioButton
+    Friend WithEvents optEditType7 As RadioButton
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents UGridIO1 As UGridIO
+    Friend WithEvents optPayType8 As RadioButton
+    Friend WithEvents optPayType9 As RadioButton
+    Friend WithEvents optPayType7 As RadioButton
+    Friend WithEvents optPayType6 As RadioButton
+    Friend WithEvents optPayType5 As RadioButton
+    Friend WithEvents optPayType4 As RadioButton
+    Friend WithEvents optPayType3 As RadioButton
+    Friend WithEvents optPayType2 As RadioButton
+    Friend WithEvents optPayType1 As RadioButton
+    Friend WithEvents DDate As DateTimePicker
+    Friend WithEvents opt30252 As RadioButton
+    Friend WithEvents opt30323 As RadioButton
+    Friend WithEvents Notes_Frame As GroupBox
 End Class

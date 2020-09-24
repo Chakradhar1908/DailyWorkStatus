@@ -1,5 +1,5 @@
 ﻿Public Class frmSendMail
-    Private Const EMAIL_TIMEOUT as integer = 15000
+    Private Const EMAIL_TIMEOUT As Integer = 15000
 
     'Public WithEvents objSendMail As vbSendMail.clsSendMail
     Public mStatus As String, ErrorMsg As String
@@ -81,15 +81,17 @@
         '        'Unload Me
         '        Me.Close()
     End Function
-    Private Sub DoLog(ByVal Msg As String, Optional ByVal Priority as integer = 7)
+
+    Private Sub DoLog(ByVal Msg As String, Optional ByVal Priority As Integer = 7)
         Dim T As String
         T = IIf(Microsoft.VisualBasic.Left(Msg, 3) = "...", Msg, mStatus & "::" & Msg)
         LogFile("vbsendmail", T, False)
         ActiveLog("frmSendMail: t, priority")
         Debug.Print("::" & T)
     End Sub
+
     Public Function DestString(ByVal TAddr As String) As String
-        Dim X as integer
+        Dim X As Integer
         X = InStr(TAddr, "@")
         If X <= 0 Then Exit Function
         DestString = Mid(TAddr, X + 1)
@@ -101,5 +103,4 @@
         'tmr.Interval = EMAIL_TIMEOUT
         'tmr.Enabled = True
     End Sub
-
 End Class

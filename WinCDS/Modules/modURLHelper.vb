@@ -71,5 +71,4 @@
 
         ExtractUrl = retURL
     End Function
-
 End Module

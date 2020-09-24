@@ -22,14 +22,14 @@ Module modEmail
 
         ' First, we allow DEV MODE to skip all emails
         If IsDevelopment() Then
-            If MsgBox("DEVELOPER: Skip email send?", vbYesNo, "DEVELOPER SKIP") = vbYes Then
+            If MessageBox.Show("DEVELOPER: Skip email send?", "DEVELOPER SKIP", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                 Dim TF As String
                 SendSimpleEmail = "Email Send SKIPPED by developer"
                 TF = TempFile(DevOutputFolder, Slug(Subject, 15) & "-", ".htm")
                 WriteFile(TF, Body)
 
                 LogFile("email", "SendSimpleEmail: """ & FromName & " <" & From & ">"": " & Subject)
-                MsgBox("Email body written to: " & vbCrLf & TF, vbInformation, "DEVELOPER INFORMATION")
+                MessageBox.Show("Email body written to: " & vbCrLf & TF, "DEVELOPER INFORMATION")
                 Exit Function
             End If
         End If

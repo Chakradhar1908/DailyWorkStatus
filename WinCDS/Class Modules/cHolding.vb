@@ -4,13 +4,13 @@
     Private mDataConvert As cDataConvert
     'Implements cDataConvert
 
-    Public Index as integer
+    Public Index As Integer
     Public Status As String
     Public LeaseNo As String
     Public Sale As Decimal
     Public Deposit As Decimal
     Public InitialLease As String
-    Private mCurrentIndex as integer
+    Private mCurrentIndex As Integer
     Public DataBase As String
     Public NonTaxable As Decimal
     Public LastPay As String
@@ -262,11 +262,23 @@ NoSave:
         '    AutoMargStart = rs("AutoMargStart")
     End Sub
 
-    Public Function CalculateRevolvingInterest(ByRef CashOpt As Long, ByRef ChargeDate As Date, ByRef Rate As Double) As Currency
+    Public Function CalculateRevolvingInterest(ByRef CashOpt As Long, ByRef ChargeDate As Date, ByRef Rate As Double) As Decimal
         ' CashOpt and Rate come from the Installment account, ChargeDate from the caller.
         If DateAdd("m", CashOpt, SaleDate) <= ChargeDate Then
             CalculateRevolvingInterest = (Sale - Deposit) * Rate / 100
         End If
     End Function
 
+    Public Function SaleDate() As Date
+        ' Since date isn't saved in Holding, we have to look it up in GM.
+        SaleDate = Today    ' Default to today, for not yet saved sales
+        Dim GM As CGrossMargin
+        GM = New CGrossMargin
+        GM.Load(LeaseNo)
+        Do Until GM.DataAccess.Record_EOF
+            If GM.SellDte < SaleDate Then SaleDate = GM.SellDte ' We want the date of first sale.
+            GM.DataAccess.Records_MoveNext()
+        Loop
+        DisposeDA(GM)
+    End Function
 End Class

@@ -344,5 +344,4 @@ Module modDiagnostics
 
         DirectoryInformationString = Tx
     End Function
-
 End Module

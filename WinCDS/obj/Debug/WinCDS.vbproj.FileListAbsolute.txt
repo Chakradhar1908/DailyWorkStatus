@@ -172,7 +172,6 @@ F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSWinsockLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.VJCZIPLib.dll
-F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 F:\WinCDS\WinCDS\obj\Debug\Interop.ADODB.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.ADOR.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
@@ -269,6 +268,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.FrmProgress3.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmProgressStatic.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmRevolving.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSalesList.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSelectDate.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSelectOption.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSendMail.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmSplash2.resources

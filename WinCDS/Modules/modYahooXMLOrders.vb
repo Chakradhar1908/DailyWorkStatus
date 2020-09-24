@@ -10,6 +10,7 @@
         Dim URL As String
         Dim Taxable As Boolean
     End Structure
+
     Public Structure OnlineSaleAddress
         Dim Type As String
         Dim MailIndex As Integer
@@ -312,5 +313,4 @@
         Q = IIf(Amt = "", "", 1)
         AddBOS2Note = AddBOS2Line("NOTES", , L, , Q, Desc, Amt)
     End Function
-
 End Module

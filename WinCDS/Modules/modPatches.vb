@@ -10,6 +10,7 @@
         PatchStatus_Complete = 1
         PatchStatus_Unknown = -2
     End Enum
+
     Public Structure PatchDef
         Dim PatchDate As Date
         Dim Name As String
@@ -20,7 +21,6 @@
         Dim Stores As Boolean
         Dim AllowPractice As Boolean
     End Structure
-
 
     Public Function IsPatchApplied(ByVal PatchName As String, Optional ByVal StoreNo As Integer = -1) As Boolean
         Dim N As String
@@ -1013,5 +1013,4 @@ ExitApplyPatch:
         ' after you add it here, you need to add it to the ApplyPatch Select Case below using the exact short desc used above
         ' Finally, make sure you make the function
     End Sub
-
 End Module

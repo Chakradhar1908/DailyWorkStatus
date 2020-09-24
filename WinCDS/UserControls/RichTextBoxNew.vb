@@ -21,22 +21,28 @@ Public Class RichTextBoxNew
     Private Sub mRichTextBox_Click()
         RaiseEvent Click_B()
     End Sub
+
     'Private Sub mRichTextBox_DblClick(): RaiseEvent DblClick: End Sub
     Private Sub mRichTextBox_KeyDown(KeyCode As Integer, Shift As Integer)
         RaiseEvent Key_Down(KeyCode, Shift)
     End Sub
+
     Private Sub mRichTextBox_KeyUp(KeyCode As Integer, Shift As Integer)
         RaiseEvent Key_Up(KeyCode, Shift)
     End Sub
+
     Private Sub mRichTextBox_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
         RaiseEvent Mouse_Down(Button, Shift, X, Y)
     End Sub
+
     Private Sub mRichTextBox_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
         RaiseEvent Mouse_Move(Button, Shift, X, Y)
     End Sub
+
     Private Sub mRichTextBox_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
         RaiseEvent Mouse_Up(Button, Shift, X, Y)
     End Sub
+
     Private Sub mRichTextBox_SelChange()
         RaiseEvent SelChange()
     End Sub
@@ -138,9 +144,9 @@ HandleErr:
             Else
                 HideSplash()
                 If File.Substring(0, 2) = LocalDrive Then
-                    MsgBox("Could not load local file: " & File & ".", vbCritical, "Error")
+                    MessageBox.Show("Could not load local file: " & File & ".", "Error")
                 Else
-                    MsgBox("Failed to load critical file: " & File & vbCrLf2 & "You appear to not be connected to the network!" & vbCrLf2 & "Use Windows Explorer to map Drive I: to the server, and try again!", vbCritical, "NetworkError")
+                    MessageBox.Show("Failed to load critical file: " & File & vbCrLf2 & "You appear to not be connected to the network!" & vbCrLf2 & "Use Windows Explorer to map Drive I: to the server, and try again!", "NetworkError")
                 End If
                 End
             End If
@@ -167,7 +173,7 @@ HandleErr:
 NoGood:
     End Function
 
-    Public Sub FilePrint(Optional LeftMarginWidth as integer = -1, Optional TopMarginHeight as integer = -1, Optional PrintWidth as integer = -1, Optional PrintHeight as integer = -1, Optional DontEndDoc As Boolean = False, Optional AllowMultiplePages As Boolean = True)
+    Public Sub FilePrint(Optional LeftMarginWidth As Integer = -1, Optional TopMarginHeight As Integer = -1, Optional PrintWidth As Integer = -1, Optional PrintHeight As Integer = -1, Optional DontEndDoc As Boolean = False, Optional AllowMultiplePages As Boolean = True)
         PrintRTF(mRichTextBox, LeftMarginWidth, TopMarginHeight, PrintWidth, PrintHeight, , AllowMultiplePages)
 
         ' This really should move out of the common print area.
@@ -191,7 +197,7 @@ NoGood:
         mRichTextBox.SelectionStart = 0
     End Sub
 
-    Public Sub DoPrintFile(ByVal FileName As String, Optional ByVal LeftMarginWidth as integer = -1, Optional ByVal TopMarginHeight as integer = -1, Optional ByVal PrintWidth as integer = -1, Optional ByVal PrintHeight as integer = -1, Optional ByVal DontEndDoc As Boolean = False, Optional ByVal AllowMultiplePages As Boolean = True)
+    Public Sub DoPrintFile(ByVal FileName As String, Optional ByVal LeftMarginWidth As Integer = -1, Optional ByVal TopMarginHeight As Integer = -1, Optional ByVal PrintWidth As Integer = -1, Optional ByVal PrintHeight As Integer = -1, Optional ByVal DontEndDoc As Boolean = False, Optional ByVal AllowMultiplePages As Boolean = True)
 
         Dim RTF As String, OF1 As String, OE As Boolean
 
@@ -222,5 +228,4 @@ NoGood:
     Public Function asHtml() As String
         asHtml = RtfToHtml(mRichTextBox)
     End Function
-
 End Class

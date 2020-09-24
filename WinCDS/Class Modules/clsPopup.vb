@@ -31,6 +31,7 @@ Public Class clsPopup
         MFS_TOPGAPDROP = &H80000000         ' #if(WINVER >= 0x0500)
         MFS_GAPDROP = &HC0000000            ' #if(WINVER >= 0x0500)
     End Enum
+
     Private Enum enumMenuFlags
         MF_APPEND = &H100&
         MF_BITMAP = &H4&
@@ -69,6 +70,7 @@ Public Class clsPopup
         MF_UNHILITE = &H0&
         MF_USECHECKBITMAPS = &H200&
     End Enum
+
     Private Enum enumTrackPopupMenu
         TPM_CENTERALIGN = &H4
         TPM_LEFTALIGN = &H0
@@ -81,6 +83,7 @@ Public Class clsPopup
         TPM_LEFTBUTTON = &H0
         TPM_RIGHTBUTTON = &H2
     End Enum
+
     Public Enum enumMenuItemTypes
         MFT_STRING = enumMenuFlags.MF_STRING
         MFT_BITMAP = enumMenuFlags.MF_BITMAP
@@ -92,6 +95,7 @@ Public Class clsPopup
         MFT_RIGHTORDER = &H2000
         MFT_RIGHTJUSTIFY = enumMenuFlags.MF_RIGHTJUSTIFY
     End Enum
+
     Private Enum enumMenuItemInfoMembers
         MIIM_STATE = &H1
         MIIM_ID = &H2
@@ -169,5 +173,4 @@ Public Class clsPopup
         PopupMenu = TrackPopupMenu(hMenu, enumTrackPopupMenu.TPM_NONOTIFY Or enumTrackPopupMenu.TPM_RETURNCMD Or enumTrackPopupMenu.TPM_LEFTALIGN, pt.X, pt.Y, 0, lHwnd, Rec)
         If PopupMenu <> 0 Then RaiseEvent ItemClick(colHandles(PopupMenu))
     End Function
-
 End Class

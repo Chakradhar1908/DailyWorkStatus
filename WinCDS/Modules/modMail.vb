@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Module modMail
     Dim printer As New Printer
-    Public MailRec as integer
+    Public MailRec As Integer
     ' Use this for Access Version
     Public Structure MailNew
         Dim Index As String
@@ -23,7 +23,7 @@ Module modMail
         Dim Business As Boolean
         Dim CreditCard As String
         Dim ExpDate As String
-        Dim TaxZone as integer
+        Dim TaxZone As Integer
     End Structure
 
     Public Structure MailNew2
@@ -67,7 +67,8 @@ Module modMail
         LoadCashAndCarryMail.ExpDate = ""
         LoadCashAndCarryMail.TaxZone = 0
     End Function
-    Public Sub PrintDYMOMailingLabel(ByVal LastName As String, Optional ByVal FirstName As String = "", Optional ByVal Address1 As String = "", Optional ByVal Address2 As String = "", Optional ByVal City As String = "", Optional ByVal Zip As String = "", Optional ByVal LabelType as integer = 30323)
+
+    Public Sub PrintDYMOMailingLabel(ByVal LastName As String, Optional ByVal FirstName As String = "", Optional ByVal Address1 As String = "", Optional ByVal Address2 As String = "", Optional ByVal City As String = "", Optional ByVal Zip As String = "", Optional ByVal LabelType As Integer = 30323)
         '::::PrintDYMOMailingLabel
         ':::SUMMARY
         ': Used to print  required information using Dymo printer.
@@ -87,28 +88,29 @@ Module modMail
         ':::RETURN
 
         Dim OriginalPrint As String
-        OriginalPrint = Printer.DeviceName
+        OriginalPrint = printer.DeviceName
 
         If Not SetDymoPrinter(LabelType) Then
             MessageBox.Show("Printing address mailing labels requires a DYMO printer." & vbCrLf & "A DYMO label printer could not be detected on your computer.", "Dymo Printer Required!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
 
-        Printer.Orientation = vbPRORLandscape
-        Printer.FontSize = 12
-        Printer.CurrentX = 0
-        Printer.CurrentY = 0
-        If LabelType = 30232 Then Printer.Print()
+        printer.Orientation = vbPRORLandscape
+        printer.FontSize = 12
+        printer.CurrentX = 0
+        printer.CurrentY = 0
+        If LabelType = 30232 Then printer.Print()
         printer.Print(Trim(FirstName), "  ", LastName)
         printer.Print(Address1)
         If Trim(Address2) <> "" Then printer.Print(Address2)
         printer.Print(Trim(City), "  ", Zip)
         printer.EndDoc()
 
-        Printer.Orientation = vbPRORPortrait
+        printer.Orientation = vbPRORPortrait
         SetPrinter(OriginalPrint)
     End Sub
-    Public Function MailTableRecordMax(Optional ByVal Field As String = "Index") as integer
+
+    Public Function MailTableRecordMax(Optional ByVal Field As String = "Index") As Integer
         '::::MailTableRecordMax
         ':::SUMMARY
         ': Gets Maximum index value.
@@ -130,6 +132,7 @@ Module modMail
         MailTableRecordMax = IfNullThenZero(RS("GetMax").Value)
         cDBa.dbClose()
     End Function
+
     Public Sub SetMailRecordsetFromMailNew(ByRef RS As ADODB.Recordset, ByRef tMailNew As MailNew)
         '::::SetMailRecordsetFromMailNew
         ':::SUMMARY
@@ -213,6 +216,7 @@ Module modMail
             tMailNew2.Blank = ""
         End If
     End Sub
+
     Public Sub SetMailRecordsetFromMailNew2(ByRef RS As ADODB.Recordset, ByRef tMailNew2 As MailNew2)
         '::::SetMailRecordsetFromMailNew2
         ':::SUMMARY
@@ -235,7 +239,8 @@ Module modMail
         RS("First").Value = Trim(tMailNew2.ShipToFirst)
         RS("Blank").Value = Trim(tMailNew2.Blank)
     End Sub
-    Public Sub SetMailRecordset(ByRef RS As ADODB.Recordset, Optional ByVal StoreNum as integer = 0)
+
+    Public Sub SetMailRecordset(ByRef RS As ADODB.Recordset, Optional ByVal StoreNum As Integer = 0)
         '::::SetMailRecordset
         ':::SUMMARY
         ': This function is used to save the recordset.
@@ -252,7 +257,8 @@ Module modMail
         cDBa.UpdateRecordSet(RS)   ' This must be called to update the database
         cDBa.dbClose()   ' used to close recordset
     End Sub
-    Public Function GetMailRecordset(Optional ByVal Index As String = "-1", Optional ByVal StoreNum as integer = 0) As ADODB.Recordset
+
+    Public Function GetMailRecordset(Optional ByVal Index As String = "-1", Optional ByVal StoreNum As Integer = 0) As ADODB.Recordset
         '::::GetMailRecordset
         ':::SUMMARY
         ': Gets mail recordset by index
@@ -272,6 +278,7 @@ Module modMail
         GetMailRecordset = cDBa.getRecordset(False)   ' if 'SetNew:=False' by default
         cDBa.dbClose()
     End Function
+
     Public Function GetMailRecordsetByTele(Optional ByVal Index As String = "-1") As ADODB.Recordset
         '::::GetMailRecordsetByTele
         ':::SUMMARY
@@ -287,6 +294,7 @@ Module modMail
         GetMailRecordsetByTele = cDBa.getRecordset(Always:=False)  ' if 'SetNew:=False' by default
         cDBa.dbClose()
     End Function
+
     Public Function getMailRecordsetByServiceCall(Optional ByVal Index As String = "-1") As ADODB.Recordset
 
         '::::getMailRecordsetByServiceCall
@@ -347,7 +355,8 @@ Module modMail
         tMailNew.CreditCard = RS("CreditCard").Value
         tMailNew.ExpDate = RS("ExpDate").Value
     End Sub
-    Public Function GetGrossSales(ByVal Index as integer) As Decimal
+
+    Public Function GetGrossSales(ByVal Index As Integer) As Decimal
         '::::GetGrossSales
         ':::SUMMARY
         ': Gets Gross sales.
@@ -370,10 +379,11 @@ Module modMail
 
         R = GetRecordsetBySQL(S, , GetDatabaseAtLocation)
         GetGrossSales = R("Tot").Value
-        R.Close
+        R.Close()
         R = Nothing
     End Function
-    Public Sub Mail_GetAtIndex(ByVal Index As String, ByRef Mail As MailNew, Optional ByVal StoreNum as integer = 0)
+
+    Public Sub Mail_GetAtIndex(ByVal Index As String, ByRef Mail As MailNew, Optional ByVal StoreNum As Integer = 0)
         '::::Mail_GetAtIndex
         ':::SUMMARY
         ': Gets Mail Recordset through Sql values.
@@ -396,7 +406,8 @@ Module modMail
         Exit Sub
 HandleErr:
     End Sub
-    Public Sub Mail2_GetAtIndex(ByVal Index As String, ByRef Mail2 As MailNew2, Optional ByVal StoreNum as integer = 0)
+
+    Public Sub Mail2_GetAtIndex(ByVal Index As String, ByRef Mail2 As MailNew2, Optional ByVal StoreNum As Integer = 0)
         '::::Mail2_GetAtIndex
         ':::SUMMARY
         ': Gets Mail2 recordset through Sql values.
@@ -433,6 +444,7 @@ HandleErr:
         Exit Sub
 HandleErr:
     End Sub
+
     Public Function getMailByIndex(ByVal Index As String) As String  'by index
         '::::getMailByIndex
         ':::SUMMARY
@@ -448,9 +460,11 @@ HandleErr:
         ':GetMailRecordsetByTele
         getMailByIndex = "SELECT Mail.* FROM Mail WHERE Mail.Index=" & Index
     End Function
+
     Private Function getMailByTele(ByVal I As String) As String
         getMailByTele = "SELECT mail.*" & " FROM mail" & " WHERE mail.Tele=""" & ProtectSQL(I) & """"
     End Function
+
     Public Function getMailByServiceCall(ByVal Index As String) As String
         '::::getMailByServiceCall
         ':::SUMMARY
@@ -463,7 +477,8 @@ HandleErr:
         ': STRING - Returns the Mail as a string.
         getMailByServiceCall = "SELECT Mail.* FROM Mail INNER JOIN Service ON Mail.Index=Service.MailIndex WHERE Service.ServiceOrderNo=" & Index
     End Function
-    Public Sub GetMailNew2ByIndex(ByVal Index as integer, ByRef tMailNew2 As MailNew2, Optional ByVal StoreNo as integer = 0)
+
+    Public Sub GetMailNew2ByIndex(ByVal Index As Integer, ByRef tMailNew2 As MailNew2, Optional ByVal StoreNo As Integer = 0)
         '::::GetMailNew2ByIndex
         ':::SUMMARY
         ': Gets  data structure MailNew2.
@@ -482,6 +497,7 @@ HandleErr:
         CopyMailRecordsetToMailNew2(RS, tMailNew2)
         DisposeDA(RS)
     End Sub
+
     Public Function LoadMailRecord(ByVal Index As Integer, Optional ByVal StoreNo As Integer = 0) As clsMailRec
         '::::LoadMailRecord
         ':::SUMMARY
@@ -593,5 +609,4 @@ HandleErr:
             GetMailCityByIndex = X.City
         End If
     End Function
-
 End Module

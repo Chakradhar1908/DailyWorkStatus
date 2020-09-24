@@ -582,85 +582,85 @@ NONENONE:
         'Try
         'The below variable declaration is to draw line in picturebox. Because vb.net does not have picturebox.line method.
         If Not pic.Image Is Nothing Then
-                Bmpp = New Bitmap(pic.Image)
-                G = Graphics.FromImage(Bmpp)
-                P = New Pen(Color.Black)
-                ImageInPicturebox = True
-            End If
+            Bmpp = New Bitmap(pic.Image)
+            G = Graphics.FromImage(Bmpp)
+            P = New Pen(Color.Black)
+            ImageInPicturebox = True
+        End If
 
-            R = (MaxY - MinY) * 1.1
-            If R <> 0 Then
-                'YScl = pic.ScaleHeight / R
-                YScl = pic.ClientRectangle.Height / R
-                YOff = MinY - 0.05 * R
-                R = (MaxX - MinX) * 1.1
-                'XScl = pic.ScaleWidth / R
-                XScl = pic.ClientRectangle.Width / R
-                XOff = MinX - 0.05 * R
-            End If
+        R = (MaxY - MinY) * 1.1
+        If R <> 0 Then
+            'YScl = pic.ScaleHeight / R
+            YScl = pic.ClientRectangle.Height / R
+            YOff = MinY - 0.05 * R
+            R = (MaxX - MinX) * 1.1
+            'XScl = pic.ScaleWidth / R
+            XScl = pic.ClientRectangle.Width / R
+            XOff = MinX - 0.05 * R
+        End If
 
-            If YScl > XScl Then YScl = XScl
-            If XScl > YScl Then XScl = YScl
+        If YScl > XScl Then YScl = XScl
+        If XScl > YScl Then XScl = YScl
 
-            'pic.Cls -Cls method is not in vb.net
-            pic.Image = Nothing
+        'pic.Cls -Cls method is not in vb.net
+        pic.Image = Nothing
 
-            pic.ForeColor = Color.Black
-            'pic.DrawWidth = 2
+        pic.ForeColor = Color.Black
+        'pic.DrawWidth = 2
 
-            pic.ForeColor = ChangeNetworkLineColor(pic.ForeColor)
-            For I = 0 To Count - 2
-                If Node(m_BestSolution(I)).IsDepot Then pic.ForeColor = ChangeNetworkLineColor(pic.ForeColor)
-                X1 = XScl * (Node(m_BestSolution(I)).X - XOff)
-                Y1 = YScl * (Node(m_BestSolution(I)).Y - YOff)
-                X2 = XScl * (Node(m_BestSolution(I + 1)).X - XOff)
-                Y2 = YScl * (Node(m_BestSolution(I + 1)).Y - YOff)
-                'pic.Line(X1, Y1)-(X2, Y2)  -> Replacement for pic.Line is the below 2 lines of code.
-                If ImageInPicturebox = True Then
-                    G.DrawLine(P, X1, Y1, X2, Y2)
-                    pic.Image = Bmpp
-                End If
-            Next
-
-            If Node(m_BestSolution(Count - 1)).IsDepot Then pic.ForeColor = ChangeNetworkLineColor(pic.ForeColor)
-            X1 = XScl * (Node(m_BestSolution(Count - 1)).X - XOff)
-            Y1 = YScl * (Node(m_BestSolution(Count - 1)).Y - YOff)
-            X2 = XScl * (Node(m_BestSolution(0)).X - XOff)
-            Y2 = YScl * (Node(m_BestSolution(0)).Y - YOff)
-            'pic.Line(X1, Y1)-(X2, Y2)  -> Below two lines are replacement for this line to a draw line on picturebox.
+        pic.ForeColor = ChangeNetworkLineColor(pic.ForeColor)
+        For I = 0 To Count - 2
+            If Node(m_BestSolution(I)).IsDepot Then pic.ForeColor = ChangeNetworkLineColor(pic.ForeColor)
+            X1 = XScl * (Node(m_BestSolution(I)).X - XOff)
+            Y1 = YScl * (Node(m_BestSolution(I)).Y - YOff)
+            X2 = XScl * (Node(m_BestSolution(I + 1)).X - XOff)
+            Y2 = YScl * (Node(m_BestSolution(I + 1)).Y - YOff)
+            'pic.Line(X1, Y1)-(X2, Y2)  -> Replacement for pic.Line is the below 2 lines of code.
             If ImageInPicturebox = True Then
                 G.DrawLine(P, X1, Y1, X2, Y2)
                 pic.Image = Bmpp
             End If
-            For Each N In Nodes ' Draw the nodes.
-                N.DrawNode(pic, XOff, YOff, XScl, YScl)
-            Next
+        Next
 
-            '----Note: Below commented lines are replaced with G.DrawString("Nodes = .....). While testing, if the text is clear, use Paint event of picturebox
-            '----and place the two lines of code there also. G = pic.CreateGraphics and G.DrawString("Nodes = ....)
-            'pic.ForeColor = Color.Black
-            'pic.FontName = "Arial"
-            'pic.FontSize = 8
+        If Node(m_BestSolution(Count - 1)).IsDepot Then pic.ForeColor = ChangeNetworkLineColor(pic.ForeColor)
+        X1 = XScl * (Node(m_BestSolution(Count - 1)).X - XOff)
+        Y1 = YScl * (Node(m_BestSolution(Count - 1)).Y - YOff)
+        X2 = XScl * (Node(m_BestSolution(0)).X - XOff)
+        Y2 = YScl * (Node(m_BestSolution(0)).Y - YOff)
+        'pic.Line(X1, Y1)-(X2, Y2)  -> Below two lines are replacement for this line to a draw line on picturebox.
+        If ImageInPicturebox = True Then
+            G.DrawLine(P, X1, Y1, X2, Y2)
+            pic.Image = Bmpp
+        End If
+        For Each N In Nodes ' Draw the nodes.
+            N.DrawNode(pic, XOff, YOff, XScl, YScl)
+        Next
 
-            'X1 = pic.ScaleWidth - 1200
-            X1 = pic.ClientRectangle.Width - 1200
-            'pic.CurrentX = X1
-            'pic.CurrentY = 100
-            'pic.Print("Nodes = " & Count)
+        '----Note: Below commented lines are replaced with G.DrawString("Nodes = .....). While testing, if the text is clear, use Paint event of picturebox
+        '----and place the two lines of code there also. G = pic.CreateGraphics and G.DrawString("Nodes = ....)
+        'pic.ForeColor = Color.Black
+        'pic.FontName = "Arial"
+        'pic.FontSize = 8
 
-            G = pic.CreateGraphics
-            G.DrawString("Nodes = " & Count, New Font("Arial", 8, FontStyle.Regular), Brushes.Black, X1, 100)
+        'X1 = pic.ScaleWidth - 1200
+        X1 = pic.ClientRectangle.Width - 1200
+        'pic.CurrentX = X1
+        'pic.CurrentY = 100
+        'pic.Print("Nodes = " & Count)
 
-            'pic.CurrentX = X1
-            'pic.Print "Cost = " & CurrencyFormat(m_BestCost)
-            G.DrawString("Cost = " & CurrencyFormat(m_BestCost), New Font("Arial", 8, FontStyle.Regular), Brushes.Black, New Point(X1))
+        G = pic.CreateGraphics
+        G.DrawString("Nodes = " & Count, New Font("Arial", 8, FontStyle.Regular), Brushes.Black, X1, 100)
 
-            'pic.CurrentX = X1
-            'pic.Print "Trials=" & TrialCount
-            G.DrawString("Trials=" & TrialCount, New Font("Arial", 8, FontStyle.Regular), Brushes.Black, New Point(X1))
-            'pic.CurrentX = X1
-            'pic.Print "N   =   " & N
-            G.DrawString("N   =   " & N.ToString, New Font("Arial", 8, FontStyle.Regular), Brushes.Black, New Point(X1))
+        'pic.CurrentX = X1
+        'pic.Print "Cost = " & CurrencyFormat(m_BestCost)
+        G.DrawString("Cost = " & CurrencyFormat(m_BestCost), New Font("Arial", 8, FontStyle.Regular), Brushes.Black, New Point(X1))
+
+        'pic.CurrentX = X1
+        'pic.Print "Trials=" & TrialCount
+        G.DrawString("Trials=" & TrialCount, New Font("Arial", 8, FontStyle.Regular), Brushes.Black, New Point(X1))
+        'pic.CurrentX = X1
+        'pic.Print "N   =   " & N
+        G.DrawString("N   =   " & N.ToString, New Font("Arial", 8, FontStyle.Regular), Brushes.Black, New Point(X1))
 
         'Catch ex As System.NullReferenceException
 
@@ -1118,5 +1118,4 @@ NONENONE:
         m_BestSolutionEndTime = c_BestEndTime
         ReportSolutionCostProgress()
     End Sub
-
 End Class

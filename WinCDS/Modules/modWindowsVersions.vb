@@ -3,9 +3,10 @@ Module modWindowsVersions
     Public Function IsWinXP() As Boolean
         IsWinXP = GetWinVer() = "WinXP" And GetWinVerNumber() = WINVER_WINXP
     End Function
+
     Public Function GetWinVer(Optional ByVal wNumbers As Boolean = False) As String 'returns a string representing the version, ie "95", "98", "NT4", "WinXP"
         Dim OSV As OSVERSIONINFO
-        Dim R as integer
+        Dim R As Integer
         '  Dim Pos As Integer
         Dim sVer As String
         Dim sBuild As String
@@ -74,5 +75,4 @@ Module modWindowsVersions
     Public Function IsWin5() As Boolean  ' XP or Server2003
         IsWin5 = GetWinVerMajor <= 5
     End Function
-
 End Module

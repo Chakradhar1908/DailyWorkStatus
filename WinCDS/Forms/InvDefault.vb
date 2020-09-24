@@ -76,7 +76,7 @@
         '    End If
 
         If mOptionSelected = ENoStyle.eNoStyle_NotSet Then
-            MsgBox("Option Not Selected!", vbExclamation)
+            MessageBox.Show("Option Not Selected!", "WinCDS")
             Exit Sub
         Else
             'BillOSale.Mfg.SetFocus
@@ -86,8 +86,5 @@
             Me.Close()
             'Me.Hide()
         End If
-
     End Sub
-
-
 End Class

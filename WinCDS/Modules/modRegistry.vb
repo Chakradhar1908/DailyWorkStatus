@@ -3,12 +3,12 @@
     Private bUseIni As TriState
     Public Const HKEY_LOCAL_MACHINE As Integer = &H80000002
     Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey As Integer, ByVal lpSubKey As String, ByVal ulOptions As Integer, ByVal samDesired As Integer, ByRef phkResult As Integer) As Integer
-    Declare Function RegDeleteValue Lib "advapi32.dll" Alias "RegDeleteValueA" (ByVal hKey as integer, ByVal lpSubKey As String) as Integer
+    Declare Function RegDeleteValue Lib "advapi32.dll" Alias "RegDeleteValueA" (ByVal hKey As Integer, ByVal lpSubKey As String) As Integer
     Declare Function RegQueryValueExNULL Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, ByRef lpType As Integer, ByVal lpData As Integer, ByRef lpcbData As Integer) As Integer
     Declare Function RegQueryValueExLong Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, ByRef lpType As Integer, ByRef lpData As Integer, ByRef lpcbData As Integer) As Integer
-    Declare Function RegSetValueExString Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal Reserved as integer, ByVal dwType as integer, ByVal lpValue As String, ByVal cbData as integer) as integer
-    Declare Function RegQueryValueExString Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey as integer, ByVal lpValueName As String, ByVal lpReserved as integer, lpType as integer, ByVal lpData As String, lpcbData as integer) as integer
-    Declare Function RegCreateKeyEx Lib "advapi32.dll" Alias "RegCreateKeyExA" (ByVal hKey as integer, ByVal lpSubKey As String, ByVal Reserved as integer, ByVal lpClass As String, ByVal dwOptions as integer, ByVal samDesired as integer, ByVal lpSecurityAttributes as integer, phkResult as integer, lpdwDisposition as integer) as Integer
+    Declare Function RegSetValueExString Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal Reserved As Integer, ByVal dwType As Integer, ByVal lpValue As String, ByVal cbData As Integer) As Integer
+    Declare Function RegQueryValueExString Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal lpReserved As Integer, lpType As Integer, ByVal lpData As String, lpcbData As Integer) As Integer
+    Declare Function RegCreateKeyEx Lib "advapi32.dll" Alias "RegCreateKeyExA" (ByVal hKey As Integer, ByVal lpSubKey As String, ByVal Reserved As Integer, ByVal lpClass As String, ByVal dwOptions As Integer, ByVal samDesired As Integer, ByVal lpSecurityAttributes As Integer, phkResult As Integer, lpdwDisposition As Integer) As Integer
     Declare Function RegSetValueExLong Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey As Integer, ByVal lpValueName As String, ByVal Reserved As Integer, ByVal dwType As Integer, ByRef lpValue As Integer, ByVal cbData As Integer) As Integer
     Declare Function RegDeleteKey Lib "advapi32.dll" Alias "RegDeleteKeyA" (ByVal hKey As Integer, ByVal lpSubKey As String) As Integer
     Public Const KEY_QUERY_VALUE As Integer = &H1
@@ -101,6 +101,7 @@
         UseINIFile = True
         bUseIni = vbTrue
     End Function
+
     Public Function CDSINI() As String
         '::::CDSINI
         ':::SUMMARY
@@ -139,6 +140,7 @@
         ' BFH20160624 - Used to be in Program Files...  Can't do that.
         '  CDSINI = AppFolder & "WinCDS.ini"
     End Function
+
     Public Function GetSystemSetting(ByVal AppName As String, ByVal Section As String, ByVal vKEY As String, Optional ByVal Defaults As String = "") As String
         '::::GetSystemSetting
         ':::SUMMARY
@@ -443,5 +445,4 @@ QueryValueExError:
         GetCurrentUserSetting = QueryValue(HKEY_CURRENT_USER, Section, vKEY)
         If GetCurrentUserSetting = "" Then GetCurrentUserSetting = Defaults
     End Function
-
 End Module

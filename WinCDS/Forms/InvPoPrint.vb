@@ -1,6 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Interaction
 Imports VBRUN
-
 Public Class InvPoPrint
     Public DebugPrintPO As String
 
@@ -900,5 +899,4 @@ HandleErr:
         cmdPrintPreview.Visible = True
         Show()
     End Sub
-
 End Class

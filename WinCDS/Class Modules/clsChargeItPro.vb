@@ -58,7 +58,6 @@ Public Class clsChargeItPro
     Public ApprovedAmountResult As String
     Public BalanceAmountResult As String
 
-
     Private IsManuallyEntered As Boolean  ' Is the CCNum privately entered?
 
     Public Function ExecPurchase(Optional ByVal Prompt As Boolean = True) As Boolean
@@ -96,6 +95,7 @@ Public Class clsChargeItPro
         ErrorMsg = CIP.ResultMessage
         TransIDResult = CIP.UniqueTransID
     End Function
+
     Public Function ExecDebitReturn(Optional ByVal Prompt As Boolean = True) As Boolean
         LogStartFunction("CIP-DebitReturn")
 
@@ -133,7 +133,6 @@ Public Class clsChargeItPro
         '    WriteFile AppFolder & "XCLog.txt", Text & vbCrLf
         '  End If
     End Sub
-
 
     Public ReadOnly Property CIP(Optional ByVal Reset As Boolean = False, Optional ByVal LoadSetup As Boolean = False) As cipwin32.EasyIntegrator
         Get
@@ -230,5 +229,4 @@ Public Class clsChargeItPro
     Public Function ExecGiftReturn(Optional ByVal Prompt As Boolean = True) As Boolean
         LogStartFunction("CIP-GiftReturn")
     End Function
-
 End Class

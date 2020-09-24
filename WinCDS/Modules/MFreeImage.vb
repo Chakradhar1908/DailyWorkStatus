@@ -130,6 +130,7 @@ Module MFreeImage
         FISO_TIFF_DEFAULT = TIFF_DEFAULT
         FISO_TIFF_CMYK = TIFF_CMYK                     ' reads tags for separated CMYK
     End Enum
+
     Public Enum FREE_IMAGE_FILTER
         FILTER_BOX = 0            ' Box, pulse, Fourier window, 1st order (constant) b-spline
         FILTER_BICUBIC = 1        ' Mitchell & Netravali's two-param cubic filter
@@ -138,6 +139,7 @@ Module MFreeImage
         FILTER_CATMULLROM = 4     ' Catmull-Rom spline, Overhauser spline
         FILTER_LANCZOS3 = 5       ' Lanczos3 filter
     End Enum
+
     Public Enum FREE_IMAGE_FORMAT
         FIF_UNKNOWN = -1
         FIF_BMP = 0
@@ -300,6 +302,7 @@ Module MFreeImage
         End If
 
     End Function
+
     Public Function FreeImage_GetVersion() As String
 
         ' This function returns the version of the FreeImage 3 library
@@ -308,6 +311,7 @@ Module MFreeImage
         FreeImage_GetVersion = pGetStringFromPointerA(FreeImage_GetVersionInt)
 
     End Function
+
     Public Function FreeImage_LoadEx(ByVal FileName As String,
                         Optional ByVal Options As FREE_IMAGE_LOAD_OPTIONS = Nothing,
                         Optional ByVal Width As Object = Nothing,
@@ -361,6 +365,7 @@ Module MFreeImage
         End If
 
     End Function
+
     Public Function FreeImage_GetOlePicture(ByVal BITMAP As Integer,
                                Optional ByVal hDC As Integer = 0,
                                Optional ByVal UnloadSource As Boolean = False) As IPicture
@@ -423,7 +428,6 @@ Module MFreeImage
 
     End Function
 
-
     Private Function pGetStringFromPointerA(ByRef ptr As Integer) As String
 
         Dim abBuffer() As Byte
@@ -458,6 +462,7 @@ Module MFreeImage
         End If
 
     End Function
+
     Public Function FreeImage_FIFSupportsReading(ByVal Format As FREE_IMAGE_FORMAT) As Boolean
 
         ' Thin wrapper function returning a real VB Boolean value
@@ -465,6 +470,7 @@ Module MFreeImage
         FreeImage_FIFSupportsReading = (FreeImage_FIFSupportsReadingInt(Format) = 1)
 
     End Function
+
     Public Function FreeImage_RescaleEx(ByVal BITMAP As Integer,
                            Optional ByVal Width As Object = Nothing,
                            Optional ByVal Height As Object = Nothing,
@@ -602,6 +608,7 @@ Module MFreeImage
         End If
 
     End Function
+
     Public Function FreeImage_GetFormatFromFIF(ByVal Format As FREE_IMAGE_FORMAT) As String
 
         ' This function returns the result of the 'FreeImage_GetFormatFromFIF' function
@@ -612,6 +619,7 @@ Module MFreeImage
         FreeImage_GetFormatFromFIF = pGetStringFromPointerA(FreeImage_GetFormatFromFIFInt(Format))
 
     End Function
+
     Public Function FreeImage_HasPixels(ByVal BITMAP As Integer) As Boolean
 
         ' Thin wrapper function returning a real VB Boolean value
@@ -619,6 +627,7 @@ Module MFreeImage
         FreeImage_HasPixels = (FreeImage_HasPixelsInt(BITMAP) = 1)
 
     End Function
+
     Public Function FreeImage_GetBitmapForDevice(ByVal BITMAP As Integer,
                                     Optional ByVal hDC As Integer = 0,
                                     Optional ByVal UnloadSource As Boolean = False) As Integer
@@ -656,5 +665,4 @@ Module MFreeImage
         End If
 
     End Function
-
 End Module

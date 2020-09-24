@@ -9,6 +9,7 @@
         If DownloadURLToFileAPI(URL, lFN, , FailureMessage) Then DownloadURLToString = ReadFile(lFN)
         Kill(lFN)
     End Function
+
     Public Function DownloadURLToFileAPI(ByVal URL As String, ByVal localFileName As String, Optional ByVal OverWrite As Boolean = True, Optional ByRef FailureMessage As String = "") As Boolean
         Dim ErrCode As Integer
         On Error Resume Next
@@ -78,5 +79,4 @@
         DoDownloadProgress = C.DownloadFileProgress(URL, localFileName, ErrCode, AltPrg, AltPrg2)
         C = Nothing
     End Function
-
 End Module

@@ -95,5 +95,4 @@ NoSave:
     Private Sub AddOldNote(ByVal D As String, ByVal N As String)
         txtOldNotes.Text = "------ " & Date.Parse(DateFormat(D), Globalization.CultureInfo.InvariantCulture) & "  Time: " & Format(D, "h:mm:ss am/pm") & " ------" & vbCrLf & N & vbCrLf2 & txtOldNotes.Text
     End Sub
-
 End Class

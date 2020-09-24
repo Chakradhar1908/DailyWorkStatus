@@ -5,5 +5,4 @@
     Public Margin As CGrossMargin
     Public SaleNo As String
     Public CreditAmt As Decimal
-
 End Class

@@ -120,10 +120,10 @@
                 cmdClear.Enabled = True
             Else
                 'Add binary mode packets handling here..
-                MsgBox("Warning: Binary Mode ON" & vbCrLf & "CS1504 Must be in ASCII mode.", vbExclamation, "Binary Mode")
+                MessageBox.Show("Warning: Binary Mode ON" & vbCrLf & "CS1504 Must be in ASCII mode.", "Binary Mode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Else
-            MsgBox("No Barcodes in CS1504.", vbExclamation)
+            MessageBox.Show("No Barcodes in CS1504.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             cmdGetBarcodes.Select()
         End If
         'MousePointer = vbDefault
@@ -180,12 +180,12 @@
 ErrorHandler:
         If Err.Description = "File not found: csp2.dll" Then
             'MsgBox Error & ":  Please contact " & companyname & " to implement the" & vbCrLf & "Keychain Barcode Reader feature in your software.", vbInformation
-            MsgBox("The cs1504 should be plugged in, with scanned items, to check inventory quantity!", vbCritical, "Check Scanner")
+            MessageBox.Show("The cs1504 should be plugged in, with scanned items, to check inventory quantity!", "Check Scanner", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
             'Unload Me
             Me.Close()
         Else
-            MsgBox(Err.Description, vbCritical, Err.Number)
+            MessageBox.Show(Err.Description, "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Resume Next
         End If
     End Function
@@ -242,7 +242,7 @@ ErrorHandler:
         End Select
         If ErrorCode <> STATUS_OK Then
             lblStatus.Text = "Error: " & ErrorName
-            If MsgBox("Error: " & ErrorName, vbExclamation + vbRetryCancel, "Error Clearing CS 1504: " & ErrorCode) = vbCancel Then
+            If MessageBox.Show("Error: " & ErrorName, "Error Clearing CS 1504: " & ErrorCode, MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation) = DialogResult.Cancel Then
                 lblStatus.Text = "Error"
                 Exit Sub
             End If
@@ -333,6 +333,5 @@ ErrorHandler:
         End If
         BarcodeListQty = lstBarcodes.Items.Count
         FormActivated = False
-
     End Sub
 End Class

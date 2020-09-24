@@ -4,6 +4,7 @@ Public Module modBackup
         bkBackup = 0
         bkRestore = 1
     End Enum
+
     Public Enum BackupType
         ' In case we want to specify this.
         bkNone = 0
@@ -39,6 +40,7 @@ Public Module modBackup
         bkAll = 32767
         '  bkAll = 65535         ' VB6 uses signed numbers..  we will just hold off unless we need it.
     End Enum
+
     Public Enum cdsZipType
         wztNone = 0
         wztVJCZ = 1
@@ -190,5 +192,4 @@ Public Module modBackup
         SevenZip7ZA = "7za"
         If FileExists(A) Then SevenZip7ZA = A : Exit Function
     End Function
-
 End Module

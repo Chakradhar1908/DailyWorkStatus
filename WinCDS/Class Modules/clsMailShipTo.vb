@@ -40,5 +40,4 @@
         ' Move to the first record if we can, and return success.
         If DataAccess.Records_Available Then Load = True
     End Function
-
 End Class

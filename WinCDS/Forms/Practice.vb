@@ -27,5 +27,4 @@
         S = S & N & "This screen exists to help you attempt to alleviate this error."
         If Not OnPurpose Then MessageBox.Show(S)
     End Sub
-
 End Class

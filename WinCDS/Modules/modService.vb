@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Compatibility.VB6
 Module modService
-    Public Function PartOrderToHTML(ByVal PartOrderNo As String, Optional ByVal StoreNo as integer = 0, Optional ByRef GetEmailAddr As String = "", Optional ByRef GetEmailName As String = "", Optional ByVal NoPageSetup As Boolean = False, Optional ByRef Attach As String = "") As String
+    Public Function PartOrderToHTML(ByVal PartOrderNo As String, Optional ByVal StoreNo As Integer = 0, Optional ByRef GetEmailAddr As String = "", Optional ByRef GetEmailName As String = "", Optional ByVal NoPageSetup As Boolean = False, Optional ByRef Attach As String = "") As String
 
         '::::PartOrderToHTML
         ':::SUMMARY
@@ -27,7 +27,7 @@ Module modService
         Dim VZip As String = "", VPhone As String = "", VFax As String = "", vEMail As String = ""
 
 
-        Dim PicID as integer
+        Dim PicID As Integer
 
         On Error Resume Next
 
@@ -175,7 +175,7 @@ Module modService
         '  ShellOut_URL F
     End Function
 
-    Public Function ChargeBackLetterHTML(ByVal PON as integer, ByVal LetterType as integer, ByVal StoreNum as integer, ByVal Amount As Decimal, ByVal InvoiceNo As String, Optional ByRef vEMail As String = "", Optional ByRef vName As String = "", Optional ByRef Attach As String = "") As String
+    Public Function ChargeBackLetterHTML(ByVal PON As Integer, ByVal LetterType As Integer, ByVal StoreNum As Integer, ByVal Amount As Decimal, ByVal InvoiceNo As String, Optional ByRef vEMail As String = "", Optional ByRef vName As String = "", Optional ByRef Attach As String = "") As String
         '::::ChargeBackLetterHTML
         ':::SUMMARY
         ': HTML  code for ChargeBack Letter.
@@ -313,7 +313,7 @@ Module modService
         '  ShellOut_URL F
     End Function
 
-    Public Function DescribeChargeBackOption(ByRef nVal as integer) As String
+    Public Function DescribeChargeBackOption(ByRef nVal As Integer) As String
         '::::DescribeChargeBackOption
         ':::SUMMARY
         ': Describe each payment option for chargeback.
@@ -330,7 +330,7 @@ Module modService
         End Select
     End Function
 
-    Public Function ChargeBackLetterOperationDesc(ByVal LetterType as integer, ByVal Amount As Decimal, ByVal InvoiceNo As String) As String
+    Public Function ChargeBackLetterOperationDesc(ByVal LetterType As Integer, ByVal Amount As Decimal, ByVal InvoiceNo As String) As String
         '::::ChargeBackLetterOperationDesc
         ':::SUMMARY
         ': Provides Description about ChargeBack letter operations.
@@ -383,5 +383,4 @@ Module modService
         End If
         DisposeDA(cServ)
     End Function
-
 End Module

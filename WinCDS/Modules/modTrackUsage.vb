@@ -64,5 +64,4 @@ NetFail:
         Const MRU_TAG As String = "LastRun_"
         FeatureFieldName = MRU_TAG & LCase(vName)
     End Function
-
 End Module

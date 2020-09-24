@@ -8,8 +8,8 @@
         'Use x & Chr(34) if you need to allow double quotes (") in the input strings
         'Allowing numbers in the input strings is optional (the 'n' parameter)
         'The 'w' parameter is the weight of "order" over "frequency" scores in the final score. Feel free to experiment, to get best matching results with your data.
-        Dim I as integer, D1 as integer, D2 as integer, Y As String, B As Boolean
-        Dim C As String, A1 As String, A2 As String, K as integer, P as integer, F As Single, O As Single
+        Dim I As Integer, D1 As Integer, D2 As Integer, Y As String, B As Boolean
+        Dim C As String, A1 As String, A2 As String, K As Integer, P As Integer, F As Single, O As Single
         '
         '        ******* INPUT STRINGS CLEANSING *******
         '
@@ -108,5 +108,4 @@
             HotFuzz = (W * O + F) / (W + 1) / D2
         End If
     End Function
-
 End Module

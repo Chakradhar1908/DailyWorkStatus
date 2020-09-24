@@ -9,6 +9,7 @@
             FitRange = CHK
         End If
     End Function
+
     Public Function InRange(ByVal LBnd As Object, ByVal CHK As Object, ByVal UBnd As Object, Optional ByVal IncludeBounds As Boolean = True) As Boolean
         On Error Resume Next  ' because we're doing this as variants..
         If IncludeBounds Then
@@ -36,11 +37,13 @@
             If Val(L) < Val(MinArray) Then MinArray = Val(L)
         Next
     End Function
-    Public Function Trunc0(ByVal Number As Double) as integer
+
+    Public Function Trunc0(ByVal Number As Double) As Integer
         Trunc0 = Trunc(Number, 0)
     End Function
-    Public Function Trunc(ByVal Number As Double, Optional ByVal DecimalPoints as integer = 2) As Double
-        Dim S As String, X as integer
+
+    Public Function Trunc(ByVal Number As Double, Optional ByVal DecimalPoints As Integer = 2) As Double
+        Dim S As String, X As Integer
         If DecimalPoints <= 0 Then
             Trunc = Int(Number)
             Exit Function
@@ -49,6 +52,7 @@
         X = InStr(S, ".")
         Trunc = Val(Left(S, X + DecimalPoints))
     End Function
+
     Public Function Decimals(ByVal Number As Double) As Double
         Decimals = Number - Trunc(Number, 0)
     End Function
@@ -137,5 +141,4 @@
         ': Currency : Return the RoundUp value as decimal.
         RoundUp = Math.Round(Money + 0.49, 0)
     End Function
-
 End Module

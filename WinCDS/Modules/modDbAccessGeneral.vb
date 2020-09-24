@@ -60,5 +60,4 @@
 NoRecords:
         GetMaxFieldValue = ZeroValue ' Default is ZERO since we are looking for MAX.  Next value would be 1.
     End Function
-
 End Module

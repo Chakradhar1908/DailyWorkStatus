@@ -116,7 +116,7 @@ Partial Class AddOnAcc
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "AddOnAcc"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Make Selection"
         Me.fraControls.ResumeLayout(False)
         Me.ResumeLayout(False)

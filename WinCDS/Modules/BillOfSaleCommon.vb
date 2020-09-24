@@ -18,6 +18,7 @@ Module BillOfSaleCommon
         eNoItems = 2
         eSSNoVendor = 3
     End Enum
+
     Public Function PrintSale(ByVal SaleNo As String, Optional ByVal Store As Integer = 0, Optional ByVal CopyID As String = "", Optional ByVal Copies As Integer = 1) As Boolean
         '::::PrintSale
         ':::SUMMARY
@@ -48,6 +49,7 @@ Module BillOfSaleCommon
         DisposeDA(S)
         PrintSale = True
     End Function
+
     Public Function CalculateGM(ByVal Sale As Decimal, ByVal Landed As Decimal, Optional ByVal DefaultValue As Double = 100, Optional ByVal RoundTo As Integer = -1) As Double
         '::::CalculateGM
         ':::SUMMARY
@@ -66,6 +68,7 @@ Module BillOfSaleCommon
         CalculateGM = (1 - Landed / Sale) * 100
         If RoundTo >= 0 Then CalculateGM = Math.Round(CalculateGM, RoundTo)
     End Function
+
     Public Function AddNewMarginRecord(ByVal SaleNo As String, ByVal Style As String, ByVal Desc As String,
   Optional ByVal Quantity As Double = 0, Optional ByVal SellPrice As Decimal = 0,
   Optional ByVal Vendor As String = "", Optional ByVal DeptNo As String = "", Optional ByVal VendorNo As String = "", Optional ByVal Cost As Decimal = 0,
@@ -271,6 +274,7 @@ HandleErr:
             Case 4 : InvData.Sales4 = InvData.Sales4 + Qty
         End Select
     End Sub
+
     Private Sub UpdateDetailLocation(ByRef InvDetail As CInventoryDetail, ByVal Location As Integer, ByVal Qty As Double)
         InvDetail.SetLocationQuantity(Location, Qty)
     End Sub
@@ -511,5 +515,4 @@ HandleErr:
             CalculateSalePrice = Landed / (1 - GM / 100)
         End If
     End Function
-
 End Module

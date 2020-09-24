@@ -378,5 +378,4 @@
             If MonthlyPayment < Op Then MonthlyPayment = MonthlyPayment + 1
         End If
     End Function
-
 End Class

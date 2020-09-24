@@ -5,6 +5,4 @@
         <VBFixedString(4)> Dim Code As String
         <VBFixedString(5)> Dim RN As String
     End Structure
-
-
 End Module

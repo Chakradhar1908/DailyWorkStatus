@@ -1051,5 +1051,4 @@
         lRet = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0&, lCode, 0&, sRtrnCode, 256&, 0&)
         If lRet > 0 Then ErrorMessageTextLookup = Left(sRtrnCode, lRet) Else ErrorMessageTextLookup = "Error not found."
     End Function
-
 End Module

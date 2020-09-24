@@ -165,6 +165,7 @@
         'Done:
         '  Close #FNum
     End Function
+
     Public Function ReadEntireFileAndDelete(ByVal FileName As String) As String
         '::::ReadEntireFileAndDelete
         ':::SUMMARY
@@ -240,5 +241,4 @@
             End If
         Next
     End Function
-
 End Module

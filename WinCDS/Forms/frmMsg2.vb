@@ -288,5 +288,4 @@ Public Class FrmMsg2
                 cmdButton4.Left = BUTTON_GAP + lBW + cmdButton3.Left
         End Select
     End Sub
-
 End Class

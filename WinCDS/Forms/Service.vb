@@ -1,14 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.Compatibility.VB6
 Public Class Service
     Public AccountFound As String
-    Public MailIndex as integer
-    Private ServiceOrderNumber as integer
+    Public MailIndex As Integer
+    Private ServiceOrderNumber As Integer
     Private WithEvents mDBAccess As CDbAccessGeneral
     Private WithEvents mDBService As CDbAccessGeneral
     Private LoadingCheckBoxes As Boolean, SearchingSOID As Boolean
     Private Mail2 As MailNew2
 
-    Public Sub LoadCustomer(ByVal NewMailIndex as integer, Optional ByVal CheckServiceCalls As Boolean = True)
+    Public Sub LoadCustomer(ByVal NewMailIndex As Integer, Optional ByVal CheckServiceCalls As Boolean = True)
         ' Load the customer info.
         ' How do we know when to bring up AddOnAcc form?
 
@@ -39,16 +39,16 @@ Public Class Service
                 FindItems()
             Else
                 ' Bad mail record!
-                MsgBox("Invalid mail index in Service module.", vbCritical, "Error")
+                MessageBox.Show("Invalid mail index in Service module.", "Error")
                 Exit Sub
             End If
         Else
             ' Bad mail info, what to do?
-            MsgBox("No customer record available.", vbCritical, "Error")
+            MessageBox.Show("No customer record available.", "Error")
             Exit Sub
         End If
 
-        Dim NewCallNo as integer
+        Dim NewCallNo As Integer
         If CheckServiceCalls = True Then
             If MailCheck.ServiceCallNo > 0 Then
                 ' Load this call..
@@ -56,7 +56,8 @@ Public Class Service
             Else
                 ' Find a call to work with..
                 AccountFound = ""
-                CheckForService(CLng(MailIndex))   ' This should look but not load!
+                'CheckForService(CLng(MailIndex))   ' This should look but not load!
+                CheckForService(MailIndex)   ' This should look but not load!
                 If AccountFound = "Y" Then
                     If Val(NewMailIndex) > 0 Then
                         ' Show the form to select old or new service call.
@@ -85,7 +86,8 @@ Public Class Service
             End If
         End If
     End Sub
-    Public Sub LoadServiceCall(ByVal SOID as integer, Optional ByVal Direction As String = "")
+
+    Public Sub LoadServiceCall(ByVal SOID As Integer, Optional ByVal Direction As String = "")
         ' Load the service call..
         ' If the Service Call's MailIndex doesn't match our current MailIndex,
         ' we need to also load the customer - no prompt.
@@ -103,9 +105,10 @@ Public Class Service
 
         LoadPartsOrders()
     End Sub
+
     Public Sub LoadPartsOrders()
         Dim RS As ADODB.Recordset
-        Dim SQL As String, Tot as integer, Closed as integer, N as integer
+        Dim SQL As String, Tot As Integer, Closed As Integer, N As Integer
 
         lblPartsOrd.Visible = False
         On Error Resume Next
@@ -138,7 +141,7 @@ Public Class Service
         End If
     End Sub
 
-    Private Sub mDBAccess_Init(Optional SOID as integer = 0, Optional f_strDirection As String = "", Optional MailIndex as integer = 0)
+    Private Sub mDBAccess_Init(Optional SOID As Integer = 0, Optional f_strDirection As String = "", Optional MailIndex As Integer = 0)
         ' Called by CheckForService, cmdSave_Click, GetServiceCall, MoveRecord.
         mDBService_Init()  ' Is this the best place for it?
         mDBAccess = New CDbAccessGeneral
@@ -166,9 +169,10 @@ Public Class Service
         Exit Sub
 
 HandleErr:
-        MsgBox("ERROR mdbAccess_Init: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("ERROR mdbAccess_Init: " & Err.Description & ", " & Err.Source)
         Resume Next
     End Sub
+
     Private Sub mDBService_Init()
         mDBService = New CDbAccessGeneral
         Dim a As String
@@ -195,6 +199,7 @@ HandleErr:
         Notes_Text.Text = ""
         Notes_New.Text = ""
     End Sub
+
     Private Sub SelectStatus(ByVal Stat As String)
         Select Case UCase(Trim(Stat))
             Case "", "OPEN"  ' allow "" for clearing
@@ -212,7 +217,8 @@ HandleErr:
                 End If
         End Select
     End Sub
-    Private Sub LoadCheckBoxes(ByVal Val as integer, Optional ByVal ClearOnly As Boolean = False)
+
+    Private Sub LoadCheckBoxes(ByVal Val As Integer, Optional ByVal ClearOnly As Boolean = False)
         LoadingCheckBoxes = True
         If Not ClearOnly Or Val <> 1 Then chkStoreService.Checked = IIf(Val = 1, 1, 0)
         If Not ClearOnly Or Val <> 2 Then chkOutsideService.Checked = IIf(Val = 2, 1, 0)
@@ -221,7 +227,7 @@ HandleErr:
         LoadingCheckBoxes = False
     End Sub
 
-    Private Sub CheckForService(ByVal MailIndex as integer)
+    Private Sub CheckForService(ByVal MailIndex As Integer)
         ' Called by LoadCustomer
         On Error GoTo HandleErr
 
@@ -240,9 +246,10 @@ HandleErr:
         Exit Sub
 
 HandleErr:
-        MsgBox("Check for Service: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("Check for Service: " & Err.Description & ", " & Err.Source)
         Resume Next
     End Sub
+
     Private Sub mDBService_SqlSet(ByVal T As String)
         ' Only called from CheckForService
         If AddOnAcc.Typee = ArAddOn_New And Me.AccountFound = "Y" Then
@@ -253,11 +260,11 @@ HandleErr:
     End Sub
 
     Public Sub FindItems()
-        Dim Margin As CGrossMargin, Zz as integer, ItemsUpdated As Boolean, S As String
+        Dim Margin As CGrossMargin, Zz As Integer, ItemsUpdated As Boolean, S As String
         Dim NN As Object, Selected As Boolean
         Dim ItemDescString As String, AckInv As String
         Dim RS As ADODB.Recordset
-        Dim X As ADODB.Recordset, A as integer
+        Dim X As ADODB.Recordset, A As Integer
 
         Margin = New CGrossMargin
 
@@ -353,7 +360,7 @@ HandleErr:
                 .DataAccess.Records_OpenSQL("SELECT * FROM ServiceNotes WHERE MarginNo=" & Margin.MarginLine & " AND ServiceCall=" & ServiceOrderNumber & " ORDER BY NoteDate, ServiceNoteID")
                 If Not .DataAccess.Record_EOF Then
                     Do While .DataAccess.Records_Available
-                        Dim Note As Object, I as integer
+                        Dim Note As Object, I As Integer
                         Note = SplitLongText(" --- " & .NoteTypeString & " entered at " & DateFormat(.NoteDate) & " ---" & vbCrLf & .Note, 75)
                         For I = LBound(Note) To UBound(Note)
                             tvItemNotes.Nodes.Add(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine), "4", "SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
@@ -380,7 +387,7 @@ HandleErr:
                 cSR.Save
             Else
                 ' How can it not load, we're in it?
-                MsgBox("Error upgrading service record structure.", vbCritical, "Error")
+                MessageBox.Show("Error upgrading service record structure.", "Error")
             End If
             DisposeDA(cSR, Margin)
         End If
@@ -394,11 +401,12 @@ HandleErr:
 
         LoadPartsOrders()
 HandleErr:
-        MsgBox("Check for Service: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("Check for Service: " & Err.Description & ", " & Err.Source)
         Resume Next
     End Sub
+
     Private Sub LoadMailRecord(ByRef MailRec As MailNew)
-        Dim X as integer
+        Dim X As Integer
         MailIndex = MailRec.Index
         If Not MailRec.Business Then
             lblFirstName.Text = Trim(MailRec.First)
@@ -425,11 +433,13 @@ HandleErr:
         lblTele3 = DressAni(Mail2.Tele3)
         UpdateTelephoneLabels(MailRec.PhoneLabel1, MailRec.PhoneLabel2, Mail2.PhoneLabel3)
     End Sub
-    Private Sub ColorTaggedItem(ByVal Item as integer, ByVal Tagged As Boolean)
+
+    Private Sub ColorTaggedItem(ByVal Item As Integer, ByVal Tagged As Boolean)
         If Item <= 0 Then Exit Sub
         tvItemNotes.Nodes.Item("ML" & Item).ForeColor = IIf(Tagged, Color.Red, Color.Black)
     End Sub
-    Private Function IsItemTaggedForRepair(ByVal ML as integer)
+
+    Private Function IsItemTaggedForRepair(ByVal ML As Integer)
         Dim CSI As clsServiceItemParts
         CSI = New clsServiceItemParts
         With CSI
@@ -438,6 +448,7 @@ HandleErr:
         End With
         DisposeDA(CSI)
     End Function
+
     Private Sub TagItemForRepair(ByVal Item As Integer)
         Dim CSI As clsServiceItemParts
         Dim X As CGrossMargin
@@ -466,7 +477,7 @@ HandleErr:
                 End If
                 DisposeDA(X)
 
-                .Save
+                .Save()
                 ColorTaggedItem(Item, True)
             End If
         End With
@@ -534,5 +545,4 @@ HandleErr:
             '    frmSetup .LoadStore
         End If
     End Sub
-
 End Class

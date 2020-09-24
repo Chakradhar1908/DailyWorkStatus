@@ -1,5 +1,5 @@
 ﻿Public Class InvOrdStatus
-    Dim ActiveMarginLine as integer
+    Dim ActiveMarginLine As Integer
     Dim ActiveSaleNo As String
     Public ShowCost As Boolean   ' Set by MainMenu.
     Dim WithEvents mMailCheck As MailCheck
@@ -9,5 +9,4 @@
         'cmdNextSale.Value = True
         cmdNextSale.PerformClick()
     End Sub
-
 End Class

@@ -2,6 +2,7 @@
     Private mBufferData As Boolean, mBufferText As String
     Public UseSSL As Boolean
     Private mDefaultTimeout As Integer, mTimeOutExpiry As Integer, mUnLoadOnClose As Boolean
+
     Public Function UploadString(ByVal Str As String, ByVal URL As String, Optional ByVal MimeType As String = "text/plain", Optional ByVal FileName As String = "file.txt") As String
         Dim strHttp As String
         Dim U As modURLHelper.URLExtract

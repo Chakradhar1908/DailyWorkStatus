@@ -71,5 +71,4 @@
             Swipe = ""
         End If
     End Function
-
 End Class

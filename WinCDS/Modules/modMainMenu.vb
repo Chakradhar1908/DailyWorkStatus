@@ -27,6 +27,7 @@ Module modMainMenu
         Dim SubTitle1 As String
         Dim SubTitle2 As String
     End Structure
+
     Public Enum eMyMenuLayouts
         eMML_Manual = 0
         eMML_2x3
@@ -51,12 +52,14 @@ Module modMainMenu
         eMML_4x2x4x4
         eMML_4x2x5x5
     End Enum
+
     Public Enum eCaptionStyles
         eCS_None = 0
         eCS_RightCenter
         eCS_RightBottom
         eCS_Below
     End Enum
+
     Public Structure MyMenuItem
         Dim ImageKey As String
         Dim Caption As String
@@ -205,7 +208,7 @@ Module modMainMenu
         MiniButtonImage = MiniButtonImageList.Images(ImageName)
 
         If MiniButtonImage Is Nothing Then
-            If IsDevelopment() Then MsgBox("Not a valid mini image name: " & ImageName, vbCritical, "Development Error")
+            If IsDevelopment() Then MessageBox.Show("Not a valid mini image name: " & ImageName, "Development Error")
             'MiniButtonImage = MiniButtonImageList.ListImages("none").Picture
             MiniButtonImage = MiniButtonImageList.Images("none")
         End If
@@ -2552,6 +2555,4 @@ Again:
             frmSplash = frmSplash2
         End Get
     End Property
-
-
 End Module

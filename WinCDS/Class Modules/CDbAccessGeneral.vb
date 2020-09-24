@@ -11,7 +11,6 @@
     Public Event RecordUpdated(RS As ADODB.Recordset)
     Private FetchProgress As Object
 
-
     ' if 'SetNew:=True' will always create a new record
     Public Function getRecordset(Optional ByVal Always As Boolean = True, Optional ByVal SetNew As Boolean = False, Optional ByVal QuietErrors As Boolean = False, Optional ByVal ErrMsg As String = "", Optional ByVal ProgressForm As Object = False) As ADODB.Recordset
         On Error GoTo AnError
@@ -47,7 +46,8 @@ AnError:
                 ErrMsg = Replace(ErrMsg, "$EDESC", Err.Description)
                 ErrMsg = Replace(ErrMsg, "$ENO", Err.Number)
                 ErrMsg = Replace(ErrMsg, "$ESRC", Err.Source)
-                MsgBox("Database Error: " & ErrMsg, vbCritical, "Error")
+                'MsgBox("Database Error: " & ErrMsg, vbCritical, "Error")
+                MessageBox.Show("Database Error: " & ErrMsg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Else
                 Dim T As String
                 T = "getRecordSet Failed:" & vbCrLf
@@ -139,7 +139,7 @@ Retry:
             Application.DoEvents()
 
             If DateAfter2(Now, BackingUpAlert, True, "s") Then
-                MsgBox("Please wait a moment..." & vbCrLf2 & "An Administrator is currently backing up the database..." & vbCrLf2 & "This should only take an additional moment.", vbOKOnly + vbCritical, "Operation Delayed")
+                MessageBox.Show("Please wait a moment..." & vbCrLf2 & "An Administrator is currently backing up the database..." & vbCrLf2 & "This should only take an additional moment.", "Operation Delayed", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         Loop
 
@@ -180,10 +180,10 @@ AnError:
         RR = "CDbAccessGeneral.dbOpen(DBName=" & DBName & ")" & vbCrLf2
 
         If Not FileExists(DBName) Then
-            MsgBox(RR & "Database Not Found: " & DBName & vbCrLf & "Error number " & N & ": " & D)
+            MessageBox.Show(RR & "Database Not Found: " & DBName & vbCrLf & "Error number " & N & ": " & D, "WinCDS")
             ReportError("CDbAccessGeneral.dbOpen - Database not found")
         Else
-            MsgBox(RR & "Error Opening Database: " & DBName & vbCrLf & "Error number " & N & ": " & D)
+            MessageBox.Show(RR & "Error Opening Database: " & DBName & vbCrLf & "Error number " & N & ": " & D, "WinCDS")
             ReportError("CDbAccessGeneral.dbOpen - Error Opening Database")
         End If
     End Function
@@ -208,7 +208,7 @@ AnError:
                     ' Disk or Network error
                     ' This should allow retry/fail.
                     ' Unless it causes double updates..... maybe the filter will help.
-                    If MsgBox("Disk or network error.  Try again?", vbCritical + vbYesNo, "Error") = vbYes Then
+                    If MessageBox.Show("Disk or network error.  Try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes Then
                         'RS.Filter = adFilterConflictingRecords
                         RS.Filter = ADODB.FilterGroupEnum.adFilterConflictingRecords
                         Resume TryAgain
@@ -238,7 +238,7 @@ AnError:
         RaiseEvent UpdateFailed(RS, Cancel)
         If Cancel = True Then Exit Function
         If strError = "" Then Resume Next
-        MsgBox("UpdateRecordset Failed: " & strError, vbCritical, "Error")
+        MessageBox.Show("UpdateRecordset Failed: " & strError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         Do While Not RS.EOF
             Debug.Print(RS.Status) 'check the status
 
@@ -341,7 +341,7 @@ AnError:
 
 AnError:
         ' If (GetVendorNameSucceeded = True) Then
-        MsgBox("GetRecord Failed:  database not found")
+        MessageBox.Show("GetRecord Failed:  database not found", "WinCDS")
         GetRecord = False
         Exit Function
     End Function

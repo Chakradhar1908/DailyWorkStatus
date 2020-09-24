@@ -12,6 +12,7 @@
         IPAct_SetStoreName
         IPAct_SetLicense
     End Enum
+
     Private Structure ExternalIPAddresss
         Dim IP As String
         Dim Computer As String
@@ -216,5 +217,4 @@
             End If
         Next
     End Function
-
 End Module

@@ -8,7 +8,6 @@
 
     Private Const FRM_W1 = 2520
     Private Const FRM_W2 = 5610
-
     Private DoDeliverAll As Boolean, ContinueDelivery As Boolean
 
     Public Sub ShowModal(ByRef ParentForm As Form, Optional ByVal Mdl As Boolean = True)
@@ -32,6 +31,7 @@
         GetNextItemOrUnload = True
         BillOSale.HiLiteRow(X)
     End Function
+
     Private Function GetNextItem() As Boolean ' True if found
         On Error GoTo AnError
         With Margin.DataAccess()
@@ -98,7 +98,7 @@
                     End If
 
                     If IsIn(Trim(.Status), "SS", "SO", "SOREC", "SSREC", "FND") Or IsIn(Trim(.Style), "DEL", "LAB", "NOTES", "STAIN") Then
-                        CorrectPrice
+                        CorrectPrice()
                         .Cost = GetPrice(Cost.Text)
                         .ItemFreight = GetPrice(Freight.Text)
                         ' .Code = Code.Text
@@ -112,12 +112,14 @@
         Exit Function
 
 AnError:
-        MsgBox("ERROR in DeliverItems: " & Err.Description)
+        MessageBox.Show("ERROR in DeliverItems: " & Err.Description, "WinCDS")
         Resume Next
     End Function
+
     Private Sub MoveBox()
         If X > 5 Then Top = 1570
     End Sub
+
     Private Sub CorrectPrice()
         On Error GoTo AnError
 
@@ -137,9 +139,10 @@ AnError:
         Exit Sub
 
 AnError:
-        MsgBox("ERROR in DeliverItems: " & Err.Description)
+        MessageBox.Show("ERROR in DeliverItems: " & Err.Description, "WinCDS")
         Resume Next
     End Sub
+
     Private Sub CheckDeliverEnabled(ByVal ResizeForm As Boolean)
         cmdDeliver.Enabled = True
         If Margin.Status <> "FND" Then  ' don't require dept/vendor for FND items (bfh20050815)
@@ -157,5 +160,4 @@ AnError:
             End If
         End If
     End Sub
-
 End Class

@@ -299,5 +299,4 @@ BadMove:
         If Mrs Is Nothing Then Record_BOF = True : Exit Function
         Record_BOF = Mrs.BOF
     End Function
-
 End Class

@@ -46,11 +46,11 @@ Public Class clsHashTable
                     slotTable(Ndx).Value = Value
                 Else
                     slotTable(Ndx).Value = Value
-                    End If
-                Else
-                    ' raise error "This key is already associated with an item of this
-                    ' collection"
-                    Err.Raise(457)
+                End If
+            Else
+                ' raise error "This key is already associated with an item of this
+                ' collection"
+                Err.Raise(457)
             End If
 
         Catch ex As NullReferenceException
@@ -324,5 +324,4 @@ NoVars:
         ' we now know where to pick the first free item
         FreeNdx = newFreeNdx
     End Sub
-
 End Class

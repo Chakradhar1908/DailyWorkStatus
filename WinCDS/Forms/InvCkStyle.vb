@@ -153,7 +153,7 @@ Public Class InvCkStyle
         End If
         If optSearchByStyle.Checked = True Then
             If Len(Style.Text) > Setup_2Data_StyleMaxLen Then                          '###STYLELENGTH16
-                MsgBox(" Maximum of " & Setup_2Data_StyleMaxLen & " Characters Allowed!", vbInformation)
+                MessageBox.Show(" Maximum of " & Setup_2Data_StyleMaxLen & " Characters Allowed!", "WinCDS")
             ElseIf Microsoft.VisualBasic.Left(Style.Text, 4) = KIT_PFX And Len(Style.Text) = 4 And optFlag Then
                 Width = FRMW_3
                 GetKitNames()
@@ -164,7 +164,7 @@ Public Class InvCkStyle
                 KitSyleNo = Style.Text
                 FindKits2()
             ElseIf Microsoft.VisualBasic.Left(Style.Text, 4) = KIT_PFX And Len(Style.Text) >= 4 And Not optFlag Then
-                MsgBox("""KIT-"" is only for the 'Package Ticket builder' section, not from the inventory screen.", vbOKOnly)
+                MessageBox.Show("""KIT-"" is only for the 'Package Ticket builder' section, not from the inventory screen.", "WinCDS", MessageBoxButtons.OK)
                 Style.Text = ""
             Else
                 GetStyle()
@@ -276,7 +276,7 @@ Public Class InvCkStyle
         Exit Sub
 HandleErr:
         If Err.Number = 13 Then Resume Next
-        MsgBox("ERROR in GetStyle: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("ERROR in GetStyle: " & Err.Description & ", " & Err.Source, "WinCDS")
     End Sub
 
     Private Sub UpdateSearchBox()
@@ -566,7 +566,7 @@ FailureInGetStyle2:
         If Not OrderMode("F", "Credit") Then
             If Not InvenMode("A") And NewStyle Then
                 ' Error?
-                MsgBox("Invalid Style Number.  Please try again.", vbExclamation)
+                MessageBox.Show("Invalid Style Number.  Please try again.", "WinCDS")
                 Exit Sub
             Else
                 If InvenMode("A") Then
@@ -647,7 +647,7 @@ FailureInGetStyle2:
 
 HandleErr:
         If Err.Number = 13 Then Resume Next
-        MsgBox("ERROR in FinishSelect: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("ERROR in FinishSelect: " & Err.Description & ", " & Err.Source, "WinCDS")
     End Sub
 
     Private Function GetStyleFound(Optional ByVal ST As String = "_") As Boolean
@@ -672,7 +672,7 @@ HandleErr:
         Exit Function
 HandleErr:
         If Err.Number = 13 Then Resume Next
-        MsgBox("ERROR in GetStyleFound: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("ERROR in GetStyleFound: " & Err.Description & ", " & Err.Source, "WinCDS")
     End Function
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
@@ -900,7 +900,7 @@ HandleErr:
             '    Style.Text = Trim(Left(lstStyles.List(lstStyles.ListIndex), 16)) '###STYLELENGTH16
 
             If Not IsKit And ReportsMode("CS") Then
-                MsgBox("You may only select kits from this list.", vbExclamation, "Warning")
+                MessageBox.Show("You may only select kits from this list.", "Warning")
                 Exit Sub
             End If
 
@@ -1148,7 +1148,7 @@ HandleErr:
         Exit Sub
 HandleErr:
         If Err.Number = 13 Then Resume Next
-        MsgBox("ERROR in PrintDesc: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("ERROR in PrintDesc: " & Err.Description & ", " & Err.Source, "WinCDS")
     End Sub
 
     Private Sub mDBInvKit_GetRecordEvent(RS As ADODB.Recordset) Handles mDBInvKit.GetRecordEvent
@@ -1333,7 +1333,7 @@ ExitHere:
 
 HandleErr:
         If Err.Number = 13 Then Resume Next
-        MsgBox("ERROR in GetRecord: " & Err.Description & ", " & Err.Source)
+        MessageBox.Show("ERROR in GetRecord: " & Err.Description & ", " & Err.Source, "WinCDS")
     End Sub
 
     Private Sub mDBInvKit_GetRecordNotFound() Handles mDBInvKit.GetRecordNotFound

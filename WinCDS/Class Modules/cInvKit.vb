@@ -276,5 +276,4 @@ NoSave:
         Err.Clear()
         Save = False
     End Function
-
 End Class

@@ -316,7 +316,6 @@ SkipItem:
             ServiceNo = Val(Microsoft.VisualBasic.Left(lstAccounts.Items(lstAccounts.SelectedIndex).ToString, 14))
             Hide()
         End If
-
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
@@ -363,6 +362,5 @@ SkipItem:
                 cmdRevolving.Enabled = True
             End If
         End If
-
     End Sub
 End Class

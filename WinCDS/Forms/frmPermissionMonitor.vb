@@ -159,5 +159,4 @@ Public Class frmPermissionMonitor
         X = FitRange(50, X, 9999)
         txtMaxLogLines = X
     End Sub
-
 End Class

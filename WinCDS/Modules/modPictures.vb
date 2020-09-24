@@ -1,5 +1,4 @@
 ﻿Imports stdole
-
 Module modPictures
     Public Function ResizeAndCenterPicture(ByRef pic As PictureBox, ByRef img As IPictureDisp) As Boolean
         ' Assume image box represents maximum image size, and proper location.
@@ -24,6 +23,7 @@ Module modPictures
         If pic.Height <> Oh Then pic.Top = pic.Top + (Oh - pic.Height) / 2
         If pic.Width <> OW Then pic.Left = pic.Left + (OW - pic.Width) / 2
     End Function
+
     Public Function MaintainPictureRatio(ByRef pic As PictureBox, Optional ByRef MaxX As Integer = 0, Optional ByRef MaxY As Integer = 0, Optional ByVal AdjustImage As Boolean = True)
         Dim X As Integer, Y As Integer, dx As Double, dy As Double, pW As Integer, pH As Integer
         On Error GoTo DoExit
@@ -90,5 +90,4 @@ DoExit:
         End If
 DoExit:
     End Function
-
 End Module

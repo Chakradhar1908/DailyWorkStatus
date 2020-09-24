@@ -68,5 +68,4 @@
             Debug.Print("No Image for " & mNu & "::" & Src, vbExclamation)
         End If
     End Function
-
 End Class

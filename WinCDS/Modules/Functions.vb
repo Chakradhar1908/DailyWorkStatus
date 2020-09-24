@@ -1,8 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Module Functions
     Public Const vbCrLf2 As String = vbCrLf & vbCrLf
-    Public Function DescribeColor(ByVal RGB as integer) As String
-        Dim R as integer, G as integer, B as integer
+
+    Public Function DescribeColor(ByVal RGB As Integer) As String
+        Dim R As Integer, G As Integer, B As Integer
         Select Case RGB
             Case vbBlack : DescribeColor = "BLACK"
             Case vbBlue : DescribeColor = "BLUE"
@@ -21,6 +22,7 @@ Module Functions
                 DescribeColor = DescribeColor & " (R:" & R & ",G:" & G & ",:" & B & ")"
         End Select
     End Function
+
     Public Function DisposeDA(ByRef X As Object, Optional ByRef X2 As Object = Nothing, Optional ByRef X3 As Object = Nothing, Optional ByRef X4 As Object = Nothing, Optional ByRef X5 As Object = Nothing, Optional ByRef X6 As Object = Nothing, Optional ByRef X7 As Object = Nothing, Optional ByRef X8 As Object = Nothing, Optional ByRef X9 As Object = Nothing, Optional ByRef X0 As Object = Nothing)
         On Error Resume Next
         X.Close
@@ -42,15 +44,17 @@ Module Functions
 
         Err.Clear()
     End Function
+
     Public Function SpeechActive() As Boolean
         SpeechActive = IsFormLoaded("frmSpeech")
     End Function
-    Public Function GetFileAutonumber(ByVal fName As String, ByVal Defaultx as integer)
+
+    Public Function GetFileAutonumber(ByVal fName As String, ByVal Defaultx As Integer)
         On Error GoTo BadFile
-        Dim FileVal As String, FNum as integer
+        Dim FileVal As String, FNum As Integer
 
         If fName = "" Then
-            MsgBox("No Autonumber filename.", vbCritical, "Error")
+            MessageBox.Show("No Autonumber filename.", "Error")
             Exit Function
         End If
 
@@ -202,11 +206,10 @@ HandleErr:
         frmVersionControl.ShowDialog()
     End Function
 
-    Public Function MakeLong(ByVal WordHi As Object, ByVal WordLo As Integer) as integer
+    Public Function MakeLong(ByVal WordHi As Object, ByVal WordLo As Integer) As Integer
         ' it to overflow limits of multiplication which shifts
         ' it left.
         MakeLong = (WordHi * &H10000) + (WordLo And &HFFFF&)
     End Function
-
 End Module
 

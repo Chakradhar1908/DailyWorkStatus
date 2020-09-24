@@ -65,7 +65,7 @@ Public Class clsSaleItem
     Public Sub AddItemGrossMargin(ByVal Sale As sSale)
         Dim A As String, B As String
         Dim cGM As CGrossMargin, CI As CInvRec, Found As Boolean
-        Dim DetailNo as integer, MarginNo as integer
+        Dim DetailNo As Integer, MarginNo As Integer
 
         On Error GoTo HandleErr
         cGM = New CGrossMargin
@@ -180,7 +180,7 @@ HandleErr:
         Resume Next
 
 SaveError:
-        MsgBox("Save error in sSale.AddItemGrossMargin [" & Err.Number & "]" & vbCrLf & Err.Description, vbCritical, "Error")
+        MessageBox.Show("Save error in sSale.AddItemGrossMargin [" & Err.Number & "]" & vbCrLf & Err.Description, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         Err.Clear()
         Resume Next
     End Sub
@@ -249,7 +249,7 @@ SaveError:
 
         If IsDoddsLtd Then
             If PO.Location = 0 Then
-                MsgBox("PO Loc = 0 on create sale.")
+                MessageBox.Show("PO Loc = 0 on create sale.", "WinCDS")
             End If
         End If
 
@@ -261,7 +261,7 @@ HandleErr:
         Resume Next
     End Function
 
-    Public Function CreateDetail(ByVal Sale As sSale, ByRef CI As CInvRec) as integer
+    Public Function CreateDetail(ByVal Sale As sSale, ByRef CI As CInvRec) As Integer
         ' prevents a SS or SSlaw, FND from going into detail or inventory data base
         If IsIn(Status, "", "SS", "SSLAW", "FND") Then Exit Function
 
@@ -281,7 +281,7 @@ HandleErr:
         Exit Function
 
 ErrHandler:
-        MsgBox("Error in clsSaleItem.CreateDetail: " & Err.Description)
+        MessageBox.Show("Error in clsSaleItem.CreateDetail: " & Err.Description, "WinCDS")
         Err.Clear()
         Resume Next
     End Function
@@ -300,5 +300,4 @@ ErrHandler:
         End If
         DisposeDA(InvDetail)
     End Function
-
 End Class

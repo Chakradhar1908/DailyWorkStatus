@@ -286,8 +286,8 @@ Public Class UGridIO
                     'Debug.Print "Moving grid to row " & Fro & "+" & Row & "."
                 End If
             End If
-                '     If (row <> -1) Then .row = row
-                RowColChange_Active = True
+            '     If (row <> -1) Then .row = row
+            RowColChange_Active = True
         End With
     End Sub
 
@@ -420,13 +420,13 @@ Public Class UGridIO
                 End If
 
                 On Error GoTo softError
-                    On Error Resume Next
-                    '.Row = 1
-                    If Value = ".00" Then Value = ""
-                    .Text = Value
-                    .FirstRow = TopRow + 1
-                End If
-                On Error GoTo AnError
+                On Error Resume Next
+                '.Row = 1
+                If Value = ".00" Then Value = ""
+                .Text = Value
+                .FirstRow = TopRow + 1
+            End If
+            On Error GoTo AnError
             'bm = .Bookmark
             On Error Resume Next
             '.Bookmark = BM
@@ -1194,5 +1194,4 @@ NoColumn:
         End With
 
     End Sub
-
 End Class

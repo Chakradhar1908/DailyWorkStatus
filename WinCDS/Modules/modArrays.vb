@@ -18,6 +18,7 @@
         Next
         IsIn = False
     End Function
+
     Public Function FitList(ByVal What, ByRef Arr, Optional ByVal Dflt = "#")
         Dim A()
         A = Arr
@@ -31,6 +32,7 @@
             End If
         End If
     End Function
+
     Public Function IsInArray(ByVal What, ByRef Arr()) As Boolean
         Dim L
         On Error GoTo NoArray
@@ -40,9 +42,11 @@
 NoArray:
         IsInArray = False
     End Function
+
     Public Function SubArr(ByVal sourceArray As Object, ByVal fromIndex As Integer, ByVal copyLength As Integer)
         SubArr = ArrSlice(sourceArray, fromIndex, fromIndex + copyLength - 1)
     End Function
+
     Public Function ArrSlice(ByRef sourceArray As Object, ByVal fromIndex As Integer, ByVal toIndex As Integer)
         Dim Idx As Integer
         Dim tempList() = Nothing
@@ -59,6 +63,7 @@ NoArray:
 
         ArrSlice = tempList
     End Function
+
     Public Sub ArrAdd(ByRef Ar(), ByRef Item)
         Dim X As Integer
         Dim Arr() As Object
@@ -75,26 +80,31 @@ NoArray:
         ReDim Preserve Arr(UBound(Ar) + 1)
         Arr(UBound(Ar)) = Item
     End Sub
+
     Public Function IsNotIn(ByVal What, ParamArray Rest()) As Boolean
         Dim A()
         A = Rest
         IsNotIn = Not IsInArray(What, A)
     End Function
+
     Public Function NotIsIn(ByVal What, ParamArray Rest()) As Boolean
         Dim A()
         A = Rest
         NotIsIn = Not IsInArray(What, A)
     End Function
+
     Public Function IsNotInArray(ByVal What, ByRef Rest()) As Boolean
         Dim A()
         A = Rest
         IsNotInArray = Not IsInArray(What, A)
     End Function
+
     Public Function NotIsInArray(ByVal What, ByRef Rest()) As Boolean
         Dim A()
         A = Rest
         NotIsInArray = Not IsInArray(What, A)
     End Function
+
     Public Sub AddToArray(ByRef Arr, ByRef El)
         If Not IsArray(Arr) Then ReDim Arr(0) Else ReDim Preserve Arr(UBound(Arr) + 1)
         Arr(UBound(Arr)) = El
@@ -140,5 +150,4 @@ NoArray:
         Next
         RevArrSub = X
     End Function
-
 End Module

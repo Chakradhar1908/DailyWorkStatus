@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Office.Interop.Excel
-
 Public Class FrmProgress3
     Public LockOn As Boolean              ' this does a version modal
     Public PreventLockOn As Boolean

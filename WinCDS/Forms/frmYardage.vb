@@ -159,5 +159,4 @@
         If Inches And T > 11 Then T = 11
         txt.Text = CStr(T)
     End Sub
-
 End Class

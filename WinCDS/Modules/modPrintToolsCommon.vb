@@ -208,10 +208,10 @@ Module modPrintToolsCommon
         If FindDymoPrinter = None Then FindDymoPrinter = "" ' Don't return this special value.
         Exit Function
 CantFind:
-        MsgBox("Couldn't find a DYMO printer.", vbInformation, "Couldn't Find")
+        MessageBox.Show("Couldn't find a DYMO printer.", "Couldn't Find")
         Exit Function
 CantSave:
-        MsgBox("We could not save your settings." & vbCrLf & "ERR (" & Err.Number & "): " & Err.Description, vbCritical, "Couldn't save")
+        MessageBox.Show("We could not save your settings." & vbCrLf & "ERR (" & Err.Number & "): " & Err.Description, "Couldn't save")
         Resume Next
     End Function
 

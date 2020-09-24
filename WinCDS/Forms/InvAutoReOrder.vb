@@ -4,21 +4,21 @@
     Private LastStartDate As Date, LastEndDate As Date
 
     Private Structure PotentialOrder
-        Dim StyleIndex as integer   ' Internal pointer
+        Dim StyleIndex As Integer   ' Internal pointer
         Dim SaleNo As String
         Dim Style As String
         Dim Vendor As String
-        Dim RN as integer
+        Dim RN As Integer
         Dim Name As String
-        Dim MarginLine as integer
+        Dim MarginLine As Integer
         Dim Quantity As Double
         Dim LastPayDate As Date
         Dim PickupDate As Date
         Dim Deposit As Decimal
         Dim Balance As Decimal
         Dim OrderMe As Boolean
-        Dim Index as integer
-        Dim StoreNo as integer '  20050111BFH/MJK
+        Dim Index As Integer
+        Dim StoreNo As Integer '  20050111BFH/MJK
     End Structure
 
     Public Sub OrderAutomatic(ByVal ShowCost As Boolean)
@@ -31,7 +31,7 @@
         cmdReset.PerformClick()
     End Sub
 
-    Public Sub OrderByDemand(ByVal StoreNum as integer, ByVal StartDate As Date, ByVal EndDate As Date, ByVal ShowCost As Boolean)
+    Public Sub OrderByDemand(ByVal StoreNum As Integer, ByVal StartDate As Date, ByVal EndDate As Date, ByVal ShowCost As Boolean)
         ' Set these dates in the (to be created) date boxes.
         Loading = True
         MoveGrids(1)
@@ -47,7 +47,7 @@
         cmdReset.PerformClick()
     End Sub
 
-    Private Sub MoveGrids(ByVal Pos as integer)
+    Private Sub MoveGrids(ByVal Pos As Integer)
         ' 0: All Items.
         ' 1: Sales on top, items on bottom.
         lblVendor.Visible = True
@@ -69,5 +69,4 @@
             cboVendors.Top = 6720
         End If
     End Sub
-
 End Class

@@ -37,6 +37,7 @@ Module modVBControls
         If MakeVisible Then C.Visible = True
         If ZOrderTop Then C.ZOrder(0)
     End Function
+
     Public Function ColorDatePicker(ByRef dtp As DateTimePicker)
         With dtp
             '.CalendarBackColor = vbWhite
@@ -191,5 +192,4 @@ Fail:
     Public Function MoveControlTo(ByRef C As Object, ByRef D As Object, Optional ByVal MakeVisible As Boolean = False, Optional ByVal ZOrderTop As Boolean = False) As Boolean
         MoveControl(C, D.Left, D.Top, D.Width, D.Height, MakeVisible, ZOrderTop)
     End Function
-
 End Module

@@ -9,6 +9,7 @@ Module modPrintRTF
         Dim rcPage As RECT    ' Region of the entire DC (page size) (in twips)
         Dim chrg As CharRange ' Range of text to draw (see above declaration)
     End Structure
+
     Private Structure CharRange
         Dim cpMin As Integer     ' First character of range (0 for start of doc)
         Dim cpMax As Integer     ' Last character of range (-1 for end of doc)

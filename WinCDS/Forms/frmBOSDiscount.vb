@@ -292,5 +292,4 @@
 
         BillOSale.StyleAddEnd(False, 1)
     End Sub
-
 End Class
