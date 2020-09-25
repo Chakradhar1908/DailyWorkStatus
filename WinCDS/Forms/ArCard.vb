@@ -169,6 +169,55 @@
         mDBAccess.SQL = SQL & " AND InstallmentInfo.ArNo  =""" & ProtectSQL(Tid) & """"
     End Sub
 
+    Private Sub mDBAccessTransactions_GetRecordEvent(RS As ADODB.Recordset) Handles mDBAccessTransactions.GetRecordEvent   ' called if record is found
+        Dim Row As Long
+        Dim Lastrow As Integer
+
+        UGridIO1.Clear() 'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.
+
+        Lastrow = UGridIO1.LastRowUsed
+        For r = 0 To Lastrow
+            UGridIO1.Row = r
+            For c = 0 To 5
+                On Error Resume Next
+                UGridIO1.Col = c
+                UGridIO1.Text = ""
+            Next
+        Next
+
+        Do While Not RS.EOF
+            TransDate = IfNullThenNilString(RS("TransDate").Value)
+            TransType = IfNullThenNilString(RS("Type").Value)
+
+            Charges = IfNullThenZeroCurrency(RS("Charges").Value)
+            Credits = IfNullThenZeroCurrency(RS("Credits").Value)
+            Balance = IfNullThenZeroCurrency(RS("Balance").Value)
+
+            'bfh20080518 - Added "MasterCard" b/c CC processing has been omitting the space in card desc
+            'bfh20080522 - Visa/VISA apparently as well..
+            If IsIn(TransType, "Cash", "Check", "Visa", "VISA", "Master Card", "MasterCard", "Discover Card", "Amercian Exp.") Then
+                LastPay = CurrencyFormat(Credits)
+                LastPayDate = TransDate
+            End If
+
+            UGridIO1.SetValueDisplay(Row, 0, DateFormat(TransDate))
+            UGridIO1.SetValueDisplay(Row, 1, TransType)
+            UGridIO1.SetValueDisplay(Row, 2, CurrencyFormat(Charges))
+            UGridIO1.SetValueDisplay(Row, 3, CurrencyFormat(Credits))
+            UGridIO1.SetValueDisplay(Row, 4, CurrencyFormat(Balance))
+            UGridIO1.SetValueDisplay(Row, 5, IfNullThenNilString(RS!Receipt))
+
+            ' These lines deal with interest that's already been paid off.
+            If TransType = arPT_poInt Then INTEREST = 0
+            If Microsoft.VisualBasic.Left(TransType, 7) = arPT_New Then INTEREST = 0 ' added 12192007 jk If no interest charges on add on
+            If TransType = arPT_Int Then INTEREST = Charges
+            UGridIO1.Refresh()
+            Row = Row + 1
+
+            RS.MoveNext()
+        Loop
+    End Sub
+
     Public Sub GetCustomer()
         'MousePointer = 11
         Me.Cursor = Cursors.WaitCursor
@@ -831,6 +880,13 @@ TryAgain:
 
         On Error Resume Next
         Err.Clear()
+
+        'NOTE: This If block is not in vb6.0. Added here because in vb6.0, ArCard form load event is executing for Order Entry -> Payment on Account ->Store finance payment option.
+        'But in vb.net, it is not executing. Loading combobox is happening in form load event. In vb.net form load is not executing which is happening in vb6.0.
+        'So, combobox becomes empty in vb.net. So added this If block to fill the combobox (cbostatus).
+        If cboStatus.Items.Count = 0 Then
+            LoadArStatusCombo(cboStatus)
+        End If
         cboStatus.SelectedIndex = 0
         cboStatus.Text = ArStatusComboValueFromAccountStatus(Status)
         'If IsIn(Status, "W", "R", "L", "Y") Then BackColor = ALERT_COLOR
@@ -937,7 +993,19 @@ TryAgain:
             cmdSaleTotals.Visible = True
         Else
             UGrSaleTotals.MaxRows = 1
-            UGrSaleTotals.Clear
+            UGrSaleTotals.Clear() 'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.
+
+            Dim Lastrow As Integer
+            Lastrow = UGrSaleTotals.LastRowUsed
+            For r = 0 To Lastrow
+                UGrSaleTotals.Row = r
+                For c = 0 To 2
+                    On Error Resume Next
+                    UGrSaleTotals.Col = c
+                    UGrSaleTotals.Text = ""
+                Next
+            Next
+
             cmdSaleTotals.Visible = False
         End If
     End Sub
@@ -958,8 +1026,16 @@ TryAgain:
         lblPaymentHistory.Text = "Date: " & DateFormat(D)
         'lblPaymentHistory.ToolTipText = "Effective Date: " & DateFormat(D)
         ToolTip1.SetToolTip(lblPaymentHistory, "Effective Date: " & DateFormat(D))
-        txtPaymentHistory.Visible = Trim(txtPaymentHistory.Text) <> ""
-        lblPaymentHistory.Visible = txtPaymentHistory.Visible
+        'txtPaymentHistory.Visible = Trim(txtPaymentHistory.Text) <> ""
+        'lblPaymentHistory.Visible = txtPaymentHistory.Visible
+        If Trim(txtPaymentHistory.Text) <> "" Then
+            txtPaymentHistory.Visible = True
+            lblPaymentHistory.Visible = True
+        Else
+            txtPaymentHistory.Visible = False
+            lblPaymentHistory.Visible = False
+        End If
+
     End Sub
 
     Private Sub LoadSaleBalances()

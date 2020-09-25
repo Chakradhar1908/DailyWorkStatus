@@ -99,7 +99,6 @@ Partial Class ArCard
         Me.lblPaymentHistory = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.cmdSaleTotals = New System.Windows.Forms.Button()
-        Me.UGrSaleTotals = New WinCDS.UGridIO()
         Me.lblPayMemo = New System.Windows.Forms.Label()
         Me.cmdHistory = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -125,11 +124,12 @@ Partial Class ArCard
         Me.optPayType3 = New System.Windows.Forms.RadioButton()
         Me.optPayType2 = New System.Windows.Forms.RadioButton()
         Me.optPayType1 = New System.Windows.Forms.RadioButton()
-        Me.UGridIO1 = New WinCDS.UGridIO()
         Me.DDate = New System.Windows.Forms.DateTimePicker()
         Me.opt30252 = New System.Windows.Forms.RadioButton()
         Me.opt30323 = New System.Windows.Forms.RadioButton()
         Me.Notes_Frame = New System.Windows.Forms.GroupBox()
+        Me.UGridIO1 = New WinCDS.UGridIO()
+        Me.UGrSaleTotals = New WinCDS.UGridIO()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -293,6 +293,8 @@ Partial Class ArCard
         Me.txtPaymentHistory.Name = "txtPaymentHistory"
         Me.txtPaymentHistory.Size = New System.Drawing.Size(100, 20)
         Me.txtPaymentHistory.TabIndex = 0
+        Me.txtPaymentHistory.Text = "123456789ACB123456789ACB"
+        Me.txtPaymentHistory.Visible = False
         '
         'lblBalance
         '
@@ -780,20 +782,6 @@ Partial Class ArCard
         Me.cmdSaleTotals.Text = "Sale Totals"
         Me.cmdSaleTotals.UseVisualStyleBackColor = True
         '
-        'UGrSaleTotals
-        '
-        Me.UGrSaleTotals.Activated = False
-        Me.UGrSaleTotals.Col = 1
-        Me.UGrSaleTotals.firstrow = 1
-        Me.UGrSaleTotals.Loading = False
-        Me.UGrSaleTotals.Location = New System.Drawing.Point(650, 365)
-        Me.UGrSaleTotals.MaxCols = 2
-        Me.UGrSaleTotals.MaxRows = 10
-        Me.UGrSaleTotals.Name = "UGrSaleTotals"
-        Me.UGrSaleTotals.Row = 0
-        Me.UGrSaleTotals.Size = New System.Drawing.Size(230, 85)
-        Me.UGrSaleTotals.TabIndex = 74
-        '
         'lblPayMemo
         '
         Me.lblPayMemo.AutoSize = True
@@ -1082,20 +1070,6 @@ Partial Class ArCard
         Me.optPayType1.Text = "RadioButton1"
         Me.optPayType1.UseVisualStyleBackColor = True
         '
-        'UGridIO1
-        '
-        Me.UGridIO1.Activated = False
-        Me.UGridIO1.Col = 1
-        Me.UGridIO1.firstrow = 1
-        Me.UGridIO1.Loading = False
-        Me.UGridIO1.Location = New System.Drawing.Point(746, 235)
-        Me.UGridIO1.MaxCols = 2
-        Me.UGridIO1.MaxRows = 10
-        Me.UGridIO1.Name = "UGridIO1"
-        Me.UGridIO1.Row = 0
-        Me.UGridIO1.Size = New System.Drawing.Size(216, 88)
-        Me.UGridIO1.TabIndex = 79
-        '
         'DDate
         '
         Me.DDate.Location = New System.Drawing.Point(677, 28)
@@ -1133,6 +1107,34 @@ Partial Class ArCard
         Me.Notes_Frame.TabIndex = 83
         Me.Notes_Frame.TabStop = False
         Me.Notes_Frame.Text = "Notes_Frame"
+        '
+        'UGridIO1
+        '
+        Me.UGridIO1.Activated = False
+        Me.UGridIO1.Col = 1
+        Me.UGridIO1.firstrow = 1
+        Me.UGridIO1.Loading = False
+        Me.UGridIO1.Location = New System.Drawing.Point(746, 235)
+        Me.UGridIO1.MaxCols = 2
+        Me.UGridIO1.MaxRows = 10
+        Me.UGridIO1.Name = "UGridIO1"
+        Me.UGridIO1.Row = 0
+        Me.UGridIO1.Size = New System.Drawing.Size(216, 88)
+        Me.UGridIO1.TabIndex = 79
+        '
+        'UGrSaleTotals
+        '
+        Me.UGrSaleTotals.Activated = False
+        Me.UGrSaleTotals.Col = 1
+        Me.UGrSaleTotals.firstrow = 1
+        Me.UGrSaleTotals.Loading = False
+        Me.UGrSaleTotals.Location = New System.Drawing.Point(650, 365)
+        Me.UGrSaleTotals.MaxCols = 2
+        Me.UGrSaleTotals.MaxRows = 10
+        Me.UGrSaleTotals.Name = "UGrSaleTotals"
+        Me.UGrSaleTotals.Row = 0
+        Me.UGrSaleTotals.Size = New System.Drawing.Size(230, 85)
+        Me.UGrSaleTotals.TabIndex = 74
         '
         'ArCard
         '

@@ -579,7 +579,7 @@ ComputationError:
         R2 = GetRecordsetBySQL(SS, , GetDatabaseAtLocation(StoreNo))
 
         ' find last expected payment..
-        D = DateValue(Month(RD) & "/" & Val(R("LateDueOn")) & "/" & Year(RD))
+        D = DateValue(Month(RD) & "/" & Val(R("LateDueOn").Value) & "/" & Year(RD))
         'BFH20170522 - Grace Period ONLY applies to Late Charges
         '  D = DayAdd(D, StoreSettings.GracePeriod)
         Do While DateAfter(D, RD)
