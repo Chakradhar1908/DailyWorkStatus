@@ -602,10 +602,9 @@ HandleErr:
         Exit Sub
 ClearLetter:
         rtfFile.SelectionStart = 0
-        rtfFile.SelectionLength = Len(rtfFile)
+        rtfFile.SelectionLength = Len(rtfFile.Text)
         rtfFile.SelectedText = ""
         rtfFile.Tag = ""
-
     End Sub
 
     Public Sub ReplaceLetterTokens(ByRef rtb As RichTextBox)

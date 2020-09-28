@@ -130,14 +130,52 @@ Partial Class ArCard
         Me.Notes_Frame = New System.Windows.Forms.GroupBox()
         Me.UGridIO1 = New WinCDS.UGridIO()
         Me.UGrSaleTotals = New WinCDS.UGridIO()
+        Me.fraCustomer = New System.Windows.Forms.GroupBox()
+        Me.lblAccountCaption = New System.Windows.Forms.Label()
+        Me.lblStatusCaption = New System.Windows.Forms.Label()
+        Me.lblFinanced = New System.Windows.Forms.Label()
+        Me.lblMonths = New System.Windows.Forms.Label()
+        Me.lblRate = New System.Windows.Forms.Label()
+        Me.lblPayment = New System.Windows.Forms.Label()
+        Me.lblLateCh = New System.Windows.Forms.Label()
+        Me.lblPayBy = New System.Windows.Forms.Label()
+        Me.lblDelivery = New System.Windows.Forms.Label()
+        Me.lbl1stPay = New System.Windows.Forms.Label()
+        Me.lblSameAsCash = New System.Windows.Forms.Label()
+        Me.lblLastPay = New System.Windows.Forms.Label()
+        Me.lblNextDue = New System.Windows.Forms.Label()
+        Me.cmdReprintCoupons = New System.Windows.Forms.Button()
+        Me.lblBalanceCaption = New System.Windows.Forms.Label()
+        Me.lblLateChargeCaption = New System.Windows.Forms.Label()
+        Me.lblTotalPayOffCaption = New System.Windows.Forms.Label()
+        Me.chkPayLateFee = New System.Windows.Forms.CheckBox()
+        Me.txtLateCharge = New System.Windows.Forms.TextBox()
+        Me.lblPayDate = New System.Windows.Forms.Label()
+        Me.txtPayment = New System.Windows.Forms.TextBox()
+        Me.fraButtons = New System.Windows.Forms.GroupBox()
+        Me.fraPayoffInfo = New System.Windows.Forms.GroupBox()
+        Me.txtPayoffInfo = New System.Windows.Forms.TextBox()
+        Me.fraArrearControl = New System.Windows.Forms.GroupBox()
+        Me.chkArrearControlGrace = New System.Windows.Forms.CheckBox()
+        Me.lblArrearControlGrace = New System.Windows.Forms.Label()
+        Me.lblArrearControlDate = New System.Windows.Forms.Label()
+        Me.dtpArrearControlDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblArrearControlDisplay = New System.Windows.Forms.Label()
+        Me.fraPaymentOptions.SuspendLayout()
+        Me.fraTerms.SuspendLayout()
+        Me.fraBalance.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.fraCustomer.SuspendLayout()
+        Me.fraButtons.SuspendLayout()
+        Me.fraPayoffInfo.SuspendLayout()
+        Me.fraArrearControl.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblTotalPayoff
         '
         Me.lblTotalPayoff.AutoSize = True
-        Me.lblTotalPayoff.Location = New System.Drawing.Point(0, 0)
+        Me.lblTotalPayoff.Location = New System.Drawing.Point(217, 28)
         Me.lblTotalPayoff.Name = "lblTotalPayoff"
         Me.lblTotalPayoff.Size = New System.Drawing.Size(71, 13)
         Me.lblTotalPayoff.TabIndex = 0
@@ -145,16 +183,16 @@ Partial Class ArCard
         '
         'cmdApply
         '
-        Me.cmdApply.Location = New System.Drawing.Point(-4, 42)
+        Me.cmdApply.Location = New System.Drawing.Point(70, 75)
         Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(75, 23)
+        Me.cmdApply.Size = New System.Drawing.Size(51, 23)
         Me.cmdApply.TabIndex = 1
         Me.cmdApply.Text = "&Apply"
         Me.cmdApply.UseVisualStyleBackColor = True
         '
         'cmdEdit
         '
-        Me.cmdEdit.Location = New System.Drawing.Point(-4, 89)
+        Me.cmdEdit.Location = New System.Drawing.Point(1011, 85)
         Me.cmdEdit.Name = "cmdEdit"
         Me.cmdEdit.Size = New System.Drawing.Size(75, 23)
         Me.cmdEdit.TabIndex = 2
@@ -163,7 +201,7 @@ Partial Class ArCard
         '
         'cmdExport
         '
-        Me.cmdExport.Location = New System.Drawing.Point(3, 151)
+        Me.cmdExport.Location = New System.Drawing.Point(790, 109)
         Me.cmdExport.Name = "cmdExport"
         Me.cmdExport.Size = New System.Drawing.Size(75, 23)
         Me.cmdExport.TabIndex = 3
@@ -172,7 +210,7 @@ Partial Class ArCard
         '
         'cmdFields
         '
-        Me.cmdFields.Location = New System.Drawing.Point(3, 191)
+        Me.cmdFields.Location = New System.Drawing.Point(776, 166)
         Me.cmdFields.Name = "cmdFields"
         Me.cmdFields.Size = New System.Drawing.Size(75, 23)
         Me.cmdFields.TabIndex = 4
@@ -181,16 +219,16 @@ Partial Class ArCard
         '
         'cmdMakeSameAsCash
         '
-        Me.cmdMakeSameAsCash.Location = New System.Drawing.Point(3, 243)
+        Me.cmdMakeSameAsCash.Location = New System.Drawing.Point(462, 97)
         Me.cmdMakeSameAsCash.Name = "cmdMakeSameAsCash"
-        Me.cmdMakeSameAsCash.Size = New System.Drawing.Size(75, 23)
+        Me.cmdMakeSameAsCash.Size = New System.Drawing.Size(40, 23)
         Me.cmdMakeSameAsCash.TabIndex = 5
         Me.cmdMakeSameAsCash.Text = "SaC"
         Me.cmdMakeSameAsCash.UseVisualStyleBackColor = True
         '
         'cmdMoveFirst
         '
-        Me.cmdMoveFirst.Location = New System.Drawing.Point(3, 283)
+        Me.cmdMoveFirst.Location = New System.Drawing.Point(1011, 460)
         Me.cmdMoveFirst.Name = "cmdMoveFirst"
         Me.cmdMoveFirst.Size = New System.Drawing.Size(75, 23)
         Me.cmdMoveFirst.TabIndex = 6
@@ -199,7 +237,7 @@ Partial Class ArCard
         '
         'cmdMoveLast
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(3, 312)
+        Me.cmdMoveLast.Location = New System.Drawing.Point(1011, 489)
         Me.cmdMoveLast.Name = "cmdMoveLast"
         Me.cmdMoveLast.Size = New System.Drawing.Size(75, 23)
         Me.cmdMoveLast.TabIndex = 7
@@ -208,7 +246,7 @@ Partial Class ArCard
         '
         'cmdMoveNext
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(12, 341)
+        Me.cmdMoveNext.Location = New System.Drawing.Point(1020, 518)
         Me.cmdMoveNext.Name = "cmdMoveNext"
         Me.cmdMoveNext.Size = New System.Drawing.Size(75, 23)
         Me.cmdMoveNext.TabIndex = 8
@@ -217,7 +255,7 @@ Partial Class ArCard
         '
         'cmdMovePrevious
         '
-        Me.cmdMovePrevious.Location = New System.Drawing.Point(12, 370)
+        Me.cmdMovePrevious.Location = New System.Drawing.Point(1020, 547)
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
         Me.cmdMovePrevious.Size = New System.Drawing.Size(75, 23)
         Me.cmdMovePrevious.TabIndex = 9
@@ -226,34 +264,34 @@ Partial Class ArCard
         '
         'cmdPayoff
         '
-        Me.cmdPayoff.Location = New System.Drawing.Point(12, 399)
+        Me.cmdPayoff.Location = New System.Drawing.Point(229, 75)
         Me.cmdPayoff.Name = "cmdPayoff"
-        Me.cmdPayoff.Size = New System.Drawing.Size(75, 23)
+        Me.cmdPayoff.Size = New System.Drawing.Size(45, 43)
         Me.cmdPayoff.TabIndex = 10
         Me.cmdPayoff.Text = "&Early Payoff"
         Me.cmdPayoff.UseVisualStyleBackColor = True
         '
         'cmdReceipt
         '
-        Me.cmdReceipt.Location = New System.Drawing.Point(116, 33)
+        Me.cmdReceipt.Location = New System.Drawing.Point(120, 75)
         Me.cmdReceipt.Name = "cmdReceipt"
-        Me.cmdReceipt.Size = New System.Drawing.Size(75, 23)
+        Me.cmdReceipt.Size = New System.Drawing.Size(57, 23)
         Me.cmdReceipt.TabIndex = 11
         Me.cmdReceipt.Text = "&Receipt"
         Me.cmdReceipt.UseVisualStyleBackColor = True
         '
         'cmdReprintContract
         '
-        Me.cmdReprintContract.Location = New System.Drawing.Point(116, 62)
+        Me.cmdReprintContract.Location = New System.Drawing.Point(21, 171)
         Me.cmdReprintContract.Name = "cmdReprintContract"
-        Me.cmdReprintContract.Size = New System.Drawing.Size(75, 23)
+        Me.cmdReprintContract.Size = New System.Drawing.Size(119, 22)
         Me.cmdReprintContract.TabIndex = 12
         Me.cmdReprintContract.Text = "Reprint Contract"
         Me.cmdReprintContract.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(116, 100)
+        Me.cmdPrint.Location = New System.Drawing.Point(776, 51)
         Me.cmdPrint.Name = "cmdPrint"
         Me.cmdPrint.Size = New System.Drawing.Size(75, 23)
         Me.cmdPrint.TabIndex = 13
@@ -262,16 +300,17 @@ Partial Class ArCard
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(116, 129)
+        Me.cmdCancel.Location = New System.Drawing.Point(176, 74)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
+        Me.cmdCancel.Size = New System.Drawing.Size(53, 23)
         Me.cmdCancel.TabIndex = 14
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'fraPaymentOptions
         '
-        Me.fraPaymentOptions.Location = New System.Drawing.Point(116, 191)
+        Me.fraPaymentOptions.Controls.Add(Me.chkSendAllMail)
+        Me.fraPaymentOptions.Location = New System.Drawing.Point(886, 323)
         Me.fraPaymentOptions.Name = "fraPaymentOptions"
         Me.fraPaymentOptions.Size = New System.Drawing.Size(200, 100)
         Me.fraPaymentOptions.TabIndex = 15
@@ -280,7 +319,7 @@ Partial Class ArCard
         '
         'fraEditOptions
         '
-        Me.fraEditOptions.Location = New System.Drawing.Point(116, 297)
+        Me.fraEditOptions.Location = New System.Drawing.Point(1140, 470)
         Me.fraEditOptions.Name = "fraEditOptions"
         Me.fraEditOptions.Size = New System.Drawing.Size(200, 100)
         Me.fraEditOptions.TabIndex = 16
@@ -289,9 +328,9 @@ Partial Class ArCard
         '
         'txtPaymentHistory
         '
-        Me.txtPaymentHistory.Location = New System.Drawing.Point(126, 418)
+        Me.txtPaymentHistory.Location = New System.Drawing.Point(203, 169)
         Me.txtPaymentHistory.Name = "txtPaymentHistory"
-        Me.txtPaymentHistory.Size = New System.Drawing.Size(100, 20)
+        Me.txtPaymentHistory.Size = New System.Drawing.Size(91, 20)
         Me.txtPaymentHistory.TabIndex = 0
         Me.txtPaymentHistory.Text = "123456789ACB123456789ACB"
         Me.txtPaymentHistory.Visible = False
@@ -299,7 +338,7 @@ Partial Class ArCard
         'lblBalance
         '
         Me.lblBalance.AutoSize = True
-        Me.lblBalance.Location = New System.Drawing.Point(360, 33)
+        Me.lblBalance.Location = New System.Drawing.Point(11, 28)
         Me.lblBalance.Name = "lblBalance"
         Me.lblBalance.Size = New System.Drawing.Size(56, 13)
         Me.lblBalance.TabIndex = 17
@@ -307,64 +346,64 @@ Partial Class ArCard
         '
         'txtDelivery
         '
-        Me.txtDelivery.Location = New System.Drawing.Point(363, 49)
+        Me.txtDelivery.Location = New System.Drawing.Point(235, 14)
         Me.txtDelivery.Name = "txtDelivery"
         Me.txtDelivery.Size = New System.Drawing.Size(100, 20)
         Me.txtDelivery.TabIndex = 18
         '
         'txtMonths
         '
-        Me.txtMonths.Location = New System.Drawing.Point(363, 75)
+        Me.txtMonths.Location = New System.Drawing.Point(65, 40)
         Me.txtMonths.Name = "txtMonths"
-        Me.txtMonths.Size = New System.Drawing.Size(100, 20)
+        Me.txtMonths.Size = New System.Drawing.Size(92, 20)
         Me.txtMonths.TabIndex = 19
         '
         'txtLastPay
         '
-        Me.txtLastPay.Location = New System.Drawing.Point(363, 103)
+        Me.txtLastPay.Location = New System.Drawing.Point(235, 86)
         Me.txtLastPay.Name = "txtLastPay"
         Me.txtLastPay.Size = New System.Drawing.Size(100, 20)
         Me.txtLastPay.TabIndex = 20
         '
         'txtFinanced
         '
-        Me.txtFinanced.Location = New System.Drawing.Point(353, 129)
+        Me.txtFinanced.Location = New System.Drawing.Point(65, 20)
         Me.txtFinanced.Name = "txtFinanced"
-        Me.txtFinanced.Size = New System.Drawing.Size(100, 20)
+        Me.txtFinanced.Size = New System.Drawing.Size(92, 20)
         Me.txtFinanced.TabIndex = 21
         '
         'txtMonthlyPayment
         '
-        Me.txtMonthlyPayment.Location = New System.Drawing.Point(363, 166)
+        Me.txtMonthlyPayment.Location = New System.Drawing.Point(64, 80)
         Me.txtMonthlyPayment.Name = "txtMonthlyPayment"
-        Me.txtMonthlyPayment.Size = New System.Drawing.Size(100, 20)
+        Me.txtMonthlyPayment.Size = New System.Drawing.Size(92, 20)
         Me.txtMonthlyPayment.TabIndex = 22
         '
         'txtPayMemo
         '
-        Me.txtPayMemo.Location = New System.Drawing.Point(363, 192)
+        Me.txtPayMemo.Location = New System.Drawing.Point(50, 97)
         Me.txtPayMemo.Name = "txtPayMemo"
-        Me.txtPayMemo.Size = New System.Drawing.Size(100, 20)
+        Me.txtPayMemo.Size = New System.Drawing.Size(191, 20)
         Me.txtPayMemo.TabIndex = 23
         '
         'txtRate
         '
-        Me.txtRate.Location = New System.Drawing.Point(353, 218)
+        Me.txtRate.Location = New System.Drawing.Point(65, 60)
         Me.txtRate.Name = "txtRate"
-        Me.txtRate.Size = New System.Drawing.Size(100, 20)
+        Me.txtRate.Size = New System.Drawing.Size(35, 20)
         Me.txtRate.TabIndex = 24
         '
         'txtSameAsCash
         '
-        Me.txtSameAsCash.Location = New System.Drawing.Point(353, 246)
+        Me.txtSameAsCash.Location = New System.Drawing.Point(286, 58)
         Me.txtSameAsCash.Name = "txtSameAsCash"
-        Me.txtSameAsCash.Size = New System.Drawing.Size(100, 20)
+        Me.txtSameAsCash.Size = New System.Drawing.Size(49, 20)
         Me.txtSameAsCash.TabIndex = 25
         '
         'lblLateCharge
         '
         Me.lblLateCharge.AutoSize = True
-        Me.lblLateCharge.Location = New System.Drawing.Point(360, 278)
+        Me.lblLateCharge.Location = New System.Drawing.Point(108, 28)
         Me.lblLateCharge.Name = "lblLateCharge"
         Me.lblLateCharge.Size = New System.Drawing.Size(72, 13)
         Me.lblLateCharge.TabIndex = 26
@@ -372,125 +411,125 @@ Partial Class ArCard
         '
         'txtFirstPay
         '
-        Me.txtFirstPay.Location = New System.Drawing.Point(363, 297)
+        Me.txtFirstPay.Location = New System.Drawing.Point(235, 34)
         Me.txtFirstPay.Name = "txtFirstPay"
         Me.txtFirstPay.Size = New System.Drawing.Size(100, 20)
         Me.txtFirstPay.TabIndex = 27
         '
         'txtPaidBy
         '
-        Me.txtPaidBy.Location = New System.Drawing.Point(363, 323)
+        Me.txtPaidBy.Location = New System.Drawing.Point(63, 120)
         Me.txtPaidBy.Name = "txtPaidBy"
-        Me.txtPaidBy.Size = New System.Drawing.Size(100, 20)
+        Me.txtPaidBy.Size = New System.Drawing.Size(92, 20)
         Me.txtPaidBy.TabIndex = 28
         '
         'txtPayPeriod
         '
-        Me.txtPayPeriod.Location = New System.Drawing.Point(363, 349)
+        Me.txtPayPeriod.Location = New System.Drawing.Point(1131, 401)
         Me.txtPayPeriod.Name = "txtPayPeriod"
         Me.txtPayPeriod.Size = New System.Drawing.Size(100, 20)
         Me.txtPayPeriod.TabIndex = 29
         '
         'txtNextDue
         '
-        Me.txtNextDue.Location = New System.Drawing.Point(332, 377)
+        Me.txtNextDue.Location = New System.Drawing.Point(235, 119)
         Me.txtNextDue.Name = "txtNextDue"
         Me.txtNextDue.Size = New System.Drawing.Size(100, 20)
         Me.txtNextDue.TabIndex = 30
         '
         'lblTotDue
         '
-        Me.lblTotDue.AutoSize = True
-        Me.lblTotDue.Location = New System.Drawing.Point(340, 400)
+        Me.lblTotDue.BackColor = System.Drawing.SystemColors.Window
+        Me.lblTotDue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblTotDue.Location = New System.Drawing.Point(172, 55)
         Me.lblTotDue.Name = "lblTotDue"
-        Me.lblTotDue.Size = New System.Drawing.Size(53, 13)
+        Me.lblTotDue.Size = New System.Drawing.Size(142, 16)
         Me.lblTotDue.TabIndex = 31
-        Me.lblTotDue.Text = "lblTotDue"
         '
         'lblArrearages
         '
-        Me.lblArrearages.AutoSize = True
-        Me.lblArrearages.Location = New System.Drawing.Point(340, 421)
+        Me.lblArrearages.BackColor = System.Drawing.SystemColors.Window
+        Me.lblArrearages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblArrearages.Location = New System.Drawing.Point(13, 55)
         Me.lblArrearages.Name = "lblArrearages"
-        Me.lblArrearages.Size = New System.Drawing.Size(68, 13)
+        Me.lblArrearages.Size = New System.Drawing.Size(147, 16)
         Me.lblArrearages.TabIndex = 32
-        Me.lblArrearages.Text = "lblArrearages"
         '
         'lblLate0
         '
-        Me.lblLate0.AutoSize = True
-        Me.lblLate0.Location = New System.Drawing.Point(496, 47)
+        Me.lblLate0.BackColor = System.Drawing.SystemColors.Window
+        Me.lblLate0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblLate0.Location = New System.Drawing.Point(13, 34)
         Me.lblLate0.Name = "lblLate0"
-        Me.lblLate0.Size = New System.Drawing.Size(44, 13)
+        Me.lblLate0.Size = New System.Drawing.Size(58, 16)
         Me.lblLate0.TabIndex = 33
-        Me.lblLate0.Text = "lblLate0"
         '
         'lblLate31
         '
-        Me.lblLate31.AutoSize = True
-        Me.lblLate31.Location = New System.Drawing.Point(496, 72)
+        Me.lblLate31.BackColor = System.Drawing.SystemColors.Window
+        Me.lblLate31.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblLate31.Location = New System.Drawing.Point(98, 34)
         Me.lblLate31.Name = "lblLate31"
-        Me.lblLate31.Size = New System.Drawing.Size(50, 13)
+        Me.lblLate31.Size = New System.Drawing.Size(58, 16)
         Me.lblLate31.TabIndex = 34
-        Me.lblLate31.Text = "lblLate31"
         '
         'lblLate61
         '
-        Me.lblLate61.AutoSize = True
-        Me.lblLate61.Location = New System.Drawing.Point(496, 89)
+        Me.lblLate61.BackColor = System.Drawing.SystemColors.Window
+        Me.lblLate61.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblLate61.Location = New System.Drawing.Point(172, 34)
         Me.lblLate61.Name = "lblLate61"
-        Me.lblLate61.Size = New System.Drawing.Size(50, 13)
+        Me.lblLate61.Size = New System.Drawing.Size(58, 16)
         Me.lblLate61.TabIndex = 35
-        Me.lblLate61.Text = "lblLate61"
         '
         'lblLate91
         '
-        Me.lblLate91.AutoSize = True
-        Me.lblLate91.Location = New System.Drawing.Point(496, 110)
+        Me.lblLate91.BackColor = System.Drawing.SystemColors.Window
+        Me.lblLate91.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblLate91.Location = New System.Drawing.Point(256, 34)
         Me.lblLate91.Name = "lblLate91"
-        Me.lblLate91.Size = New System.Drawing.Size(50, 13)
+        Me.lblLate91.Size = New System.Drawing.Size(58, 16)
         Me.lblLate91.TabIndex = 36
-        Me.lblLate91.Text = "lblLate91"
         '
         'lbl0030
         '
         Me.lbl0030.AutoSize = True
-        Me.lbl0030.Location = New System.Drawing.Point(496, 134)
+        Me.lbl0030.Location = New System.Drawing.Point(10, 17)
         Me.lbl0030.Name = "lbl0030"
-        Me.lbl0030.Size = New System.Drawing.Size(41, 13)
+        Me.lbl0030.Size = New System.Drawing.Size(61, 13)
         Me.lbl0030.TabIndex = 37
-        Me.lbl0030.Text = "lbl0030"
+        Me.lbl0030.Text = "Late: 0 - 30"
         '
         'lbl3160
         '
         Me.lbl3160.AutoSize = True
-        Me.lbl3160.Location = New System.Drawing.Point(496, 151)
+        Me.lbl3160.Location = New System.Drawing.Point(98, 17)
         Me.lbl3160.Name = "lbl3160"
-        Me.lbl3160.Size = New System.Drawing.Size(41, 13)
+        Me.lbl3160.Size = New System.Drawing.Size(40, 13)
         Me.lbl3160.TabIndex = 38
-        Me.lbl3160.Text = "lbl3160"
+        Me.lbl3160.Text = "31 - 60"
         '
         'lbl6190
         '
         Me.lbl6190.AutoSize = True
-        Me.lbl6190.Location = New System.Drawing.Point(496, 169)
+        Me.lbl6190.Location = New System.Drawing.Point(169, 16)
         Me.lbl6190.Name = "lbl6190"
-        Me.lbl6190.Size = New System.Drawing.Size(41, 13)
+        Me.lbl6190.Size = New System.Drawing.Size(40, 13)
         Me.lbl6190.TabIndex = 39
-        Me.lbl6190.Text = "lbl6190"
+        Me.lbl6190.Text = "61 - 90"
         '
         'lblOver91
         '
         Me.lblOver91.AutoSize = True
-        Me.lblOver91.Location = New System.Drawing.Point(496, 192)
+        Me.lblOver91.Location = New System.Drawing.Point(254, 17)
         Me.lblOver91.Name = "lblOver91"
-        Me.lblOver91.Size = New System.Drawing.Size(52, 13)
+        Me.lblOver91.Size = New System.Drawing.Size(45, 13)
         Me.lblOver91.TabIndex = 40
-        Me.lblOver91.Text = "lblOver91"
+        Me.lblOver91.Text = "Over 91"
         '
         'rtfFile
         '
-        Me.rtfFile.Location = New System.Drawing.Point(499, 218)
+        Me.rtfFile.Location = New System.Drawing.Point(1131, 225)
         Me.rtfFile.Name = "rtfFile"
         Me.rtfFile.Size = New System.Drawing.Size(64, 38)
         Me.rtfFile.TabIndex = 41
@@ -499,7 +538,7 @@ Partial Class ArCard
         'filFile
         '
         Me.filFile.FormattingEnabled = True
-        Me.filFile.Location = New System.Drawing.Point(499, 263)
+        Me.filFile.Location = New System.Drawing.Point(1114, 287)
         Me.filFile.Name = "filFile"
         Me.filFile.Pattern = "*.*"
         Me.filFile.Size = New System.Drawing.Size(64, 43)
@@ -508,7 +547,7 @@ Partial Class ArCard
         'lblAccount
         '
         Me.lblAccount.AutoSize = True
-        Me.lblAccount.Location = New System.Drawing.Point(498, 317)
+        Me.lblAccount.Location = New System.Drawing.Point(1137, 365)
         Me.lblAccount.Name = "lblAccount"
         Me.lblAccount.Size = New System.Drawing.Size(57, 13)
         Me.lblAccount.TabIndex = 43
@@ -517,7 +556,7 @@ Partial Class ArCard
         'cboStatus
         '
         Me.cboStatus.FormattingEnabled = True
-        Me.cboStatus.Location = New System.Drawing.Point(499, 341)
+        Me.cboStatus.Location = New System.Drawing.Point(203, 17)
         Me.cboStatus.Name = "cboStatus"
         Me.cboStatus.Size = New System.Drawing.Size(121, 21)
         Me.cboStatus.TabIndex = 44
@@ -525,7 +564,7 @@ Partial Class ArCard
         'lblFirstName
         '
         Me.lblFirstName.AutoSize = True
-        Me.lblFirstName.Location = New System.Drawing.Point(498, 365)
+        Me.lblFirstName.Location = New System.Drawing.Point(11, 48)
         Me.lblFirstName.Name = "lblFirstName"
         Me.lblFirstName.Size = New System.Drawing.Size(64, 13)
         Me.lblFirstName.TabIndex = 45
@@ -552,7 +591,7 @@ Partial Class ArCard
         'lblCity
         '
         Me.lblCity.AutoSize = True
-        Me.lblCity.Location = New System.Drawing.Point(498, 421)
+        Me.lblCity.Location = New System.Drawing.Point(11, 94)
         Me.lblCity.Name = "lblCity"
         Me.lblCity.Size = New System.Drawing.Size(34, 13)
         Me.lblCity.TabIndex = 48
@@ -561,7 +600,7 @@ Partial Class ArCard
         'lblZip
         '
         Me.lblZip.AutoSize = True
-        Me.lblZip.Location = New System.Drawing.Point(601, 42)
+        Me.lblZip.Location = New System.Drawing.Point(1233, 49)
         Me.lblZip.Name = "lblZip"
         Me.lblZip.Size = New System.Drawing.Size(32, 13)
         Me.lblZip.TabIndex = 49
@@ -570,7 +609,7 @@ Partial Class ArCard
         'lblTele1
         '
         Me.lblTele1.AutoSize = True
-        Me.lblTele1.Location = New System.Drawing.Point(601, 56)
+        Me.lblTele1.Location = New System.Drawing.Point(1233, 63)
         Me.lblTele1.Name = "lblTele1"
         Me.lblTele1.Size = New System.Drawing.Size(39, 13)
         Me.lblTele1.TabIndex = 50
@@ -579,7 +618,7 @@ Partial Class ArCard
         'lblTele2
         '
         Me.lblTele2.AutoSize = True
-        Me.lblTele2.Location = New System.Drawing.Point(601, 72)
+        Me.lblTele2.Location = New System.Drawing.Point(1233, 79)
         Me.lblTele2.Name = "lblTele2"
         Me.lblTele2.Size = New System.Drawing.Size(44, 13)
         Me.lblTele2.TabIndex = 51
@@ -588,7 +627,7 @@ Partial Class ArCard
         'lblSSN
         '
         Me.lblSSN.AutoSize = True
-        Me.lblSSN.Location = New System.Drawing.Point(601, 94)
+        Me.lblSSN.Location = New System.Drawing.Point(1233, 101)
         Me.lblSSN.Name = "lblSSN"
         Me.lblSSN.Size = New System.Drawing.Size(39, 13)
         Me.lblSSN.TabIndex = 52
@@ -596,15 +635,15 @@ Partial Class ArCard
         '
         'txtLateChargeAmount
         '
-        Me.txtLateChargeAmount.Location = New System.Drawing.Point(604, 110)
+        Me.txtLateChargeAmount.Location = New System.Drawing.Point(64, 100)
         Me.txtLateChargeAmount.Name = "txtLateChargeAmount"
-        Me.txtLateChargeAmount.Size = New System.Drawing.Size(100, 20)
+        Me.txtLateChargeAmount.Size = New System.Drawing.Size(92, 20)
         Me.txtLateChargeAmount.TabIndex = 53
         '
         'lblCreditLimit
         '
         Me.lblCreditLimit.AutoSize = True
-        Me.lblCreditLimit.Location = New System.Drawing.Point(594, 134)
+        Me.lblCreditLimit.Location = New System.Drawing.Point(1226, 141)
         Me.lblCreditLimit.Name = "lblCreditLimit"
         Me.lblCreditLimit.Size = New System.Drawing.Size(39, 13)
         Me.lblCreditLimit.TabIndex = 54
@@ -613,7 +652,7 @@ Partial Class ArCard
         'lblApprovalTerms
         '
         Me.lblApprovalTerms.AutoSize = True
-        Me.lblApprovalTerms.Location = New System.Drawing.Point(594, 156)
+        Me.lblApprovalTerms.Location = New System.Drawing.Point(1226, 163)
         Me.lblApprovalTerms.Name = "lblApprovalTerms"
         Me.lblApprovalTerms.Size = New System.Drawing.Size(39, 13)
         Me.lblApprovalTerms.TabIndex = 55
@@ -622,7 +661,7 @@ Partial Class ArCard
         'lblAddAddress
         '
         Me.lblAddAddress.AutoSize = True
-        Me.lblAddAddress.Location = New System.Drawing.Point(594, 173)
+        Me.lblAddAddress.Location = New System.Drawing.Point(11, 70)
         Me.lblAddAddress.Name = "lblAddAddress"
         Me.lblAddAddress.Size = New System.Drawing.Size(74, 13)
         Me.lblAddAddress.TabIndex = 56
@@ -631,7 +670,7 @@ Partial Class ArCard
         'lblTele3
         '
         Me.lblTele3.AutoSize = True
-        Me.lblTele3.Location = New System.Drawing.Point(594, 199)
+        Me.lblTele3.Location = New System.Drawing.Point(1226, 206)
         Me.lblTele3.Name = "lblTele3"
         Me.lblTele3.Size = New System.Drawing.Size(44, 13)
         Me.lblTele3.TabIndex = 57
@@ -640,7 +679,7 @@ Partial Class ArCard
         'lblTele1Caption
         '
         Me.lblTele1Caption.AutoSize = True
-        Me.lblTele1Caption.Location = New System.Drawing.Point(601, 218)
+        Me.lblTele1Caption.Location = New System.Drawing.Point(11, 124)
         Me.lblTele1Caption.Name = "lblTele1Caption"
         Me.lblTele1Caption.Size = New System.Drawing.Size(80, 13)
         Me.lblTele1Caption.TabIndex = 58
@@ -649,7 +688,7 @@ Partial Class ArCard
         'lblTele2Caption
         '
         Me.lblTele2Caption.AutoSize = True
-        Me.lblTele2Caption.Location = New System.Drawing.Point(594, 243)
+        Me.lblTele2Caption.Location = New System.Drawing.Point(11, 144)
         Me.lblTele2Caption.Name = "lblTele2Caption"
         Me.lblTele2Caption.Size = New System.Drawing.Size(80, 13)
         Me.lblTele2Caption.TabIndex = 59
@@ -658,7 +697,7 @@ Partial Class ArCard
         'lblTele3Caption
         '
         Me.lblTele3Caption.AutoSize = True
-        Me.lblTele3Caption.Location = New System.Drawing.Point(588, 263)
+        Me.lblTele3Caption.Location = New System.Drawing.Point(11, 165)
         Me.lblTele3Caption.Name = "lblTele3Caption"
         Me.lblTele3Caption.Size = New System.Drawing.Size(80, 13)
         Me.lblTele3Caption.TabIndex = 60
@@ -666,7 +705,7 @@ Partial Class ArCard
         '
         'fraPrint
         '
-        Me.fraPrint.Location = New System.Drawing.Point(55, 486)
+        Me.fraPrint.Location = New System.Drawing.Point(372, 515)
         Me.fraPrint.Name = "fraPrint"
         Me.fraPrint.Size = New System.Drawing.Size(145, 55)
         Me.fraPrint.TabIndex = 61
@@ -675,7 +714,7 @@ Partial Class ArCard
         '
         'fraNav
         '
-        Me.fraNav.Location = New System.Drawing.Point(219, 486)
+        Me.fraNav.Location = New System.Drawing.Point(536, 515)
         Me.fraNav.Name = "fraNav"
         Me.fraNav.Size = New System.Drawing.Size(145, 55)
         Me.fraNav.TabIndex = 62
@@ -684,21 +723,60 @@ Partial Class ArCard
         '
         'fraTerms
         '
-        Me.fraTerms.Location = New System.Drawing.Point(387, 486)
+        Me.fraTerms.Controls.Add(Me.cmdReprintCoupons)
+        Me.fraTerms.Controls.Add(Me.lblNextDue)
+        Me.fraTerms.Controls.Add(Me.lblLastPay)
+        Me.fraTerms.Controls.Add(Me.lblSameAsCash)
+        Me.fraTerms.Controls.Add(Me.lbl1stPay)
+        Me.fraTerms.Controls.Add(Me.lblDelivery)
+        Me.fraTerms.Controls.Add(Me.lblPayBy)
+        Me.fraTerms.Controls.Add(Me.lblLateCh)
+        Me.fraTerms.Controls.Add(Me.lblPayment)
+        Me.fraTerms.Controls.Add(Me.lblRate)
+        Me.fraTerms.Controls.Add(Me.lblMonths)
+        Me.fraTerms.Controls.Add(Me.lblPaymentHistory)
+        Me.fraTerms.Controls.Add(Me.lblAPR)
+        Me.fraTerms.Controls.Add(Me.lblFinanced)
+        Me.fraTerms.Controls.Add(Me.txtFinanced)
+        Me.fraTerms.Controls.Add(Me.txtMonths)
+        Me.fraTerms.Controls.Add(Me.txtRate)
+        Me.fraTerms.Controls.Add(Me.txtMonthlyPayment)
+        Me.fraTerms.Controls.Add(Me.txtLateChargeAmount)
+        Me.fraTerms.Controls.Add(Me.txtPaidBy)
+        Me.fraTerms.Controls.Add(Me.txtDelivery)
+        Me.fraTerms.Controls.Add(Me.txtFirstPay)
+        Me.fraTerms.Controls.Add(Me.txtSameAsCash)
+        Me.fraTerms.Controls.Add(Me.txtLastPay)
+        Me.fraTerms.Controls.Add(Me.txtNextDue)
+        Me.fraTerms.Controls.Add(Me.cmdReprintContract)
+        Me.fraTerms.Controls.Add(Me.txtPaymentHistory)
+        Me.fraTerms.Location = New System.Drawing.Point(357, 4)
         Me.fraTerms.Name = "fraTerms"
-        Me.fraTerms.Size = New System.Drawing.Size(145, 55)
+        Me.fraTerms.Size = New System.Drawing.Size(341, 199)
         Me.fraTerms.TabIndex = 63
         Me.fraTerms.TabStop = False
-        Me.fraTerms.Text = "GroupBox1"
+        Me.fraTerms.Text = " Terms And Conditions "
         '
         'fraBalance
         '
-        Me.fraBalance.Location = New System.Drawing.Point(559, 486)
+        Me.fraBalance.Controls.Add(Me.txtPayment)
+        Me.fraBalance.Controls.Add(Me.lblPayDate)
+        Me.fraBalance.Controls.Add(Me.txtLateCharge)
+        Me.fraBalance.Controls.Add(Me.lblTotalPayoff)
+        Me.fraBalance.Controls.Add(Me.chkPayLateFee)
+        Me.fraBalance.Controls.Add(Me.lblTotalPayOffCaption)
+        Me.fraBalance.Controls.Add(Me.lblLateChargeCaption)
+        Me.fraBalance.Controls.Add(Me.lblBalanceCaption)
+        Me.fraBalance.Controls.Add(Me.DDate)
+        Me.fraBalance.Controls.Add(Me.lblPayMemo)
+        Me.fraBalance.Controls.Add(Me.txtPayMemo)
+        Me.fraBalance.Controls.Add(Me.lblBalance)
+        Me.fraBalance.Controls.Add(Me.lblLateCharge)
+        Me.fraBalance.Location = New System.Drawing.Point(12, 202)
         Me.fraBalance.Name = "fraBalance"
-        Me.fraBalance.Size = New System.Drawing.Size(145, 55)
+        Me.fraBalance.Size = New System.Drawing.Size(335, 122)
         Me.fraBalance.TabIndex = 64
         Me.fraBalance.TabStop = False
-        Me.fraBalance.Text = "fraBalance"
         '
         'fraPrintType
         '
@@ -711,36 +789,36 @@ Partial Class ArCard
         '
         'cmdCreditApp
         '
-        Me.cmdCreditApp.Location = New System.Drawing.Point(219, 28)
+        Me.cmdCreditApp.Location = New System.Drawing.Point(4, 74)
         Me.cmdCreditApp.Name = "cmdCreditApp"
-        Me.cmdCreditApp.Size = New System.Drawing.Size(75, 23)
+        Me.cmdCreditApp.Size = New System.Drawing.Size(67, 44)
         Me.cmdCreditApp.TabIndex = 66
         Me.cmdCreditApp.Text = "Credi&t App"
         Me.cmdCreditApp.UseVisualStyleBackColor = True
         '
         'cmdDetail
         '
-        Me.cmdDetail.Location = New System.Drawing.Point(219, 62)
+        Me.cmdDetail.Location = New System.Drawing.Point(70, 96)
         Me.cmdDetail.Name = "cmdDetail"
-        Me.cmdDetail.Size = New System.Drawing.Size(75, 23)
+        Me.cmdDetail.Size = New System.Drawing.Size(51, 23)
         Me.cmdDetail.TabIndex = 67
         Me.cmdDetail.Text = "&Detail"
         Me.cmdDetail.UseVisualStyleBackColor = True
         '
         'Notes_Open
         '
-        Me.Notes_Open.Location = New System.Drawing.Point(219, 100)
+        Me.Notes_Open.Location = New System.Drawing.Point(120, 96)
         Me.Notes_Open.Name = "Notes_Open"
-        Me.Notes_Open.Size = New System.Drawing.Size(75, 23)
+        Me.Notes_Open.Size = New System.Drawing.Size(57, 23)
         Me.Notes_Open.TabIndex = 68
         Me.Notes_Open.Text = "&Notes"
         Me.Notes_Open.UseVisualStyleBackColor = True
         '
         'cmdPrintCard
         '
-        Me.cmdPrintCard.Location = New System.Drawing.Point(219, 134)
+        Me.cmdPrintCard.Location = New System.Drawing.Point(176, 95)
         Me.cmdPrintCard.Name = "cmdPrintCard"
-        Me.cmdPrintCard.Size = New System.Drawing.Size(75, 23)
+        Me.cmdPrintCard.Size = New System.Drawing.Size(53, 23)
         Me.cmdPrintCard.TabIndex = 69
         Me.cmdPrintCard.Text = "&Print"
         Me.cmdPrintCard.UseVisualStyleBackColor = True
@@ -748,7 +826,7 @@ Partial Class ArCard
         'lblAPR
         '
         Me.lblAPR.AutoSize = True
-        Me.lblAPR.Location = New System.Drawing.Point(606, 293)
+        Me.lblAPR.Location = New System.Drawing.Point(102, 63)
         Me.lblAPR.Name = "lblAPR"
         Me.lblAPR.Size = New System.Drawing.Size(63, 13)
         Me.lblAPR.TabIndex = 70
@@ -757,7 +835,7 @@ Partial Class ArCard
         'chkSendAllMail
         '
         Me.chkSendAllMail.AutoSize = True
-        Me.chkSendAllMail.Location = New System.Drawing.Point(650, 344)
+        Me.chkSendAllMail.Location = New System.Drawing.Point(36, 19)
         Me.chkSendAllMail.Name = "chkSendAllMail"
         Me.chkSendAllMail.Size = New System.Drawing.Size(87, 17)
         Me.chkSendAllMail.TabIndex = 71
@@ -767,37 +845,39 @@ Partial Class ArCard
         'lblPaymentHistory
         '
         Me.lblPaymentHistory.AutoSize = True
-        Me.lblPaymentHistory.Location = New System.Drawing.Point(721, 182)
+        Me.lblPaymentHistory.Location = New System.Drawing.Point(200, 155)
         Me.lblPaymentHistory.Name = "lblPaymentHistory"
         Me.lblPaymentHistory.Size = New System.Drawing.Size(94, 13)
         Me.lblPaymentHistory.TabIndex = 72
         Me.lblPaymentHistory.Text = "Date: 00/00/0000"
+        Me.lblPaymentHistory.Visible = False
         '
         'cmdSaleTotals
         '
-        Me.cmdSaleTotals.Location = New System.Drawing.Point(219, 168)
+        Me.cmdSaleTotals.Location = New System.Drawing.Point(273, 75)
         Me.cmdSaleTotals.Name = "cmdSaleTotals"
-        Me.cmdSaleTotals.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSaleTotals.Size = New System.Drawing.Size(49, 43)
         Me.cmdSaleTotals.TabIndex = 73
         Me.cmdSaleTotals.Text = "Sale Totals"
         Me.cmdSaleTotals.UseVisualStyleBackColor = True
+        Me.cmdSaleTotals.Visible = False
         '
         'lblPayMemo
         '
         Me.lblPayMemo.AutoSize = True
-        Me.lblPayMemo.Location = New System.Drawing.Point(787, 56)
+        Me.lblPayMemo.Location = New System.Drawing.Point(10, 100)
         Me.lblPayMemo.Name = "lblPayMemo"
-        Me.lblPayMemo.Size = New System.Drawing.Size(64, 13)
+        Me.lblPayMemo.Size = New System.Drawing.Size(39, 13)
         Me.lblPayMemo.TabIndex = 75
-        Me.lblPayMemo.Text = "lblPayMemo"
+        Me.lblPayMemo.Text = "Memo:"
         '
         'cmdHistory
         '
-        Me.cmdHistory.Location = New System.Drawing.Point(836, 106)
+        Me.cmdHistory.Location = New System.Drawing.Point(263, 155)
         Me.cmdHistory.Name = "cmdHistory"
-        Me.cmdHistory.Size = New System.Drawing.Size(75, 23)
+        Me.cmdHistory.Size = New System.Drawing.Size(61, 23)
         Me.cmdHistory.TabIndex = 76
-        Me.cmdHistory.Text = "cmdHistory"
+        Me.cmdHistory.Text = "&Cust Hist"
         Me.cmdHistory.UseVisualStyleBackColor = True
         '
         'GroupBox1
@@ -964,7 +1044,7 @@ Partial Class ArCard
         Me.GroupBox2.Controls.Add(Me.optPayType3)
         Me.GroupBox2.Controls.Add(Me.optPayType2)
         Me.GroupBox2.Controls.Add(Me.optPayType1)
-        Me.GroupBox2.Location = New System.Drawing.Point(24, 444)
+        Me.GroupBox2.Location = New System.Drawing.Point(26, 460)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(916, 36)
         Me.GroupBox2.TabIndex = 78
@@ -1072,9 +1152,11 @@ Partial Class ArCard
         '
         'DDate
         '
-        Me.DDate.Location = New System.Drawing.Point(677, 28)
+        Me.DDate.CustomFormat = "MM/dd/yyyy"
+        Me.DDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DDate.Location = New System.Drawing.Point(238, 69)
         Me.DDate.Name = "DDate"
-        Me.DDate.Size = New System.Drawing.Size(200, 20)
+        Me.DDate.Size = New System.Drawing.Size(72, 20)
         Me.DDate.TabIndex = 80
         '
         'opt30252
@@ -1136,86 +1218,361 @@ Partial Class ArCard
         Me.UGrSaleTotals.Size = New System.Drawing.Size(230, 85)
         Me.UGrSaleTotals.TabIndex = 74
         '
+        'fraCustomer
+        '
+        Me.fraCustomer.Controls.Add(Me.lblStatusCaption)
+        Me.fraCustomer.Controls.Add(Me.lblAccountCaption)
+        Me.fraCustomer.Controls.Add(Me.cboStatus)
+        Me.fraCustomer.Controls.Add(Me.lblFirstName)
+        Me.fraCustomer.Controls.Add(Me.lblAddAddress)
+        Me.fraCustomer.Controls.Add(Me.lblCity)
+        Me.fraCustomer.Controls.Add(Me.lblTele1Caption)
+        Me.fraCustomer.Controls.Add(Me.cmdHistory)
+        Me.fraCustomer.Controls.Add(Me.lblTele2Caption)
+        Me.fraCustomer.Controls.Add(Me.lblTele3Caption)
+        Me.fraCustomer.Location = New System.Drawing.Point(12, -1)
+        Me.fraCustomer.Name = "fraCustomer"
+        Me.fraCustomer.Size = New System.Drawing.Size(335, 204)
+        Me.fraCustomer.TabIndex = 84
+        Me.fraCustomer.TabStop = False
+        '
+        'lblAccountCaption
+        '
+        Me.lblAccountCaption.AutoSize = True
+        Me.lblAccountCaption.Location = New System.Drawing.Point(9, 20)
+        Me.lblAccountCaption.Name = "lblAccountCaption"
+        Me.lblAccountCaption.Size = New System.Drawing.Size(53, 13)
+        Me.lblAccountCaption.TabIndex = 0
+        Me.lblAccountCaption.Tag = "Account: "
+        Me.lblAccountCaption.Text = "Account: "
+        '
+        'lblStatusCaption
+        '
+        Me.lblStatusCaption.AutoSize = True
+        Me.lblStatusCaption.Location = New System.Drawing.Point(161, 20)
+        Me.lblStatusCaption.Name = "lblStatusCaption"
+        Me.lblStatusCaption.Size = New System.Drawing.Size(40, 13)
+        Me.lblStatusCaption.TabIndex = 1
+        Me.lblStatusCaption.Tag = "Account: "
+        Me.lblStatusCaption.Text = "Status:"
+        '
+        'lblFinanced
+        '
+        Me.lblFinanced.AutoSize = True
+        Me.lblFinanced.Location = New System.Drawing.Point(7, 25)
+        Me.lblFinanced.Name = "lblFinanced"
+        Me.lblFinanced.Size = New System.Drawing.Size(54, 13)
+        Me.lblFinanced.TabIndex = 0
+        Me.lblFinanced.Text = "Financed:"
+        '
+        'lblMonths
+        '
+        Me.lblMonths.AutoSize = True
+        Me.lblMonths.Location = New System.Drawing.Point(16, 43)
+        Me.lblMonths.Name = "lblMonths"
+        Me.lblMonths.Size = New System.Drawing.Size(45, 13)
+        Me.lblMonths.TabIndex = 1
+        Me.lblMonths.Text = "Months:"
+        '
+        'lblRate
+        '
+        Me.lblRate.AutoSize = True
+        Me.lblRate.Location = New System.Drawing.Point(28, 63)
+        Me.lblRate.Name = "lblRate"
+        Me.lblRate.Size = New System.Drawing.Size(33, 13)
+        Me.lblRate.TabIndex = 2
+        Me.lblRate.Text = "Rate:"
+        '
+        'lblPayment
+        '
+        Me.lblPayment.AutoSize = True
+        Me.lblPayment.Location = New System.Drawing.Point(10, 83)
+        Me.lblPayment.Name = "lblPayment"
+        Me.lblPayment.Size = New System.Drawing.Size(51, 13)
+        Me.lblPayment.TabIndex = 3
+        Me.lblPayment.Text = "Payment:"
+        '
+        'lblLateCh
+        '
+        Me.lblLateCh.AutoSize = True
+        Me.lblLateCh.Location = New System.Drawing.Point(2, 104)
+        Me.lblLateCh.Name = "lblLateCh"
+        Me.lblLateCh.Size = New System.Drawing.Size(59, 13)
+        Me.lblLateCh.TabIndex = 4
+        Me.lblLateCh.Text = "Late Chge:"
+        '
+        'lblPayBy
+        '
+        Me.lblPayBy.AutoSize = True
+        Me.lblPayBy.Location = New System.Drawing.Point(18, 124)
+        Me.lblPayBy.Name = "lblPayBy"
+        Me.lblPayBy.Size = New System.Drawing.Size(43, 13)
+        Me.lblPayBy.TabIndex = 5
+        Me.lblPayBy.Text = "Pay By:"
+        '
+        'lblDelivery
+        '
+        Me.lblDelivery.AutoSize = True
+        Me.lblDelivery.Location = New System.Drawing.Point(187, 16)
+        Me.lblDelivery.Name = "lblDelivery"
+        Me.lblDelivery.Size = New System.Drawing.Size(48, 13)
+        Me.lblDelivery.TabIndex = 54
+        Me.lblDelivery.Text = "Delivery:"
+        '
+        'lbl1stPay
+        '
+        Me.lbl1stPay.AutoSize = True
+        Me.lbl1stPay.Location = New System.Drawing.Point(185, 36)
+        Me.lbl1stPay.Name = "lbl1stPay"
+        Me.lbl1stPay.Size = New System.Drawing.Size(50, 13)
+        Me.lbl1stPay.TabIndex = 55
+        Me.lbl1stPay.Text = "1St. Pay:"
+        '
+        'lblSameAsCash
+        '
+        Me.lblSameAsCash.AutoSize = True
+        Me.lblSameAsCash.Location = New System.Drawing.Point(169, 63)
+        Me.lblSameAsCash.Name = "lblSameAsCash"
+        Me.lblSameAsCash.Size = New System.Drawing.Size(79, 13)
+        Me.lblSameAsCash.TabIndex = 56
+        Me.lblSameAsCash.Text = "Same As Cash:"
+        '
+        'lblLastPay
+        '
+        Me.lblLastPay.AutoSize = True
+        Me.lblLastPay.Location = New System.Drawing.Point(184, 92)
+        Me.lblLastPay.Name = "lblLastPay"
+        Me.lblLastPay.Size = New System.Drawing.Size(51, 13)
+        Me.lblLastPay.TabIndex = 57
+        Me.lblLastPay.Text = "Last Pay:"
+        '
+        'lblNextDue
+        '
+        Me.lblNextDue.AutoSize = True
+        Me.lblNextDue.Location = New System.Drawing.Point(180, 119)
+        Me.lblNextDue.Name = "lblNextDue"
+        Me.lblNextDue.Size = New System.Drawing.Size(55, 13)
+        Me.lblNextDue.TabIndex = 58
+        Me.lblNextDue.Text = "Next Due:"
+        '
+        'cmdReprintCoupons
+        '
+        Me.cmdReprintCoupons.Location = New System.Drawing.Point(21, 147)
+        Me.cmdReprintCoupons.Name = "cmdReprintCoupons"
+        Me.cmdReprintCoupons.Size = New System.Drawing.Size(119, 23)
+        Me.cmdReprintCoupons.TabIndex = 59
+        Me.cmdReprintCoupons.Text = "Reprint Coupons"
+        Me.cmdReprintCoupons.UseVisualStyleBackColor = True
+        '
+        'lblBalanceCaption
+        '
+        Me.lblBalanceCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBalanceCaption.Location = New System.Drawing.Point(6, 9)
+        Me.lblBalanceCaption.Name = "lblBalanceCaption"
+        Me.lblBalanceCaption.Size = New System.Drawing.Size(77, 18)
+        Me.lblBalanceCaption.TabIndex = 18
+        Me.lblBalanceCaption.Text = " Balance Including Late Charges "
+        '
+        'lblLateChargeCaption
+        '
+        Me.lblLateChargeCaption.AutoSize = True
+        Me.lblLateChargeCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLateChargeCaption.Location = New System.Drawing.Point(108, 11)
+        Me.lblLateChargeCaption.Name = "lblLateChargeCaption"
+        Me.lblLateChargeCaption.Size = New System.Drawing.Size(84, 16)
+        Me.lblLateChargeCaption.TabIndex = 27
+        Me.lblLateChargeCaption.Text = "Late Charge:"
+        '
+        'lblTotalPayOffCaption
+        '
+        Me.lblTotalPayOffCaption.AutoSize = True
+        Me.lblTotalPayOffCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalPayOffCaption.Location = New System.Drawing.Point(217, 11)
+        Me.lblTotalPayOffCaption.Name = "lblTotalPayOffCaption"
+        Me.lblTotalPayOffCaption.Size = New System.Drawing.Size(88, 16)
+        Me.lblTotalPayOffCaption.TabIndex = 28
+        Me.lblTotalPayOffCaption.Text = "Total Pay Off:"
+        '
+        'chkPayLateFee
+        '
+        Me.chkPayLateFee.AutoSize = True
+        Me.chkPayLateFee.Checked = True
+        Me.chkPayLateFee.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkPayLateFee.Location = New System.Drawing.Point(14, 50)
+        Me.chkPayLateFee.Name = "chkPayLateFee"
+        Me.chkPayLateFee.Size = New System.Drawing.Size(105, 17)
+        Me.chkPayLateFee.TabIndex = 72
+        Me.chkPayLateFee.Text = "Pay Late Charge"
+        Me.chkPayLateFee.UseVisualStyleBackColor = True
+        '
+        'txtLateCharge
+        '
+        Me.txtLateCharge.Location = New System.Drawing.Point(136, 69)
+        Me.txtLateCharge.Name = "txtLateCharge"
+        Me.txtLateCharge.Size = New System.Drawing.Size(76, 20)
+        Me.txtLateCharge.TabIndex = 85
+        '
+        'lblPayDate
+        '
+        Me.lblPayDate.AutoSize = True
+        Me.lblPayDate.Location = New System.Drawing.Point(251, 100)
+        Me.lblPayDate.Name = "lblPayDate"
+        Me.lblPayDate.Size = New System.Drawing.Size(54, 13)
+        Me.lblPayDate.TabIndex = 86
+        Me.lblPayDate.Text = "Pay Date:"
+        '
+        'txtPayment
+        '
+        Me.txtPayment.Location = New System.Drawing.Point(14, 69)
+        Me.txtPayment.Name = "txtPayment"
+        Me.txtPayment.Size = New System.Drawing.Size(96, 20)
+        Me.txtPayment.TabIndex = 87
+        '
+        'fraButtons
+        '
+        Me.fraButtons.Controls.Add(Me.lbl0030)
+        Me.fraButtons.Controls.Add(Me.lbl3160)
+        Me.fraButtons.Controls.Add(Me.lbl6190)
+        Me.fraButtons.Controls.Add(Me.lblOver91)
+        Me.fraButtons.Controls.Add(Me.lblLate0)
+        Me.fraButtons.Controls.Add(Me.lblLate31)
+        Me.fraButtons.Controls.Add(Me.lblLate61)
+        Me.fraButtons.Controls.Add(Me.lblLate91)
+        Me.fraButtons.Controls.Add(Me.lblArrearages)
+        Me.fraButtons.Controls.Add(Me.cmdSaleTotals)
+        Me.fraButtons.Controls.Add(Me.lblTotDue)
+        Me.fraButtons.Controls.Add(Me.cmdPrintCard)
+        Me.fraButtons.Controls.Add(Me.cmdCreditApp)
+        Me.fraButtons.Controls.Add(Me.Notes_Open)
+        Me.fraButtons.Controls.Add(Me.cmdApply)
+        Me.fraButtons.Controls.Add(Me.cmdDetail)
+        Me.fraButtons.Controls.Add(Me.cmdReceipt)
+        Me.fraButtons.Controls.Add(Me.cmdCancel)
+        Me.fraButtons.Controls.Add(Me.cmdPayoff)
+        Me.fraButtons.Location = New System.Drawing.Point(356, 202)
+        Me.fraButtons.Name = "fraButtons"
+        Me.fraButtons.Size = New System.Drawing.Size(341, 124)
+        Me.fraButtons.TabIndex = 85
+        Me.fraButtons.TabStop = False
+        '
+        'fraPayoffInfo
+        '
+        Me.fraPayoffInfo.Controls.Add(Me.txtPayoffInfo)
+        Me.fraPayoffInfo.Location = New System.Drawing.Point(355, 224)
+        Me.fraPayoffInfo.Name = "fraPayoffInfo"
+        Me.fraPayoffInfo.Size = New System.Drawing.Size(341, 102)
+        Me.fraPayoffInfo.TabIndex = 86
+        Me.fraPayoffInfo.TabStop = False
+        Me.fraPayoffInfo.Text = "Payoff Information"
+        Me.fraPayoffInfo.Visible = False
+        '
+        'txtPayoffInfo
+        '
+        Me.txtPayoffInfo.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.txtPayoffInfo.Location = New System.Drawing.Point(10, 19)
+        Me.txtPayoffInfo.Multiline = True
+        Me.txtPayoffInfo.Name = "txtPayoffInfo"
+        Me.txtPayoffInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.txtPayoffInfo.Size = New System.Drawing.Size(325, 85)
+        Me.txtPayoffInfo.TabIndex = 0
+        '
+        'fraArrearControl
+        '
+        Me.fraArrearControl.Controls.Add(Me.lblArrearControlDisplay)
+        Me.fraArrearControl.Controls.Add(Me.dtpArrearControlDate)
+        Me.fraArrearControl.Controls.Add(Me.lblArrearControlDate)
+        Me.fraArrearControl.Controls.Add(Me.lblArrearControlGrace)
+        Me.fraArrearControl.Controls.Add(Me.chkArrearControlGrace)
+        Me.fraArrearControl.Location = New System.Drawing.Point(356, 202)
+        Me.fraArrearControl.Name = "fraArrearControl"
+        Me.fraArrearControl.Size = New System.Drawing.Size(341, 115)
+        Me.fraArrearControl.TabIndex = 87
+        Me.fraArrearControl.TabStop = False
+        Me.fraArrearControl.Text = "Arrearages Control"
+        Me.fraArrearControl.Visible = False
+        '
+        'chkArrearControlGrace
+        '
+        Me.chkArrearControlGrace.AutoSize = True
+        Me.chkArrearControlGrace.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.chkArrearControlGrace.Location = New System.Drawing.Point(6, 23)
+        Me.chkArrearControlGrace.Name = "chkArrearControlGrace"
+        Me.chkArrearControlGrace.Size = New System.Drawing.Size(83, 17)
+        Me.chkArrearControlGrace.TabIndex = 0
+        Me.chkArrearControlGrace.Text = "Use Grace?"
+        Me.chkArrearControlGrace.UseVisualStyleBackColor = True
+        '
+        'lblArrearControlGrace
+        '
+        Me.lblArrearControlGrace.AutoSize = True
+        Me.lblArrearControlGrace.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.lblArrearControlGrace.Location = New System.Drawing.Point(106, 24)
+        Me.lblArrearControlGrace.Name = "lblArrearControlGrace"
+        Me.lblArrearControlGrace.Size = New System.Drawing.Size(21, 13)
+        Me.lblArrearControlGrace.TabIndex = 1
+        Me.lblArrearControlGrace.Text = "##"
+        '
+        'lblArrearControlDate
+        '
+        Me.lblArrearControlDate.AutoSize = True
+        Me.lblArrearControlDate.Location = New System.Drawing.Point(220, 23)
+        Me.lblArrearControlDate.Name = "lblArrearControlDate"
+        Me.lblArrearControlDate.Size = New System.Drawing.Size(22, 13)
+        Me.lblArrearControlDate.TabIndex = 2
+        Me.lblArrearControlDate.Text = "As:"
+        '
+        'dtpArrearControlDate
+        '
+        Me.dtpArrearControlDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpArrearControlDate.Location = New System.Drawing.Point(248, 20)
+        Me.dtpArrearControlDate.Name = "dtpArrearControlDate"
+        Me.dtpArrearControlDate.Size = New System.Drawing.Size(76, 20)
+        Me.dtpArrearControlDate.TabIndex = 3
+        '
+        'lblArrearControlDisplay
+        '
+        Me.lblArrearControlDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblArrearControlDisplay.Location = New System.Drawing.Point(8, 45)
+        Me.lblArrearControlDisplay.Name = "lblArrearControlDisplay"
+        Me.lblArrearControlDisplay.Size = New System.Drawing.Size(316, 62)
+        Me.lblArrearControlDisplay.TabIndex = 4
+        '
         'ArCard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(988, 655)
+        Me.ClientSize = New System.Drawing.Size(1263, 655)
+        Me.Controls.Add(Me.fraButtons)
+        Me.Controls.Add(Me.fraPayoffInfo)
+        Me.Controls.Add(Me.fraCustomer)
         Me.Controls.Add(Me.Notes_Frame)
         Me.Controls.Add(Me.opt30323)
         Me.Controls.Add(Me.opt30252)
-        Me.Controls.Add(Me.DDate)
         Me.Controls.Add(Me.UGridIO1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.cmdHistory)
-        Me.Controls.Add(Me.lblPayMemo)
         Me.Controls.Add(Me.UGrSaleTotals)
-        Me.Controls.Add(Me.cmdSaleTotals)
-        Me.Controls.Add(Me.lblPaymentHistory)
-        Me.Controls.Add(Me.chkSendAllMail)
-        Me.Controls.Add(Me.lblAPR)
-        Me.Controls.Add(Me.cmdPrintCard)
-        Me.Controls.Add(Me.Notes_Open)
-        Me.Controls.Add(Me.cmdDetail)
-        Me.Controls.Add(Me.cmdCreditApp)
         Me.Controls.Add(Me.fraPrintType)
         Me.Controls.Add(Me.fraBalance)
         Me.Controls.Add(Me.fraTerms)
         Me.Controls.Add(Me.fraNav)
         Me.Controls.Add(Me.fraPrint)
-        Me.Controls.Add(Me.lblTele3Caption)
-        Me.Controls.Add(Me.lblTele2Caption)
-        Me.Controls.Add(Me.lblTele1Caption)
         Me.Controls.Add(Me.lblTele3)
-        Me.Controls.Add(Me.lblAddAddress)
         Me.Controls.Add(Me.lblApprovalTerms)
         Me.Controls.Add(Me.lblCreditLimit)
-        Me.Controls.Add(Me.txtLateChargeAmount)
         Me.Controls.Add(Me.lblSSN)
         Me.Controls.Add(Me.lblTele2)
         Me.Controls.Add(Me.lblTele1)
         Me.Controls.Add(Me.lblZip)
-        Me.Controls.Add(Me.lblCity)
         Me.Controls.Add(Me.lblAddress)
         Me.Controls.Add(Me.lblLastName)
-        Me.Controls.Add(Me.lblFirstName)
-        Me.Controls.Add(Me.cboStatus)
         Me.Controls.Add(Me.lblAccount)
         Me.Controls.Add(Me.filFile)
         Me.Controls.Add(Me.rtfFile)
-        Me.Controls.Add(Me.lblOver91)
-        Me.Controls.Add(Me.lbl6190)
-        Me.Controls.Add(Me.lbl3160)
-        Me.Controls.Add(Me.lbl0030)
-        Me.Controls.Add(Me.lblLate91)
-        Me.Controls.Add(Me.lblLate61)
-        Me.Controls.Add(Me.lblLate31)
-        Me.Controls.Add(Me.lblLate0)
-        Me.Controls.Add(Me.lblArrearages)
-        Me.Controls.Add(Me.lblTotDue)
-        Me.Controls.Add(Me.txtNextDue)
         Me.Controls.Add(Me.txtPayPeriod)
-        Me.Controls.Add(Me.txtPaidBy)
-        Me.Controls.Add(Me.txtFirstPay)
-        Me.Controls.Add(Me.lblLateCharge)
-        Me.Controls.Add(Me.txtSameAsCash)
-        Me.Controls.Add(Me.txtRate)
-        Me.Controls.Add(Me.txtPayMemo)
-        Me.Controls.Add(Me.txtMonthlyPayment)
-        Me.Controls.Add(Me.txtFinanced)
-        Me.Controls.Add(Me.txtLastPay)
-        Me.Controls.Add(Me.txtMonths)
-        Me.Controls.Add(Me.txtDelivery)
-        Me.Controls.Add(Me.lblBalance)
-        Me.Controls.Add(Me.txtPaymentHistory)
         Me.Controls.Add(Me.fraEditOptions)
         Me.Controls.Add(Me.fraPaymentOptions)
-        Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdPrint)
-        Me.Controls.Add(Me.cmdReprintContract)
-        Me.Controls.Add(Me.cmdReceipt)
-        Me.Controls.Add(Me.cmdPayoff)
         Me.Controls.Add(Me.cmdMovePrevious)
         Me.Controls.Add(Me.cmdMoveNext)
         Me.Controls.Add(Me.cmdMoveLast)
@@ -1224,14 +1581,26 @@ Partial Class ArCard
         Me.Controls.Add(Me.cmdFields)
         Me.Controls.Add(Me.cmdExport)
         Me.Controls.Add(Me.cmdEdit)
-        Me.Controls.Add(Me.cmdApply)
-        Me.Controls.Add(Me.lblTotalPayoff)
+        Me.Controls.Add(Me.fraArrearControl)
         Me.Name = "ArCard"
-        Me.Text = "ArCardvb"
+        Me.fraPaymentOptions.ResumeLayout(False)
+        Me.fraPaymentOptions.PerformLayout()
+        Me.fraTerms.ResumeLayout(False)
+        Me.fraTerms.PerformLayout()
+        Me.fraBalance.ResumeLayout(False)
+        Me.fraBalance.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.fraCustomer.ResumeLayout(False)
+        Me.fraCustomer.PerformLayout()
+        Me.fraButtons.ResumeLayout(False)
+        Me.fraButtons.PerformLayout()
+        Me.fraPayoffInfo.ResumeLayout(False)
+        Me.fraPayoffInfo.PerformLayout()
+        Me.fraArrearControl.ResumeLayout(False)
+        Me.fraArrearControl.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1344,4 +1713,35 @@ Partial Class ArCard
     Friend WithEvents opt30252 As RadioButton
     Friend WithEvents opt30323 As RadioButton
     Friend WithEvents Notes_Frame As GroupBox
+    Friend WithEvents fraCustomer As GroupBox
+    Friend WithEvents lblStatusCaption As Label
+    Friend WithEvents lblAccountCaption As Label
+    Friend WithEvents cmdReprintCoupons As Button
+    Friend WithEvents lblNextDue As Label
+    Friend WithEvents lblLastPay As Label
+    Friend WithEvents lblSameAsCash As Label
+    Friend WithEvents lbl1stPay As Label
+    Friend WithEvents lblDelivery As Label
+    Friend WithEvents lblPayBy As Label
+    Friend WithEvents lblLateCh As Label
+    Friend WithEvents lblPayment As Label
+    Friend WithEvents lblRate As Label
+    Friend WithEvents lblMonths As Label
+    Friend WithEvents lblFinanced As Label
+    Friend WithEvents lblLateChargeCaption As Label
+    Friend WithEvents lblBalanceCaption As Label
+    Friend WithEvents lblTotalPayOffCaption As Label
+    Friend WithEvents chkPayLateFee As CheckBox
+    Friend WithEvents txtPayment As TextBox
+    Friend WithEvents lblPayDate As Label
+    Friend WithEvents txtLateCharge As TextBox
+    Friend WithEvents fraButtons As GroupBox
+    Friend WithEvents fraPayoffInfo As GroupBox
+    Friend WithEvents txtPayoffInfo As TextBox
+    Friend WithEvents fraArrearControl As GroupBox
+    Friend WithEvents lblArrearControlDisplay As Label
+    Friend WithEvents dtpArrearControlDate As DateTimePicker
+    Friend WithEvents lblArrearControlDate As Label
+    Friend WithEvents lblArrearControlGrace As Label
+    Friend WithEvents chkArrearControlGrace As CheckBox
 End Class
