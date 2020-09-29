@@ -1679,6 +1679,8 @@ Public Class MainMenu4
     End Sub
 
     Public Sub SetCulture()
+        '----------- NOTE: NOT USING. CAUSE BECAUSE OF CHANGING CULTURE INFO EXPLICITLY FROM INDIA TO U.S., SOMETIMES SYSTEM DATE IS SHOWING WRONGLY ON TASKBAR --------.
+
         'en-IN
         'en-GB
         'MessageBox.Show(CultureInfo.CurrentCulture.Name)  en-IN
@@ -1747,14 +1749,14 @@ Public Class MainMenu4
         End If
     End Sub
 
-    Public Sub New()
+    'Public Sub New()
 
-        ' This call is required by the designer.
-        InitializeComponent()
+    '    ' This call is required by the designer.
+    '    InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        SetCulture()  'NOTE: Later move this function to MainModule.vb and call from there. Because in MainModule.vb, Sub Main is there which is the start up object.
-    End Sub
+    '    ' Add any initialization after the InitializeComponent() call.
+    '    SetCulture()  'NOTE: Later move this function to MainModule.vb and call from there. Because in MainModule.vb, Sub Main is there which is the start up object.
+    'End Sub
 
     Private Sub AdjustFormForLargeFonts()
         Dim dX As Double, dY As Double

@@ -1332,19 +1332,20 @@ HandleErr:
         End If
     End Sub
 
-    'NOTE: This button has been removed from the U.I. It is used to know the current culture info of this application.
-    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-    '    'Dim ri As RegionInfo
-    '    'ri = New RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID)
-    '    'MessageBox.Show(ri.ISOCurrencySymbol)
 
-    '    'Dim c As CultureInfo = CultureInfo.CurrentUICulture
-    '    'MessageBox.Show(c.Name)
-    '    'en-IN
-    '    'en-GB
-    '    MessageBox.Show(CultureInfo.CurrentCulture.Name)
-    '    MessageBox.Show(CultureInfo.CurrentUICulture.Name)
-    'End Sub
+    'NOTE: This button has been removed from the U.I. It is used to know the current culture info of this application.
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        '    'Dim ri As RegionInfo
+        '    'ri = New RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID)
+        '    'MessageBox.Show(ri.ISOCurrencySymbol)
+
+        '    'Dim c As CultureInfo = CultureInfo.CurrentUICulture
+        '    'MessageBox.Show(c.Name)
+        '    'en-IN
+        '    'en-GB
+        MessageBox.Show(CultureInfo.CurrentCulture.Name)
+        MessageBox.Show(CultureInfo.CurrentUICulture.Name)
+    End Sub
 
     Private Sub txtAmount_Leave(sender As Object, e As EventArgs) Handles txtAmount.Leave
         txtAmount.Text = CurrencyFormat(GetPrice(txtAmount.Text))

@@ -448,7 +448,10 @@ HandleErr:
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         If CLng(GetPrice(lblBalance.Text)) <> 0 And GetPrice(lblBalance.Text) > 0 Then  'added 12-18-2002 for closed accounts
             If Val(INTEREST) >= 0 Then
-                InterestCredit = Rule78(DateValue(txtDelivery.Text), GetPrice(INTEREST), Val(txtMonths.Text), , AsOfDate)
+                'InterestCredit = Rule78(DateValue(txtDelivery.Text), GetPrice(INTEREST), Val(txtMonths.Text), , AsOfDate)
+                InterestCredit = Rule78(Date.Parse(DateValue(txtDelivery.Text)), GetPrice(INTEREST), Val(txtMonths.Text), , AsOfDate)
+                'InterestCredit = Rule78(DateTime.ParseExact(DateValue(txtDelivery.Text), "MM-dd-yyyy", Nothing), GetPrice(INTEREST), Val(txtMonths.Text), , AsOfDate)
+                'InterestCredit = Rule78(#09/23/2020#, GetPrice(INTEREST), Val(txtMonths.Text), , AsOfDate)
             End If
         End If
 
