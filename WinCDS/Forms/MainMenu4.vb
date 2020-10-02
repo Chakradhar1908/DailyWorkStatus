@@ -1511,6 +1511,109 @@ Public Class MainMenu4
         'SaleDate = Date.Parse(DateFormat(SaleDate), System.Globalization.CultureInfo.InvariantCulture)
         'Printer.Print(SaleDate)
         'Printer.EndDoc()
+
+        'Dim T As String, Y As Integer, cy As Integer
+        'Dim Firstcopy As Boolean = True, TransDate As Date = #09/30/2020#, RcptNo As String = 1003, ReceiptType As Integer = 0
+        'Dim First As String = "NEWSALETESTRECORD", Last As String = "NEWSALETESTRECORDLAST"
+        'Dim PreviousBalance As Integer = 0, PayType As String = "CASH", Approval As String, Amount As Decimal = 793.94, Balance As Decimal = 793.94
+        'Dim Note As String
+
+        'Y = IIf(FirstCopy, 400, 8200)
+        'Printer.FontName = "Arial"
+        'Printer.FontSize = 12
+        'Printer.FontBold = False
+
+        '' frame around receipt
+        'Printer.DrawWidth = 12
+        ''Printer.Line(300, Y)-Step(11000, 7000), vbBlack, B
+        'Printer.Line(300, Y, 11500, 7500, , True)
+        'Printer.CurrentX = 0
+
+        'Printer.CurrentY = Y + 400
+        'Printer.FontBold = True
+        'Printer.Print(TAB(72), IIf(Firstcopy, "Customer Copy", "Store Copy"))
+
+        ''If REPRINT Then
+        ''    Printer.Print(TAB(74), "REPRINT")
+        ''End If
+        'Printer.FontBold = False
+
+        'Printer.FontSize = 14
+        'Printer.CurrentY = Y + 800
+        'Printer.Print(TAB(10), Trim(StoreSettings.Name), TAB(105), "Date: " & TransDate)
+        'Printer.FontSize = 12
+        ''Printer.Print("Date: ", TransDate)
+        'Printer.Print(TAB(12), Trim(StoreSettings.Address))
+        'Printer.Print(TAB(12), StoreSettings.City, TAB(108), "Receipt No: " & RcptNo)
+        'Printer.Print(TAB(12), StoreSettings.Phone)
+
+        'Select Case ReceiptType
+        '    Case eReceiptTypes.ert_SaleNo
+        '        Printer.Print(TAB(130), "Sale No: " & 14609)
+        '    Case eReceiptTypes.ert_ArNo
+        '        Printer.Print(TAB(71), "A/R Account No: ")
+        'End Select
+        ''Printer.Print(ItemNo)
+
+        'Dim BlankRows As Integer, I As Integer
+        'BlankRows = 3
+        'I = 1
+        'Do Until I > BlankRows
+        '    Printer.Print()
+        '    I = I + 1
+        'Loop
+        'Printer.Print(TAB(15), Trim(First) & "  " & Trim(Last))
+
+        'Printer.FontBold = False
+        'Printer.FontSize = 12
+
+        ''Printer.CurrentY = cy
+        ''Printer.Print()
+        'On Error GoTo 0
+
+        'Dim Add1 As String = "ADDRESS1", Add2 As String = "TEST SHIPTO ADDRESS", City As String = "TEST CITY", Zip As String = "102020"
+        'Printer.Print(TAB(15), Add1)
+        'If Len(Add2) > 0 Then
+        '    Printer.Print(TAB(15), Add2)
+        'End If
+        'Printer.Print(TAB(15), City & " " & Zip)
+        'If Len(Add2) = 0 Then
+        '    Printer.Print()
+        'End If
+        'Printer.Print()
+        'Printer.Print()
+        'Printer.Print()
+        'Printer.Print(TAB(120), "Previous:                " & FormatCurrency(PreviousBalance))
+
+        'Printer.FontSize = 16
+        'Printer.Print(TAB(15), PayType & "  " & Approval, TAB(95), FormatCurrency(Amount))
+        ''Printer.FontSize = 10
+        ''Printer.Print(Approval)
+        ''Printer.FontSize = 16
+        ''Printer.Print(TAB(62), FormatCurrency(Amount))
+
+        'Printer.FontSize = 12
+        'Printer.DrawWidth = 4
+        ''Printer.Line(1000, Y + 5600)-(8000, Y + 5600)
+        'Printer.Line(1000, Y + 5600, 8000, Y + 5600)
+        ''Printer.Line(8800, Y + 5600)-(11000, Y + 5600)
+        'Printer.Line(8800, Y + 5600, 11000, Y + 5600)
+
+        ''Printer.CurrentY = Printer.CurrentY + 150
+        'Printer.Print()
+        'Printer.Print(TAB(120), "Balance:                 " & FormatCurrency(Balance))
+
+        'Printer.Print()
+
+        'If Firstcopy Or Approval = "" Then    ' request signature
+        '    Printer.Print(TAB(15), "Rec By: ___________________________________  Note: ", Note)
+        'Else
+        '    Printer.Print(TAB(16), "X ___________________________________  Note: ", Note)
+        '    Printer.Print(TAB(20), "I authorize the above transaction")
+        'End If
+
+        'Printer.Print(TAB(120), "Thank You")
+        'Printer.EndDoc()
         End
     End Sub
 

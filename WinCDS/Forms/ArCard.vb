@@ -170,7 +170,7 @@
     End Sub
 
     Private Sub mDBAccessTransactions_GetRecordEvent(RS As ADODB.Recordset) Handles mDBAccessTransactions.GetRecordEvent   ' called if record is found
-        Dim Row As Long
+        Dim Row As Integer
         Dim Lastrow As Integer
 
         UGridIO1.Clear() 'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.

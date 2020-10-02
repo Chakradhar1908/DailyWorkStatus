@@ -153,7 +153,7 @@ Public Class OrdPay
         BillOSale.SetQuan(X, TypeCode)
 
         'L = Trim(Microsoft.VisualBasic.Left(pType, 20) & " " & TransDate & "  " & Memo.Text & Replace(Mid(Approval, 11), "Approval", "Appr"))
-        L = Trim(Microsoft.VisualBasic.Left(pType, 20) & " " & Date.Parse(DateFormat(TransDate)) & "  " & Memo.Text & Replace(Mid(Approval, 11), "Approval", "Appr"))
+        L = Trim(Microsoft.VisualBasic.Left(pType, 20) & " " & Date.Parse(DateFormat(TransDate), CultureInfo.InvariantCulture) & "  " & Memo.Text & Replace(Mid(Approval, 11), "Approval", "Appr"))
         If FinanceArNo <> "" Then L = L & "  Account #" & FinanceArNo
         If CCPayment Then L = ArrangeString(L, 46) & ArrangeString("I Authorize The Above Transaction:", 46) & "X ______________________________"
         BillOSale.SetDesc(X, L)
@@ -563,7 +563,7 @@ HandleErr:
             tD = DateFormat(Now)
         End If
 
-        AddNewCashJournalRecord(Trim(Account), GetPrice(Money), Microsoft.VisualBasic.Left(LeaseNo, 8), Microsoft.VisualBasic.Left(Note, 24) & " " & Memo.Text, tD, Trim(Cashier))
+        AddNewCashJournalRecord(Trim(Account), GetPrice(Money), Microsoft.VisualBasic.Left(LeaseNo, 8), Microsoft.VisualBasic.Left(Note, 24) & " " & Memo.Text, Date.Parse(tD, CultureInfo.InvariantCulture), Trim(Cashier))
         Exit Sub
 
 HandleErr:
@@ -1334,18 +1334,18 @@ HandleErr:
 
 
     'NOTE: This button has been removed from the U.I. It is used to know the current culture info of this application.
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        '    'Dim ri As RegionInfo
-        '    'ri = New RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID)
-        '    'MessageBox.Show(ri.ISOCurrencySymbol)
+    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    '    'Dim ri As RegionInfo
+    '    'ri = New RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID)
+    '    'MessageBox.Show(ri.ISOCurrencySymbol)
 
-        '    'Dim c As CultureInfo = CultureInfo.CurrentUICulture
-        '    'MessageBox.Show(c.Name)
-        '    'en-IN
-        '    'en-GB
-        MessageBox.Show(CultureInfo.CurrentCulture.Name)
-        MessageBox.Show(CultureInfo.CurrentUICulture.Name)
-    End Sub
+    '    'Dim c As CultureInfo = CultureInfo.CurrentUICulture
+    '    'MessageBox.Show(c.Name)
+    '    'en-IN
+    '    'en-GB
+    'MessageBox.Show(CultureInfo.CurrentCulture.Name)
+    'MessageBox.Show(CultureInfo.CurrentUICulture.Name)
+    'End Sub
 
     Private Sub txtAmount_Leave(sender As Object, e As EventArgs) Handles txtAmount.Leave
         txtAmount.Text = CurrencyFormat(GetPrice(txtAmount.Text))

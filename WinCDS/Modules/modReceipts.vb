@@ -47,33 +47,48 @@
         ' frame around receipt
         Printer.DrawWidth = 12
         'Printer.Line(300, Y)-Step(11000, 7000), vbBlack, B
-        Printer.Line(300, Y, 11000, 7000, , True)
+        'Printer.Line(300, Y, 11000, 7000, , True)
+        If FirstCopy = True Then
+            Printer.Line(300, Y, 11500, 7700, , True)
+        Else
+            Printer.Line(300, Y, 11500, 15500, , True)
+        End If
         Printer.CurrentX = 0
 
         Printer.CurrentY = Y + 400
         Printer.FontBold = True
-        Printer.Print(TAB(42), IIf(FirstCopy, "Customer Copy", "Store Copy"))
+        'Printer.Print(TAB(42), IIf(FirstCopy, "Customer Copy", "Store Copy"))
+        Printer.Print(TAB(72), IIf(FirstCopy, "Customer Copy", "Store Copy"))
+
         If REPRINT Then
-            Printer.Print(TAB(44), "REPRINT")
+            'Printer.Print(TAB(44), "REPRINT")
+            Printer.Print(TAB(74), "REPRINT")
         End If
         Printer.FontBold = False
 
         Printer.FontSize = 14
         Printer.CurrentY = Y + 800
-        Printer.Print(TAB(6), Trim(StoreSettings.Name), TAB(70))
+        'Printer.Print(TAB(6), Trim(StoreSettings.Name), TAB(70))
+        Printer.Print(TAB(10), Trim(StoreSettings.Name), TAB(105), "Date: " & TransDate)
         Printer.FontSize = 12
-        Printer.Print("Date: ", TransDate)
+        'Printer.Print("Date: ", TransDate)
 
-        Printer.Print(TAB(7), Trim(StoreSettings.Address))
-        Printer.Print(TAB(7), StoreSettings.City, TAB(76), "Receipt No: ", RcptNo)
-        Printer.Print(TAB(7), StoreSettings.Phone)
+        'Printer.Print(TAB(7), Trim(StoreSettings.Address))
+        Printer.Print(TAB(12), Trim(StoreSettings.Address))
+        'Printer.Print(TAB(7), StoreSettings.City, TAB(76), "Receipt No: ", RcptNo)
+        Printer.Print(TAB(12), StoreSettings.City, TAB(108), "Receipt No: " & RcptNo)
+        'Printer.Print(TAB(7), StoreSettings.Phone)
+        Printer.Print(TAB(12), StoreSettings.Phone)
+
         Select Case ReceiptType
             Case eReceiptTypes.ert_SaleNo
-                Printer.Print(TAB(79), "Sale No: ")
+                'Printer.Print(TAB(79), "Sale No: ")
+                Printer.Print(TAB(130), "Sale No: " & ItemNo)
             Case eReceiptTypes.ert_ArNo
-                Printer.Print(TAB(71), "A/R Account No: ")
+                'Printer.Print(TAB(71), "A/R Account No: ")
+                Printer.Print(TAB(140), "A/R Account No: " & ItemNo)
         End Select
-        Printer.Print(ItemNo)
+        'Printer.Print(ItemNo)
 
         Dim BlankRows As Integer, I As Integer
         BlankRows = 3
@@ -83,7 +98,8 @@
             I = I + 1
         Loop
 
-        Printer.Print(TAB(10), Trim(First), " ", Trim(Last))
+        'Printer.Print(TAB(10), Trim(First), " ", Trim(Last))
+        Printer.Print(TAB(15), Trim(First) & "  " & Trim(Last))
         cy = Printer.CurrentY
 
         '05/05/2004   took out boyd didn't want it and neither did Wilkenfeld
@@ -96,28 +112,34 @@
         If ReceiptType = eReceiptTypes.ert_ArNo Then
             If Not (IsBoyd() Or IsWilkenfeld() Or IsRogers() Or IsChicago()) Then
                 If NextPaymentDate <> "" Then
-                    Printer.Print(TAB(40), "Next Regular Payment Due: ", NextPaymentDate)
+                    'Printer.Print(TAB(40), "Next Regular Payment Due: ", NextPaymentDate)
+                    Printer.Print(TAB(70), "Next Regular Payment Due: " & NextPaymentDate)
                 Else
                     Printer.Print()
                 End If
                 If Arrears > 0 Then
-                    Printer.Print(TAB(54), "  Arrearages: " & FormatCurrency(Arrears))
+                    'Printer.Print(TAB(54), "  Arrearages: " & FormatCurrency(Arrears))
+                    Printer.Print(TAB(84), "  Arrearages: " & FormatCurrency(Arrears))
                 End If
             End If
         End If
         Printer.FontBold = False
         Printer.FontSize = 12
 
-        Printer.CurrentY = cy
-        Printer.Print()
+        'Printer.CurrentY = cy
+        'Printer.Print()
         On Error GoTo 0
 
 
-        Printer.Print(TAB(10), Add1)
+        'Printer.Print(TAB(10), Add1)
+        Printer.Print(TAB(15), Add1)
         If Len(Add2) > 0 Then
-            Printer.Print(TAB(10), Add2)
+            'Printer.Print(TAB(10), Add2)
+            Printer.Print(TAB(15), Add2)
         End If
-        Printer.Print(TAB(10), City, " ", Zip)
+        'Printer.Print(TAB(10), City, " ", Zip)
+        Printer.Print(TAB(15), City & " " & Zip)
+
         If Len(Add2) = 0 Then
             Printer.Print()
         End If
@@ -131,14 +153,16 @@
             Printer.Print()
             I = I + 1
         Loop
-        Printer.Print(TAB(74), "Previous:                ", TAB(95), FormatCurrency(PreviousBalance))
+        'Printer.Print(TAB(74), "Previous:                ", TAB(95), FormatCurrency(PreviousBalance))
+        Printer.Print(TAB(120), "Previous:                " & FormatCurrency(PreviousBalance))
 
         If CheckRevolving Then
             If IsFormLoaded("ArCard") Then
                 I = 1
                 Do While I <= ArCard.PayCount
                     ' This could cause strangeness if more than 3 sales are paid.
-                    Printer.Print(TAB(74), IIf(ArCard.QueryPayLogSale(I) = "Interest" Or ArCard.QueryPayLogSale(I) = "Account", "", "Sale "), ArCard.QueryPayLogSale(I), ":", TAB(95), FormatCurrency(ArCard.QueryPayLogAmount(I)))
+                    'Printer.Print(TAB(74), IIf(ArCard.QueryPayLogSale(I) = "Interest" Or ArCard.QueryPayLogSale(I) = "Account", "", "Sale "), ArCard.QueryPayLogSale(I), ":", TAB(95), FormatCurrency(ArCard.QueryPayLogAmount(I)))
+                    Printer.Print(TAB(104), IIf(ArCard.QueryPayLogSale(I) = "Interest" Or ArCard.QueryPayLogSale(I) = "Account", "", "Sale "), ArCard.QueryPayLogSale(I), ":" & FormatCurrency(ArCard.QueryPayLogAmount(I)))
                     I = I + 1
                     BlankRows = BlankRows - 1
                 Loop
@@ -146,32 +170,37 @@
         End If
 
         Printer.FontSize = 16
-        Printer.Print(TAB(10), PayType & "  ")
-        Printer.FontSize = 10
-        Printer.Print(Approval)
-        Printer.FontSize = 16
-        Printer.Print(TAB(62), FormatCurrency(Amount))
+        'Printer.Print(TAB(10), PayType & "  ")
+        'Printer.FontSize = 10
+        'Printer.Print(Approval)
+        'Printer.FontSize = 16
+        'Printer.Print(TAB(62), FormatCurrency(Amount))
+        Printer.Print(TAB(15), PayType & "  " & Approval, TAB(95), FormatCurrency(Amount))
 
         Printer.FontSize = 12
         Printer.DrawWidth = 4
         'Printer.Line(1000, Y + 5600)-(8000, Y + 5600)
-        Printer.Line(1000, Y + 5600, 8000, Y + 5600)
+        Printer.Line(1000, Y + 5700, 8000, Y + 5700)
         'Printer.Line(8800, Y + 5600)-(11000, Y + 5600)
-        Printer.Line(8800, Y + 5600, 11000, Y + 5600)
-        Printer.CurrentY = Y + 5450
-
-        Printer.Print(TAB(75), "Balance:                 ", TAB(95), FormatCurrency(Balance))
-
+        Printer.Line(8800, Y + 5700, 11000, Y + 5700)
+        'Printer.CurrentY = Y + 5450
+        Printer.Print()
+        'Printer.Print(TAB(75), "Balance:                 ", TAB(95), FormatCurrency(Balance))
+        Printer.Print(TAB(120), "Balance:                 " & FormatCurrency(Balance))
 
         Printer.Print()
 
         If FirstCopy Or Approval = "" Then    ' request signature
-            Printer.Print(TAB(10), "Rec By: ___________________________________  Note: ", Note)
+            'Printer.Print(TAB(10), "Rec By: ___________________________________  Note: ", Note)
+            Printer.Print(TAB(15), "Rec By: ___________________________________  Note: ", Note)
         Else
-            Printer.Print(TAB(16), "X ___________________________________  Note: ", Note)
-            Printer.Print(TAB(20), "I authorize the above transaction")
+            'Printer.Print(TAB(16), "X ___________________________________  Note: ", Note)
+            Printer.Print(TAB(20), "X ___________________________________  Note: ", Note)
+            'Printer.Print(TAB(20), "I authorize the above transaction")
+            Printer.Print(TAB(25), "I authorize the above transaction")
         End If
 
-        Printer.Print(TAB(75), "Thank You")
+        'Printer.Print(TAB(75), "Thank You")
+        Printer.Print(TAB(120), "Thank You")
     End Sub
 End Module

@@ -353,7 +353,7 @@ Public Class MailCheck
             BillOSale.cmdApplyBillOSale.Enabled = True
             On Error Resume Next
             'Load InvDel
-
+            InvDel.InvDelFormLoad() 'To execute InvelDel form load event. Because in vb6.0, it will execute when Load InvDel(see just above this code line) code line compiles.
             InvDel.ShowModal(BillOSale)
             '    InvDel.Show 'vbModal, BillOSale
             DisposeDA(tHold, RS)

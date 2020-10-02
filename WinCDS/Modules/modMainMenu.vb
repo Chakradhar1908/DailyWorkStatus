@@ -809,7 +809,8 @@ Module modMainMenu
                         BillOSale.BillOSale2_Show()
                         'MailCheck.HelpContextID = 43000
                         'MailCheck.optSaleNo.Value = True
-                        MailCheck.optSaleNo.Checked = True
+                        'MailCheck.optSaleNo.Checked = True
+                        MailCheckSaleNoChecked = True
                         MailCheck.ShowDialog()  ' If this is loaded "vbModal, BillOSale", lockup may occur.
                         'Unload MailCheck
                         MailCheck.Close()

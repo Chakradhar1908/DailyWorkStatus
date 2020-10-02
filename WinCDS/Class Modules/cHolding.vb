@@ -262,7 +262,7 @@ NoSave:
         '    AutoMargStart = rs("AutoMargStart")
     End Sub
 
-    Public Function CalculateRevolvingInterest(ByRef CashOpt As Long, ByRef ChargeDate As Date, ByRef Rate As Double) As Decimal
+    Public Function CalculateRevolvingInterest(ByRef CashOpt As Integer, ByRef ChargeDate As Date, ByRef Rate As Double) As Decimal
         ' CashOpt and Rate come from the Installment account, ChargeDate from the caller.
         If DateAdd("m", CashOpt, SaleDate) <= ChargeDate Then
             CalculateRevolvingInterest = (Sale - Deposit) * Rate / 100

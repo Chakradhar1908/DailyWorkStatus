@@ -24,7 +24,6 @@ Partial Class OrdPay
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.fraMain = New System.Windows.Forms.GroupBox()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.fraControl = New System.Windows.Forms.GroupBox()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdOk = New System.Windows.Forms.Button()
@@ -56,7 +55,6 @@ Partial Class OrdPay
         '
         'fraMain
         '
-        Me.fraMain.Controls.Add(Me.Button1)
         Me.fraMain.Controls.Add(Me.fraControl)
         Me.fraMain.Controls.Add(Me.Memo)
         Me.fraMain.Controls.Add(Me.cboAccount)
@@ -82,15 +80,6 @@ Partial Class OrdPay
         Me.fraMain.Size = New System.Drawing.Size(519, 263)
         Me.fraMain.TabIndex = 0
         Me.fraMain.TabStop = False
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(330, 233)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 40
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'fraControl
         '
@@ -369,5 +358,4 @@ Partial Class OrdPay
     Friend WithEvents lblSaleTitle As Label
     Friend WithEvents txtNoPay As TextBox
     Friend WithEvents tmrLockOn As Timer
-    Friend WithEvents Button1 As Button
 End Class

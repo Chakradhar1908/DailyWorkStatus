@@ -22,6 +22,7 @@ Partial Class InvDel
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.cboDept = New System.Windows.Forms.ComboBox()
         Me.cboVendor = New System.Windows.Forms.ComboBox()
         Me.lblDept = New System.Windows.Forms.Label()
@@ -29,15 +30,16 @@ Partial Class InvDel
         Me.Style = New System.Windows.Forms.Label()
         Me.DDate = New System.Windows.Forms.DateTimePicker()
         Me.fraControls = New System.Windows.Forms.GroupBox()
-        Me.cmdDeliver = New System.Windows.Forms.Button()
-        Me.cmdSkip = New System.Windows.Forms.Button()
-        Me.cmdNotes = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdDeliverAll = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdNotes = New System.Windows.Forms.Button()
+        Me.cmdSkip = New System.Windows.Forms.Button()
+        Me.cmdDeliver = New System.Windows.Forms.Button()
         Me.lblCost = New System.Windows.Forms.Label()
         Me.lblFreight = New System.Windows.Forms.Label()
         Me.Cost = New System.Windows.Forms.TextBox()
         Me.Freight = New System.Windows.Forms.TextBox()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.fraControls.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -85,6 +87,7 @@ Partial Class InvDel
         Me.Style.Size = New System.Drawing.Size(166, 23)
         Me.Style.TabIndex = 5
         Me.Style.Text = "Style"
+        Me.ToolTip1.SetToolTip(Me.Style, "The style of your item.")
         '
         'DDate
         '
@@ -94,6 +97,7 @@ Partial Class InvDel
         Me.DDate.Name = "DDate"
         Me.DDate.Size = New System.Drawing.Size(101, 20)
         Me.DDate.TabIndex = 6
+        Me.ToolTip1.SetToolTip(Me.DDate, "The date to mark this item as delivered.")
         '
         'fraControls
         '
@@ -108,32 +112,15 @@ Partial Class InvDel
         Me.fraControls.TabIndex = 7
         Me.fraControls.TabStop = False
         '
-        'cmdDeliver
+        'cmdDeliverAll
         '
-        Me.cmdDeliver.Location = New System.Drawing.Point(8, 15)
-        Me.cmdDeliver.Name = "cmdDeliver"
-        Me.cmdDeliver.Size = New System.Drawing.Size(75, 23)
-        Me.cmdDeliver.TabIndex = 0
-        Me.cmdDeliver.Text = "&Deliver"
-        Me.cmdDeliver.UseVisualStyleBackColor = True
-        '
-        'cmdSkip
-        '
-        Me.cmdSkip.Location = New System.Drawing.Point(82, 15)
-        Me.cmdSkip.Name = "cmdSkip"
-        Me.cmdSkip.Size = New System.Drawing.Size(75, 23)
-        Me.cmdSkip.TabIndex = 1
-        Me.cmdSkip.Text = "&Skip Item"
-        Me.cmdSkip.UseVisualStyleBackColor = True
-        '
-        'cmdNotes
-        '
-        Me.cmdNotes.Location = New System.Drawing.Point(8, 38)
-        Me.cmdNotes.Name = "cmdNotes"
-        Me.cmdNotes.Size = New System.Drawing.Size(75, 23)
-        Me.cmdNotes.TabIndex = 2
-        Me.cmdNotes.Text = "&Notes"
-        Me.cmdNotes.UseVisualStyleBackColor = True
+        Me.cmdDeliverAll.Location = New System.Drawing.Point(8, 60)
+        Me.cmdDeliverAll.Name = "cmdDeliverAll"
+        Me.cmdDeliverAll.Size = New System.Drawing.Size(149, 23)
+        Me.cmdDeliverAll.TabIndex = 4
+        Me.cmdDeliverAll.Text = "Deliver &All"
+        Me.ToolTip1.SetToolTip(Me.cmdDeliverAll, "Click here to view notes for this item.")
+        Me.cmdDeliverAll.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
@@ -142,16 +129,39 @@ Partial Class InvDel
         Me.cmdPrint.Size = New System.Drawing.Size(75, 23)
         Me.cmdPrint.TabIndex = 3
         Me.cmdPrint.Text = "&Print Bill"
+        Me.ToolTip1.SetToolTip(Me.cmdPrint, "Click to print the bill.")
         Me.cmdPrint.UseVisualStyleBackColor = True
         '
-        'cmdDeliverAll
+        'cmdNotes
         '
-        Me.cmdDeliverAll.Location = New System.Drawing.Point(8, 60)
-        Me.cmdDeliverAll.Name = "cmdDeliverAll"
-        Me.cmdDeliverAll.Size = New System.Drawing.Size(149, 23)
-        Me.cmdDeliverAll.TabIndex = 4
-        Me.cmdDeliverAll.Text = "Deliver &All"
-        Me.cmdDeliverAll.UseVisualStyleBackColor = True
+        Me.cmdNotes.Location = New System.Drawing.Point(8, 38)
+        Me.cmdNotes.Name = "cmdNotes"
+        Me.cmdNotes.Size = New System.Drawing.Size(75, 23)
+        Me.cmdNotes.TabIndex = 2
+        Me.cmdNotes.Text = "&Notes"
+        Me.ToolTip1.SetToolTip(Me.cmdNotes, "Click here to view notes for this item.")
+        Me.cmdNotes.UseVisualStyleBackColor = True
+        '
+        'cmdSkip
+        '
+        Me.cmdSkip.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.cmdSkip.Location = New System.Drawing.Point(82, 15)
+        Me.cmdSkip.Name = "cmdSkip"
+        Me.cmdSkip.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSkip.TabIndex = 1
+        Me.cmdSkip.Text = "&Skip Item"
+        Me.ToolTip1.SetToolTip(Me.cmdSkip, "Click here to skip this item.")
+        Me.cmdSkip.UseVisualStyleBackColor = True
+        '
+        'cmdDeliver
+        '
+        Me.cmdDeliver.Location = New System.Drawing.Point(8, 15)
+        Me.cmdDeliver.Name = "cmdDeliver"
+        Me.cmdDeliver.Size = New System.Drawing.Size(75, 23)
+        Me.cmdDeliver.TabIndex = 0
+        Me.cmdDeliver.Text = "&Deliver"
+        Me.ToolTip1.SetToolTip(Me.cmdDeliver, "Click here to deliver this item.")
+        Me.cmdDeliver.UseVisualStyleBackColor = True
         '
         'lblCost
         '
@@ -187,8 +197,10 @@ Partial Class InvDel
         '
         'InvDel
         '
+        Me.AcceptButton = Me.cmdDeliver
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmdSkip
         Me.ClientSize = New System.Drawing.Size(410, 187)
         Me.Controls.Add(Me.Freight)
         Me.Controls.Add(Me.Cost)
@@ -201,7 +213,10 @@ Partial Class InvDel
         Me.Controls.Add(Me.lblDept)
         Me.Controls.Add(Me.cboVendor)
         Me.Controls.Add(Me.cboDept)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MinimizeBox = False
         Me.Name = "InvDel"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "InvDel"
         Me.fraControls.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -225,4 +240,5 @@ Partial Class InvDel
     Friend WithEvents lblFreight As Label
     Friend WithEvents Cost As TextBox
     Friend WithEvents Freight As TextBox
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

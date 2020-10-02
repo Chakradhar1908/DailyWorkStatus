@@ -363,7 +363,7 @@ Module modService
         ChargeBackLetterOperationDesc = Oper
     End Function
 
-    Public Function GetMailIndexByServiceCallNo(ByRef ServiceCallNumber As Long) As Long
+    Public Function GetMailIndexByServiceCallNo(ByRef ServiceCallNumber As Integer) As Integer
         '::::GetMailIndexByServiceCallNo
         ':::SUMMARY
         ': Gets Mail Index with Service call number.
