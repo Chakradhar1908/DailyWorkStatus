@@ -45,26 +45,28 @@ Partial Class InvDel
         '
         'cboDept
         '
+        Me.cboDept.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboDept.FormattingEnabled = True
-        Me.cboDept.Location = New System.Drawing.Point(214, 11)
+        Me.cboDept.Location = New System.Drawing.Point(204, 11)
         Me.cboDept.Name = "cboDept"
-        Me.cboDept.Size = New System.Drawing.Size(188, 21)
-        Me.cboDept.TabIndex = 1
+        Me.cboDept.Size = New System.Drawing.Size(188, 24)
+        Me.cboDept.TabIndex = 5
         Me.cboDept.Text = "cboDept"
         '
         'cboVendor
         '
+        Me.cboVendor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboVendor.FormattingEnabled = True
-        Me.cboVendor.Location = New System.Drawing.Point(214, 34)
+        Me.cboVendor.Location = New System.Drawing.Point(204, 34)
         Me.cboVendor.Name = "cboVendor"
-        Me.cboVendor.Size = New System.Drawing.Size(188, 21)
-        Me.cboVendor.TabIndex = 2
+        Me.cboVendor.Size = New System.Drawing.Size(188, 24)
+        Me.cboVendor.TabIndex = 6
         Me.cboVendor.Text = "cboVendor"
         '
         'lblDept
         '
         Me.lblDept.AutoSize = True
-        Me.lblDept.Location = New System.Drawing.Point(180, 11)
+        Me.lblDept.Location = New System.Drawing.Point(170, 11)
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(33, 13)
         Me.lblDept.TabIndex = 3
@@ -73,7 +75,7 @@ Partial Class InvDel
         'lblVendor
         '
         Me.lblVendor.AutoSize = True
-        Me.lblVendor.Location = New System.Drawing.Point(169, 37)
+        Me.lblVendor.Location = New System.Drawing.Point(159, 37)
         Me.lblVendor.Name = "lblVendor"
         Me.lblVendor.Size = New System.Drawing.Size(44, 13)
         Me.lblVendor.TabIndex = 4
@@ -82,21 +84,24 @@ Partial Class InvDel
         'Style
         '
         Me.Style.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Style.Location = New System.Drawing.Point(12, 61)
+        Me.Style.Font = New System.Drawing.Font("Lucida Console", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Style.Location = New System.Drawing.Point(2, 59)
         Me.Style.Name = "Style"
         Me.Style.Size = New System.Drawing.Size(166, 23)
-        Me.Style.TabIndex = 5
+        Me.Style.TabIndex = 0
         Me.Style.Text = "Style"
+        Me.Style.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ToolTip1.SetToolTip(Me.Style, "The style of your item.")
         '
         'DDate
         '
         Me.DDate.CustomFormat = "MM/dd/yyyy"
+        Me.DDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DDate.Location = New System.Drawing.Point(42, 22)
+        Me.DDate.Location = New System.Drawing.Point(32, 22)
         Me.DDate.Name = "DDate"
-        Me.DDate.Size = New System.Drawing.Size(101, 20)
-        Me.DDate.TabIndex = 6
+        Me.DDate.Size = New System.Drawing.Size(101, 26)
+        Me.DDate.TabIndex = 9
         Me.ToolTip1.SetToolTip(Me.DDate, "The date to mark this item as delivered.")
         '
         'fraControls
@@ -106,7 +111,7 @@ Partial Class InvDel
         Me.fraControls.Controls.Add(Me.cmdNotes)
         Me.fraControls.Controls.Add(Me.cmdSkip)
         Me.fraControls.Controls.Add(Me.cmdDeliver)
-        Me.fraControls.Location = New System.Drawing.Point(12, 85)
+        Me.fraControls.Location = New System.Drawing.Point(2, 85)
         Me.fraControls.Name = "fraControls"
         Me.fraControls.Size = New System.Drawing.Size(166, 93)
         Me.fraControls.TabIndex = 7
@@ -166,7 +171,7 @@ Partial Class InvDel
         'lblCost
         '
         Me.lblCost.AutoSize = True
-        Me.lblCost.Location = New System.Drawing.Point(262, 105)
+        Me.lblCost.Location = New System.Drawing.Point(255, 100)
         Me.lblCost.Name = "lblCost"
         Me.lblCost.Size = New System.Drawing.Size(34, 13)
         Me.lblCost.TabIndex = 8
@@ -174,26 +179,27 @@ Partial Class InvDel
         '
         'lblFreight
         '
-        Me.lblFreight.AutoSize = True
-        Me.lblFreight.Location = New System.Drawing.Point(254, 128)
+        Me.lblFreight.Location = New System.Drawing.Point(249, 133)
         Me.lblFreight.Name = "lblFreight"
-        Me.lblFreight.Size = New System.Drawing.Size(42, 13)
+        Me.lblFreight.Size = New System.Drawing.Size(39, 13)
         Me.lblFreight.TabIndex = 9
         Me.lblFreight.Text = "&Freight:"
         '
         'Cost
         '
-        Me.Cost.Location = New System.Drawing.Point(302, 102)
+        Me.Cost.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cost.Location = New System.Drawing.Point(292, 99)
         Me.Cost.Name = "Cost"
-        Me.Cost.Size = New System.Drawing.Size(100, 20)
-        Me.Cost.TabIndex = 10
+        Me.Cost.Size = New System.Drawing.Size(100, 26)
+        Me.Cost.TabIndex = 7
         '
         'Freight
         '
-        Me.Freight.Location = New System.Drawing.Point(302, 126)
+        Me.Freight.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Freight.Location = New System.Drawing.Point(292, 129)
         Me.Freight.Name = "Freight"
-        Me.Freight.Size = New System.Drawing.Size(100, 20)
-        Me.Freight.TabIndex = 11
+        Me.Freight.Size = New System.Drawing.Size(100, 26)
+        Me.Freight.TabIndex = 8
         '
         'InvDel
         '
@@ -201,7 +207,7 @@ Partial Class InvDel
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.cmdSkip
-        Me.ClientSize = New System.Drawing.Size(410, 187)
+        Me.ClientSize = New System.Drawing.Size(396, 187)
         Me.Controls.Add(Me.Freight)
         Me.Controls.Add(Me.Cost)
         Me.Controls.Add(Me.lblFreight)
@@ -214,10 +220,9 @@ Partial Class InvDel
         Me.Controls.Add(Me.cboVendor)
         Me.Controls.Add(Me.cboDept)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MinimizeBox = False
+        Me.MaximizeBox = False
         Me.Name = "InvDel"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "InvDel"
         Me.fraControls.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()

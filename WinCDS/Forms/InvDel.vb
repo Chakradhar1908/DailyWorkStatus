@@ -2,11 +2,13 @@
     Public X As Integer
     Dim Margin As New CGrossMargin  '+NEW 2003-01-31AA:
     Public TaxRec1 As Decimal, TaxRec2 As Decimal, MiscDisc As Decimal, Tax2Zone As Integer
-    Public TransDate As String, BSRowNum As Integer
+    Public Shared TransDate As String, BSRowNum As Integer
     Private ShowDept As Boolean, ShowVend As Boolean
     Private PollingSaleDate As Boolean
-    Private Const FRM_W1 = 2520
-    Private Const FRM_W2 = 5610
+    'Private Const FRM_W1 = 2520
+    Private Const FRM_W1 = 190
+    'Private Const FRM_W2 = 5610
+    Private Const FRM_W2 = 560
     Private DoDeliverAll As Boolean, ContinueDelivery As Boolean
     Private NoFormLoad As Boolean
 
@@ -260,15 +262,19 @@ HandleErr:
 
     Private Sub InvDel_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
         ShowControls()
-        'PositionForm()   'Note: Not required. Assigned centerscreen in properties window.
+        PositionForm()
     End Sub
 
     Private Sub PositionForm()
         CenterForm(Me)
         ' BOS form is centered horizontally, but at the to of the screen..
         ' Hence, adjustments are relative to center horizontally, but absolute wrt top
-        Left = Left + 2800
-        Top = 3600
+        'Left = Left + 2800
+        'Top = 3600
+        'Left = Left + 280
+        'Top = 360
+        Left = Left + 200
+        Top = 250
     End Sub
 
     Private Sub Freight_Leave(sender As Object, e As EventArgs) Handles Freight.Leave
@@ -358,7 +364,12 @@ AnError:
             If Mdl Then
                 'Show vbModal, ParentForm
                 NoFormLoad = True
+                Dim R As Integer, stylevalue As String
+                R = BillOSale.UGridIO1.LastRowUsed
+                stylevalue = BillOSale.UGridIO1.GetValue(R, BillColumns.eStyle)
+                BillOSale.SetStyle(R, stylevalue)
                 Me.ShowDialog(ParentForm)
+                'Show(ParentForm)
             Else
                 Show()
             End If
@@ -473,7 +484,8 @@ AnError:
     End Function
 
     Private Sub MoveBox()
-        If X > 5 Then Top = 1570
+        'If X > 5 Then Top = 1570
+        If X > 5 Then Top = 157
     End Sub
 
     Private Sub CorrectPrice()

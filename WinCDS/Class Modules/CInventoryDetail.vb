@@ -68,7 +68,10 @@
         End If
 
         ' Move to the first record if we can, and return success.
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
 
     Public Function Save() As Boolean

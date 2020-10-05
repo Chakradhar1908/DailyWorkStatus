@@ -290,14 +290,14 @@
     End Sub
 
     Private Sub mDataAccess_RecordUpdated()
+        Dim Kit As cInvKit
         If ChangeKits Then
-            If Not POMode("REC") Then UpdatePOsWithOldCost    ' BFH20071223
+            If Not POMode("REC") Then UpdatePOsWithOldCost()    ' BFH20071223
 
             ' Update any kits that depend on this item.
             ' First, collect a list of affected kits.
             ' Then consult the kit area of the program for cost/gm calculations.
             ChangeKits = False
-            Dim Kit As cInvKit
             Kit = New cInvKit
             Kit.DataAccess.Records_OpenSQL("SELECT * FROM InvKit WHERE " & RN & " in (Item1Rec, Item2Rec, Item3Rec, Item4Rec, Item5Rec, Item6Rec, Item7Rec, Item8Rec, Item9Rec, Item10Rec)")
             Do While Kit.DataAccess.Records_Available
@@ -314,8 +314,8 @@
                 'End If
                 'End If
             Loop
-            DisposeDA(Kit)
         End If
+        DisposeDA(Kit)
     End Sub
 
     Private Sub UpdatePOsWithOldCost()
