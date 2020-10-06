@@ -128,6 +128,9 @@ GetOut:
 
             If Microsoft.VisualBasic.Left(Margin.Status, 1) <> "x" Then               ' moved jk 08-06-03
                 BillOSale.SetStatus(X, Margin.Status)
+                'If X = 0 Then
+                BillOSale.SetStyle(X, Margin.Style) 'CT
+                'End If
             End If
 
             Margin.DDelDat = DDate.Value
@@ -363,11 +366,13 @@ AnError:
         If GetNextItemOrUnload() Then
             If Mdl Then
                 'Show vbModal, ParentForm
+                '<CT>
                 NoFormLoad = True
                 Dim R As Integer, stylevalue As String
                 R = BillOSale.UGridIO1.LastRowUsed
                 stylevalue = BillOSale.UGridIO1.GetValue(R, BillColumns.eStyle)
                 BillOSale.SetStyle(R, stylevalue)
+                '</CT>
                 Me.ShowDialog(ParentForm)
                 'Show(ParentForm)
             Else
@@ -376,8 +381,12 @@ AnError:
         End If
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        BillOSale.HiLiteRow(2)
+    End Sub
+
     Private Function GetNextItemOrUnload() As Boolean
-        If Not GetNextItem() Then UnloadForm : Exit Function
+        If Not GetNextItem() Then UnloadForm() : Exit Function
         'If Not GetNextItem() Then
         '    'UnloadForm
         '    Me.Close()
@@ -394,7 +403,7 @@ AnError:
         '  If GetPrice(BillOSale.BalDue) > 0 Then
         'Load OrdPay
         'OrdPay.HelpContextID = 43000
-        OrdPay.Show() 'vbModal, BillOSale  ' Should this only show if there's a balance due?
+        OrdPay.Show(BillOSale) 'vbModal, BillOSale  ' Should this only show if there's a balance due?
         '  End If
     End Sub
 

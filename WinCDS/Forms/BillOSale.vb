@@ -2843,7 +2843,8 @@ HandleErr:
             UGridIO1.GetDBGrid.SelBookmarks.Remove(0)
         Loop
         If N < 0 Then Exit Sub
-        UGridIO1.GetDBGrid.SelBookmarks.Add(" " & N)
+        'UGridIO1.GetDBGrid.SelBookmarks.Add(" " & N)
+        UGridIO1.GetDBGrid.SelBookmarks.Add(N + 1)
     End Sub
 
     Public Sub AddMarginRow(ByRef Margin As CGrossMargin)
@@ -4251,6 +4252,10 @@ HandleErr:
             UGridIO1.GetColumn(BillColumns.eStatus).Locked = Not value
         End Set
     End Property
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        UGridIO1.GetDBGrid.SelBookmarks.Add(2)
+    End Sub
 
     Public Property QuanEnabled() As Boolean
         Get

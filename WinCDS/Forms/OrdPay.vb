@@ -1056,6 +1056,7 @@ HandleErr:
             End If
             Receipt = False
             FinishRoutine(False)
+            OrdPayCancelButtonSelected = True
             Exit Sub
         End If
 

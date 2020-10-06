@@ -40,6 +40,7 @@ Partial Class InvDel
         Me.Cost = New System.Windows.Forms.TextBox()
         Me.Freight = New System.Windows.Forms.TextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.fraControls.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -201,6 +202,15 @@ Partial Class InvDel
         Me.Freight.Size = New System.Drawing.Size(100, 26)
         Me.Freight.TabIndex = 8
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(32, 1)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 10
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'InvDel
         '
         Me.AcceptButton = Me.cmdDeliver
@@ -208,6 +218,7 @@ Partial Class InvDel
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.cmdSkip
         Me.ClientSize = New System.Drawing.Size(396, 187)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Freight)
         Me.Controls.Add(Me.Cost)
         Me.Controls.Add(Me.lblFreight)
@@ -246,4 +257,5 @@ Partial Class InvDel
     Friend WithEvents Cost As TextBox
     Friend WithEvents Freight As TextBox
     Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents Button1 As Button
 End Class

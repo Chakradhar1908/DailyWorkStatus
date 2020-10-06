@@ -135,6 +135,7 @@ Partial Class BillOSale
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.ugrFake = New WinCDS.UGridIO()
         Me.cmdShowBodyOfSale = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.fraTimeWindow.SuspendLayout()
         CType(Me.imgCalendar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraBOS2.SuspendLayout()
@@ -1220,11 +1221,21 @@ Partial Class BillOSale
         Me.cmdShowBodyOfSale.Text = "&Show Body Of Sale"
         Me.cmdShowBodyOfSale.UseVisualStyleBackColor = True
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(680, 13)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 110
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'BillOSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(874, 621)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.fraBOS2)
         Me.Controls.Add(Me.lblGrossSalesCaption)
         Me.Controls.Add(Me.dteDelivery)
@@ -1440,4 +1451,5 @@ Partial Class BillOSale
     Friend WithEvents ugrFake As UGridIO
     Friend WithEvents lblGrossSales As Label
     Friend WithEvents cmdShowBodyOfSale As Button
+    Friend WithEvents Button1 As Button
 End Class
