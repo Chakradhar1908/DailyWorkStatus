@@ -1229,6 +1229,7 @@ Partial Class BillOSale
         Me.Button1.TabIndex = 110
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'BillOSale
         '

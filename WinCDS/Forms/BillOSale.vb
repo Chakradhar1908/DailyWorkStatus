@@ -770,7 +770,6 @@ NextItem:
         'Note: This event is replacement for Form_Activate event of vb 6.0
 
         If IsFormLoaded("OrdPay") Then Exit Sub
-
         On Error Resume Next
         'If txtSaleNo.Visible And txtSaleNo = "" And Not IsFormLoaded("InvCkStyle") And Not IsFormLoaded("OrdStatus") Then txtSaleNo.SetFocus
         ShipToFirst.TabStop = False
@@ -4254,7 +4253,7 @@ HandleErr:
     End Property
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        UGridIO1.GetDBGrid.SelBookmarks.Add(2)
+        UGridIO1.GetDBGrid.SelBookmarks.Add(2) '<CT> Testing purpose code. Not required.
     End Sub
 
     Public Property QuanEnabled() As Boolean

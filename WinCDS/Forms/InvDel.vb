@@ -11,6 +11,7 @@
     Private Const FRM_W2 = 560
     Private DoDeliverAll As Boolean, ContinueDelivery As Boolean
     Private NoFormLoad As Boolean
+    Private LastItemOfNextItem As Boolean
 
     Private Sub ShowControls()
         ' This function makes the Dept and Vendor controls visible when needed.
@@ -128,9 +129,9 @@ GetOut:
 
             If Microsoft.VisualBasic.Left(Margin.Status, 1) <> "x" Then               ' moved jk 08-06-03
                 BillOSale.SetStatus(X, Margin.Status)
-                'If X = 0 Then
+                'If X = 0 Then 'CT
                 BillOSale.SetStyle(X, Margin.Style) 'CT
-                'End If
+                'End If 'CT
             End If
 
             Margin.DDelDat = DDate.Value
@@ -288,12 +289,15 @@ HandleErr:
         SelectContents(Freight)
     End Sub
 
+    '<CT> Added this to execute form load event. Cause in MailCheck form Load InvDel is used which automatically executes Load event in vb6.0. But in vb.net, Load keyword is not there.
     Public Sub InvDelFormLoad()
         InvDel_Load(Me, New EventArgs)
+        NoFormLoad = False
     End Sub
 
     Private Sub InvDel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If NoFormLoad = True Then Exit Sub
+        Margin = New CGrossMargin
         ColorDatePicker(DDate)
         'SetCustomFrame Me, ncBasicTool
 
@@ -359,14 +363,20 @@ AnError:
     Private Sub InvDel_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         'RemoveCustomFrame Me
         'Top = 3650
-        DisposeDA(Margin)    ' Clean up the object.
+
+        If LastItemOfNextItem = True Then
+            DisposeDA(Margin)    ' Clean up the object.
+        Else
+            'InvDel_Activated(Me, New EventArgs) '<CT>
+            e.Cancel = True
+        End If
     End Sub
 
     Public Sub ShowModal(ByRef ParentForm As Form, Optional ByVal Mdl As Boolean = True)
         If GetNextItemOrUnload() Then
             If Mdl Then
                 'Show vbModal, ParentForm
-                '<CT>
+                '<CT> Added this to show Style value in grid style column. Cause, sometimes grid Price column value is showing in Style column.
                 NoFormLoad = True
                 Dim R As Integer, stylevalue As String
                 R = BillOSale.UGridIO1.LastRowUsed
@@ -374,6 +384,7 @@ AnError:
                 BillOSale.SetStyle(R, stylevalue)
                 '</CT>
                 Me.ShowDialog(ParentForm)
+                NoFormLoad = False
                 'Show(ParentForm)
             Else
                 Show()
@@ -381,12 +392,17 @@ AnError:
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        BillOSale.HiLiteRow(2)
-    End Sub
+    '<CT> Not actual code. Testing purpose only. This button is deleted from the form.
+    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    '    BillOSale.HiLiteRow(2) '<CT> Not actual code. Testing purpose only.
+    'End Sub
 
     Private Function GetNextItemOrUnload() As Boolean
-        If Not GetNextItem() Then UnloadForm() : Exit Function
+        If Not GetNextItem() Then
+            LastItemOfNextItem = True
+            UnloadForm()
+            Exit Function
+        End If
         'If Not GetNextItem() Then
         '    'UnloadForm
         '    Me.Close()
@@ -394,6 +410,7 @@ AnError:
         'End If
         GetNextItemOrUnload = True
         BillOSale.HiLiteRow(X)
+        LastItemOfNextItem = False
     End Function
 
     Private Sub UnloadForm()
