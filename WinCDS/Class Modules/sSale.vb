@@ -1558,6 +1558,7 @@ DoneClearing:
         x = ""
         MainMenu.rtbn.mRichTextBox.LoadFile(CustomerTermsMessageFile)
         x = MainMenu.rtbn.mRichTextBox.Text
+        Printer.FontBold = True
         Printer.CurrentX = 100
         Printer.CurrentY = 13200
         Printer.FontSize = 10
@@ -1698,7 +1699,8 @@ DoneClearing:
                 Else
                     Printer.CurrentY = ttCY : Printer.Print(TAB(80), IfZeroThenNilString(LocForm))
                     Printer.CurrentY = ttCY : Printer.Print(TAB(87), Left(IfNullThenNilString(StatusForm), 6))
-                    Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfNullThenNilString(Quanform))
+                    'Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfNullThenNilString(Quanform))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(110), IfNullThenNilString(Quanform))
                     Printer.CurrentY = ttCY : Printer.Print(TAB(117), IfNullThenNilString(DescForm))
                     ItemLineZeroDescForm = True
                 End If

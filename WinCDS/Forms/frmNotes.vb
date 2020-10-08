@@ -40,6 +40,7 @@ Public Class frmNotes
         SetButtonImage(cmdSave, 2)
         SetButtonImage(cmdPrint, 19)
         SetButtonImage(cmdCancel, 3)
+        txtNewNotes.Text = ""
     End Sub
 
     Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click

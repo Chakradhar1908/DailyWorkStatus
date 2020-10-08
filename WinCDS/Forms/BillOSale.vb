@@ -3335,11 +3335,22 @@ NewProcessSaleError:
     End Sub
 
     Private Function LinesUsed() As Integer
-        With Me.UGridIO1
-            For LinesUsed = 0 To .MaxRows - 1
-                If .GetValue(LinesUsed, 0) = "" Then Exit Function
-            Next
-        End With
+        Dim LastRow As Integer
+
+        '<CT>
+        'With Me.UGridIO1
+        '    For LinesUsed = 0 To .MaxRows - 1
+        '        'If .GetValue(LinesUsed, 0) = "" Then Exit Function
+        '        If .GetValue(LinesUsed, 0) = "" Then Exit For
+        '    Next
+        'End With
+
+        LastRow = UGridIO1.LastRowUsed
+        For LinesUsed = 0 To LastRow
+            'If .GetValue(LinesUsed, 0) = "" Then Exit Function
+            If UGridIO1.GetValue(LinesUsed, 0) = "" Then Exit For
+        Next
+        '</CT>
     End Function
 
     Private Function LinesFreeRemaining() As Integer
@@ -3348,21 +3359,39 @@ NewProcessSaleError:
 
     Public Function HasTax1() As Boolean
         Dim I As Integer
+        Dim LastRow As Integer
 
         HasTax1 = False
         If StoreSettings.SalesTax = 0# Then HasTax1 = True : Exit Function
-        For I = 0 To UGridIO1.MaxRows - 1
-            If Trim(QueryStyle(I)) = "TAX1" Then HasTax1 = True : Exit Function
+
+        '<CT>
+        'For I = 0 To UGridIO1.MaxRows - 1
+        '    If Trim(QueryStyle(I)) = "TAX1" Then HasTax1 = True : Exit Function
+        'Next
+
+        LastRow = UGridIO1.LastRowUsed
+        For I = 0 To LastRow
+            If Trim(QueryStyle(I)) = "TAX1" Then HasTax1 = True : Exit For
         Next
+        '</CT>
     End Function
 
     Public Function HasTax2() As Boolean
         Dim I As Integer
+        Dim LastRow As Integer
 
         HasTax2 = False
-        For I = 0 To UGridIO1.MaxRows - 1
+
+        '<CT>
+        'For I = 0 To UGridIO1.MaxRows - 1
+        '    If Trim(QueryStyle(I)) = "TAX2" Then HasTax2 = True : Exit Function
+        'Next
+
+        LastRow = UGridIO1.LastRowUsed
+        For I = 0 To LastRow
             If Trim(QueryStyle(I)) = "TAX2" Then HasTax2 = True : Exit Function
         Next
+        '</CT>
     End Function
 
     Public Function HasTaxableItems() As Boolean
