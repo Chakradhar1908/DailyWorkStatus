@@ -39,6 +39,7 @@ Module modPrintRTF
         'If Printer.hdc = 0 Then
         Printer.Print(Space(0))
         Printer.ScaleMode = VBRUN.ScaleModeConstants.vbTwips
+        'Printer.ScaleMode = VBRUN.ScaleModeConstants.vbPixels
 
         ' Get the offset to the printable area on the page in twips
         'LeftLimit = Printer.ScaleX(GetDeviceCaps(Printer.hDC, PHYSICALOFFSETX), vbPixels, vbTwips)

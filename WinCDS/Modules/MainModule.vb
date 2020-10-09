@@ -380,7 +380,6 @@ ServerLockedFailed:
 #End If
             End If
         End If
-
     End Function
 
     Public Function StorePolicyMessageFile(Optional ByVal StoreNum As Integer = 0) As String

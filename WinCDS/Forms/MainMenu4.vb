@@ -1614,6 +1614,10 @@ Public Class MainMenu4
 
         'Printer.Print(TAB(120), "Thank You")
         'Printer.EndDoc()
+
+        'MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 10, 13200, 8300, 14000, True)
+        'MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 100) ', 1000, 1000, True)
+        'Printer.EndDoc()
         End
     End Sub
 

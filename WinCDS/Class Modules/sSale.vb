@@ -1510,7 +1510,7 @@ DoneClearing:
 
                         Printer.CurrentX = 100
                         Printer.CurrentY = currenty
-                        Printer.Print(printline)
+                        Printer.Print(printline & "-")
                         Printer.FontSize = 7.5
 
                         If i = 1288 Then
@@ -1522,14 +1522,14 @@ DoneClearing:
                             currenty = currenty + 200
                             Printer.CurrentY = currenty
                             Printer.FontUnderline = False
-                            Printer.Print(printline)
+                            Printer.Print(printline & "-")
                             i = i + 49
                         Else
                             i = i + 59
                         End If
 
                     End If
-                    End If
+                End If
 
                 currenty = currenty + 200
                 'If printline.Contains(vbLf) Then
@@ -1692,8 +1692,8 @@ DoneClearing:
                 On Error Resume Next
                 If CopyID = COPY_CUSTOMER Then
                     Printer.CurrentY = ttCY : Printer.Print(TAB(97), IfZeroThenNilString(LocForm))
-                    Printer.CurrentY = ttCY : Printer.Print(TAB(110), Left(IfNullThenNilString(StatusForm), 6))
-                    Printer.CurrentY = ttCY : Printer.Print(TAB(120), IfNullThenNilString(Quanform))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(105), Left(IfNullThenNilString(StatusForm), 6))
+                    Printer.CurrentY = ttCY : Printer.Print(TAB(130), IfNullThenNilString(Quanform))
                     Printer.CurrentY = ttCY : Printer.Print(TAB(137), IfNullThenNilString(DescForm))
                     ItemLineZeroDescForm = True
                 Else
