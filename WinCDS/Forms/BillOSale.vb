@@ -3472,14 +3472,14 @@ NewProcessSaleError:
                 With InvPull
                     .Pull = 2
                     '.optPrintAll(2) = True
-                    .optPrintAll3.Checked = True
+                    .optPrintAll2.Checked = True
                     .txtSaleNo.Text = BillOfSale.Text
                     On Error Resume Next
                     .dteFrom.Value = Today
                     .dteFrom = dteDelivery
                     .dteFrom.Value = DelDate
                     '.cmdPrint(0).Value = True
-                    .cmdPrint.PerformClick()
+                    .cmdPrint0.PerformClick()
                 End With
                 'Unload InvPull
                 InvPull.Close()

@@ -1425,4 +1425,22 @@ TestClearFailed:
         WaitEXEFile = IIf(wPath, AppFolder, "") & "Wait" & IIf(Ext, ".exe", "")
     End Function
 
+    Public Function DeliveryTicketMessageFile(Optional ByVal StoreNum As Long = 0) As String
+        If StoreNum = 0 Then StoreNum = StoresSld
+        DeliveryTicketMessageFile = FXFile("DeliveryTicket.rtf", , False)
+        If Not FileExists(DeliveryTicketMessageFile) Then
+            WriteFile DeliveryTicketMessageFile, "{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\fnil\fcharset0 Courier New;}}" & vbCrLf
+    WriteFile DeliveryTicketMessageFile, "{\*\generator Riched20 10.0.10240}\viewkind4\uc1 " & vbCrLf
+    WriteFile DeliveryTicketMessageFile, "\pard\b\f0\fs16 All Items Received in good condition!\b0\f1\fs20\par" & vbCrLf
+    WriteFile DeliveryTicketMessageFile, "}" & vbCrLf
+    WriteFile DeliveryTicketMessageFile, Chr(0)
+
+
+'    WriteFile DeliveryTicketMessageFile, "{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}" & vbCrLf
+            '    WriteFile DeliveryTicketMessageFile, "{\*\generator Riched20 10.0.10240}\viewkind4\uc1" & vbCrLf
+            '    WriteFile DeliveryTicketMessageFile, "\pard\sa200\sl276\slmult1\b\f0\fs22\lang9 Received in good condition!\b0\par" & vbCrLf
+            '    WriteFile DeliveryTicketMessageFile, "}" & vbCrLf
+        End If
+    End Function
+
 End Module

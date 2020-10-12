@@ -212,4 +212,15 @@ BadFile:
         DisposeDA(objHolding)
     End Function
 
+    Public Function GetLeaseNoStatus(ByVal LeaseNo As String, Optional ByVal Desc As Boolean = True) As String
+        Dim objHolding As cHolding
+  Set objHolding = New cHolding
+  If Not objHolding.Load(LeaseNo) Then
+            GetLeaseNoStatus = ""
+        Else
+            GetLeaseNoStatus = IIf(Desc, DescribeHoldingStatus(objHolding.Status), objHolding.Status)
+        End If
+        DisposeDA objHolding
+End Function
+
 End Module

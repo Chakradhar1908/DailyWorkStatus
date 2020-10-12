@@ -236,4 +236,32 @@ Module modDates
         If Not IsDate(D) Then D = Today
         WeeksAgo = DateAdd("d", Weeks / 7, DateValue(D))
     End Function
+
+    '  Our default rule:
+    '    First 5 days of month (configurable), return span of last month
+    '    Otherwise, Return this month, span 1st to current date
+    Public Function MonthlyReportDefaultStart(Optional ByVal FlexDays As Integer = 5) As Date
+        MonthlyReportDefaultStart = IIf(DateAndTime.Day(Today) > FlexDays, CurrentMonthStart, LastFullMonthStart)
+    End Function
+
+    Public Function MonthlyReportDefaultEnd(Optional ByVal FlexDays As Integer = 5) As Date
+        MonthlyReportDefaultEnd = IIf(DateAndTime.Day(Today) > FlexDays, Today, LastFullMonthEnd)
+    End Function
+
+    Public Function CurrentMonthStart() As Date
+        CurrentMonthStart = MonthStart(Today)
+    End Function
+
+    Public Function LastFullMonthStart() As Date
+        LastFullMonthStart = DateValue(DateAdd("m", -1, CurrentMonthStart))
+    End Function
+
+    Public Function LastFullMonthEnd() As Date
+        LastFullMonthEnd = DateValue(DateAdd("d", -1, CurrentMonthStart))
+    End Function
+
+    Public Function MonthStart(Optional ByVal D As String = "") As Date
+        If Not IsDate(D) Then D = Today
+        MonthStart = DateValue(Format(D, "MM/01/yyyy"))
+    End Function
 End Module

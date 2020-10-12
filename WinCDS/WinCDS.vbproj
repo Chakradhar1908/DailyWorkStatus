@@ -1225,6 +1225,11 @@
     <Compile Include="Modules\modXML.vb" />
     <Compile Include="Modules\modYahooXMLOrders.vb" />
     <Compile Include="Modules\modZipUnzip.vb" />
+    <Compile Include="Modules\printCrossSellBilling.vb" />
+    <Compile Include="Modules\printDeliveryTickets.vb" />
+    <Compile Include="Modules\printInvPull.vb" />
+    <Compile Include="Modules\printListOfStoreTransfers.vb" />
+    <Compile Include="Modules\printPastDeliveries.vb" />
     <Compile Include="Modules\ShellOut.vb" />
     <Compile Include="Modules\SSLv2.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

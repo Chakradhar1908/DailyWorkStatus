@@ -698,4 +698,51 @@ Skip:
     Public Function QuerySalesTax2Rate(ByVal ind As Integer) As Double
         QuerySalesTax2Rate = GetTax2Rate(ind + 1)
     End Function
+
+    ' this one isn't actually from 2data, but it seems to fit..
+    Public Sub LoadStoresIntoComboBox(ByRef Cbo As ComboBox, Optional ByVal StoreNum As Integer = 0, Optional ByVal WithName As Boolean = False, Optional ByVal WithAddress As Boolean = False, Optional ByVal AllowAllStores As Boolean = False)
+        '::::LoadStoresIntoComboBox
+        ':::SUMMARY
+        ': Loads Stores into Combo Box.
+        ':::DESCRIPTION
+        ': This function is used to load Stores into ComboBox.
+        ':::PARAMETERS
+        ': - cbo - Indicates the combo Box.
+        ': - StoreNum - Indicates the Store Number.
+        ': - WithName - Indicates whether it is true or false.
+        ': - WithAddress - Indicates whether it is true or false.
+        ': - AllowAllStores - Indicates whether it is true or false.
+        Dim Store As Integer, Text As String, Cont As Boolean
+
+        If StoreNum = 0 Then StoreNum = StoresSld
+
+        On Error Resume Next
+        'Cbo.Clear
+        Cbo.Items.Clear()
+
+        If AllowAllStores Then
+            'Cbo.AddItem "All Stores"
+            'Cbo.itemData(Cbo.NewIndex) = -1
+            Cbo.Items.Add(New ItemDataClass("All Stores", -1))
+        End If
+
+        For Store = 1 To LicensedNoOfStores() ' ACTIVENOLOCATIONS
+            '    If StoreSettings(Store).Address = "" Or StoreSettings(Store).Name = "" Then Exit For
+            Text = "Loc " & Store
+            If WithName Then Text = Text & " - " & StoreSettings(Store).Name
+            If WithAddress Then Text = Text & " - " & StoreSettings(Store).Address
+
+            'Cbo.AddItem Text, Store - 1
+            'Cbo.itemData(Cbo.NewIndex) = Store
+            Cbo.Items.Insert(Store - 1, New ItemDataClass(Text, Store))
+        Next
+
+        If AllowAllStores And StoreNum <= 0 Then
+            Cbo.Text = "All Stores"
+        ElseIf Cbo.Items.Count >= StoreNum Then
+            Cbo.SelectedIndex = StoreNum - 1
+        ElseIf Cbo.Items.Count > 0 Then
+            Cbo.SelectedIndex = 0
+        End If
+    End Sub
 End Module
