@@ -132,7 +132,7 @@
         ' Next, determine the correct next sale number.
         ' Then write it to the file, and unlock it.
 
-        Dim FNum as integer, fName As String
+        Dim FNum As Integer, fName As String
         On Error GoTo BadFile
         FNum = FreeFile()
         fName = BOSFile()
@@ -214,13 +214,12 @@ BadFile:
 
     Public Function GetLeaseNoStatus(ByVal LeaseNo As String, Optional ByVal Desc As Boolean = True) As String
         Dim objHolding As cHolding
-  Set objHolding = New cHolding
-  If Not objHolding.Load(LeaseNo) Then
+        objHolding = New cHolding
+        If Not objHolding.Load(LeaseNo) Then
             GetLeaseNoStatus = ""
         Else
             GetLeaseNoStatus = IIf(Desc, DescribeHoldingStatus(objHolding.Status), objHolding.Status)
         End If
-        DisposeDA objHolding
-End Function
-
+        DisposeDA(objHolding)
+    End Function
 End Module

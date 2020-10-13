@@ -125,6 +125,7 @@
     <Compile Include="Class Modules\clsDeliveryDateDesc.vb" />
     <Compile Include="Class Modules\clsEmployee.vb" />
     <Compile Include="Class Modules\clsHashTable.vb" />
+    <Compile Include="Class Modules\clsItemLocation.vb" />
     <Compile Include="Class Modules\clsMailRec.vb" />
     <Compile Include="Class Modules\clsMailShipTo.vb" />
     <Compile Include="Class Modules\clsPopup.vb" />
@@ -143,6 +144,7 @@
     <Compile Include="Class Modules\cRegHotKey.vb" />
     <Compile Include="Class Modules\CryptoCls.vb" />
     <Compile Include="Class Modules\CSearchNew.vb" />
+    <Compile Include="Class Modules\CSQLAccess.vb" />
     <Compile Include="Class Modules\cStringBuilder.vb" />
     <Compile Include="Class Modules\cTransaction.vb" />
     <Compile Include="Class Modules\cZipUnzip.vb" />
@@ -1154,6 +1156,7 @@
     <Compile Include="Modules\modInteract.vb" />
     <Compile Include="Modules\modInternet.vb" />
     <Compile Include="Modules\modItemCost.vb" />
+    <Compile Include="Modules\modItemLocation.vb" />
     <Compile Include="Modules\modJET.vb" />
     <Compile Include="Modules\modKillBug.vb" />
     <Compile Include="Modules\modMACAddress.vb" />

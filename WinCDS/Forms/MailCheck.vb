@@ -591,12 +591,32 @@ Public Class MailCheck
 
             If Margin.PorD = "D" Then
                 BillOSale.chkDelivery.Text = 1
-                BillOSale.dtpDelWindow.Value = Margin.StopStart
-                BillOSale.dtpDelWindow2.Value = Margin.StopEnd
+                'BillOSale.dtpDelWindow.Value = Margin.StopStart
+                If Margin.StopStart <> "" Then
+                    BillOSale.dtpDelWindow.Value = DateTime.ParseExact(Margin.StopStart, "h:mm tt", Globalization.CultureInfo.InvariantCulture)
+                    'Else
+                    'BillOSale.dtpDelWindow.Value = Margin.DDelDat
+                End If
+                'BillOSale.dtpDelWindow2.Value = Margin.StopEnd
+                If Margin.StopEnd <> "" Then
+                    BillOSale.dtpDelWindow2.Value = DateTime.ParseExact(Margin.StopEnd, "h:mm tt", Globalization.CultureInfo.InvariantCulture)
+                    'Else
+                    'BillOSale.dtpDelWindow2.Value = Margin.DDelDat
+                End If
             ElseIf Margin.PorD = "P" Then
                 BillOSale.chkPickup.Checked = 1
-                BillOSale.dtpDelWindow.Value = Margin.StopStart
-                BillOSale.dtpDelWindow2.Value = Margin.StopEnd
+                'BillOSale.dtpDelWindow.Value = Margin.StopStart
+                If Margin.StopStart <> "" Then
+                    BillOSale.dtpDelWindow.Value = DateTime.ParseExact(Margin.StopStart, "h:mm tt", Globalization.CultureInfo.InvariantCulture)
+                    'Else
+                    'BillOSale.dtpDelWindow.Value = Nothing
+                End If
+                'BillOSale.dtpDelWindow2.Value = Margin.StopEnd
+                If Margin.StopEnd <> "" Then
+                    BillOSale.dtpDelWindow2.Value = DateTime.ParseExact(Margin.StopEnd, "h:mm tt", Globalization.CultureInfo.InvariantCulture)
+                    'Else
+                    'BillOSale.dtpDelWindow2.Value = Nothing
+                End If
             End If
 
             If Trim(Margin.Style) = "SUB" Then

@@ -450,4 +450,29 @@ Module modStringFunctions
             End Select
         Next
     End Function
+
+    Public Function GetFirstItem(ByVal ListItems As String) As String
+        '::::GetFirstItem
+        ':::SUMMARY
+        ': Get first item from a space-separated list.
+        ':::DESCRIPTION
+        ': Assuming a space-separated list, returns the first item.  If no space is present (including empty string), returns original list.
+        ':::PARAMETERS
+        ': - ListItems
+        ':::EXAMPLE
+        ': - GetFirstItem("A B C D") ==> "A"
+        ': - GetFirstItem("A") ==> "A"
+        ': - GetFirstItem("") ==> ""
+        ':::RETURN
+        ':  String - The string of the first item in the list.
+        ':::SEE ALSO
+        ':  FirstLast
+        Dim I As Integer
+        I = InStr(1, ListItems, " ")
+        If (I > 0) Then
+            GetFirstItem = Mid(ListItems, 1, I)
+        Else
+            GetFirstItem = ListItems
+        End If
+    End Function
 End Module

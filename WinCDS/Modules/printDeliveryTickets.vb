@@ -1,5 +1,5 @@
 ﻿Module printDeliveryTickets
-    Public Sub printDeliveryTickets_PrintRecords(ByVal StoreCount As Long, ByVal DeliveryDate As String, Optional ByVal PrintAll As Boolean = False, Optional ByRef imgLogo As PictureBox = Nothing, Optional ByVal PrintSingle As String = "") ' Pull List
+    Public Sub printDeliveryTickets_PrintRecords(ByVal StoreCount As Integer, ByVal DeliveryDate As String, Optional ByVal PrintAll As Boolean = False, Optional ByRef imgLogo As PictureBox = Nothing, Optional ByVal PrintSingle As String = "") ' Pull List
         '::::printDeliveryTickets_PrintRecords
         ':::SUMMARY
         ': Print Delivery Tickets
@@ -17,8 +17,8 @@
         Dim BalanceDue As String, DelPrint As String, previousSaleNo As String
         Dim cTable As CGrossMargin, cTa As CDataAccess
         Dim SQL As String
-        Dim Store As Long, StartStore As Long, EndStore As Long
-        Dim NeedHeader As Boolean, LineCount As Long, PageNum As String, PD As String
+        Dim Store As Integer, StartStore As Integer, EndStore As Integer
+        Dim NeedHeader As Boolean, LineCount As Integer, PageNum As String, PD As String
 
         cTable = New CGrossMargin
 
@@ -74,6 +74,7 @@
                         End If
                         previousSaleNo = "-1"
                         Do While .Records_Available()
+                            cTable.cDataAccess_GetRecordSet(cTa.RS)
                             If NeedHeader Or (previousSaleNo <> Trim(cTable.SaleNo)) Then
                                 If NeedHeader Then PageNum = PageNum + 1 Else PageNum = 1
                                 LineCount = 0
@@ -105,7 +106,7 @@
                                 ' all this stuff to limit mail.special to only 3 lines because we don't have the space!
                                 ' bfh20050819 - changed font to not-bold, Arial, 10 and added WrapLongText(...)
                                 Printer.Print("Special Instructions:")
-                                Dim Lines, Sp, lineCnt As Long
+                                Dim Lines, Sp, lineCnt As Integer
 
                                 Printer.FontSize = 10
                                 Printer.FontBold = True
@@ -209,7 +210,7 @@ HandleErr:
         Resume Next
     End Sub
 
-    Public Function printDeliveryTicketHTML(ByRef SaleNo As String, Optional ByRef StoreNo As Long = 0, Optional ByRef imgLogo As PictureBox = Nothing) As String
+    Public Function printDeliveryTicketHTML(ByRef SaleNo As String, Optional ByRef StoreNo As Integer = 0, Optional ByRef imgLogo As PictureBox = Nothing) As String
         '::::printDeliveryTicketHTML
         ':::SUMMARY
         ':HTML Version of delivery ticket
@@ -227,7 +228,7 @@ HandleErr:
         Dim Mail As MailNew, Mail2 As MailNew2
         Dim cTable As CGrossMargin, cTa As CDataAccess
         Dim SQL As String, S As String, BalanceDue As String
-        Dim ImW As Long, ImH As Long
+        Dim ImW As Integer, ImH As Integer
         Dim DeliveryDate As Object
         Dim RS As ADODB.Recordset
 
@@ -420,8 +421,8 @@ HandleErr:
         printDeliveryTicketHTML = S
     End Function
 
-    Private Sub Print_Header(ByVal Store As Long, ByVal DeliveryDate As String, ByVal Window As String, ByVal BalanceDue As String, Optional ByVal imgLogo As PictureBox = Nothing, Optional ByVal PageDescriptor As String = "")
-        Dim PrintedLogo As Boolean, ImW As Long, ImH As Long
+    Private Sub Print_Header(ByVal Store As Integer, ByVal DeliveryDate As String, ByVal Window As String, ByVal BalanceDue As String, Optional ByVal imgLogo As PictureBox = Nothing, Optional ByVal PageDescriptor As String = "")
+        Dim PrintedLogo As Boolean, ImW As Integer, ImH As Integer
         On Error Resume Next ' BFH20051223 - FurnOne's-Store 3 seemed to be failing in this Sub
         Err.Clear()
         PrintedLogo = False
@@ -432,11 +433,12 @@ HandleErr:
             If imgLogo.Tag = "LOADED" Then
                 ImW = 6000
                 ImH = 2000
-                Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - ImW / 2, 75, ImW, ImH, PrintedLogo = True)
+                Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - ImW / 2, 75, ImW, ImH) : PrintedLogo = True
             End If
         End If
 
-        If Not PrintedLogo Or Err.Number <> 0 Then PrintCompanyInformation(Store)
+        'If Not PrintedLogo Or Err.Number <> 0 Then PrintCompanyInformation(Store)
+        If Not PrintedLogo Or Err.Number <> 0 Or Err.Number = 0 Then PrintCompanyInformation(Store)
 
         '  Printer.Print
         PrintOut(FontSize:=10, FontBold:=False, X:=0, Y:=200, Text:="Delivery:")
@@ -445,7 +447,7 @@ HandleErr:
         PrintOut(FontSize:=14, FontBold:=True, X:=1200, Y:=200, Text:=DeliveryDate)
         PrintOut(FontSize:=12, FontBold:=True, X:=600, Y:=800, Text:=Window)
 
-        PrintOut(FontSize:=14, FontBold:=True, X:=1200, Y:=500, Text:=WeekdayName(DeliveryDate))
+        PrintOut(FontSize:=14, FontBold:=True, X:=1200, Y:=500, Text:=WeekdayName(Weekday(DeliveryDate)))
         PrintOut(FontSize:=10, FontBold:=False, X:=10000, Y:=500, Text:="    Sale No:")
 
         If IsUFO() Then
@@ -454,10 +456,10 @@ HandleErr:
         End If
 
         'Printer.Line(1000, 13500)-Step(7500, 1100), QBColor(0), B
-        Printer.Line(1000, 13500, 7500, 1100, QBColor(0), B)
+        Printer.Line(1000, 13500, 7500, 1100, QBColor(0), True)
         If BalanceDue <> "#" Then
             'Printer.Line(9000, 13500)-Step(2400, 1100), QBColor(0), B
-            Printer.Line(9000, 13500, 2400, 1100, QBColor(0), B)
+            Printer.Line(9000, 13500, 2400, 1100, QBColor(0), True)
         End If
         PrintOut(FontSize:=8, X:=1250, Y:=13550)
 
@@ -491,7 +493,7 @@ HandleErr:
         'Printer.Print BalanceDue
     End Sub
 
-    Private Sub PrintCompanyInformation(ByVal Store As Long)
+    Private Sub PrintCompanyInformation(ByVal Store As Integer)
         On Error Resume Next
         With StoreSettings(Store)
             PrintOut(FontName:="Arial", FontSize:=18, FontBold:=True, DrawWidth:=20, X:=0)

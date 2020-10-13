@@ -50,7 +50,7 @@
         GetTransferRSByTID = GetRecordsetBySQL("SELECT * FROM Detail WHERE Trans IN ('TP','TR','TV') AND DetailID=" & Tid & " " & ExtraSQL & " " & OrderBy, , GetDatabaseInventory)
     End Function
 
-    Public Function PrintTransfer(ByVal TN As String, Optional ByVal wCost As Boolean = False, Optional ByVal Juice As String) As Boolean
+    Public Function PrintTransfer(ByVal TN As String, Optional ByVal wCost As Boolean = False, Optional ByVal Juice As String = "") As Boolean
         '::::PrintTransfer
         ':::SUMMARY
         ': Used to Print Transfers.
@@ -62,102 +62,139 @@
         ': - Juice - Indicates the amount of interest to be pay, if customer has not pay the loan with in time.
         ':::RETURN
         ': Boolean
-        Dim X As Recordset, P As Object, C As Long, R As Long, I As Long, cInv As CInvRec, NA As Long, F As Long
-        Dim TLanded As Currency, TJuice As Currency, TTotal As Currency
+        Dim X As ADODB.Recordset, P As Object, C As Integer, R As Integer, I As Integer, cInv As CInvRec, NA As Integer, F As Integer
+        Dim TLanded As Decimal, TJuice As Decimal, TTotal As Decimal
 
         If Not TransferNoExists(TN) Then Exit Function
-  Set X = GetTransferRSByTN(TN)
-  NA = NoOfActiveLocations
-  
-  Set P = OutputObject
-  R = Printer.ScaleWidth
+        X = GetTransferRSByTN(TN)
+        NA = NoOfActiveLocations
+
+        P = OutputObject
+        R = Printer.ScaleWidth
         C = R / 2
         P.FontSize = 20
         P.FontBold = True
-        PrintToPosition P, "Store Transfer #" & TN, C, 5, True
-  P.FontSize = 16
-        PrintToPosition P, StoreSettings(1).Name, C, 5, True
-  P.FontSize = 14
+        PrintToPosition(P, "Store Transfer #" & TN, C, 5, True)
+        P.FontSize = 16
+        PrintToPosition(P, StoreSettings(1).Name, C, 5, True)
+        P.FontSize = 14
         P.FontBold = False
-        PrintToPosition P, StoreSettings(1).Address, C, 5, False
-'  P.FontSize = 10
-        '  PrintToPosition P, "Created: " & X("Ddate1"), R, vbAlignRight, True
+        PrintToPosition(P, StoreSettings(1).Address, C, 5, False)
+        '  P.FontSize = 10
+        '  PrintToPosition P, "Created: " & X("Ddate1"), R, VBRUN.AlignConstants.vbAlignLeftvbAlignright, True
 
-        PrintToPosition P, "", , , True
-  PrintToPosition P, "", , , True
+        PrintToPosition(P, "", , , True)
+        PrintToPosition(P, "", , , True)
 
-  P.FontSize = 10
+        P.FontSize = 10
         P.FontBold = True
-        PrintToPosition P, "Style", 100, vbAlignLeft
-  PrintToPosition P, "Scheduled", 1500, vbAlignLeft
-  PrintToPosition P, "Status", 4000, vbAlignLeft
-  For I = 1 To NA
-            PrintToPosition P, "L" & I, 5500 + (I - 1) * 400, vbAlignRight
-  Next
+        PrintToPosition(P, "Style", 100, VBRUN.AlignConstants.vbAlignLeft)
+        PrintToPosition(P, "Scheduled", 1500, VBRUN.AlignConstants.vbAlignLeft)
+        PrintToPosition(P, "Status", 4000, VBRUN.AlignConstants.vbAlignLeft)
+        For I = 1 To NA
+            PrintToPosition(P, "L" & I, 5500 + (I - 1) * 400, VBRUN.AlignConstants.vbAlignRight)
+        Next
 
         F = 5500 + NA * 400 + 400
         If wCost Then
-            PrintToPosition P, "Cost", F, vbAlignRight
-    PrintToPosition P, "Juice", F + 900, vbAlignRight
-    PrintToPosition P, "Total", F + 1800, vbAlignRight
-  End If
+            PrintToPosition(P, "Cost", F, VBRUN.AlignConstants.vbAlignRight)
+            PrintToPosition(P, "Juice", F + 900, VBRUN.AlignConstants.vbAlignRight)
+            PrintToPosition(P, "Total", F + 1800, VBRUN.AlignConstants.vbAlignRight)
+        End If
 
 
-        Dim RRR As Long
-        PrintToPosition P, "", , , True
-  RRR = OutputObject.CurrentY
+        Dim RRR As Integer
+        PrintToPosition(P, "", , , True)
+        RRR = OutputObject.CurrentY
         P.FontBold = False
         On Error Resume Next
-        P.Line(50, Printer.CurrentY)-(Printer.ScaleWidth - 50, Printer.CurrentY)
-On Error GoTo 0
+        'P.Line(50, Printer.CurrentY)-(Printer.ScaleWidth - 50, Printer.CurrentY)
+        P.Line(50, Printer.CurrentY, Printer.ScaleWidth - 50, Printer.CurrentY)
+        On Error GoTo 0
         OutputObject.CurrentY = RRR
 
         Do While Not X.EOF
-            PrintToPosition P, IfNullThenNilString(X("Style")), 100, vbAlignLeft
-    PrintToPosition P, IfNullThenNilString(X("Ddate1")), 1500, vbAlignLeft
-    PrintToPosition P, DescribeTransferStatus(IfNullThenNilString(X("Trans"))), 4000, vbAlignLeft
+            PrintToPosition(P, IfNullThenNilString(X("Style")), 100, VBRUN.AlignConstants.vbAlignLeft)
+            PrintToPosition(P, IfNullThenNilString(X("Ddate1")), 1500, VBRUN.AlignConstants.vbAlignLeft)
+            PrintToPosition(P, DescribeTransferStatus(IfNullThenNilString(X("Trans"))), 4000, VBRUN.AlignConstants.vbAlignLeft)
 
-    For I = 1 To NA
-                PrintToPosition P, "" & IfNullThenZero(X("Loc" & I)), 5500 + (I - 1) * 400, vbAlignRight
-    Next
+            For I = 1 To NA
+                PrintToPosition(P, "" & IfNullThenZero(X("Loc" & I)), 5500 + (I - 1) * 400, VBRUN.AlignConstants.vbAlignRight)
+            Next
 
             If wCost Then
                 Dim CC As CInvRec
-      Set CC = New CInvRec
-      If CC.Load(X("Style"), "Style") Then
-                    PrintToPosition P, CurrencyFormat(CC.Landed), F, vbAlignRight
-        PrintToPosition P, CurrencyFormat(CC.Landed * GetPercent(Juice) * 0.01), F + 900, vbAlignRight
-        PrintToPosition P, CurrencyFormat(CC.Landed + GetPercent(Juice) * 0.01), F + 1800, vbAlignRight
-        TLanded = TLanded + CC.Landed
+                CC = New CInvRec
+                If CC.Load(X("Style").Value, "Style") Then
+                    PrintToPosition(P, CurrencyFormat(CC.Landed), F, VBRUN.AlignConstants.vbAlignRight)
+                    PrintToPosition(P, CurrencyFormat(CC.Landed * GetPercent(Juice) * 0.01), F + 900, VBRUN.AlignConstants.vbAlignRight)
+                    PrintToPosition(P, CurrencyFormat(CC.Landed + GetPercent(Juice) * 0.01), F + 1800, VBRUN.AlignConstants.vbAlignRight)
+                    TLanded = TLanded + CC.Landed
                     TJuice = TJuice + CC.Landed * GetPercent(Juice) * 0.01
                     TTotal = TTotal + CC.Landed + CC.Landed * GetPercent(Juice) * 0.01
                 End If
-                DisposeDA CC
-    End If
+                DisposeDA(CC)
+            End If
 
-            PrintToPosition P, "", , , True
-    Set cInv = New CInvRec
-    If cInv.Load(X("Style"), "Style") Then
-                PrintToPosition P, cInv.Desc, 200, , True
-    End If
-            DisposeDA cInv
+            PrintToPosition(P, "", , , True)
+            cInv = New CInvRec
+            If cInv.Load(X("Style").Value, "Style") Then
+                PrintToPosition(P, cInv.Desc, 200, , True)
+            End If
+            DisposeDA(cInv)
 
-    X.MoveNext
+            X.MoveNext()
         Loop
 
         P.FontBold = True
-        PrintToPosition P, CurrencyFormat(TLanded), F, vbAlignRight
-  PrintToPosition P, CurrencyFormat(TJuice), F + 900, vbAlignRight
-  PrintToPosition P, CurrencyFormat(TTotal), F + 1800, vbAlignRight
-  P.FontBold = False
+        PrintToPosition(P, CurrencyFormat(TLanded), F, VBRUN.AlignConstants.vbAlignRight)
+        PrintToPosition(P, CurrencyFormat(TJuice), F + 900, VBRUN.AlignConstants.vbAlignRight)
+        PrintToPosition(P, CurrencyFormat(TTotal), F + 1800, VBRUN.AlignConstants.vbAlignRight)
+        P.FontBold = False
 
         If OutputToPrinter Then
             P.EndDoc
         Else
-            frmPrintPreviewDocument.MousePointer = 0
+            'frmPrintPreviewDocument.MousePointer = 0
+            frmPrintPreviewDocument.Cursor = Cursors.Default
             frmPrintPreviewDocument.DataEnd()
         End If
         PrintTransfer = True
     End Function
 
+    Public Function TransferNoExists(ByVal TN As String) As Boolean
+        '::::TransferViewRowColor
+        ':::SUMMARY
+        ': Used to check whether Transfer Number is exists or not.
+        ':::DESCRIPTION
+        ': This fucntion is used to check whether Transfer Number is exists or not from Recordset.
+        ':::PARAMETERS
+        ': - TN - Indicates the Transfer Number.
+
+        Dim R As ADODB.Recordset
+        If TN = "" Then Exit Function
+        On Error GoTo None
+        R = GetTransferRSByTN(TN)
+        TransferNoExists = (R.RecordCount <> 0)
+        R.Close
+        R = Nothing
+None:
+    End Function
+
+    Public Function GetTransferRSByTN(ByVal TN As String, Optional ByVal ExtraSQL As String = "", Optional ByVal OrderBy As String = "ORDER BY DetailID") As ADODB.Recordset
+        '::::GetTransferRSByTN
+        ':::SUMMARY
+        ': Used to get Transfer RecordSet using Transfer Number.
+        ':::DESCRIPTION
+        ': This function is used to get Transfer Recordset using Transfer Number through SQL Statement.
+        ':::PARAMETERS
+        ': - TN - Indicates the Transfer Number.
+        ': - ExtraSQL - Indicates the extra SQL statement to get Transfer Recordset.
+        ': - OrderBy - Indicates the Order By condition to fileter the records in RecordSet.
+        ':::RETURN
+        ': Recordset : Returns Transfer Recordset.
+
+        '  Set GetTransferRSByTN = GetRecordsetBySQL("SELECT * FROM StoreTransfers WHERE TransferNo='" & ProtectSQL(TN) & "' " & ExtraSQL & " " & OrderBy, , GetDatabaseInventory)
+        GetTransferRSByTN = GetRecordsetBySQL("SELECT * FROM Detail WHERE Trans IN ('TP','TR','TV') AND [Misc]='" & ProtectSQL(TN) & "' " & ExtraSQL & " " & OrderBy, , GetDatabaseInventory)
+    End Function
 End Module

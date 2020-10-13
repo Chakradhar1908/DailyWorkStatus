@@ -756,9 +756,9 @@ Partial Class BillOSale
         '
         'dtpDelWindow2
         '
-        Me.dtpDelWindow2.CustomFormat = ""
+        Me.dtpDelWindow2.CustomFormat = "h:mm tt"
         Me.dtpDelWindow2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpDelWindow2.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.dtpDelWindow2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpDelWindow2.Location = New System.Drawing.Point(122, 7)
         Me.dtpDelWindow2.Name = "dtpDelWindow2"
         Me.dtpDelWindow2.ShowUpDown = True
@@ -776,9 +776,9 @@ Partial Class BillOSale
         '
         'dtpDelWindow
         '
-        Me.dtpDelWindow.CustomFormat = ""
+        Me.dtpDelWindow.CustomFormat = "h:mm tt"
         Me.dtpDelWindow.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpDelWindow.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.dtpDelWindow.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpDelWindow.Location = New System.Drawing.Point(6, 7)
         Me.dtpDelWindow.Name = "dtpDelWindow"
         Me.dtpDelWindow.ShowUpDown = True

@@ -64,7 +64,7 @@
               
                 Note:> In vb6.0, "ApproxCount" property will display the no.of blank rows. In vb.net this property is readonly.
                               
-                Public Property Let MaxRows(ByVal T As Long)
+                Public Property Let MaxRows(ByVal T as integer)
                   mMaxRows = T
                   On Error Resume Next
                   DBGrid1.ApproxCount = T            
@@ -116,13 +116,13 @@
        
         3. <Property events: StoreStock>
               <VB6.0>
-                Public Property Get StoreStock() As Long
-                  Dim I As Long
+                Public Property Get StoreStock() as integer
+                  Dim I as integer
                   For I = optStock.LBound To optStock.UBound
                     If optStock(I) Then StoreStock = I: Exit Property
                   Next
                 End Property
-                Public Property Let StoreStock(ByVal X As Long)
+                Public Property Let StoreStock(ByVal X as integer)
                   optStock(FitRange(optStock.LBound, X, optStock.UBound)).Value = True
                 End Property
               </VB6.0
@@ -248,10 +248,10 @@
         
         4. <Property events: StoreStockCaption>
               <VB6.0>
-                  Private Property Let StoreStockCaption(ByVal Idx As Long, ByVal Str As String)
+                  Private Property Let StoreStockCaption(ByVal Idx as integer, ByVal Str As String)
                     optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption = Str
                   End Property
-                  Private Property Get StoreStockCaption(ByVal Idx As Long) As String
+                  Private Property Get StoreStockCaption(ByVal Idx as integer) As String
                     StoreStockCaption = optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).Caption
                   End Property
               </VB6.0>
@@ -464,7 +464,7 @@
         
         5. <Property StoreStockToolTipText>
               <VB6.0>
-                Private Property Let StoreStockToolTipText(ByVal Idx As Long, ByVal Str As String)
+                Private Property Let StoreStockToolTipText(ByVal Idx as integer, ByVal Str As String)
                   optStock(FitRange(optStock.LBound, Idx, optStock.UBound)).ToolTipText = Str
                 End Property
               </VB6.0>
@@ -545,7 +545,7 @@
         
         6. <Property StoreStockLocTip>
               <VB6.0>
-                  Private Property Let StoreStockLocTip(ByVal Idx As Long, ByVal Str As String)
+                  Private Property Let StoreStockLocTip(ByVal Idx as integer, ByVal Str As String)
                     lblLoc(FitRange(optStock.LBound, Idx, optStock.UBound)).ToolTipText = Str
                   End Property
               </VB6.0>
@@ -751,17 +751,17 @@
                     Caption As String
                     Visible As Boolean
                     Layout As eMyMenuLayouts
-                    HCID As Long
+                    HCID as integer
   
-                    ImageW As Long
-                    ImageH As Long
-                    vSP As Long
+                    ImageW as integer
+                    ImageH as integer
+                    vSP as integer
 
   
                     ImageSource As Object 'ImageList
                     CaptionStyle As eCaptionStyles
-                    CaptionMargin As Long
-                    MaskColor As Long
+                    CaptionMargin as integer
+                    MaskColor as integer
   
                     Items() As MyMenuItem
                     HRs() As MyMenuHR
@@ -910,7 +910,7 @@
         12. <LoadSalesSplitBoxes>
               <VB6.0>
                 Private Sub LoadSalesSplitBoxes()
-                  Dim L As Variant, N As Long
+                  Dim L As Variant, N as integer
                   For Each L In Array(SalesSplit1, SalesSplit2, SalesSplit3)
                     L.Clear
                     L.AddItem "0%"

@@ -228,7 +228,9 @@ Module modStores
 
         Loaded = True
         'imgLogo.Picture = LoadPictureStd(StoreLogoFile(StoreNum))
-        imgLogo.Image = LoadPictureStd(StoreLogoFile(StoreNum))
+        'imgLogo.Image = LoadPictureStd(StoreLogoFile(StoreNum))
+        imgLogo.Image = Image.FromFile(StoreLogoFile(StoreNum))
+
         If Not Loaded Then
             LoadStoreLogo = False
             Exit Function

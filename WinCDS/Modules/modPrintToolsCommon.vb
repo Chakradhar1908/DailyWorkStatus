@@ -718,4 +718,20 @@ PrinterDialogCancelled:
             Case Else : DescribeScaleMode = "[UNKNOWN]"
         End Select
     End Function
+
+    ' Generic method to print at a specified Tab(..) location..  corrects alignment for BOLD
+    Public Sub PrintToTab(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal TabLoc As Integer = 0, Optional ByVal Alignment As AlignConstants = VBRUN.AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+        Dim X As Boolean
+        If OutOb Is Nothing Then OutOb = OutputObject
+        X = OutOb.FontBold
+        OutOb.FontBold = False
+        If Not IscPrinter(OutOb) Then
+            OutOb.Print(TAB(TabLoc))
+        Else
+            OutOb.CurrentX = OutOb.TextWidth("X") * TabLoc
+        End If
+        OutOb.FontBold = X
+
+        PrintToPosition(OutOb, OutText, , Alignment, NewLine)
+    End Sub
 End Module

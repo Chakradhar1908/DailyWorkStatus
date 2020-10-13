@@ -299,4 +299,8 @@ BadMove:
         If Mrs Is Nothing Then Record_BOF = True : Exit Function
         Record_BOF = Mrs.BOF
     End Function
+
+    Friend Function Record_Index() As Integer
+        Record_Index = Mrs.AbsolutePosition
+    End Function
 End Class

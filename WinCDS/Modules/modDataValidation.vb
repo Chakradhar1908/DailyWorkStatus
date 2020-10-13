@@ -21,6 +21,7 @@ AnError:
         GetPrice = 0
         PriceError = True
     End Function
+
     ':FUNCTION cleanani(ani, req)
     ':removes all non number charecters
     ' Provided by Krollmark Technologies 20030708
@@ -401,7 +402,6 @@ AnError:
         ':::RETURN
         ':String-Returns the Formatted Phone and Fax number as a string.
 
-
         Phone = Trim(Phone)  ' in case not cleaned or dressed
         Fax = Trim(Fax)
         If Clean Then
@@ -413,5 +413,25 @@ AnError:
             Fax = DressAni(Fax)
         End If
         PhoneAndFax = Trim(Phone & IIf(Len(Fax) > 0, "  FAX: " & Fax, ""))
+    End Function
+
+    Public Function GetPercent(ByVal Value As String) As Double
+        ':::: GetPercent
+        '::: SUMMARY
+        ':This function is used to get percent.
+        ':::DESCRIPTION
+        ':This function is used to get percent when you get percentage error(i.e when percentage is in 0# format).
+        ':::PARAMETERS
+        ':-Value
+        ':::RETURN
+        ':Double-Returns the result as Double.
+        On Error GoTo GetPercentError
+        GetPercent = 0#
+        If Right(Value, 1) = "%" Then
+            GetPercent = CDbl(Left(Value, Len(Value) - 1)) / 100.0#
+        Else
+            GetPercent = CDbl(Value)
+        End If
+GetPercentError:
     End Function
 End Module

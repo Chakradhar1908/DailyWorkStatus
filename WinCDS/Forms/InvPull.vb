@@ -226,23 +226,6 @@ Public Class InvPull
         optPrintAll0.Checked = True
     End Sub
 
-    Private Sub OptPrintCheckedChanged() Handles optPrintAll0.CheckedChanged, optPrintAll1.CheckedChanged, optPrintAll2.CheckedChanged
-        'If Index = 2 Then
-        If optPrintAll2.Checked = True Then
-            txtSaleNo.Visible = True
-            On Error Resume Next
-            txtSaleNo.Select()
-            chkEmail.Enabled = Pull = 2
-        Else
-            txtSaleNo.Visible = False
-            txtSaleNo.Text = ""
-            chkEmail.Enabled = False
-        End If
-
-        'chkEmail.Value = vbUnchecked
-        chkEmail.Checked = False
-    End Sub
-
     Private Sub Allow(Optional ByVal nCost As Boolean = True, Optional ByVal nJuice As Boolean = True, Optional ByVal nDriverCopy As Boolean = True, Optional ByVal nLoc As Boolean = True)
         'If Not nCost Then chkShowCost = 0
         If Not nCost Then chkShowCost.Checked = False
@@ -606,5 +589,40 @@ HandleErr:
             OutputObject.Print("Bill" & IIf(Rev, "", "ed") & " To:")
         End If
         OutputObject.Print
+    End Sub
+
+    'Private Sub OptPrintCheckedChanged() Handles optPrintAll0.CheckedChanged, optPrintAll1.CheckedChanged, optPrintAll2.CheckedChanged
+    '    'If Index = 2 Then
+    '    If optPrintAll2.Checked = True Then
+    '        txtSaleNo.Visible = True
+    '        On Error Resume Next
+    '        txtSaleNo.Select()
+    '        chkEmail.Enabled = Pull = 2
+    '    Else
+    '        txtSaleNo.Visible = False
+    '        txtSaleNo.Text = ""
+    '        chkEmail.Enabled = False
+    '    End If
+
+    '    'chkEmail.Value = vbUnchecked
+    '    chkEmail.Checked = False
+    'End Sub
+    Private Sub OptPrintCheckedChanged(sender As Object, e As EventArgs) Handles optPrintAll2.CheckedChanged, optPrintAll1.CheckedChanged, optPrintAll0.CheckedChanged
+        Dim optSelected As String
+
+        optSelected = CType(sender, RadioButton).Name
+        If optSelected = "optPrintAll2" Then
+            txtSaleNo.Visible = True
+            On Error Resume Next
+            txtSaleNo.Select()
+            chkEmail.Enabled = Pull = 2
+        Else
+            txtSaleNo.Visible = False
+            txtSaleNo.Text = ""
+            chkEmail.Enabled = False
+        End If
+
+        'chkEmail.Value = vbUnchecked
+        chkEmail.Checked = False
     End Sub
 End Class
