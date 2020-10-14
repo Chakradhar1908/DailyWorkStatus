@@ -220,8 +220,8 @@ Public Class InvPull
         'Height = fraControls.Top + fraControls.Height + 60 + (Height - ScaleHeight)
         Height = fraControls.Top + fraControls.Height + 6 + (Height - Me.ClientSize.Height)
 
-        txtFrom.Text = WeekdayName(Weekday(dteFrom.Value))
-        txtTo.Text = WeekdayName(Weekday(dteTo.Value))
+        txtFrom.Text = WeekdayName(dteFrom.Value)
+        txtTo.Text = WeekdayName(dteTo.Value)
 
         optPrintAll0.Checked = True
     End Sub

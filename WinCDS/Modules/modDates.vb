@@ -264,4 +264,12 @@ Module modDates
         If Not IsDate(D) Then D = Today
         MonthStart = DateValue(Format(D, "MM/01/yyyy"))
     End Function
+
+    Public Function WeekdayName(ByVal D As Date) As String
+        WeekdayName = GetDateString(Weekday(D, cdsFirstDayOfWeek))
+    End Function
+
+    Public Function GetDateString(ByVal Index As Single) As String
+        GetDateString = Choose(Index, "SUN.", "MON.", "TUES.", "WED.", "THURS.", "FRI.", "SAT.")
+    End Function
 End Module

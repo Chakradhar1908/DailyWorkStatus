@@ -20,6 +20,10 @@
         Dim Store As Integer, StartStore As Integer, EndStore As Integer
         Dim NeedHeader As Boolean, LineCount As Integer, PageNum As String, PD As String
 
+        '<CT>
+        Dim CY As Integer = 5500
+        '</CT>
+
         cTable = New CGrossMargin
 
         On Error GoTo HandleErr
@@ -94,10 +98,10 @@
                                 Mail_GetAtIndex(cTable.Index, Mail, Store)
                                 Mail2_GetAtIndex(cTable.Index, Mail2, Store)
 
-                                Printer.Print(Mail.First, " ", Mail.Last, TAB(40), "SHIP TO:", TAB(50), Mail2.ShipToFirst & " " & Mail2.ShipToLast)
+                                Printer.Print(Mail.First & " " & Mail.Last, TAB(60), "SHIP TO:", TAB(70), Mail2.ShipToFirst & " " & Mail2.ShipToLast)
                                 Printer.Print(Mail.Address, TAB(50), Trim(Mail2.Address2))
                                 Printer.Print(Mail.AddAddress)
-                                Printer.Print(Mail.City, "    ", Mail.Zip, TAB(50), Trim(Mail2.City2), " ", Mail2.Zip2)
+                                Printer.Print(Mail.City & " " & Mail.Zip, TAB(50), Trim(Mail2.City2), " ", Mail2.Zip2)
                                 Printer.Print(Mail.Tele, "    ", DressAni(CleanAni(Mail.Tele2)), TAB(50), DressAni(CleanAni(Mail2.Tele3)))
                                 Printer.Print()
 
@@ -112,17 +116,19 @@
                                 Printer.FontBold = True
 
                                 lineCnt = 0
-                                For Each Sp In Split(WrapLongTextByPrintWidth(Printer, Mail.Special, Printer.ScaleWidth), vbCrLf)
-                                    Printer.Print(Sp)
-                                    lineCnt = lineCnt + 1
-                                    If lineCnt >= 3 Then Exit For
-                                Next
+                                If Mail.Special <> "" Then
+                                    For Each Sp In Split(WrapLongTextByPrintWidth(Printer, Mail.Special, Printer.ScaleWidth), vbCrLf)
+                                        Printer.Print(Sp)
+                                        lineCnt = lineCnt + 1
+                                        If lineCnt >= 3 Then Exit For
+                                    Next
+                                End If
 
                                 Printer.FontBold = True
                                 Printer.FontSize = 14
                                 ''------------------------------------------------------
 
-                                Printer.Print(TAB(5), "Sales: ", TranslateSalesmen(cTable.Salesman, Store))
+                                Printer.Print(TAB(5), "Sales: " & " " & TranslateSalesmen(cTable.Salesman, Store))
                                 Printer.Print()
 
                                 If cTable.PorD = "D" Then
@@ -131,14 +137,25 @@
                                 If cTable.PorD = "P" Then
                                     PrintOut(FontSize:=10, FontBold:=False, X:=885, Y:=500, Text:="X")
                                 End If
+
                                 PrintOut(FontSize:=18, FontBold:=True, X:=10150, Y:=100, Text:=cTable.SaleNo)
                                 PrintOut(FontSize:=10, FontBold:=True, X:=0, Y:=5500)  ' Was 5000
-                                PrintToPosition(Printer, "Quan:", 750, VBRUN.AlignConstants.vbAlignRight, False)
-                                PrintToPosition(Printer, "Style:", 900, VBRUN.AlignConstants.vbAlignLeft, False)
-                                PrintToPosition(Printer, "Mfg:", 3000, VBRUN.AlignConstants.vbAlignLeft, False)
-                                PrintToPosition(Printer, "Status:", 5000, VBRUN.AlignConstants.vbAlignLeft, False)
-                                PrintToPosition(Printer, "Loc:", 6500, VBRUN.AlignConstants.vbAlignRight, False)
-                                PrintToPosition(Printer, "Description:", 6750, VBRUN.AlignConstants.vbAlignLeft, True)
+
+                                '<CT>
+                                'PrintToPosition(Printer, "Quan:", 750, VBRUN.AlignConstants.vbAlignRight, False)
+                                'PrintToPosition(Printer, "Style:", 900, VBRUN.AlignConstants.vbAlignLeft, False)
+                                'PrintToPosition(Printer, "Mfg:", 3000, VBRUN.AlignConstants.vbAlignLeft, False)
+                                'PrintToPosition(Printer, "Status:", 5000, VBRUN.AlignConstants.vbAlignLeft, False)
+                                'PrintToPosition(Printer, "Loc:", 6500, VBRUN.AlignConstants.vbAlignRight, False)
+                                'PrintToPosition(Printer, "Description:", 6750, VBRUN.AlignConstants.vbAlignLeft, True)
+
+                                PrintToPosition2(Printer, "Quan:", 750, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                                PrintToPosition2(Printer, "Style:", 900, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                                PrintToPosition2(Printer, "Mfg:", 3000, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                                PrintToPosition2(Printer, "Status:", 5000, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                                PrintToPosition2(Printer, "Loc:", 6500, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                                PrintToPosition2(Printer, "Description:", 6750, VBRUN.AlignConstants.vbAlignLeft, True, CY)
+                                '</CT>
                                 '                Printer.Print "Quan:" _
                                 '                  ; Tab(9); "Style:" _
                                 '                  ; Tab(29); "Mfg:" _
@@ -153,31 +170,57 @@
                             If cTable.Style = "NOTES" And IsIn(Left(cTable.Desc, 21), "PRICE WITH TAX BACKED", "ADDITIONAL ADJUSTMENT") Then GoTo SkipLine
 
                             If cTable.Style = "NOTES" Then Printer.FontItalic = True : Printer.FontBold = True 'BFH20140826 Italics added
-                            PrintToPosition(Printer, cTable.Quantity, 750, VBRUN.AlignConstants.vbAlignRight, False)
-                            PrintToPosition(Printer, cTable.Style, 900, VBRUN.AlignConstants.vbAlignLeft, False)
-                            PrintToPosition(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False)
-                            PrintToPosition(Printer, cTable.Status, 5000, VBRUN.AlignConstants.vbAlignLeft, False)
-                            PrintToPosition(Printer, cTable.Location, 6500, VBRUN.AlignConstants.vbAlignRight, False)
 
+                            '<CT>
+                            'PrintToPosition(Printer, cTable.Quantity, 750, VBRUN.AlignConstants.vbAlignRight, False)
+                            'PrintToPosition(Printer, cTable.Style, 900, VBRUN.AlignConstants.vbAlignLeft, False)
+                            'PrintToPosition(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False)
+                            'PrintToPosition(Printer, cTable.Status, 5000, VBRUN.AlignConstants.vbAlignLeft, False)
+                            'PrintToPosition(Printer, cTable.Location, 6500, VBRUN.AlignConstants.vbAlignRight, False)
+                            CY = CY + 220
+                            PrintToPosition2(Printer, cTable.Quantity, 750, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                            PrintToPosition2(Printer, cTable.Style, 900, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                            PrintToPosition2(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                            PrintToPosition2(Printer, cTable.Status, 5000, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                            PrintToPosition2(Printer, cTable.Location, 6500, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                            '</CT>
                             Printer.FontSize = 8
-                            PrintToPosition(Printer, Mid(cTable.Desc, 1, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+
+                            '<CT>
+                            'PrintToPosition(Printer, Mid(cTable.Desc, 1, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                            PrintToPosition2(Printer, Mid(cTable.Desc, 1, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                            '</CT>
                             Printer.FontItalic = False : Printer.FontBold = False
                             LineCount = LineCount + 1
                             Printer.FontSize = 10
-                            Printer.Print()
-
+                            '<CT>
+                            'Printer.Print()
+                            CY = CY + 100
+                            '</CT>
                             If Len(cTable.Desc) > 48 Then
                                 Printer.FontSize = 8
-                                PrintToPosition(Printer, Mid(cTable.Desc, 47, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                                '<CT>
+                                'PrintToPosition(Printer, Mid(cTable.Desc, 47, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                                PrintToPosition2(Printer, Mid(cTable.Desc, 47, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                                '</CT>
                                 Printer.FontSize = 10
-                                Printer.Print()
+                                '<CT>
+                                'Printer.Print()
+                                CY = CY + 150
+                                '</CT>
                                 LineCount = LineCount + 1
                             End If
                             If Len(cTable.Desc) > 96 Then
                                 Printer.FontSize = 8
-                                PrintToPosition(Printer, Mid(cTable.Desc, 93, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                                '<CT>
+                                'PrintToPosition(Printer, Mid(cTable.Desc, 93, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                                PrintToPosition2(Printer, Mid(cTable.Desc, 93, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False, CY)
+                                '</CT>
                                 Printer.FontSize = 10
-                                Printer.Print()
+                                '<CT>
+                                'Printer.Print()
+                                CY = CY + 150
+                                '</CT>
                                 LineCount = LineCount + 1
                             End If
 
@@ -433,12 +476,13 @@ HandleErr:
             If imgLogo.Tag = "LOADED" Then
                 ImW = 6000
                 ImH = 2000
-                Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - ImW / 2, 75, ImW, ImH) : PrintedLogo = True
+                'Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - ImW / 2, 75, ImW, ImH) : PrintedLogo = True
+                Printer.PaintPicture(imgLogo.Image, 4000, 200, 5000, 5000, 1200, 1000, 35000, 35000) : PrintedLogo = True
             End If
         End If
 
         'If Not PrintedLogo Or Err.Number <> 0 Then PrintCompanyInformation(Store)
-        If Not PrintedLogo Or Err.Number <> 0 Or Err.Number = 0 Then PrintCompanyInformation(Store)
+        If Not PrintedLogo Or Err.Number <> 0 Then PrintCompanyInformation(Store)
 
         '  Printer.Print
         PrintOut(FontSize:=10, FontBold:=False, X:=0, Y:=200, Text:="Delivery:")
@@ -447,7 +491,7 @@ HandleErr:
         PrintOut(FontSize:=14, FontBold:=True, X:=1200, Y:=200, Text:=DeliveryDate)
         PrintOut(FontSize:=12, FontBold:=True, X:=600, Y:=800, Text:=Window)
 
-        PrintOut(FontSize:=14, FontBold:=True, X:=1200, Y:=500, Text:=WeekdayName(Weekday(DeliveryDate)))
+        PrintOut(FontSize:=14, FontBold:=True, X:=1200, Y:=500, Text:=WeekdayName(DeliveryDate))
         PrintOut(FontSize:=10, FontBold:=False, X:=10000, Y:=500, Text:="    Sale No:")
 
         If IsUFO() Then
@@ -456,13 +500,13 @@ HandleErr:
         End If
 
         'Printer.Line(1000, 13500)-Step(7500, 1100), QBColor(0), B
-        Printer.Line(1000, 13500, 7500, 1100, QBColor(0), True)
+        Printer.Line(1000, 13500, 8500, 14700, QBColor(0), True)
         If BalanceDue <> "#" Then
             'Printer.Line(9000, 13500)-Step(2400, 1100), QBColor(0), B
-            Printer.Line(9000, 13500, 2400, 1100, QBColor(0), True)
+            Printer.Line(9000, 13500, 11500, 14700, QBColor(0), True)
         End If
-        PrintOut(FontSize:=8, X:=1250, Y:=13550)
-
+        'PrintOut(FontSize:=8, X:=1250, Y:=13550)
+        PrintOut(FontSize:=8, X:=1250, Y:=13400)
         '  If  IsDevelopment Then
         If False Then
             MainMenu.rtbn.FileRead(False, DeliveryTicketMessageFile)
@@ -476,7 +520,7 @@ HandleErr:
         '    Printer.Print " Received in good condition! ";
         '  End If
         If BalanceDue <> "#" Then
-            Printer.Print(TAB(105), "Rec. Date:", TAB(135), " Balance Due: ")
+            Printer.Print(TAB(170), "Rec. Date:", TAB(208), " Balance Due: ")
         End If
 
         If PageDescriptor <> "" Then

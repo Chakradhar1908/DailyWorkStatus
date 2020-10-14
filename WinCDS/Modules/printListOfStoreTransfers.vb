@@ -74,7 +74,7 @@
 
         OutObj.Orientation = 2
         PrintOut(OutObj:=OutObj, FontName:="Arial", FontSize:=10, FontBold:=True, DrawWidth:=20, X:=200, Y:=100)
-        OutObj.Print("From: ", WeekdayName(Weekday(FromDate)) & " " & FromDate, TAB(110), "  To: ", WeekdayName(Weekday(toDate)) & " " & toDate)
+        OutObj.Print("From: ", WeekdayName(FromDate) & " " & FromDate, TAB(110), "  To: ", WeekdayName(toDate) & " " & toDate)
         OutObj.CurrentX = 200
         PN = PageNumber
         PN = OutObj.Page
