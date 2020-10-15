@@ -63,7 +63,7 @@ Module modAPI
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd as integer, ByVal wMsg as integer, ByVal wParam as integer, lParam As Any) as integer - vb6.0
     'Public Declare Function SendMessage Lib "USER32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As String) As IntPtr
     <DllImport("user32.dll", CharSet:=CharSet.Auto)>
-    Public Function SendMessage(ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, <MarshalAs(UnmanagedType.LPWStr)> ByVal lParam As String) As IntPtr
+    Public Function SendMessage(ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, <MarshalAs(UnmanagedType.LPWStr)> ByVal lParam As String) As IntPtr '--vb.net
     End Function
 
     'The below line is commented, because it is for vb6.0. Replaced with the next line for vb.net.

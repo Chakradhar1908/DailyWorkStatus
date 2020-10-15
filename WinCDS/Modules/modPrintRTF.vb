@@ -22,6 +22,9 @@ Module modPrintRTF
     Private Const PHYSICALOFFSETX As Integer = 112
     Private Const PHYSICALOFFSETY As Integer = 113
 
+    '<CT>
+    Public DeliveryticketMessageFileText As String
+    '</CT>
     Public Sub PrintRTF(ByRef RTF As RichTextBox,
   Optional LeftMarginWidth As Integer = -1, Optional TopMarginHeight As Integer = -1,
   Optional PrintWidth As Integer = -1, Optional PrintHeight As Integer = -1,
@@ -102,7 +105,7 @@ Module modPrintRTF
 
             ' Print the page by sending EM_FORMATRANGE message
             NextCharPosition = SendMessage(RTF.Handle, EM_FORMATRANGE, True, FR.chrg.ToString)   ' This prints the entire current page.
-
+            'Public Function SendMessage(ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, <MarshalAs(UnmanagedType.LPWStr)> ByVal lParam As String) As IntPtr
             NextCharPosition2 = CLng(NextCharPosition)
             If NextCharPosition2 >= TextLength Or Not AllowMultiplePages Then Exit Do                       ' If done then exit
 
@@ -116,5 +119,8 @@ Module modPrintRTF
         g.ReleaseHdc()
         'r =
         SendMessage(RTF.Handle, EM_FORMATRANGE, False, CLng(0))
+        '<CT>
+        DeliveryticketMessageFileText = RTF.Text
+        '</CT>
     End Sub
 End Module

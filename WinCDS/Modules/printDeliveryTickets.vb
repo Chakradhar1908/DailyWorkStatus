@@ -177,7 +177,7 @@
                             'PrintToPosition(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False)
                             'PrintToPosition(Printer, cTable.Status, 5000, VBRUN.AlignConstants.vbAlignLeft, False)
                             'PrintToPosition(Printer, cTable.Location, 6500, VBRUN.AlignConstants.vbAlignRight, False)
-                            CY = CY + 220
+                            CY = CY + 230
                             PrintToPosition2(Printer, cTable.Quantity, 750, VBRUN.AlignConstants.vbAlignRight, False, CY)
                             PrintToPosition2(Printer, cTable.Style, 900, VBRUN.AlignConstants.vbAlignLeft, False, CY)
                             PrintToPosition2(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False, CY)
@@ -195,31 +195,34 @@
                             Printer.FontSize = 10
                             '<CT>
                             'Printer.Print()
-                            CY = CY + 100
+                            'CY = CY + 220
                             '</CT>
                             If Len(cTable.Desc) > 48 Then
                                 Printer.FontSize = 8
                                 '<CT>
                                 'PrintToPosition(Printer, Mid(cTable.Desc, 47, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                                CY = CY + 220
                                 PrintToPosition2(Printer, Mid(cTable.Desc, 47, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False, CY)
                                 '</CT>
                                 Printer.FontSize = 10
                                 '<CT>
                                 'Printer.Print()
-                                CY = CY + 150
+                                CY = CY + 120
                                 '</CT>
                                 LineCount = LineCount + 1
                             End If
+                            'CY = CY + 120
                             If Len(cTable.Desc) > 96 Then
                                 Printer.FontSize = 8
                                 '<CT>
                                 'PrintToPosition(Printer, Mid(cTable.Desc, 93, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False)
+                                CY = CY + 220
                                 PrintToPosition2(Printer, Mid(cTable.Desc, 93, 46), 6750, VBRUN.AlignConstants.vbAlignLeft, False, CY)
                                 '</CT>
                                 Printer.FontSize = 10
                                 '<CT>
                                 'Printer.Print()
-                                CY = CY + 150
+                                CY = CY + 120
                                 '</CT>
                                 LineCount = LineCount + 1
                             End If
@@ -515,12 +518,26 @@ HandleErr:
             Printer.Print(SS)
         Else
             MainMenu.rtbn.DoPrintFile(DeliveryTicketMessageFile, -1, -1, 7100, 1100, True, False)
+            '<CT>
+            Printer.FontBold = True
+            Printer.FontSize = 10
+            Printer.CurrentX = 1250
+            Printer.CurrentY = 13580
+            Printer.Print(DeliveryticketMessageFileText)
+            '</CT>
         End If
         '  Else   ' old way, dev on
         '    Printer.Print " Received in good condition! ";
         '  End If
         If BalanceDue <> "#" Then
-            Printer.Print(TAB(170), "Rec. Date:", TAB(208), " Balance Due: ")
+            '<CT>
+            Printer.FontBold = False
+            Printer.FontSize = 8
+            Printer.CurrentX = 7500
+            Printer.CurrentY = 13580
+            'Printer.Print(TAB(170), "Rec. Date:", TAB(208), " Balance Due: ")
+            Printer.Print("Rec. Date:", TAB(40), " Balance Due: ")
+            '</CT>
         End If
 
         If PageDescriptor <> "" Then
