@@ -21,7 +21,7 @@
         Dim NeedHeader As Boolean, LineCount As Integer, PageNum As String, PD As String
 
         '<CT>
-        Dim CY As Integer = 5500
+        Dim CY As Integer = 5500, FirstRowPrint As Boolean
         '</CT>
 
         cTable = New CGrossMargin
@@ -98,11 +98,11 @@
                                 Mail_GetAtIndex(cTable.Index, Mail, Store)
                                 Mail2_GetAtIndex(cTable.Index, Mail2, Store)
 
-                                Printer.Print(Mail.First & " " & Mail.Last, TAB(60), "SHIP TO:", TAB(70), Mail2.ShipToFirst & " " & Mail2.ShipToLast)
-                                Printer.Print(Mail.Address, TAB(50), Trim(Mail2.Address2))
+                                Printer.Print(Mail.First & " " & Mail.Last, TAB(48), "SHIP TO:" & " " & Mail2.ShipToFirst & " " & Mail2.ShipToLast)
+                                Printer.Print(Mail.Address, TAB(84), Trim(Mail2.Address2))
                                 Printer.Print(Mail.AddAddress)
-                                Printer.Print(Mail.City & " " & Mail.Zip, TAB(50), Trim(Mail2.City2), " ", Mail2.Zip2)
-                                Printer.Print(Mail.Tele, "    ", DressAni(CleanAni(Mail.Tele2)), TAB(50), DressAni(CleanAni(Mail2.Tele3)))
+                                Printer.Print(Mail.City & " " & Mail.Zip, TAB(58), Trim(Mail2.City2) & " " & Mail2.Zip2)
+                                Printer.Print(Mail.Tele & "   " & DressAni(CleanAni(Mail.Tele2)) & "   " & DressAni(CleanAni(Mail2.Tele3)))
                                 Printer.Print()
 
                                 ''------------------------------------------------------
@@ -110,12 +110,14 @@
                                 ' all this stuff to limit mail.special to only 3 lines because we don't have the space!
                                 ' bfh20050819 - changed font to not-bold, Arial, 10 and added WrapLongText(...)
                                 Printer.Print("Special Instructions:")
-                                Dim Lines, Sp, lineCnt As Integer
+                                Dim Lines, lineCnt As Integer
+                                Dim Sp As Object
 
                                 Printer.FontSize = 10
                                 Printer.FontBold = True
 
                                 lineCnt = 0
+
                                 If Mail.Special <> "" Then
                                     For Each Sp In Split(WrapLongTextByPrintWidth(Printer, Mail.Special, Printer.ScaleWidth), vbCrLf)
                                         Printer.Print(Sp)
@@ -123,7 +125,6 @@
                                         If lineCnt >= 3 Then Exit For
                                     Next
                                 End If
-
                                 Printer.FontBold = True
                                 Printer.FontSize = 14
                                 ''------------------------------------------------------
@@ -177,7 +178,14 @@
                             'PrintToPosition(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False)
                             'PrintToPosition(Printer, cTable.Status, 5000, VBRUN.AlignConstants.vbAlignLeft, False)
                             'PrintToPosition(Printer, cTable.Location, 6500, VBRUN.AlignConstants.vbAlignRight, False)
-                            CY = CY + 230
+                            If FirstRowPrint = False Then
+                                CY = CY + 230
+                                FirstRowPrint = True
+                            Else
+                                CY = CY + 420
+                            End If
+
+
                             PrintToPosition2(Printer, cTable.Quantity, 750, VBRUN.AlignConstants.vbAlignRight, False, CY)
                             PrintToPosition2(Printer, cTable.Style, 900, VBRUN.AlignConstants.vbAlignLeft, False, CY)
                             PrintToPosition2(Printer, cTable.Vendor, 3000, VBRUN.AlignConstants.vbAlignLeft, False, CY)
@@ -207,7 +215,7 @@
                                 Printer.FontSize = 10
                                 '<CT>
                                 'Printer.Print()
-                                CY = CY + 120
+                                'CY = CY + 120
                                 '</CT>
                                 LineCount = LineCount + 1
                             End If
@@ -222,7 +230,7 @@
                                 Printer.FontSize = 10
                                 '<CT>
                                 'Printer.Print()
-                                CY = CY + 120
+                                'CY = CY + 120
                                 '</CT>
                                 LineCount = LineCount + 1
                             End If

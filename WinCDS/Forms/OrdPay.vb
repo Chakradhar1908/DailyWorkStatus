@@ -584,7 +584,15 @@ HandleErr:
         If OrderMode("D") Then          ' D (payment) changed to only current date BFH20100129
             dtePayDate.Value = Today
         ElseIf OrderMode("B") Then      ' B (deliver) added, bfh20061120
-            dtePayDate.Value = IIf(TransDate = "", DateFormat(GetLastDeliveryDate), TransDate)
+            '<CT>
+            'dtePayDate.Value = IIf(TransDate = "", DateFormat(GetLastDeliveryDate), TransDate)
+            'dtePayDate.Value = IIf(TransDate = "", GetLastDeliveryDate, Date.Parse(TransDate))
+            If TransDate = "" Then
+                dtePayDate.Value = GetLastDeliveryDate()
+            Else
+                dtePayDate.Value = Date.Parse(TransDate)
+            End If
+            '</CT>
         Else
             dtePayDate.Value = Today
         End If

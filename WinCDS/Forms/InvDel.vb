@@ -8,7 +8,7 @@
     'Private Const FRM_W1 = 2520
     Private Const FRM_W1 = 190
     'Private Const FRM_W2 = 5610
-    Private Const FRM_W2 = 560
+    Private Const FRM_W2 = 415
     Private DoDeliverAll As Boolean, ContinueDelivery As Boolean
     Private NoFormLoad As Boolean
     Private LastItemOfNextItem As Boolean

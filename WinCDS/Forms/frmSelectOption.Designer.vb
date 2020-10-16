@@ -31,19 +31,22 @@ Partial Class frmSelectOption
         '
         'lstSelection
         '
+        Me.lstSelection.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lstSelection.FormattingEnabled = True
+        Me.lstSelection.ItemHeight = 11
         Me.lstSelection.Location = New System.Drawing.Point(72, 10)
         Me.lstSelection.Name = "lstSelection"
-        Me.lstSelection.Size = New System.Drawing.Size(219, 17)
+        Me.lstSelection.Size = New System.Drawing.Size(219, 15)
         Me.lstSelection.TabIndex = 0
         Me.lstSelection.Visible = False
         '
         'optSelection
         '
         Me.optSelection.AutoSize = True
+        Me.optSelection.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optSelection.Location = New System.Drawing.Point(72, 67)
         Me.optSelection.Name = "optSelection"
-        Me.optSelection.Size = New System.Drawing.Size(96, 17)
+        Me.optSelection.Size = New System.Drawing.Size(121, 15)
         Me.optSelection.TabIndex = 1
         Me.optSelection.TabStop = True
         Me.optSelection.Text = "&Generic Option"
