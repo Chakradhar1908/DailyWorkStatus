@@ -533,6 +533,20 @@ Public Class MailCheck
         ' Reset for next sale
         BillOSale.UGridIO1.Clear()      'BFH20120825 - ADDED GRID CLEAR CUZ PAYMENT WAS KEEPING PREVIOUS SALE LINES
 
+        '<CT>
+        'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.
+        Dim Lastrow As Integer, r As Integer
+        Lastrow = BillOSale.UGridIO1.LastRowUsed
+        For r = 0 To Lastrow
+            BillOSale.UGridIO1.Row = r
+            For c = 0 To 9
+                On Error Resume Next
+                BillOSale.UGridIO1.Col = c
+                BillOSale.UGridIO1.Text = ""
+            Next
+        Next
+        '</CT>
+
         MarginNo = 0
         FirstRec = 0
 

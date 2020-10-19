@@ -222,4 +222,12 @@ BadFile:
         End If
         DisposeDA(objHolding)
     End Function
+
+    Public Function GetLeaseNoMailIndex(ByVal LeaseNo As String) As Integer
+        Dim C As CGrossMargin
+        C = New CGrossMargin
+        If C.Load(LeaseNo, "SaleNo") Then GetLeaseNoMailIndex = C.Index
+        DisposeDA(C)
+    End Function
+
 End Module

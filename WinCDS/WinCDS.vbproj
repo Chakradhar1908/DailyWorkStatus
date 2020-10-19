@@ -1519,6 +1519,9 @@
     <EmbeddedResource Include="Forms\OrdStatus.resx">
       <DependentUpon>OrdStatus.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OrdVoid.resx">
+      <DependentUpon>OrdVoid.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PackagePrice.resx">
       <DependentUpon>PackagePrice.vb</DependentUpon>
     </EmbeddedResource>

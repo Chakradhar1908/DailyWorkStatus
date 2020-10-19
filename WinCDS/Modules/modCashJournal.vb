@@ -66,4 +66,30 @@
         RS("Cashier").Value = Trim(Cj.Cashier)
         RS("Terminal").Value = Trim(Cj.Terminal)
     End Sub
+
+    Public Function TranslateAccountCode(ByRef AcctCode As String, ByRef OldVal As String) As String
+        '::::TranslateAccountCode
+        ':::SUMMARY
+        ': Used to Translate Account Code.
+        ':::DESCRIPTION
+        ': Thsi function is used to translate Account Code, based on Payment Type for Transaction.
+        ':::PARAMETERS
+        ': - AcctCode
+        ': - OldVal
+        ':::RETURN
+        ': String
+
+        Select Case Len(Trim(AcctCode))
+            Case 4, 5
+                TranslateAccountCode = AcctCode
+            Case 3
+                If Right(Trim(AcctCode), 1) <> 0 Then TranslateAccountCode = Choose(Right(Trim(AcctCode), 1), "Cash", "Check", "Visa", "Master", "Disc", "Amex", OldVal, "Finc", "Debit Card")
+            Case 2
+                TranslateAccountCode = PayTypeName(AcctCode)
+            Case 1, 2
+                If Right(Trim(AcctCode), 1) <> 0 Then TranslateAccountCode = Choose(Val(AcctCode), "Cash", "Check", "Visa", "Master", "Disc", "Amex", OldVal, "Finc", "Debit Card")
+        End Select
+        If Trim(AcctCode) = cdsPayTypes.cdsPT_StoreCreditCard Then TranslateAccountCode = "Store Card"
+        If Trim(AcctCode) = cdsPayTypes.cdsPT_ECheck Then TranslateAccountCode = "E-Check"
+    End Function
 End Module

@@ -855,7 +855,8 @@ Module modMainMenu
                         BillOSale.BillOSale2_Show()
                         'MailCheck.HelpContextID = 46000
                         'MailCheck.optSaleNo.Value = True
-                        MailCheck.optSaleNo.Checked = True
+                        'MailCheck.optSaleNo.Checked = True
+                        MailCheckSaleNoChecked = True
                         MailCheck.ShowDialog()  ' If this is loaded "vbModal, bos2", lockup may occur.  However, alt-tab can MainMenu.Hide Bos2 if we don't.
                         'Unload MailCheck
                         MailCheck.Close()

@@ -301,6 +301,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdPay.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdPreview.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdSelect.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdStatus.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdVoid.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PackagePrice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PassWord.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Practice.resources
