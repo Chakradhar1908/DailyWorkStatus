@@ -4,7 +4,7 @@
     Private AddedVoidLine As Boolean
     Private PaymentCount As Integer    ' Count of payment types used in the sale
     Private OrderVoided As Boolean  ' Confirmation that the order was voided.
-
+    Private OrdVoidFormLoad As Boolean
     Private Enum cdsRefundType
         cdsrft_AsPaid = 0
         cdsrft_CompanyCheck = 1
@@ -21,62 +21,71 @@
         ' or false if Cancel/Unload are called.
         ' The calling form calls: Success=OrdVoid.VoidOrder(SaleNo)
 
-        'OrderVoided = False
-        'VoidSaleNo = SaleNo
-        'dteVoidDate.Value = Today
-        'SaleTaxCode = 1 ' Default to default sales tax, in case the sale didn't include any?
+        OrderVoided = False
+        VoidSaleNo = SaleNo
+        dteVoidDate.Value = Today
+        If OrdVoidFormLoad = False Then
+            OrdVoid_Load(Me, New EventArgs)
+            OrdVoidFormLoad = True
+        End If
+        SaleTaxCode = 1 ' Default to default sales tax, in case the sale didn't include any?
 
         Dim Margin As CGrossMargin
         Margin = New CGrossMargin
-        'If Margin.Load(SaleNo) Then
-        ' The sale exists.  Load the payment detail into combo boxes.
-        Do Until Margin.DataAccess.Record_EOF
-            ' This block of hackishness compensates for old style Adjustments refunds.
-            If Trim(Margin.Style) = "PAYMENT" Or (Trim(Margin.Style) = "NOTES" And Microsoft.VisualBasic.Left(Margin.Desc, 13) = "STORE FINANCE") Then
-                If Margin.Quantity = 0 Then
-                    If Microsoft.VisualBasic.Left(Margin.Desc, 11) = "Refund By: " Then
-                        Margin.SellPrice = -Math.Abs(Margin.SellPrice)
-                        Select Case Trim(Mid(Margin.Desc, 12))
-                            Case "CASH" : Margin.Quantity = 1
-                            Case "CHECK" : Margin.Quantity = 2
-                            Case "VISA CARD" : Margin.Quantity = 3
-                            Case "MASTER CARD" : Margin.Quantity = 4
-                            Case "DISCOVER CARD" : Margin.Quantity = 5
-                            Case "AMEX CARD" : Margin.Quantity = 6
-                            Case "DEBIT CARD" : Margin.Quantity = 9
-                            Case "COMPANY CHECK" : Margin.Quantity = 2
-                            Case Else : Margin.Quantity = 1 ' Error condition, treat as cash.
-                        End Select
-                    Else
-                        Margin.Quantity = 1 ' Bad payment type!  Treat as cash.
+        If Margin.Load(SaleNo) Then
+            ' The sale exists.  Load the payment detail into combo boxes.
+            Do Until Margin.DataAccess.Record_EOF
+                ' This block of hackishness compensates for old style Adjustments refunds.
+                If Trim(Margin.Style) = "PAYMENT" Or (Trim(Margin.Style) = "NOTES" And Microsoft.VisualBasic.Left(Margin.Desc, 13) = "STORE FINANCE") Then
+                    If Margin.Quantity = 0 Then
+                        If Microsoft.VisualBasic.Left(Margin.Desc, 11) = "Refund By: " Then
+                            Margin.SellPrice = -Math.Abs(Margin.SellPrice)
+                            Select Case Trim(Mid(Margin.Desc, 12))
+                                Case "CASH" : Margin.Quantity = 1
+                                Case "CHECK" : Margin.Quantity = 2
+                                Case "VISA CARD" : Margin.Quantity = 3
+                                Case "MASTER CARD" : Margin.Quantity = 4
+                                Case "DISCOVER CARD" : Margin.Quantity = 5
+                                Case "AMEX CARD" : Margin.Quantity = 6
+                                Case "DEBIT CARD" : Margin.Quantity = 9
+                                Case "COMPANY CHECK" : Margin.Quantity = 2
+                                Case Else : Margin.Quantity = 1 ' Error condition, treat as cash.
+                            End Select
+                        Else
+                            Margin.Quantity = 1 ' Bad payment type!  Treat as cash.
+                        End If
                     End If
+                    ' End of Adjustment Refund hack block.
+                    If Margin.SellPrice = 0 And PayTypeIsFinance(Val(Margin.Quantity), False) Then
+                        Margin.SellPrice = BillOSale.SaleTotal
+                    End If
+                    AddPaymentLine(Margin.Quantity, Margin.SellPrice)
                 End If
-                ' End of Adjustment Refund hack block.
-                'If Margin.SellPrice = 0 And PayTypeIsFinance(Val(Margin.Quantity), False) Then
-                'Margin.SellPrice = BillOSale.SaleTotal
-                'End If
-                'AddPaymentLine Margin.Quantity, Margin.SellPrice
+                If Trim(Margin.Style) = "TAX1" Or Trim(Margin.Style) = "TAX2" Then
+                    ' Save the sale's tax code!
+                    SaleTaxCode = Margin.Quantity
+                End If
+                Margin.DataAccess.Records_MoveNext()
+                Margin.cDataAccess_GetRecordSet(Margin.DataAccess.RS)
+            Loop
+            'optRefundType(0).Value = True  ' Default to Refund As Paid
+            optRefundType0.Checked = True
+            'Me.Show vbModal
+            Me.ShowDialog()
+            VoidOrder = OrderVoided
+
+            If VoidOrder Then
+                Dim Typ As String
+                Typ = "" & Margin.Quantity
+                If SwipeCreditCards() And IsIn(Typ, "3", "4", "5", "6") Then
+                    'BillOSale.cmdPrint.Value = True
+                    BillOSale.cmdPrint.PerformClick()
+                End If
             End If
-            'If Trim(Margin.Style) = "TAX1" Or Trim(Margin.Style) = "TAX2" Then
-            ' Save the sale's tax code!
-            'SaleTaxCode = Margin.Quantity
-            'End If
-            Margin.DataAccess.Records_MoveNext()
-        Loop
-        'optRefundType(0).Value = True  ' Default to Refund As Paid
-        '    Me.Show vbModal
-        'VoidOrder = OrderVoided
-        If VoidOrder Then
-            Dim Typ As String
-            Typ = "" & Margin.Quantity
-            'If SwipeCreditCards And IsIn(Typ, "3", "4", "5", "6") Then
-            'BillOSale.cmdPrint.Value = True
+        Else
+            ' Void always fails if the sale has no margin lines.
+            VoidOrder = False
         End If
-        'End If
-        'Else
-        ' Void always fails if the sale has no margin lines.
-        VoidOrder = False
-        'End If
         DisposeDA(Margin)
     End Function
 
@@ -260,20 +269,29 @@ NoMoreRefundsThisSale:
         ' Also add void payments for each non-zero txtRefundAmount.
         ' AddNewCashJournalRecord automatically filters out zero-sum entries.
         Dim El As Object
+        Dim L As Label
         For Each El In txtRefundAmount.Text
             '    If GetPrice(El.Text) > 0 Then
-            If IsIn(Holding.Status, "E", "S", "O") And PayTypeIsFinance(lblPaymentType(El.Index), False) Then  ' No CASH adjustment for these OPEN sale types...
+            L.Name = "lblPaymentType" & El.index
+            'If IsIn(Holding.Status, "E", "S", "O") And PayTypeIsFinance(lblPaymentType(El.Index), False) Then  ' No CASH adjustment for these OPEN sale types...
+            If IsIn(Holding.Status, "E", "S", "O") And PayTypeIsFinance(L.Text, False) Then  ' No CASH adjustment for these OPEN sale types...
                 ' In the case of Open Credit/Store Finance, the
-            ElseIf Holding.Status = "F" And Val(lblPaymentType(El.Index).Tag) = cdsPayTypes.cdsPT_StoreFinance Then
-            ElseIf Holding.Status = "F" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
+                'ElseIf Holding.Status = "F" And Val(lblPaymentType(El.Index).Tag) = cdsPayTypes.cdsPT_StoreFinance Then
+            ElseIf Holding.Status = "F" And Val(L.Tag) = cdsPayTypes.cdsPT_StoreFinance Then
+                'ElseIf Holding.Status = "F" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
+            ElseIf Holding.Status = "F" And PayTypeIsOutsideFinance(L.Text) Then
                 AddNewCashJournalRecord("11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate.Value)
-            ElseIf Holding.Status = "C" And Val(lblPaymentType(El.Index).Tag) = cdsPayTypes.cdsPT_StoreFinance Then
+                'ElseIf Holding.Status = "C" And Val(lblPaymentType(El.Index).Tag) = cdsPayTypes.cdsPT_StoreFinance Then
+            ElseIf Holding.Status = "C" And Val(L.Tag) = cdsPayTypes.cdsPT_StoreFinance Then
                 AddNewCashJournalRecord("11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate.Value)
-            ElseIf Holding.Status = "C" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
-            ElseIf Holding.Status = "D" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
+                'ElseIf Holding.Status = "C" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
+            ElseIf Holding.Status = "C" And PayTypeIsOutsideFinance(L.Text) Then
+                'ElseIf Holding.Status = "D" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
+            ElseIf Holding.Status = "D" And PayTypeIsOutsideFinance(L.Text) Then
                 '      AddNewCashJournalRecord "11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate
             Else
-                AddNewCashJournalRecord(lblPaymentType(El.Index).Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
+                'AddNewCashJournalRecord(lblPaymentType(El.Index).Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
+                AddNewCashJournalRecord(L.Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
             End If
         Next
 
@@ -621,4 +639,203 @@ NoMoreRefundsThisSale:
         lblRefundTotal.ForeColor = IIf(GetPrice(lblRefundTotal.Text) = GetPrice(lblTotalPaid.Text), Color.Black, Color.Red)
     End Sub
 
+    Private Sub dteVoidDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles dteVoidDate.Validating
+        If Not CheckAccess("Change Sale Date", True, True) Then e.Cancel = True
+    End Sub
+
+    Private Sub OrdVoid_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdCancel, 3)
+        SetButtonImage(cmdOk, 2)
+        'optRefundType_Click 0
+        optRefundTypeClick(optRefundType0, New EventArgs)
+    End Sub
+
+    Private Sub optRefundTypeClick(sender As Object, e As EventArgs) Handles optRefundType0.CheckedChanged, optRefundType1.CheckedChanged, optRefundType2.CheckedChanged, optRefundType3.CheckedChanged, optRefundType4.CheckedChanged
+        Dim optName As String
+
+        optName = CType(sender, RadioButton).Name
+        Dim El As Object
+        Dim A() As TextBox
+        Dim I As Integer
+
+        For Each C As Control In Me.fraPaymentSummary.Controls
+            If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
+                ReDim Preserve A(I)
+                A(I) = C
+                I = I + 1
+            End If
+        Next
+
+        'For Each El In txtRefundAmount : El.Text = "0.00" : Next
+        On Error Resume Next
+        For Each El In A : El.Text = "0.00" : Next
+        txtRefundSpecial.Text = "0.00"
+        lblSpecialPaymentType.Text = ""
+        lblSpecialPaymentType.Tag = ""
+        txtRefundSpecial.Visible = False
+        lblSpecialPaymentType.Visible = False
+        txtApplyToSaleNo.Visible = False
+        txtApplyToSaleNo.Text = ""
+
+        'Select Case Index
+        Select Case optName
+            'Case 0                                                                ' Return as paid
+            Case "optRefundType0"
+                For Each El In A
+                    'El.Text = lblAmountPaid(El.Index)
+                    If optName = "optRefundType0" Then
+                        El.Text = lblAmountPaid.Text
+                    ElseIf optName = "optRefundType1" Then
+                        Dim L As Label
+                        L.Name = "lblAmountPaid1"
+                        El.Text = L.Text
+                    ElseIf optName = "optRefundType2" Then
+                        Dim L As Label
+                        L.Name = "lblAmountPaid2"
+                        El.Text = L.Text
+                    ElseIf optName = "optRefundType3" Then
+                        Dim L As Label
+                        L.Name = "lblAmountPaid3"
+                        El.Text = L.Text
+                    ElseIf optName = "optRefundType4" Then
+                        Dim L As Label
+                        L.Name = "lblAmountPaid4"
+                        El.Text = L.Text
+                    End If
+                Next
+                RecalculateRefundTotal()
+            'Case 1                                                                ' Company Check
+            Case "optRefundType1"
+                txtRefundSpecial.Text = CurrencyFormat(lblTotalPaid.Text)
+                lblSpecialPaymentType.Text = "COMPANY CHECK"
+                lblSpecialPaymentType.Tag = "21500"    ' BFH20050412
+                txtRefundSpecial.Visible = True
+                lblSpecialPaymentType.Visible = True
+                RecalculateRefundTotal()
+            'Case 2                                                                ' Store Credit
+            Case "optRefundType2"
+                txtRefundSpecial.Text = CurrencyFormat(lblTotalPaid.Text)
+                lblSpecialPaymentType.Text = "STORE CREDIT"
+                lblSpecialPaymentType.Tag = ""    ' No entry for store credits.
+                txtRefundSpecial.Visible = True
+                lblSpecialPaymentType.Visible = True
+                RecalculateRefundTotal()
+            'Case 3                                                                ' Forfeit
+            Case "optRefundType3"
+                ' Validate this choice by password.
+                If Not CheckAccess("Forfeit Deposits", True) Then
+                    'optRefundType(0).Value = True
+                    optRefundType0.Checked = True
+                    'optRefundType(0).SetFocus
+                    optRefundType0.Select()
+                    Exit Sub
+                End If
+                RecalculateRefundTotal()
+            'Case 4                                                                ' apply to sale
+            Case "optRefundType4"
+                txtApplyToSaleNo.Visible = True
+                On Error Resume Next
+                txtApplyToSaleNo.Select()
+                txtRefundSpecial.Text = CurrencyFormat(lblTotalPaid.Text)
+                lblSpecialPaymentType.Text = "APPLY TO SALE"
+                lblSpecialPaymentType.Tag = ""
+                txtRefundSpecial.Visible = True
+                lblSpecialPaymentType.Visible = True
+                RecalculateRefundTotal()
+            Case Else
+        End Select
+    End Sub
+
+    Private Sub OrdVoid_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        PaymentCount = 0
+        VoidSaleNo = ""
+    End Sub
+
+    Private Sub txtRefundAmount_DoubleClick(sender As Object, e As EventArgs) Handles txtRefundAmount.DoubleClick
+        Dim txtName As String
+        Dim T As TextBox
+
+        txtName = CType(sender, TextBox).Name
+        T = CType(sender, TextBox)
+
+        'If GetPrice(txtRefundAmount(Index)) = 0 Then
+        '    txtRefundAmount(Index) = CurrencyFormat(GetPrice(lblAmountPaid(Index)))
+        'Else
+        '    txtRefundAmount(Index) = "0.00"
+        'End If
+        'txtRefundAmount_LostFocus Index
+
+        If GetPrice(T.Text) = 0 Then
+            Dim N As Integer
+            Dim L As Label
+
+            N = Mid(txtName, 16)
+            L.Name = "lblAmountPaid" & N
+            T.Text = CurrencyFormat(GetPrice(L.Text))
+        Else
+            T.Text = "0.00"
+        End If
+        txtRefundAmount_Leave(T, New EventArgs)
+    End Sub
+
+    Private Sub txtRefundAmount_Leave(sender As Object, e As EventArgs) Handles txtRefundAmount.Leave
+        Dim T As TextBox
+
+        T = CType(sender, TextBox)
+
+        On Error Resume Next
+        'If Not ValidPrice(txtRefundAmount(Index).Text) Then
+        '    MsgBox "Invalid refund price.", vbCritical
+        '    txtRefundAmount(Index).SetFocus
+        '    Exit Sub
+        'End If
+        '' Should we allow this value to be greater than the original amount?
+        'txtRefundAmount(Index).Text = CurrencyFormat(txtRefundAmount(Index).Text)
+        'RecalculateRefundTotal()
+
+        If Not ValidPrice(T.Text) Then
+            MessageBox.Show("Invalid refund price.", "WinCDS")
+            T.Select()
+            Exit Sub
+        End If
+
+        T.Text = CurrencyFormat(T.Text)
+        RecalculateRefundTotal()
+    End Sub
+
+    Private Function ValidPrice(ByVal Price As String) As Boolean
+        If Trim(Price) = "" Then Price = "0"
+        If Not IsNumeric(Price) Then Exit Function
+        If GetPrice(Price) < 0 Then Exit Function
+        ValidPrice = True
+    End Function
+
+    Private Sub txtRefundSpecial_Enter(sender As Object, e As EventArgs) Handles txtRefundSpecial.Enter
+        SelectContents(txtRefundSpecial)
+    End Sub
+
+    Private Sub txtRefundAmount_Enter(sender As Object, e As EventArgs) Handles txtRefundAmount.Enter
+        'SelectContents txtRefundAmount(Index)
+        SelectContents(sender)
+    End Sub
+
+    Private Sub txtRefundSpecial_DoubleClick(sender As Object, e As EventArgs) Handles txtRefundSpecial.DoubleClick
+        If GetPrice(txtRefundSpecial.Text) = 0 Then
+            txtRefundSpecial.Text = CurrencyFormat(GetPrice(txtForfeit.Text))
+        Else
+            txtRefundSpecial.Text = "0.00"
+        End If
+        'txtRefundSpecial_LostFocus
+        txtRefundSpecial_Leave(sender, New EventArgs)
+    End Sub
+
+    Private Sub txtRefundSpecial_Leave(sender As Object, e As EventArgs) Handles txtRefundSpecial.Leave
+        If Not ValidPrice(txtRefundSpecial.Text) Then
+            MessageBox.Show("Invalid refund price.", "WinCDS")
+            txtRefundSpecial.Select()
+            Exit Sub
+        End If
+        txtRefundSpecial.Text = CurrencyFormat(txtRefundSpecial.Text)
+        RecalculateRefundTotal()
+    End Sub
 End Class
