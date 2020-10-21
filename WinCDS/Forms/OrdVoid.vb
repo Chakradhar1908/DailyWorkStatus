@@ -71,6 +71,9 @@
             'optRefundType(0).Value = True  ' Default to Refund As Paid
             optRefundType0.Checked = True
             'Me.Show vbModal
+            '<CT>
+            BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, Margin.Style)
+            '</CT>
             Me.ShowDialog()
             VoidOrder = OrderVoided
 
@@ -237,6 +240,7 @@ NoMoreRefundsThisSale:
             Margin.Void(dteVoidDate.Value)                         ' Void each item, returning to stock as necessary.
             BillOSale.SetStatus(CInt(Count), Margin.Status)  ' Update the display on bos2.
             Margin.DataAccess.Records_MoveNext()
+            Margin.cDataAccess_GetRecordSet(Margin.DataAccess.RS)
             Count = Count + 1
         Loop
         BillOSale.BalDue.Text = "0.00"                         ' Update the display on bos2.
@@ -270,29 +274,58 @@ NoMoreRefundsThisSale:
         ' AddNewCashJournalRecord automatically filters out zero-sum entries.
         Dim El As Object
         Dim L As Label
-        For Each El In txtRefundAmount.Text
+        Dim A() As TextBox
+        Dim I As Integer
+        Dim Ptext As String, Ptag As String
+
+        For Each C As Control In Me.fraPaymentSummary.Controls
+            If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
+                ReDim Preserve A(I)
+                A(I) = C
+                I = I + 1
+            End If
+        Next
+
+        I = 0
+        'For Each El In txtRefundAmount.Text
+        For Each El In A
             '    If GetPrice(El.Text) > 0 Then
-            L.Name = "lblPaymentType" & El.index
+            'L.Name = "lblPaymentType" & El.index
+            'L = New Label
+            If I = 0 Then
+                Ptext = lblPaymentType.Text
+                Ptag = lblPaymentType.Tag
+            Else
+                For Each C As Control In Me.fraPaymentSummary.Controls
+                    If C.Name = "lblPaymentType" & I Then
+                        Ptext = C.Text
+                        Ptag = C.Tag
+                        Exit For
+                    End If
+                Next
+            End If
+
             'If IsIn(Holding.Status, "E", "S", "O") And PayTypeIsFinance(lblPaymentType(El.Index), False) Then  ' No CASH adjustment for these OPEN sale types...
-            If IsIn(Holding.Status, "E", "S", "O") And PayTypeIsFinance(L.Text, False) Then  ' No CASH adjustment for these OPEN sale types...
+            If IsIn(Holding.Status, "E", "S", "O") And PayTypeIsFinance(Ptext, False) Then  ' No CASH adjustment for these OPEN sale types...
                 ' In the case of Open Credit/Store Finance, the
                 'ElseIf Holding.Status = "F" And Val(lblPaymentType(El.Index).Tag) = cdsPayTypes.cdsPT_StoreFinance Then
-            ElseIf Holding.Status = "F" And Val(L.Tag) = cdsPayTypes.cdsPT_StoreFinance Then
+            ElseIf Holding.Status = "F" And Val(Ptag) = cdsPayTypes.cdsPT_StoreFinance Then
                 'ElseIf Holding.Status = "F" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
-            ElseIf Holding.Status = "F" And PayTypeIsOutsideFinance(L.Text) Then
+            ElseIf Holding.Status = "F" And PayTypeIsOutsideFinance(Ptext) Then
                 AddNewCashJournalRecord("11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate.Value)
                 'ElseIf Holding.Status = "C" And Val(lblPaymentType(El.Index).Tag) = cdsPayTypes.cdsPT_StoreFinance Then
-            ElseIf Holding.Status = "C" And Val(L.Tag) = cdsPayTypes.cdsPT_StoreFinance Then
+            ElseIf Holding.Status = "C" And Val(Ptag) = cdsPayTypes.cdsPT_StoreFinance Then
                 AddNewCashJournalRecord("11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate.Value)
                 'ElseIf Holding.Status = "C" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
-            ElseIf Holding.Status = "C" And PayTypeIsOutsideFinance(L.Text) Then
+            ElseIf Holding.Status = "C" And PayTypeIsOutsideFinance(Ptext) Then
                 'ElseIf Holding.Status = "D" And PayTypeIsOutsideFinance(lblPaymentType(El.Index)) Then
-            ElseIf Holding.Status = "D" And PayTypeIsOutsideFinance(L.Text) Then
+            ElseIf Holding.Status = "D" And PayTypeIsOutsideFinance(Ptext) Then
                 '      AddNewCashJournalRecord "11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate
             Else
                 'AddNewCashJournalRecord(lblPaymentType(El.Index).Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
                 AddNewCashJournalRecord(L.Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
             End If
+            I = I + 1
         Next
 
         If GetPrice(txtRefundSpecial.Text) <> 0 Then
@@ -622,9 +655,20 @@ NoMoreRefundsThisSale:
 
     Private Sub RecalculateRefundTotal()
         Dim El As Object, X As Decimal, Total As Decimal
+        Dim A() As TextBox
+        Dim I As Integer
+
+        For Each C As Control In Me.fraPaymentSummary.Controls
+            If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
+                ReDim Preserve A(I)
+                A(I) = C
+                I = I + 1
+            End If
+        Next
 
         Total = GetPrice(txtRefundSpecial.Text)
-        For Each El In txtRefundAmount.Text
+        'For Each El In txtRefundAmount.Text
+        For Each El In A
             Total = Total + GetPrice(El.Text)
         Next
 
@@ -644,6 +688,7 @@ NoMoreRefundsThisSale:
     End Sub
 
     Private Sub OrdVoid_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If OrdVoidFormLoad = True Then Exit Sub
         SetButtonImage(cmdCancel, 3)
         SetButtonImage(cmdOk, 2)
         'optRefundType_Click 0

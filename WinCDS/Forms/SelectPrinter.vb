@@ -10,42 +10,42 @@ Public Class SelectPrinter
     Optional ByVal nPictureFile As String = "", Optional ByVal nPrintPicture As Integer = 0,
     Optional ByVal AutoPrintTags As Boolean = False, Optional ByVal DefaultTagSize As String = "",
     Optional ByVal DefaultTicketPath As String = "", Optional ByVal nHidePricing As Boolean = False)
-        '      ' This function gets the data from outside and shows the form..
+        ' This function gets the data from outside and shows the form..
 
-        '      Dim X
-        '      X = Printer.DeviceName
+        Dim X As String
+        X = printer.DeviceName
 
-        '      If PrSel.GetSelectedPrinter Is Nothing Then
-        '          PrintingAllowed = False
-        '      Else
-        '          PrintingAllowed = True
-        '      End If
+        'If PrSel.GetSelectedPrinter Is Nothing Then
+        '    PrintingAllowed = False
+        'Else
+        '    PrintingAllowed = True
+        'End If
 
-        '      Load Me
+        'Load Me
         'LoadTagInfo nStyle, nDesc, nLanded, nList, nOnSale, nDeptNo, nCode, nVendor, nStock, nComments
         'HidePricing = nHidePricing
 
 
-        '      AllowRecLabelPrinting = True
-        '      KitTag = KitMode  ' boolean, means this is a kit.
-        '      PictureFile = nPictureFile
-        '      PrintPicture = nPrintPicture
+        'AllowRecLabelPrinting = True
+        'KitTag = KitMode  ' boolean, means this is a kit.
+        'PictureFile = nPictureFile
+        'PrintPicture = nPrintPicture
 
-        '      If AutoPrintTags Then
-        '          AutoPrint DefaultTagSize, DefaultTicketPath, ParentForm
+        'If AutoPrintTags Then
+        '    AutoPrint DefaultTagSize, DefaultTicketPath, ParentForm
         'ElseIf ParentForm Is Nothing Then
-        '          Show vbModal
+        '    Show vbModal
         'Else
-        '          Show vbModal, ParentForm
+        '    Show vbModal, ParentForm
         '  If UCase(ParentForm.Name) = "EDITPO" Then
-        '              ' Awful hack, but oh well..
-        '              EditPO.SaveTagPrintingOptions TagSize, TicketPath
+        '        ' Awful hack, but oh well..
+        '        EditPO.SaveTagPrintingOptions TagSize, TicketPath
         '  End If
-        '      End If
-        '      If Not SmallTags Then
-        '          SetPrinter X
         'End If
-        '      KitTag = False
+        'If Not SmallTags Then
+        '    SetPrinter X
+        'End If
+        'KitTag = False
     End Sub
 
     Public Function PrintSoldTags(ByVal Style As String, Optional ByVal LastName As String = "", Optional ByVal SaleNo As String = "", Optional ByVal Q As Integer = 1) As Integer

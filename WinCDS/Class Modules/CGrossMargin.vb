@@ -557,7 +557,7 @@ NoSave:
             '  It should only prompt if an item was actually returned to stock.
             If Location >= 1 Then
                 If IsIn(Trim(Status), "ST", "SOREC", "POREC") Or IsDelivered(Status) Then
-                    If MessageBox.Show("Make New Ticket For Style No: " & InvData.Style, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    If MessageBox.Show("Make New Ticket For Style No: " & InvData.Style, "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                         With InvData
                             SelectPrinter.PrintTags(.Style, .Desc, .Landed, .List, .OnSale, .DeptNo, .DeptNo & .VendorNo, .Vendor, .Available, .Comments)
                         End With
