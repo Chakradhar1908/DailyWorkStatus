@@ -334,7 +334,8 @@ NextItem:
                         '          Memo = Mid(split(.Desc, "/")(2), 6)
                         '          AddNewCashJournalRecord .Quantity, .Price, ProcessSale, Trim(SaleName & " " & Memo), DateFormat(SaleDate)
                         If Not PayTypeIsOutsideFinance(.Quantity) Then
-                            AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateFormat(SaleDate))
+                            'AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateFormat(SaleDate))
+                            AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, Date.Parse(DateFormat(SaleDate), Globalization.CultureInfo.InvariantCulture))
                             'If IsDate(SaleDate) Then
                             '    AddNewCashJournalRecord(.Quantity, .Price, ProcessSale, SaleName, DateTime.Parse(Format(SaleDate, "MM/dd/yyyy")))
                             'Else

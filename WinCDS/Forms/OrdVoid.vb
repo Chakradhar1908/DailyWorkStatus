@@ -20,6 +20,9 @@
         ' This function is then set to True if OK was clicked,
         ' or false if Cancel/Unload are called.
         ' The calling form calls: Success=OrdVoid.VoidOrder(SaleNo)
+        '<CT>
+        Dim StyleValue As String = ""
+        '</CT>
 
         OrderVoided = False
         VoidSaleNo = SaleNo
@@ -65,6 +68,7 @@
                     ' Save the sale's tax code!
                     SaleTaxCode = Margin.Quantity
                 End If
+
                 Margin.DataAccess.Records_MoveNext()
                 Margin.cDataAccess_GetRecordSet(Margin.DataAccess.RS)
             Loop
@@ -72,8 +76,10 @@
             optRefundType0.Checked = True
             'Me.Show vbModal
             '<CT>
-            BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, Margin.Style)
+            StyleValue = BillOSale.UGridIO1.GetValue(BillOSale.UGridIO1.LastRowUsed, BillColumns.eStyle)
+            BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, StyleValue)
             '</CT>
+            MailCheck.Close()
             Me.ShowDialog()
             VoidOrder = OrderVoided
 
@@ -238,11 +244,14 @@ NoMoreRefundsThisSale:
                 Written = Written + Margin.SellPrice
             End If
             Margin.Void(dteVoidDate.Value)                         ' Void each item, returning to stock as necessary.
-            BillOSale.SetStatus(CInt(Count), Margin.Status)  ' Update the display on bos2.
+            BillOSale.SetStatus(Count, Margin.Status)  ' Update the display on bos2.
             Margin.DataAccess.Records_MoveNext()
             Margin.cDataAccess_GetRecordSet(Margin.DataAccess.RS)
             Count = Count + 1
         Loop
+        '<CT>
+        BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, BillOSale.UGridIO1.GetValue(BillOSale.UGridIO1.LastRowUsed, BillColumns.eStyle))
+        '</CT>
         BillOSale.BalDue.Text = "0.00"                         ' Update the display on bos2.
         BillOSale.Refresh()
 
@@ -323,7 +332,7 @@ NoMoreRefundsThisSale:
                 '      AddNewCashJournalRecord "11300", -GetPrice(El.Text), VoidSaleNo, "", dteVoidDate
             Else
                 'AddNewCashJournalRecord(lblPaymentType(El.Index).Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
-                AddNewCashJournalRecord(L.Tag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
+                AddNewCashJournalRecord(Ptag, -GetPrice(El.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
             End If
             I = I + 1
         Next

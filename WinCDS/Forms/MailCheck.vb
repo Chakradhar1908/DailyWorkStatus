@@ -364,20 +364,22 @@ Public Class MailCheck
 
         If OrderMode("C") Then ' Void Sale
             BillOSale.Refresh()
-            Hide()
-
+            'Hide()
+            Me.Close()
             If Not tHold.Void Then
                 MessageBox.Show("The sale and/or PO could not be voided.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
 
-            If MessageBox.Show("Any More Sales To Void?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            If MessageBox.Show("Any More Sales To Void?", "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 'Unload BillOSale
+                Me.Close()
                 BillOSale.Close()
                 'Unload Me
-                Me.Close()
                 BillOSale.Show()
                 BillOSale.BillOSale2_Show()
                 optSaleNo.Checked = True
+                'Me.Show()
+                Me.Visible = False
                 'Me.Show vbModal, BillOSale
                 Me.ShowDialog(BillOSale)
                 DisposeDA(tHold, RS)
