@@ -96,6 +96,8 @@ Module modMainMenu
     Public Const MainMenuType As String = "MainMenu4"
     Public ViewSaleSelected As Boolean
     Public MailCheckSaleNoChecked As Boolean
+    Public VoidSaleContinue As Boolean
+
     'Public ReadOnly Property frmSplash As frmSplash2
     '    Get
     '        Return frmSplas
@@ -860,6 +862,13 @@ Module modMainMenu
                         MailCheck.ShowDialog()  ' If this is loaded "vbModal, bos2", lockup may occur.  However, alt-tab can MainMenu.Hide Bos2 if we don't.
                         'Unload MailCheck
                         MailCheck.Close()
+
+                        '<CT>
+                        If VoidSaleContinue = True Then
+                            MainMenu_Dispatch("order entry", "voidsale")
+                        Else
+                        End If
+                        '</CT>
                     Case "cashdrawer"
                         If Not CheckAccess("Cash Drawer") Then Exit Function
                         MainMenu.Hide()

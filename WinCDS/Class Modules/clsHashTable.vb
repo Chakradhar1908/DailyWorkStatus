@@ -7,7 +7,8 @@ Public Class clsHashTable
     Dim FreeNdx As Integer             ' pointer to first free slot
     Private mAutoIndex As Integer      ' For AutoIndexing
     Private m_IgnoreCase As Boolean ' member variable for IgnoreCase property
-    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByVal Source As Object, ByVal bytes As Integer)
+    'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByVal Source As Object, ByVal bytes As Integer)
+    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByRef Source As Object, ByVal bytes As Integer)
     'Public Declare Auto Sub CopyMemory Lib "kernel32.dll" Alias "CopyMemory" (destination As Object, source As IntPtr, length As UInteger)
 
     Dim resx As Object
@@ -212,7 +213,7 @@ Public Class clsHashTable
 
         ' copy ansi codes into an array of long
         lastEl = (Len(key) - 1) \ 4
-        'ReDim Codes(lastEl)
+        ReDim Codes(lastEl)
         ' this also converts from Unicode to ANSI
 
         Dim sourcePtr As IntPtr

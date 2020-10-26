@@ -120,7 +120,7 @@ NoSave:
     Public Function Void() As Boolean
         ' Make sure this holding record is able to be voided.
         If Trim(LeaseNo) = "" Then Exit Function
-        If Status = "V" Then MessageBox.Show("This sale is already void.") : Void = True : Exit Function
+        If Status = "V" Then MessageBox.Show("This sale is already void.", "WinCDS") : Void = True : Exit Function
 
         LogFile("VoidSale", "cHolding.Void() - BEFORE VOID  - LeaseNo=" & LeaseNo & ", Status=" & Status & ", Sale=" & Sale & ", Desposit=" & Deposit, False)
         If OrdVoid.VoidOrder(LeaseNo) Then

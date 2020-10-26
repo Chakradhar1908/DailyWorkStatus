@@ -71,6 +71,10 @@ Public Class MailCheck
 
         SaleNo = "" ' Something isn't cleaning up!
 
+        '<CT>
+        VoidSaleContinue = False
+        '</CT>
+
         Dim RS As ADODB.Recordset
         Dim tHold As cHolding
         Dim FailMsg As String
@@ -364,24 +368,40 @@ Public Class MailCheck
 
         If OrderMode("C") Then ' Void Sale
             BillOSale.Refresh()
-            'Hide()
-            Me.Close()
+            Hide()
+            'Me.Close()
+            '<CT>
+            Dim Lastrow As Integer, PriceValue As String, StyleValue As String
+            Lastrow = BillOSale.UGridIO1.LastRowUsed
+            StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)
+            PriceValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.ePrice)
+            'BillOSale.SetStyle(Lastrow, StyleValue)
+            'BillOSale.SetPrice(Lastrow, PriceValue)
+            BillOSale.UGridIO1.Row = Lastrow
+            BillOSale.UGridIO1.Col = BillColumns.eStyle
+            BillOSale.UGridIO1.Text = StyleValue
+            BillOSale.UGridIO1.Col = BillColumns.ePrice
+            BillOSale.UGridIO1.Text = PriceValue
+            '</CT>
+
             If Not tHold.Void Then
                 MessageBox.Show("The sale and/or PO could not be voided.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
 
             If MessageBox.Show("Any More Sales To Void?", "WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 'Unload BillOSale
-                Me.Close()
                 BillOSale.Close()
                 'Unload Me
-                BillOSale.Show()
-                BillOSale.BillOSale2_Show()
-                optSaleNo.Checked = True
-                'Me.Show()
-                Me.Visible = False
+                Me.Close()
+                'BillOSale.Show()
+                'BillOSale.BillOSale2_Show()
+                'optSaleNo.Checked = True
                 'Me.Show vbModal, BillOSale
-                Me.ShowDialog(BillOSale)
+                'Me.ShowDialog(BillOSale)
+
+                '<CT>
+                VoidSaleContinue = True
+                '</CT>
                 DisposeDA(tHold, RS)
                 Exit Sub
             End If
@@ -932,6 +952,9 @@ HandleErr:
         'Unload BillOSale
         BillOSale.Close()
         MainMenu.Show()
+        '<CT>
+        VoidSaleContinue = False
+        '</CT>
     End Sub
 
     Private Sub MailCheck_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated

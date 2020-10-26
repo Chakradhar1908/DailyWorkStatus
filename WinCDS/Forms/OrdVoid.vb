@@ -5,6 +5,7 @@
     Private PaymentCount As Integer    ' Count of payment types used in the sale
     Private OrderVoided As Boolean  ' Confirmation that the order was voided.
     Private OrdVoidFormLoad As Boolean
+    Private StyleValue As String = ""
     Private Enum cdsRefundType
         cdsrft_AsPaid = 0
         cdsrft_CompanyCheck = 1
@@ -21,7 +22,7 @@
         ' or false if Cancel/Unload are called.
         ' The calling form calls: Success=OrdVoid.VoidOrder(SaleNo)
         '<CT>
-        Dim StyleValue As String = ""
+        'Dim StyleValue As String = ""
         '</CT>
 
         OrderVoided = False
@@ -79,7 +80,6 @@
             StyleValue = BillOSale.UGridIO1.GetValue(BillOSale.UGridIO1.LastRowUsed, BillColumns.eStyle)
             BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, StyleValue)
             '</CT>
-            MailCheck.Close()
             Me.ShowDialog()
             VoidOrder = OrderVoided
 
@@ -249,9 +249,7 @@ NoMoreRefundsThisSale:
             Margin.cDataAccess_GetRecordSet(Margin.DataAccess.RS)
             Count = Count + 1
         Loop
-        '<CT>
-        BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, BillOSale.UGridIO1.GetValue(BillOSale.UGridIO1.LastRowUsed, BillColumns.eStyle))
-        '</CT>
+
         BillOSale.BalDue.Text = "0.00"                         ' Update the display on bos2.
         BillOSale.Refresh()
 
@@ -369,6 +367,20 @@ NoMoreRefundsThisSale:
             AddNewCashJournalRecord("41500", GetPrice(txtForfeit.Text), VoidSaleNo, Margin.Name, dteVoidDate.Value)
         End If
         ' Need: Written, Tax
+
+        '<CT>
+        Dim Lastrow As Integer, PriceValue As String
+        Lastrow = BillOSale.UGridIO1.LastRowUsed
+        StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)
+        PriceValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.ePrice)
+        'BillOSale.SetStyle(Lastrow, StyleValue)
+        'BillOSale.SetPrice(Lastrow, PriceValue)
+        BillOSale.UGridIO1.Row = Lastrow
+        BillOSale.UGridIO1.Col = BillColumns.eStyle
+        BillOSale.UGridIO1.Text = StyleValue
+        BillOSale.UGridIO1.Col = BillColumns.ePrice
+        BillOSale.UGridIO1.Text = PriceValue
+        '</CT>
 
         LogFile("voidsale", "void save audit", False)
 
