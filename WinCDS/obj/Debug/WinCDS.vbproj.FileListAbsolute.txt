@@ -305,10 +305,12 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.PackagePrice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PassWord.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Practice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RestoreInv.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.SelectPrinter.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Service.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceParts.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Resources.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MessageCenter.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.PrinterSelector.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RichTextBoxNew.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.testusercontrol.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ucPBar.resources

@@ -370,7 +370,7 @@ Public Class MailCheck
             BillOSale.Refresh()
             Hide()
             'Me.Close()
-            '<CT>
+            '<CT> To show the style and price of the lastrow in the grid. Cause, grid is not refreshing the lastrow properly, so the lastrow's style and price is not showing while loading.
             Dim Lastrow As Integer, PriceValue As String, StyleValue As String
             Lastrow = BillOSale.UGridIO1.LastRowUsed
             StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)

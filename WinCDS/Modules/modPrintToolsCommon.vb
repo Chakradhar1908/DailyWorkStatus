@@ -14,7 +14,10 @@ Module modPrintToolsCommon
     Public CommonReportColSpacing As Integer, CommonReportIndent As Integer
     'Public Cols(1 To 50, 1 To 4) '@NO-LINT-NTYP
     Public Cols(0 To 49, 0 To 3) '@NO-LINT-NTYP
-
+    Public Const DYMO_PaperBin_Left As Integer = 15                              '
+    Public Const DYMO_PaperBin_Right As Integer = 16                             ' ?? Left is 15, we just did +1 for the twin
+    Public Const DYMO_PaperBin_DEFAULT As Integer = DYMO_PaperBin_Left           ' Default to LEFT bin
+    Public Const DYMO_PaperSize_ContW As Integer = DYMO_PaperSize_30270          ' A shorter alias...
     'Note: Printer code will be move to reporting software.
 
     '  Public Sub PrintCentered(ByVal Text As String, Optional ByVal yPos as integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
@@ -774,4 +777,114 @@ PrinterDialogCancelled:
 
         PrintToPosition(OutOb, OutText, , Alignment, NewLine)
     End Sub
+
+    Public Function PrinterStat(Optional ByVal vDeviceName As String = "") As Boolean
+        Dim Op As String
+        Dim S As String
+
+        Op = Printer.DeviceName
+        If vDeviceName <> "" Then SetPrinter(vDeviceName)
+
+        S = ""
+        S = S & "== Printer Info ==" & vbCrLf
+        S = S & "dev: " & Printer.DeviceName & IIf(IsDymoPrinter(), " [DYMO]", "") & vbCrLf
+        'S = S & "drv: " & Printer.DriverName & vbCrLf
+        S = S & vbCrLf
+        S = S & "dim: " & Printer.Width & "x" & Printer.Height & vbCrLf
+        S = S & "scl: " & Printer.ScaleWidth & "x" & Printer.ScaleHeight & vbCrLf
+        S = S & "pos: " & Printer.CurrentX & "x" & Printer.CurrentY & vbCrLf
+        S = S & vbCrLf
+        S = S & "ori: " & Printer.Orientation & " [" & DescribePrinterOrientation(Printer.Orientation) & "]" & vbCrLf
+        S = S & "bin: " & Printer.PaperBin & " [" & DescribePrinterPaperBin(Printer.PaperBin) & "]" & vbCrLf
+        S = S & "pap: " & Printer.PaperSize & " [" & DescribePrinterPaperSize(Printer.PaperSize) & "]" & vbCrLf
+        S = S & "pqa: " & Printer.PrintQuality & " [" & DescribePrinterPrintQuality(Printer.PrintQuality) & "]" & vbCrLf
+        'S = S & "zoo: " & Printer.Zoom & vbCrLf
+        S = S & vbCrLf
+        S = S & "dpx: " & Printer.Duplex & " [" & DescribePrinterDuplex(Printer.Duplex) & "]" & vbCrLf
+        S = S & "clr: " & Printer.ColorMode & vbCrLf
+        S = S & vbCrLf
+        S = S & "fnt: " & Printer.FontName & " " & Printer.FontSize & IIf(Printer.FontBold, " [BOLD]", "") & IIf(Printer.FontItalic, " [ITAL]", "") & IIf(Printer.FontStrikethru, " [STRI]", "") & IIf(Printer.FontTransparent, " [TRANS]", "") & IIf(Printer.FontUnderline, " [UNDL]", "") & vbCrLf
+        S = S & "fcl: " & Printer.ForeColor & " [" & DescribeColor(Printer.ForeColor) & "]" & vbCrLf
+        S = S & "  Drawing" & vbCrLf
+        'S = S & "mde: " & Printer.DrawMode & vbCrLf
+        S = S & "sty: " & Printer.DrawStyle & vbCrLf
+        S = S & "wid: " & Printer.DrawWidth & vbCrLf
+        S = S & "fst: " & Printer.FillStyle & vbCrLf
+        S = S & "fcl: " & Printer.FillColor & " [" & DescribeColor(Printer.FillColor) & "]" & vbCrLf
+        '  S = S & vbCrLf
+
+        MessageBox.Show(S, "PrinterStat", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        If vDeviceName <> "" Then SetPrinter(Op)
+
+        PrinterStat = True
+    End Function
+
+    Public Function DescribePrinterOrientation(ByVal Orien As Integer) As String
+        DescribePrinterOrientation = IIf(Orien = vbPRORLandscape, "Landscape", "Portrait")
+    End Function
+
+    Public Function DescribePrinterPaperBin(ByVal pBin As Integer) As String
+        Select Case pBin
+            Case vbPRBNAuto : DescribePrinterPaperBin = "vbPRBNAuto"
+            Case vbPRBNCassette : DescribePrinterPaperBin = "vbPRBNCassette"
+            Case vbPRBNEnvelope : DescribePrinterPaperBin = "vbPRBNEnvelope"
+            Case vbPRBNEnvManual : DescribePrinterPaperBin = "vbPRBNEnvManual"
+            Case vbPRBNLargeCapacity : DescribePrinterPaperBin = "vbPRBNLargeCapacity"
+            Case vbPRBNLargeFmt : DescribePrinterPaperBin = "vbPRBNLargeFmt"
+            Case vbPRBNLower : DescribePrinterPaperBin = "vbPRBNLower"
+            Case vbPRBNManual : DescribePrinterPaperBin = "vbPRBNManual"
+            Case vbPRBNMiddle : DescribePrinterPaperBin = "vbPRBNMiddle"
+            Case vbPRBNSmallFmt : DescribePrinterPaperBin = "vbPRBNSmallFmt"
+            Case vbPRBNTractor : DescribePrinterPaperBin = "vbPRBNTractor"
+            Case vbPRBNUpper : DescribePrinterPaperBin = "vbPRBNUpper"
+
+            Case DYMO_PaperBin_Left : DescribePrinterPaperBin = "DYMO - Left Roll"
+            Case DYMO_PaperBin_Right : DescribePrinterPaperBin = "DYMO - Right Roll ?"
+
+            Case 258 : DescribePrinterPaperBin = "Unknown - 258"
+
+            Case Else : DescribePrinterPaperBin = "UNKNOWN"
+        End Select
+    End Function
+
+    Public Function DescribePrinterPaperSize(ByVal pSize As Integer) As String
+        Select Case pSize
+            Case vbPRPSLetter : DescribePrinterPaperSize = "8.5"" x 11"""
+            Case vbPRPSA3 : DescribePrinterPaperSize = "A3"
+            Case vbPRPSA4 : DescribePrinterPaperSize = "A4"
+            Case vbPRPSA5 : DescribePrinterPaperSize = "A5"
+            Case vbPRPSLegal : DescribePrinterPaperSize = "Legal"
+            Case DYMO_PaperSize_30252 : DescribePrinterPaperSize = "DYMO - 6"" x 1.5"" Addr Labels (NARROW)"
+            Case DYMO_PaperSize_30323 : DescribePrinterPaperSize = "DYMO - 6"" x 3"" Addr Labels (Wide)"
+            Case DYMO_PaperSize_30256 : DescribePrinterPaperSize = "DYMO - 2"" x 4"" Shipping"
+            Case DYMO_PaperSize_ContW : DescribePrinterPaperSize = "Continuous, Wide"
+            Case DYMO_PaperSize_30323 : DescribePrinterPaperSize = "DYMO - 6"" x 3"" labels"
+
+            Case Else : DescribePrinterPaperSize = "UNKNOWN"
+        End Select
+    End Function
+
+    'vbPRPQDraft, vbPRPQLow, PRPQMedium, PRPQHigh
+    Public Function DescribePrinterPrintQuality(ByVal pPrintQuality As Integer) As String
+        Select Case pPrintQuality
+            Case vbPRPQDraft : DescribePrinterPrintQuality = "vbPRPQDraft"
+            Case vbPRPQLow : DescribePrinterPrintQuality = "vbPRPQLow"
+            Case vbPRPQMedium : DescribePrinterPrintQuality = "vbPRPQMedium"
+            Case vbPRPQHigh : DescribePrinterPrintQuality = "vbPRPQHigh"
+
+            Case Else : DescribePrinterPrintQuality = "UNKNOWN"
+        End Select
+    End Function
+
+    Public Function DescribePrinterDuplex(ByVal pDuplex As Integer) As String
+        Select Case pDuplex
+            Case vbPRDPSimplex : DescribePrinterDuplex = "vbPRDPSimplex"
+            Case vbPRDPVertical : DescribePrinterDuplex = "vbPRDPVertical"
+            Case vbPRDPHorizontal : DescribePrinterDuplex = "vbPRDPHorizontal"
+
+            Case Else : DescribePrinterDuplex = "UNKNOWN"
+        End Select
+    End Function
+
 End Module

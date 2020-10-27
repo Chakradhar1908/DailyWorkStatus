@@ -1259,6 +1259,12 @@
     <Compile Include="UserControls\MessageCenter.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\PrinterSelector.Designer.vb">
+      <DependentUpon>PrinterSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PrinterSelector.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\RichTextBoxNew.Designer.vb">
       <DependentUpon>RichTextBoxNew.vb</DependentUpon>
     </Compile>
@@ -1534,6 +1540,9 @@
     <EmbeddedResource Include="Forms\RestoreInv.resx">
       <DependentUpon>RestoreInv.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectPrinter.resx">
+      <DependentUpon>SelectPrinter.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Service.resx">
       <DependentUpon>Service.vb</DependentUpon>
     </EmbeddedResource>
@@ -1548,6 +1557,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MessageCenter.resx">
       <DependentUpon>MessageCenter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\PrinterSelector.resx">
+      <DependentUpon>PrinterSelector.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RichTextBoxNew.resx">
       <DependentUpon>RichTextBoxNew.vb</DependentUpon>

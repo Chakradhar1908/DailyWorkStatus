@@ -76,9 +76,15 @@
             'optRefundType(0).Value = True  ' Default to Refund As Paid
             optRefundType0.Checked = True
             'Me.Show vbModal
-            '<CT>
-            StyleValue = BillOSale.UGridIO1.GetValue(BillOSale.UGridIO1.LastRowUsed, BillColumns.eStyle)
-            BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, StyleValue)
+
+            '<CT>To show the style of the lastrow in the grid. Cause, grid is not refreshing the lastrow properly, so the lastrow's style is not showing while loading.
+            Dim Lastrow As Integer
+            Lastrow = BillOSale.UGridIO1.LastRowUsed
+            StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)
+            'BillOSale.SetStyle(BillOSale.UGridIO1.LastRowUsed, StyleValue)
+            BillOSale.UGridIO1.Row = Lastrow
+            BillOSale.UGridIO1.Col = BillColumns.eStyle
+            BillOSale.UGridIO1.Text = StyleValue
             '</CT>
             Me.ShowDialog()
             VoidOrder = OrderVoided
@@ -368,7 +374,7 @@ NoMoreRefundsThisSale:
         End If
         ' Need: Written, Tax
 
-        '<CT>
+        '<CT> To show the style and price of the lastrow in the grid. Cause, grid is not refreshing the lastrow properly, so the lastrow's style and price is not showing while loading.
         Dim Lastrow As Integer, PriceValue As String
         Lastrow = BillOSale.UGridIO1.LastRowUsed
         StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)
