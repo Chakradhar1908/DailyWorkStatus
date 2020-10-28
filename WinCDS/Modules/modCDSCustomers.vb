@@ -405,4 +405,59 @@
         ' This will ensure we reset their credentials on every startup...
         ResetAWSFile(True)
     End Function
+
+    Public ReadOnly Property IsMiltons() As Boolean
+        Get
+            IsMiltons = CheckStoreName("Milton")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsVeranda() As Boolean
+        Get
+            IsVeranda = CheckStoreName("veranda")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsLucas() As Boolean
+        Get
+            IsLucas = CheckStoreName("Lucas")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsFennimore() As Boolean
+        Get
+            IsFennimore = CheckStoreName("fennimore", "lancaster", "beaver dam", "reedsburg")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsWaters() As Boolean
+        Get
+            IsWaters = CheckStoreName("Water's")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsWarehouseFurniture() As Boolean
+        Get
+            IsWarehouseFurniture = CheckStoreName("Warehouse Furniture")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsViking() As Boolean
+        Get
+            IsViking = CheckStoreName("Viking Furniture")
+        End Get
+    End Property
+
+    Public ReadOnly Property IsNoOne() As Boolean
+        Get
+            IsNoOne = False
+        End Get
+    End Property
+
+    Public ReadOnly Property IsDoubleR() As Boolean
+        Get
+            IsDoubleR = CheckStoreName("Double R")
+        End Get
+    End Property
+
 End Module

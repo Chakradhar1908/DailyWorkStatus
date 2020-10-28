@@ -326,4 +326,9 @@
         SQL = SQL & " WHERE Style='" & Style & "' AND PrintPO <> 'V' and Posted <> 'X' AND Left([Name],5)='Stock'"
         ExecuteRecordsetBySQL(SQL, , GetDatabaseInventory)
     End Sub
+
+    Public Function GetItemCode() As String
+        GetItemCode = VendorNo & DeptNo
+    End Function
+
 End Class

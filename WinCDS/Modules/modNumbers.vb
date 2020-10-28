@@ -141,4 +141,45 @@
         ': Currency : Return the RoundUp value as decimal.
         RoundUp = Math.Round(Money + 0.49, 0)
     End Function
+
+    Public Function DollarValue(ByVal Price As Decimal) As String
+        '::::DollarValue
+        ':::SUMMARY
+        ': Used to return the Integer part of the given Currency Value.
+        ':::DESCRIPTION
+        ': This function is used to return the Integer part of the given Currency Value using Truncate Function.
+        ':::PARAMETERS
+        ': - Price - Indicates the Currency amount to be truncate.
+        ':::RETURN
+        ': String : Returns Dollar value as a String.
+        DollarValue = Trunc(Price)
+    End Function
+
+    Public Function CentValue(ByVal Price As Decimal) As String
+        '::::CentValue
+        ':::SUMMARY
+        ': Returns a Variant (String) containing a specified number of characters from a string.
+        ':::DESCRIPTION
+        ': This function is used to return CentValue after formating the given Price Currency.
+        ':::PARAMETERS
+        ': - Price - Indicates the Price Currency value.
+        ':::RETURN
+        ': String : Returns Centre value of given price as a String.
+
+        CentValue = Mid(Format((Price - DollarValue(Price)), "0.00"), 3)
+    End Function
+
+    Public Function RandomDigit() As Integer
+        '::::RandomDigit
+        ':::SUMMARY
+        ': Used to generate Random Digit.
+        ':::DESCRIPTION
+        ': This function is used to return the random digit in  a given range by using Random function.
+        ':::PARAMETERS
+        ':::RETURN
+        ': Long : Returns Random Digit.
+
+        RandomDigit = Random(9, 0)
+    End Function
+
 End Module

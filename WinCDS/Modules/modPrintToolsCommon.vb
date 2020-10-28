@@ -887,4 +887,59 @@ PrinterDialogCancelled:
         End Select
     End Function
 
+    Public Function TicketPrinter(Optional ByVal StoreNo As Integer = 0, Optional ByVal nValue As String = "", Optional ByVal GetOrLet As String = "Get")
+        If GetOrLet = "Get" Then
+            'Get
+            If StoreNo = 0 Then StoreNo = StoresSld
+            TicketPrinter = GetConfigTableValue("Ticket Printer", GetCDSSetting("Cash Register Printer"))
+        Else
+            'Let
+            If StoreNo = 0 Then StoreNo = StoresSld
+            SetConfigTableValue("Ticket Printer", nValue)        ' right now, we save to Config table (primary)
+            SaveCDSSetting("Ticket Printer", nValue)             ' and registry (in case we want to use it in the future)
+        End If
+    End Function
+
+    Public Sub PrintCostCode(ByRef Plaintext As String, ByRef TagSize As String, Optional ByRef PrintX As Integer = -1, Optional ByRef PrintY As Integer = -1)
+        ' Encode and print PlainText.
+        ' Encoded letters need to be in a different font than plain ones.
+
+        Dim OldFontSize As Double
+        Dim I As Integer
+        Dim CodeLetter As String
+        Dim S As String
+        CodeLetter = ""
+
+        OldFontSize = Printer.FontSize
+        If PrintX <> -1 Then Printer.CurrentX = PrintX
+        If PrintY <> -1 Then Printer.CurrentY = PrintY
+
+        SetCostCodeFontSize(TagSize, True) ' CodeLetter <> Mid(Plaintext, I, 1)
+        S = ConvertCostToCode(Plaintext)
+        Printer.Print(S)
+
+        '  For I = 1 To Len(Plaintext)
+        '    CodeLetter = GetCostCode(Mid(Plaintext, I, 1))
+        '    SetCostCodeFontSize TagSize, CodeLetter <> Mid(Plaintext, I, 1)
+        '    Printer.Print CodeLetter;
+        ' ' Debug.Print CodeLetter;
+        '  Next
+        Printer.FontSize = OldFontSize
+        Printer.Print()   ' Next line.
+    End Sub
+
+    Private Sub SetCostCodeFontSize(ByRef TagSize As String, ByRef Changed As Boolean)
+        Dim SizeDiff As Integer
+        If Changed Then SizeDiff = 2 Else SizeDiff = 0
+        Select Case TagSize
+            Case "DYMO", "SMALL" : Printer.FontSize = 9 + SizeDiff
+            Case "MED" : Printer.FontSize = 10 + SizeDiff
+            Case "LARGE" : Printer.FontSize = 14 + SizeDiff
+        End Select
+    End Sub
+
+    Public Function BestPrinterFontFit(ByRef OutText As String, ByRef MaxFontSize As Integer, ByRef MaxWidth As Integer, ByRef MaxHeight As Integer) As Double
+        BestPrinterFontFit = BestFontFit(Printer, OutText, MaxFontSize, MaxWidth, MaxHeight)
+    End Function
+
 End Module

@@ -745,4 +745,70 @@ Skip:
             Cbo.SelectedIndex = 0
         End If
     End Sub
+
+    Public Function QueryTicketCode(ByVal Digit As Integer, Optional ByVal SN As Integer = 0) As String
+        ':::SUMMARY
+        ':::DESCRIPTION
+        ':::PARAMETERS
+        ':::RETURN
+        If SN = 0 Then SN = StoresSld
+        ' this runs a cache on the file for the specified store
+        If TicketCodeFor <> SN Then TicketCode = GetTicketCodes(SN) : TicketCodeFor = SN
+        If Digit = 0 Then Digit = 10
+        QueryTicketCode = Mid(TicketCode, FitRange(1, Digit, 10), 1)
+    End Function
+
+    Public Function GetTicketCodes(ByVal StoreNum As Integer) As String
+        '::::GetTicketCodes
+        ':::SUMMARY
+        ': Used to get Ticket codes based on Store Number.
+        ':::DESCRIPTION
+        ': VBA includes commands to allow data to read or write to external text files. This is more commonly known as I/O (Input / Output) and is used to store files in the formats such as ‘txt’, ‘csv’ and ‘ini’ files.
+        ': Creates an instance of a file using the FreeFile function, which returns a unique number (as its handler). The Open method is used to locate and open the file.
+        ':::PARAMETERS
+        ': - StoreNum - Indicates the Store Number.
+        ':::RETURN
+        ': String - Returns the TicketCodes as a string.
+        'Get this from the ticketcodes file.
+        'GetTicketCodes = "BUYFORCASH"
+        Dim I As Integer, FNum As Integer
+
+        On Error GoTo ReadError 'Resume Next
+        FNum = FreeFile()
+        'Open TicketCodesFile For Input As #FNum
+        FileOpen(FNum, TicketCodesFile, OpenMode.Input)
+        'Input #FNum, GetTicketCodes
+        Input(FNum, GetTicketCodes)
+        'Close #FNum
+        FileClose(FNum)
+
+        If Len(GetTicketCodes) <> 10 Then
+            '    MsgBox "Invalid Data in Ticket Codes File." & vbCrLf & "Using default ticket code.", vbCritical, "Error in Ticket Codes", , , 30
+            GetTicketCodes = Space(10)
+        End If
+        Exit Function
+
+ReadError:
+        Dim S As String
+        S = S & "ERROR READING TICKET CODES" & vbCrLf
+        S = S & "Could not read " & TicketCodesFile() & vbCrLf
+        S = S & "Error: " & Err.Description & vbCrLf
+        S = S & "Your Ticket Codes will use the default code." & vbCrLf
+        '  MsgBox S, vbCritical, "Error loading Ticket Codes", , , 30
+        GetTicketCodes = Space(10)
+    End Function
+
+    Public Function TicketCodesFile(Optional ByVal StoreNo As Integer = 0) As String
+        '::::TicketCodesFile
+        ':::SUMMARY
+        ': Used to display TicketCodes File.
+        ':::DESCRIPTION
+        ': This function is used to get Ticket Codes File based on Store Number.
+        ':::PARAMETERS
+        ': - StoreNo - Indicates the Store Number.
+        ':::RETURN
+        ': String - Returns the  file as a string.
+        TicketCodesFile = StoreFolder(1) & "TICKETCODES.DAT"
+    End Function
+
 End Module

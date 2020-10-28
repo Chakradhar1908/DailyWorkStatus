@@ -1117,6 +1117,7 @@
     <Compile Include="Modules\modCodeVersioning.vb" />
     <Compile Include="Modules\modConfigTable.vb" />
     <Compile Include="Modules\modConnectCMD.vb" />
+    <Compile Include="Modules\modCostCode.vb" />
     <Compile Include="Modules\modCPL.vb" />
     <Compile Include="Modules\modCreditCard.vb" />
     <Compile Include="Modules\modCSV.vb" />
@@ -1129,6 +1130,7 @@
     <Compile Include="Modules\modDBFunctions.vb" />
     <Compile Include="Modules\modDebugging.vb" />
     <Compile Include="Modules\modDepartments.vb" />
+    <Compile Include="Modules\modDesignTag.vb" />
     <Compile Include="Modules\modDevelopment.vb" />
     <Compile Include="Modules\modDiagnostics.vb" />
     <Compile Include="Modules\modDiagnosticTools.vb" />
@@ -1211,6 +1213,7 @@
     <Compile Include="Modules\modStoreTransfers.vb" />
     <Compile Include="Modules\modStringFunctions.vb" />
     <Compile Include="Modules\modSupportForms.vb" />
+    <Compile Include="Modules\modSystem.vb" />
     <Compile Include="Modules\modTextFiles.vb" />
     <Compile Include="Modules\modTimeDuration.vb" />
     <Compile Include="Modules\modTimeZone.vb" />
@@ -1362,6 +1365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDemoNotify.resx">
       <DependentUpon>frmDemoNotify.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDesignTag.resx">
+      <DependentUpon>frmDesignTag.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>

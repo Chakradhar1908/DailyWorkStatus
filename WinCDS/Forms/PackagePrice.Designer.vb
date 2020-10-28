@@ -30,6 +30,7 @@ Partial Class PackagePrice
         Me.txtPackagePrice = New System.Windows.Forms.TextBox()
         Me.txtOrigGM = New System.Windows.Forms.TextBox()
         Me.UGridIO1 = New WinCDS.UGridIO()
+        Me.optListPrice = New System.Windows.Forms.RadioButton()
         Me.SuspendLayout()
         '
         'lstItems
@@ -86,7 +87,7 @@ Partial Class PackagePrice
         '
         Me.UGridIO1.Activated = False
         Me.UGridIO1.Col = 0
-        Me.UGridIO1.firstrow = 0
+        Me.UGridIO1.firstrow = 1
         Me.UGridIO1.Loading = False
         Me.UGridIO1.Location = New System.Drawing.Point(56, 338)
         Me.UGridIO1.MaxCols = 2
@@ -96,11 +97,23 @@ Partial Class PackagePrice
         Me.UGridIO1.Size = New System.Drawing.Size(211, 70)
         Me.UGridIO1.TabIndex = 7
         '
+        'optListPrice
+        '
+        Me.optListPrice.AutoSize = True
+        Me.optListPrice.Location = New System.Drawing.Point(431, 180)
+        Me.optListPrice.Name = "optListPrice"
+        Me.optListPrice.Size = New System.Drawing.Size(90, 17)
+        Me.optListPrice.TabIndex = 8
+        Me.optListPrice.TabStop = True
+        Me.optListPrice.Text = "RadioButton1"
+        Me.optListPrice.UseVisualStyleBackColor = True
+        '
         'PackagePrice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.optListPrice)
         Me.Controls.Add(Me.UGridIO1)
         Me.Controls.Add(Me.txtOrigGM)
         Me.Controls.Add(Me.txtPackagePrice)
@@ -124,4 +137,5 @@ Partial Class PackagePrice
     Friend WithEvents txtPackagePrice As TextBox
     Friend WithEvents txtOrigGM As TextBox
     Friend WithEvents UGridIO1 As UGridIO
+    Friend WithEvents optListPrice As RadioButton
 End Class
