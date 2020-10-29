@@ -36,8 +36,10 @@
         MainMenu.flb.Path = TagLayoutFolder()
         Pre = "taglayout-"
         MainMenu.flb.Pattern = Pre & "*.txt"
-        For I = 0 To MainMenu.flb.ListCount - 1
-            F = MainMenu.flb.List(I)
+        'For I = 0 To MainMenu.flb.ListCount - 1
+        For I = 0 To MainMenu.flb.Items.Count - 1
+            'F = MainMenu.flb.List(I)
+            F = MainMenu.flb.Items(I).ToString
             F = Mid(F, Len(Pre) + 1)
             F = Left(F, Len(F) - 4)
             Cbo.Items.Add(F)

@@ -33,7 +33,10 @@ Partial Class MainMenu4
         Me.rtb = New System.Windows.Forms.RichTextBox()
         Me.fraSupplies = New System.Windows.Forms.GroupBox()
         Me.picAlpha = New System.Windows.Forms.PictureBox()
+        Me.cdgFile = New AxMSComDlg.AxCommonDialog()
+        Me.MSComm1 = New AxMSCommLib.AxMSComm()
         Me.imgPicture = New System.Windows.Forms.PictureBox()
+        Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
         Me.rtbStorePolicy = New WinCDS.RichTextBoxNew()
         Me.rtbn = New WinCDS.RichTextBoxNew()
         Me.imlMM = New System.Windows.Forms.ImageList(Me.components)
@@ -97,11 +100,11 @@ Partial Class MainMenu4
         Me.lblServ = New System.Windows.Forms.Label()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.msgs = New WinCDS.MessageCenter()
-        Me.datPicture = New Microsoft.VisualBasic.Compatibility.VB6.ADODC()
-        Me.cdgFile = New AxMSComDlg.AxCommonDialog()
-        Me.MSComm1 = New AxMSCommLib.AxMSComm()
+        Me.flb = New Microsoft.VisualBasic.Compatibility.VB6.FileListBox()
         Me.fraSupplies.SuspendLayout()
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.bvb5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.bvb4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,8 +121,6 @@ Partial Class MainMenu4
         CType(Me.imgInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgBackground, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStripWinCDS.SuspendLayout()
-        CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imlMiniButtons
@@ -209,6 +210,7 @@ Partial Class MainMenu4
         '
         'fraSupplies
         '
+        Me.fraSupplies.Controls.Add(Me.flb)
         Me.fraSupplies.Controls.Add(Me.picAlpha)
         Me.fraSupplies.Controls.Add(Me.cdgFile)
         Me.fraSupplies.Controls.Add(Me.MSComm1)
@@ -234,6 +236,26 @@ Partial Class MainMenu4
         Me.picAlpha.TabStop = False
         Me.picAlpha.Visible = False
         '
+        'cdgFile
+        '
+        Me.cdgFile.Enabled = True
+        Me.cdgFile.Location = New System.Drawing.Point(50, 19)
+        Me.cdgFile.Name = "cdgFile"
+        Me.cdgFile.OcxState = CType(resources.GetObject("cdgFile.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.cdgFile.Size = New System.Drawing.Size(32, 32)
+        Me.cdgFile.TabIndex = 15
+        Me.cdgFile.Visible = False
+        '
+        'MSComm1
+        '
+        Me.MSComm1.Enabled = True
+        Me.MSComm1.Location = New System.Drawing.Point(6, 19)
+        Me.MSComm1.Name = "MSComm1"
+        Me.MSComm1.OcxState = CType(resources.GetObject("MSComm1.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.MSComm1.Size = New System.Drawing.Size(38, 38)
+        Me.MSComm1.TabIndex = 5
+        Me.MSComm1.Visible = False
+        '
         'imgPicture
         '
         Me.imgPicture.Location = New System.Drawing.Point(88, 63)
@@ -242,6 +264,21 @@ Partial Class MainMenu4
         Me.imgPicture.TabIndex = 8
         Me.imgPicture.TabStop = False
         Me.imgPicture.Visible = False
+        '
+        'datPicture
+        '
+        Me.datPicture.BackColor = System.Drawing.SystemColors.Control
+        Me.datPicture.CommandTimeout = 0
+        'Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
+        Me.datPicture.ConnectionString = Nothing
+        'Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
+        Me.datPicture.Location = New System.Drawing.Point(8, 72)
+        'Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
+        Me.datPicture.Name = "datPicture"
+        Me.datPicture.Size = New System.Drawing.Size(74, 19)
+        Me.datPicture.TabIndex = 7
+        Me.datPicture.Text = "Adodc1"
+        Me.datPicture.Visible = False
         '
         'rtbStorePolicy
         '
@@ -759,40 +796,15 @@ Partial Class MainMenu4
         Me.msgs.Size = New System.Drawing.Size(112, 49)
         Me.msgs.TabIndex = 69
         '
-        'datPicture
+        'flb
         '
-        Me.datPicture.BackColor = System.Drawing.SystemColors.Control
-        Me.datPicture.CommandTimeout = 0
-        'Me.datPicture.CommandType = ADODB.CommandTypeEnum.adCmdUnknown
-        Me.datPicture.ConnectionString = Nothing
-        'Me.datPicture.CursorType = ADODB.CursorTypeEnum.adOpenStatic
-        Me.datPicture.Location = New System.Drawing.Point(8, 72)
-        'Me.datPicture.LockType = ADODB.LockTypeEnum.adLockOptimistic
-        Me.datPicture.Name = "datPicture"
-        Me.datPicture.Size = New System.Drawing.Size(74, 19)
-        Me.datPicture.TabIndex = 7
-        Me.datPicture.Text = "Adodc1"
-        Me.datPicture.Visible = False
-        '
-        'cdgFile
-        '
-        Me.cdgFile.Enabled = True
-        Me.cdgFile.Location = New System.Drawing.Point(50, 19)
-        Me.cdgFile.Name = "cdgFile"
-        Me.cdgFile.OcxState = CType(resources.GetObject("cdgFile.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.cdgFile.Size = New System.Drawing.Size(32, 32)
-        Me.cdgFile.TabIndex = 15
-        Me.cdgFile.Visible = False
-        '
-        'MSComm1
-        '
-        Me.MSComm1.Enabled = True
-        Me.MSComm1.Location = New System.Drawing.Point(6, 19)
-        Me.MSComm1.Name = "MSComm1"
-        Me.MSComm1.OcxState = CType(resources.GetObject("MSComm1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.MSComm1.Size = New System.Drawing.Size(38, 38)
-        Me.MSComm1.TabIndex = 5
-        Me.MSComm1.Visible = False
+        Me.flb.FormattingEnabled = True
+        Me.flb.Location = New System.Drawing.Point(188, 63)
+        Me.flb.Name = "flb"
+        Me.flb.Pattern = "*.*"
+        Me.flb.Size = New System.Drawing.Size(28, 30)
+        Me.flb.TabIndex = 17
+        Me.flb.Visible = False
         '
         'MainMenu4
         '
@@ -846,6 +858,8 @@ Partial Class MainMenu4
         Me.Text = "WinCDS 2016"
         Me.fraSupplies.ResumeLayout(False)
         CType(Me.picAlpha, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgPicture, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.bvb5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.bvb4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -863,8 +877,6 @@ Partial Class MainMenu4
         CType(Me.imgBackground, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStripWinCDS.ResumeLayout(False)
         Me.MenuStripWinCDS.PerformLayout()
-        CType(Me.cdgFile, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -946,4 +958,5 @@ Partial Class MainMenu4
     Friend WithEvents lblServ As Label
     Friend WithEvents msgs As MessageCenter
     Friend WithEvents Button2 As Button
+    Friend WithEvents flb As Compatibility.VB6.FileListBox
 End Class

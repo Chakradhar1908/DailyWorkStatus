@@ -276,7 +276,7 @@ ErrHand:
 
         'If Not isveranda() Then
         printer.CurrentX = 50
-        printer.Print("On Sale:  ";)
+        printer.Print("On Sale:  ")
         printer.FontSize = 24
         printer.FontBold = True
         printer.Print(FormatCurrency(OnSale))

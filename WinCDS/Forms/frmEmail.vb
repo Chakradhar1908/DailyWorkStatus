@@ -68,7 +68,8 @@
         'lstResults.itemData(lstResults.NewIndex) = Val(PoNo)
         'lstResults.Selected(lstResults.NewIndex) = Value
         AddedItem = lstResults.Items.Add(New ItemDataClass(PoNo, Val(PoNo)))
-        lstResults.SetSelected(AddedItem, True)
+        'lstResults.SetSelected(AddedItem, True)
+        lstResults.SetSelected(AddedItem, Value)
     End Sub
 
     Private Sub AddEmailResult(ByVal PoNo As String)

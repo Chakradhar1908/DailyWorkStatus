@@ -2,14 +2,14 @@
 Public Class frmDesignTag
     Private mIsExternal As Boolean
     Private mLoadedForDisplay As Boolean
-    Private Const Form_MinWidth As Long = 12000
-    Private Const Form_MinHeight As Long = 8175
+    Private Const Form_MinWidth As Integer = 12000
+    Private Const Form_MinHeight As Integer = 8175
 
-    Private Const TwipsPerInch As Long = 1440
+    Private Const TwipsPerInch As Integer = 1440
     Private Const CurrentTagLayoutVersion As String = "1.2"
-    Private Const DefaultFields As Long = 12
+    Private Const DefaultFields As Integer = 12
 
-    Private Const SnapIncr As Long = 120
+    Private Const SnapIncr As Integer = 120
     Private Const FontIncr As Double = 0.5
 
     Private Const TAGDIM_MAX_X As Single = 11 '8.5    ' 11 b/c of landscape
@@ -27,7 +27,7 @@ Public Class frmDesignTag
 
     Private OrigPrinter As String
     Private PrintingStyle As String
-    Private RN As Long
+    Private RN As Integer
 
     Private lstItemsAdjust As Boolean
     Private mAllowPrintMany As Boolean
@@ -36,7 +36,7 @@ Public Class frmDesignTag
     Private inX As Single, inY As Single
     Private Moving As Boolean
 
-    Private CurrentField As Long
+    Private CurrentField As Integer
     Private Fields() As TagItemLayout
 
     Private Enum LayoutAlign
@@ -58,18 +58,18 @@ Public Class frmDesignTag
         Dim FontColor As String
         Dim CharSpecify As String
 
-        Dim Left As Long
-        Dim Top As Long
+        Dim Left As Integer
+        Dim Top As Integer
         Dim Alignment As LayoutAlign
 
-        Dim ExtraFieldType As Long
-        Dim PicWidth As Long
-        Dim PicHeight As Long
+        Dim ExtraFieldType As Integer
+        Dim PicWidth As Integer
+        Dim PicHeight As Integer
         Dim PicLock As Boolean
     End Structure
 
-    Public Function PrintCustomTags(ByVal Style As String, Optional ByVal Quantity As Long = 1, Optional ByVal TemplateName As String = "", Optional ByVal External As Boolean = True) As Boolean
-        Dim I As Long
+    Public Function PrintCustomTags(ByVal Style As String, Optional ByVal Quantity As Integer = 1, Optional ByVal TemplateName As String = "", Optional ByVal External As Boolean = True) As Boolean
+        Dim I As Integer
         TagLog("PrintCustomTags Style=" & Style & ", Qty=" & Quantity & ", Template=" & TemplateName)
         If Quantity < 0 Then Exit Function
         If External And TemplateName = "" Then Exit Function
@@ -86,7 +86,7 @@ Public Class frmDesignTag
         PrintCustomTags = True
     End Function
 
-    Private ReadOnly Property MaxField() As Long
+    Private ReadOnly Property MaxField() As Integer
         Get
             On Error Resume Next
             MaxField = UBound(Fields)
@@ -105,11 +105,11 @@ Public Class frmDesignTag
         IsCharUnderline = InStr(Specify, "U") > 0
     End Function
 
-    Private Sub PrintCurrentTag(Optional ByVal PageAlign As Long = 0, Optional ByVal WithBox As Boolean = True, Optional ByVal PageLoc As Long = -1)
-        Dim I As Long
-        Dim XOff As Long, YOff As Long, EoP As Boolean
-        Dim X As Long, Y As Long
-        Dim W As Long, H As Long
+    Private Sub PrintCurrentTag(Optional ByVal PageAlign As Integer = 0, Optional ByVal WithBox As Boolean = True, Optional ByVal PageLoc As Integer = -1)
+        Dim I As Integer
+        Dim XOff As Integer, YOff As Integer, EoP As Boolean
+        Dim X As Integer, Y As Integer
+        Dim W As Integer, H As Integer
         Dim C As String
 
         PreparePrinter()
@@ -126,9 +126,10 @@ Public Class frmDesignTag
 
         GetPageAlignOffsets(PageAlign, PageLoc, XOff, YOff, EoP)
         On Error Resume Next
-        If WithBox Then Printer.Line(XOff, YOff)-(XOff + TagWidth, YOff + TagHeight), , B
-  
-  For I = MaxField To 1 Step -1
+        'If WithBox Then Printer.Line(XOff, YOff)-(XOff + TagWidth, YOff + TagHeight), , B
+        If WithBox Then Printer.Line(XOff, YOff, XOff + TagWidth, YOff + TagHeight, , True)
+
+        For I = MaxField To 1 Step -1
             If Fields(I).Visible Then
                 Printer.FontName = Fields(I).FontName
                 Printer.FontSize = Fields(I).FontSize
@@ -159,11 +160,11 @@ Public Class frmDesignTag
                         Dim LLL As Object
                         For Each LLL In Split(C, vbCrLf)
                             Select Case Fields(I).Alignment
-                                Case lyaPosition
-                                Case lyaLeft : X = 0
-                                Case lyaRight : X = TagWidth - W
-                                Case lyaCenter : X = (TagWidth - W) / 2
-                                Case lyaPositionR : X = X - W
+                                Case LayoutAlign.lyaPositionR
+                                Case LayoutAlign.lyaLeft : X = 0
+                                Case LayoutAlign.lyaRight : X = TagWidth - W
+                                Case LayoutAlign.lyaCenter : X = (TagWidth - W) / 2
+                                Case LayoutAlign.lyaPositionR : X = X - W
                             End Select
                             Printer.CurrentX = XOff + X
                             Printer.Print(LLL)
@@ -172,7 +173,7 @@ Public Class frmDesignTag
                         Printer.Print(C)
                     End If
                 Else
-                    Dim P As IPictureDisp, pW As Long, pH As Long, aPW As Long, aPH As Long
+                    Dim P As IPictureDisp, pW As Integer, pH As Integer, aPW As Integer, aPH As Integer
                     P = LoadItemImage(Fields(I).Caption)
                     pW = P.Width
                     pH = P.Height
@@ -199,25 +200,63 @@ Public Class frmDesignTag
         If EoP Then Printer.EndDoc()
     End Sub
 
+    Private ReadOnly Property TagWidth() As Single
+        Get
+            TagWidth = fraBox.Width
+        End Get
+    End Property
+
+    Private ReadOnly Property TagHeight() As Single
+        Get
+            TagHeight = fraBox.Height
+        End Get
+    End Property
+
     Private Function LoadItemImage(ByVal Caption As String) As IPictureDisp
         Caption = ImageFileName(Caption)
         If Caption = "" Then
-    Set LoadItemImage = il.ListImages("invalid").Picture
-  ElseIf Caption = "0" Then
-    Set LoadItemImage = il.ListImages("blank").Picture
-  Else
+            'LoadItemImage = il.ListImages("invalid").Picture
+            LoadItemImage = il.Images("invalid")
+        ElseIf Caption = "0" Then
+            'LoadItemImage = il.ListImages("blank").Picture
+            LoadItemImage = il.Images("blank")
+        Else
             If Dir(Caption) = "" Then
-      Set LoadItemImage = il.ListImages("invalid").Picture
-    Else
-      Set LoadItemImage = LoadPictureStd(Caption)
-    End If
+                'LoadItemImage = il.ListImages("invalid").Picture
+                LoadItemImage = il.Images("invalid")
+            Else
+                LoadItemImage = LoadPictureStd(Caption)
+            End If
         End If
     End Function
 
+    Private Function ImageFileName(ByVal Caption As String, Optional ByVal LookIn As String = "") As String
+        If Caption = "#" Then Caption = CStr(RN)
+        If Caption = "0" Then ImageFileName = Caption : Exit Function
+        ImageFileName = FXFile(Caption)
+        '
+        '  If InStr(Caption, ":") Then
+        '    ImageFileName = Caption
+        '  Else
+        '    ImageFileName = IIf(LookIn = "", PXFolder, LookIn) & Caption
+        '  End If
+        '
+        '  If Dir(ImageFileName) = "" Then
+        '    If InStr(ImageFileName, ".") = 0 Then
+        '      If Dir(ImageFileName & ".bmp") <> "" Then ImageFileName = ImageFileName & ".bmp": Exit Function
+        '      If Dir(ImageFileName & ".jpg") <> "" Then ImageFileName = ImageFileName & ".jpg": Exit Function
+        '      If Dir(ImageFileName & ".gif") <> "" Then ImageFileName = ImageFileName & ".gif": Exit Function
+        '      If Dir(ImageFileName & ".png") <> "" Then ImageFileName = ImageFileName & ".png": Exit Function
+        '    End If
+        '    ImageFileName = ""
+        '  End If
+    End Function
+
     Private Function ParseTagCode(ByVal Str As String) As String
-        Dim N As Long, Style As String, Sp As String, L As Long, K As Long
-        Dim F As String, I As Long, Tot As Currency
-        If Left(Str, 1) <> "#" Then ParseTagCode = ParseExtraFieldToken(Str) : Exit Function
+        Dim N As Integer, Style As String, Sp As String, L As Integer, K As Integer
+        Dim F As String, I As Integer, Tot As Decimal
+
+        If Microsoft.VisualBasic.Left(Str, 1) <> "#" Then ParseTagCode = ParseExtraFieldToken(Str) : Exit Function
         Str = Mid(Str, 2)
         N = InStr(Str, ":")
 
@@ -226,8 +265,8 @@ Public Class frmDesignTag
         F = LCase(Replace(Mid(Str, 1, N - 1), " ", ""))
         '  If F = "onsale" Then Stop
         Sp = Mid(Str, N + 1)
-        ParseLineKey Sp, L, K
-  If K = 0 Then
+        ParseLineKey(Sp, L, K)
+        If K = 0 Then
             Select Case F
                 Case "list", "listprice", "landed", "onsale", "onsaleprice", "sale", "saleprice"
                     For I = 1 To 10
@@ -245,18 +284,92 @@ Public Class frmDesignTag
         End If
     End Function
 
-    Private Sub GetPageAlignOffsets(ByVal PageAlign As Long, ByVal PageLoc As Long, ByRef XOffset As Long, ByRef YOffset As Long, ByRef EndOfPage As Boolean)
-        Dim XCenter As Long, YCenter As Long
-        Dim XMax As Long, YMax As Long
+    Private Function lCurrencyFormat(ByVal C As Decimal) As String
+        If chkDollarSign.Checked = False Then
+            lCurrencyFormat = CurrencyFormat(C, True)
+        Else
+            lCurrencyFormat = FormatCurrency(C)
+        End If
+    End Function
+
+    Private Function GetItemField(ByVal Style As String, ByVal Field As String) As String
+        Dim CI As CInvRec
+        If Style = "" Then GetItemField = "[NO STYLE #" & Style & "]" : Exit Function
+        CI = New CInvRec
+        If CI.Load(Style, "Style") Then
+            Select Case Field
+                Case "barcode" : GetItemField = PrepareBarcode(CI.Style)
+                Case "style", "styleno" : GetItemField = IIf(StoreSettings.bStyleNoInCode, ConvertCostToCode(CI.Style), CI.Style)
+                Case "vendor", "mfg" : GetItemField = CI.Vendor
+                Case "vendorno", "mfgno" : GetItemField = CI.VendorNo
+                Case "desc", "description" : GetItemField = CI.Desc
+                Case "code" : GetItemField = CI.GetItemCode
+                Case "onsale", "onsaleprice", "sale", "saleprice"
+                    GetItemField = lCurrencyFormat(CI.OnSale)
+                Case "list", "listprice" : GetItemField = lCurrencyFormat(CI.List)
+                Case "landed" : GetItemField = IIf(StoreSettings.bCostInCode, ConvertCostToCode(lCurrencyFormat(CI.Landed)), lCurrencyFormat(CI.Landed))
+                Case "stock", "instock" : GetItemField = CI.QueryStock(StoresSld)
+                Case "onhand" : GetItemField = CI.OnHand
+                Case "available" : GetItemField = CI.Available
+                Case Else : GetItemField = "[UNKNOWN CODE: " & Field & "]"
+            End Select
+        Else
+            GetItemField = "[INVALID STYLE: " & Style & "]"
+        End If
+
+        DisposeDA(CI)
+    End Function
+
+    Public Function GetMultipleStyle(ByVal L As Integer, ByVal K As Integer) As String
+        Dim R As String, X As Object
+
+        R = txtMultiple.Text
+        R = Replace(R, vbCr, "")
+        R = Replace(R, vbLf, "|")
+        '  R = Replace(R, " ", "")
+
+        X = Split(R, "|")
+        L = L - 1
+        If L < 0 Or L > UBound(X) Then Exit Function
+
+        X = Split(X(L), ",")
+        K = K - 1
+        If K < 0 Or K > UBound(X) Then Exit Function
+
+        GetMultipleStyle = Trim(X(K))
+    End Function
+
+    Private Sub ParseLineKey(ByVal S As String, ByRef Line As Integer, ByRef vKEY As Integer)
+        Dim K As String
+        On Error Resume Next
+        Line = Val(S)
+        K = IIf("" & Line = S, "`", LCase(Mid(S, Len("" & Line) + 1)))
+        vKEY = Asc(K) - Asc("`")  ' a = 1
+        If vKEY < 0 Or vKEY > 10 Then vKEY = 0
+    End Sub
+
+    Private Function ParseExtraFieldToken(ByVal S As String) As String
+        Dim T As String
+        ParseExtraFieldToken = S
+        If Microsoft.VisualBasic.Left(S, 1) <> "@" Then Exit Function
+        If PrintingStyle = "" Then Exit Function
+        T = Replace(LCase(Mid(S, 2)), " ", "")
+        ParseExtraFieldToken = GetItemField(PrintingStyle, T)
+        If Microsoft.VisualBasic.Left(ParseExtraFieldToken, 8) = "[UNKNOWN" Then ParseExtraFieldToken = S
+    End Function
+
+    Private Sub GetPageAlignOffsets(ByVal PageAlign As Integer, ByVal PageLoc As Integer, ByRef XOffset As Integer, ByRef YOffset As Integer, ByRef EndOfPage As Boolean)
+        Dim XCenter As Integer, YCenter As Integer
+        Dim XMax As Integer, YMax As Integer
         XCenter = (Printer.Width - TagWidth) / 2
         YCenter = (Printer.Height - TagHeight) / 2
         XMax = (Printer.Width - TagWidth)
         YMax = (Printer.Height - TagHeight)
 
-        TagLog "GetPageAlignOffsets PageAlign=" & PageAlign & ", Pageloc=" & PageLoc & ", XOffset=" & XOffset & ", YOffset=" & YOffset & ", EndOfPage=" & EndOfPage
-  TagLog "GetPageAlignOffsets XCenter=" & XCenter & ", YCenter=" & YCenter & ", XMax=" & XMax & ", YMax=" & YMax
+        TagLog("GetPageAlignOffsets PageAlign=" & PageAlign & ", Pageloc=" & PageLoc & ", XOffset=" & XOffset & ", YOffset=" & YOffset & ", EndOfPage=" & EndOfPage)
+        TagLog("GetPageAlignOffsets XCenter=" & XCenter & ", YCenter=" & YCenter & ", XMax=" & XMax & ", YMax=" & YMax)
 
-  If PageLoc < 0 Then
+        If PageLoc < 0 Then
             EndOfPage = True
             Select Case PageAlign
                 Case 0 : XOffset = 0 : YOffset = 0
@@ -270,7 +383,7 @@ Public Class frmDesignTag
                 Case 8 : XOffset = XMax : YOffset = YMax
             End Select
         Else
-            Dim Mx As Long, mY As Long, Tot As Long
+            Dim Mx As Integer, mY As Integer, Tot As Integer
             Mx = Int(CDbl(Printer.ScaleWidth) / CDbl(TagWidth + 120))
             mY = Int(CDbl(Printer.ScaleHeight) / CDbl(TagHeight + 120))
             Tot = Mx * mY
@@ -280,12 +393,12 @@ Public Class frmDesignTag
             EndOfPage = (PageLoc = Tot - 1)
         End If
 
-        TagLog "GetPageAlignOffsets PageAlign=" & PageAlign & ", Pageloc=" & PageLoc & ", XOffset=" & XOffset & ", YOffset=" & YOffset & ", EndOfPage=" & EndOfPage
-End Sub
+        TagLog("GetPageAlignOffsets PageAlign=" & PageAlign & ", Pageloc=" & PageLoc & ", XOffset=" & XOffset & ", YOffset=" & YOffset & ", EndOfPage=" & EndOfPage)
+    End Sub
 
-    Private Function TagLog(ByVal Msg As String, Optional ByVal Importance As Long = 3) As Boolean
-        ActiveLog "frmDesignTag::" & Msg, Importance
-  TagLog = True
+    Private Function TagLog(ByVal Msg As String, Optional ByVal Importance As Integer = 3) As Boolean
+        ActiveLog("frmDesignTag::" & Msg, Importance)
+        TagLog = True
     End Function
 
     Private Sub LoadTagLayout(ByVal TagName As String, Optional ByVal AsTemplate As Boolean = False)
@@ -295,30 +408,327 @@ End Sub
         FN = TagLayoutFileName(TagName, AsTemplate)
         Opts = ReadFile(FN, 1, 1)
 
-        If InStr(Opts, "Version=" & CurrentTagLayoutVersion) = 0 Then ConvertTagLayout FN
+        If InStr(Opts, "Version=" & CurrentTagLayoutVersion) = 0 Then ConvertTagLayout(FN)
 
-  DoLoadTagLayout FN, AsTemplate
-End Sub
+        DoLoadTagLayout(FN, AsTemplate)
+    End Sub
+
+    Private Sub DoLoadTagLayout(ByVal FN As String, Optional ByVal AsTemplate As Boolean = False)
+        Dim LL As Object, F As Object, L As String
+        Dim TagSize As String, cX As Double, cy As Double
+        Dim I As Integer, N As Integer
+
+        ActiveLog("frmDesignTag::DoLoadTagLayout - FN: " & FN, 8)
+
+        TagSize = ReadFile(FN, 1, 1)
+
+        chkDollarSign.Checked = False
+        On Error Resume Next
+        cmbPageAlign.Text = "Center"
+        LL = Split(TagSize, ";")
+        For Each F In LL
+            ActiveLog("frmDesignTag::ParseGeneralOption - F = " & F, 9)
+            ParseGeneralOption(F)
+        Next
+
+        ActiveLog("frmDesignTag::DoLoadTagLayout - RemoveAllExtraFields", 8)
+        RemoveAllExtraFields()
+
+        I = 1
+        N = CountFileLines(FN)
+        For I = I To N - 1
+            L = ReadFile(FN, I + 1, 1)
+            If L <> "" Then
+                ActiveLog("frmDesignTag::ProcessField - L[I=" & I & "] = " & L, 8)
+
+                LL = Split(L, ",")
+
+                If I > MaxField Then
+                    ActiveLog("frmDesignTag::ProcessField - L = " & L, 8)
+                    AddExtraField()
+                End If
+
+                On Error Resume Next
+                Fields(I).Visible = CBool(LL(1))
+                Fields(I).FontName = LL(2)
+                Fields(I).FontSize = Val(LL(3))
+                Fields(I).FontColor = Val(LL(4))
+                Fields(I).Left = Val(LL(5))
+                Fields(I).Top = Val(LL(6))
+                Fields(I).Alignment = Val(LL(7))
+                Fields(I).CharSpecify = LL(8)
+                If I > DefaultFields Then
+                    Fields(I).Caption = LL(0)
+                End If
+                Fields(I).ExtraFieldType = Val(LL(9))
+                Fields(I).PicWidth = Val(LL(10))
+                Fields(I).PicHeight = Val(LL(11))
+                Fields(I).PicLock = LL(12)
+                On Error GoTo 0
+            End If
+        Next
+        ActiveLog("frmDesignTag::DoLoadTagLayout - Complete!", 8)
+    End Sub
+
+    Private Sub AddExtraField()
+        Dim N As Integer
+
+        N = UBound(Fields) + 1
+        N = N - 1
+        'ReDim Preserve Fields(1 To N)
+        ReDim Preserve Fields(0 To N)
+        Fields(N).Name = "Extra " & N - DefaultFields
+        Fields(N).FontName = Fields(N - 1).FontName
+        Fields(N).FontSize = Fields(N - 1).FontSize
+        Fields(N).Caption = Fields(N).Name
+        Fields(N).ToolTipText = "A text label"
+        Fields(N).Visible = True
+        Fields(N).Left = 0
+        Fields(N).Top = 0
+
+        InitItemList()
+        RefreshFields()
+    End Sub
+
+    Private Sub RefreshFields()
+        tmr.Enabled = False
+        tmr.Interval = 10
+        tmr.Enabled = True
+    End Sub
+
+    Private Sub InitItemList()
+        Dim N As Integer
+        Dim Addeditem As Integer
+
+        lstItemsAdjust = True
+        lstItems.Items.Clear()
+
+        For N = 1 To MaxField
+            'lstItems.AddItem Fields(N).Name
+            'lstItems.itemData(lstItems.NewIndex) = N
+            'lstItems.Selected(lstItems.NewIndex) = Fields(N).Visible
+            Addeditem = lstItems.Items.Add(New ItemDataClass(Fields(N).Name, N))
+            lstItems.SetSelected(Addeditem, Fields(N).Visible)
+        Next
+
+        'If lstItems.Selected(0) Then
+        '    lstItems.Selected(0) = False
+        '    lstItems.Selected(0) = True
+        'Else
+        '    lstItems.Selected(0) = False
+        'End If
+        If lstItems.GetSelected(0) = True Then
+            lstItems.SetSelected(0, False)
+            lstItems.SetSelected(0, True)
+        Else
+            lstItems.SetSelected(0, False)
+        End If
+        lstItemsAdjust = False
+    End Sub
+
+    Private Sub RemoveAllExtraFields()
+        Do While MaxField > DefaultFields
+            RemoveExtraField()
+        Loop
+        InitItemList()
+        RefreshFields()
+    End Sub
+
+    Private Sub RemoveExtraField(Optional ByVal N As Integer = -1)
+        Dim I As Integer, X As Integer, C As Integer
+        C = ExtraFieldCount()
+        If C = 0 Then Exit Sub
+        If N = -1 Or N > C Then N = C
+        If N = C Then
+            'ReDim Preserve Fields(1 To UBound(Fields) - 1)
+            ReDim Preserve Fields(0 To UBound(Fields) - 2)
+        Else
+            X = DefaultFields + 1
+            For I = DefaultFields + 1 To MaxField
+                If I + 1 <> N Then Fields(I) = Fields(X)
+                X = X + 1
+            Next
+        End If
+        InitItemList()
+        RefreshFields()
+    End Sub
+
+    Private Function ExtraFieldCount() As Integer
+        ExtraFieldCount = MaxField - DefaultFields
+        If ExtraFieldCount < 0 Then ExtraFieldCount = 0
+    End Function
+
+    Private Sub ParseGeneralOption(ByVal Str As String)
+        Dim N As Integer, F As String, R As String, tS As String, LL As Object
+        N = InStr(Str, "=")
+        If N <= 0 Then Exit Sub
+        R = Mid(Str, N + 1)
+        F = LCase(Mid(Str, 1, N - 1))
+
+        Select Case F
+            Case "tagsize"
+                Select Case LCase(Microsoft.VisualBasic.Left(R, 1))
+                    Case "l" : cmbLayoutDimensions.SelectedIndex = 0
+                    Case "m" : cmbLayoutDimensions.SelectedIndex = 1
+                    Case "s" : cmbLayoutDimensions.SelectedIndex = 2
+                    Case Else ' custom
+                        cmbLayoutDimensions.SelectedIndex = 3
+                        tS = Trim(Mid(R, 3))
+                        LL = Split(tS, "x")
+                        txtCustomX.Text = FormatQuantity(Val(LL(0)), , False)
+                        'txtCustomX_Validate(False)
+                        txtCustomX_Validating(txtCustomX, New System.ComponentModel.CancelEventArgs)
+                        txtCustomY.Text = FormatQuantity(Val(LL(1)), , False)
+                        'txtCustomY_Validate(False)
+                        txtCustomY_Validating(txtCustomY, New System.ComponentModel.CancelEventArgs)
+                End Select
+            Case "dollarsign" : chkDollarSign.Checked = IIf(LCase(R) = "true", True, False)
+            Case "hidecents" : chkHideCents.Checked = IIf(LCase(R) = "true", True, False)
+            Case "pagealign"
+                On Error Resume Next
+                cmbPageAlign.Text = R
+            Case "version"      ' do nothing
+                '    Case "dymo":        cmbDYMO.Text = R
+            Case Else : Debug.Print("ParseGeneralOption -- Unknown Option: " & F)
+        End Select
+    End Sub
+
+    Private Sub ConvertTagLayout(ByVal FN As String)
+        If InStr(ReadFile(FN, 1, 1), "Version=") = 0 Then ConvertTagLayout_1_0(FN)
+        If InStr(ReadFile(FN, 1, 1), "Version=1.1") = 0 Then ConvertTagLayout_1_1(FN)
+        '  If InStr(ReadFile(FN, 1, 1), "Version=1.2") = 0 Then ConvertTagLayout_1_2 FN
+        '  If InStr(ReadFile(FN, 1, 1), "Version=1.3") = 0 Then ConvertTagLayout_1_3 FN
+        '  If InStr(ReadFile(FN, 1, 1), "Version=1.4") = 0 Then ConvertTagLayout_1_4 FN
+    End Sub
+
+    Private Sub ConvertTagLayout_1_1(ByVal FN As String)
+        Dim Out As String, I As Integer, L As String, N As Integer
+
+        I = 1
+        N = CountFileLines(FN)
+        For I = 1 To N
+            L = ReadFile(FN, I, 1)
+            If I = 1 Then L = Replace(L, "Version=1.1", "Version=1.2")
+            If I = 11 Then L = L & vbCrLf & "Comments,False,,14,0,0,3300,0,,0,0,0,False"
+
+            If L <> "" Then Out = Out & L & vbCrLf
+        Next
+        WriteFile(FN, Out, True)
+        '  Debug.Print Out
+    End Sub
+
+    Private Sub ConvertTagLayout_1_0(ByVal FN As String)
+        Dim Out As String, I As Integer, L As String, N As Integer
+
+        I = 1
+        N = CountFileLines(FN)
+        For I = 1 To N
+            L = ReadFile(FN, I, 1)
+            If I = 1 Then L = L & ";Version=1.1"
+            If I = 11 Then L = L & vbCrLf & "PackPrice,False,,14,0,0,3300,0,,0,0,0,False"
+
+            If L <> "" Then Out = Out & L & vbCrLf
+        Next
+        WriteFile(FN, Out, True)
+        '  Debug.Print Out
+    End Sub
+
+    Private Function TagLayoutFileName(ByVal TagName As String, Optional ByVal AsTemplate As Boolean = False) As String
+        If Not AsTemplate Then
+            TagLayoutFileName = TagLayoutFolder() & "taglayout-" & TagName & ".txt"
+        Else
+            TagLayoutFileName = TagLayoutFolder() & "TT-" & TagName & ".txt"
+        End If
+    End Function
+
+    Private Sub txtCustomX_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtCustomX.Validating
+        Dim L As Double, F As String, R As Integer
+        L = Val(txtCustomX)
+        If L > TAGDIM_MAX_X Then
+            F = Format(TAGDIM_MAX_X, "0.00")
+        ElseIf L <= 0 Then
+            F = Format(1, "0.00")
+        Else
+            F = Format(L, "0.00")
+        End If
+        If F <> txtCustomX.Text Then
+            R = txtCustomX.SelectionStart
+            txtCustomX.Text = F
+            txtCustomX.SelectionStart = R
+            '    Exit Sub
+        End If
+        SetBoxDimensions(TwipsPerInch * Val(txtCustomX.Text), fraBox.Height)
+    End Sub
+
+    Private Sub SetBoxDimensions(ByVal W As Integer, ByVal H As Integer)
+        Dim MAXBOX_W As Integer, MAXBOX_H As Integer
+
+        MAXBOX_W = fraClip.Width - 240
+        MAXBOX_H = fraClip.Height - 240
+
+        'fraBox.Move 120, 120, W, H
+        fraBox.Location = New Point(120, 120)
+        fraBox.Size = New Size(W, H)
+
+        scrBoxX.Enabled = False
+        scrBoxY.Enabled = False
+
+        If W > MAXBOX_W Then
+            scrBoxX.Enabled = True
+            scrBoxX.Maximum = fraBox.Width - MAXBOX_W
+            scrBoxX.SmallChange = 120
+            scrBoxX.LargeChange = 1200
+            scrBoxX.Value = 0
+        End If
+        If H > MAXBOX_H Then
+            scrBoxY.Enabled = True
+            scrBoxY.Maximum = fraBox.Height - MAXBOX_H
+            scrBoxY.SmallChange = 120
+            scrBoxY.LargeChange = 1200
+            scrBoxY.Value = 0
+        End If
+
+        RefreshFields()    'fixes alignment
+    End Sub
+
+    Private Sub txtCustomY_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtCustomY.Validating
+        Dim L As Double, F As String, R As Integer
+        L = Val(txtCustomY)
+        If L > TAGDIM_MAX_Y Then
+            F = Format(TAGDIM_MAX_Y, "0.00")
+        ElseIf L <= 0 Then
+            F = Format(1, "0.00")
+        Else
+            F = Format(L, "0.00")
+        End If
+        If F <> txtCustomY.Text Then
+            R = txtCustomY.SelectionStart
+            txtCustomY.Text = F
+            txtCustomY.SelectionStart = R
+            '    Exit Sub
+        End If
+        SetBoxDimensions(fraBox.Width, TwipsPerInch * Val(txtCustomY.Text))
+    End Sub
 
     Private Sub RefreshItemCaptions(Optional ByVal Style As String = "")
-        Dim I As Long, C As CInvRec, K As cInvKit, X As String, Kit As Boolean
-  Set C = New CInvRec
-  If Style <> "" Then
-            If Left(Style, 4) = KIT_PFX Then
-      Set K = New cInvKit
-      If Not K.Load(Style, "KitStyleNo") Then
+        Dim I As Integer, C As CInvRec, K As cInvKit, X As String, Kit As Boolean
+        C = New CInvRec
+        If Style <> "" Then
+            If Microsoft.VisualBasic.Left(Style, 4) = KIT_PFX Then
+                K = New cInvKit
+                If Not K.Load(Style, "KitStyleNo") Then
                     Style = ""
-                    MsgBox "Kit not found.", vbInformation, "Tag Designer"
-      Else
+                    MessageBox.Show("Kit not found.", "Tag Designer")
+                Else
                     RN = 0
                     Kit = True
-                    C.Load K.Item1, "Style"
-      End If
+                    C.Load(K.Item1, "Style")
+                End If
             Else
                 If Not C.Load(Style, "Style") Then
                     Style = ""
-                    MsgBox "Style not found.", vbInformation, "Tag Designer"
-      Else
+                    MessageBox.Show("Style not found.", "Tag Designer")
+                Else
                     RN = C.RN
                     Kit = False
                 End If
@@ -344,13 +754,13 @@ End Sub
                             Case 2 : X = IIf(StoreSettings.bStyleNoInCode, ConvertCostToCode(K.KitStyleNo), K.KitStyleNo)
                             Case 3 : X = K.Heading
                             Case 4 : X = C.GetItemCode   ' from first item
-                            Case 5 : X = CurrencyFormat(K.List, chkHideCents.Value = 1, chkDollarSign.Value = 1)
-                            Case 6 : X = CurrencyFormat(K.OnSale, chkHideCents.Value = 1, chkDollarSign.Value = 1)
+                            Case 5 : X = CurrencyFormat(K.List, chkHideCents.Checked = True, chkDollarSign.Checked = True)
+                            Case 6 : X = CurrencyFormat(K.OnSale, chkHideCents.Checked = True, chkDollarSign.Checked = True)
                             Case 7 : X = ""
-                            Case 8 : X = IIf(StoreSettings.bCostInCode, ConvertCostToCode(CurrencyFormat(K.Landed, chkHideCents.Value = 1, False)), CurrencyFormat(K.Landed, chkHideCents.Value = 1, False))
+                            Case 8 : X = IIf(StoreSettings.bCostInCode, ConvertCostToCode(CurrencyFormat(K.Landed, chkHideCents.Checked = True, False)), CurrencyFormat(K.Landed, chkHideCents.Checked = True, False))
                             Case 9 : X = C.Vendor        ' from first item
                             Case 10 : X = C.VendorNo      ' from first item
-                            Case 11 : X = CurrencyFormat(K.PackPrice, chkHideCents.Value = 1, chkDollarSign.Value = 1)
+                            Case 11 : X = CurrencyFormat(K.PackPrice, chkHideCents.Checked = True, chkDollarSign.Checked = True)
                             Case 12 : X = WrapLongText(K.MemoArea, 46)
                             Case Else : X = ""
                         End Select
@@ -360,13 +770,13 @@ End Sub
                             Case 2 : X = IIf(StoreSettings.bStyleNoInCode, ConvertCostToCode(C.Style), C.Style)
                             Case 3 : X = WrapLongText(C.Desc, 46)
                             Case 4 : X = C.GetItemCode
-                            Case 5 : X = CurrencyFormat(C.List, chkHideCents.Value = 1, chkDollarSign.Value = 1)
-                            Case 6 : X = CurrencyFormat(C.OnSale, chkHideCents.Value = 1, chkDollarSign.Value = 1)
+                            Case 5 : X = CurrencyFormat(C.List, chkHideCents.Checked = True, chkDollarSign.Checked = True)
+                            Case 6 : X = CurrencyFormat(C.OnSale, chkHideCents.Checked = True, chkDollarSign.Checked = True)
                             Case 7 : X = C.QueryStock(StoresSld)
-                            Case 8 : X = IIf(StoreSettings.bCostInCode, ConvertCostToCode(CurrencyFormat(C.Landed, chkHideCents.Value = 1, False)), CurrencyFormat(C.Landed, chkHideCents.Value = 1, False))
+                            Case 8 : X = IIf(StoreSettings.bCostInCode, ConvertCostToCode(CurrencyFormat(C.Landed, chkHideCents.Checked = True, False)), CurrencyFormat(C.Landed, chkHideCents.Checked = True, False))
                             Case 9 : X = C.Vendor
                             Case 10 : X = C.VendorNo
-                            Case 11 : X = CurrencyFormat(C.OnSale, chkHideCents.Value = 1, chkDollarSign.Value = 1)
+                            Case 11 : X = CurrencyFormat(C.OnSale, chkHideCents.Checked = True, chkDollarSign.Checked = True)
                             Case 12 : X = WrapLongText(C.Comments, 46)
                             Case Else : X = ""
                         End Select
@@ -376,9 +786,9 @@ End Sub
             End If
         Next
 
-        DisposeDA C, K
+        DisposeDA(C, K)
 
-  RefreshFields
+        RefreshFields()
     End Sub
 
     Public Sub PreparePrinter()
@@ -387,15 +797,15 @@ End Sub
         Else
             If Printer.DeviceName Like "*DYMO*" Then
                 '    Printer.PaperSize = vbPRPSUser
-                TagLog "PreparePrinter DYMO Sz: " & Printer.Width & """x" & Printer.Height & """"
-  '    Printer.PaperSize = DYMO_PaperSize_30256
-                Printer.ScaleMode = vbInches
-                TagLog "PreparePrinter DYMO Pre-Sz: " & Printer.Width & """x" & Printer.Height & """"
-      Printer.Width = txtCustomX
-                Printer.Height = txtCustomY
-                TagLog "PreparePrinter DYMO Set-Sz: " & Printer.Width & """x" & Printer.Height & """"
-  '    Printer.Orientation = vbPRORLandscape
-                Printer.ScaleMode = vbTwips
+                TagLog("PreparePrinter DYMO Sz: " & Printer.Width & """x" & Printer.Height & """")
+                '    Printer.PaperSize = DYMO_PaperSize_30256
+                Printer.ScaleMode = VBRUN.ScaleModeConstants.vbInches
+                TagLog("PreparePrinter DYMO Pre-Sz: " & Printer.Width & """x" & Printer.Height & """")
+                Printer.Width = txtCustomX.Text
+                Printer.Height = txtCustomY.Text
+                TagLog("PreparePrinter DYMO Set-Sz: " & Printer.Width & """x" & Printer.Height & """")
+                '    Printer.Orientation = vbPRORLandscape
+                Printer.ScaleMode = VBRUN.ScaleModeConstants.vbTwips
             End If
         End If
     End Sub
