@@ -27,6 +27,7 @@ Public Class SelectPrinter
     ' Local Property Store
     Private mAllowRecLbl As Boolean
     Private mPrintingAllowed As Boolean
+    Private SelectPrinterLoadFromPrintTags As Boolean
 
     Public Sub PrintTags(ByVal nStyle As String, ByVal nDesc As String, ByVal nLanded As String,
     ByVal nList As String, ByVal nOnSale As String, ByVal nDeptNo As String, ByVal nCode As String,
@@ -39,6 +40,9 @@ Public Class SelectPrinter
 
         Dim X As String
         X = printer.DeviceName
+
+        SelectPrinter_Load(Me, New EventArgs)
+        SelectPrinterLoadFromPrintTags = True
 
         If PrSel.GetSelectedPrinter Is Nothing Then
             PrintingAllowed = False
@@ -160,6 +164,7 @@ Public Class SelectPrinter
     Private Sub SelectPrinter_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '  AllowRecLabelPrinting = False
         '  PrintingAllowed = False
+        If SelectPrinterLoadFromPrintTags = True Then Exit Sub
         Quantity = 1
 
         '  If IsFennimore() Then
@@ -1567,9 +1572,16 @@ HandleErr:
             Quantity = updQuantity.Value
         End Get
         Set(value As Integer)
-            If value > updQuantity.Max Then value = updQuantity.Max
-            If value < updQuantity.Min Then value = updQuantity.Min
-            updQuantity.Value = value
+            Try
+                If value > updQuantity.Max Then value = updQuantity.Max
+                If value < updQuantity.Min Then value = updQuantity.Min
+                updQuantity.Value = value
+            Catch ex As System.Windows.Forms.AxHost.InvalidActiveXStateException
+                updQuantity.CreateControl()
+                If value > updQuantity.Max Then value = updQuantity.Max
+                If value < updQuantity.Min Then value = updQuantity.Min
+                updQuantity.Value = value
+            End Try
         End Set
     End Property
 

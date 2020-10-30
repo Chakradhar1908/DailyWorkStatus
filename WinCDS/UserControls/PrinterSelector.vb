@@ -251,6 +251,8 @@ NoPr:
 
     Public Sub SetSelectedPrinter(Optional ByVal vData As String = "-")
         Dim El As Printer, I As Integer
+        Dim BeforeCheck As Boolean, AfterCheck As Boolean
+
         If vData = "-" Then vData = mSelectedPrinter
         If vData = "" Then mSelectedPrinter = ""
 
@@ -269,11 +271,18 @@ NoPr:
             End If
         Next
         For I = 1 To optCount - 1
-            For Each C As RadioButton In Me.Controls
+            For Each C As Control In Me.Controls
                 If C.Name = "optPrinter" & I Then
-                    C.Checked = (C.Text = vData)
+                    'C.Checked = (C.Text = vData)
+                    BeforeCheck = CType(C, RadioButton).Checked
+                    CType(C, RadioButton).Checked = (C.Text = vData)
+                    AfterCheck = CType(C, RadioButton).Checked
+                    If BeforeCheck <> AfterCheck Then
+                        optPrinter0_CheckedChanged(CType(C, RadioButton), New EventArgs)
+                    End If
                 End If
             Next
+
         Next
     End Sub
 
@@ -298,5 +307,6 @@ NoPr:
         AllowDYMO = d_AllowDYMO
         AutoSelect = d_AutoSelect
         Refresh()
+        PrinterSelector_Resize(Me, New EventArgs)
     End Sub
 End Class

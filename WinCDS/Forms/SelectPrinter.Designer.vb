@@ -26,7 +26,6 @@ Partial Class SelectPrinter
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SelectPrinter))
         Me.lblDisplayStyle = New System.Windows.Forms.Label()
         Me.fra = New System.Windows.Forms.GroupBox()
-        Me.PrSel = New WinCDS.PrinterSelector()
         Me.lblCustomCaption = New System.Windows.Forms.Label()
         Me.cboCustomTagTemplate = New System.Windows.Forms.ComboBox()
         Me.lblExtraRecLbl = New System.Windows.Forms.Label()
@@ -44,6 +43,7 @@ Partial Class SelectPrinter
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.pic = New System.Windows.Forms.PictureBox()
+        Me.PrSel = New WinCDS.PrinterSelector()
         Me.fra.SuspendLayout()
         CType(Me.updQuantity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pic, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,9 +54,9 @@ Partial Class SelectPrinter
         Me.lblDisplayStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblDisplayStyle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblDisplayStyle.Font = New System.Drawing.Font("Arial", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDisplayStyle.Location = New System.Drawing.Point(6, 5)
+        Me.lblDisplayStyle.Location = New System.Drawing.Point(6, 3)
         Me.lblDisplayStyle.Name = "lblDisplayStyle"
-        Me.lblDisplayStyle.Size = New System.Drawing.Size(329, 23)
+        Me.lblDisplayStyle.Size = New System.Drawing.Size(329, 29)
         Me.lblDisplayStyle.TabIndex = 0
         Me.lblDisplayStyle.Text = "##"
         Me.lblDisplayStyle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -70,15 +70,6 @@ Partial Class SelectPrinter
         Me.fra.TabIndex = 1
         Me.fra.TabStop = False
         Me.fra.Text = "Select Pr&inter"
-        '
-        'PrSel
-        '
-        Me.PrSel.AllowDYMO = True
-        Me.PrSel.AutoSelect = True
-        Me.PrSel.Location = New System.Drawing.Point(1, 17)
-        Me.PrSel.Name = "PrSel"
-        Me.PrSel.Size = New System.Drawing.Size(309, 108)
-        Me.PrSel.TabIndex = 0
         '
         'lblCustomCaption
         '
@@ -231,10 +222,17 @@ Partial Class SelectPrinter
         Me.pic.TabStop = False
         Me.pic.Visible = False
         '
+        'PrSel
+        '
+        Me.PrSel.AllowDYMO = True
+        Me.PrSel.AutoSelect = True
+        Me.PrSel.Location = New System.Drawing.Point(1, 17)
+        Me.PrSel.Name = "PrSel"
+        Me.PrSel.Size = New System.Drawing.Size(309, 108)
+        Me.PrSel.TabIndex = 0
+        '
         'SelectPrinter
         '
-        Me.AcceptButton = Me.cmdDone
-        Me.CancelButton = Me.cmdDone
         Me.ClientSize = New System.Drawing.Size(342, 258)
         Me.Controls.Add(Me.pic)
         Me.Controls.Add(Me.cmdDone)
