@@ -64,21 +64,35 @@ NoArray:
         ArrSlice = tempList
     End Function
 
-    Public Sub ArrAdd(ByRef Ar(), ByRef Item)
-        Dim X As Integer
-        Dim Arr() As Object
+    'Public Sub ArrAdd(ByRef Ar(), ByRef Item)
+    '    Dim X As Integer
+    '    Dim Arr() As Object
 
+    '    Err.Clear()
+    '    On Error Resume Next
+    '    X = UBound(Ar)
+    '    If Err.Number <> 0 Then
+    '        'Arr = Array(Item)
+    '        ReDim Preserve Arr(Item)
+
+    '        Exit Sub
+    '    End If
+    '    ReDim Preserve Arr(UBound(Ar) + 1)
+    '    Arr(UBound(Ar)) = Item
+    'End Sub
+
+    Public Sub ArrAdd(ByRef Arr(), ByRef Item)
+        Dim X As Integer
         Err.Clear()
         On Error Resume Next
-        X = UBound(Ar)
+        X = UBound(Arr)
         If Err.Number <> 0 Then
             'Arr = Array(Item)
-            ReDim Preserve Arr(Item)
-
+            Arr = New Object() {Item}
             Exit Sub
         End If
-        ReDim Preserve Arr(UBound(Ar) + 1)
-        Arr(UBound(Ar)) = Item
+        ReDim Preserve Arr(UBound(Arr) + 1)
+        Arr(UBound(Arr)) = Item
     End Sub
 
     Public Function IsNotIn(ByVal What, ParamArray Rest()) As Boolean

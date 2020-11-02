@@ -47,4 +47,32 @@
 
         Cbo.SelectedIndex = 0
     End Sub
+
+    Public Sub LoadTagLayoutTemplatesToComboBox(ByRef Cbo As ComboBox)
+        '::::LoadTagLayoutTemplatesToComboBox
+        ':::SUMMARY
+        ': Prep form for display
+        ':::DESCRIPTION
+        ': Load Layout Template names to combo box for UI.
+        ':::PARAMETERS
+        ': - Cbo
+
+        Dim I As Integer, Pre As String, F As String
+        On Error Resume Next
+        Cbo.Items.Clear()
+        Cbo.Items.Add("(Default)")
+        MainMenu.flb.Path = TagLayoutFolder()
+        Pre = "TT-"
+        MainMenu.flb.Pattern = Pre & "*.txt"
+        'For I = 0 To MainMenu.flb.ListCount - 1
+        For I = 0 To MainMenu.flb.Items.Count - 1
+            'F = MainMenu.flb.List(I)
+            F = MainMenu.flb.Items(I).ToString
+            F = Mid(F, Len(Pre) + 1)
+            F = Left(F, Len(F) - 4)
+            Cbo.Items.Add(F)
+        Next
+
+        Cbo.SelectedIndex = 0
+    End Sub
 End Module

@@ -30,7 +30,6 @@ Partial Class frmDesignTag
         Me.chkDollarSign = New System.Windows.Forms.CheckBox()
         Me.txtMultiple = New System.Windows.Forms.TextBox()
         Me.tmr = New System.Windows.Forms.Timer(Me.components)
-        Me.lstItems = New System.Windows.Forms.ListBox()
         Me.cmbLayoutDimensions = New System.Windows.Forms.ComboBox()
         Me.txtCustomX = New System.Windows.Forms.TextBox()
         Me.txtCustomY = New System.Windows.Forms.TextBox()
@@ -39,6 +38,12 @@ Partial Class frmDesignTag
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.scrBoxX = New System.Windows.Forms.HScrollBar()
         Me.scrBoxY = New System.Windows.Forms.HScrollBar()
+        Me.cmdLayoutTemplate = New System.Windows.Forms.ComboBox()
+        Me.cmbLayoutName = New System.Windows.Forms.ComboBox()
+        Me.cmbPropFontName = New System.Windows.Forms.ComboBox()
+        Me.cmbPropFontColor = New System.Windows.Forms.ComboBox()
+        Me.lblBy = New System.Windows.Forms.Label()
+        Me.lstItems = New System.Windows.Forms.CheckedListBox()
         CType(Me.imgPrintHelper, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,14 +94,6 @@ Partial Class frmDesignTag
         Me.txtMultiple.Name = "txtMultiple"
         Me.txtMultiple.Size = New System.Drawing.Size(100, 20)
         Me.txtMultiple.TabIndex = 4
-        '
-        'lstItems
-        '
-        Me.lstItems.FormattingEnabled = True
-        Me.lstItems.Location = New System.Drawing.Point(23, 334)
-        Me.lstItems.Name = "lstItems"
-        Me.lstItems.Size = New System.Drawing.Size(95, 56)
-        Me.lstItems.TabIndex = 5
         '
         'cmbLayoutDimensions
         '
@@ -162,11 +159,66 @@ Partial Class frmDesignTag
         Me.scrBoxY.Size = New System.Drawing.Size(80, 22)
         Me.scrBoxY.TabIndex = 13
         '
+        'cmdLayoutTemplate
+        '
+        Me.cmdLayoutTemplate.FormattingEnabled = True
+        Me.cmdLayoutTemplate.Location = New System.Drawing.Point(235, 380)
+        Me.cmdLayoutTemplate.Name = "cmdLayoutTemplate"
+        Me.cmdLayoutTemplate.Size = New System.Drawing.Size(121, 21)
+        Me.cmdLayoutTemplate.TabIndex = 14
+        '
+        'cmbLayoutName
+        '
+        Me.cmbLayoutName.FormattingEnabled = True
+        Me.cmbLayoutName.Location = New System.Drawing.Point(235, 407)
+        Me.cmbLayoutName.Name = "cmbLayoutName"
+        Me.cmbLayoutName.Size = New System.Drawing.Size(121, 21)
+        Me.cmbLayoutName.TabIndex = 15
+        '
+        'cmbPropFontName
+        '
+        Me.cmbPropFontName.FormattingEnabled = True
+        Me.cmbPropFontName.Location = New System.Drawing.Point(235, 434)
+        Me.cmbPropFontName.Name = "cmbPropFontName"
+        Me.cmbPropFontName.Size = New System.Drawing.Size(121, 21)
+        Me.cmbPropFontName.TabIndex = 16
+        '
+        'cmbPropFontColor
+        '
+        Me.cmbPropFontColor.FormattingEnabled = True
+        Me.cmbPropFontColor.Location = New System.Drawing.Point(480, 18)
+        Me.cmbPropFontColor.Name = "cmbPropFontColor"
+        Me.cmbPropFontColor.Size = New System.Drawing.Size(121, 21)
+        Me.cmbPropFontColor.TabIndex = 17
+        '
+        'lblBy
+        '
+        Me.lblBy.AutoSize = True
+        Me.lblBy.Location = New System.Drawing.Point(477, 49)
+        Me.lblBy.Name = "lblBy"
+        Me.lblBy.Size = New System.Drawing.Size(39, 13)
+        Me.lblBy.TabIndex = 18
+        Me.lblBy.Text = "Label1"
+        '
+        'lstItems
+        '
+        Me.lstItems.FormattingEnabled = True
+        Me.lstItems.Location = New System.Drawing.Point(26, 317)
+        Me.lstItems.Name = "lstItems"
+        Me.lstItems.Size = New System.Drawing.Size(92, 49)
+        Me.lstItems.TabIndex = 19
+        '
         'frmDesignTag
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.lstItems)
+        Me.Controls.Add(Me.lblBy)
+        Me.Controls.Add(Me.cmbPropFontColor)
+        Me.Controls.Add(Me.cmbPropFontName)
+        Me.Controls.Add(Me.cmbLayoutName)
+        Me.Controls.Add(Me.cmdLayoutTemplate)
         Me.Controls.Add(Me.scrBoxY)
         Me.Controls.Add(Me.scrBoxX)
         Me.Controls.Add(Me.GroupBox1)
@@ -175,7 +227,6 @@ Partial Class frmDesignTag
         Me.Controls.Add(Me.txtCustomY)
         Me.Controls.Add(Me.txtCustomX)
         Me.Controls.Add(Me.cmbLayoutDimensions)
-        Me.Controls.Add(Me.lstItems)
         Me.Controls.Add(Me.txtMultiple)
         Me.Controls.Add(Me.chkDollarSign)
         Me.Controls.Add(Me.fraBox)
@@ -196,7 +247,6 @@ Partial Class frmDesignTag
     Friend WithEvents chkDollarSign As CheckBox
     Friend WithEvents txtMultiple As TextBox
     Friend WithEvents tmr As Timer
-    Friend WithEvents lstItems As ListBox
     Friend WithEvents cmbLayoutDimensions As ComboBox
     Friend WithEvents txtCustomX As TextBox
     Friend WithEvents txtCustomY As TextBox
@@ -205,4 +255,10 @@ Partial Class frmDesignTag
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents scrBoxX As HScrollBar
     Friend WithEvents scrBoxY As HScrollBar
+    Friend WithEvents cmdLayoutTemplate As ComboBox
+    Friend WithEvents cmbLayoutName As ComboBox
+    Friend WithEvents cmbPropFontName As ComboBox
+    Friend WithEvents cmbPropFontColor As ComboBox
+    Friend WithEvents lblBy As Label
+    Friend WithEvents lstItems As CheckedListBox
 End Class
