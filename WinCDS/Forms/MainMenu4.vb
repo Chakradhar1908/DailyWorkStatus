@@ -1596,6 +1596,7 @@ Public Class MainMenu4
         'Printer.DrawWidth = 4
         ''Printer.Line(1000, Y + 5600)-(8000, Y + 5600)
         'Printer.Line(1000, Y + 5600, 8000, Y + 5600)
+
         ''Printer.Line(8800, Y + 5600)-(11000, Y + 5600)
         'Printer.Line(8800, Y + 5600, 11000, Y + 5600)
 
@@ -1617,6 +1618,12 @@ Public Class MainMenu4
 
         'MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 10, 13200, 8300, 14000, True)
         'MainMenu.rtbn.DoPrintFile(CustomerTermsMessageFile, 100, 100) ', 1000, 1000, True)
+        'Printer.EndDoc()
+        'Dim P As Image
+        'P = Image.FromFile("C:\CDSData\InventPX\886.jpg")
+        'Printer.ScaleMode = VBRUN.ScaleModeConstants.vbPixels
+        'Printer.PaintPicture(P, 10, 100, P.Width, P.Height)
+        ''Printer.PaintPicture(Image.FromFile("C:\CDSData\InventPX\886.jpg"), 10, 100, 500, 400)
         'Printer.EndDoc()
         End
     End Sub

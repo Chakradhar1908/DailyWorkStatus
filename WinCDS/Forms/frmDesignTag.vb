@@ -147,7 +147,7 @@ Public Class frmDesignTag
                 W = Printer.TextWidth(C)
                 H = Printer.TextHeight(C)
                 Select Case Fields(I).Alignment
-                    Case LayoutAlign.lyaPositionR
+                    Case LayoutAlign.lyaPosition
                     Case LayoutAlign.lyaLeft : X = 0
                     Case LayoutAlign.lyaRight : X = TagWidth - W
                     Case LayoutAlign.lyaCenter : X = (TagWidth - W) / 2
@@ -174,8 +174,25 @@ Public Class frmDesignTag
                         Printer.Print(C)
                     End If
                 Else
-                    Dim P As IPictureDisp, pW As Integer, pH As Integer, aPW As Integer, aPH As Integer
-                    P = LoadItemImage(Fields(I).Caption)
+                    'Dim P As IPictureDisp
+                    Dim pW As Integer, pH As Integer, aPW As Integer, aPH As Integer
+                    Dim P As Image, Caption As String
+
+                    'P = LoadItemImage(Fields(I).Caption)
+                    'P = LoadItemImageNew(Fields(I).Caption)
+                    Caption = ImageFileName(Fields(I).Caption)
+                    If Caption = "" Then
+                        P = il.Images(0)
+                    ElseIf Caption = "0" Then
+                        P = il.Images(1)
+                    Else
+                        If Dir(Caption) = "" Then
+                            P = il.Images(0)
+                        Else
+                            P = Image.FromFile(Caption)
+                        End If
+                    End If
+
                     pW = P.Width
                     pH = P.Height
                     If Fields(I).PicWidth > 0 Then pW = Fields(I).PicWidth
@@ -190,6 +207,7 @@ Public Class frmDesignTag
                         X = X + (aPW - pW) / 2
                         Y = Y + (aPH - pH) / 2
                     End If
+
 
                     'If P <> 0 Then Printer.PaintPicture P, XOff + X, YOff + Y, pW, pH
                     If P IsNot Nothing Then Printer.PaintPicture(P, XOff + X, YOff + Y, pW, pH)
@@ -227,6 +245,27 @@ Public Class frmDesignTag
                 LoadItemImage = il.Images("invalid")
             Else
                 LoadItemImage = LoadPictureStd(Caption)
+            End If
+        End If
+    End Function
+
+    Private Function LoadItemImageNew(ByVal Caption As String) As Image
+        Caption = ImageFileName(Caption)
+        If Caption = "" Then
+            'LoadItemImage = il.ListImages("invalid").Picture
+            'LoadItemImageNew = il.Images("invalid")
+            LoadItemImageNew = il.Images(0)
+        ElseIf Caption = "0" Then
+            'LoadItemImage = il.ListImages("blank").Picture
+            'LoadItemImageNew = il.Images("blank")
+            LoadItemImageNew = il.Images(1)
+        Else
+            If Dir(Caption) = "" Then
+                'LoadItemImage = il.ListImages("invalid").Picture
+                'LoadItemImageNew = il.Images("invalid")
+                LoadItemImageNew = il.Images(0)
+            Else
+                LoadItemImageNew = LoadPictureStdNew(Caption)
             End If
         End If
     End Function
@@ -944,7 +983,7 @@ Public Class frmDesignTag
     End Sub
 
     Private Sub cmbLayoutDimensions_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbLayoutDimensions.SelectedIndexChanged
-        Dim W As Long, H As Long
+        Dim W As Integer, H As Integer
 
         txtCustomX.Visible = cmbLayoutDimensions.SelectedIndex = 3
         txtCustomY.Visible = cmbLayoutDimensions.SelectedIndex = 3
@@ -962,7 +1001,7 @@ Public Class frmDesignTag
     End Sub
 
     Private Sub lstItems_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles lstItems.ItemCheck
-        Dim I As Long, F As Long, Chg As Boolean, Show As Boolean
+        Dim I As Integer, F As Integer, Chg As Boolean, Show As Boolean
         If lstItemsAdjust Then Exit Sub
 
         On Error Resume Next

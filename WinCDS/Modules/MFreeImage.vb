@@ -303,6 +303,35 @@ Module MFreeImage
 
     End Function
 
+    Public Function LoadPictureExNew(Optional ByRef FileName As String = Nothing,
+                              Optional ByRef Options As FREE_IMAGE_LOAD_OPTIONS = Nothing,
+                              Optional ByRef Width As Object = Nothing,
+                              Optional ByRef Height As Object = Nothing,
+                              Optional ByRef InPercent As Boolean = Nothing,
+                              Optional ByRef Filter As FREE_IMAGE_FILTER = Nothing,
+                              Optional ByRef Format As FREE_IMAGE_FORMAT = Nothing) As Image
+
+        Dim hDIB As Integer
+
+        ' This function is an extended version of the VB method 'LoadPicture'. As
+        ' the VB version it takes a filename parameter to load the image and throws
+        ' the same errors in most cases.
+
+        ' This function now is only a thin wrapper for the FreeImage_LoadEx() wrapper
+        ' function (as compared to releases of this wrapper prior to version 1.8). So,
+        ' have a look at this function's discussion of the parameters.
+
+        ' However, we do mask out the FILO_LOAD_NOPIXELS load option, since this
+        ' function shall create a VB Picture object, which does not support
+        ' FreeImage's header-only loading option.
+
+
+        If (Not IsNothing(FileName)) Then
+            hDIB = FreeImage_LoadEx(FileName, (Options And (Not FREE_IMAGE_LOAD_OPTIONS.FILO_LOAD_NOPIXELS)), Width, Height, InPercent, Filter, Format)
+            LoadPictureExNew = FreeImage_GetOlePicture(hDIB, , True)
+        End If
+    End Function
+
     Public Function FreeImage_GetVersion() As String
 
         ' This function returns the version of the FreeImage 3 library
@@ -363,7 +392,6 @@ Module MFreeImage
             Call Err.Raise(5, "MFreeImage", vbCrLf & vbCrLf &
                      "The file specified has an unknown image format.")
         End If
-
     End Function
 
     Public Function FreeImage_GetOlePicture(ByVal BITMAP As Integer,

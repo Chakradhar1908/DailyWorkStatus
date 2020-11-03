@@ -23,6 +23,7 @@ Partial Class frmDesignTag
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDesignTag))
         Me.cmbPageAlign = New System.Windows.Forms.ComboBox()
         Me.imgPrintHelper = New System.Windows.Forms.PictureBox()
         Me.fraBox = New System.Windows.Forms.GroupBox()
@@ -74,9 +75,10 @@ Partial Class frmDesignTag
         '
         'il
         '
-        Me.il.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.il.ImageSize = New System.Drawing.Size(16, 16)
+        Me.il.ImageStream = CType(resources.GetObject("il.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.il.TransparentColor = System.Drawing.Color.Transparent
+        Me.il.Images.SetKeyName(0, "NoPic.bmp")
+        Me.il.Images.SetKeyName(1, "NoPic2.bmp")
         '
         'chkDollarSign
         '

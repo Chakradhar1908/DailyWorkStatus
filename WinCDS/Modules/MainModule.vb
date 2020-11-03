@@ -473,6 +473,17 @@ ServerLockedFailed:
         End If
     End Function
 
+    Public Function LoadPictureStdNew(ByVal FileName As String) As Image
+        If FileExists(FileName) Then
+            If FreeImage_IsAvailable() Then
+                LoadPictureStdNew = LoadPictureExNew(FileName)
+            Else
+                'LoadPictureStd = LoadPicture(FileName)
+                LoadPictureStdNew = Image.FromFile(FileName)
+            End If
+        End If
+    End Function
+
     Public Function UpdateFolder(Optional ByVal SubFolder As String = "") As String
         UpdateFolder = InventFolder(True) & "update\" & SubFolder
         If Right(UpdateFolder, 1) <> DIRSEP Then UpdateFolder = UpdateFolder & DIRSEP
