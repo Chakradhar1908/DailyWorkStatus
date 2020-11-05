@@ -119,6 +119,7 @@ Module modPrintRTF
         g.ReleaseHdc()
         'r =
         SendMessage(RTF.Handle, EM_FORMATRANGE, False, CLng(0))
+        'SendMessage(RTF.Text, EM_FORMATRANGE, False, CLng(0))
         '<CT>
         DeliveryticketMessageFileText = RTF.Text
         '</CT>

@@ -1336,6 +1336,8 @@ ErrHand:
         Dim Box2Top As Integer, Box2Bottom As Integer
         Dim Box3Top As Integer, Box3Bottom As Integer
         Dim Box4Top As Integer, Box4Bottom As Integer
+        Dim CY As Integer
+
         AdjustX = JustificationAdjustment()
 
         ' Set up the printing areas.
@@ -1382,8 +1384,7 @@ ErrHand:
             printer.CurrentY = Box1Top + 300
             printer.FontSize = 20
             printer.FontBold = True
-            PrintToPosition(printer, Trim(StoreSettings.Name),
-      TicketCenter - printer.TextWidth(Trim(StoreSettings.Name)) / 2, VBRUN.AlignConstants.vbAlignLeft, True)
+            PrintToPosition(printer, Trim(StoreSettings.Name), TicketCenter - printer.TextWidth(Trim(StoreSettings.Name)) / 2, VBRUN.AlignConstants.vbAlignLeft, True)
 
             printer.FontBold = False
             On Error Resume Next
@@ -1419,8 +1420,7 @@ ErrHand:
                 printer.FontBold = True
                 If StoreSettings.bShowRegularPrice Then  'list price
                     If List <> "" Then
-                        PrintPrice(GetPrice(List), IIf(IsUFO(), 1, 0),
-            TicketLeft, Box2Top, TicketWidth, Box2Bottom - Box2Top, 28)
+                        PrintPrice(GetPrice(List), IIf(IsUFO(), 1, 0), TicketLeft, Box2Top, TicketWidth, Box2Bottom - Box2Top, 28)
                     End If
                 End If
             End If
@@ -1441,11 +1441,9 @@ ErrHand:
         End If
 
         'printer.Font = "Arial"
-        printer.Font = New Font("Arial", FontStyle.Regular)
+        printer.FontName = "Arial"
         printer.FontBold = True
-        PrintPrice(GetPrice(OnSale), IIf(IsUFO(), 1, 0),
-    TicketLeft, Box3ImprovTop, TicketWidth, Box3Bottom - Box3ImprovTop, 75)
-
+        PrintPrice(GetPrice(OnSale), IIf(IsUFO(), 1, 0), TicketLeft, Box3ImprovTop, TicketWidth, Box3Bottom - Box3ImprovTop, 75)
 
         ' Print comments, etc in box 4.
         printer.FontSize = 14
@@ -1470,29 +1468,50 @@ ErrHand:
 
         If Not StoreSettings.bShowManufacturer Then
             If Code <> "" Then
-                PrintToPosition(printer, "Code:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
-                PrintToPosition(printer, Code, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+                CY = printer.CurrentY
+                'PrintToPosition(printer, "Code:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
+                PrintToPosition2(printer, "Code:", Col1End, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                'PrintToPosition(printer, Code, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+                PrintToPosition2(printer, Code, Col2, VBRUN.AlignConstants.vbAlignLeft, True, CY)
             End If
         ElseIf Mfg <> "" Then
-            PrintToPosition(printer, "Mfg:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
-            PrintToPosition(printer, Mfg, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+            CY = printer.CurrentY
+            'PrintToPosition(printer, "Mfg:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
+            'PrintToPosition(printer, Mfg, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+            PrintToPosition2(printer, "Mfg:", Col1End, VBRUN.AlignConstants.vbAlignRight, False, CY)
+            PrintToPosition2(printer, Mfg, Col2, VBRUN.AlignConstants.vbAlignLeft, True, CY)
         End If
 
         If Style <> "" Then
             If StoreSettings.bStyleNoInCode Then
                 'style No. coded
-                PrintToPosition(printer, "Style:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
-                PrintCostCode(Style, TagSize, Col2)
+                CY = printer.CurrentY
+                'PrintToPosition(printer, "Style:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
+                PrintToPosition2(printer, "Style:", Col1End, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                'PrintCostCode(Style, TagSize, Col2)
+                'PrintCostCode(Style, TagSize, Col2, CY)
+                Dim S As String
+                S = ConvertCostToCode(Style)
+                printer.CurrentX = Col2
+                printer.CurrentY = CY
+                printer.FontSize = 16
+                printer.Print(S)
                 printer.FontSize = 14
             Else
-                PrintToPosition(printer, "Style:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
-                PrintToPosition(printer, Style, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+                CY = printer.CurrentY
+                'PrintToPosition(printer, "Style:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
+                'PrintToPosition(printer, Style, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+                PrintToPosition2(printer, "Style:", Col1End, VBRUN.AlignConstants.vbAlignRight, False, CY)
+                PrintToPosition2(printer, Style, Col2, VBRUN.AlignConstants.vbAlignLeft, True, CY)
             End If
         End If
 
         If StoreSettings.bShowAvailableStock And Stock <> "" Then 'show stock
-            PrintToPosition(printer, "Stock:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
-            PrintToPosition(printer, Stock, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+            CY = printer.CurrentY
+            'PrintToPosition(printer, "Stock:", Col1End, VBRUN.AlignConstants.vbAlignRight, False)
+            PrintToPosition2(printer, "Stock:", Col1End, VBRUN.AlignConstants.vbAlignRight, False, CY)
+            'PrintToPosition(printer, Stock, Col2, VBRUN.AlignConstants.vbAlignLeft, True)
+            PrintToPosition2(printer, Stock, Col2, VBRUN.AlignConstants.vbAlignLeft, True, CY)
         End If
 
         If Comments <> "" Then
@@ -1509,11 +1528,21 @@ ErrHand:
             PrintCostCode(Landed, TagSize, TicketLeft + 200)
         End If
 
-        If StoreSettings.bPrintBarCode Then
-            MainMenu.rtbn.SetBarcodeLarge(Trim(Style))
-            MainMenu.rtbn.FilePrint(TicketLeft + 900, Box3Top + 25) ' This sometimes overwrites the price a bit..
-        End If
-
+        'If StoreSettings.bPrintBarCode Then
+        '    'MainMenu.rtbn.SetBarcodeLarge(Trim(Style))
+        '    'MainMenu.rtbn.FilePrint(TicketLeft + 900, Box3Top + 25) ' This sometimes overwrites the price a bit..
+        '    'printer.CurrentX = 100
+        '    'printer.CurrentY = 100
+        '    'printer.Print(DeliveryticketMessageFileText)
+        '    'printer.Print(MainMenu.rtbn.mRichTextBox.Text)
+        '    '---------------------------------
+        '    'SelectBarcodeFont(BarCodeFonts.bcfHalfInch)
+        '    Dim Barcodestring As String
+        '    Barcodestring = Style
+        '    Barcodestring = PrepareBarcode(Trim(Barcodestring))
+        '    printer.Print(Barcodestring)
+        'End If
+        printer.Print(PrepareBarcode(Style))
         printer.FontBold = False
         'MousePointer = 0
         Me.Cursor = Cursors.Default

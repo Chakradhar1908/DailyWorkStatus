@@ -911,11 +911,13 @@ PrinterDialogCancelled:
         CodeLetter = ""
 
         OldFontSize = Printer.FontSize
-        If PrintX <> -1 Then Printer.CurrentX = PrintX
-        If PrintY <> -1 Then Printer.CurrentY = PrintY
+        'If PrintX <> -1 Then Printer.CurrentX = PrintX
+        'If PrintY <> -1 Then Printer.CurrentY = PrintY
 
         SetCostCodeFontSize(TagSize, True) ' CodeLetter <> Mid(Plaintext, I, 1)
         S = ConvertCostToCode(Plaintext)
+        If PrintX <> -1 Then Printer.CurrentX = PrintX
+        If PrintY <> -1 Then Printer.CurrentY = PrintY
         Printer.Print(S)
 
         '  For I = 1 To Len(Plaintext)
@@ -925,7 +927,7 @@ PrinterDialogCancelled:
         ' ' Debug.Print CodeLetter;
         '  Next
         Printer.FontSize = OldFontSize
-        Printer.Print()   ' Next line.
+        'Printer.Print()   ' Next line.
     End Sub
 
     Private Sub SetCostCodeFontSize(ByRef TagSize As String, ByRef Changed As Boolean)
