@@ -623,8 +623,9 @@ ErrHand:
     End Sub
 
     Private Sub MakeTicketMed()
+        Dim CY As Integer
+        Dim S As String
         AdjustX = JustificationAdjustment()
-
         TagSize = "MED"
 
         printer.FontName = "Arial"
@@ -636,18 +637,22 @@ ErrHand:
                 printer.CurrentY = 4400
                 printer.FontSize = 8
                 printer.Print("")
+                printer.CurrentX = 4000 + AdjustX
                 printer.CurrentY = 4200
 
                 If IsUFO() Then
                     printer.FontSize = 20
-                    printer.Print(Format(Int(GetPrice(List)), "$###,##0"))
+                    'printer.Print(Format(Int(GetPrice(List)), "$###,##0"))
+                    printer.Print(Format(Convert.ToDecimal(GetPrice(List)), "$###,##0"))
                     printer.FontSize = 10
-                    printer.Print(Microsoft.VisualBasic.Right(Format(List, "0.00"), 2))
+                    'printer.Print(Microsoft.VisualBasic.Right(Format(List, "0.00"), 2))
+                    printer.Print(Microsoft.VisualBasic.Right(Format(Convert.ToDecimal(List), "0.00"), 2))
                     printer.FontSize = 20
                     printer.Print() ' Newline at size=40, or it overprints.
                 Else
                     printer.FontSize = 20
-                    printer.Print(Format(List, "$###,##0.00"))
+                    'printer.Print(Format(List, "$###,##0.00"))
+                    printer.Print(Format(Convert.ToDecimal(List), "$###,##0.00"))
                 End If
             End If
 
@@ -657,14 +662,16 @@ ErrHand:
 
             If IsUFO() Then
                 printer.FontSize = 40
-                printer.Print(Format(Int(GetPrice(OnSale)), "$###,##0"))
+                'printer.Print(Format(Int(GetPrice(OnSale)), "$###,##0"))
+                printer.Print(Format(Convert.ToDecimal(GetPrice(OnSale)), "$###,##0"))
                 printer.FontSize = 20
-                printer.Print(Microsoft.VisualBasic.Right(Format(OnSale, "0.00"), 2))
+                'printer.Print(Microsoft.VisualBasic.Right(Format(OnSale, "0.00"), 2))
+                printer.Print(Microsoft.VisualBasic.Right(Format(Convert.ToDecimal(OnSale), "0.00"), 2))
                 printer.FontSize = 40
                 printer.Print() ' Newline at size=40, or it overprints.
             Else
                 printer.FontSize = 40
-                printer.Print(Format(OnSale, "$###,##0.00"))
+                printer.Print(Format(Convert.ToDecimal(OnSale), "$###,##0.00"))
             End If
         End If
 
@@ -676,7 +683,8 @@ ErrHand:
         Else
             If Len(Desc) > 46 Then printer.FontSize = 8
             printer.CurrentX = 4000 + AdjustX
-            printer.Print(" ", Microsoft.VisualBasic.Left(Desc, 46))
+            'printer.Print(" ", Microsoft.VisualBasic.Left(Desc, 46))
+            printer.Print(Microsoft.VisualBasic.Left(Desc, 46))
             If Len(Desc) > 46 Then
                 printer.CurrentX = 4000 + AdjustX
                 printer.Print(" ", Mid(Desc, 47, 46))
@@ -690,15 +698,18 @@ ErrHand:
 
         If Not StoreSettings.bShowManufacturer Then
             printer.CurrentX = 4000 + AdjustX
-            printer.Print("Code: ")
             printer.FontBold = True
-            printer.Print(Code)
+            printer.Print("Code: " & Code)
+            'printer.FontBold = True
+            'printer.CurrentY = CY
+            'printer.Print(Code)
             'Printer.FontBold = True
         Else
             printer.CurrentX = 4000 + AdjustX
-            printer.Print("Mfg: ")
             printer.FontBold = True
-            printer.Print(Mfg)
+            printer.Print("Mfg: " & Mfg)
+            'printer.FontBold = True
+            'printer.Print(Mfg)
             'Printer.FontBold = True
         End If
 
@@ -706,26 +717,37 @@ ErrHand:
         'Printer.CurrentY = 6250
 
         printer.CurrentX = 4000 + AdjustX
+        printer.CurrentY = printer.CurrentY + 40
         'Printer.CurrentY = 6250
         If StoreSettings.bStyleNoInCode Then
-            printer.Print("Style: ")
+            S = ConvertCostToCode(Style)
             printer.FontBold = True
-            PrintCostCode(Trim(Style), TagSize)  'style No. coded
+            CY = printer.CurrentY
+            printer.Print("Style: ")
+            printer.FontSize = 12
+            printer.CurrentX = 4000 + AdjustX + printer.TextWidth("Style")
+            printer.CurrentY = CY
+            printer.Print(S)
+            'printer.FontBold = True
+            'PrintCostCode(Trim(Style), TagSize)  'style No. coded
             ' Printer.FontBold = True
         Else
-            printer.Print("Style: ")
-            ' Printer.FontBold = False
             printer.FontBold = True
-            printer.Print(Style)
+            printer.Print("Style: " & Style)
+            ' Printer.FontBold = False
+            'printer.FontBold = True
+            'printer.Print(Style)
         End If
 
         If StoreSettings.bShowAvailableStock Then  'show stock
             printer.FontSize = 10
             printer.CurrentX = 4000 + AdjustX
-            printer.CurrentY = 6250   '6600
-            printer.Print("Stock: ")
+            printer.CurrentY = printer.CurrentY + 40
+            'printer.CurrentY = 6250   '6600
             printer.FontBold = True
-            printer.Print(Stock)
+            printer.Print("Stock: " & Stock)
+            'printer.FontBold = True
+            'printer.Print(Stock)
             ' Printer.FontBold = True
         End If
 
@@ -734,21 +756,32 @@ ErrHand:
 
         'jk next 2 lines old way.  Line wrap not correct
         printer.CurrentX = 4000 + AdjustX
+        printer.CurrentY = printer.CurrentY + 40
         printer.Print(Comments)
         ' PrintInBox Printer, WrapLongText(Comments, 46), 4000 + AdjustX, Printer.CurrentY, 8000, 600
 
         If StoreSettings.bCostInCode Then
             'adds cost in code
+            S = ConvertCostToCode(Landed)
             printer.CurrentX = 4000 + AdjustX
-            printer.Print("  ")
+            printer.CurrentY = printer.CurrentY + 40
             printer.FontSize = 18
-            PrintCostCode(Landed, TagSize)
+            printer.Print("  " & S)
+            'printer.FontSize = 18
+            'PrintCostCode(Landed, TagSize)
         End If
 
         If StoreSettings.bPrintBarCode Then 'bar code
             MainMenu.rtbn.SetBarcodeLarge(Trim(Style))
-            MainMenu.rtbn.FilePrint(4000 + AdjustX, 7100, 8000)
-            printer.FontName = "Arial"
+            'MainMenu.rtbn.FilePrint(4000 + AdjustX, 7100, 8000)
+            printer.CurrentX = 4000 + AdjustX
+            printer.CurrentY = 7100
+            ''printer.FontName = "Code39HalfInch-Regular"
+            printer.FontName = FONT_C39_HALFINCH
+            printer.FontSize = 20
+            printer.FontBold = False
+            printer.Print(MainMenu.rtbn.mRichTextBox.Text)
+            'printer.FontName = "Arial"
         End If
 
         'MousePointer = 0
@@ -1528,26 +1561,22 @@ ErrHand:
             PrintCostCode(Landed, TagSize, TicketLeft + 200)
         End If
 
-        'If StoreSettings.bPrintBarCode Then
-        '    'MainMenu.rtbn.SetBarcodeLarge(Trim(Style))
-        '    'MainMenu.rtbn.FilePrint(TicketLeft + 900, Box3Top + 25) ' This sometimes overwrites the price a bit..
-        '    'printer.CurrentX = 100
-        '    'printer.CurrentY = 100
-        '    'printer.Print(DeliveryticketMessageFileText)
-        '    'printer.Print(MainMenu.rtbn.mRichTextBox.Text)
-        '    '---------------------------------
-        '    'SelectBarcodeFont(BarCodeFonts.bcfHalfInch)
-        '    Dim Barcodestring As String
-        '    Barcodestring = Style
-        '    Barcodestring = PrepareBarcode(Trim(Barcodestring))
-        '    printer.Print(Barcodestring)
-        'End If
-        printer.Print(PrepareBarcode(Style))
+        If StoreSettings.bPrintBarCode Then
+            MainMenu.rtbn.SetBarcodeLarge(Trim(Style))
+            'MainMenu.rtbn.FilePrint(TicketLeft + 900, Box3Top + 25) ' This sometimes overwrites the price a bit..
+            printer.CurrentX = TicketLeft + 900
+            printer.CurrentY = Box3Top + 25
+            'printer.FontName = "Code39HalfInch-Regular"
+            printer.FontName = FONT_C39_HALFINCH
+            printer.FontSize = 20
+            printer.FontBold = False
+            printer.Print(MainMenu.rtbn.mRichTextBox.Text)
+        End If
+
         printer.FontBold = False
         'MousePointer = 0
         Me.Cursor = Cursors.Default
         printer.EndDoc()
-
         Exit Sub
 HandleErr:
 
