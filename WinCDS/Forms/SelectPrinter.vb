@@ -450,7 +450,7 @@ ErrHand:
             PrintSmallTicket()
         Next
         DoBeep()
-        '  Printer.EndDoc
+        printer.EndDoc()
     End Sub
 
     Private Sub PrintSmallTicket()
@@ -470,52 +470,71 @@ ErrHand:
     End Sub
 
     Private Sub MakeSmallTags()
+        Dim CY As Integer
+        Dim S As String
+
         FindLabel()
         printer.FontName = "Arial"
         printer.FontSize = 9
         If Val(Stock) < 0 Then Stock = 0
 
-        printer.CurrentX = Xx
-        printer.CurrentY = YY
+        'printer.CurrentX = Xx
+        printer.CurrentX = 100
+        printer.CurrentY = 500
         If IsStudioD() Then
             printer.Print(Microsoft.VisualBasic.Left(SKU, 29))
         Else
             printer.Print(Microsoft.VisualBasic.Left(Desc, 29))
         End If
 
-        printer.CurrentX = Xx
-
+        'printer.CurrentX = Xx
+        printer.CurrentX = 100
+        CY = printer.CurrentY
         If Not StoreSettings.bShowManufacturer Then
-            printer.Print("Code: ", Code)
+            printer.Print("Code:" & Code)
         Else
-            printer.Print(" Mfg: ", Mfg)
+            printer.Print("Mfg:" & Mfg)
         End If
 
+        printer.CurrentX = 1250
+        printer.CurrentY = CY
         If StoreSettings.bShowAvailableStock Then   'show stock
-            printer.Print(SPC(8), "Stock: ", Stock)
+            printer.Print(SPC(8), "Stock:" & Stock)
         Else
             printer.Print("")
         End If
 
-        Dim pY As Integer
-        pY = printer.CurrentY
-        If StoreSettings.bShowRegularPrice And Not IsClassicInteriors Then
-            printer.CurrentX = Xx
-            printer.FontSize = 8
-            printer.Print(SPC(22), "List: $", List)
-        End If
-
-        printer.CurrentX = Xx
+        ''printer.CurrentX = Xx
+        printer.CurrentX = 100
         If Not IsMiltons() Then
             If StoreSettings.bStyleNoInCode Then
+                'PrintCostCode(Trim(Style), TagSize)
+                CY = printer.CurrentY
                 printer.Print("Style: ")
-                PrintCostCode(Trim(Style), TagSize)
+                S = ConvertCostToCode(Trim(Style))
+                printer.FontBold = True
+                printer.FontSize = 11
+                printer.CurrentX = printer.CurrentX + printer.TextWidth("Style")
+                printer.CurrentY = CY
+                printer.Print(S)
+                printer.FontBold = False
             Else
                 printer.Print("Style: ", Style)
             End If
         End If
 
-        '  If StoreSettings.bShowRegularPrice And Not StoreSettings.bStyleNoInCode Then
+        Dim pY As Integer
+        pY = printer.CurrentY
+        If StoreSettings.bShowRegularPrice And Not IsClassicInteriors Then
+            'printer.CurrentX = Xx
+            printer.CurrentX = 1700
+            printer.CurrentY = CY
+            printer.FontSize = 8
+            'printer.Print(SPC(22), "List: $", List)
+            printer.Print("List: $" & List)
+        End If
+
+        'If StoreSettings.bShowRegularPrice And Not StoreSettings.bStyleNoInCode Then
         printer.CurrentY = pY
         printer.Print("")
 
@@ -524,10 +543,13 @@ ErrHand:
 
         '  Printer.Print ""
         If Not HidePricing Then
-            printer.CurrentX = Xx
-            printer.Print(" Sale: ")
-
+            printer.CurrentX = 100
+            printer.CurrentY = printer.CurrentY - 200
+            CY = printer.CurrentY
+            printer.Print(" Sale:")
             printer.FontSize = 12
+            printer.CurrentX = printer.CurrentX + printer.TextWidth(" Sale:") + 90
+            printer.CurrentY = CY
             If IsVeranda() Then
                 printer.Print(FormatCurrency(OnSale), "   ")
             Else
@@ -536,7 +558,12 @@ ErrHand:
 
             If StoreSettings.bCostInCode Then
                 'adds cost in code
-                PrintCostCode(Landed, TagSize)
+                'PrintCostCode(Landed, TagSize)
+                S = ConvertCostToCode(Trim(Landed))
+                printer.FontSize = 11
+                printer.CurrentX = printer.CurrentX + printer.TextWidth(OnSale) + 100
+                printer.CurrentY = CY
+                printer.Print(S)
             Else
                 printer.Print()
             End If
@@ -545,11 +572,18 @@ ErrHand:
         If StoreSettings.bPrintBarCode Then
             MainMenu.rtbn.Visible = True
             MainMenu.rtbn.SetBarcodeMed(Trim(Style))
-            MainMenu.rtbn.FilePrint(Xx + 100, printer.CurrentY, 3600, , True, False) '+ 250  ' was 450
+            'MainMenu.rtbn.FilePrint(Xx + 100, printer.CurrentY, 3600, , True, False) '+ 250  ' was 450
+            printer.CurrentX = 200
+            printer.CurrentY = printer.CurrentY - 200
+            ''printer.FontName = "Code39HalfInch-Regular"
+            printer.FontName = FONT_C39_WIDE
+            printer.FontSize = 15
+            printer.FontBold = True
+            printer.Print(MainMenu.rtbn.mRichTextBox.Text)
             MainMenu.rtbn.Visible = False
-            printer.FontName = "Arial"
+            'printer.FontName = "Arial"
         End If
-        printer.FontSize = 9
+        'printer.FontSize = 9
     End Sub
 
     Private Sub FindLabel()
