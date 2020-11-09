@@ -8,12 +8,18 @@ Public Class PrinterSelector
     Private Const d_AutoSelect As Boolean = False
     Dim optCount As Integer
 
-    Private Sub optPrinter0_CheckedChanged(sender As Object, e As EventArgs) Handles optPrinter0.CheckedChanged
-        ' Change the selected printer...
-        'mSelectedPrinter = optPrinter(Index).Caption
-        'If AutoSelect Then SetPrinter mSelectedPrinter
-        'RaiseEvent Click()
+    'Private Sub optPrinter0_CheckedChanged(sender As Object, e As EventArgs) Handles optPrinter0.CheckedChanged
+    '    ' Change the selected printer...
+    '    'mSelectedPrinter = optPrinter(Index).Caption
+    '    'If AutoSelect Then SetPrinter mSelectedPrinter
+    '    'RaiseEvent Click()
 
+    '    mSelectedPrinter = CType(sender, RadioButton).Text
+    '    If AutoSelect Then SetPrinter(mSelectedPrinter)
+    '    RaiseEvent Click()
+    'End Sub
+
+    Private Sub optPrinterCheckedChanged(sender As Object, e As EventArgs)
         mSelectedPrinter = CType(sender, RadioButton).Text
         If AutoSelect Then SetPrinter(mSelectedPrinter)
         RaiseEvent Click()
@@ -191,6 +197,7 @@ Public Class PrinterSelector
                 optCount = optCount + 1
                 optP.Location = New Point(0, (optCount - 2) * optPrinter0.Height)
                 If optP.Top + optP.Height > Me.Height Then Scroller.Visible = True
+                AddHandler optP.CheckedChanged, AddressOf optPrinterCheckedChanged
                 Me.Controls.Add(optP)
             End If
         Next
@@ -278,7 +285,8 @@ NoPr:
                     CType(C, RadioButton).Checked = (C.Text = vData)
                     AfterCheck = CType(C, RadioButton).Checked
                     If BeforeCheck <> AfterCheck Then
-                        optPrinter0_CheckedChanged(CType(C, RadioButton), New EventArgs)
+                        'optPrinter0_CheckedChanged(CType(C, RadioButton), New EventArgs)
+                        optPrinterCheckedChanged(CType(C, RadioButton), New EventArgs)
                     End If
                 End If
             Next

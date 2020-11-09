@@ -1625,11 +1625,8 @@ Public Class MainMenu4
         'Printer.PaintPicture(P, 10, 100, P.Width, P.Height)
         ''Printer.PaintPicture(Image.FromFile("C:\CDSData\InventPX\886.jpg"), 10, 100, 500, 400)
         'Printer.EndDoc()
-        Dim a As String = "1508VM"
-        a = PrepareBarcode(a)
-        Printer.Print(a)
-        Printer.EndDoc()
-        'End
+
+        End
     End Sub
 
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)
