@@ -371,17 +371,21 @@ Public Class MailCheck
             Hide()
             'Me.Close()
             '<CT> To show the style and price of the lastrow in the grid. Cause, grid is not refreshing the lastrow properly, so the lastrow's style and price is not showing while loading.
-            Dim Lastrow As Integer, PriceValue As String, StyleValue As String
-            Lastrow = BillOSale.UGridIO1.LastRowUsed
-            StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)
-            PriceValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.ePrice)
-            'BillOSale.SetStyle(Lastrow, StyleValue)
-            'BillOSale.SetPrice(Lastrow, PriceValue)
-            BillOSale.UGridIO1.Row = Lastrow
-            BillOSale.UGridIO1.Col = BillColumns.eStyle
-            BillOSale.UGridIO1.Text = StyleValue
-            BillOSale.UGridIO1.Col = BillColumns.ePrice
-            BillOSale.UGridIO1.Text = PriceValue
+
+            'This below code is commented. It is replaced with adding BillOSale.BillOSale2_Show() in GetOrder sub in '<CT>BillOSale.BillOSale2_Show()'</CT> section.
+
+            'Dim Lastrow As Integer, PriceValue As String, StyleValue As String
+            'Lastrow = BillOSale.UGridIO1.LastRowUsed
+            'StyleValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.eStyle)
+            'PriceValue = BillOSale.UGridIO1.GetValue(Lastrow, BillColumns.ePrice)
+            ''BillOSale.SetStyle(Lastrow, StyleValue)
+            ''BillOSale.SetPrice(Lastrow, PriceValue)
+            'BillOSale.UGridIO1.Row = Lastrow
+            'BillOSale.UGridIO1.Col = BillColumns.eStyle
+            'BillOSale.UGridIO1.Text = StyleValue
+            'BillOSale.UGridIO1.Col = BillColumns.ePrice
+            'BillOSale.UGridIO1.Text = PriceValue
+
             '</CT>
 
             If Not tHold.Void Then
@@ -671,11 +675,16 @@ Public Class MailCheck
 
             LastRec = MarginNo
             X = X + 1
+
+            '<CT> To show the style and price of the lastrow in the grid. Cause, grid is not refreshing the lastrow properly, so the lastrow's style and price is not showing while loading.
+            BillOSale.BillOSale2_Show()
+            '</CT>
         Loop
         cTa.Records_Close()
         BillOSale.LastRecord = X
 
         BillOSale.GridRefresh()
+
         ' bfh20050816 - this was confusing..  put it at the bottom of large sales instead of the top..
         ' made it easy to not notice the slider was down on the grid a ways and 'lose' items
         '  BillOSale.GridMove X

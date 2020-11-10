@@ -674,9 +674,17 @@ NoMoreRefundsThisSale:
 
         ' Adjust the sale totals.
         'lblTotalPaid.Caption = "$" & CurrencyFormat(GetPrice(lblTotalPaid.Caption) + PayAmount)
-        lblTotalPaid.Text = "$" & CurrencyFormat(GetPrice(lblTotalPaid.Text) + PayAmount)
-        RecalculateRefundTotal
+        If PRow = 0 Then
+            lblPaymentType.Text = pType
+            lblPaymentType.Tag = PayType
+            lblAmountPaid.Text = CurrencyFormat(GetPrice(lblAmountPaid.Text) + PayAmount)
+            txtRefundAmount.Text = CurrencyFormat(GetPrice(txtRefundAmount.Text) + PayAmount)
+            txtRefundAmount.Tag = txtRefundAmount.Text
+        End If
 
+        lblTotalPaid.Text = "$" & CurrencyFormat(GetPrice(lblTotalPaid.Text) + PayAmount)
+        'lblTotalPaid.Text = CurrencyFormat(GetPrice(lblTotalPaid.Text) + PayAmount)
+        RecalculateRefundTotal()
         PaymentCount = PaymentCount + 1
     End Sub
 

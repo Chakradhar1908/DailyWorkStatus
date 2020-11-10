@@ -211,7 +211,7 @@ Partial Class OrdVoid
         Me.fraPaymentSummary.Controls.Add(Me.lblGeneral0)
         Me.fraPaymentSummary.Location = New System.Drawing.Point(12, 174)
         Me.fraPaymentSummary.Name = "fraPaymentSummary"
-        Me.fraPaymentSummary.Size = New System.Drawing.Size(327, 158)
+        Me.fraPaymentSummary.Size = New System.Drawing.Size(334, 158)
         Me.fraPaymentSummary.TabIndex = 6
         Me.fraPaymentSummary.TabStop = False
         Me.fraPaymentSummary.Text = " Payment Summary "
@@ -231,7 +231,7 @@ Partial Class OrdVoid
         '
         Me.lblTotalPaid.AutoSize = True
         Me.lblTotalPaid.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalPaid.Location = New System.Drawing.Point(175, 135)
+        Me.lblTotalPaid.Location = New System.Drawing.Point(163, 135)
         Me.lblTotalPaid.Name = "lblTotalPaid"
         Me.lblTotalPaid.Size = New System.Drawing.Size(39, 13)
         Me.lblTotalPaid.TabIndex = 11
@@ -298,7 +298,7 @@ Partial Class OrdVoid
         'lblAmountPaid
         '
         Me.lblAmountPaid.AutoSize = True
-        Me.lblAmountPaid.Location = New System.Drawing.Point(186, 54)
+        Me.lblAmountPaid.Location = New System.Drawing.Point(174, 54)
         Me.lblAmountPaid.Name = "lblAmountPaid"
         Me.lblAmountPaid.Size = New System.Drawing.Size(28, 13)
         Me.lblAmountPaid.TabIndex = 4

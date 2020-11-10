@@ -422,7 +422,7 @@ Public Class UGridIO
                 On Error GoTo softError
                 On Error Resume Next
                 '.Row = 1
-                If Value = ".00" Then Value = ""
+                'If Value = ".00" Then Value = ""
                 .Text = Value
                 .FirstRow = TopRow + 1
             End If
