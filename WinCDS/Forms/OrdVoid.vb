@@ -114,11 +114,11 @@
             'For RefundType = optRefundType.LBound To optRefundType.UBound
             '    If optRefundType(RefundType) Then Exit Property
             'Next
-            If optRefundType0.Checked = True Then Exit Property
-            If optRefundType1.Checked = True Then Exit Property
-            If optRefundType2.Checked = True Then Exit Property
-            If optRefundType3.Checked = True Then Exit Property
-            If optRefundType4.Checked = True Then Exit Property
+            If optRefundType0.Checked = True Then RefundType = 0 : Exit Property
+            If optRefundType1.Checked = True Then RefundType = 1 : Exit Property
+            If optRefundType2.Checked = True Then RefundType = 2 : Exit Property
+            If optRefundType3.Checked = True Then RefundType = 3 : Exit Property
+            If optRefundType4.Checked = True Then RefundType = 4 : Exit Property
         End Get
     End Property
 
