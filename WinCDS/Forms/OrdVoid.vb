@@ -160,10 +160,10 @@ Done:
         Dim M As String
 
         ' Validate and perform the void.
-        If GetPrice(lblRefundTotal.Text) > GetPrice(lblTotalPaid.Text) Then
-            MessageBox.Show("You can't refund more than the total deposit.", "WinCDS")
-            Exit Sub
-        End If
+        'If GetPrice(lblRefundTotal.Text) > GetPrice(lblTotalPaid.Text) Then
+        '    MessageBox.Show("You can't refund more than the total deposit.", "WinCDS")
+        '    Exit Sub
+        'End If
         '  If RefundType = cdsrft_ForfeitDeposit And GetPrice(lblRefundTotal.Caption) > 0 Then
         '    MsgBox "The entire deposit needs to be forfeit.", vbCritical
         '    Exit Sub
@@ -351,7 +351,8 @@ NoMoreRefundsThisSale:
                     AddNewCashJournalRecord("1", -GetPrice(txtRefundSpecial.Text), Margin.SaleNo, Margin.Name, dteVoidDate.Value)
                     AddNewCashJournalRecord("1", GetPrice(txtRefundSpecial.Text), txtApplyToSaleNo.Text, "", dteVoidDate.Value)
 
-                    AddNewAuditRecord(txtApplyToSaleNo.Text, "PA ", DateFormat(dteVoidDate), 0, 0, 0, -GetPrice(txtRefundSpecial.Text), 0, 0, 0, 0, "")
+                    'AddNewAuditRecord(txtApplyToSaleNo.Text, "PA ", DateFormat(dteVoidDate), 0, 0, 0, -GetPrice(txtRefundSpecial.Text), 0, 0, 0, 0, "")
+                    AddNewAuditRecord(txtApplyToSaleNo.Text, "PA ", Date.Parse(DateFormat(dteVoidDate.Value), Globalization.CultureInfo.InvariantCulture), 0, 0, 0, -GetPrice(txtRefundSpecial.Text), 0, 0, 0, 0, "")
                 Else
                     ' BFH20051223
                     ' This should leave the record in the cash journal of where the money went!
@@ -620,6 +621,9 @@ NoMoreRefundsThisSale:
                 T.TextAlign = HorizontalAlignment.Right
                 T.Location = New Point(txtRefundAmount.Left, RowTop)
                 T.Size = New Size(txtRefundAmount.Width, txtRefundAmount.Height)
+                AddHandler T.Enter, AddressOf txtRefundAmount_Enter
+                AddHandler T.Leave, AddressOf txtRefundAmount_Leave
+                AddHandler T.DoubleClick, AddressOf txtRefundAmount_DoubleClick
                 Me.Controls.Add(T)
 
 
@@ -689,15 +693,17 @@ NoMoreRefundsThisSale:
     End Sub
 
     Private Sub RecalculateRefundTotal()
-        Dim El As Object, X As Decimal, Total As Decimal
+        Dim El As Object = Nothing, X As Decimal, Total As Decimal
         Dim A() As TextBox
         Dim I As Integer
 
         For Each C As Control In Me.fraPaymentSummary.Controls
-            If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
-                ReDim Preserve A(I)
-                A(I) = C
-                I = I + 1
+            If TypeOf C Is TextBox Then
+                If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
+                    ReDim Preserve A(I)
+                    A(I) = C
+                    I = I + 1
+                End If
             End If
         Next
 
@@ -739,10 +745,12 @@ NoMoreRefundsThisSale:
         Dim I As Integer
 
         For Each C As Control In Me.fraPaymentSummary.Controls
-            If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
-                ReDim Preserve A(I)
-                A(I) = C
-                I = I + 1
+            If TypeOf C Is TextBox Then
+                If Mid(C.Name, 1, 15) = "txtRefundAmount" Then
+                    ReDim Preserve A(I)
+                    A(I) = C
+                    I = I + 1
+                End If
             End If
         Next
 
