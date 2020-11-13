@@ -1206,6 +1206,7 @@
     <Compile Include="Modules\modSetACL.vb" />
     <Compile Include="Modules\modSetup.vb" />
     <Compile Include="Modules\modShareFolder.vb" />
+    <Compile Include="Modules\modSound.vb" />
     <Compile Include="Modules\modSoundEX.vb" />
     <Compile Include="Modules\modSplit.vb" />
     <Compile Include="Modules\modStores.vb" />
@@ -1515,6 +1516,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OnScreenReport.resx">
       <DependentUpon>OnScreenReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OrdCashflow.resx">
+      <DependentUpon>OrdCashflow.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrdConvertLAW.resx">
       <DependentUpon>OrdConvertLAW.vb</DependentUpon>

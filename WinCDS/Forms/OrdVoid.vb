@@ -160,10 +160,10 @@ Done:
         Dim M As String
 
         ' Validate and perform the void.
-        'If GetPrice(lblRefundTotal.Text) > GetPrice(lblTotalPaid.Text) Then
-        '    MessageBox.Show("You can't refund more than the total deposit.", "WinCDS")
-        '    Exit Sub
-        'End If
+        If GetPrice(lblRefundTotal.Text) > GetPrice(lblTotalPaid.Text) Then
+            MessageBox.Show("You can't refund more than the total deposit.", "WinCDS")
+            Exit Sub
+        End If
         '  If RefundType = cdsrft_ForfeitDeposit And GetPrice(lblRefundTotal.Caption) > 0 Then
         '    MsgBox "The entire deposit needs to be forfeit.", vbCritical
         '    Exit Sub
@@ -504,7 +504,7 @@ NoMoreRefundsThisSale:
 
         ' Account for the payment in the cash & sales journals.
         '  AddNewAuditRecord SaleNo, "NS " & Margin.Name, DateFormat(SaleDate), 0, 0, 0, -GetPrice(txtRefundSpecial.Text), 0, 0, 0, SaleTaxCode, Margin.Salesman
-        AddNewAuditRecord(SaleNo, "NS " & Margin.Name, DateFormat(SaleDate), 0, 0, 0, -Credit, 0, 0, 0, SaleTaxCode, Margin.Salesman, 0)
+        AddNewAuditRecord(SaleNo, "NS " & Margin.Name, Date.Parse(DateFormat(SaleDate), Globalization.CultureInfo.InvariantCulture), 0, 0, 0, -Credit, 0, 0, 0, SaleTaxCode, Margin.Salesman, 0)
 
         ' Print the credit memo...
         PrintSale(Holding.LeaseNo, , 1)
@@ -554,19 +554,30 @@ NoMoreRefundsThisSale:
     Private Sub AddPaymentLine(ByVal PayType As Integer, ByVal PayAmount As Decimal)
         Dim pType As String
         Dim PRow As Integer
+        Dim Lc() As Label
+        Dim I As Integer
 
         If PayType = 7 Or PayAmount = 0 Then Exit Sub
-
         pType = UCase(TranslateAccountCode(CStr(PayType), "Unknown"))
         If PaymentCount = 0 Then
-            ' Load into the existing row.
+            'Load into the existing row.
             PRow = 0
         Else
-            ' If this payment type is already in use, add to its existing row.
+            'If this payment type is already in use, add to its existing row.
             Dim El As Object
-
             PRow = -1
-            For Each El In lblPaymentType.Text
+
+            For Each C As Control In Me.fraPaymentSummary.Controls
+                If TypeOf C Is Label Then
+                    If Mid(C.Name, 1, 14) = "lblPaymentType" Then
+                        ReDim Preserve Lc(I)
+                        Lc(I) = C
+                        I = I + 1
+                    End If
+                End If
+            Next
+
+            For Each El In Lc
                 If El.text = pType Then
                     PRow = El.Index
                     Exit For
@@ -679,13 +690,17 @@ NoMoreRefundsThisSale:
         ' Adjust the sale totals.
         'lblTotalPaid.Caption = "$" & CurrencyFormat(GetPrice(lblTotalPaid.Caption) + PayAmount)
         If PRow = 0 Then
+            lblPaymentType.Text = ""
             lblPaymentType.Text = pType
             lblPaymentType.Tag = PayType
+            lblAmountPaid.Text = "0.00"
             lblAmountPaid.Text = CurrencyFormat(GetPrice(lblAmountPaid.Text) + PayAmount)
+            txtRefundAmount.Text = "0.00"
             txtRefundAmount.Text = CurrencyFormat(GetPrice(txtRefundAmount.Text) + PayAmount)
             txtRefundAmount.Tag = txtRefundAmount.Text
         End If
 
+        lblTotalPaid.Text = ""
         lblTotalPaid.Text = "$" & CurrencyFormat(GetPrice(lblTotalPaid.Text) + PayAmount)
         'lblTotalPaid.Text = CurrencyFormat(GetPrice(lblTotalPaid.Text) + PayAmount)
         RecalculateRefundTotal()

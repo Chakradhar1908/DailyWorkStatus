@@ -296,6 +296,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.MailCheck.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MainMenu4.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MainMenu4_Images.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OnScreenReport.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdCashflow.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdConvertLAW.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdPay.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdPreview.resources
@@ -322,4 +323,3 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
-F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

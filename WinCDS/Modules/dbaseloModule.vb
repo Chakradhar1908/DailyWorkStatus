@@ -182,4 +182,49 @@ AnError:
         dbOpen = True
     End Function
 
+    Public Function SetBankAccount(ByVal DBName As String, ByVal AccNo As String, ByVal Amount As String, ByVal Reference As String, ByVal DDate As String, ByVal StoreNum As Long) As Boolean
+        '::::SetBankAccount
+        ':::SUMMARY
+        ': Post to the bank account.
+        ':::DESCRIPTION
+        ': Posts a record to the bank account.
+        ':::PARAMETERS
+        ': - DBName - Indicates the DataBase Name.
+        ': - AccNo - Indicates the Account Number.
+        ': - Amount - Indicates the Amount String.
+        ': - Reference - Indicates the String.
+        ': - DDate - Indicates the Delivery Date String.
+        ': - StoreNum - Indicates the Store Number.
+        ':::RETURN
+        ': Boolean - Returns true
+
+        Dim RS As ADODB.Recordset, SQL As String
+        Dim dB As CDbAccessGeneral
+
+        If ssMaxStore > 1 Or StoreNum > 1 Then Reference = Left("Loc " & StoreNum & ": " & Reference, 45)
+        SQL = "tblBKChecks"
+  
+  Set dB = DbAccessGeneral(DBName)
+  dB.SQL = SQL
+  Set RS = dB.getRecordset
+  
+  RS.AddNew()
+        RS("fldUniqueNumber") = GetUnique
+        RS("fldAmount") = GetPrice(Amount)
+        RS("fldReference") = Reference
+        RS("fldDate") = DDate
+        RS("fldContraAcct") = "10200"
+        RS("fldCashAcct") = "10200"
+        RS("fldStatus") = " "
+        RS("fldSource") = "BK"
+        RS("fldPosted") = 0
+        RS("fldCleared") = False
+        RS.Update()
+
+        dB.UpdateRecordSet RS
+
+  DisposeDA RS, dB
+  SetBankAccount = True
+    End Function
+
 End Module
