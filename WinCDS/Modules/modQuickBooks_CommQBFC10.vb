@@ -269,4 +269,179 @@ NoComm:
         mQBSM10 = Nothing
     End Function
 
+    Public Function QB10CreateDeposit(
+    Optional ByVal TxnDate As String = "",
+    Optional ByVal AcctRef_ListID As String = "", Optional ByVal AcctRef_FullName As String = "",
+    Optional ByVal FromAccount_ListID As String = "", Optional ByVal FromAccount_FullName As String = "",
+    Optional ByVal Memo As String = "",
+    Optional ByVal CheckNumber As String = "",
+    Optional ByVal PayMethRef_ListID As String = "", Optional ByVal PayMethRef_FullName As String = "",
+    Optional ByVal Amount As String = "",
+    Optional ByVal EntityRef_ListID As String = "", Optional ByVal EntityRef_FullName As String = "",
+    Optional ByVal ClassRef_ListID As String = "", Optional ByVal ClassRef_FullName As String = "") As Boolean
+        Dim R As Integer, M As String
+        QBSM10_Reset()
+        QB10_AppendDespositAdd _
+      (TxnDate, AcctRef_ListID, AcctRef_FullName, FromAccount_ListID, FromAccount_FullName,
+      Memo, CheckNumber, PayMethRef_ListID, PayMethRef_FullName,
+      Amount, EntityRef_ListID, EntityRef_FullName, ClassRef_ListID, ClassRef_FullName)
+
+        QB10CreateDeposit = (QB10_SendRequestsSingle(R, M) <> 0) And R = 0
+        QBSM10_Reset()
+    End Function
+
+    Public Function QB10_SendRequestsSingle(Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "", Optional ByVal Notify As Boolean = True) As Integer
+        Dim RR As QBFC10Lib.IResponse, II As Integer
+
+        If QB10_SendRequests(RetMsg, RET, ENRqOnError.roeContinue) Then
+            For II = 0 To ResponseCount - 1
+                RR = responseList10.GetAt(II)
+                If RR.StatusCode <> 0 Then
+                    RetMsg = RetMsg & IIf(Len(RetMsg) > 0, vbCrLf, "")
+                    RetMsg = RetMsg & "Error processing " & RR.Type.GetAsString & ": " & RR.StatusMessage
+                End If
+            Next
+            If Len(RetMsg) > 0 Then
+                If Notify Then
+                    If MsgBox("Error(s): " & vbCrLf & RetMsg, vbInformation, "Error(s)", , , 10) = vbCancel Then
+                        QB10_SendRequestsSingle = -1
+                        Exit Function
+                    End If
+                End If
+            Else
+                QB10_SendRequestsSingle = QB10_SendRequestsSingle + 1
+            End If
+        Else
+            If Notify Then MessageBox.Show("Error communicating with QuickBooks (nothing done):" & vbCrLf & RetMsg)
+        End If
+    End Function
+
+    Public Function QB10_AppendDespositAdd(
+    Optional ByVal TxnDate As String = "",
+    Optional ByVal AcctRef_ListID As String = "", Optional ByVal AcctRef_FullName As String = "",
+    Optional ByVal FromAccount_ListID As String = "", Optional ByVal FromAccount_FullName As String = "",
+    Optional ByVal Memo As String = "",
+    Optional ByVal CheckNumber As String = "",
+    Optional ByVal PayMethRef_ListID As String = "", Optional ByVal PayMethRef_FullName As String = "",
+    Optional ByVal Amount As String = "",
+    Optional ByVal EntityRef_ListID As String = "", Optional ByVal EntityRef_FullName As String = "",
+    Optional ByVal ClassRef_ListID As String = "", Optional ByVal ClassRef_FullName As String = "") As Boolean
+        On Error Resume Next
+        Err.Clear()
+        Dim Dep As QBFC10Lib.IDepositAdd
+        Dep = MsReq10.AppendDepositAddRq
+
+        If AcctRef_ListID = "" And AcctRef_FullName = "" Then
+            Err.Raise(-1, , "Must specify customer for invoice")
+        End If
+        If FromAccount_ListID = "" And FromAccount_FullName = "" Then
+            Err.Raise(-1, , "Must specify customer for invoice")
+        End If
+
+        IfNNSetValue(Dep.TxnDate, TxnDate)
+        IfNNSetValue(Dep.DepositToAccountRef.ListID, AcctRef_ListID)
+        IfNNSetValue(Dep.DepositToAccountRef.FullName, AcctRef_FullName)
+        IfNNSetValue(Dep.Memo, Memo)
+
+        Dim D As Object
+        D = Dep.DepositLineAddList.Append.ORDepositLineAdd.DepositInfo
+        IfNNSetValue(D.EntityRef.ListID, EntityRef_ListID)
+        IfNNSetValue(D.EntityRef.FullName, EntityRef_FullName)
+        IfNNSetValue(D.AccountRef.ListID, FromAccount_ListID)
+        IfNNSetValue(D.AccountRef.FullName, FromAccount_FullName)
+        IfNNSetValue(D.Memo, Memo)
+        IfNNSetValue(D.CheckNumber, CheckNumber)
+        IfNNSetValue(D.PaymentMethodRef.ListID, PayMethRef_ListID)
+        IfNNSetValue(D.PaymentMethodRef.FullName, PayMethRef_FullName)
+        IfNNSetValue(D.ClassRef.ListID, ClassRef_ListID)
+        IfNNSetValue(D.ClassRef.FullName, ClassRef_FullName)
+        IfNNSetValue(D.Amount, Amount)
+        Dep = Nothing
+        QB10_AppendDespositAdd = True
+    End Function
+
+    Public Function QB10CreateJournalEntry(
+    Optional ByVal TxnDate As String = "", Optional ByVal RefNumber As String = "",
+    Optional ByVal Memo As String = "", Optional ByVal IsAdjustment As String = "",
+    Optional ByVal DebitTxnLineID As String = "",
+    Optional ByVal DebitAccountRef_ListID As String = "", Optional ByVal DebitAccountRef_FullName As Object = "",
+    Optional ByVal DebitAmount As String = "", Optional ByVal DebitMemo As String = "",
+    Optional ByVal DebitEntityRef_ListID As String = "", Optional ByVal DebitEntityRef_FullName As Object = "",
+    Optional ByVal DebitClassRef_ListID As String = "", Optional ByVal DebitClassRef_FullName As Object = "",
+    Optional ByVal CreditTxnLineID As String = "",
+    Optional ByVal CreditAccountRef_ListID As String = "", Optional ByVal CreditAccountRef_FullName As Object = "",
+    Optional ByVal CreditAmount As String = "", Optional ByVal CreditMemo As String = "",
+    Optional ByVal CreditEntityRef_ListID As String = "", Optional ByVal CreditEntityRef_FullName As Object = "",
+    Optional ByVal CreditClassRef_ListID As String = "", Optional ByVal CreditClassRef_FullName As Object = "") As Boolean
+
+        Dim E As Integer, S As String
+        QBSM10_Reset()
+
+        QB10_AppendJournalEntryAdd _
+      (TxnDate, RefNumber, Memo, IsAdjustment,
+      DebitTxnLineID, DebitAccountRef_ListID, DebitAccountRef_FullName,
+      DebitAmount, DebitMemo, DebitEntityRef_ListID, DebitEntityRef_FullName,
+      DebitClassRef_ListID, DebitClassRef_FullName,
+      CreditTxnLineID, CreditAccountRef_ListID, CreditAccountRef_FullName,
+      CreditAmount, CreditMemo, CreditEntityRef_ListID, CreditEntityRef_FullName,
+      CreditClassRef_ListID, CreditClassRef_FullName)
+
+        QB10CreateJournalEntry = (QB10_SendRequestsSingle(E, S) <> 0) And E = 0
+        QBSM10_Reset()
+    End Function
+
+    Public Function QB10_AppendJournalEntryAdd(
+    Optional ByVal TxnDate As String = "", Optional ByVal RefNumber As String = "",
+    Optional ByVal Memo As String = "", Optional ByVal IsAdjustment As String = "",
+    Optional ByVal DebitTxnLineID As String = "",
+    Optional ByVal DebitAccountRef_ListID As String = "", Optional ByVal DebitAccountRef_FullName As Object = "",
+    Optional ByVal DebitAmount As String = "", Optional ByVal DebitMemo As String = "",
+    Optional ByVal DebitEntityRef_ListID As String = "", Optional ByVal DebitEntityRef_FullName As Object = "",
+    Optional ByVal DebitClassRef_ListID As String = "", Optional ByVal DebitClassRef_FullName As Object = "",
+    Optional ByVal CreditTxnLineID As String = "",
+    Optional ByVal CreditAccountRef_ListID As String = "", Optional ByVal CreditAccountRef_FullName As Object = "",
+    Optional ByVal CreditAmount As String = "", Optional ByVal CreditMemo As String = "",
+    Optional ByVal CreditEntityRef_ListID As String = "", Optional ByVal CreditEntityRef_FullName As Object = "",
+    Optional ByVal CreditClassRef_ListID As String = "", Optional ByVal CreditClassRef_FullName As Object = "") As Boolean
+
+        On Error Resume Next
+        Err.Clear()
+        Dim Jrn As QBFC10Lib.IJournalEntryAdd
+        Jrn = MsReq10.AppendJournalEntryAddRq
+
+        IfNNSetValue(Jrn.TxnDate, TxnDate)
+        IfNNSetValue(Jrn.RefNumber, RefNumber)
+        IfNNSetValue(Jrn.Memo, Memo)
+        IfNNSetValue(Jrn.IsAdjustment, IsAdjustment)
+        Dim L As QBFC10Lib.IORJournalLine
+
+        If DebitTxnLineID <> "" Or DebitAccountRef_ListID <> "" Or DebitAccountRef_FullName <> "" Or DebitAmount <> "" Or DebitMemo <> "" Or DebitEntityRef_ListID <> "" Or DebitEntityRef_FullName <> "" Or DebitClassRef_ListID <> "" Or DebitClassRef_FullName <> "" Then
+            L = Jrn.ORJournalLineList.Append
+            IfNNSetValue(L.JournalDebitLine.TxnLineID, DebitTxnLineID)
+            IfNNSetValue(L.JournalDebitLine.AccountRef.ListID, DebitAccountRef_ListID)
+            IfNNSetValue(L.JournalDebitLine.AccountRef.FullName, DebitAccountRef_FullName)
+            IfNNSetValue(L.JournalDebitLine.Amount, DebitAmount)
+            IfNNSetValue(L.JournalDebitLine.Memo, DebitMemo)
+            IfNNSetValue(L.JournalDebitLine.EntityRef.ListID, DebitEntityRef_ListID)
+            IfNNSetValue(L.JournalDebitLine.EntityRef.FullName, DebitEntityRef_FullName)
+            IfNNSetValue(L.JournalDebitLine.ClassRef.ListID, DebitClassRef_ListID)
+            IfNNSetValue(L.JournalDebitLine.ClassRef.FullName, DebitClassRef_FullName)
+            L = Nothing
+        End If
+        If CreditTxnLineID <> "" Or CreditAccountRef_ListID <> "" Or CreditAccountRef_FullName <> "" Or CreditAmount <> "" Or CreditMemo <> "" Or CreditEntityRef_ListID <> "" Or CreditEntityRef_FullName <> "" Or CreditClassRef_ListID <> "" Or CreditClassRef_FullName <> "" Then
+            L = Jrn.ORJournalLineList.Append
+            IfNNSetValue(L.JournalCreditLine.TxnLineID, CreditTxnLineID)
+            IfNNSetValue(L.JournalCreditLine.AccountRef.ListID, CreditAccountRef_ListID)
+            IfNNSetValue(L.JournalCreditLine.AccountRef.FullName, CreditAccountRef_FullName)
+            IfNNSetValue(L.JournalCreditLine.Amount, CreditAmount)
+            IfNNSetValue(L.JournalCreditLine.Memo, CreditMemo)
+            IfNNSetValue(L.JournalCreditLine.EntityRef.ListID, CreditEntityRef_ListID)
+            IfNNSetValue(L.JournalCreditLine.EntityRef.FullName, CreditEntityRef_FullName)
+            IfNNSetValue(L.JournalCreditLine.ClassRef.ListID, CreditClassRef_ListID)
+            IfNNSetValue(L.JournalCreditLine.ClassRef.FullName, CreditClassRef_FullName)
+        End If
+        L = Nothing
+        Jrn = Nothing
+        QB10_AppendJournalEntryAdd = True
+    End Function
 End Module

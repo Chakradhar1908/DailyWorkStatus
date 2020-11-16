@@ -182,7 +182,7 @@ AnError:
         dbOpen = True
     End Function
 
-    Public Function SetBankAccount(ByVal DBName As String, ByVal AccNo As String, ByVal Amount As String, ByVal Reference As String, ByVal DDate As String, ByVal StoreNum As Long) As Boolean
+    Public Function SetBankAccount(ByVal DBName As String, ByVal AccNo As String, ByVal Amount As String, ByVal Reference As String, ByVal DDate As String, ByVal StoreNum as integer) As Boolean
         '::::SetBankAccount
         ':::SUMMARY
         ': Post to the bank account.
@@ -203,28 +203,34 @@ AnError:
 
         If ssMaxStore > 1 Or StoreNum > 1 Then Reference = Left("Loc " & StoreNum & ": " & Reference, 45)
         SQL = "tblBKChecks"
-  
-  Set dB = DbAccessGeneral(DBName)
-  dB.SQL = SQL
-  Set RS = dB.getRecordset
-  
-  RS.AddNew()
-        RS("fldUniqueNumber") = GetUnique
-        RS("fldAmount") = GetPrice(Amount)
-        RS("fldReference") = Reference
-        RS("fldDate") = DDate
-        RS("fldContraAcct") = "10200"
-        RS("fldCashAcct") = "10200"
-        RS("fldStatus") = " "
-        RS("fldSource") = "BK"
-        RS("fldPosted") = 0
-        RS("fldCleared") = False
+
+        dB = DbAccessGeneral(DBName)
+        dB.SQL = SQL
+        RS = dB.getRecordset
+
+        RS.AddNew()
+        RS("fldUniqueNumber").Value = GetUnique
+        RS("fldAmount").Value = GetPrice(Amount)
+        RS("fldReference").Value = Reference
+        RS("fldDate").Value = DDate
+        RS("fldContraAcct").Value = "10200"
+        RS("fldCashAcct").Value = "10200"
+        RS("fldStatus").Value = " "
+        RS("fldSource").Value = "BK"
+        RS("fldPosted").Value = 0
+        RS("fldCleared").Value = False
         RS.Update()
 
-        dB.UpdateRecordSet RS
+        dB.UpdateRecordSet(RS)
 
-  DisposeDA RS, dB
-  SetBankAccount = True
+        DisposeDA(RS, dB)
+        SetBankAccount = True
+    End Function
+
+    Private Function GetUnique() As Double
+        Dim TimeNow As Object
+        TimeNow = Now
+        GetUnique = Year(TimeNow) & Month(TimeNow) & DateAndTime.Day(TimeNow) & "." & Hour(TimeNow) & Minute(TimeNow) & Second(TimeNow)
     End Function
 
 End Module

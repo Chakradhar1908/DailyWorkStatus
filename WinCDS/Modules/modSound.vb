@@ -1,8 +1,5 @@
 ﻿Module modSound
-    Private Declare Function sndPlaySound Lib "WINMM.DLL" Alias _
-      "sndPlaySoundA" (ByVal lpsStyleoundName As String, ByVal uFlags As _
-      Long) As Long
-
+    Private Declare Function sndPlaySound Lib "WINMM.DLL" Alias "sndPlaySoundA" (ByVal lpsStyleoundName As String, ByVal uFlags As Integer) As Integer
     Const SND_SYNC = &H0
     Const SND_ASYNC = &H1
     Const SND_NODEFAULT = &H2

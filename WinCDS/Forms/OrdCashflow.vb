@@ -77,7 +77,6 @@ HandleErr:
         'pic.Picture = LoadPictureStd(CashRegImg2)
         pic.Image = Image.FromFile(CashRegImg2)
         PlayIt(CashRegSnd)
-
         Exit Sub
 HandleErr:
         Resume Next
@@ -89,7 +88,6 @@ HandleErr:
         'pic.Picture = LoadPictureStd(CashRegImg2)
         pic.Image = Image.FromFile(CashRegImg2)
         PlayIt(CashRegSnd)
-
         Exit Sub
 HandleErr:
         Resume Next
@@ -266,7 +264,6 @@ HandleErr:
         Exit Sub
 HandleErr:
         Resume Next
-
     End Sub
 
     Private Sub OrdCashflow_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

@@ -1453,7 +1453,7 @@ TestClearFailed:
         End If
     End Function
 
-    Public Function GetDatabaseBK(Optional ByVal Location As Long = 1) As String
+    Public Function GetDatabaseBK(Optional ByVal Location As Integer = 1) As String
         GetDatabaseBK = BKFolder(True) & "L" & Location & "-Bank.MDB"
     End Function
 End Module

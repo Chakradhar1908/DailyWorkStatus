@@ -34,9 +34,9 @@ Partial Class OrdCashflow
         Me.txtAmount = New System.Windows.Forms.TextBox()
         Me.DDate = New System.Windows.Forms.DateTimePicker()
         Me.fraControls = New System.Windows.Forms.GroupBox()
-        Me.cmdPost = New System.Windows.Forms.Button()
-        Me.cmdNext = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.cmdNext = New System.Windows.Forms.Button()
+        Me.cmdPost = New System.Windows.Forms.Button()
         Me.pic = New System.Windows.Forms.PictureBox()
         Me.fraControls.SuspendLayout()
         CType(Me.pic, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -46,7 +46,7 @@ Partial Class OrdCashflow
         '
         Me.lblCashIn.AutoSize = True
         Me.lblCashIn.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCashIn.Location = New System.Drawing.Point(33, 9)
+        Me.lblCashIn.Location = New System.Drawing.Point(33, 7)
         Me.lblCashIn.Name = "lblCashIn"
         Me.lblCashIn.Size = New System.Drawing.Size(78, 20)
         Me.lblCashIn.TabIndex = 0
@@ -64,7 +64,7 @@ Partial Class OrdCashflow
         '
         Me.lblCashOut.AutoSize = True
         Me.lblCashOut.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCashOut.Location = New System.Drawing.Point(269, 9)
+        Me.lblCashOut.Location = New System.Drawing.Point(269, 7)
         Me.lblCashOut.Name = "lblCashOut"
         Me.lblCashOut.Size = New System.Drawing.Size(95, 20)
         Me.lblCashOut.TabIndex = 2
@@ -123,7 +123,7 @@ Partial Class OrdCashflow
         '
         'txtAmount
         '
-        Me.txtAmount.Location = New System.Drawing.Point(194, 171)
+        Me.txtAmount.Location = New System.Drawing.Point(187, 171)
         Me.txtAmount.Name = "txtAmount"
         Me.txtAmount.Size = New System.Drawing.Size(73, 20)
         Me.txtAmount.TabIndex = 10
@@ -132,9 +132,9 @@ Partial Class OrdCashflow
         '
         Me.DDate.CustomFormat = "MM/dd/yyyy"
         Me.DDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DDate.Location = New System.Drawing.Point(297, 171)
+        Me.DDate.Location = New System.Drawing.Point(287, 171)
         Me.DDate.Name = "DDate"
-        Me.DDate.Size = New System.Drawing.Size(79, 20)
+        Me.DDate.Size = New System.Drawing.Size(89, 20)
         Me.DDate.TabIndex = 11
         '
         'fraControls
@@ -142,39 +142,39 @@ Partial Class OrdCashflow
         Me.fraControls.Controls.Add(Me.cmdCancel)
         Me.fraControls.Controls.Add(Me.cmdNext)
         Me.fraControls.Controls.Add(Me.cmdPost)
-        Me.fraControls.Location = New System.Drawing.Point(60, 199)
+        Me.fraControls.Location = New System.Drawing.Point(65, 199)
         Me.fraControls.Name = "fraControls"
-        Me.fraControls.Size = New System.Drawing.Size(235, 70)
+        Me.fraControls.Size = New System.Drawing.Size(252, 70)
         Me.fraControls.TabIndex = 12
         Me.fraControls.TabStop = False
+        '
+        'cmdCancel
+        '
+        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.cmdCancel.Location = New System.Drawing.Point(168, 14)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(77, 49)
+        Me.cmdCancel.TabIndex = 2
+        Me.cmdCancel.Text = "&Cancel"
+        Me.cmdCancel.UseVisualStyleBackColor = True
+        '
+        'cmdNext
+        '
+        Me.cmdNext.Location = New System.Drawing.Point(85, 14)
+        Me.cmdNext.Name = "cmdNext"
+        Me.cmdNext.Size = New System.Drawing.Size(77, 49)
+        Me.cmdNext.TabIndex = 1
+        Me.cmdNext.Text = "&Next"
+        Me.cmdNext.UseVisualStyleBackColor = True
         '
         'cmdPost
         '
         Me.cmdPost.Location = New System.Drawing.Point(7, 14)
         Me.cmdPost.Name = "cmdPost"
-        Me.cmdPost.Size = New System.Drawing.Size(75, 49)
+        Me.cmdPost.Size = New System.Drawing.Size(77, 49)
         Me.cmdPost.TabIndex = 0
         Me.cmdPost.Text = "&Post"
         Me.cmdPost.UseVisualStyleBackColor = True
-        '
-        'cmdNext
-        '
-        Me.cmdNext.Location = New System.Drawing.Point(80, 14)
-        Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(75, 49)
-        Me.cmdNext.TabIndex = 1
-        Me.cmdNext.Text = "&Next"
-        Me.cmdNext.UseVisualStyleBackColor = True
-        '
-        'cmdCancel
-        '
-        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Location = New System.Drawing.Point(153, 14)
-        Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 49)
-        Me.cmdCancel.TabIndex = 2
-        Me.cmdCancel.Text = "&Cancel"
-        Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'pic
         '

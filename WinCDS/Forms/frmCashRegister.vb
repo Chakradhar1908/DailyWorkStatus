@@ -8,17 +8,13 @@
     Dim TaxableAmt As Decimal
     Dim SaleComplete As Boolean
     Dim SaleNo As String
-
     Private TapeScaleWidth As Integer
     Private TapePageLength As Integer
-
     Dim WithEvents MC As MailCheck
     Dim GotCust As Boolean
-
     Private Const QtyCol As Integer = 800
     Private Const ItemCol As Integer = 1000
     Private Const PriceCol As Integer = 3500
-
     Private Const DYMO_QtyCol As Integer = 500
     Private Const DYMO_ItemCol As Integer = 700
     Private Const DYMO_PriceCol As Integer = 2900
@@ -53,9 +49,8 @@
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
         cmdComm.Tag = "1"
         'cmdComm.Value = True
-        cmdComm.PerformClick()
+        cmdComm_Click(cmdComm, New EventArgs)
         cboSalesList.Tag = ""               ' this will force the commissions person not to be carried over from sale to sale
-
 
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
         lblTotal.Text = "0.00"
@@ -102,12 +97,13 @@
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
 
         '---------------NOTE: Below code is commented, because CashRegisterPrinterSelector is a custom activex control. Still not developed it.
-        'CashRegisterPrinterSelector.SetSelectedPrinter CashRegisterPrinter
-        'If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
-        '    imgLogo.Visible = False
-        '    CashRegisterPrinterSelector.Visible = True
-        'End If
-        '    chkSavePrinter.Visible = True
+        CashRegisterPrinterSelector.SetSelectedPrinter(CashRegisterPrinter)
+        If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
+            imgLogo.Visible = False
+            CashRegisterPrinterSelector.Visible = True
+            chkSavePrinter.Visible = True
+        End If
+
 
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
         SetCustomer(0)
@@ -490,5 +486,66 @@ ErrOut:
         lblDue.Text = CurrencyFormat(RunningTotal + lblTax.Text - lblTendered.Text)
 
         cmdDone.Enabled = (lblDue.Text <= 0)
+    End Sub
+
+    Private Sub cmdComm_Click(sender As Object, e As EventArgs) Handles cmdComm.Click
+        Select Case cmdComm.Tag
+            Case ""   ' "", 3840,720,375,375, "&C"
+                LoadSalesStaff
+                cboSalesList.Visible = True
+                txtSku.Visible = False
+                cmdComm.Text = "&Select"
+                'cmdComm.Default = True
+                Me.AcceptButton = cmdComm
+                'cmdComm.Move 1800, 720, 855, 375
+                cmdComm.Location = New Point(180, 72)
+                cmdComm.Size = New Size(85, 37)
+                lblEnterStyle.Visible = False
+                cmdComm.Tag = "1"
+            Case "1"  ' "1", 1800, 720, 855, 375, "&Select"
+                cboSalesList.Visible = False
+                txtSku.Visible = True
+                'cmdComm.Caption = "&C"
+                cmdComm.Text = "&C"
+                'cmdComm.Default = False
+                Me.AcceptButton = Nothing
+                'cmdComm.Move 3840, 720, 375, 375
+                cmdComm.Location = New Point(384, 72)
+                cmdComm.Size = New Size(37, 37)
+                lblEnterStyle.Visible = True
+                cmdComm.Tag = ""
+        End Select
+    End Sub
+
+    Private Sub LoadSalesStaff()
+        Dim Sm As Object, EE As Integer
+        If cboSalesList.Tag <> "" Then Exit Sub
+        Sm = GetSalesmanDatabase(StoresSld, True)
+
+        cboSalesList.Items.Clear()
+
+        For EE = LBound(Sm, 1) To UBound(Sm, 1)
+            'cboSalesList.AddItem Sm(EE, 1), EE  ' - 1
+            'cboSalesList.itemData(cboSalesList.NewIndex) = Sm(EE, 2)
+            cboSalesList.Items.Insert(EE, New ItemDataClass(Sm(EE, 1), Sm(EE, 2)))
+        Next
+        'cboSalesList.AddItem "NO COMMISSION", 0
+        'cboSalesList.itemData(cboSalesList.NewIndex) = -1
+        'cboSalesList.ListIndex = 0
+        cboSalesList.Items.Insert(0, New ItemDataClass("NO COMMISSION", -1))
+        cboSalesList.SelectedIndex = 0
+        cboSalesList.Tag = "."
+    End Sub
+
+    Private Sub frmCashRegister_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'MsgBox "frmCashReg: ->Form_load"
+        'frmCashRegister.HelpContextID = 42500
+        ' bfh20051202 - i want to use fracust, but Jerry doesn't like that way..
+        ' it still holds the data tho
+        fraCust.Visible = False
+
+        'cmdDev.Visible = IsDevelopment()
+        'MsgBox "frmCashReg: Form_load->"
+
     End Sub
 End Class

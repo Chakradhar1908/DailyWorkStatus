@@ -4,6 +4,8 @@ Module modQuickBooks_CommBase
     Public QBConnOpen As Boolean, QBSessOpen As Boolean
     Private mQBFCVer As Integer
     Private Const QBFCVerDefault As Integer = 6
+    Private mQBCustomerDepositsListID As Object
+
     Public Function QB_VendorQuery_Vendor(ByVal Vendor As String, Optional ByRef RET As Integer = 0, Optional ByRef RetMsg As String = "") As Object
         Select Case QBFCVersion
             Case 5 : QB_VendorQuery_Vendor = QB5_VendorQuery_Vendor(Vendor, RET, RetMsg)
@@ -280,17 +282,15 @@ Failed:
     End Sub
 
     Public Function QBCreateDeposit(
-    Optional ByVal TxnDate As String,
-    Optional ByVal AcctRef_ListID As String, Optional ByVal AcctRef_FullName As String,
-    Optional ByVal FromAccount_ListID As String, Optional ByVal FromAccount_FullName As String,
-    Optional ByVal Memo As String,
-    Optional ByVal CheckNumber As String,
-    Optional ByVal PayMethRef_ListID As String, Optional ByVal PayMethRef_FullName As String,
-    Optional ByVal Amount As String,
-    Optional ByVal EntityRef_ListID As String, Optional ByVal EntityRef_FullName As String,
-    Optional ByVal ClassRef_ListID As String, Optional ByVal ClassRef_FullName As String _
-    ) _
-    As Boolean
+    Optional ByVal TxnDate As String = "",
+    Optional ByVal AcctRef_ListID As String = "", Optional ByVal AcctRef_FullName As String = "",
+    Optional ByVal FromAccount_ListID As String = "", Optional ByVal FromAccount_FullName As String = "",
+    Optional ByVal Memo As String = "",
+    Optional ByVal CheckNumber As String = "",
+    Optional ByVal PayMethRef_ListID As String = "", Optional ByVal PayMethRef_FullName As String = "",
+    Optional ByVal Amount As String = "",
+    Optional ByVal EntityRef_ListID As String = "", Optional ByVal EntityRef_FullName As String = "",
+    Optional ByVal ClassRef_ListID As String = "", Optional ByVal ClassRef_FullName As String = "") As Boolean
         Select Case QBFCVersion
             Case 5 : QBCreateDeposit = QB5CreateDeposit(TxnDate, AcctRef_ListID, AcctRef_FullName, FromAccount_ListID, FromAccount_FullName, Memo, CheckNumber, PayMethRef_ListID, PayMethRef_FullName, Amount, EntityRef_ListID, EntityRef_FullName, ClassRef_ListID, ClassRef_FullName)
             Case 6 : QBCreateDeposit = QB6CreateDeposit(TxnDate, AcctRef_ListID, AcctRef_FullName, FromAccount_ListID, FromAccount_FullName, Memo, CheckNumber, PayMethRef_ListID, PayMethRef_FullName, Amount, EntityRef_ListID, EntityRef_FullName, ClassRef_ListID, ClassRef_FullName)
@@ -304,63 +304,61 @@ Failed:
     End Function
 
     Public Function QBCustomerDepositsListID() As String
-        Dim RET As Long
+        Dim RET As Integer
         On Error Resume Next
         If mQBCustomerDepositsListID = "" Then
             Select Case QBFCVersion
                 Case 5
                     Dim X5 As QBFC5Lib.ICustomerRet
-        Set X5 = QB5_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X5.ListID.GetValue
+                    X5 = QB5_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X5.ListID.GetValue
                 Case 6
                     Dim X6 As QBFC6Lib.ICustomerRet
-        Set X6 = QB6_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X6.ListID.GetValue
+                    X6 = QB6_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X6.ListID.GetValue
                 Case 7
                     Dim X7 As QBFC7Lib.ICustomerRet
-        Set X7 = QB7_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X7.ListID.GetValue
+                    X7 = QB7_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X7.ListID.GetValue
                 Case 8
                     Dim X8 As QBFC8Lib.ICustomerRet
-        Set X8 = qb8_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X8.ListID.GetValue
+                    X8 = qb8_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X8.ListID.GetValue
                 Case 10
                     Dim X10 As QBFC10Lib.ICustomerRet
-        Set X10 = QB10_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X10.ListID.GetValue
+                    X10 = QB10_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X10.ListID.GetValue
                 Case 11
                     Dim X11 As QBFC11Lib.ICustomerRet
-        Set X11 = QB11_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X11.ListID.GetValue
+                    X11 = QB11_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X11.ListID.GetValue
                 Case 12
                     Dim X12 As QBFC12Lib.ICustomerRet
-        Set X12 = QB12_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X12.ListID.GetValue
+                    X12 = QB12_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X12.ListID.GetValue
                 Case 13
                     Dim X13 As QBFC13Lib.ICustomerRet
-        Set X13 = QB13_CustomerQuery_Name(QBCustomerDepositsName, RET)
-        If RET = 0 Then mQBCustomerDepositsListID = X13.ListID.GetValue
+                    X13 = QB13_CustomerQuery_Name(QBCustomerDepositsName, RET)
+                    If RET = 0 Then mQBCustomerDepositsListID = X13.ListID.GetValue
             End Select
         End If
         QBCustomerDepositsListID = mQBCustomerDepositsListID
-        If RET <> 0 Then ActiveLog "QB::QB_QBCustomerDepositsListID: Error [" & RET & "] " & "", 4
-End Function
+        If RET <> 0 Then ActiveLog("QB::QB_QBCustomerDepositsListID: Error [" & RET & "] " & "", 4)
+    End Function
 
     Public Function QBCreateJournalEntry(
-    Optional ByVal TxnDate As String, Optional ByVal RefNumber As String,
-    Optional ByVal Memo As String, Optional ByVal IsAdjustment As String,
-    Optional ByVal DebitTxnLineID As String,
-    Optional ByVal DebitAccountRef_ListID As String, Optional ByVal DebitAccountRef_FullName,
-    Optional ByVal DebitAmount As String, Optional ByVal DebitMemo As String,
-    Optional ByVal DebitEntityRef_ListID As String, Optional ByVal DebitEntityRef_FullName,
-    Optional ByVal DebitClassRef_ListID As String, Optional ByVal DebitClassRef_FullName,
-    Optional ByVal CreditTxnLineID As String,
-    Optional ByVal CreditAccountRef_ListID As String, Optional ByVal CreditAccountRef_FullName,
-    Optional ByVal CreditAmount As String, Optional ByVal CreditMemo As String,
-    Optional ByVal CreditEntityRef_ListID As String, Optional ByVal CreditEntityRef_FullName,
-    Optional ByVal CreditClassRef_ListID As String, Optional ByVal CreditClassRef_FullName _
-    ) _
-    As Boolean
+    Optional ByVal TxnDate As String = "", Optional ByVal RefNumber As String = "",
+    Optional ByVal Memo As String = "", Optional ByVal IsAdjustment As String = "",
+    Optional ByVal DebitTxnLineID As String = "",
+    Optional ByVal DebitAccountRef_ListID As String = "", Optional ByVal DebitAccountRef_FullName As Object = "",
+    Optional ByVal DebitAmount As String = "", Optional ByVal DebitMemo As String = "",
+    Optional ByVal DebitEntityRef_ListID As String = "", Optional ByVal DebitEntityRef_FullName As Object = "",
+    Optional ByVal DebitClassRef_ListID As String = "", Optional ByVal DebitClassRef_FullName As Object = "",
+    Optional ByVal CreditTxnLineID As String = "",
+    Optional ByVal CreditAccountRef_ListID As String = "", Optional ByVal CreditAccountRef_FullName As Object = "",
+    Optional ByVal CreditAmount As String = "", Optional ByVal CreditMemo As String = "",
+    Optional ByVal CreditEntityRef_ListID As String = "", Optional ByVal CreditEntityRef_FullName As Object = "",
+    Optional ByVal CreditClassRef_ListID As String = "", Optional ByVal CreditClassRef_FullName As Object = "") As Boolean
 
         Select Case QBFCVersion
             Case 5 : QBCreateJournalEntry = QB5CreateJournalEntry(TxnDate, RefNumber, Memo, IsAdjustment, DebitTxnLineID, DebitAccountRef_ListID, DebitAccountRef_FullName, DebitAmount, DebitMemo, DebitEntityRef_ListID, DebitEntityRef_FullName, DebitClassRef_ListID, DebitClassRef_FullName, CreditTxnLineID, CreditAccountRef_ListID, CreditAccountRef_FullName, CreditAmount, CreditMemo, CreditEntityRef_ListID, CreditEntityRef_FullName, CreditClassRef_ListID, CreditClassRef_FullName)
@@ -374,4 +372,23 @@ End Function
         End Select
     End Function
 
+    Public ReadOnly Property ResponseCount() As Integer
+        Get
+            On Error Resume Next
+            Select Case QBFCVersion
+                Case 5 : ResponseCount = responseList5.Count
+                Case 6 : ResponseCount = ResponseList6.Count
+                Case 7 : ResponseCount = ResponseList7.Count
+                Case 8 : ResponseCount = responseList8.Count
+                Case 10 : ResponseCount = responseList10.Count
+                Case 11 : ResponseCount = ResponseList11.Count
+                Case 12 : ResponseCount = ResponseList12.Count
+                Case 13 : ResponseCount = ResponseList13.Count
+            End Select
+        End Get
+    End Property
+
+    Public Sub IfNNSetValue(ByRef Field As Object, ByVal Value As String)
+        If Len(Trim(Value)) > 0 Then Field.SetValue(Value)
+    End Sub
 End Module

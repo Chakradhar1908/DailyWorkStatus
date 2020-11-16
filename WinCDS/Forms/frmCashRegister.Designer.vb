@@ -47,9 +47,13 @@ Partial Class frmCashRegister
         Me.cmdTax = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.fraPaymentButtons = New System.Windows.Forms.GroupBox()
+        Me.CashRegisterPrinterSelector = New WinCDS.PrinterSelector()
+        Me.chkSavePrinter = New System.Windows.Forms.CheckBox()
+        Me.fraCust = New System.Windows.Forms.GroupBox()
         CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.fraCust.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblCust
@@ -251,11 +255,45 @@ Partial Class frmCashRegister
         Me.fraPaymentButtons.TabStop = False
         Me.fraPaymentButtons.Text = "GroupBox1"
         '
+        'CashRegisterPrinterSelector
+        '
+        Me.CashRegisterPrinterSelector.AllowDYMO = True
+        Me.CashRegisterPrinterSelector.AutoSelect = False
+        Me.CashRegisterPrinterSelector.Location = New System.Drawing.Point(68, 61)
+        Me.CashRegisterPrinterSelector.Name = "CashRegisterPrinterSelector"
+        Me.CashRegisterPrinterSelector.Size = New System.Drawing.Size(182, 54)
+        Me.CashRegisterPrinterSelector.TabIndex = 24
+        Me.CashRegisterPrinterSelector.Visible = False
+        '
+        'chkSavePrinter
+        '
+        Me.chkSavePrinter.AutoSize = True
+        Me.chkSavePrinter.Location = New System.Drawing.Point(45, 25)
+        Me.chkSavePrinter.Name = "chkSavePrinter"
+        Me.chkSavePrinter.Size = New System.Drawing.Size(137, 17)
+        Me.chkSavePrinter.TabIndex = 25
+        Me.chkSavePrinter.Text = "Always Use This Printer"
+        Me.chkSavePrinter.UseVisualStyleBackColor = True
+        Me.chkSavePrinter.Visible = False
+        '
+        'fraCust
+        '
+        Me.fraCust.Controls.Add(Me.chkSavePrinter)
+        Me.fraCust.Location = New System.Drawing.Point(20, 195)
+        Me.fraCust.Name = "fraCust"
+        Me.fraCust.Size = New System.Drawing.Size(200, 72)
+        Me.fraCust.TabIndex = 26
+        Me.fraCust.TabStop = False
+        Me.fraCust.Text = "Customer:"
+        Me.fraCust.Visible = False
+        '
         'frmCashRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.fraCust)
+        Me.Controls.Add(Me.CashRegisterPrinterSelector)
         Me.Controls.Add(Me.fraPaymentButtons)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cmdTax)
@@ -284,6 +322,8 @@ Partial Class frmCashRegister
         CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.fraCust.ResumeLayout(False)
+        Me.fraCust.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -313,4 +353,7 @@ Partial Class frmCashRegister
     Friend WithEvents cmdTax As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents fraPaymentButtons As GroupBox
+    Friend WithEvents CashRegisterPrinterSelector As PrinterSelector
+    Friend WithEvents chkSavePrinter As CheckBox
+    Friend WithEvents fraCust As GroupBox
 End Class
