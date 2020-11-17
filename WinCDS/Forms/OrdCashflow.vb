@@ -174,7 +174,7 @@ HandleErr:
         End If
 
         If cboCashIn.SelectedIndex = 8 Then txtAmount.Text = -txtAmount.Text   'Incoming resale
-        AddNewCashJournalRecord(Trim(txtAccount.Text), GetPrice(txtAmount.Text), "", Trim(Note), DateFormat(DDate.Value))
+        AddNewCashJournalRecord(Trim(txtAccount.Text), GetPrice(txtAmount.Text), "", Trim(Note), Date.Parse(DateFormat(DDate.Value), Globalization.CultureInfo.InvariantCulture))
         Exit Sub
 
 HandleErr:
