@@ -599,7 +599,6 @@ HandleErr:
         ':::RETURN
         ': STRING - Returns Mail City string.
 
-
         Dim X As MailNew, Y As MailNew2
         On Error Resume Next
         If ShipToIfAvailable Then GetMailNew2ByIndex(Index, Y, StoreNo)
@@ -609,4 +608,36 @@ HandleErr:
             GetMailCityByIndex = X.City
         End If
     End Function
+
+    Public Sub Mail2_SetAtIndex(ByVal Index As String, ByRef Mail2 As MailNew2, Optional ByVal StoreNum As Integer = 0)
+        '::::Mail2_SetAtIndex
+        ':::SUMMARY
+        ': Sets Mail2 recordset through Sql values.
+        ':::DESCRIPTION
+        ': By calling this function, we can set required information in Mail2 recordset through Sql values.
+        ':::PARAMETERS
+        ': - Index - Indicates the Index value.
+        ': - Mail2 - Represents as MailNew2,which indicates data structure.
+        ': - StoreNum - Indicates the Store number.
+        ':::RETURN
+        Dim dB As String, S As String
+        dB = GetDatabaseAtLocation(StoreNum)
+        ExecuteRecordsetBySQL("DELETE * FROM MailShipTo WHERE Index=" & Index, , dB)
+        S = ""
+        S = S & "INSERT INTO [MailShipTo] "
+        S = S & "([Index],[Last],[First],[Address],[City],[Zip],[Tele],[PhoneLabel3],[Blank]) "
+        S = S & "VALUES ("
+        S = S & Mail2.Index & ", "
+        S = S & "'" & ProtectSQL(Mail2.ShipToFirst) & "', "
+        S = S & "'" & ProtectSQL(Mail2.ShipToLast) & "', "
+        S = S & "'" & ProtectSQL(Mail2.Address2) & "', "
+        S = S & "'" & ProtectSQL(Mail2.City2) & "', "
+        S = S & "'" & ProtectSQL(Mail2.Zip2) & "', "
+        S = S & "'" & ProtectSQL(Mail2.Tele3) & "', "
+        S = S & "'" & ProtectSQL(Mail2.PhoneLabel3) & "', "
+        S = S & "''"
+        S = S & ")"
+        ExecuteRecordsetBySQL(S, , dB)
+    End Sub
+
 End Module

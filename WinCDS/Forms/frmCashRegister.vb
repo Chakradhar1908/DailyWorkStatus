@@ -85,6 +85,7 @@
         'picReceipt.Cls
         picReceipt.Image = Nothing
         PrintReceiptHeader(picReceipt)       ' Print the receipt header.
+
         'MoveReceipt(picReceipt.CurrentY)
         MoveReceipt(picReceipt.Location.Y)
         Show()                             ' Show the form.
@@ -96,14 +97,12 @@
         ' If there's no printer set up, get one.
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
 
-        '---------------NOTE: Below code is commented, because CashRegisterPrinterSelector is a custom activex control. Still not developed it.
         CashRegisterPrinterSelector.SetSelectedPrinter(CashRegisterPrinter)
         If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
             imgLogo.Visible = False
             CashRegisterPrinterSelector.Visible = True
             chkSavePrinter.Visible = True
         End If
-
 
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
         SetCustomer(0)
@@ -226,9 +225,19 @@ ErrOut:
     Private Function PrintReceiptHeader(ByVal Dest As Object) As Boolean
         Dim LogoW As Integer, LogoH As Integer
 
-        Dest.CurrentX = 0
-        Dest.CurrentY = 0
-        Dest.Font.Name = "Arial"
+        'Dest.CurrentX = 0
+        'Dest.CurrentY = 0
+        'Dest.Font.Name = "Arial"
+        Dim P As PictureBox
+        If TypeOf Dest Is PictureBox Then
+            P = CType(Dest, PictureBox)
+            P.Left = 0
+            P.Top = 0
+        Else
+            Dest.CurrentX = 0
+            Dest.CurrentY = 0
+            Dest.Font.Name = "Arial"
+        End If
 
         Dim PrintReceiptLogo As Boolean, PrintReceiptAddress As Boolean
         ' Logo on Tape removed: 20170105..  Has gone back and forth
@@ -261,6 +270,7 @@ ErrOut:
             MaintainPictureRatio(imgLogo, LogoW, LogoH, False)
             Dest.PaintPicture(imgLogo.Image, 0, Dest.CurrentY, LogoW, LogoH)
             Dest.CurrentY = Dest.CurrentY + LogoH + 250
+
         End If
 
         If PrintReceiptAddress Then
