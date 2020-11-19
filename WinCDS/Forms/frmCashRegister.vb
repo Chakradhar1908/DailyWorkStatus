@@ -84,10 +84,10 @@
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
         'picReceipt.Cls
         picReceipt.Image = Nothing
-        PrintReceiptHeader(picReceipt)       ' Print the receipt header.
+        'PrintReceiptHeader(picReceipt)       ' Print the receipt header.
 
         'MoveReceipt(picReceipt.CurrentY)
-        MoveReceipt(picReceipt.Location.Y)
+        'MoveReceipt(picReceipt.Location.Y)
         Show()                             ' Show the form.
         On Error Resume Next
         'SetFocus
@@ -105,7 +105,7 @@
         End If
 
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
-        SetCustomer(0)
+        'SetCustomer(0)
         GotCust = False
     End Sub
 
@@ -225,19 +225,9 @@ ErrOut:
     Private Function PrintReceiptHeader(ByVal Dest As Object) As Boolean
         Dim LogoW As Integer, LogoH As Integer
 
-        'Dest.CurrentX = 0
-        'Dest.CurrentY = 0
-        'Dest.Font.Name = "Arial"
-        Dim P As PictureBox
-        If TypeOf Dest Is PictureBox Then
-            P = CType(Dest, PictureBox)
-            P.Left = 0
-            P.Top = 0
-        Else
-            Dest.CurrentX = 0
-            Dest.CurrentY = 0
-            Dest.Font.Name = "Arial"
-        End If
+        Dest.CurrentX = 0
+        Dest.CurrentY = 0
+        Dest.Font.Name = "Arial"
 
         Dim PrintReceiptLogo As Boolean, PrintReceiptAddress As Boolean
         ' Logo on Tape removed: 20170105..  Has gone back and forth
@@ -274,14 +264,13 @@ ErrOut:
         End If
 
         If PrintReceiptAddress Then
-            '  picReceipt.Font.Size = 14
             Dest.Font.Bold = True
-            '    Dest.FontSize = BestFontFit(Dest, StoreSettings.Name, 14, Dest.ScaleWidth - 100, 500)
-            '    PrintToPosition Dest, StoreSettings.Name, (Dest.ScaleWidth - Dest.ScaleLeft) / 2, vbAlignTop, True  ' AlignTop really means Center here.
+            'Dest.FontSize = BestFontFit(Dest, StoreSettings.Name, 14, Dest.ScaleWidth - 100, 500)
+            'PrintToPosition Dest, StoreSettings.Name, (Dest.ScaleWidth - Dest.ScaleLeft) / 2, vbAlignTop, True  ' AlignTop really means Center here.
 
             Dest.FontSize = 14
-            '    PrintToPosition Dest, StoreSettings.Name, 400, vbAlignLeft, True
-            '    PrintInBox Dest, StoreSettings.Name, 400, Dest.CurrentY, Dest.ScaleWidth - 800, Dest.TextHeight("X"), , vbCenter
+            'PrintToPosition Dest, StoreSettings.Name, 400, vbAlignLeft, True
+            'PrintInBox Dest, StoreSettings.Name, 400, Dest.CurrentY, Dest.ScaleWidth - 800, Dest.TextHeight("X"), , vbCenter
             PrintInBox(Dest, StoreSettings.Name, 400, Dest.CurrentY, TapeScaleWidth - 1200, Dest.TextHeight("X"), , VBRUN.AlignmentConstants.vbCenter)
 
             Dest.Font.Size = 10
@@ -557,5 +546,161 @@ ErrOut:
         'cmdDev.Visible = IsDevelopment()
         'MsgBox "frmCashReg: Form_load->"
 
+    End Sub
+
+    Private Sub cmdTax_Click(sender As Object, e As EventArgs) Handles cmdTax.Click
+        Dim g As Graphics = picReceipt.CreateGraphics
+        Dim x As Integer = 20
+        Dim y As Integer = 30
+        g.DrawString("Hello.", New Font("Arial", 12), Brushes.Black, x, y)
+    End Sub
+
+    Private Sub cmdPayment_Click(sender As Object, e As EventArgs) Handles cmdPayment.Click
+        Dim g As Graphics = picReceipt.CreateGraphics
+        Dim x As Integer = 20
+        Dim y As Integer = 30
+        g.DrawString("Hello.", New Font("Arial", 12), Brushes.Black, x, y)
+    End Sub
+
+    Private Sub picReceipt_Paint(sender As Object, e As PaintEventArgs) Handles picReceipt.Paint
+        Dim StringToDraw As String = "Hi there!! :-)"
+        Dim MyBrush As New SolidBrush(Color.Black)
+        Dim StringFont As New Font("Arial", 20)
+        Dim PixelsAcross As Integer = 20
+        Dim PixelsDown As Integer = 30
+        'e.Graphics.DrawString(StringToDraw, StringFont, MyBrush, PixelsAcross, PixelsDown)
+        '----------------------------------------------------------------------------------
+
+        Dim LogoW As Integer, LogoH As Integer
+
+        'Dest.CurrentX = 0
+        'Dest.CurrentY = 0
+        'Dest.Font.Name = "Arial"
+
+
+        Dim PrintReceiptLogo As Boolean, PrintReceiptAddress As Boolean
+        ' Logo on Tape removed: 20170105..  Has gone back and forth
+        'PrintReceiptLogo = (imgLogo.Picture <> 0) And False   ' Logos don't print well.
+        PrintReceiptLogo = (imgLogo.Image IsNot Nothing) And False   ' Logos don't print well.
+        PrintReceiptAddress = Not PrintReceiptLogo
+
+        ' this is used b/c jerry likes to demonstrate receipt printing on the regular printer..
+        ' we manually feed these values to it
+        ' but for dymo printers w/ continuous tape, they are smaller than the
+        ' standard receipt printers, so...
+        'On Error Resume Next
+        'If IsDymoPrinter(Dest) Then
+
+        '    'BFH20170201 Stanley's has been having trouble.. trying this
+        '    If Not IsStanleys Then
+        '        Dest.PaperSize = DYMO_PaperSize_ContinuousWide
+        '        TapeScaleWidth = 2918 ' printer.scalewidth
+        '    End If
+        '    '    Dest.Height = TapePageLength
+        'Else
+        '    TapeScaleWidth = 3540
+        'End If
+        On Error GoTo 0
+
+        If PrintReceiptLogo Then
+            LogoW = TapeScaleWidth
+            LogoH = 10000 ' something too large
+            MaintainPictureRatio(imgLogo, LogoW, LogoH, False)
+            'Dest.PaintPicture(imgLogo.Image, 0, Dest.CurrentY, LogoW, LogoH)
+            'Dest.CurrentY = Dest.CurrentY + LogoH + 250
+
+        End If
+
+        If PrintReceiptAddress Then
+            'Dest.Font.Bold = True
+            'Dest.FontSize = BestFontFit(Dest, StoreSettings.Name, 14, Dest.ScaleWidth - 100, 500)
+            'PrintToPosition Dest, StoreSettings.Name, (Dest.ScaleWidth - Dest.ScaleLeft) / 2, vbAlignTop, True  ' AlignTop really means Center here.
+
+            'Dest.FontSize = 14
+            'PrintToPosition Dest, StoreSettings.Name, 400, vbAlignLeft, True
+            'PrintInBox Dest, StoreSettings.Name, 400, Dest.CurrentY, Dest.ScaleWidth - 800, Dest.TextHeight("X"), , vbCenter
+            'PrintInBox(Dest, StoreSettings.Name, 400, Dest.CurrentY, TapeScaleWidth - 1200, Dest.TextHeight("X"), , VBRUN.AlignmentConstants.vbCenter)
+
+            '<PrintInBox>
+            Dim PrintText As String
+            PrintText = StoreSettings.Name
+            If PrintText <> "" Then
+                'If FontSize = -1 Then FontSize = 300
+                'PrintOb.FontSize = BestFontFit(PrintOb, PrintText, FontSize, Width, Height)
+
+                'Select Case VAlign
+                ''Case vbAlignTop
+                '    Case AlignConstants.vbAlignTop
+                '        PrintOb.CurrentY = Top
+                ''Case vbAlignBottom
+                '    Case AlignConstants.vbAlignBottom
+                '        PrintOb.CurrentY = Top + Height - PrintOb.TextHeight(PrintText)
+                '    Case Else ' center
+                '        PrintOb.CurrentY = Top + (Height - PrintOb.TextHeight(PrintText)) / 2
+                'End Select
+
+                'Dim El As Object
+                'For Each El In Split(PrintText, vbCrLf)
+                '    Select Case HAlign
+                '    'Case vbAlignRight, 1
+                '        Case AlignConstants.vbAlignRight, 1
+                '            PrintOb.CurrentX = Left + Width - PrintOb.TextWidth(El)
+                '    'Case vbAlignLeft, 0
+                '        Case AlignConstants.vbAlignLeft, 0
+                '            PrintOb.CurrentX = Left
+                '        Case Else 'center
+                '            PrintOb.CurrentX = Left + (Width - PrintOb.TextWidth(El)) / 2
+                '    End Select
+                '    PrintOb.Print(El)
+                'PrintInBox(Dest, StoreSettings.Name, 400, Dest.CurrentY, TapeScaleWidth - 1200, Dest.TextHeight("X"), , VBRUN.AlignmentConstants.vbCenter)
+                e.Graphics.DrawString(PrintText, StringFont, MyBrush, 20, 30)
+                'Next
+                '    PrintOb.Print PrintText
+            End If
+
+            'If BorderStyle <> 0 Then
+            '    PrintOb.Line(Left, Top - Left + Width, Top, BorderStyle)
+            '    PrintOb.Line(Left, Top - Left, Top + Height, BorderStyle)
+            '    PrintOb.Line(Left + Width, Top - Left + Width, Top + Height, BorderStyle)
+            '    PrintOb.Line(Left, Top + Height - Left + Width, Top + Height, BorderStyle)
+            'End If
+            '</PrintInBox>
+
+            'Dest.Font.Size = 10
+            'Dest.Font.Bold = False
+            'Dest.Print(vbCrLf)
+            tPr("frmCashRegister.PrintReceiptHeader/PrintReceiptAddress")
+
+            'PrintToPosition(Dest, StoreSettings.Address, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            'PrintToPosition(Dest, StoreSettings.City, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            'PrintToPosition(Dest, StoreSettings.Phone, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            'Dest.Print(vbCrLf) : Tp()
+            tPr()
+        End If
+
+        'If MailIndex <> 0 Then
+        '    Dim cMR As New clsMailRec
+        '    tPr("frmCashRegister.PrintReceiptHeader/PrintCustomerAddress")
+        '    cMR.Load(MailIndex, "#Index") : Tp()
+        '    PrintToPosition(Dest, "Sold To:", DYMO_QtyCol - 200, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        '    PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        '    PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        '    PrintToPosition(Dest, "", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        '    DisposeDA(Nothing) : Tp()
+        '    tPr()
+        'End If
+
+        'Dest.Font.Size = 10
+        'If IsDymoPrinter(Dest) Then
+        '    tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
+        '    PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
+        '    PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
+        '    PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
+        '    tPr()
+        'Else
+        '    PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+        '    PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+        '    PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+        'End If
     End Sub
 End Class

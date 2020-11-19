@@ -47,9 +47,9 @@ Partial Class frmCashRegister
         Me.cmdTax = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.fraPaymentButtons = New System.Windows.Forms.GroupBox()
-        Me.CashRegisterPrinterSelector = New WinCDS.PrinterSelector()
         Me.chkSavePrinter = New System.Windows.Forms.CheckBox()
         Me.fraCust = New System.Windows.Forms.GroupBox()
+        Me.CashRegisterPrinterSelector = New WinCDS.PrinterSelector()
         CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,9 +127,9 @@ Partial Class frmCashRegister
         '
         'fraSaleButtons
         '
-        Me.fraSaleButtons.Location = New System.Drawing.Point(351, 295)
+        Me.fraSaleButtons.Location = New System.Drawing.Point(462, 195)
         Me.fraSaleButtons.Name = "fraSaleButtons"
-        Me.fraSaleButtons.Size = New System.Drawing.Size(200, 100)
+        Me.fraSaleButtons.Size = New System.Drawing.Size(104, 55)
         Me.fraSaleButtons.TabIndex = 8
         Me.fraSaleButtons.TabStop = False
         Me.fraSaleButtons.Text = "GroupBox1"
@@ -205,9 +205,10 @@ Partial Class frmCashRegister
         '
         'picReceipt
         '
-        Me.picReceipt.Location = New System.Drawing.Point(704, 318)
+        Me.picReceipt.Location = New System.Drawing.Point(23, 295)
         Me.picReceipt.Name = "picReceipt"
-        Me.picReceipt.Size = New System.Drawing.Size(59, 36)
+        Me.picReceipt.Size = New System.Drawing.Size(421, 142)
+        Me.picReceipt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.picReceipt.TabIndex = 18
         Me.picReceipt.TabStop = False
         '
@@ -216,6 +217,7 @@ Partial Class frmCashRegister
         Me.imgLogo.Location = New System.Drawing.Point(691, 385)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(71, 52)
+        Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.imgLogo.TabIndex = 19
         Me.imgLogo.TabStop = False
         '
@@ -230,7 +232,7 @@ Partial Class frmCashRegister
         '
         'cmdTax
         '
-        Me.cmdTax.Location = New System.Drawing.Point(393, 427)
+        Me.cmdTax.Location = New System.Drawing.Point(547, 426)
         Me.cmdTax.Name = "cmdTax"
         Me.cmdTax.Size = New System.Drawing.Size(75, 23)
         Me.cmdTax.TabIndex = 21
@@ -240,7 +242,7 @@ Partial Class frmCashRegister
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(307, 403)
+        Me.Label1.Location = New System.Drawing.Point(534, 410)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(39, 13)
         Me.Label1.TabIndex = 22
@@ -254,16 +256,6 @@ Partial Class frmCashRegister
         Me.fraPaymentButtons.TabIndex = 23
         Me.fraPaymentButtons.TabStop = False
         Me.fraPaymentButtons.Text = "GroupBox1"
-        '
-        'CashRegisterPrinterSelector
-        '
-        Me.CashRegisterPrinterSelector.AllowDYMO = True
-        Me.CashRegisterPrinterSelector.AutoSelect = False
-        Me.CashRegisterPrinterSelector.Location = New System.Drawing.Point(68, 61)
-        Me.CashRegisterPrinterSelector.Name = "CashRegisterPrinterSelector"
-        Me.CashRegisterPrinterSelector.Size = New System.Drawing.Size(182, 54)
-        Me.CashRegisterPrinterSelector.TabIndex = 24
-        Me.CashRegisterPrinterSelector.Visible = False
         '
         'chkSavePrinter
         '
@@ -286,6 +278,16 @@ Partial Class frmCashRegister
         Me.fraCust.TabStop = False
         Me.fraCust.Text = "Customer:"
         Me.fraCust.Visible = False
+        '
+        'CashRegisterPrinterSelector
+        '
+        Me.CashRegisterPrinterSelector.AllowDYMO = True
+        Me.CashRegisterPrinterSelector.AutoSelect = False
+        Me.CashRegisterPrinterSelector.Location = New System.Drawing.Point(68, 61)
+        Me.CashRegisterPrinterSelector.Name = "CashRegisterPrinterSelector"
+        Me.CashRegisterPrinterSelector.Size = New System.Drawing.Size(182, 54)
+        Me.CashRegisterPrinterSelector.TabIndex = 24
+        Me.CashRegisterPrinterSelector.Visible = False
         '
         'frmCashRegister
         '
