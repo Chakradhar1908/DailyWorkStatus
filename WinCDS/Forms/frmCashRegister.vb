@@ -12,12 +12,18 @@
     Private TapePageLength As Integer
     Dim WithEvents MC As MailCheck
     Dim GotCust As Boolean
-    Private Const QtyCol As Integer = 800
-    Private Const ItemCol As Integer = 1000
-    Private Const PriceCol As Integer = 3500
-    Private Const DYMO_QtyCol As Integer = 500
-    Private Const DYMO_ItemCol As Integer = 700
-    Private Const DYMO_PriceCol As Integer = 2900
+    'Private Const QtyCol As Integer = 800
+    Private Const QtyCol As Integer = 20
+    'Private Const ItemCol As Integer = 1000
+    Private Const ItemCol As Integer = 55
+    'Private Const PriceCol As Integer = 3500
+    Private Const PriceCol As Integer = 210
+    'Private Const DYMO_QtyCol As Integer = 500
+    Private Const DYMO_QtyCol As Integer = 10
+    'Private Const DYMO_ItemCol As Integer = 700
+    Private Const DYMO_ItemCol As Integer = 30
+    'Private Const DYMO_PriceCol As Integer = 2900
+    Private Const DYMO_PriceCol As Integer = 200
 
     Public ReadOnly Property MailZip() As String
         Get
@@ -563,11 +569,11 @@ ErrOut:
     End Sub
 
     Private Sub picReceipt_Paint(sender As Object, e As PaintEventArgs) Handles picReceipt.Paint
-        Dim StringToDraw As String = "Hi there!! :-)"
+        'Dim StringToDraw As String = "Hi there!! :-)"
         Dim MyBrush As New SolidBrush(Color.Black)
-        Dim StringFont As New Font("Arial", 20)
-        Dim PixelsAcross As Integer = 20
-        Dim PixelsDown As Integer = 30
+        'Dim StringFont As New Font("Arial", 20)
+        'Dim PixelsAcross As Integer = 20
+        'Dim PixelsDown As Integer = 30
         'e.Graphics.DrawString(StringToDraw, StringFont, MyBrush, PixelsAcross, PixelsDown)
         '----------------------------------------------------------------------------------
 
@@ -604,11 +610,18 @@ ErrOut:
 
         If PrintReceiptLogo Then
             LogoW = TapeScaleWidth
-            LogoH = 10000 ' something too large
+            'LogoH = 10000 ' something too large
+            LogoH = 1000 ' something too large
             MaintainPictureRatio(imgLogo, LogoW, LogoH, False)
             'Dest.PaintPicture(imgLogo.Image, 0, Dest.CurrentY, LogoW, LogoH)
+            'Note:The below five lines are replacement for the above commented line. (Dest.PaintPicture)
+            picReceipt.Image = imgLogo.Image
+            picReceipt.Left = 0
+            picReceipt.Top = picReceipt.Top
+            picReceipt.Width = 354
+            picReceipt.Height = LogoH
             'Dest.CurrentY = Dest.CurrentY + LogoH + 250
-
+            picReceipt.Top = picReceipt.Top + LogoH + 25
         End If
 
         If PrintReceiptAddress Then
@@ -653,9 +666,12 @@ ErrOut:
                 '    End Select
                 '    PrintOb.Print(El)
                 'PrintInBox(Dest, StoreSettings.Name, 400, Dest.CurrentY, TapeScaleWidth - 1200, Dest.TextHeight("X"), , VBRUN.AlignmentConstants.vbCenter)
-                e.Graphics.DrawString(PrintText, StringFont, MyBrush, 20, 30)
+                'e.Graphics.DrawString(PrintText, StringFont, MyBrush, 20, 30)
+                'e.Graphics.DrawString(PrintText, New Font("Arial", 14, FontStyle.Bold), MyBrush, 20, 30)
+                'e.Graphics.DrawString(PrintText, New Font("Arial", 14, FontStyle.Bold), MyBrush, picReceipt.Width / 4, 5)
+                e.Graphics.DrawString(PrintText, New Font("Arial", 14, FontStyle.Bold), MyBrush, 25, 5)
                 'Next
-                '    PrintOb.Print PrintText
+                '   PrintOb.Print PrintText
             End If
 
             'If BorderStyle <> 0 Then
@@ -672,35 +688,49 @@ ErrOut:
             tPr("frmCashRegister.PrintReceiptHeader/PrintReceiptAddress")
 
             'PrintToPosition(Dest, StoreSettings.Address, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString(StoreSettings.Address, New Font("Arial", 10), MyBrush, 20, 50) : Tp()
             'PrintToPosition(Dest, StoreSettings.City, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString(StoreSettings.City, New Font("Arial", 10), MyBrush, 20, 70) : Tp()
             'PrintToPosition(Dest, StoreSettings.Phone, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString(StoreSettings.Phone, New Font("Arial", 10), MyBrush, 20, 90) : Tp()
             'Dest.Print(vbCrLf) : Tp()
             tPr()
         End If
 
-        'If MailIndex <> 0 Then
-        '    Dim cMR As New clsMailRec
-        '    tPr("frmCashRegister.PrintReceiptHeader/PrintCustomerAddress")
-        '    cMR.Load(MailIndex, "#Index") : Tp()
-        '    PrintToPosition(Dest, "Sold To:", DYMO_QtyCol - 200, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-        '    PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-        '    PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-        '    PrintToPosition(Dest, "", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-        '    DisposeDA(Nothing) : Tp()
-        '    tPr()
-        'End If
+        If MailIndex <> 0 Then
+            Dim cMR As New clsMailRec
+            tPr("frmCashRegister.PrintReceiptHeader/PrintCustomerAddress")
+            cMR.Load(MailIndex, "#Index") : Tp()
+            'PrintToPosition(Dest, "Sold To:", DYMO_QtyCol - 200, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString("Sold To:", New Font("Arial", 10), MyBrush, DYMO_QtyCol - 5, 120) : Tp()
+            'PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString(cMR.First & " " & cMR.Last, New Font("Arial", 10), MyBrush, DYMO_QtyCol, 140) : Tp()
+            'PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString(DressAni(cMR.Tele), New Font("Arial", 10), MyBrush, DYMO_QtyCol, 160) : Tp()
+            'PrintToPosition(Dest, "", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            e.Graphics.DrawString("", New Font("Arial", 10), MyBrush, DYMO_QtyCol, 180) : Tp()
+            DisposeDA(Nothing) : Tp()
+            tPr()
+        End If
 
         'Dest.Font.Size = 10
         'If IsDymoPrinter(Dest) Then
-        '    tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
-        '    PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
-        '    PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
-        '    PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
-        '    tPr()
-        'Else
-        '    PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
-        '    PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
-        '    PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
-        'End If
+        If IsDymoPrinter(picReceipt) Then
+            tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
+            'PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
+            e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, DYMO_QtyCol, 140) : Tp()
+            'PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
+            e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, DYMO_ItemCol, 140) : Tp()
+            'PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
+            e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, DYMO_PriceCol, 140) : Tp()
+            tPr()
+        Else
+            'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+            e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, QtyCol, 140) : Tp()
+            'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+            e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, ItemCol, 140) : Tp()
+            'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+            e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, PriceCol, 140) : Tp()
+        End If
     End Sub
 End Class

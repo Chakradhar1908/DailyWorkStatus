@@ -374,7 +374,7 @@ CantSave:
 NoFit:
         If Err.Number = 6 Then Resume Next
         ' With any luck, the printer will still be set to a reasonable font.
-        'BestFontFit = OutOb.FontSize
+        BestFontFit = OutOb.FontSize
     End Function
 
     Public Sub PrintCentered(ByVal Text As String, Optional ByVal yPos As Integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)

@@ -2621,6 +2621,14 @@
     <Content Include="Code Snippet\NewSaleCodeSnippet.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\Picture.bmp" />
+    <None Include="Resources\menu.bmp" />
+    <None Include="Resources\dollarsign.bmp" />
+    <None Include="Resources\reprint.bmp" />
+    <None Include="Resources\cancel.bmp" />
+    <None Include="Resources\Icon_Specials.gif" />
+    <None Include="Resources\return.bmp" />
+    <None Include="Resources\cash_register_icon.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
