@@ -1456,4 +1456,10 @@ TestClearFailed:
     Public Function GetDatabaseBK(Optional ByVal Location As Integer = 1) As String
         GetDatabaseBK = BKFolder(True) & "L" & Location & "-Bank.MDB"
     End Function
+
+    Public Function CashRegisterMessageFile(Optional ByVal StoreNum As Integer = 0) As String
+        If StoreNum = 0 Then StoreNum = StoresSld
+        CashRegisterMessageFile = FXFile("CashRegisterMessage.rtf", , False)
+    End Function
+
 End Module

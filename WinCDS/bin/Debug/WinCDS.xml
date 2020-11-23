@@ -117,6 +117,11 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.cash">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.cash_register_icon">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -133,6 +138,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.changecontents">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.check">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -163,6 +173,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.damagedstock">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.debit">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -343,6 +358,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.marginreports">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.mastercard">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -742,6 +762,11 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.returntosale">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.revolving">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -808,6 +833,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.Store1Logo">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.storecard">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

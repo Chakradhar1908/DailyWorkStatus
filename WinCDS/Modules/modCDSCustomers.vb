@@ -460,4 +460,9 @@
         End Get
     End Property
 
+    Public ReadOnly Property IsRobys() As Boolean
+        Get
+            IsRobys = CheckStoreName("ROBY")
+        End Get
+    End Property
 End Module

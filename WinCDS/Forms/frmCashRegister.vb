@@ -111,7 +111,7 @@
         End If
 
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
-        'SetCustomer(0)
+        SetCustomer(0)
         GotCust = False
     End Sub
 
@@ -126,7 +126,7 @@
         Dim M As clsMailRec
         M = New clsMailRec
         If M.Load(frmCashRegisterAddress.MailIndex, "#Index") Then
-            lblCust = M.First & " " & M.Last & "  " & DressAni(M.Tele)
+            lblCust.Text = M.First & " " & M.Last & "  " & DressAni(M.Tele)
             lblCust.Tag = Index
         Else
             lblCust.Text = ""
@@ -141,12 +141,17 @@
         If SaleComplete Then Exit Sub
         'picReceipt.Cls
         picReceipt.Image = Nothing
-        PrintReceiptHeader(picReceipt)       ' Print the receipt header.
-        Dim I As Integer
-        On Error GoTo ErrOut
-        For I = LBound(SaleItems) To UBound(SaleItems)
-            PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
-        Next
+        'Application.DoEvents()
+        '<CT>
+        'Note: Commented this line, cause PrintReceiptHeader code will be directly written in Paint event.
+        'PrintReceiptHeader(picReceipt)       ' Print the receipt header.
+        '</CT>
+        'Dim I As Integer
+        'On Error GoTo ErrOut
+        'For I = LBound(SaleItems) To UBound(SaleItems)
+        '    PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
+        'Next
+        Application.DoEvents()
 Done:
         Exit Sub
 ErrOut:
@@ -345,8 +350,8 @@ ErrOut:
             AddSalesTax(True)
         Else
             cmdTax.Text = "Tax:"
-            cmdTax.Width = 855
-            cmdTax.Left = 840
+            cmdTax.Width = 50
+            cmdTax.Left = 65
             lblTax.Text = CurrencyFormat(GetStoreTax1() * TaxableAmt)
             'cmdTax.ToolTipText = "Sale is taxable.  Click here to make it nontaxable."
             ToolTip1.SetToolTip(cmdTax, "Sale is taxable.  Click here to make it nontaxable.")
@@ -503,8 +508,8 @@ ErrOut:
                 'cmdComm.Default = True
                 Me.AcceptButton = cmdComm
                 'cmdComm.Move 1800, 720, 855, 375
-                cmdComm.Location = New Point(180, 72)
-                cmdComm.Size = New Size(85, 37)
+                cmdComm.Location = New Point(130, 47)
+                cmdComm.Size = New Size(85, 23)
                 lblEnterStyle.Visible = False
                 cmdComm.Tag = "1"
             Case "1"  ' "1", 1800, 720, 855, 375, "&Select"
@@ -515,8 +520,8 @@ ErrOut:
                 'cmdComm.Default = False
                 Me.AcceptButton = Nothing
                 'cmdComm.Move 3840, 720, 375, 375
-                cmdComm.Location = New Point(384, 72)
-                cmdComm.Size = New Size(37, 37)
+                cmdComm.Location = New Point(269, 47)
+                cmdComm.Size = New Size(39, 23)
                 lblEnterStyle.Visible = True
                 cmdComm.Tag = ""
         End Select
@@ -669,7 +674,7 @@ ErrOut:
                 'e.Graphics.DrawString(PrintText, StringFont, MyBrush, 20, 30)
                 'e.Graphics.DrawString(PrintText, New Font("Arial", 14, FontStyle.Bold), MyBrush, 20, 30)
                 'e.Graphics.DrawString(PrintText, New Font("Arial", 14, FontStyle.Bold), MyBrush, picReceipt.Width / 4, 5)
-                e.Graphics.DrawString(PrintText, New Font("Arial", 14, FontStyle.Bold), MyBrush, 25, 5)
+                e.Graphics.DrawString(PrintText, New Font("Arial", 13, FontStyle.Bold), MyBrush, 25, 5)
                 'Next
                 '   PrintOb.Print PrintText
             End If
@@ -690,9 +695,9 @@ ErrOut:
             'PrintToPosition(Dest, StoreSettings.Address, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
             e.Graphics.DrawString(StoreSettings.Address, New Font("Arial", 10), MyBrush, 20, 50) : Tp()
             'PrintToPosition(Dest, StoreSettings.City, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-            e.Graphics.DrawString(StoreSettings.City, New Font("Arial", 10), MyBrush, 20, 70) : Tp()
+            e.Graphics.DrawString(StoreSettings.City, New Font("Arial", 10), MyBrush, 20, 65) : Tp()
             'PrintToPosition(Dest, StoreSettings.Phone, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-            e.Graphics.DrawString(StoreSettings.Phone, New Font("Arial", 10), MyBrush, 20, 90) : Tp()
+            e.Graphics.DrawString(StoreSettings.Phone, New Font("Arial", 10), MyBrush, 20, 80) : Tp()
             'Dest.Print(vbCrLf) : Tp()
             tPr()
         End If
@@ -732,5 +737,254 @@ ErrOut:
             'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
             e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, PriceCol, 140) : Tp()
         End If
+
+
+        'Note: The below code is from Private Sub RefreshReceipt()
+        Dim I As Integer
+        On Error GoTo ErrOut
+        For I = LBound(SaleItems) To UBound(SaleItems)
+            PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
+        Next
     End Sub
+
+    Private Sub cmdFND_Click(sender As Object, e As EventArgs) Handles cmdFND.Click
+        cmdFND.Visible = False
+        ProcessSku(True)
+    End Sub
+
+    Private Function ProcessSku(Optional ByVal Fnd As Boolean = False) As Boolean
+        ' Sole processing function to add txtSku to the sale.
+        If Processing Then Exit Function            ' This function can't run while the subform is up.
+        If ReceiptPrinted Then Exit Function        ' Can't add to printed receipt.
+        If txtSku.Text = "" Then Exit Function      ' Ignore stray enter if input empty
+
+        Processing = True
+
+        ProcessSku = AddSkuToSale(txtSku.Text, Fnd)
+        If ProcessSku Then txtSku.Text = ""
+        FocusSelect(txtSku)
+
+        Processing = False
+    End Function
+
+    Private Function AddSkuToSale(ByVal SKU As String, Optional ByVal Fnd As Boolean = False) As Boolean
+        ' Look up the Sku.  If it's not in the database, fail.
+        Dim InvData As CInvRec
+        Dim Found As Boolean
+
+        If SaleComplete Then Exit Function
+
+        InvData = New CInvRec
+        Found = InvData.Load(SKU, "Style")
+        If Found Or Fnd Then
+            ' Item exists, prompt for quantity.
+            Dim IQP As clsSaleItem  ' Class object.. we should be able to store this in an array to prepare for commit.
+            If Found Then
+                IQP = frmCashRegisterQuantity.GetQuantityAndPrice(InvData.Style, InvData.Desc, InvData.OnSale, NonTaxable)
+                IQP.Status = "ST"
+            Else
+                Dim FNDPrice As Decimal, FNDVendor As String, FNDDesc As String
+                If Not frmCashRegisterFND.GetInformation(SKU, FNDPrice, FNDVendor, FNDDesc) Then
+                    DisposeDA(InvData)
+                    Exit Function
+                End If
+                IQP = frmCashRegisterQuantity.GetQuantityAndPrice(SKU, FNDDesc, FNDPrice, NonTaxable)
+
+                IQP.VendorNo = FormatVendorNo(Microsoft.VisualBasic.Left(FNDVendor, 3))
+                IQP.Vendor = Trim(Mid(FNDVendor, 4))
+                IQP.Status = "FND"
+            End If
+            DisposeDA(InvData)
+            If IQP Is Nothing Then Exit Function
+
+            ' Also need to get price, in case price was changed..
+            If IQP.Quantity > 0 Then
+                If ReturnMode Then IQP.Quantity = -IQP.Quantity
+                SetReturnMode(False)
+
+                AddSaleItem(IQP)   ' Add the item to the sale array, and the receipt.
+                AddSkuToSale = True
+
+                ' Beep?  Some barcode scanners have built-in sounds for completed scans.
+                ' In any case, the cashier needs audio feedback or they'll be constantly
+                ' watching the screen instead of scanning more items..
+
+            Else
+                AddSkuToSale = False
+            End If
+        Else
+            ' Item not found.
+            'BFH20170104 - Adding FND support..
+            MessageBox.Show("This item could not be found in the database!" & vbCrLf2 & "To enter an Item Not in Inventory, click FND.", "Item Not Found")
+            '    txtSku = ""
+            cmdFND.Visible = True
+            FocusControl(txtSku)
+            AddSkuToSale = False
+        End If
+    End Function
+
+    Private Sub cmdDev_Click(sender As Object, e As EventArgs) Handles cmdDev.Click
+        Dim S As String
+        S = SelectOption("Select DEV MODE Function", frmSelectOption.ESelOpts.SelOpt_List + frmSelectOption.ESelOpts.SelOpt_ToItem, "Test Print Receipt")
+
+        Select Case S
+            Case "Test Print Receipt" : TestPrintReceipt
+        End Select
+    End Sub
+
+    Private Function TestPrintReceipt() As Boolean
+        Dim vSaleNo As String
+        vSaleNo = InputBox("Sale No:", "Enter Value", "10349")
+        If vSaleNo = "" Then Exit Function
+
+        SaleNo = vSaleNo
+
+        Dim RS As ADODB.Recordset, IQP As clsSaleItem
+        RS = GetRecordsetBySQL("SELECT * FROM [GrossMargin] WHERE SaleNo='" & SaleNo & "' ORDER BY [MarginLine]", , GetDatabaseAtLocation)
+
+        Do While Not RS.EOF
+            IQP = New clsSaleItem
+            IQP.Style = Trim(IfNullThenNilString(RS("Style").Value))
+            IQP.Status = Trim(IfNullThenNilString(RS("Status").Value))
+            IQP.Price = IfNullThenZeroCurrency(RS("SellPrice").Value)
+            IQP.DisplayPrice = IfNullThenZeroCurrency(RS("SellPrice").Value)
+            IQP.Quantity = IfNullThenZero(RS("Quantity").Value)
+            IQP.Location = IfNullThenZero(RS("Location").Value)
+            IQP.Desc = IfNullThenNilString(RS("Desc").Value)
+            IQP.Vendor = IfNullThenNilString(RS("Vendor").Value)
+            IQP.VendorNo = IfNullThenNilString(RS("VendorNo").Value)
+
+            AddSaleItem(IQP)
+            IQP = Nothing
+
+            RS.MoveNext
+        Loop
+
+        ReceiptPrinted = True
+        SaleComplete = True
+        'Processed = True
+
+        cmdMainMenu.Enabled = True
+        cmdPrint.Enabled = True   ' Allow reprints after the first printing run.
+        cmdCancelSale.Text = "Next Sale"
+        'cmdCancelSale.ToolTipText = "Click to begin a new sale.  This data has been saved."
+        ToolTip1.SetToolTip(cmdCancelSale, "Click to begin a new sale.  This data has been saved.")
+        cmdCancelSale.Enabled = True
+        cmdDone.Enabled = False
+
+        PrintReceipt
+        TestPrintReceipt = True
+    End Function
+
+    Public Sub PrintReceipt(Optional ByVal CCSign As Boolean = False)
+        On Error GoTo PrintReceiptError
+        If Not SaleComplete Then
+            MessageBox.Show("You can't print a receipt until the sale is completed.", "Sale Not Complete")
+            Exit Sub
+        End If
+
+        If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
+            If Not SetDymoPrinter() Then
+                MessageBox.Show("You must select a printer before printing receipts!", "No Printer Selected")
+                Exit Sub
+            End If
+        End If
+
+        Dim OldPrinter As String
+        OldPrinter = Printer.DeviceName
+        SetPrinter(CashRegisterPrinter)
+        'MousePointer = vbHourglass
+        Me.Cursor = Cursors.WaitCursor
+
+        ' We'll have to loop through the items and print them as text.
+        ' The receipt printer just can't handle graphics.
+
+        ' It's not a runtime error if the printer is offline!  How odd.
+        PrintReceiptHeader(Printer)
+        Dim I As Integer
+        For I = LBound(SaleItems) To UBound(SaleItems)
+            PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
+        Next
+        PrintReceiptTrailer(Printer, CCSign)
+
+        '  Printer.ScaleHeight = Printer.CurrentY
+        Printer.EndDoc()
+        ReceiptPrinted = True
+
+        SetPrinter(OldPrinter)
+        'MousePointer = vbNormal
+        Me.Cursor = Cursors.Default
+        txtSku.Select()
+        Exit Sub
+
+PrintReceiptError:
+        Dim N As Integer, S As String
+        N = Err.Number
+        S = Err.Description
+        Select Case N
+            Case 482 : ErrNoPrinter()
+            Case Else
+                MessageBox.Show("Error printing receipt [" & N & "]" & vbCrLf & S, "Error Printing Receipt")
+        End Select
+        ReceiptPrinted = True
+
+        SetPrinter(OldPrinter)
+        'MousePointer = vbNormal
+        Me.Cursor = Cursors.Default
+        txtSku.Select()
+    End Sub
+
+    Private Function PrintReceiptTrailer(ByRef Dest As Object, Optional ByVal CCSign As Boolean = False) As Boolean
+        Dim I As Integer
+        Dest.FontSize = 10 '8
+        If Dest.CurrentY > Dest.ScaleHeight - 1 * Dest.TextHeight("X") Then
+            On Error Resume Next ' Sometimes,it objects tothe 'height' being set..  Probably basedd on paper type..
+            Dest.Height = Dest.CurrentY + 1 * Dest.TextHeight("X")
+            Err.Clear()
+            On Error GoTo 0
+        End If
+
+        ' Print time and sale number.
+        PrintToPosition(Dest, Format(Now, DateFormatString() & " hh:mm") & " " & SaleNo, 0, VBRUN.AlignConstants.vbAlignLeft, True)
+
+        ' Print special message..
+        Dest.Print("")
+
+        If CCSign Then
+            Dest.Print("I authorize the above transaction.")
+            Dest.Print("")
+            Dest.Print("")
+            Dest.Print("X ________________________")
+            Dest.Print("            STORE COPY")
+        Else
+            MainMenu.rtbn.File = CashRegisterMessageFile
+            MainMenu.rtbn.FileRead(True)
+            If MainMenu.rtbn.RichTextBox.Text <> "" Then Dest.Print(MainMenu.rtbn.RichTextBox.Text)
+        End If
+
+        ' special handling for DYMO receipt printer
+        If Not IsDymoPrinter(Dest) Then
+
+            'bfh20050317 - needed 5 blank lines at the bottom of the receipt!!
+            For I = 1 To 6
+                Dest.Print(" ")
+            Next
+
+            If IsRobys() Then
+            Else
+                'bfh20050317 - attempt to send <ESC>d0 to signal the receipt printer to cut the paper..
+                Dest.Print(Chr(27) & "d0")
+            End If
+        Else
+            For I = 1 To 5
+                Dest.Print(" ")
+            Next
+            Dest.Print(".")
+        End If
+
+        If TypeName(Dest) = "PictureBox" Then
+            TapePageLength = Dest.CurrentY
+        End If
+    End Function
+
 End Class

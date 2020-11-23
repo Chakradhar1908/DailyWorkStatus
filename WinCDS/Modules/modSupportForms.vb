@@ -281,4 +281,22 @@ Failure:
         ': String - Date value selected.
         SelectDate = frmSelectDate.SelectDate(Def, vCaption)
     End Function
+
+    Public Function SelectOption(ByVal nTitle As String, ByVal selType As frmSelectOption.ESelOpts, ParamArray selOptions() As Object)
+        '::::SelectOption
+        ':::SUMMARY
+        ': Raise a select option dialog.
+        ':::DESCRIPTION
+        ': Present a user with a list of options and require them to select one to continue (modal/blocking).
+        ':::PARAMETERS
+        ':::RETURN
+        ': - Returns selected option or cancellation
+        ':::SEE ALSO
+        ': - SelectOptionX, SelectOptionArray
+
+        Dim T()
+        T = selOptions
+        SelectOption = frmSelectOption.SelectOptionArray(nTitle, selType, T)
+    End Function
+
 End Module

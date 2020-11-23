@@ -332,6 +332,12 @@
     <Compile Include="Forms\frmCashRegisterAddress.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmCashRegisterFND.Designer.vb">
+      <DependentUpon>frmCashRegisterFND.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCashRegisterFND.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmCashRegisterQuantity.Designer.vb">
       <DependentUpon>frmCashRegisterQuantity.vb</DependentUpon>
     </Compile>
@@ -1351,6 +1357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashRegisterAddress.resx">
       <DependentUpon>frmCashRegisterAddress.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCashRegisterFND.resx">
+      <DependentUpon>frmCashRegisterFND.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashRegisterQuantity.resx">
       <DependentUpon>frmCashRegisterQuantity.vb</DependentUpon>
@@ -2621,6 +2630,12 @@
     <Content Include="Code Snippet\NewSaleCodeSnippet.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\returntosale.bmp" />
+    <None Include="Resources\storecard.bmp" />
+    <None Include="Resources\debit.bmp" />
+    <None Include="Resources\mastercard.bmp" />
+    <None Include="Resources\check.bmp" />
+    <None Include="Resources\cash.bmp" />
     <None Include="Resources\Picture.bmp" />
     <None Include="Resources\menu.bmp" />
     <None Include="Resources\dollarsign.bmp" />

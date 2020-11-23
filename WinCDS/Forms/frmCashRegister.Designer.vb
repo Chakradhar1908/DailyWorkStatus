@@ -30,7 +30,6 @@ Partial Class frmCashRegister
         Me.lblTax = New System.Windows.Forms.Label()
         Me.lblTendered = New System.Windows.Forms.Label()
         Me.lblDue = New System.Windows.Forms.Label()
-        Me.txtSku = New System.Windows.Forms.TextBox()
         Me.fraSaleButtons = New System.Windows.Forms.GroupBox()
         Me.cmdPurchaseGiftCard = New System.Windows.Forms.Button()
         Me.cmdMainMenu = New System.Windows.Forms.Button()
@@ -41,43 +40,52 @@ Partial Class frmCashRegister
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.vsbReceipt = New System.Windows.Forms.VScrollBar()
-        Me.picReceiptContainer = New System.Windows.Forms.PictureBox()
-        Me.picReceipt = New System.Windows.Forms.PictureBox()
-        Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cmdPayReturnToSale = New System.Windows.Forms.Button()
+        Me.cmdPayGiftCard = New System.Windows.Forms.Button()
+        Me.cmdPayStoreCard = New System.Windows.Forms.Button()
+        Me.cmdPayDebit = New System.Windows.Forms.Button()
+        Me.cmdPayCredit = New System.Windows.Forms.Button()
+        Me.cmdPayCheck = New System.Windows.Forms.Button()
+        Me.cmdPayCash = New System.Windows.Forms.Button()
         Me.lblEnterStyle = New System.Windows.Forms.Label()
         Me.cmdTax = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.fraPaymentButtons = New System.Windows.Forms.GroupBox()
-        Me.chkSavePrinter = New System.Windows.Forms.CheckBox()
         Me.fraCust = New System.Windows.Forms.GroupBox()
-        Me.CashRegisterPrinterSelector = New WinCDS.PrinterSelector()
         Me.fraEnterSku = New System.Windows.Forms.GroupBox()
+        Me.txtSku = New System.Windows.Forms.TextBox()
         Me.cmdFND = New System.Windows.Forms.Button()
         Me.fraSaleTotals = New System.Windows.Forms.GroupBox()
         Me.lblDueCaption = New System.Windows.Forms.Label()
         Me.lblTenderedCaption = New System.Windows.Forms.Label()
         Me.lblTotalCaption = New System.Windows.Forms.Label()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.picReceipt = New System.Windows.Forms.PictureBox()
+        Me.picReceiptContainer = New System.Windows.Forms.PictureBox()
+        Me.chkSavePrinter = New System.Windows.Forms.CheckBox()
+        Me.CashRegisterPrinterSelector = New WinCDS.PrinterSelector()
+        Me.cmdDev = New System.Windows.Forms.Button()
         Me.fraSaleButtons.SuspendLayout()
-        CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.fraPaymentButtons.SuspendLayout()
         Me.fraCust.SuspendLayout()
         Me.fraEnterSku.SuspendLayout()
         Me.fraSaleTotals.SuspendLayout()
+        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblCust
         '
         Me.lblCust.Location = New System.Drawing.Point(7, 18)
         Me.lblCust.Name = "lblCust"
-        Me.lblCust.Size = New System.Drawing.Size(222, 27)
+        Me.lblCust.Size = New System.Drawing.Size(301, 20)
         Me.lblCust.TabIndex = 0
         Me.lblCust.Text = "lblCust"
         '
         'cmdComm
         '
-        Me.cmdComm.Location = New System.Drawing.Point(220, 47)
+        Me.cmdComm.Location = New System.Drawing.Point(269, 47)
         Me.cmdComm.Name = "cmdComm"
         Me.cmdComm.Size = New System.Drawing.Size(39, 23)
         Me.cmdComm.TabIndex = 1
@@ -87,9 +95,9 @@ Partial Class frmCashRegister
         'cboSalesList
         '
         Me.cboSalesList.FormattingEnabled = True
-        Me.cboSalesList.Location = New System.Drawing.Point(696, 358)
+        Me.cboSalesList.Location = New System.Drawing.Point(9, 18)
         Me.cboSalesList.Name = "cboSalesList"
-        Me.cboSalesList.Size = New System.Drawing.Size(121, 21)
+        Me.cboSalesList.Size = New System.Drawing.Size(299, 21)
         Me.cboSalesList.TabIndex = 2
         '
         'lblTotal
@@ -137,13 +145,6 @@ Partial Class frmCashRegister
         Me.lblDue.Text = "0.00"
         Me.lblDue.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'txtSku
-        '
-        Me.txtSku.Location = New System.Drawing.Point(6, 19)
-        Me.txtSku.Name = "txtSku"
-        Me.txtSku.Size = New System.Drawing.Size(231, 20)
-        Me.txtSku.TabIndex = 7
-        '
         'fraSaleButtons
         '
         Me.fraSaleButtons.Controls.Add(Me.cmdPurchaseGiftCard)
@@ -154,143 +155,237 @@ Partial Class frmCashRegister
         Me.fraSaleButtons.Controls.Add(Me.cmdCancelSale)
         Me.fraSaleButtons.Controls.Add(Me.cmdPrint)
         Me.fraSaleButtons.Controls.Add(Me.cmdDone)
-        Me.fraSaleButtons.Location = New System.Drawing.Point(12, 410)
+        Me.fraSaleButtons.Location = New System.Drawing.Point(12, 397)
         Me.fraSaleButtons.Name = "fraSaleButtons"
-        Me.fraSaleButtons.Size = New System.Drawing.Size(654, 92)
+        Me.fraSaleButtons.Size = New System.Drawing.Size(612, 84)
         Me.fraSaleButtons.TabIndex = 8
         Me.fraSaleButtons.TabStop = False
         '
         'cmdPurchaseGiftCard
         '
+        Me.cmdPurchaseGiftCard.BackColor = System.Drawing.SystemColors.Window
         Me.cmdPurchaseGiftCard.Image = Global.WinCDS.My.Resources.Resources.Picture
         Me.cmdPurchaseGiftCard.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdPurchaseGiftCard.Location = New System.Drawing.Point(577, 19)
+        Me.cmdPurchaseGiftCard.Location = New System.Drawing.Point(531, 13)
         Me.cmdPurchaseGiftCard.Name = "cmdPurchaseGiftCard"
         Me.cmdPurchaseGiftCard.Size = New System.Drawing.Size(75, 67)
         Me.cmdPurchaseGiftCard.TabIndex = 17
         Me.cmdPurchaseGiftCard.Text = "Purchase &Gift Card"
         Me.cmdPurchaseGiftCard.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdPurchaseGiftCard.UseVisualStyleBackColor = True
+        Me.ToolTip1.SetToolTip(Me.cmdPurchaseGiftCard, "Click this button to add a gift card to this order.")
+        Me.cmdPurchaseGiftCard.UseVisualStyleBackColor = False
+        Me.cmdPurchaseGiftCard.Visible = False
         '
         'cmdMainMenu
         '
+        Me.cmdMainMenu.BackColor = System.Drawing.SystemColors.Window
         Me.cmdMainMenu.Image = Global.WinCDS.My.Resources.Resources.menu
         Me.cmdMainMenu.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdMainMenu.Location = New System.Drawing.Point(496, 19)
+        Me.cmdMainMenu.Location = New System.Drawing.Point(456, 13)
         Me.cmdMainMenu.Name = "cmdMainMenu"
         Me.cmdMainMenu.Size = New System.Drawing.Size(75, 67)
         Me.cmdMainMenu.TabIndex = 16
         Me.cmdMainMenu.Text = "&Main Menu"
         Me.cmdMainMenu.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdMainMenu.UseVisualStyleBackColor = True
+        Me.ToolTip1.SetToolTip(Me.cmdMainMenu, "Click to return to the WinCDS menu.")
+        Me.cmdMainMenu.UseVisualStyleBackColor = False
         '
         'cmdPayment
         '
+        Me.cmdPayment.BackColor = System.Drawing.SystemColors.Window
         Me.cmdPayment.Image = Global.WinCDS.My.Resources.Resources.cash_register_icon
         Me.cmdPayment.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdPayment.Location = New System.Drawing.Point(6, 19)
+        Me.cmdPayment.Location = New System.Drawing.Point(6, 13)
         Me.cmdPayment.Name = "cmdPayment"
         Me.cmdPayment.Size = New System.Drawing.Size(75, 67)
         Me.cmdPayment.TabIndex = 9
-        Me.cmdPayment.Text = "Button2"
+        Me.cmdPayment.Text = "&Payment"
         Me.cmdPayment.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdPayment.UseVisualStyleBackColor = True
+        Me.ToolTip1.SetToolTip(Me.cmdPayment, "Click to select a payment method.")
+        Me.cmdPayment.UseVisualStyleBackColor = False
         '
         'cmdReturn
         '
-        Me.cmdReturn.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.cmdReturn.BackColor = System.Drawing.SystemColors.Window
         Me.cmdReturn.Image = Global.WinCDS.My.Resources.Resources.return4
         Me.cmdReturn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdReturn.Location = New System.Drawing.Point(87, 19)
+        Me.cmdReturn.Location = New System.Drawing.Point(81, 13)
         Me.cmdReturn.Name = "cmdReturn"
         Me.cmdReturn.Size = New System.Drawing.Size(75, 67)
         Me.cmdReturn.TabIndex = 10
-        Me.cmdReturn.Text = "Button3"
+        Me.cmdReturn.Text = "&Return"
         Me.cmdReturn.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.cmdReturn.UseVisualStyleBackColor = False
         '
         'cmdDiscount
         '
+        Me.cmdDiscount.BackColor = System.Drawing.SystemColors.Window
         Me.cmdDiscount.Image = Global.WinCDS.My.Resources.Resources.Icon_Specials
         Me.cmdDiscount.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdDiscount.Location = New System.Drawing.Point(168, 19)
+        Me.cmdDiscount.Location = New System.Drawing.Point(156, 13)
         Me.cmdDiscount.Name = "cmdDiscount"
         Me.cmdDiscount.Size = New System.Drawing.Size(75, 67)
         Me.cmdDiscount.TabIndex = 11
-        Me.cmdDiscount.Text = "Button4"
+        Me.cmdDiscount.Text = "&Special"
         Me.cmdDiscount.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdDiscount.UseVisualStyleBackColor = True
+        Me.ToolTip1.SetToolTip(Me.cmdDiscount, "Click to enter a discount on the last item purchased.")
+        Me.cmdDiscount.UseVisualStyleBackColor = False
         '
         'cmdCancelSale
         '
+        Me.cmdCancelSale.BackColor = System.Drawing.SystemColors.Window
         Me.cmdCancelSale.Image = Global.WinCDS.My.Resources.Resources.cancel
         Me.cmdCancelSale.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdCancelSale.Location = New System.Drawing.Point(249, 19)
+        Me.cmdCancelSale.Location = New System.Drawing.Point(231, 13)
         Me.cmdCancelSale.Name = "cmdCancelSale"
         Me.cmdCancelSale.Size = New System.Drawing.Size(75, 67)
         Me.cmdCancelSale.TabIndex = 15
-        Me.cmdCancelSale.Text = "Button1"
+        Me.cmdCancelSale.Text = "&Cancel Sale"
         Me.cmdCancelSale.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdCancelSale.UseVisualStyleBackColor = True
+        Me.cmdCancelSale.UseVisualStyleBackColor = False
         '
         'cmdPrint
         '
+        Me.cmdPrint.BackColor = System.Drawing.SystemColors.Control
         Me.cmdPrint.Image = Global.WinCDS.My.Resources.Resources.reprint
         Me.cmdPrint.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdPrint.Location = New System.Drawing.Point(334, 19)
+        Me.cmdPrint.Location = New System.Drawing.Point(306, 13)
         Me.cmdPrint.Name = "cmdPrint"
         Me.cmdPrint.Size = New System.Drawing.Size(75, 67)
         Me.cmdPrint.TabIndex = 12
-        Me.cmdPrint.Text = "Button5"
+        Me.cmdPrint.Text = "Reprint Receip&t"
         Me.cmdPrint.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdPrint.UseVisualStyleBackColor = True
+        Me.ToolTip1.SetToolTip(Me.cmdPrint, "Click to print another copy of the receipt.  This function is available only for " &
+        "completed sales.")
+        Me.cmdPrint.UseVisualStyleBackColor = False
         '
         'cmdDone
         '
-        Me.cmdDone.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdDone.BackColor = System.Drawing.SystemColors.Window
         Me.cmdDone.ForeColor = System.Drawing.SystemColors.ControlText
         Me.cmdDone.Image = Global.WinCDS.My.Resources.Resources.dollarsign
         Me.cmdDone.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdDone.Location = New System.Drawing.Point(415, 22)
+        Me.cmdDone.Location = New System.Drawing.Point(381, 13)
         Me.cmdDone.Name = "cmdDone"
         Me.cmdDone.Size = New System.Drawing.Size(75, 67)
         Me.cmdDone.TabIndex = 13
-        Me.cmdDone.Text = "Button6"
+        Me.cmdDone.Text = "&Finish Sale"
         Me.cmdDone.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdDone, "Click to complete the sale and print a receipt.")
         Me.cmdDone.UseVisualStyleBackColor = False
         '
         'vsbReceipt
         '
-        Me.vsbReceipt.Location = New System.Drawing.Point(282, 16)
+        Me.vsbReceipt.Location = New System.Drawing.Point(282, 15)
         Me.vsbReceipt.Name = "vsbReceipt"
         Me.vsbReceipt.Size = New System.Drawing.Size(13, 379)
         Me.vsbReceipt.TabIndex = 16
         '
-        'picReceiptContainer
+        'cmdPayReturnToSale
         '
-        Me.picReceiptContainer.Location = New System.Drawing.Point(696, 245)
-        Me.picReceiptContainer.Name = "picReceiptContainer"
-        Me.picReceiptContainer.Size = New System.Drawing.Size(100, 50)
-        Me.picReceiptContainer.TabIndex = 17
-        Me.picReceiptContainer.TabStop = False
+        Me.cmdPayReturnToSale.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayReturnToSale.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayReturnToSale.Image = Global.WinCDS.My.Resources.Resources.returntosale
+        Me.cmdPayReturnToSale.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayReturnToSale.Location = New System.Drawing.Point(482, 13)
+        Me.cmdPayReturnToSale.Name = "cmdPayReturnToSale"
+        Me.cmdPayReturnToSale.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayReturnToSale.TabIndex = 36
+        Me.cmdPayReturnToSale.Text = "&No Payment"
+        Me.cmdPayReturnToSale.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayReturnToSale, "Cancel payment, and hide payment buttons.")
+        Me.cmdPayReturnToSale.UseVisualStyleBackColor = False
         '
-        'picReceipt
+        'cmdPayGiftCard
         '
-        Me.picReceipt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picReceipt.Location = New System.Drawing.Point(12, 15)
-        Me.picReceipt.Name = "picReceipt"
-        Me.picReceipt.Size = New System.Drawing.Size(267, 380)
-        Me.picReceipt.TabIndex = 18
-        Me.picReceipt.TabStop = False
+        Me.cmdPayGiftCard.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayGiftCard.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayGiftCard.Image = Global.WinCDS.My.Resources.Resources.Picture
+        Me.cmdPayGiftCard.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayGiftCard.Location = New System.Drawing.Point(403, 13)
+        Me.cmdPayGiftCard.Name = "cmdPayGiftCard"
+        Me.cmdPayGiftCard.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayGiftCard.TabIndex = 35
+        Me.cmdPayGiftCard.Text = "G&ift Card"
+        Me.cmdPayGiftCard.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayGiftCard, "Payment is by Store Credit Card")
+        Me.cmdPayGiftCard.UseVisualStyleBackColor = False
+        Me.cmdPayGiftCard.Visible = False
         '
-        'imgLogo
+        'cmdPayStoreCard
         '
-        Me.imgLogo.Location = New System.Drawing.Point(691, 385)
-        Me.imgLogo.Name = "imgLogo"
-        Me.imgLogo.Size = New System.Drawing.Size(71, 52)
-        Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.imgLogo.TabIndex = 19
-        Me.imgLogo.TabStop = False
+        Me.cmdPayStoreCard.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayStoreCard.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayStoreCard.Image = Global.WinCDS.My.Resources.Resources.storecard
+        Me.cmdPayStoreCard.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayStoreCard.Location = New System.Drawing.Point(324, 13)
+        Me.cmdPayStoreCard.Name = "cmdPayStoreCard"
+        Me.cmdPayStoreCard.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayStoreCard.TabIndex = 34
+        Me.cmdPayStoreCard.Text = "S&tore Card"
+        Me.cmdPayStoreCard.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayStoreCard, "Payment is by Store Credit Card")
+        Me.cmdPayStoreCard.UseVisualStyleBackColor = False
+        '
+        'cmdPayDebit
+        '
+        Me.cmdPayDebit.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayDebit.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayDebit.Image = Global.WinCDS.My.Resources.Resources.debit
+        Me.cmdPayDebit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayDebit.Location = New System.Drawing.Point(244, 13)
+        Me.cmdPayDebit.Name = "cmdPayDebit"
+        Me.cmdPayDebit.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayDebit.TabIndex = 33
+        Me.cmdPayDebit.Text = "D&ebit"
+        Me.cmdPayDebit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayDebit, "Payment is by Debit Card.")
+        Me.cmdPayDebit.UseVisualStyleBackColor = False
+        '
+        'cmdPayCredit
+        '
+        Me.cmdPayCredit.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayCredit.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayCredit.Image = Global.WinCDS.My.Resources.Resources.mastercard
+        Me.cmdPayCredit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayCredit.Location = New System.Drawing.Point(165, 13)
+        Me.cmdPayCredit.Name = "cmdPayCredit"
+        Me.cmdPayCredit.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayCredit.TabIndex = 32
+        Me.cmdPayCredit.Text = "C&redit"
+        Me.cmdPayCredit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayCredit, "Take a credit card.  You will be prompted for the card type.")
+        Me.cmdPayCredit.UseVisualStyleBackColor = False
+        '
+        'cmdPayCheck
+        '
+        Me.cmdPayCheck.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayCheck.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayCheck.Image = Global.WinCDS.My.Resources.Resources.check
+        Me.cmdPayCheck.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayCheck.Location = New System.Drawing.Point(86, 13)
+        Me.cmdPayCheck.Name = "cmdPayCheck"
+        Me.cmdPayCheck.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayCheck.TabIndex = 31
+        Me.cmdPayCheck.Text = "C&heck"
+        Me.cmdPayCheck.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayCheck, "Take a check from the customer.  Remember to check ID!")
+        Me.cmdPayCheck.UseVisualStyleBackColor = False
+        '
+        'cmdPayCash
+        '
+        Me.cmdPayCash.BackColor = System.Drawing.SystemColors.Window
+        Me.cmdPayCash.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdPayCash.Image = Global.WinCDS.My.Resources.Resources.cash
+        Me.cmdPayCash.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdPayCash.Location = New System.Drawing.Point(7, 13)
+        Me.cmdPayCash.Name = "cmdPayCash"
+        Me.cmdPayCash.Size = New System.Drawing.Size(75, 69)
+        Me.cmdPayCash.TabIndex = 30
+        Me.cmdPayCash.Text = "C&ash"
+        Me.cmdPayCash.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.cmdPayCash, "Accept a Cash payment.")
+        Me.cmdPayCash.UseVisualStyleBackColor = False
         '
         'lblEnterStyle
         '
@@ -311,72 +406,56 @@ Partial Class frmCashRegister
         Me.cmdTax.Text = "Tax:"
         Me.cmdTax.UseVisualStyleBackColor = True
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(620, 287)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(39, 13)
-        Me.Label1.TabIndex = 22
-        Me.Label1.Text = "Label1"
-        '
         'fraPaymentButtons
         '
-        Me.fraPaymentButtons.Location = New System.Drawing.Point(608, 180)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayReturnToSale)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayGiftCard)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayStoreCard)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayDebit)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayCredit)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayCheck)
+        Me.fraPaymentButtons.Controls.Add(Me.cmdPayCash)
+        Me.fraPaymentButtons.Location = New System.Drawing.Point(12, 397)
         Me.fraPaymentButtons.Name = "fraPaymentButtons"
-        Me.fraPaymentButtons.Size = New System.Drawing.Size(83, 54)
+        Me.fraPaymentButtons.Size = New System.Drawing.Size(563, 88)
         Me.fraPaymentButtons.TabIndex = 23
         Me.fraPaymentButtons.TabStop = False
-        Me.fraPaymentButtons.Text = "GroupBox1"
-        '
-        'chkSavePrinter
-        '
-        Me.chkSavePrinter.AutoSize = True
-        Me.chkSavePrinter.Location = New System.Drawing.Point(98, 45)
-        Me.chkSavePrinter.Name = "chkSavePrinter"
-        Me.chkSavePrinter.Size = New System.Drawing.Size(137, 17)
-        Me.chkSavePrinter.TabIndex = 25
-        Me.chkSavePrinter.Text = "Always Use This Printer"
-        Me.chkSavePrinter.UseVisualStyleBackColor = True
-        Me.chkSavePrinter.Visible = False
+        Me.fraPaymentButtons.Visible = False
         '
         'fraCust
         '
-        Me.fraCust.Controls.Add(Me.chkSavePrinter)
         Me.fraCust.Controls.Add(Me.lblCust)
         Me.fraCust.Location = New System.Drawing.Point(308, 130)
         Me.fraCust.Name = "fraCust"
-        Me.fraCust.Size = New System.Drawing.Size(267, 60)
+        Me.fraCust.Size = New System.Drawing.Size(316, 38)
         Me.fraCust.TabIndex = 26
         Me.fraCust.TabStop = False
         Me.fraCust.Text = "Customer:"
         Me.fraCust.Visible = False
         '
-        'CashRegisterPrinterSelector
-        '
-        Me.CashRegisterPrinterSelector.AllowDYMO = True
-        Me.CashRegisterPrinterSelector.AutoSelect = False
-        Me.CashRegisterPrinterSelector.Location = New System.Drawing.Point(308, 16)
-        Me.CashRegisterPrinterSelector.Name = "CashRegisterPrinterSelector"
-        Me.CashRegisterPrinterSelector.Size = New System.Drawing.Size(267, 108)
-        Me.CashRegisterPrinterSelector.TabIndex = 24
-        Me.CashRegisterPrinterSelector.Visible = False
-        '
         'fraEnterSku
         '
-        Me.fraEnterSku.Controls.Add(Me.cmdFND)
         Me.fraEnterSku.Controls.Add(Me.txtSku)
+        Me.fraEnterSku.Controls.Add(Me.cmdFND)
         Me.fraEnterSku.Controls.Add(Me.lblEnterStyle)
         Me.fraEnterSku.Controls.Add(Me.cmdComm)
-        Me.fraEnterSku.Location = New System.Drawing.Point(310, 193)
+        Me.fraEnterSku.Controls.Add(Me.cboSalesList)
+        Me.fraEnterSku.Location = New System.Drawing.Point(308, 191)
         Me.fraEnterSku.Name = "fraEnterSku"
-        Me.fraEnterSku.Size = New System.Drawing.Size(265, 76)
+        Me.fraEnterSku.Size = New System.Drawing.Size(316, 76)
         Me.fraEnterSku.TabIndex = 27
         Me.fraEnterSku.TabStop = False
         '
+        'txtSku
+        '
+        Me.txtSku.Location = New System.Drawing.Point(9, 18)
+        Me.txtSku.Name = "txtSku"
+        Me.txtSku.Size = New System.Drawing.Size(299, 20)
+        Me.txtSku.TabIndex = 22
+        '
         'cmdFND
         '
-        Me.cmdFND.Location = New System.Drawing.Point(156, 45)
+        Me.cmdFND.Location = New System.Drawing.Point(205, 45)
         Me.cmdFND.Name = "cmdFND"
         Me.cmdFND.Size = New System.Drawing.Size(61, 23)
         Me.cmdFND.TabIndex = 21
@@ -385,6 +464,7 @@ Partial Class frmCashRegister
         '
         'fraSaleTotals
         '
+        Me.fraSaleTotals.Controls.Add(Me.cmdDev)
         Me.fraSaleTotals.Controls.Add(Me.lblDueCaption)
         Me.fraSaleTotals.Controls.Add(Me.lblTenderedCaption)
         Me.fraSaleTotals.Controls.Add(Me.lblTotalCaption)
@@ -393,9 +473,9 @@ Partial Class frmCashRegister
         Me.fraSaleTotals.Controls.Add(Me.lblTax)
         Me.fraSaleTotals.Controls.Add(Me.lblTendered)
         Me.fraSaleTotals.Controls.Add(Me.lblDue)
-        Me.fraSaleTotals.Location = New System.Drawing.Point(306, 271)
+        Me.fraSaleTotals.Location = New System.Drawing.Point(311, 268)
         Me.fraSaleTotals.Name = "fraSaleTotals"
-        Me.fraSaleTotals.Size = New System.Drawing.Size(269, 124)
+        Me.fraSaleTotals.Size = New System.Drawing.Size(316, 124)
         Me.fraSaleTotals.TabIndex = 28
         Me.fraSaleTotals.TabStop = False
         '
@@ -433,35 +513,94 @@ Partial Class frmCashRegister
         Me.lblTotalCaption.Text = "Total:"
         Me.lblTotalCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
+        'imgLogo
+        '
+        Me.imgLogo.Location = New System.Drawing.Point(308, 12)
+        Me.imgLogo.Name = "imgLogo"
+        Me.imgLogo.Size = New System.Drawing.Size(316, 108)
+        Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.imgLogo.TabIndex = 19
+        Me.imgLogo.TabStop = False
+        '
+        'picReceipt
+        '
+        Me.picReceipt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.picReceipt.Location = New System.Drawing.Point(12, 12)
+        Me.picReceipt.Name = "picReceipt"
+        Me.picReceipt.Size = New System.Drawing.Size(267, 380)
+        Me.picReceipt.TabIndex = 18
+        Me.picReceipt.TabStop = False
+        '
+        'picReceiptContainer
+        '
+        Me.picReceiptContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.picReceiptContainer.Location = New System.Drawing.Point(12, 12)
+        Me.picReceiptContainer.Name = "picReceiptContainer"
+        Me.picReceiptContainer.Size = New System.Drawing.Size(267, 380)
+        Me.picReceiptContainer.TabIndex = 17
+        Me.picReceiptContainer.TabStop = False
+        '
+        'chkSavePrinter
+        '
+        Me.chkSavePrinter.AutoSize = True
+        Me.chkSavePrinter.Location = New System.Drawing.Point(487, 175)
+        Me.chkSavePrinter.Name = "chkSavePrinter"
+        Me.chkSavePrinter.Size = New System.Drawing.Size(137, 17)
+        Me.chkSavePrinter.TabIndex = 30
+        Me.chkSavePrinter.Text = "Always Use This Printer"
+        Me.chkSavePrinter.UseVisualStyleBackColor = True
+        Me.chkSavePrinter.Visible = False
+        '
+        'CashRegisterPrinterSelector
+        '
+        Me.CashRegisterPrinterSelector.AllowDYMO = True
+        Me.CashRegisterPrinterSelector.AutoSelect = False
+        Me.CashRegisterPrinterSelector.Location = New System.Drawing.Point(308, 12)
+        Me.CashRegisterPrinterSelector.Name = "CashRegisterPrinterSelector"
+        Me.CashRegisterPrinterSelector.Size = New System.Drawing.Size(316, 108)
+        Me.CashRegisterPrinterSelector.TabIndex = 24
+        Me.CashRegisterPrinterSelector.Visible = False
+        '
+        'cmdDev
+        '
+        Me.cmdDev.Location = New System.Drawing.Point(265, 88)
+        Me.cmdDev.Name = "cmdDev"
+        Me.cmdDev.Size = New System.Drawing.Size(40, 23)
+        Me.cmdDev.TabIndex = 24
+        Me.cmdDev.Text = "&D"
+        Me.cmdDev.UseVisualStyleBackColor = True
+        '
         'frmCashRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 514)
+        Me.ClientSize = New System.Drawing.Size(628, 489)
+        Me.Controls.Add(Me.chkSavePrinter)
+        Me.Controls.Add(Me.fraSaleButtons)
+        Me.Controls.Add(Me.CashRegisterPrinterSelector)
         Me.Controls.Add(Me.fraSaleTotals)
         Me.Controls.Add(Me.fraEnterSku)
         Me.Controls.Add(Me.fraCust)
-        Me.Controls.Add(Me.CashRegisterPrinterSelector)
         Me.Controls.Add(Me.fraPaymentButtons)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.imgLogo)
         Me.Controls.Add(Me.picReceipt)
         Me.Controls.Add(Me.picReceiptContainer)
         Me.Controls.Add(Me.vsbReceipt)
-        Me.Controls.Add(Me.fraSaleButtons)
-        Me.Controls.Add(Me.cboSalesList)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.Name = "frmCashRegister"
-        Me.Text = "frmCashRegister"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "WinCDS Cash Register"
         Me.fraSaleButtons.ResumeLayout(False)
-        CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.fraPaymentButtons.ResumeLayout(False)
         Me.fraCust.ResumeLayout(False)
-        Me.fraCust.PerformLayout()
         Me.fraEnterSku.ResumeLayout(False)
         Me.fraEnterSku.PerformLayout()
         Me.fraSaleTotals.ResumeLayout(False)
         Me.fraSaleTotals.PerformLayout()
+        CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picReceipt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picReceiptContainer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -474,7 +613,6 @@ Partial Class frmCashRegister
     Friend WithEvents lblTax As Label
     Friend WithEvents lblTendered As Label
     Friend WithEvents lblDue As Label
-    Friend WithEvents txtSku As TextBox
     Friend WithEvents fraSaleButtons As GroupBox
     Friend WithEvents cmdPayment As Button
     Friend WithEvents cmdReturn As Button
@@ -489,10 +627,8 @@ Partial Class frmCashRegister
     Friend WithEvents ToolTip1 As ToolTip
     Friend WithEvents lblEnterStyle As Label
     Friend WithEvents cmdTax As Button
-    Friend WithEvents Label1 As Label
     Friend WithEvents fraPaymentButtons As GroupBox
     Friend WithEvents CashRegisterPrinterSelector As PrinterSelector
-    Friend WithEvents chkSavePrinter As CheckBox
     Friend WithEvents fraCust As GroupBox
     Friend WithEvents fraEnterSku As GroupBox
     Friend WithEvents cmdFND As Button
@@ -502,4 +638,14 @@ Partial Class frmCashRegister
     Friend WithEvents lblTotalCaption As Label
     Friend WithEvents cmdPurchaseGiftCard As Button
     Friend WithEvents cmdMainMenu As Button
+    Friend WithEvents cmdPayReturnToSale As Button
+    Friend WithEvents cmdPayGiftCard As Button
+    Friend WithEvents cmdPayStoreCard As Button
+    Friend WithEvents cmdPayDebit As Button
+    Friend WithEvents cmdPayCredit As Button
+    Friend WithEvents cmdPayCheck As Button
+    Friend WithEvents cmdPayCash As Button
+    Friend WithEvents txtSku As TextBox
+    Friend WithEvents chkSavePrinter As CheckBox
+    Friend WithEvents cmdDev As Button
 End Class

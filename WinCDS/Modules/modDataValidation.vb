@@ -434,4 +434,19 @@ AnError:
         End If
 GetPercentError:
     End Function
+
+    Public Function FormatVendorNo(ByVal VendorNo As String) As String
+        '::::FormatVendorNo
+        ':::SUMMARY
+        ':Used to format the Vendor Number.
+        ':::DESCRIPTION
+        ':Format the Vendor number , which helps to get,update data through SQL.
+        ':::PARAMETERS
+        ':-VendorNo-Denotes the current Vendor number.
+        ':::RETURN
+        ':String-Displays the result as a string.
+
+        FormatVendorNo = Format(Val(VendorNo), "000")
+    End Function
+
 End Module
