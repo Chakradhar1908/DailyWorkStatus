@@ -1,4 +1,5 @@
-﻿Public Class frmCashRegister
+﻿Imports System.ComponentModel
+Public Class frmCashRegister
     Dim SaleItems() As clsSaleItem
     Dim Processing As Boolean
     Dim RunningTotal As Decimal
@@ -94,6 +95,12 @@
 
         'MoveReceipt(picReceipt.CurrentY)
         'MoveReceipt(picReceipt.Location.Y)
+        CashRegisterPrinterSelector.SetSelectedPrinter(CashRegisterPrinter)
+        If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
+            imgLogo.Visible = False
+            CashRegisterPrinterSelector.Visible = True
+            chkSavePrinter.Visible = True
+        End If
         Show()                             ' Show the form.
         On Error Resume Next
         'SetFocus
@@ -102,14 +109,6 @@
 
         ' If there's no printer set up, get one.
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
-
-        CashRegisterPrinterSelector.SetSelectedPrinter(CashRegisterPrinter)
-        If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
-            imgLogo.Visible = False
-            CashRegisterPrinterSelector.Visible = True
-            chkSavePrinter.Visible = True
-        End If
-
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
         SetCustomer(0)
         GotCust = False
@@ -141,9 +140,9 @@
         If SaleComplete Then Exit Sub
         'picReceipt.Cls
         picReceipt.Image = Nothing
-        'Application.DoEvents()
+
         '<CT>
-        'Note: Commented this line, cause PrintReceiptHeader code will be directly written in Paint event.
+        'Note: Commented the below code and replacd it with Application.DoEvents(), cause this code will be directly written in Paint event.
         'PrintReceiptHeader(picReceipt)       ' Print the receipt header.
         '</CT>
         'Dim I As Integer
@@ -151,11 +150,11 @@
         'For I = LBound(SaleItems) To UBound(SaleItems)
         '    PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
         'Next
-        Application.DoEvents()
-Done:
-        Exit Sub
-ErrOut:
-        Resume Done
+        Application.DoEvents() 'This line will redirects to picReceipt picturebox's Paint event.
+        'Done:
+        '        Exit Sub
+        'ErrOut:
+        '        Resume Done
     End Sub
 
     Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
@@ -501,7 +500,7 @@ ErrOut:
     Private Sub cmdComm_Click(sender As Object, e As EventArgs) Handles cmdComm.Click
         Select Case cmdComm.Tag
             Case ""   ' "", 3840,720,375,375, "&C"
-                LoadSalesStaff
+                LoadSalesStaff()
                 cboSalesList.Visible = True
                 txtSku.Visible = False
                 cmdComm.Text = "&Select"
@@ -553,24 +552,20 @@ ErrOut:
         ' bfh20051202 - i want to use fracust, but Jerry doesn't like that way..
         ' it still holds the data tho
         fraCust.Visible = False
-
-        'cmdDev.Visible = IsDevelopment()
+        cmdDev.Visible = IsDevelopment()
         'MsgBox "frmCashReg: Form_load->"
-
     End Sub
 
     Private Sub cmdTax_Click(sender As Object, e As EventArgs) Handles cmdTax.Click
-        Dim g As Graphics = picReceipt.CreateGraphics
-        Dim x As Integer = 20
-        Dim y As Integer = 30
-        g.DrawString("Hello.", New Font("Arial", 12), Brushes.Black, x, y)
+        If SaleComplete Then Exit Sub
+        SetNonTaxable(Not NonTaxable)
     End Sub
 
     Private Sub cmdPayment_Click(sender As Object, e As EventArgs) Handles cmdPayment.Click
-        Dim g As Graphics = picReceipt.CreateGraphics
-        Dim x As Integer = 20
-        Dim y As Integer = 30
-        g.DrawString("Hello.", New Font("Arial", 12), Brushes.Black, x, y)
+        If SaleComplete Then Exit Sub
+        ' Hide charge/management frame, show payment frame.
+        ShowButtons(1)
+        txtSku.Select()
     End Sub
 
     Private Sub picReceipt_Paint(sender As Object, e As PaintEventArgs) Handles picReceipt.Paint
@@ -743,8 +738,62 @@ ErrOut:
         Dim I As Integer
         On Error GoTo ErrOut
         For I = LBound(SaleItems) To UBound(SaleItems)
-            PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
+            'PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
+            'Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
+            'Note: The below code is from Private Function PrintReceiptLine
+            Dim Q As Integer, Ic As Integer, P As Integer, Desc As String, Item As String
+
+            'If IsDymoPrinter(Dest) Then
+            If IsDymoPrinter(Printer) Then
+                Q = DYMO_QtyCol
+                Ic = DYMO_ItemCol
+                P = DYMO_PriceCol
+            Else
+                Q = QtyCol
+                Ic = ItemCol
+                P = PriceCol
+            End If
+
+            'Dest.FontSize = 10 '8
+            'If Trim(Desc) = "" Then Desc = "No description available"
+            If Trim(SaleItems(I).Desc) = "" Then Desc = "No description available"
+
+            'Do While Dest.TextWidth(Desc) > Dest.ScaleWidth - 100
+            '    Desc = Microsoft.VisualBasic.Left(Desc, Len(Desc) - 1)
+            'Loop
+            'If Dest.CurrentY > Dest.ScaleHeight - 2 * Dest.TextHeight("X") Then
+            '    On Error Resume Next
+            '    Dest.Height = Dest.CurrentY + 3 * Dest.TextHeight("X")
+            '    On Error GoTo 0
+            'End If
+
+            Item = SaleItems(I).Style
+            If Item = "PAYMENT" Or Item = "CHANGE" Or Item = "SALES TAX" Or Item = "SUBTOTAL" Then
+                'PrintToPosition(Dest, Desc, I, VBRUN.AlignConstants.vbAlignLeft, False)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, 160)
+            ElseIf Item = "--- Adj ---" Then
+                'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 180)
+                'Exit Function
+                Exit Sub
+            Else
+                'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 180)
+                If Item <> "DISCOUNT" Then
+                    'PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
+                    e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, 200)
+                End If
+                'PrintToPosition(Dest, Item, I, VBRUN.AlignConstants.vbAlignLeft, False)
+                e.Graphics.DrawString(Item, New Font("Arial", 10), MyBrush, Ic, 200)
+            End If
+            'PrintToPosition(Dest, CurrencyFormat(Price), P, VBRUN.AlignConstants.vbAlignRight, True)
+            e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, 200)
+            'End of PrintReceiptLine
         Next
+Done:
+        Exit Sub
+ErrOut:
+        Resume Done
     End Sub
 
     Private Sub cmdFND_Click(sender As Object, e As EventArgs) Handles cmdFND.Click
@@ -828,7 +877,7 @@ ErrOut:
         S = SelectOption("Select DEV MODE Function", frmSelectOption.ESelOpts.SelOpt_List + frmSelectOption.ESelOpts.SelOpt_ToItem, "Test Print Receipt")
 
         Select Case S
-            Case "Test Print Receipt" : TestPrintReceipt
+            Case "Test Print Receipt" : TestPrintReceipt()
         End Select
     End Sub
 
@@ -857,7 +906,7 @@ ErrOut:
             AddSaleItem(IQP)
             IQP = Nothing
 
-            RS.MoveNext
+            RS.MoveNext()
         Loop
 
         ReceiptPrinted = True
@@ -872,7 +921,7 @@ ErrOut:
         cmdCancelSale.Enabled = True
         cmdDone.Enabled = False
 
-        PrintReceipt
+        PrintReceipt()
         TestPrintReceipt = True
     End Function
 
@@ -957,7 +1006,7 @@ PrintReceiptError:
             Dest.Print("X ________________________")
             Dest.Print("            STORE COPY")
         Else
-            MainMenu.rtbn.File = CashRegisterMessageFile
+            MainMenu.rtbn.File = CashRegisterMessageFile()
             MainMenu.rtbn.FileRead(True)
             If MainMenu.rtbn.RichTextBox.Text <> "" Then Dest.Print(MainMenu.rtbn.RichTextBox.Text)
         End If
@@ -987,4 +1036,497 @@ PrintReceiptError:
         End If
     End Function
 
+    Private Function AddCashJournal(ByVal Amount As Decimal, ByVal TransType As Integer) As Boolean
+        AddNewCashJournalRecord(TransType, Amount, SaleNo, "CASH REGISTER", DateFormat(Today))
+    End Function
+
+    Private Function SelectLastItem() As clsSaleItem
+        Dim I As Integer
+        If IsNothing(SaleItems) Then Exit Function
+        If UBound(SaleItems) = -1 Then Exit Function
+        For I = UBound(SaleItems) To LBound(SaleItems) Step -1
+            Select Case SaleItems(I).Style
+                Case "PAYMENT", "DISCOUNT", "CHANGE", "SUBTOTAL", "SALES TAX"
+                Case Else
+                    SelectLastItem = SaleItems(I)
+                    Exit Function
+            End Select
+        Next
+        SelectLastItem = Nothing
+    End Function
+
+    Private Sub chkSavePrinter_CheckedChanged(sender As Object, e As EventArgs) Handles chkSavePrinter.CheckedChanged
+        If chkSavePrinter.Checked = True Then
+            If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
+                MessageBox.Show("You must select a printer first.", "WinCDS")
+            Else
+                'CashRegisterPrinter = CashRegisterPrinterSelector.GetSelectedPrinter.DeviceName
+                CashRegisterPrinter(, CashRegisterPrinterSelector.GetSelectedPrinter.DeviceName)
+                CashRegisterPrinterSelector.Visible = False
+                chkSavePrinter.Visible = False
+                chkSavePrinter.Checked = False   ' Only save once.
+                imgLogo.Visible = True
+                txtSku.Select()
+            End If
+        End If
+    End Sub
+
+    Private Function SalesCode() As String
+        Dim X As Integer
+        If cboSalesList.SelectedIndex < 0 Then Exit Function
+        'X = cboSalesList.itemData(cboSalesList.ListIndex)
+        X = CType(cboSalesList.Items(cboSalesList.SelectedIndex), ItemDataClass).ItemData
+        'bfh20051201 - changed from "" to "99" for default sales code to reflect normal sales
+        If X = -1 Then SalesCode = "99" Else SalesCode = Format(X, "00")
+    End Function
+
+    Private Sub cmdDiscount_Click(sender As Object, e As EventArgs) Handles cmdDiscount.Click
+        ' Change the price of the last item entered.. by percent or amount.
+        ' Log the change as part of the same Margin record, so reports still work..
+
+        If SaleComplete Then Exit Sub
+
+        Dim Dsc As clsSaleItem, PrevItem As clsSaleItem
+        PrevItem = SelectLastItem()
+        If PrevItem Is Nothing Then
+            MessageBox.Show("You must add an item to the sale before applying a discount.", "WinCDS")
+            Exit Sub
+        End If
+
+        If Not CheckAccess("Give Discounts", True, False, True) Then
+            ' Not authorized to give discounts.
+            txtSku.Select()
+            Exit Sub
+        End If
+
+        Dsc = frmCashRegisterQuantity.GetQuantityAndPrice("DISCOUNT", "", 0, True)
+        If Dsc Is Nothing Then Exit Sub
+        If Dsc.Price > 0 Then
+            ' Discounts always have 0 price, but may display a negative price.
+            ' That negative price is added to the discounted item's actual price, but not display price.
+            Select Case Dsc.Quantity
+                Case 2
+                    Dsc.DisplayPrice = -Format(Dsc.Price, "0.00")
+                    Dsc.Price = Dsc.DisplayPrice
+                    Dsc.Desc = "Flat Discount"
+                Case 1
+                    Dsc.DisplayPrice = -Format(QuerySubtotal() * Dsc.Price / 100, "0.00")
+                    Dsc.Desc = Format(Dsc.Price, "0") & "% Sale Discount"
+                    Dsc.Price = Dsc.DisplayPrice
+                Case Else
+                    Dsc.DisplayPrice = -Format(PrevItem.Price * Dsc.Price / 100, "0.00")
+                    Dsc.Desc = Format(Dsc.Price, "0") & "% Discount"
+                    Dsc.Price = 0
+                    PrevItem.Price = PrevItem.Price + Dsc.DisplayPrice
+            End Select
+            Dsc.NonTaxable = PrevItem.NonTaxable        ' Retain tax status from previous item.
+            ' Adjust previous sale item..
+            AddSaleItem(Dsc)              ' This needs to add it to the receipt.
+        End If
+        'cmdDiscount.Enabled = False
+
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdPayCash_Click(sender As Object, e As EventArgs) Handles cmdPayCash.Click
+        If SaleComplete Then ShowButtons(0) : Exit Sub
+        AddPayment(1)
+        ShowButtons(0)
+        On Error Resume Next
+        txtSku.Select()
+    End Sub
+
+    Private Function AddPayment(ByVal PmtType As Integer) As Boolean
+        Dim A As Decimal, Pmt As clsSaleItem
+        Dim X As New clsSaleItem
+
+        If SaleComplete Then Exit Function
+
+        A = GetPrice(lblDue.Text)
+        If A < 0 Then
+            If IsIn("" & PmtType, "3", "4", "5", "6") Then
+                Pmt = frmCashRegisterQuantity.DoReturn(-A, "3", "", "")
+            Else
+                Pmt = frmCashRegisterQuantity.DoReturn(-A, PmtType, "", "")
+            End If
+        Else
+            Pmt = frmCashRegisterQuantity.GetQuantityAndPrice("PAYMENT", PmtType, A, True)
+        End If
+
+        If Pmt Is Nothing Then Exit Function
+
+        Pmt.NonTaxable = True         ' Payments are never taxable, or they'd reduce tax.
+        AddSalesTax()                   ' Print sales tax before the subtotal..
+        AddSubtotal()                   ' Put a subtotal before every payment..
+        AddSaleItem(Pmt)               ' This needs to add it to the receipt.
+        If Pmt.Extra1 <> "" Then
+            X.Style = "--- Adj ---"
+            X.Desc = Pmt.Extra1
+            AddSaleItem(X)
+            X = Nothing
+        End If
+        If Pmt.Balance > 0 Then
+            Dim R As Decimal
+            R = Pmt.Balance
+            Pmt.Clear()
+            Pmt.Style = "NOTES"
+            Pmt.Desc = "CARD BALANCE: " & CurrencyFormat(R)
+            AddSaleItem(Pmt)
+        End If
+
+        DisposeDA(X)
+        AddPayment = True
+    End Function
+
+    Private Sub vsbReceipt_ValueChanged(sender As Object, e As EventArgs) Handles vsbReceipt.ValueChanged
+        'MoveReceipt(vsbReceipt.Value * picReceipt.TextHeight("X"))
+    End Sub
+
+    Private Function AddSalesJournal() As Boolean
+        Dim W As Decimal, T As Decimal, Sm As String, nT As Decimal
+        W = GetPrice(lblTotal.Text)
+        T = GetPrice(lblTax.Text)
+        Sm = Microsoft.VisualBasic.Left(GetLocalComputerName, 12)
+        nT = RunningTotal - TaxableAmt ' non taxable
+        AddNewAuditRecord(SaleNo, "NS CASH REGISTER", Today, W, T, 0, 0, 0, W, T, 1, Sm, nT)
+        '  Dim Sj As SalesJournal
+        '  With Sj
+        '    .LeaseNo = SaleNo
+        '    .Name1 = "CASH REGISTER"
+        '    .TransDate = DateFormat(Date)
+        '    .Written = lblTotal.Caption
+        '    .TaxCharged1 = lblTax.Caption
+        '' BFH20060331 - for delivered sales, ARCASHSALES needs to total out to 0.  Since this should be the only line, it must be zero here
+        ''    .ARCASHSALES = Format(GetPrice(.Written) + GetPrice(.TaxCharged1), "$0.00")
+        '    .ARCASHSALES = 0
+        '    .Controll = "(" & .ARCASHSALES & ")"
+        '    .UndSls = "$0.00"
+        '    .DelSls = .Written
+        '    .TaxRec1 = .TaxCharged1
+        '    .TaxCode = "1"
+        '    .Salesman = Left(GetLocalComputerName, 12)
+        '  End With
+        '  SalesJournal_SetStore StoresSld
+        '  SalesJournal_AddRecord Sj
+    End Function
+
+    Private Sub GetCustomer()
+        If Not StoreSettings.bUseCashRegisterAddress Then Exit Sub
+        SetCustomer(0)
+
+        GotCust = True
+        MC = MailCheck
+        'MC.optTelephone.Checked = True
+        MailCheckSaleNoChecked = False
+        MC.HidePriorSales = True
+        'MC.Show vbModal
+        MC.ShowDialog()
+        MC.HidePriorSales = False
+        If Not MC Is Nothing Then
+            'Unload MC
+            MC.Close()
+        End If
+
+        MC = Nothing
+    End Sub
+
+    Private Sub MC_Cancelled(ByRef PreventUnload As Boolean, ByRef PreventMainMenu As Boolean) Handles MC.Cancelled
+        'Unload MC
+        MC.Close()
+        SetCustomer(0)
+        '  Unload Me
+    End Sub
+
+    Private Sub MC_CustomerFound(MailIndex As Integer, ByRef Cancel As Boolean) Handles MC.CustomerFound
+        Cancel = True
+        'Unload MC
+        MC.Close()
+        EditCustomer(MailIndex)
+    End Sub
+
+    Private Sub EditCustomer(ByVal Index As Integer)
+        frmCashRegisterAddress.AddressType = 0
+        frmCashRegisterAddress.MailIndex = Index
+        'frmCashRegisterAddress.Show vbModal
+        frmCashRegisterAddress.ShowDialog()
+        SetCustomer(frmCashRegisterAddress.MailIndex)
+    End Sub
+
+    Private Sub MC_CustomerNotFound(ByRef Ignore As Boolean, ByRef DoUnload As Boolean) Handles MC.CustomerNotFound
+        Ignore = True
+        DoUnload = True
+        'Unload MC
+        MC.Close()
+        EditCustomer(0)
+    End Sub
+
+    Private Sub PromptForStyle()
+        'InvCkStyle.Show vbModal
+        InvCkStyle.ShowDialog()
+        If Not InvCkStyle.Canceled Then txtSku.Text = InvCkStyle.StyleCkIt
+        'Unload InvCkStyle
+        InvCkStyle.Close()
+    End Sub
+
+    Private Sub frmCashRegister_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+        If Not GotCust Then GetCustomer()
+    End Sub
+
+    Private Sub cmdMainMenu_Click(sender As Object, e As EventArgs) Handles cmdMainMenu.Click
+        Me.Close()
+    End Sub
+
+    Private Sub cmdPayCheck_Click(sender As Object, e As EventArgs) Handles cmdPayCheck.Click
+        If SaleComplete Then ShowButtons(0) : Exit Sub
+        AddPayment(2)
+        ShowButtons(0)
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdPayCredit_Click(sender As Object, e As EventArgs) Handles cmdPayCredit.Click
+        If SaleComplete Then ShowButtons(0) : Exit Sub
+        AddPayment(3)  ' Which credit type?  3/4/5/6=VISA/MC/DISC/AMEX
+        ShowButtons(0)
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdPayDebit_Click(sender As Object, e As EventArgs) Handles cmdPayDebit.Click
+        If SaleComplete Then ShowButtons(0) : Exit Sub
+        AddPayment(9)
+        ShowButtons(0)
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdPayStoreCard_Click(sender As Object, e As EventArgs) Handles cmdPayStoreCard.Click
+        If SaleComplete Then ShowButtons(0) : Exit Sub
+        AddPayment(12)
+        ShowButtons(0)
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdPayReturnToSale_Click(sender As Object, e As EventArgs) Handles cmdPayReturnToSale.Click
+        ShowButtons(0)
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdReturn_Click(sender As Object, e As EventArgs) Handles cmdReturn.Click
+        If SaleComplete Then Exit Sub
+        ' Make them scan returned item..
+        SetReturnMode(Not ReturnMode)
+        txtSku.Select()
+    End Sub
+
+    Private Sub cmdCancelSale_Click(sender As Object, e As EventArgs) Handles cmdCancelSale.Click
+        ' Clear the sale..
+        BeginSale()
+        On Error Resume Next
+        txtSku.Select()
+        GetCustomer()
+    End Sub
+
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        PrintReceipt()
+    End Sub
+
+    Private Sub cmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click
+        Dim Commable As String, NeedsSignature As Boolean
+        Dim Cst As Decimal, Frt As Decimal
+        ' If the sale's not ready to be completed, give a warning.
+        ' Or better yet, don't have this button enabled at all.
+        ' A cash&carry sale is not ready if:
+        '   No items
+        '   Cash due
+        '   Change due?
+        If IsNothing(SaleItems) Then Exit Sub  ' Silent error, no items on sale.
+
+        AddSalesTax() ' If tax hasn't been added, add it now.
+
+        If Val(lblDue.Text) > 0 Then
+            MessageBox.Show("There is money due.  Sales must be paid in full at time of purchase.", "WinCDS")
+            Exit Sub
+        End If
+
+        If Val(lblDue.Text) < 0 Then
+            ' Change is always given in cash.
+            Dim Itm As clsSaleItem
+            Itm = New clsSaleItem
+            Itm.Desc = "CHANGE (CASH)"
+            Itm.NonTaxable = True
+            Itm.Price = GetPrice(lblDue.Text)
+            Itm.DisplayPrice = Itm.Price
+            Itm.Quantity = 1
+            Itm.Style = "CHANGE"
+            AddSaleItem(Itm)
+            DisposeDA(Itm)
+        End If
+
+        Dim I As Integer, SaleName As String, SaleIndex As String
+        Dim cMR As clsMailRec
+        If MailIndex = 0 Then
+            SaleIndex = "0"
+            SaleName = "CASH REGISTER"
+        Else
+            SaleIndex = MailIndex
+            cMR = New clsMailRec
+            If cMR.Load(SaleIndex, "#Index") Then
+                SaleName = cMR.Last
+            Else
+                SaleName = "CASH REGISTER [UNKNOWN]"  ' just in case
+            End If
+            DisposeDA(cMR)
+        End If
+
+        cmdDone.Enabled = False
+        cmdCancelSale.Enabled = False
+        cmdMainMenu.Enabled = False
+        cmdPayment.Enabled = False
+        cmdReturn.Enabled = False
+        cmdDiscount.Enabled = False
+        cmdPrint.Enabled = False
+
+        ' Process the sale.  Prompt for next sale?
+        ' Create holding record.
+        ' The store really has to be in Auto-HoldingID mode.
+        ' Add lines to GrossMargin.
+        ' Decrement 2Data quantities.
+        ' Add lines to Detail?
+        ' Add lines to Cash+Sales journals.
+        ' It would be very good to have a single function for "Add this item to this sale",
+        ' with all detailed accounting taken care of within that.
+
+        Dim Holding As cHolding
+        Holding = New cHolding
+        Holding.LeaseNo = GetLeaseNumber()                  ' Create a lease number.
+        Holding.Deposit = GetPrice(lblTendered.Text)     ' Amount paid.
+        Holding.Sale = GetPrice(lblTotal.Text) + GetPrice(lblTax.Text)      ' Total amount of sale, with tax
+        Holding.NonTaxable = RunningTotal - TaxableAmt      ' Amount that's not taxable..
+        Holding.LastPay = Today
+        Holding.Salesman = SalesCode()                        ' Who's logged in?
+        '  Commable = IIf(Holding.Salesman = "", "", "C")
+        Holding.Status = "D"                                ' All Cash Register sales are delivered.
+        Holding.Comm = "N"                                  ' Commission isn't paid
+        Holding.Index = Val(SaleIndex)
+        Holding.Save()
+        SaleNo = Holding.LeaseNo
+
+        For I = LBound(SaleItems) To UBound(SaleItems)
+            Select Case SaleItems(I).Style
+                Case "PAYMENT", "CHANGE"
+                    ' Save as payment.
+                    ' Deal with description...
+                    SaveNewMarginRecord(Holding.LeaseNo, "PAYMENT", SaleItems(I).Desc & Space(5) & DateFormat(Today), SaleItems(I).Quantity, SaleItems(I).Price,
+                      "", "", "", 0, 0, 0, "", "", "DEL", Holding.Salesman,
+                      StoresSld, Today, Today, StoresSld, SaleName, Today, "",
+                      SaleIndex, "100", 0, "", "", "", Nothing, SaleItems(I).TransID)
+                    AddCashJournal(SaleItems(I).Price, SaleItems(I).Quantity)
+                Case "DISCOUNT"
+                    ' Save as a note, zero cost.
+                    SaveNewMarginRecord(Holding.LeaseNo, "NOTES", "DISCOUNT (" & SaleItems(I).Price & ")", 0, SaleItems(I).Price,
+                      "", "", "", 0, 0, 0, "", "", "DEL", Holding.Salesman,
+                      StoresSld, Today, Today, StoresSld, SaleName, Today, "",
+                      SaleIndex, "0", 0, "", "", "", Nothing, "")
+                Case "SALES TAX"
+                    SaveNewMarginRecord(Holding.LeaseNo, "TAX1", "SALES TAX", 1, SaleItems(I).Price,
+                      "", "", "", 0, 0, 0, "", "", "DEL", Holding.Salesman,
+                      0, Today, Today, StoresSld, SaleName, Today, "",
+                      SaleIndex, "0", 0, "", "", "", Nothing, "")
+                Case "SUBTOTAL"
+                    SaveNewMarginRecord(Holding.LeaseNo, "SUB", "Sub Total =", 0, SaleItems(I).Price,
+                      "", "", "", 0, 0, 0, "", "", "DEL", Holding.Salesman,
+                      0, Today, Today, StoresSld, SaleName, Today, "",
+                      SaleIndex, "0", 0, "", "", "", Nothing, "")
+                Case "--- Adj ---"
+                    SaveNewMarginRecord(Holding.LeaseNo, "--- Adj ---", SaleItems(I).Desc, 0, 0,
+                      "", "", "", 0, 0, 0, "", "", "DEL", Holding.Salesman,
+                      0, Today, Today, StoresSld, SaleName, Today, "",
+                      SaleIndex, "0", 0, "", "", "", Nothing, "")
+                    NeedsSignature = True
+                Case Else
+                    ' Actual item style..
+                    Dim InvData As CInvRec, Found As Boolean
+                    Dim Dpt As Integer, RN As Integer, GM As Double, ST As String
+                    InvData = New CInvRec
+                    Found = InvData.Load(SaleItems(I).Style, "Style")
+
+                    If Found Or SaleItems(I).Status = "FND" Then
+                        ' BFH20051219 ItemCost
+                        '            Cst = InvData.Cost
+                        If Found Then
+                            Cst = GetItemCost(SaleItems(I).Style, StoresSld, , SaleItems(I).Quantity)
+                            Frt = (InvData.Landed - InvData.Cost) * SaleItems(I).Quantity
+                            Dpt = InvData.DeptNo
+                            RN = InvData.RN
+                            GM = CalculateGM(SaleItems(I).Price, InvData.Landed)
+                            ST = "DELTW"
+                        Else
+                            Cst = 0
+                            Frt = 0
+                            Dpt = 0
+                            RN = 0
+                            GM = 100
+                            ST = "DELFND"
+                        End If
+
+                        Dim Xmar As CGrossMargin, Xdet As CInventoryDetail
+                        Xmar = SaveNewMarginRecord(Holding.LeaseNo, SaleItems(I).Style, SaleItems(I).Desc, SaleItems(I).Quantity, SaleItems(I).Price,
+            SaleItems(I).Vendor, Dpt, SaleItems(I).VendorNo, Cst, Frt, RN, "", Commable, ST, Holding.Salesman,
+            StoresSld, Today, Today, StoresSld, SaleName, Today, "",
+            SaleIndex, GM, 0, "", "", "", Nothing, "")
+
+
+                        If RN <> 0 Then ' No Detail on FND
+                            ' These are handled by CreateDetailRecord.
+                            '              UpdateQuarterlySales InvData, SaleItems(I).Quantity, Date
+                            '              UpdateInventoryQuantity InvData, SaleItems(I).Quantity, StoresSld
+                            Xdet = CreateDetailRecord(InvData, SaleNo, SaleName, SaleItems(I).Quantity, "DELTW", StoresSld, Today, 0, Xmar.MarginLine)
+                            Xmar.Detail = Xdet.DetailID
+                            Xmar.Save()
+
+                            InvData.Save()
+                        End If
+
+                        DisposeDA(Xdet, Xmar)
+                    Else
+                        MessageBox.Show("Error saving item: " & SaleItems(I).Style & ".", "WinCDS")
+                    End If
+                    DisposeDA(InvData)
+            End Select
+        Next
+
+        AddSalesJournal()            ' Save an audit record.
+
+        DisposeDA(Holding)
+        PrintReceiptTrailer(picReceipt) ' Add datestamp and any trailing notes..
+        'MoveReceipt(picReceipt.CurrentY)
+        MoveReceipt(picReceipt.Top)
+        SaleComplete = True
+
+        OpenCashDrawer()            ' Open the drawer to accept payment and make change.
+
+        SalePackageUpdate(SaleNo)  ' update package-related fields.
+
+        cmdMainMenu.Enabled = True
+        cmdPrint.Enabled = True   ' Allow reprints after the first printing run.
+        If SwipeCards() And NeedsSignature Then
+            PrintReceipt(True)
+        End If
+        PrintReceipt(False)        ' And always print the sale right away.
+        cmdCancelSale.Text = "Next Sale"
+        'cmdCancelSale.ToolTipText = "Click to begin a new sale.  This data has been saved."
+        ToolTip1.SetToolTip(cmdCancelSale, "Click to begin a new sale.  This data has been saved.")
+        cmdCancelSale.Enabled = True
+        cmdDone.Enabled = False
+        txtSku.Select()
+    End Sub
+
+    Private Sub frmCashRegister_DoubleClick(sender As Object, e As EventArgs) Handles MyBase.DoubleClick
+        If Not IsDevelopment() Then Exit Sub
+        If fraSaleTotals.Tag = "" Then
+            'ControlLoading(fraSaleTotals)
+            fraSaleTotals.Tag = "1"
+        Else
+            'ControlLoadingRemove(fraSaleTotals)
+            fraSaleTotals.Tag = ""
+        End If
+    End Sub
 End Class

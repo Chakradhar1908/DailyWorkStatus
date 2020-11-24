@@ -798,9 +798,10 @@ Module modMainMenu
                         '          MsgBox "cashreg: 2"
                         'frmCashRegister.HelpContextID = 42500
                         '          MsgBox "cashreg: 3"
+                        Order = "CashRegister"
                         frmCashRegister.BeginSale()
                         'frmCashRegister.HelpContextID = 42500
-                        Order = "CashRegister"
+                        'Order = "CashRegister"
                     Case "deliver"
                         If CrippleBug("Delivering Sales") Then Exit Function
                         If Not CheckAccess("Deliver Sales") Then Exit Function

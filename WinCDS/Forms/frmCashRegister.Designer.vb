@@ -56,6 +56,7 @@ Partial Class frmCashRegister
         Me.txtSku = New System.Windows.Forms.TextBox()
         Me.cmdFND = New System.Windows.Forms.Button()
         Me.fraSaleTotals = New System.Windows.Forms.GroupBox()
+        Me.cmdDev = New System.Windows.Forms.Button()
         Me.lblDueCaption = New System.Windows.Forms.Label()
         Me.lblTenderedCaption = New System.Windows.Forms.Label()
         Me.lblTotalCaption = New System.Windows.Forms.Label()
@@ -64,7 +65,6 @@ Partial Class frmCashRegister
         Me.picReceiptContainer = New System.Windows.Forms.PictureBox()
         Me.chkSavePrinter = New System.Windows.Forms.CheckBox()
         Me.CashRegisterPrinterSelector = New WinCDS.PrinterSelector()
-        Me.cmdDev = New System.Windows.Forms.Button()
         Me.fraSaleButtons.SuspendLayout()
         Me.fraPaymentButtons.SuspendLayout()
         Me.fraCust.SuspendLayout()
@@ -461,6 +461,7 @@ Partial Class frmCashRegister
         Me.cmdFND.TabIndex = 21
         Me.cmdFND.Text = "&FND"
         Me.cmdFND.UseVisualStyleBackColor = True
+        Me.cmdFND.Visible = False
         '
         'fraSaleTotals
         '
@@ -478,6 +479,15 @@ Partial Class frmCashRegister
         Me.fraSaleTotals.Size = New System.Drawing.Size(316, 124)
         Me.fraSaleTotals.TabIndex = 28
         Me.fraSaleTotals.TabStop = False
+        '
+        'cmdDev
+        '
+        Me.cmdDev.Location = New System.Drawing.Point(265, 88)
+        Me.cmdDev.Name = "cmdDev"
+        Me.cmdDev.Size = New System.Drawing.Size(40, 23)
+        Me.cmdDev.TabIndex = 24
+        Me.cmdDev.Text = "&D"
+        Me.cmdDev.UseVisualStyleBackColor = True
         '
         'lblDueCaption
         '
@@ -560,15 +570,6 @@ Partial Class frmCashRegister
         Me.CashRegisterPrinterSelector.Size = New System.Drawing.Size(316, 108)
         Me.CashRegisterPrinterSelector.TabIndex = 24
         Me.CashRegisterPrinterSelector.Visible = False
-        '
-        'cmdDev
-        '
-        Me.cmdDev.Location = New System.Drawing.Point(265, 88)
-        Me.cmdDev.Name = "cmdDev"
-        Me.cmdDev.Size = New System.Drawing.Size(40, 23)
-        Me.cmdDev.TabIndex = 24
-        Me.cmdDev.Text = "&D"
-        Me.cmdDev.UseVisualStyleBackColor = True
         '
         'frmCashRegister
         '

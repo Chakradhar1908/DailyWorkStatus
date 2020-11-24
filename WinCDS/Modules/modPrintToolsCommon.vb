@@ -947,14 +947,31 @@ PrinterDialogCancelled:
     ' registry settings seemed to be misbehaving for United under a terminal-services environment
     ' config table should behave the same but not have any permissions/security issues
     ' so long as the program has been running smoothly already
-    Public ReadOnly Property CashRegisterPrinter(Optional ByVal StoreNo As Integer = 0) As String
-        Get
+    'Public ReadOnly Property CashRegisterPrinter(Optional ByVal StoreNo As Integer = 0) As String
+    '    Get
+    '        Dim F As String, F1 As String
+    '        F1 = "Cash Register Printer"
+    '        If StoreNo = 0 Then StoreNo = StoresSld
+    '        F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
+    '        CashRegisterPrinter = GetConfigTableValue(F, GetCDSSetting(F1))
+    '    End Get
+    'End Property
+    Public Function CashRegisterPrinter(Optional ByVal StoreNo As Integer = 0, Optional ByVal nValue As String = "")
+        If nValue = "" Then
+            'Get
             Dim F As String, F1 As String
             F1 = "Cash Register Printer"
             If StoreNo = 0 Then StoreNo = StoresSld
             F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
             CashRegisterPrinter = GetConfigTableValue(F, GetCDSSetting(F1))
-        End Get
-    End Property
-
+        Else
+            'Let
+            Dim F As String, F1 As String
+            F1 = "Cash Register Printer"
+            If StoreNo = 0 Then StoreNo = StoresSld
+            F = IIf(StoreNo <= 1, F1, F1 & " " & StoreNo)
+            SetConfigTableValue(F, nValue)
+            SaveCDSSetting(F1, nValue)
+        End If
+    End Function
 End Module
