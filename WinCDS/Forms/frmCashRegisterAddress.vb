@@ -1,6 +1,7 @@
 ﻿Public Class frmCashRegisterAddress
     Private mMailIndex As Integer, MailRec As clsMailRec, MailShip As MailNew2
     Private mAtype As Integer
+    Dim UserClose As Boolean
 
     Public Property MailIndex() As Integer
         Get
@@ -41,7 +42,6 @@
         Else
             'chkBusiness.Value = 0
             chkBusiness.Checked = False
-
             txtFirstName.Text = MailShip.ShipToFirst
             txtLastName.Text = MailShip.ShipToLast
             txtAdd1.Text = MailShip.Address2
@@ -79,8 +79,10 @@
 
     Private Sub frmCashRegisterAddress_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         'If UnloadMode = vbFormControlMenu Then MailIndex = 0    ' X on top corner is same as cancel
-        If e.CloseReason = CloseReason.UserClosing Then
-            MailIndex = 0
+        If UserClose = True Then
+            If e.CloseReason = CloseReason.UserClosing Then
+                MailIndex = 0
+            End If
         End If
         DisposeDA(MailRec)
     End Sub
@@ -97,7 +99,6 @@
     Private Sub StoreChanges()
         If AddressType = 0 Then
             MailRec.Business = (chkBusiness.Checked = True)
-
             MailRec.First = Trim(txtFirstName.Text)
             MailRec.Last = Trim(txtLastName.Text)
             MailRec.Address = Trim(txtAdd1.Text)
@@ -130,8 +131,8 @@
         chkBusiness.Visible = ShipOnly
 
         txtFirstName.Visible = Not Bus
-        txtLastName.Left = IIf(Bus, txtFirstName.Left, 2040)
-        txtLastName.Width = IIf(Bus, 2415, 1215)
+        txtLastName.Left = IIf(Bus, txtFirstName.Left, 157)
+        txtLastName.Width = IIf(Bus, 200, 100)
 
         txtAdd2.Visible = ShipOnly
         txtPhone2.Visible = ShipOnly
@@ -152,8 +153,12 @@
     Private Sub cmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
         StoreChanges()
         If Not UpdateCustomerInfo() Then Exit Sub
+        '<CT>
+        UserClose = False
+        '</CT>
         'Unload Me
         Me.Close()
+        UserClose = True
     End Sub
 
     Private Sub txtFirstName_Enter(sender As Object, e As EventArgs) Handles txtFirstName.Enter

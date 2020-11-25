@@ -25,6 +25,7 @@ Public Class frmCashRegister
     Private Const DYMO_ItemCol As Integer = 30
     'Private Const DYMO_PriceCol As Integer = 2900
     Private Const DYMO_PriceCol As Integer = 200
+    Dim MailCheckFormLoaded As Boolean
 
     Public ReadOnly Property MailZip() As String
         Get
@@ -725,14 +726,22 @@ Public Class frmCashRegister
             e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, DYMO_PriceCol, 140) : Tp()
             tPr()
         Else
-            'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
-            e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, QtyCol, 140) : Tp()
-            'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
-            e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, ItemCol, 140) : Tp()
-            'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
-            e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, PriceCol, 140) : Tp()
+            If MailIndex = 0 Then
+                'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+                e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, QtyCol, 140) : Tp()
+                'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+                e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, ItemCol, 140) : Tp()
+                'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+                e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, PriceCol, 140) : Tp()
+            Else
+                'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+                e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, QtyCol, 200) : Tp()
+                'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+                e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, ItemCol, 200) : Tp()
+                'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+                e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, PriceCol, 200) : Tp()
+            End If
         End If
-
 
         'Note: The below code is from Private Sub RefreshReceipt()
         Dim I As Integer
@@ -1221,6 +1230,7 @@ PrintReceiptError:
         MC.HidePriorSales = True
         'MC.Show vbModal
         MC.ShowDialog()
+        'MC.Dispose()
         MC.HidePriorSales = False
         If Not MC Is Nothing Then
             'Unload MC
@@ -1241,6 +1251,7 @@ PrintReceiptError:
         Cancel = True
         'Unload MC
         MC.Close()
+        MC.Dispose()
         EditCustomer(MailIndex)
     End Sub
 
@@ -1269,7 +1280,10 @@ PrintReceiptError:
     End Sub
 
     Private Sub frmCashRegister_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
-        If Not GotCust Then GetCustomer()
+        If MailCheckFormLoaded = False Then
+            If Not GotCust Then GetCustomer()
+            MailCheckFormLoaded = True
+        End If
     End Sub
 
     Private Sub cmdMainMenu_Click(sender As Object, e As EventArgs) Handles cmdMainMenu.Click
@@ -1528,5 +1542,60 @@ PrintReceiptError:
             'ControlLoadingRemove(fraSaleTotals)
             fraSaleTotals.Tag = ""
         End If
+    End Sub
+
+    Private Sub frmCashRegister_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'queryunload of vb6.0
+        If Not cmdMainMenu.Enabled Then e.Cancel = True
+
+        'form unload of vb6.0
+        modProgramState.Order = ""
+        MainMenu.Show()                        ' Always go back to the main menu after a sale..
+    End Sub
+
+    Private Sub imgLogo_DoubleClick(sender As Object, e As EventArgs) Handles imgLogo.DoubleClick
+        imgLogo.Visible = False
+        CashRegisterPrinterSelector.Visible = True
+        chkSavePrinter.Visible = True
+    End Sub
+
+    Private Sub fraCust_Click(sender As Object, e As EventArgs) Handles fraCust.Click
+        If cmdCancelSale.Text = "Cancel Sale" Then GetCustomer()
+    End Sub
+
+    Private Sub lblCust_Click(sender As Object, e As EventArgs) Handles lblCust.Click
+        If cmdCancelSale.Text = "Cancel Sale" Then GetCustomer()
+    End Sub
+
+    Private Sub picReceipt_Enter(sender As Object, e As EventArgs) Handles picReceipt.Enter
+        On Error Resume Next  ' Somehow this is possible when the price/qty form is loaded modal.
+        txtSku.Select()
+    End Sub
+
+    Private Sub txtSku_DoubleClick(sender As Object, e As EventArgs) Handles txtSku.DoubleClick
+        PromptForStyle()
+    End Sub
+
+    Private Sub txtSku_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSku.KeyPress
+        'If KeyAscii = 13 Or KeyAscii = 9 Then
+        '    ProcessSku()
+        'Else
+        '    KeyAscii = Asc(UCase(Chr(KeyAscii)))
+        'End If
+
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 9 Then
+            ProcessSku()
+        Else
+            e.KeyChar = UCase(e.KeyChar)
+        End If
+    End Sub
+
+    Private Sub txtSku_Leave(sender As Object, e As EventArgs) Handles txtSku.Leave
+        ' Some barcode scanners terminate a scan with VbTab.
+        ' In that case, this event traps the scanned barcode.
+        If SaleComplete Then Exit Sub     ' Do nothing if the sale is final.
+        If Processing Then Exit Sub       ' Don't do this if doing something else
+        If cmdFND.Visible Then Exit Sub   ' LostFocus would block Click
+        ProcessSku()
     End Sub
 End Class
