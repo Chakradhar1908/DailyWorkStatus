@@ -96,22 +96,30 @@ Public Class frmCashRegister
 
         'MoveReceipt(picReceipt.CurrentY)
         'MoveReceipt(picReceipt.Location.Y)
+        On Error GoTo 0
         CashRegisterPrinterSelector.SetSelectedPrinter(CashRegisterPrinter)
         If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
             imgLogo.Visible = False
             CashRegisterPrinterSelector.Visible = True
             chkSavePrinter.Visible = True
         End If
+        SetCustomer(0)
         Show()                             ' Show the form.
         On Error Resume Next
         'SetFocus
         txtSku.Select()                     ' And give focus to the SKU entry box.
-        On Error GoTo 0
+        'On Error GoTo 0
 
         ' If there's no printer set up, get one.
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
+        'CashRegisterPrinterSelector.SetSelectedPrinter(CashRegisterPrinter) --------> NOTE: Moved this line to above Show() method. Reason: Code exeuction sequence is different from vb6.0 code. Continuing it here will give wrong output.
+        'If CashRegisterPrinterSelector.GetSelectedPrinter Is Nothing Then
+        '    imgLogo.Visible = False
+        '    CashRegisterPrinterSelector.Visible = True
+        '    chkSavePrinter.Visible = True
+        'End If
         'If gD Then MsgBox "frmCashReg:  " & F: F = F + 1
-        SetCustomer(0)
+        'SetCustomer(0) --------> NOTE: Moved this line to above Show() method. Reason: Code exeuction sequence is different from vb6.0 code. Continuing it here will give wrong output.
         GotCust = False
     End Sub
 
@@ -873,7 +881,7 @@ ErrOut:
         Else
             ' Item not found.
             'BFH20170104 - Adding FND support..
-            MessageBox.Show("This item could not be found in the database!" & vbCrLf2 & "To enter an Item Not in Inventory, click FND.", "Item Not Found")
+            MessageBox.Show("This item could not be found in the database!" & vbCrLf2 & "To enter an Item Not in Inventory, click FND.", "Item Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error)
             '    txtSku = ""
             cmdFND.Visible = True
             FocusControl(txtSku)

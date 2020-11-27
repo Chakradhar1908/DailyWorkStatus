@@ -90,6 +90,7 @@ Partial Class frmCashRegister
         Me.cmdComm.Size = New System.Drawing.Size(39, 23)
         Me.cmdComm.TabIndex = 1
         Me.cmdComm.Text = "&C"
+        Me.ToolTip1.SetToolTip(Me.cmdComm, "Select salesman for commission.")
         Me.cmdComm.UseVisualStyleBackColor = True
         '
         'cboSalesList
@@ -452,6 +453,8 @@ Partial Class frmCashRegister
         Me.txtSku.Name = "txtSku"
         Me.txtSku.Size = New System.Drawing.Size(299, 20)
         Me.txtSku.TabIndex = 22
+        Me.ToolTip1.SetToolTip(Me.txtSku, "Type or scan the item's style number here.  You will be prompted for quantity and" &
+        " price changes.")
         '
         'cmdFND
         '
