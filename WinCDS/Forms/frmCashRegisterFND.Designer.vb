@@ -28,11 +28,11 @@ Partial Class frmCashRegisterFND
         Me.cmbVendor = New System.Windows.Forms.ComboBox()
         Me.txtDesc = New System.Windows.Forms.TextBox()
         Me.fraFND = New System.Windows.Forms.GroupBox()
-        Me.lblPrice = New System.Windows.Forms.Label()
-        Me.lblVendor = New System.Windows.Forms.Label()
-        Me.lblDesc = New System.Windows.Forms.Label()
-        Me.cmdOK = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.cmdOK = New System.Windows.Forms.Button()
+        Me.lblDesc = New System.Windows.Forms.Label()
+        Me.lblVendor = New System.Windows.Forms.Label()
+        Me.lblPrice = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.fraFND.SuspendLayout()
         Me.SuspendLayout()
@@ -83,28 +83,31 @@ Partial Class frmCashRegisterFND
         Me.fraFND.Controls.Add(Me.lblStyle)
         Me.fraFND.Location = New System.Drawing.Point(6, 6)
         Me.fraFND.Name = "fraFND"
-        Me.fraFND.Size = New System.Drawing.Size(245, 190)
+        Me.fraFND.Size = New System.Drawing.Size(245, 199)
         Me.fraFND.TabIndex = 4
         Me.fraFND.TabStop = False
         Me.fraFND.Text = "Enter Found Item Information:"
         '
-        'lblPrice
+        'cmdCancel
         '
-        Me.lblPrice.AutoSize = True
-        Me.lblPrice.Location = New System.Drawing.Point(39, 56)
-        Me.lblPrice.Name = "lblPrice"
-        Me.lblPrice.Size = New System.Drawing.Size(34, 13)
-        Me.lblPrice.TabIndex = 1
-        Me.lblPrice.Text = "&Price:"
+        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.cmdCancel.Location = New System.Drawing.Point(134, 138)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 53)
+        Me.cmdCancel.TabIndex = 5
+        Me.cmdCancel.Text = "&Cancel"
+        Me.ToolTip1.SetToolTip(Me.cmdCancel, "Click to cancel this item.  It will not be added to the sale.")
+        Me.cmdCancel.UseVisualStyleBackColor = True
         '
-        'lblVendor
+        'cmdOK
         '
-        Me.lblVendor.AutoSize = True
-        Me.lblVendor.Location = New System.Drawing.Point(31, 84)
-        Me.lblVendor.Name = "lblVendor"
-        Me.lblVendor.Size = New System.Drawing.Size(44, 13)
-        Me.lblVendor.TabIndex = 2
-        Me.lblVendor.Text = "&Vendor:"
+        Me.cmdOK.Location = New System.Drawing.Point(41, 138)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(75, 53)
+        Me.cmdOK.TabIndex = 4
+        Me.cmdOK.Text = "&OK"
+        Me.ToolTip1.SetToolTip(Me.cmdOK, "Click here to add this item to the sale.")
+        Me.cmdOK.UseVisualStyleBackColor = True
         '
         'lblDesc
         '
@@ -115,26 +118,23 @@ Partial Class frmCashRegisterFND
         Me.lblDesc.TabIndex = 3
         Me.lblDesc.Text = "&Desc:"
         '
-        'cmdOK
+        'lblVendor
         '
-        Me.cmdOK.Location = New System.Drawing.Point(41, 138)
-        Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 46)
-        Me.cmdOK.TabIndex = 4
-        Me.cmdOK.Text = "&OK"
-        Me.ToolTip1.SetToolTip(Me.cmdOK, "Click here to add this item to the sale.")
-        Me.cmdOK.UseVisualStyleBackColor = True
+        Me.lblVendor.AutoSize = True
+        Me.lblVendor.Location = New System.Drawing.Point(31, 84)
+        Me.lblVendor.Name = "lblVendor"
+        Me.lblVendor.Size = New System.Drawing.Size(44, 13)
+        Me.lblVendor.TabIndex = 2
+        Me.lblVendor.Text = "&Vendor:"
         '
-        'cmdCancel
+        'lblPrice
         '
-        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Location = New System.Drawing.Point(134, 138)
-        Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 46)
-        Me.cmdCancel.TabIndex = 5
-        Me.cmdCancel.Text = "&Cancel"
-        Me.ToolTip1.SetToolTip(Me.cmdCancel, "Click to cancel this item.  It will not be added to the sale.")
-        Me.cmdCancel.UseVisualStyleBackColor = True
+        Me.lblPrice.AutoSize = True
+        Me.lblPrice.Location = New System.Drawing.Point(39, 56)
+        Me.lblPrice.Name = "lblPrice"
+        Me.lblPrice.Size = New System.Drawing.Size(34, 13)
+        Me.lblPrice.TabIndex = 1
+        Me.lblPrice.Text = "&Price:"
         '
         'frmCashRegisterFND
         '
@@ -142,7 +142,7 @@ Partial Class frmCashRegisterFND
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.cmdCancel
-        Me.ClientSize = New System.Drawing.Size(254, 200)
+        Me.ClientSize = New System.Drawing.Size(254, 209)
         Me.Controls.Add(Me.fraFND)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "frmCashRegisterFND"
