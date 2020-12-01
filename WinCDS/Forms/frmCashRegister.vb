@@ -26,6 +26,9 @@ Public Class frmCashRegister
     'Private Const DYMO_PriceCol As Integer = 2900
     Private Const DYMO_PriceCol As Integer = 200
     Dim MailCheckFormLoaded As Boolean
+    Dim MultiRows As Boolean
+    Dim TopValue(0) As Integer, TopValue2(0) As Integer
+    Dim Y As Integer, YY As Integer
 
     Public ReadOnly Property MailZip() As String
         Get
@@ -159,7 +162,7 @@ Public Class frmCashRegister
         'For I = LBound(SaleItems) To UBound(SaleItems)
         '    PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
         'Next
-        Application.DoEvents() 'This line will redirects to picReceipt picturebox's Paint event.
+        'Application.DoEvents() 'This line will redirects to picReceipt picturebox's Paint event.
         'Done:
         '        Exit Sub
         'ErrOut:
@@ -491,9 +494,12 @@ Public Class frmCashRegister
             If Not Itm.NonTaxable Then TaxableAmt = TaxableAmt + Itm.Price
         End If
 
-        PrintReceiptLine(picReceipt, Itm.Quantity, Itm.Desc, Itm.Style, Itm.DisplayPrice)
-        MoveReceipt(picReceipt.Location.Y)
+        'Application.DoEvents()
 
+        'PrintReceiptLine(picReceipt, Itm.Quantity, Itm.Desc, Itm.Style, Itm.DisplayPrice)
+        'MoveReceipt(picReceipt.Location.Y)
+        MultiRows = True
+        picReceipt_Paint(New Object, New PaintEventArgs(picReceipt.CreateGraphics, New Rectangle))
         lblTotal.Text = CurrencyFormat(RunningTotal)
         If NonTaxable Then
             lblTax.Text = "0.00"
@@ -563,6 +569,8 @@ Public Class frmCashRegister
         fraCust.Visible = False
         cmdDev.Visible = IsDevelopment()
         'MsgBox "frmCashReg: Form_load->"
+        TopValue(0) = 220
+        TopValue2(0) = 235
     End Sub
 
     Private Sub cmdTax_Click(sender As Object, e As EventArgs) Handles cmdTax.Click
@@ -727,11 +735,11 @@ Public Class frmCashRegister
         If IsDymoPrinter(picReceipt) Then
             tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
             'PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
-            e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, DYMO_QtyCol, 140) : Tp()
+            e.Graphics.DrawString("QTY", New Font("Arial", 10), MyBrush, DYMO_QtyCol, 200) : Tp()
             'PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
-            e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, DYMO_ItemCol, 140) : Tp()
+            e.Graphics.DrawString("ITEM", New Font("Arial", 10), MyBrush, DYMO_ItemCol, 200) : Tp()
             'PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
-            e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, DYMO_PriceCol, 140) : Tp()
+            e.Graphics.DrawString("PRICE", New Font("Arial", 10), MyBrush, DYMO_PriceCol, 200) : Tp()
             tPr()
         Else
             If MailIndex = 0 Then
@@ -751,6 +759,9 @@ Public Class frmCashRegister
             End If
         End If
 
+        If MultiRows = False Then Exit Sub
+        Y = 220
+        YY = 240
         'Note: The below code is from Private Sub RefreshReceipt()
         Dim I As Integer
         On Error GoTo ErrOut
@@ -773,7 +784,11 @@ Public Class frmCashRegister
 
             'Dest.FontSize = 10 '8
             'If Trim(Desc) = "" Then Desc = "No description available"
-            If Trim(SaleItems(I).Desc) = "" Then Desc = "No description available"
+            If Trim(SaleItems(I).Desc) = "" Then
+                Desc = "No description available"
+            Else
+                Desc = Trim(SaleItems(I).Desc)
+            End If
 
             'Do While Dest.TextWidth(Desc) > Dest.ScaleWidth - 100
             '    Desc = Microsoft.VisualBasic.Left(Desc, Len(Desc) - 1)
@@ -783,34 +798,109 @@ Public Class frmCashRegister
             '    Dest.Height = Dest.CurrentY + 3 * Dest.TextHeight("X")
             '    On Error GoTo 0
             'End If
+            'Dim TopValue(0) As Integer, Y As Integer
+            'Dim TopValue2(0) As Integer
+            'TopValue(0) = 220
 
+            'Y = TopValue(0)
+            'YY = TopValue2(0)
             Item = SaleItems(I).Style
             If Item = "PAYMENT" Or Item = "CHANGE" Or Item = "SALES TAX" Or Item = "SUBTOTAL" Then
                 'PrintToPosition(Dest, Desc, I, VBRUN.AlignConstants.vbAlignLeft, False)
-                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, 160)
+                'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, 220)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, Y)
             ElseIf Item = "--- Adj ---" Then
                 'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
-                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 180)
+                'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 220)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, Y)
                 'Exit Function
                 Exit Sub
             Else
                 'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
-                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 180)
+                'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 220)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, Y)
                 If Item <> "DISCOUNT" Then
                     'PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
-                    e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, 200)
+                    'e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, 235)
+                    e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, YY)
                 End If
                 'PrintToPosition(Dest, Item, I, VBRUN.AlignConstants.vbAlignLeft, False)
-                e.Graphics.DrawString(Item, New Font("Arial", 10), MyBrush, Ic, 200)
+                'e.Graphics.DrawString(Item, New Font("Arial", 10), MyBrush, Ic, 235)
+                e.Graphics.DrawString(Item, New Font("Arial", 10), MyBrush, Ic, YY)
             End If
             'PrintToPosition(Dest, CurrencyFormat(Price), P, VBRUN.AlignConstants.vbAlignRight, True)
-            e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, 200)
+            'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, 235)
+            e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
             'End of PrintReceiptLine
+            'Y = TopValue(0)
+            TopValue(0) = Y + 20
+            Y = Y + 40
+            'YY = TopValue2(0)
+            TopValue2(0) = YY + 15
+            YY = YY + 40
         Next
 Done:
+        MultiRows = False
         Exit Sub
 ErrOut:
         Resume Done
+
+        'PrintReceiptLine(picReceipt, Itm.Quantity, Itm.Desc, Itm.Style, Itm.DisplayPrice)
+        'Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
+        Dim Q2 As Integer, I2 As Integer, P2 As Integer
+
+        If IsDymoPrinter(picReceipt) Then
+            Q2 = DYMO_QtyCol
+            I2 = DYMO_ItemCol
+            P2 = DYMO_PriceCol
+        Else
+            Q2 = QtyCol
+            I2 = ItemCol
+            P2 = PriceCol
+        End If
+
+        Dim Itm As clsSaleItem
+        Dim Descc As String, Item2 As String, Qty2 As Double, Price2 As Decimal
+        'Dest.FontSize = 10 '8
+        'If Trim(Desc) = "" Then Desc = "No description available"
+        If Trim(Itm.Desc) = "" Then
+            Descc = "No description available"
+        Else
+            Descc = Trim(Itm.Desc)
+        End If
+
+        'Do While Dest.TextWidth(Desc) > Dest.ScaleWidth - 100
+        '    Desc = Microsoft.VisualBasic.Left(Desc, Len(Desc) - 1)
+        'Loop
+        'If Dest.CurrentY > Dest.ScaleHeight - 2 * Dest.TextHeight("X") Then
+        '    On Error Resume Next
+        '    Dest.Height = Dest.CurrentY + 3 * Dest.TextHeight("X")
+        '    On Error GoTo 0
+        'End If
+
+        Item2 = Itm.Style
+        Qty2 = Itm.Quantity
+        Price2 = Itm.DisplayPrice
+        If Item2 = "PAYMENT" Or Item2 = "CHANGE" Or Item2 = "SALES TAX" Or Item2 = "SUBTOTAL" Then
+            'PrintToPosition(Dest, Desc, I, VBRUN.AlignConstants.vbAlignLeft, False)
+            e.Graphics.DrawString(Descc, New Font("Arial", 10), MyBrush, I2, 255)
+        ElseIf Item2 = "--- Adj ---" Then
+            'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+            e.Graphics.DrawString(Descc, New Font("Arial", 10), MyBrush, I2, 255)
+            'Exit Function
+            Exit Sub
+        Else
+            'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+            e.Graphics.DrawString(Descc, New Font("Arial", 10), MyBrush, I2, 255)
+            If Item2 <> "DISCOUNT" Then
+                'PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
+                e.Graphics.DrawString(CStr(Qty2), New Font("Arial", 10), MyBrush, Q2, 270)
+            End If
+            'PrintToPosition(Dest, Item, I, VBRUN.AlignConstants.vbAlignLeft, False)
+            e.Graphics.DrawString(Item2, New Font("Arial", 10), MyBrush, I2, 270)
+        End If
+        'PrintToPosition(Dest, CurrencyFormat(Price), P, VBRUN.AlignConstants.vbAlignRight, True)
+        e.Graphics.DrawString(CurrencyFormat(Price2), New Font("Arial", 10), MyBrush, P2, 270)
     End Sub
 
     Private Sub cmdFND_Click(sender As Object, e As EventArgs) Handles cmdFND.Click
