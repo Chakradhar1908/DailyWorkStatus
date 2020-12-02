@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Drawing
 Public Class frmCashRegister
     Dim SaleItems() As clsSaleItem
     Dim Processing As Boolean
@@ -569,8 +570,14 @@ Public Class frmCashRegister
         fraCust.Visible = False
         cmdDev.Visible = IsDevelopment()
         'MsgBox "frmCashReg: Form_load->"
-        TopValue(0) = 220
-        TopValue2(0) = 235
+        'TopValue(0) = 220
+        'TopValue2(0) = 235
+
+        'Dim b As Bitmap = New Bitmap(600, 600)
+        'Dim g As Graphics = Graphics.FromImage(b)
+        'picReceipt.BackgroundImage = b
+        'picReceipt.Size = b.Size
+        PictureboxScroll()
     End Sub
 
     Private Sub cmdTax_Click(sender As Object, e As EventArgs) Handles cmdTax.Click
@@ -592,6 +599,13 @@ Public Class frmCashRegister
         'Dim PixelsAcross As Integer = 20
         'Dim PixelsDown As Integer = 30
         'e.Graphics.DrawString(StringToDraw, StringFont, MyBrush, PixelsAcross, PixelsDown)
+
+        Dim b As Bitmap = New Bitmap(600, 800)
+        'Dim g As Graphics = Graphics.FromImage(b)
+        e.Graphics.FillRectangle(Brushes.White, New Rectangle(0, 0, b.Width, b.Height))
+        'picReceipt.BackgroundImage = b
+        'picReceipt.Size = b.Size
+        'pnlPicReceipt.Size = New Size(200, 200)
         '----------------------------------------------------------------------------------
 
         Dim LogoW As Integer, LogoH As Integer
@@ -759,7 +773,7 @@ Public Class frmCashRegister
             End If
         End If
 
-        If MultiRows = False Then Exit Sub
+        'If MultiRows = False Then Exit Sub
         Y = 220
         YY = 240
         'Note: The below code is from Private Sub RefreshReceipt()
@@ -812,13 +826,13 @@ Public Class frmCashRegister
             ElseIf Item = "--- Adj ---" Then
                 'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
                 'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 220)
-                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, Y)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 5, Y)
                 'Exit Function
                 Exit Sub
             Else
                 'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
                 'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 220)
-                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, Y)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 5, Y)
                 If Item <> "DISCOUNT" Then
                     'PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
                     'e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, 235)
@@ -833,14 +847,14 @@ Public Class frmCashRegister
             e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
             'End of PrintReceiptLine
             'Y = TopValue(0)
-            TopValue(0) = Y + 20
+            'TopValue(0) = Y + 20
             Y = Y + 40
             'YY = TopValue2(0)
-            TopValue2(0) = YY + 15
+            'TopValue2(0) = YY + 15
             YY = YY + 40
         Next
 Done:
-        MultiRows = False
+        'MultiRows = False
         Exit Sub
 ErrOut:
         Resume Done
@@ -1665,7 +1679,7 @@ PrintReceiptError:
         If cmdCancelSale.Text = "Cancel Sale" Then GetCustomer()
     End Sub
 
-    Private Sub picReceipt_Enter(sender As Object, e As EventArgs) Handles picReceipt.Enter
+    Private Sub picReceipt_Enter(sender As Object, e As EventArgs)
         On Error Resume Next  ' Somehow this is possible when the price/qty form is loaded modal.
         txtSku.Select()
     End Sub
@@ -1695,5 +1709,23 @@ PrintReceiptError:
         If Processing Then Exit Sub       ' Don't do this if doing something else
         If cmdFND.Visible Then Exit Sub   ' LostFocus would block Click
         ProcessSku()
+    End Sub
+
+    Private Sub PictureboxScroll()
+        'pnlPicReceipt.SuspendLayout()
+        'Me.SuspendLayout()
+        pnlPicReceipt.AutoScroll = True
+        'pnlPicReceipt.AutoScrollMinSize = New Size(600, 400)
+        'pnlPicReceipt.AutoScrollMinSize = New Size(600, 800)
+        pnlPicReceipt.AutoScrollMinSize = New Size(200, 800)
+        pnlPicReceipt.Size = New Size(298, 384)
+
+        picReceipt.Dock = DockStyle.Fill
+        picReceipt.Location = New Point(0, 0)
+        'picReceipt.Size = New Size(600, 400)
+        picReceipt.Size = New Size(600, 800)
+        picReceipt.TabStop = False
+        'pnlPicReceipt.ResumeLayout(False)
+        'Me.ResumeLayout(False)
     End Sub
 End Class
