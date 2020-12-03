@@ -47,8 +47,8 @@ Partial Class frmCashRegisterQuantity
         Me.optDiscType0 = New System.Windows.Forms.RadioButton()
         Me.tmrLocate = New System.Windows.Forms.Timer(Me.components)
         Me.tmrSwipe = New System.Windows.Forms.Timer(Me.components)
-        Me.imgCheat = New System.Windows.Forms.PictureBox()
         Me.lblNext = New System.Windows.Forms.Label()
+        Me.imgCheat = New System.Windows.Forms.PictureBox()
         Me.fraDiscType.SuspendLayout()
         CType(Me.imgCheat, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -89,7 +89,6 @@ Partial Class frmCashRegisterQuantity
         Me.lblDesc.Name = "lblDesc"
         Me.lblDesc.Size = New System.Drawing.Size(200, 48)
         Me.lblDesc.TabIndex = 3
-        Me.lblDesc.Text = "lblDesc"
         '
         'lblSwipe
         '
@@ -105,18 +104,18 @@ Partial Class frmCashRegisterQuantity
         'cmdApply
         '
         Me.cmdApply.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdApply.Location = New System.Drawing.Point(85, 181)
+        Me.cmdApply.Location = New System.Drawing.Point(85, 178)
         Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.Size = New System.Drawing.Size(75, 47)
+        Me.cmdApply.Size = New System.Drawing.Size(72, 52)
         Me.cmdApply.TabIndex = 5
         Me.cmdApply.Text = "&Apply"
         Me.cmdApply.UseVisualStyleBackColor = True
         '
         'cmdSwipe
         '
-        Me.cmdSwipe.Location = New System.Drawing.Point(85, 181)
+        Me.cmdSwipe.Location = New System.Drawing.Point(85, 178)
         Me.cmdSwipe.Name = "cmdSwipe"
-        Me.cmdSwipe.Size = New System.Drawing.Size(75, 47)
+        Me.cmdSwipe.Size = New System.Drawing.Size(72, 52)
         Me.cmdSwipe.TabIndex = 6
         Me.cmdSwipe.Text = "S&wipe"
         Me.ToolTip1.SetToolTip(Me.cmdSwipe, "Click here to add this item to the sale.")
@@ -173,9 +172,9 @@ Partial Class frmCashRegisterQuantity
         'cmdCancel
         '
         Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Location = New System.Drawing.Point(166, 181)
+        Me.cmdCancel.Location = New System.Drawing.Point(166, 178)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 47)
+        Me.cmdCancel.Size = New System.Drawing.Size(72, 52)
         Me.cmdCancel.TabIndex = 15
         Me.cmdCancel.Text = "&Cancel"
         Me.ToolTip1.SetToolTip(Me.cmdCancel, "Click to cancel this item.  It will not be added to the sale.")
@@ -187,7 +186,7 @@ Partial Class frmCashRegisterQuantity
         Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
         Me.ShapeContainer1.Name = "ShapeContainer1"
         Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.shpSwipe})
-        Me.ShapeContainer1.Size = New System.Drawing.Size(341, 256)
+        Me.ShapeContainer1.Size = New System.Drawing.Size(341, 262)
         Me.ShapeContainer1.TabIndex = 11
         Me.ShapeContainer1.TabStop = False
         '
@@ -275,6 +274,17 @@ Partial Class frmCashRegisterQuantity
         '
         Me.tmrSwipe.Interval = 300
         '
+        'lblNext
+        '
+        Me.lblNext.AutoSize = True
+        Me.lblNext.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNext.Location = New System.Drawing.Point(48, 238)
+        Me.lblNext.Name = "lblNext"
+        Me.lblNext.Size = New System.Drawing.Size(243, 24)
+        Me.lblNext.TabIndex = 18
+        Me.lblNext.Text = "NEXT form swipes card! "
+        Me.lblNext.Visible = False
+        '
         'imgCheat
         '
         Me.imgCheat.Location = New System.Drawing.Point(277, 3)
@@ -283,24 +293,13 @@ Partial Class frmCashRegisterQuantity
         Me.imgCheat.TabIndex = 17
         Me.imgCheat.TabStop = False
         '
-        'lblNext
-        '
-        Me.lblNext.AutoSize = True
-        Me.lblNext.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNext.Location = New System.Drawing.Point(52, 231)
-        Me.lblNext.Name = "lblNext"
-        Me.lblNext.Size = New System.Drawing.Size(243, 24)
-        Me.lblNext.TabIndex = 18
-        Me.lblNext.Text = "NEXT form swipes card! "
-        Me.lblNext.Visible = False
-        '
         'frmCashRegisterQuantity
         '
         Me.AcceptButton = Me.cmdSwipe
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.cmdCancel
-        Me.ClientSize = New System.Drawing.Size(341, 256)
+        Me.ClientSize = New System.Drawing.Size(341, 262)
         Me.Controls.Add(Me.fraDiscType)
         Me.Controls.Add(Me.lblDesc)
         Me.Controls.Add(Me.cboChargeType)

@@ -2630,6 +2630,7 @@
     <Content Include="Code Snippet\NewSaleCodeSnippet.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\zoom.ico" />
     <None Include="Resources\returntosale.bmp" />
     <None Include="Resources\storecard.bmp" />
     <None Include="Resources\debit.bmp" />

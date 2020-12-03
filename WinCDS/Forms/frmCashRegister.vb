@@ -353,8 +353,8 @@ Public Class frmCashRegister
     Private Sub SetNonTaxable(ByVal mVal As Boolean)
         NonTaxable = mVal
         If NonTaxable Then
-            cmdTax.Width = 1100
-            cmdTax.Left = 595
+            cmdTax.Width = 77
+            cmdTax.Left = 40
             cmdTax.Text = "No Tax:"
             lblTax.Text = "0.00"
             'cmdTax.ToolTipText = "Sale is nontaxable.  Click here to make it taxable."
@@ -363,7 +363,7 @@ Public Class frmCashRegister
         Else
             cmdTax.Text = "Tax:"
             cmdTax.Width = 50
-            cmdTax.Left = 65
+            cmdTax.Left = 63
             lblTax.Text = CurrencyFormat(GetStoreTax1() * TaxableAmt)
             'cmdTax.ToolTipText = "Sale is taxable.  Click here to make it nontaxable."
             ToolTip1.SetToolTip(cmdTax, "Sale is taxable.  Click here to make it nontaxable.")
@@ -523,8 +523,8 @@ Public Class frmCashRegister
                 'cmdComm.Default = True
                 Me.AcceptButton = cmdComm
                 'cmdComm.Move 1800, 720, 855, 375
-                cmdComm.Location = New Point(130, 47)
-                cmdComm.Size = New Size(85, 23)
+                cmdComm.Location = New Point(146, 45)
+                cmdComm.Size = New Size(60, 26)
                 lblEnterStyle.Visible = False
                 cmdComm.Tag = "1"
             Case "1"  ' "1", 1800, 720, 855, 375, "&Select"
@@ -535,8 +535,8 @@ Public Class frmCashRegister
                 'cmdComm.Default = False
                 Me.AcceptButton = Nothing
                 'cmdComm.Move 3840, 720, 375, 375
-                cmdComm.Location = New Point(269, 47)
-                cmdComm.Size = New Size(39, 23)
+                cmdComm.Location = New Point(269, 45)
+                cmdComm.Size = New Size(39, 26)
                 lblEnterStyle.Visible = True
                 cmdComm.Tag = ""
         End Select
@@ -552,7 +552,8 @@ Public Class frmCashRegister
         For EE = LBound(Sm, 1) To UBound(Sm, 1)
             'cboSalesList.AddItem Sm(EE, 1), EE  ' - 1
             'cboSalesList.itemData(cboSalesList.NewIndex) = Sm(EE, 2)
-            cboSalesList.Items.Insert(EE, New ItemDataClass(Sm(EE, 1), Sm(EE, 2)))
+            'cboSalesList.Items.Insert(EE, New ItemDataClass(Sm(EE, 1), Sm(EE, 2)))
+            cboSalesList.Items.Insert(EE, New ItemDataClass(Sm(EE, 0), Sm(EE, 1)))
         Next
         'cboSalesList.AddItem "NO COMMISSION", 0
         'cboSalesList.itemData(cboSalesList.NewIndex) = -1
@@ -784,6 +785,7 @@ Public Class frmCashRegister
             'Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
             'Note: The below code is from Private Function PrintReceiptLine
             Dim Q As Integer, Ic As Integer, P As Integer, Desc As String, Item As String
+            Dim Z As Integer, Zincremented As Boolean
 
             'If IsDymoPrinter(Dest) Then
             If IsDymoPrinter(Printer) Then
@@ -822,7 +824,10 @@ Public Class frmCashRegister
             If Item = "PAYMENT" Or Item = "CHANGE" Or Item = "SALES TAX" Or Item = "SUBTOTAL" Then
                 'PrintToPosition(Dest, Desc, I, VBRUN.AlignConstants.vbAlignLeft, False)
                 'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, 220)
-                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, Y)
+                'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, Y)
+                e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, Ic, Z)
+                'Z = Z + 20
+                Zincremented = True
             ElseIf Item = "--- Adj ---" Then
                 'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
                 'e.Graphics.DrawString(Desc, New Font("Arial", 10), MyBrush, 50, 220)
@@ -844,11 +849,27 @@ Public Class frmCashRegister
             End If
             'PrintToPosition(Dest, CurrencyFormat(Price), P, VBRUN.AlignConstants.vbAlignRight, True)
             'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, 235)
-            e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
+            'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
+            If Item = "PAYMENT" Or Item = "CHANGE" Or Item = "SALES TAX" Or Item = "SUBTOTAL" Then
+                'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, Z)
+
+                Dim S As StringFormat = New StringFormat
+                S.FormatFlags = StringFormatFlags.DirectionRightToLeft
+                e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P + 42, Z, S)
+                'Z = Z + 20
+            Else
+                e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
+            End If
+
             'End of PrintReceiptLine
             'Y = TopValue(0)
             'TopValue(0) = Y + 20
             Y = Y + 40
+            If Zincremented = False Then
+                Z = Y
+            Else
+                Z = Z + 20
+            End If
             'YY = TopValue2(0)
             'TopValue2(0) = YY + 15
             YY = YY + 40
