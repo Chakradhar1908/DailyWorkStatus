@@ -786,6 +786,8 @@ Public Class frmCashRegister
             'Note: The below code is from Private Function PrintReceiptLine
             Dim Q As Integer, Ic As Integer, P As Integer, Desc As String, Item As String
             Dim Z As Integer, Zincremented As Boolean
+            Dim S As StringFormat = New StringFormat
+            S.FormatFlags = StringFormatFlags.DirectionRightToLeft
 
             'If IsDymoPrinter(Dest) Then
             If IsDymoPrinter(Printer) Then
@@ -841,7 +843,7 @@ Public Class frmCashRegister
                 If Item <> "DISCOUNT" Then
                     'PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
                     'e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, 235)
-                    e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q, YY)
+                    e.Graphics.DrawString(SaleItems(I).Quantity, New Font("Arial", 10), MyBrush, Q + 5, YY)
                 End If
                 'PrintToPosition(Dest, Item, I, VBRUN.AlignConstants.vbAlignLeft, False)
                 'e.Graphics.DrawString(Item, New Font("Arial", 10), MyBrush, Ic, 235)
@@ -851,11 +853,11 @@ Public Class frmCashRegister
             'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, 235)
             'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
             If Item = "PAYMENT" Or Item = "CHANGE" Or Item = "SALES TAX" Or Item = "SUBTOTAL" Then
-                'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, Z)
+                'e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, Y)
 
-                Dim S As StringFormat = New StringFormat
-                S.FormatFlags = StringFormatFlags.DirectionRightToLeft
-                e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P + 42, Z, S)
+                'Dim S As StringFormat = New StringFormat
+                'S.FormatFlags = StringFormatFlags.DirectionRightToLeft
+                e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, Z, S)
                 'Z = Z + 20
             Else
                 e.Graphics.DrawString(CurrencyFormat(SaleItems(I).DisplayPrice), New Font("Arial", 10), MyBrush, P, YY)
@@ -868,7 +870,7 @@ Public Class frmCashRegister
             If Zincremented = False Then
                 Z = Y
             Else
-                Z = Z + 20
+                Z = Z + 18
             End If
             'YY = TopValue2(0)
             'TopValue2(0) = YY + 15

@@ -299,7 +299,8 @@ Again:
             GetQuantityAndPrice.Quantity = Quantity       ' Return the form's quantity value.  This is set to nonzero by cmdApply, or zero otherwise.
 
             If GetQuantityAndPrice.Style = "DISCOUNT" Then
-                GetQuantityAndPrice.Quantity = Switch(optDiscType2, 2, optDiscType1, 1, True, 0)
+                'GetQuantityAndPrice.Quantity = Switch(optDiscType2, 2, optDiscType1, 1, True, 0)
+                GetQuantityAndPrice.Quantity = Switch(optDiscType2.Checked = True, 2, optDiscType1.Checked = True, 1, True, 0)
             End If
             DBG = "025"
             GetQuantityAndPrice.Price = Total             ' Also return the form's price value. This is also set by cmdApply.
