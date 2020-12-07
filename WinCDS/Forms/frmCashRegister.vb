@@ -30,6 +30,8 @@ Public Class frmCashRegister
     Dim MultiRows As Boolean
     Dim TopValue(0) As Integer, TopValue2(0) As Integer
     Dim Y As Integer, YY As Integer
+    Dim FromcmdDoneClick As Boolean
+    Dim CCSignParam As Boolean
 
     Public ReadOnly Property MailZip() As String
         Get
@@ -779,7 +781,9 @@ Public Class frmCashRegister
         YY = 240
         'Note: The below code is from Private Sub RefreshReceipt()
         Dim I As Integer
-        On Error GoTo ErrOut
+        'On Error GoTo ErrOut
+        If IsNothing(SaleItems) Then Exit Sub
+
         For I = LBound(SaleItems) To UBound(SaleItems)
             'PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
             'Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
@@ -876,11 +880,87 @@ Public Class frmCashRegister
             'TopValue2(0) = YY + 15
             YY = YY + 40
         Next
-Done:
+        'Done:
         'MultiRows = False
+        'Exit Sub
+        'ErrOut:
+        'Resume Done
+
+        If FromcmdDoneClick = True Then
+            'Private Function PrintReceiptTrailer(ByRef Dest As Object, Optional ByVal CCSign As Boolean = False) As Boolean
+            'Dim I As Integer
+            'Dest.FontSize = 10 '8
+            'If Dest.CurrentY > Dest.ScaleHeight - 1 * Dest.TextHeight("X") Then
+            '    On Error Resume Next ' Sometimes,it objects tothe 'height' being set..  Probably basedd on paper type..
+            '    Dest.Height = Dest.CurrentY + 1 * Dest.TextHeight("X")
+            '    Err.Clear()
+            '    On Error GoTo 0
+            'End If
+
+            ' Print time and sale number.
+            'PrintToPosition(Dest, Format(Now, DateFormatString() & " hh:mm") & " " & SaleNo, 0, VBRUN.AlignConstants.vbAlignLeft, True)
+            e.Graphics.DrawString(Format(Now, DateFormatString() & " hh:mm") & " " & SaleNo, New Font("Arial", 10), MyBrush, 0, YY)
+
+            ' Print special message..
+            'Dest.Print("")
+
+
+            'If CCSign Then
+            '    Dest.Print("I authorize the above transaction.")
+            '    Dest.Print("")
+            '    Dest.Print("")
+            '    Dest.Print("X ________________________")
+            '    Dest.Print("            STORE COPY")
+            'Else
+            '    MainMenu.rtbn.File = CashRegisterMessageFile()
+            '    MainMenu.rtbn.FileRead(True)
+            '    If MainMenu.rtbn.RichTextBox.Text <> "" Then Dest.Print(MainMenu.rtbn.RichTextBox.Text)
+            'End If
+            If CCSignParam = True Then
+                'Dest.Print("I authorize the above transaction.")
+                YY = YY + 20
+                e.Graphics.DrawString("I authorize the above transaction.", New Font("Arial", 10), MyBrush, 0, YY)
+                'Dest.Print("")
+                'Dest.Print("")
+                'Dest.Print("X ________________________")
+                YY = YY + 20
+                e.Graphics.DrawString("X ________________________", New Font("Arial", 10), MyBrush, 0, YY)
+                'Dest.Print("            STORE COPY")
+                YY = YY + 20
+                e.Graphics.DrawString("            STORE COPY", New Font("Arial", 10), MyBrush, 0, YY)
+            Else
+                MainMenu.rtbn.File = CashRegisterMessageFile()
+                MainMenu.rtbn.FileRead(True)
+                'If MainMenu.rtbn.RichTextBox.Text <> "" Then Dest.Print(MainMenu.rtbn.RichTextBox.Text)
+                If MainMenu.rtbn.RichTextBox.Text <> "" Then e.Graphics.DrawString(MainMenu.rtbn.RichTextBox.Text, New Font("Arial", 10), MyBrush, 0, YY + 20)
+            End If
+
+            ' special handling for DYMO receipt printer
+            'If Not IsDymoPrinter(Dest) Then
+            If Not IsDymoPrinter(picReceipt) Then
+                'bfh20050317 - needed 5 blank lines at the bottom of the receipt!!
+                'For I = 1 To 6
+                'Dest.Print(" ")
+                'Next
+
+                'If IsRobys() Then
+                'Else
+                'bfh20050317 - attempt to send <ESC>d0 to signal the receipt printer to cut the paper..
+                'Dest.Print(Chr(27) & "d0")
+                'End If
+            Else
+                'For I = 1 To 5
+                '    Dest.Print(" ")
+                'Next
+                'Dest.Print(".")
+            End If
+
+            'If TypeName(Dest) = "PictureBox" Then
+            '    TapePageLength = Dest.CurrentY
+            'End If
+        End If
         Exit Sub
-ErrOut:
-        Resume Done
+
 
         'PrintReceiptLine(picReceipt, Itm.Quantity, Itm.Desc, Itm.Style, Itm.DisplayPrice)
         'Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
@@ -1645,9 +1725,13 @@ PrintReceiptError:
         AddSalesJournal()            ' Save an audit record.
 
         DisposeDA(Holding)
-        PrintReceiptTrailer(picReceipt) ' Add datestamp and any trailing notes..
+        'PrintReceiptTrailer(picReceipt) ' Add datestamp and any trailing notes..
+        FromcmdDoneClick = True
+        CCSignParam = False
+        picReceipt_Paint(New Object, New PaintEventArgs(picReceipt.CreateGraphics, New Rectangle))
         'MoveReceipt(picReceipt.CurrentY)
-        MoveReceipt(picReceipt.Top)
+        'MoveReceipt(picReceipt.Top)
+        FromcmdDoneClick = False
         SaleComplete = True
 
         OpenCashDrawer()            ' Open the drawer to accept payment and make change.
@@ -1728,6 +1812,9 @@ PrintReceiptError:
     Private Sub txtSku_Leave(sender As Object, e As EventArgs) Handles txtSku.Leave
         ' Some barcode scanners terminate a scan with VbTab.
         ' In that case, this event traps the scanned barcode.
+        '<CT>
+        If cmdReturn.Text = "Scan Item" Then Exit Sub
+        '</CT>
         If SaleComplete Then Exit Sub     ' Do nothing if the sale is final.
         If Processing Then Exit Sub       ' Don't do this if doing something else
         If cmdFND.Visible Then Exit Sub   ' LostFocus would block Click
