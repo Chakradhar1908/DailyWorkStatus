@@ -22,6 +22,7 @@ Public Class frmCashRegister
     Private Const PriceCol As Integer = 210
     'Private Const DYMO_QtyCol As Integer = 500
     Private Const DYMO_QtyCol As Integer = 10
+    Private Const DYMO_QtyCol2 As Integer = 300
     'Private Const DYMO_ItemCol As Integer = 700
     Private Const DYMO_ItemCol As Integer = 30
     'Private Const DYMO_PriceCol As Integer = 2900
@@ -252,7 +253,8 @@ Public Class frmCashRegister
 
         Dest.CurrentX = 0
         Dest.CurrentY = 0
-        Dest.Font.Name = "Arial"
+        'Dest.Font.Name = "Arial"
+        Dest.FontName = "Arial"
 
         Dim PrintReceiptLogo As Boolean, PrintReceiptAddress As Boolean
         ' Logo on Tape removed: 20170105..  Has gone back and forth
@@ -285,11 +287,11 @@ Public Class frmCashRegister
             MaintainPictureRatio(imgLogo, LogoW, LogoH, False)
             Dest.PaintPicture(imgLogo.Image, 0, Dest.CurrentY, LogoW, LogoH)
             Dest.CurrentY = Dest.CurrentY + LogoH + 250
-
         End If
 
         If PrintReceiptAddress Then
-            Dest.Font.Bold = True
+            'Dest.Font.Bold = True
+            Dest.FontBold = True
             'Dest.FontSize = BestFontFit(Dest, StoreSettings.Name, 14, Dest.ScaleWidth - 100, 500)
             'PrintToPosition Dest, StoreSettings.Name, (Dest.ScaleWidth - Dest.ScaleLeft) / 2, vbAlignTop, True  ' AlignTop really means Center here.
 
@@ -298,8 +300,10 @@ Public Class frmCashRegister
             'PrintInBox Dest, StoreSettings.Name, 400, Dest.CurrentY, Dest.ScaleWidth - 800, Dest.TextHeight("X"), , vbCenter
             PrintInBox(Dest, StoreSettings.Name, 400, Dest.CurrentY, TapeScaleWidth - 1200, Dest.TextHeight("X"), , VBRUN.AlignmentConstants.vbCenter)
 
-            Dest.Font.Size = 10
-            Dest.Font.Bold = False
+            'Dest.Font.Size = 10
+            Dest.FontSize = 10
+            'Dest.Font.Bold = False
+            Dest.FontBold = False
             Dest.Print(vbCrLf)
             tPr("frmCashRegister.PrintReceiptHeader/PrintReceiptAddress")
 
@@ -314,15 +318,19 @@ Public Class frmCashRegister
             Dim cMR As New clsMailRec
             tPr("frmCashRegister.PrintReceiptHeader/PrintCustomerAddress")
             cMR.Load(MailIndex, "#Index") : Tp()
-            PrintToPosition(Dest, "Sold To:", DYMO_QtyCol - 200, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-            PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-            PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
-            PrintToPosition(Dest, "", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            'PrintToPosition(Dest, "Sold To:", DYMO_QtyCol - 200, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            PrintToPosition(Dest, "Sold To:", DYMO_QtyCol2, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            'PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol2 + 30, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            'PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol2 + 30, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            PrintToPosition(Dest, "", DYMO_QtyCol2, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
             DisposeDA(Nothing) : Tp()
             tPr()
         End If
 
-        Dest.Font.Size = 10
+        'Dest.Font.Size = 10
+        Dest.FontSize = 10
         If IsDymoPrinter(Dest) Then
             tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
             PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
@@ -330,9 +338,12 @@ Public Class frmCashRegister
             PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
             tPr()
         Else
-            PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
-            PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
-            PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+            'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+            PrintToPosition2(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False, 50)
+            'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+            PrintToPosition2(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False, 50)
+            'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+            PrintToPosition2(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True, 50)
         End If
     End Function
 
@@ -596,6 +607,7 @@ Public Class frmCashRegister
     End Sub
 
     Private Sub picReceipt_Paint(sender As Object, e As PaintEventArgs) Handles picReceipt.Paint
+        Dim Z As Integer, Zincremented As Boolean
         'Dim StringToDraw As String = "Hi there!! :-)"
         Dim MyBrush As New SolidBrush(Color.Black)
         'Dim StringFont As New Font("Arial", 20)
@@ -789,7 +801,7 @@ Public Class frmCashRegister
             'Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
             'Note: The below code is from Private Function PrintReceiptLine
             Dim Q As Integer, Ic As Integer, P As Integer, Desc As String, Item As String
-            Dim Z As Integer, Zincremented As Boolean
+
             Dim S As StringFormat = New StringFormat
             S.FormatFlags = StringFormatFlags.DirectionRightToLeft
 
@@ -899,8 +911,8 @@ Public Class frmCashRegister
 
             ' Print time and sale number.
             'PrintToPosition(Dest, Format(Now, DateFormatString() & " hh:mm") & " " & SaleNo, 0, VBRUN.AlignConstants.vbAlignLeft, True)
-            e.Graphics.DrawString(Format(Now, DateFormatString() & " hh:mm") & " " & SaleNo, New Font("Arial", 10), MyBrush, 0, YY)
-
+            e.Graphics.DrawString(Format(Now, DateFormatString() & " hh:mm") & " " & SaleNo, New Font("Arial", 10), MyBrush, 0, Z)
+            'e.Graphics.DrawString("Test", New Font("Arial", 10), MyBrush, 10, Z)
             ' Print special message..
             'Dest.Print("")
 
@@ -918,21 +930,22 @@ Public Class frmCashRegister
             'End If
             If CCSignParam = True Then
                 'Dest.Print("I authorize the above transaction.")
-                YY = YY + 20
-                e.Graphics.DrawString("I authorize the above transaction.", New Font("Arial", 10), MyBrush, 0, YY)
+                Z = Z + 40
+                e.Graphics.DrawString("I authorize the above transaction.", New Font("Arial", 10), MyBrush, 0, Z)
                 'Dest.Print("")
                 'Dest.Print("")
                 'Dest.Print("X ________________________")
-                YY = YY + 20
-                e.Graphics.DrawString("X ________________________", New Font("Arial", 10), MyBrush, 0, YY)
+                Z = Z + 40
+                e.Graphics.DrawString("X ________________________", New Font("Arial", 10), MyBrush, 0, Z)
                 'Dest.Print("            STORE COPY")
-                YY = YY + 20
-                e.Graphics.DrawString("            STORE COPY", New Font("Arial", 10), MyBrush, 0, YY)
+                Z = Z + 40
+                e.Graphics.DrawString("            STORE COPY", New Font("Arial", 10), MyBrush, 0, Z)
             Else
                 MainMenu.rtbn.File = CashRegisterMessageFile()
                 MainMenu.rtbn.FileRead(True)
                 'If MainMenu.rtbn.RichTextBox.Text <> "" Then Dest.Print(MainMenu.rtbn.RichTextBox.Text)
-                If MainMenu.rtbn.RichTextBox.Text <> "" Then e.Graphics.DrawString(MainMenu.rtbn.RichTextBox.Text, New Font("Arial", 10), MyBrush, 0, YY + 20)
+                Z = Z + 40
+                If MainMenu.rtbn.RichTextBox.Text <> "" Then e.Graphics.DrawString(MainMenu.rtbn.RichTextBox.Text, New Font("Arial", 10), MyBrush, 0, Z)
             End If
 
             ' special handling for DYMO receipt printer
@@ -1174,6 +1187,8 @@ Public Class frmCashRegister
 
         ' It's not a runtime error if the printer is offline!  How odd.
         PrintReceiptHeader(Printer)
+        Printer.EndDoc()
+        Exit Sub
         Dim I As Integer
         For I = LBound(SaleItems) To UBound(SaleItems)
             PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
