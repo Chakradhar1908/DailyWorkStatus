@@ -1626,7 +1626,59 @@ Public Class MainMenu4
         ''Printer.PaintPicture(Image.FromFile("C:\CDSData\InventPX\886.jpg"), 10, 100, 500, 400)
         'Printer.EndDoc()
 
-        End
+        'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+        'PrintToPosition2(Printer, "QTY", 400, VBRUN.AlignConstants.vbAlignRight, False, 1050)
+        'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+        'PrintToPosition2(Printer, "ITEM", 1000, VBRUN.AlignConstants.vbAlignLeft, False, 1050)
+        'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+        'PrintToPosition2(Printer, "PRICE", 210, VBRUN.AlignConstants.vbAlignRight, True, 1050)
+        'Printer.EndDoc()
+        '-----
+        Printer.FontBold = True
+        Printer.FontSize = 14
+        PrintInBox(Printer, StoreSettings.Name, 400, Printer.CurrentY, 3540 - 1200, Printer.TextHeight("X"), , VBRUN.AlignmentConstants.vbCenter)
+        Printer.FontSize = 10
+        Printer.FontBold = False
+        PrintToPosition(Printer, StoreSettings.Address, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        PrintToPosition(Printer, StoreSettings.City, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        PrintToPosition(Printer, StoreSettings.Phone, 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        Printer.Print(vbCrLf) : Tp()
+        tPr()
+        'End If
+
+        'If MailIndex <> 0 Then
+        Dim cMR As New clsMailRec
+            tPr("frmCashRegister.PrintReceiptHeader/PrintCustomerAddress")
+        'cMR.Load(MailIndex, "#Index") : Tp()
+        'PrintToPosition(Dest, "Sold To:", DYMO_QtyCol - 200, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        PrintToPosition(Printer, "Sold To:", 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        'PrintToPosition(Dest, cMR.First & " " & cMR.Last, DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        PrintToPosition(Printer, "NEWSALETESTRECORD" & " " & "NEWSALETESTRECORD", 300 + 30, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        'PrintToPosition(Dest, DressAni(cMR.Tele), DYMO_QtyCol, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        PrintToPosition(Printer, "(739) 299-2233)", 300 + 30, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+        PrintToPosition(Printer, "", 300, VBRUN.AlignConstants.vbAlignLeft, True) : Tp()
+            DisposeDA(Nothing) : Tp()
+            tPr()
+        'End If
+
+        'Dest.Font.Size = 10
+        Printer.FontSize = 10
+        'If IsDymoPrinter(Dest) Then
+        '    tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
+        '    PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
+        '    PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
+        '    PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
+        '    tPr()
+        'Else
+        'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
+        PrintToPosition2(Printer, "QTY", 700, VBRUN.AlignConstants.vbAlignRight, False, 2000)
+        'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
+        PrintToPosition2(Printer, "ITEM", 900, VBRUN.AlignConstants.vbAlignLeft, False, 2000)
+        'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
+        PrintToPosition2(Printer, "PRICE", 3000, VBRUN.AlignConstants.vbAlignRight, False, 2000)
+        'End If
+        Printer.EndDoc()
+        'End
     End Sub
 
     Private Sub ShowInfo(Optional ByVal Show As Boolean = False)

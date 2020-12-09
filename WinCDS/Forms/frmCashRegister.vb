@@ -16,23 +16,30 @@ Public Class frmCashRegister
     Dim GotCust As Boolean
     'Private Const QtyCol As Integer = 800
     Private Const QtyCol As Integer = 20
+    Private Const QtyCol2 As Integer = 700
     'Private Const ItemCol As Integer = 1000
     Private Const ItemCol As Integer = 55
+    Private Const ItemCol2 As Integer = 900
     'Private Const PriceCol As Integer = 3500
     Private Const PriceCol As Integer = 210
+    Private Const PriceCol2 As Integer = 3000
     'Private Const DYMO_QtyCol As Integer = 500
     Private Const DYMO_QtyCol As Integer = 10
     Private Const DYMO_QtyCol2 As Integer = 300
+    Private Const DYMO_QtyCol3 As Integer = 500
     'Private Const DYMO_ItemCol As Integer = 700
     Private Const DYMO_ItemCol As Integer = 30
+    Private Const DYMO_ItemCo2 As Integer = 600
     'Private Const DYMO_PriceCol As Integer = 2900
     Private Const DYMO_PriceCol As Integer = 200
+    Private Const DYMO_PriceCo2 As Integer = 2500
     Dim MailCheckFormLoaded As Boolean
     Dim MultiRows As Boolean
     Dim TopValue(0) As Integer, TopValue2(0) As Integer
     Dim Y As Integer, YY As Integer
     Dim FromcmdDoneClick As Boolean
     Dim CCSignParam As Boolean
+    Dim Cy As Integer = 3250
 
     Public ReadOnly Property MailZip() As String
         Get
@@ -175,6 +182,7 @@ Public Class frmCashRegister
 
     Private Function PrintReceiptLine(ByVal Dest As Object, ByVal Qty As Double, ByVal Desc As String, ByVal Item As String, ByVal Price As Decimal) As Boolean
         Dim Q As Integer, I As Integer, P As Integer
+        Dim NotDiscountItem As Boolean
 
         If IsDymoPrinter(Dest) Then
             Q = DYMO_QtyCol
@@ -199,18 +207,28 @@ Public Class frmCashRegister
         End If
 
         If Item = "PAYMENT" Or Item = "CHANGE" Or Item = "SALES TAX" Or Item = "SUBTOTAL" Then
-            PrintToPosition(Dest, Desc, I, VBRUN.AlignConstants.vbAlignLeft, False)
+            'PrintToPosition(Dest, Desc, I, VBRUN.AlignConstants.vbAlignLeft, False)
+            PrintToPosition2(Dest, Desc, ItemCol2, VBRUN.AlignConstants.vbAlignLeft, False, Cy)
         ElseIf Item = "--- Adj ---" Then
-            PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+            'PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+            PrintToPosition2(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True, Cy)
             Exit Function
         Else
-            PrintToPosition(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True)
+            'PrintToPosition(Dest, Desc, 500, VBRUN.AlignConstants.vbAlignLeft, True)
+            PrintToPosition2(Dest, Desc, 50, VBRUN.AlignConstants.vbAlignLeft, True, Cy)
             If Item <> "DISCOUNT" Then
-                PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
+                NotDiscountItem = True
+                Cy = Cy + 230
+                'PrintToPosition(Dest, CStr(Qty), Q, VBRUN.AlignConstants.vbAlignRight, False)
+                PrintToPosition2(Dest, CStr(Qty), QtyCol2, VBRUN.AlignConstants.vbAlignRight, False, Cy)
             End If
-            PrintToPosition(Dest, Item, I, VBRUN.AlignConstants.vbAlignLeft, False)
+            'PrintToPosition(Dest, Item, I, VBRUN.AlignConstants.vbAlignLeft, False)
+            If NotDiscountItem = False Then Cy = Cy + 230
+            PrintToPosition2(Dest, Item, ItemCol2, VBRUN.AlignConstants.vbAlignLeft, False, Cy)
         End If
-        PrintToPosition(Dest, CurrencyFormat(Price), P, VBRUN.AlignConstants.vbAlignRight, True)
+        'PrintToPosition(Dest, CurrencyFormat(Price), P, VBRUN.AlignConstants.vbAlignRight, True)
+        PrintToPosition2(Dest, CurrencyFormat(Price), PriceCol2, VBRUN.AlignConstants.vbAlignRight, True, Cy)
+        'Cy = Cy + 200
     End Function
 
     Private Sub MoveReceipt(ByVal TargetY As Integer)
@@ -268,7 +286,6 @@ Public Class frmCashRegister
         ' standard receipt printers, so...
         On Error Resume Next
         If IsDymoPrinter(Dest) Then
-
             'BFH20170201 Stanley's has been having trouble.. trying this
             If Not IsStanleys Then
                 Dest.PaperSize = DYMO_PaperSize_ContinuousWide
@@ -279,7 +296,6 @@ Public Class frmCashRegister
             TapeScaleWidth = 3540
         End If
         On Error GoTo 0
-
 
         If PrintReceiptLogo Then
             LogoW = TapeScaleWidth
@@ -333,17 +349,20 @@ Public Class frmCashRegister
         Dest.FontSize = 10
         If IsDymoPrinter(Dest) Then
             tPr("frmCashRegister.PrintReceiptHeader/ColumnHeaders")
-            PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
-            PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
-            PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
+            'PrintToPosition(Dest, "QTY", DYMO_QtyCol, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
+            PrintToPosition2(Dest, "QTY", DYMO_QtyCol3, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
+            'PrintToPosition(Dest, "ITEM", DYMO_ItemCol, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
+            PrintToPosition2(Dest, "ITEM", DYMO_ItemCo2, VBRUN.AlignConstants.vbAlignLeft, False) : Tp()
+            'PrintToPosition(Dest, "PRICE", DYMO_PriceCol, VBRUN.AlignConstants.vbAlignRight, True) : Tp()
+            PrintToPosition2(Dest, "PRICE", DYMO_PriceCo2, VBRUN.AlignConstants.vbAlignRight, False) : Tp()
             tPr()
         Else
             'PrintToPosition(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False)
-            PrintToPosition2(Dest, "QTY", QtyCol, VBRUN.AlignConstants.vbAlignRight, False, 50)
+            PrintToPosition2(Dest, "QTY", QtyCol2, VBRUN.AlignConstants.vbAlignRight, False, 3000)
             'PrintToPosition(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False)
-            PrintToPosition2(Dest, "ITEM", ItemCol, VBRUN.AlignConstants.vbAlignLeft, False, 50)
+            PrintToPosition2(Dest, "ITEM", ItemCol2, VBRUN.AlignConstants.vbAlignLeft, False, 3000)
             'PrintToPosition(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True)
-            PrintToPosition2(Dest, "PRICE", PriceCol, VBRUN.AlignConstants.vbAlignRight, True, 50)
+            PrintToPosition2(Dest, "PRICE", PriceCol2, VBRUN.AlignConstants.vbAlignRight, False, 3000)
         End If
     End Function
 
@@ -1187,15 +1206,15 @@ Public Class frmCashRegister
 
         ' It's not a runtime error if the printer is offline!  How odd.
         PrintReceiptHeader(Printer)
-        Printer.EndDoc()
-        Exit Sub
+
         Dim I As Integer
         For I = LBound(SaleItems) To UBound(SaleItems)
             PrintReceiptLine(Printer, SaleItems(I).Quantity, SaleItems(I).Desc, SaleItems(I).Style, SaleItems(I).DisplayPrice)
+            Cy = Cy + 230
         Next
         PrintReceiptTrailer(Printer, CCSign)
 
-        '  Printer.ScaleHeight = Printer.CurrentY
+        'Printer.ScaleHeight = Printer.CurrentY
         Printer.EndDoc()
         ReceiptPrinted = True
 
@@ -1252,7 +1271,6 @@ PrintReceiptError:
 
         ' special handling for DYMO receipt printer
         If Not IsDymoPrinter(Dest) Then
-
             'bfh20050317 - needed 5 blank lines at the bottom of the receipt!!
             For I = 1 To 6
                 Dest.Print(" ")
@@ -1746,7 +1764,7 @@ PrintReceiptError:
         picReceipt_Paint(New Object, New PaintEventArgs(picReceipt.CreateGraphics, New Rectangle))
         'MoveReceipt(picReceipt.CurrentY)
         'MoveReceipt(picReceipt.Top)
-        FromcmdDoneClick = False
+        'FromcmdDoneClick = False
         SaleComplete = True
 
         OpenCashDrawer()            ' Open the drawer to accept payment and make change.
