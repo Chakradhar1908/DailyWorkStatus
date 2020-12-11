@@ -262,4 +262,20 @@ NotLoaded:
         Err.Clear()
         Resume Next
     End Function
+
+    Public Function SerNoFile(Optional ByVal StoreNum As Long = 0) As String
+        '::::SerNoFile
+        ':::SUMMARY
+        ': Service Number File
+        ':::DESCRIPTION
+        ': Returns filename for next Service Order Number
+        ':::PARAMETERS
+        ': - StoreNum
+        ':::RETURN
+        ': String
+        If StoreNum = 0 Then StoreNum = StoresSld
+        If StoreNum <= 0 Or StoreNum >= Setup_MaxStores Then StoreNum = 1
+        SerNoFile = NewOrderFolder(StoreNum) & "SerNo.Dat"
+    End Function
+
 End Module

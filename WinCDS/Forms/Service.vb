@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports Microsoft.VisualBasic.Interaction
 Public Class Service
     Public AccountFound As String
     Public MailIndex As Integer
@@ -7,6 +8,11 @@ Public Class Service
     Private WithEvents mDBService As CDbAccessGeneral
     Private LoadingCheckBoxes As Boolean, SearchingSOID As Boolean
     Private Mail2 As MailNew2
+    Public ServiceStatus As String
+    Private StartDate As String
+    Private CurrentNoteMarginNo As Long
+    Private ServicePartsLoaded As Boolean
+    Private Const AllowOrderParts As Boolean = True
 
     Public Sub LoadCustomer(ByVal NewMailIndex As Integer, Optional ByVal CheckServiceCalls As Boolean = True)
         ' Load the customer info.
@@ -188,7 +194,7 @@ HandleErr:
         lblSaleNoCaption.Visible = False
 
         dteServiceDate.Value = Today
-        dteServiceDate.Value = Nothing
+        dteServiceDate.Value = Date.FromOADate(0)
         lblClaimDate.Text = Today
 
         SelectStatus("")
@@ -277,9 +283,9 @@ HandleErr:
         & ArrangeString("DEL DATE", 12) & ArrangeString("DESCRIPTION", 32) & "ACK/INV NO")
 
         'tvItemNotes.Nodes("LABEL").Bold = True
-        tvItemNotes.Nodes("LABEL").NodeFont = New Font(tvItemNotes.Font, FontStyle.Bold)
+        'tvItemNotes.Nodes("LABEL").NodeFont = New Font(tvItemNotes.Font, FontStyle.Bold)
 
-        A = Val(lblServiceOrderNo)
+        A = Val(lblServiceOrderNo.Text)
         If A = 0 And IsFormLoaded("MailCheck") Then
             A = Val(MailCheck.ServiceCallNo)
         End If
@@ -288,9 +294,9 @@ HandleErr:
 
             Do While Not X.EOF
                 ItemDescString =
-          ArrangeString(UCase(IfNullThenNilString(X("Vendor"))), 17) & ArrangeString(UCase(IfNullThenNilString(X("Style"))), 17) & ArrangeString(UCase(IfNullThenNilString(X("SaleNo"))), 10) &
-          ArrangeString(IfNullThenZeroDouble(X("Quantity")), 6) & ArrangeString(IfNullThenZeroDate(X("DelDate")), 12) &
-          ArrangeString(UCase(IfNullThenNilString(X("Desc"))), 32) & ArrangeString("", 15)
+          ArrangeString(UCase(IfNullThenNilString(X("Vendor").Value)), 17) & ArrangeString(UCase(IfNullThenNilString(X("Style").Value)), 17) & ArrangeString(UCase(IfNullThenNilString(X("SaleNo").Value)), 10) &
+          ArrangeString(IfNullThenZeroDouble(X("Quantity").Value), 6) & ArrangeString(IfNullThenZeroDate(X("DelDate").Value), 12) &
+          ArrangeString(UCase(IfNullThenNilString(X("Desc").Value)), 32) & ArrangeString("", 15)
 
                 'NN = tvItemNotes.Nodes.Add(, , "EX-" & X("STYLE").Value & "-" & Random(1000), ItemDescString)
                 NN = tvItemNotes.Nodes.Add("", "", "EX-" & X("STYLE").Value & "-" & Random(1000), ItemDescString)
@@ -316,7 +322,7 @@ HandleErr:
             'added detail 03/23/2003
             RS = GetRecordsetBySQL("SELECT * FROM Detail WHERE MarginRn=" & Margin.MarginLine & " AND Store=" & StoresSld, , GetDatabaseInventory)
             If Not RS.EOF Then
-                AckInv = Trim(IfNullThenNilString(RS("Misc")))
+                AckInv = Trim(IfNullThenNilString(RS("Misc").Value))
             Else
                 AckInv = ""
             End If
@@ -430,7 +436,7 @@ HandleErr:
         lblSpecial.Text = MailRec.Special
 
         modMail.Mail2_GetAtIndex(MailRec.Index, Mail2, StoresSld)
-        lblTele3 = DressAni(Mail2.Tele3)
+        lblTele3.Text = DressAni(Mail2.Tele3)
         UpdateTelephoneLabels(MailRec.PhoneLabel1, MailRec.PhoneLabel2, Mail2.PhoneLabel3)
     End Sub
 
@@ -505,6 +511,52 @@ HandleErr:
         lblTele3.Left = lblCapTele3.Left + lblCapTele3.Width + 60
     End Sub
 
+    Private Sub cmdAddItem_Click(sender As Object, e As EventArgs) Handles cmdAddItem.Click
+        Dim SaleNo As String, Style As String, Desc As String, Quan As Double, Vendor As String, DelDate As Date
+        Dim T() As Object
+        Dim S As String
+
+        If MessageBox.Show("This will add an item to this service call that is not in the inventory Database.", "Add Item?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then Exit Sub
+
+        'If lblServiceOrderNo = "" Then cmdSave.Value = True
+        If lblServiceOrderNo.Text = "" Then cmdSave.Value = True
+
+        'ServiceManualItem.Show 1
+        ServiceManualItem.ShowDialog()
+
+        'If ServiceManualItem.Cancelled Then Unload ServiceManualItem: Exit Sub
+        If ServiceManualItem.Cancelled Then ServiceManualItem.Close() : Exit Sub
+
+        SaleNo = UCase(ServiceManualItem.txtSaleNo.Text)
+        Style = UCase(ServiceManualItem.txtStyle.Text)
+        Desc = UCase(ServiceManualItem.txtDesc.Text)
+        Quan = Val(ServiceManualItem.txtQuantity.Text)
+        Vendor = UCase(ServiceManualItem.cboVendor.Text)
+        DelDate = ServiceManualItem.dtpDelDate.Value
+
+        'Unload ServiceManualItem
+        ServiceManualItem.Close()
+
+        S = ""
+        S = S & "INSERT INTO [ServiceItemParts] "
+        S = S & "([ServiceOrderNo], [MarginNo], [Style], [Desc], [Vendor], [SaleNo], [DelDate], [Quantity]) "
+        S = S & "VALUES (" & lblServiceOrderNo.Text & ", 0, '" & ProtectSQL(Style) & "', '" & ProtectSQL(Desc) & "', '" & ProtectSQL(Vendor) & "', '" & ProtectSQL(SaleNo) & "', '" & ProtectSQL(DelDate) & "', " & Quan & ")"
+        ExecuteRecordsetBySQL(S, , GetDatabaseAtLocation)
+        MessageBox.Show("Item Added to service call #" & lblServiceOrderNo.Text, "Operation Completed.", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        S = lblServiceOrderNo.Text
+        FindItems()
+    End Sub
+
+    Private Sub cmdMenu_Click(sender As Object, e As EventArgs) Handles cmdMenu.Click
+        ClearServiceOrder()
+        If cmdMenu.Text = "&Menu" Then
+            modProgramState.Order = ""
+            MainMenu.Show()
+        End If
+        'Unload Me
+        Me.Close()
+    End Sub
+
     Public Sub QuickShowServiceCall(ByVal sC As String, Optional ByVal StoreNo As Integer = 0, Optional ByVal ReturnToOriginalStore As Boolean = True)
         Dim OldMMOrder As String, OldStoreNo As Integer
         If StoreNo = 0 Then StoreNo = StoresSld
@@ -545,4 +597,632 @@ HandleErr:
             '    frmSetup .LoadStore
         End If
     End Sub
+
+    Private Sub cmdNext_Click(sender As Object, e As EventArgs) Handles cmdNext.Click
+        ClearServiceOrder()
+        'Unload Me
+        Me.Close()
+        MailCheck.optTelephone.Checked = True
+        'MailCheck.Show vbModal
+        MailCheck.ShowDialog()
+    End Sub
+
+    Private Sub cmdMoveSearch_Click(sender As Object, e As EventArgs) Handles cmdMoveSearch.Click
+        Dim X As Long
+        X = Val(InputBox("Search for ServiceOrder:", "New Service Order Number"))
+        If X <= 0 Then Exit Sub
+        SearchingSOID = True
+        LoadServiceCall(X)
+        SearchingSOID = False
+    End Sub
+
+    Private Sub EnableNavigation(ByVal OnOff As Boolean)
+        cmdMenu.Enabled = OnOff
+        cmdNext.Enabled = OnOff
+        cmdMoveFirst.Enabled = OnOff
+        cmdMovePrevious.Enabled = OnOff
+        cmdMoveNext.Enabled = OnOff
+        cmdMoveLast.Enabled = OnOff
+        cmdMoveSearch.Enabled = OnOff
+    End Sub
+
+    Public Sub PartsOrderFormClosed()
+        ServicePartsLoaded = False
+        FindItems()
+        EnableNavigation(True)
+        ' Update lit-up parts order display.
+    End Sub
+
+    Private Sub cmdOrderParts_Click(sender As Object, e As EventArgs) Handles cmdOrderParts.Click
+        Dim X As Long
+        X = SelectedMarginNode
+        If X = 0 Or Not MLItemIsTagged(X) Then
+            MessageBox.Show("Please select a tagged item to order parts for.", "Wait!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        'order parts
+
+        ' If there's more than one parts order, show AddOnAcc.
+
+        ServicePartsLoaded = True ' Remember that we loaded ServiceParts.
+        EnableNavigation(False)    ' Disable navigation while ServiceParts is showing.
+
+        'ServiceParts.HelpContextID = 0 ' forces form_load
+        ServiceParts.SetOwner(Me)  ' Make ServiceParts behave as a child form.
+
+        ' ServiceParts will get this directly from the service call table.
+        ServiceParts.lblFirstName = lblFirstName
+        ServiceParts.lblLastName = lblLastName
+        ServiceParts.lblAddress = lblAddress
+        ServiceParts.lblAddress2 = lblAddress2
+        ServiceParts.lblCity = lblCity
+        ServiceParts.lblZip = lblZip
+        ServiceParts.lblTele1Caption = lblCapTele
+        ServiceParts.lblTele2Caption = lblCapTele2
+        ServiceParts.lblTele3Caption = lblCapTele3
+        ServiceParts.lblTele = lblTele
+        ServiceParts.lblTele2 = lblTele2
+        ServiceParts.lblTele3 = lblTele3
+        If X > 0 Then
+            ServiceParts.LoadInfoFromMarginLine(X)
+        Else
+            'ServiceParts.txtStyleNo = Trim(Mid(tvItemNotes.SelectedItem, 18, 17))
+            ServiceParts.txtStyleNo.Text = Trim(Mid(tvItemNotes.SelectedNode.Text, 18, 17))
+            'ServiceParts.txtDescription = Trim(Mid(tvItemNotes.SelectedItem, 63, 32))
+            ServiceParts.txtDescription.Text = Trim(Mid(tvItemNotes.SelectedNode.Text, 63, 32))
+        End If
+
+        ' Tell ServiceParts it's working from this Service Call.
+        If ServiceParts.LoadServiceCall(ServiceOrderNumber) Then
+            ServiceParts.Show()
+            ServiceParts.LoadRelativePartsOrder(-1, True, True)
+            Hide()
+        Else
+            ' This should clean up ServicePartsLoaded and related flags..
+            'Unload ServiceParts
+            ServiceParts.Close()
+            MessageBox.Show("Error ordering parts: Can't load current service call.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+    Private Function SelectedMarginNode() As Long
+        Dim CurRow As String
+        'If tvItemNotes.SelectedItem Is Nothing Then Exit Function
+        If tvItemNotes.SelectedNode.Text Is Nothing Then Exit Function
+        'CurRow = tvItemNotes.SelectedItem.Key
+        CurRow = tvItemNotes.SelectedNode.SelectedImageKey
+
+        If Microsoft.VisualBasic.Left(CurRow, 2) = "ML" Then
+            SelectedMarginNode = Val(Mid(CurRow, 3))
+        ElseIf microsoft.VisualBasic.Left(CurRow, 2) = "EX" Then
+            SelectedMarginNode = -1
+        ElseIf microsoft.VisualBasic.Left(CurRow, 2) = "SN" Then
+            'CurRow = tvItemNotes.Nodes(CurRow).Parent.Key
+            CurRow = tvItemNotes.Nodes(CurRow).Parent.SelectedImageKey
+            'If Microsoft.VisualBasic.Left(CurRow, 2) = "SN" Then CurRow = tvItemNotes.Nodes(CurRow).Parent.Key
+            If Microsoft.VisualBasic.Left(CurRow, 2) = "SN" Then CurRow = tvItemNotes.Nodes(CurRow).Parent.SelectedImageKey
+            If Microsoft.VisualBasic.Left(CurRow, 2) <> "ML" Then
+                Exit Function
+            Else
+                SelectedMarginNode = Val(Mid(CurRow, 3))
+            End If
+        Else
+            Exit Function
+        End If
+    End Function
+
+    Private Function MLItemIsTagged(ByVal MLItem As Long) As Boolean
+        If MLItem = 0 Then Exit Function
+        If MLItem = -1 Then MLItemIsTagged = True : Exit Function
+        MLItemIsTagged = tvItemNotes.Nodes.Item("ML" & MLItem).ForeColor = Color.Red
+    End Function
+
+    Private Sub cmdRepairTag_Click(sender As Object, e As EventArgs) Handles cmdRepairTag.Click
+        Dim P As String
+        If lblServiceOrderNo.Text = "" Then
+            MessageBox.Show("You can only print a repair tag for active service calls.", "No Service Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        P = Printer.DeviceName
+        If Not SetDymoPrinter() Then
+            MessageBox.Show("Dymo Printer Required!", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        Printer.FontName = "Arial"
+        Printer.FontSize = 18
+        Printer.FontBold = True
+        Printer.FontUnderline = True
+        PrintAligned("REPAIR TAG", VBRUN.AlignConstants.vbAlignLeft, 0) '  vbCenter, Printer.ScaleWidth / 2
+        Printer.FontUnderline = False
+        Printer.FontSize = 14
+        PrintAligned("SrvOrd#: " & lblServiceOrderNo.Text & " [" & dteServiceDate.Value & "]")
+        PrintAligned("Claim Date: " & lblClaimDate.Text)
+        PrintAligned("SaleNo: " & lblSaleNo.Text)
+        PrintAligned("Name: " & lblLastName.Text)
+        'PrintAligned "Phone: " & lblTele
+        PrintAligned(lblCapTele.Text & lblTele.Text)
+        PrintAligned(lblCapTele2.Text & lblTele2.Text)
+        PrintAligned(lblTele3.Text) 'lblCapTele3 & lblTele3
+        PrintAligned("Type: " & Switch(chkStoreService.Checked = True, "Store", chkOutsideService.Checked = True, "Outside", chkPickupExchange.Checked = True, "P-Up/Exg", chkOther.Checked = True, "Other", True, "Other"))
+        '  PrintAligned "Serv Date: " & dteServiceDate
+
+        Printer.EndDoc()
+        SetPrinter(P)
+    End Sub
+
+    Private Sub cmdSaveItemNote_Click(sender As Object, e As EventArgs) Handles cmdSaveItemNote.Click
+        Dim NewID As Long
+        ' Validate, save note, and hide item notes frame.
+        If CurrentNoteMarginNo = 0 Then
+            MessageBox.Show("Error: Can't determine which item to save note for.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+        If txtItemNotes.Text = "" Then
+            If MessageBox.Show("You can't save a blank note.  Would you like to enter one now?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                Exit Sub
+            Else
+                cmdCancelItemNote.Value = True
+                Exit Sub
+            End If
+        End If
+
+        NewID = CreateServiceNote(CurrentNoteMarginNo, ServiceOrderNumber, txtItemNotes.Text)
+
+        ' Refresh the items/notes treeview, making sure the new note is visible.
+        FindItems()
+        tvItemNotes.Nodes("SN" & NewID).EnsureVisible()
+
+        Notes_Frame.Visible = True
+        ItemNotesFrame.Visible = False
+        CurrentNoteMarginNo = 0
+        lblItemNotesCaption.Text = ""
+    End Sub
+
+    Private Sub cmdCancelItemNote_Click(sender As Object, e As EventArgs) Handles cmdCancelItemNote.Click
+        ' Hide item notes frame.
+        Notes_Frame.Visible = True
+        ItemNotesFrame.Visible = False
+        CurrentNoteMarginNo = 0
+        lblItemNotesCaption.Text = ""
+        txtItemNotes.Text = ""
+    End Sub
+
+    Private Sub cmdAddItemNote_Click(sender As Object, e As EventArgs) Handles cmdAddItemNote.Click
+        Dim MLRow As Long
+        On Error GoTo SayNo
+        MLRow = SelectedMarginNode()
+        If MLRow = 0 Then MessageBox.Show("Please select an item from the list first.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Exit Sub
+        CurrentNoteMarginNo = MLRow
+        ItemNotesFrame.Visible = True
+        Notes_Frame.Visible = False
+        lblItemNotesCaption.Text = tvItemNotes.Nodes("ML" & MLRow).Text
+        txtItemNotes.Text = ""
+        Exit Sub
+
+SayNo:
+        MessageBox.Show("You cannot add a note to this item.", "Not Available", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        ItemNotesFrame.Visible = False
+        Notes_Frame.Visible = True
+    End Sub
+
+    Private Sub cmdTagForRepair_Click(sender As Object, e As EventArgs) Handles cmdTagForRepair.Click
+        Dim ISelected As Long
+        ' Get the selected ML.
+        ISelected = SelectedMarginNode()
+        If ISelected = 0 Then MessageBox.Show("Please select an item from the list first.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Exit Sub
+        TagItemForRepair(ISelected)
+    End Sub
+
+    Public Sub InitStatusList()
+        cboStatus.Items.Clear()
+        cboStatus.Items.Insert(0, "Open")
+        cboStatus.Items.Insert(1, "Closed")
+        cboStatus.SelectedIndex = 0
+    End Sub
+
+    Private Sub ShowTimeWindowBox(ByVal Show As Boolean, Optional ByVal Enabled As Boolean = False)
+        dtpDelWindow0.Value = "7:00 am"
+        dtpDelWindow0.Value = ""
+        dtpDelWindow1.Value = "5:00 pm"
+        dtpDelWindow1.Value = ""
+
+        fraTimeWindow.Visible = Show And (StoreSettings.bUseTimeWindows)
+        dtpDelWindow0.Enabled = Enabled
+        dtpDelWindow1.Enabled = Enabled
+    End Sub
+
+    'This closeup event is replacement for change event of vb6.0 datetimepicker.
+    Private Sub dtpDelWindowCloseUp(sender As Object, e As EventArgs) Handles dtpDelWindow0.CloseUp, dtpDelWindow1.CloseUp
+        Dim D1 As Date, D2 As Date
+
+        If IsDate(dtpDelWindow0.Value) And IsDate(dtpDelWindow1.Value) Then
+            D1 = TimeValue(dtpDelWindow0.Value)
+            If DateAfter(D1, "11:00p", False, "n") Then
+                dtpDelWindow0.Value = "10:00 pm"
+                D1 = TimeValue(dtpDelWindow0.Value)
+            End If
+
+            D2 = TimeValue(dtpDelWindow1.Value)
+            If Not DateAfter(D2, D1, False, "n") Then
+                dtpDelWindow1.Value = TimeValue(DateAdd("n", 30, D1))
+            End If
+        End If
+    End Sub
+
+    Private Sub dteServiceDate_CloseUp(sender As Object, e As EventArgs) Handles dteServiceDate.CloseUp
+        ShowTimeWindowBox(IsDate(dteServiceDate.Value), True)
+    End Sub
+
+    Private Sub Service_Load(sender As Object, e As EventArgs) Handles Me.Load
+        'SetButtonImage cmdMoveFirst, "previous"
+        SetButtonImage(cmdMoveFirst, 7)
+        'SetButtonImage(cmdMovePrevious, "previous1")
+        SetButtonImage(cmdMovePrevious, 4)
+        'SetButtonImage cmdMoveNext, "next1"
+        SetButtonImage(cmdMoveNext, 5)
+        'SetButtonImage cmdMoveLast, "next"
+        SetButtonImage(cmdMoveLast, 6)
+
+        'SetButtonImage cmdSave
+        SetButtonImage(cmdSave, 2)
+        'SetButtonImage cmdPrint
+        SetButtonImage(cmdPrint, 19)
+        'SetButtonImage cmdNext
+        SetButtonImage(cmdNext, 6)
+        'SetButtonImage cmdMenu
+        SetButtonImage(cmdMenu, 9)
+
+        'SetButtonImage cmdSaveItemNote, "ok"
+        SetButtonImage(cmdSaveItemNote, 2)
+        'SetButtonImage cmdCancelItemNote, "cancel"
+        SetButtonImage(cmdCancelItemNote, 3)
+
+        'Testing
+        'Left = (Screen.Width - Width) / 2
+        Left = (Me.ClientSize.Width - Width) / 2
+        lblClaimDate.Text = DateFormat(Today)
+        StartDate = DateFormat(Today)
+        dteServiceDate.Value = Date.FromOADate(0)
+        Notes_Frame.Visible = True
+        InitStatusList()
+
+        cmdOrderParts.Visible = False 'demo
+        cmdOrderParts.Visible = AllowOrderParts
+        lblPartsOrd.Visible = False
+
+        On Error Resume Next
+        'imgLogo.Picture = LoadPictureStd(StoreLogoFile())
+        imgLogo.Image = LoadPictureStd(StoreLogoFile())
+    End Sub
+
+    'form unload of vb6.0
+    Private Sub Service_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        On Error Resume Next
+        mDBAccess.dbClose()
+        mDBService.dbClose()
+        mDBAccess = Nothing
+        mDBService = Nothing
+    End Sub
+
+    Private Sub GetServiceNo()
+        Dim SerNo As Long
+        SerNo = GetFileAutonumber(SerNoFile, 1001)
+        lblServiceOrderNo.Text = SerNo
+        ServiceOrderNumber = SerNo
+    End Sub
+
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        Dim QuickCheck As Long
+        QuickCheck = GetCheckBoxValue
+
+        Printer.FontName = "Arial"
+        Printer.FontSize = 13
+        Printer.DrawWidth = 2
+        Printer.FontBold = True
+        Printer.CurrentY = 100
+        Printer.FontItalic = True
+        PrintCentered("-Service Request-")
+        Printer.FontItalic = False
+
+        Printer.CurrentY = 100
+        Printer.CurrentX = 8000
+        Printer.FontSize = 11
+        Printer.Print("Tech.___________________________")
+
+
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        '   Logo (center)
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        Printer.CurrentY = 600
+        If imgLogo.Image Is Nothing Then
+            Printer.FontSize = 18
+            PrintCentered(StoreSettings.Name)
+            PrintCentered(StoreSettings.Address)
+            PrintCentered(StoreSettings.City)
+            PrintCentered(StoreSettings.Phone)
+        Else  'logo
+            Printer.CurrentX = 4000
+            Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - imgLogo.Width / 2, 390, imgLogo.Width, imgLogo.Height)
+        End If
+
+        Printer.FontBold = True
+        Printer.CurrentX = 400
+        Printer.CurrentY = 350
+        Printer.FontSize = 10
+        Printer.Print(" SERVICE ON:")
+        Printer.DrawWidth = 8
+        'Printer.Line(500, 600)-Step(2000, 1200), QBColor(0), B
+        Printer.Line(500, 600, 2000, 1200, QBColor(0), True)
+        Printer.DrawWidth = 1
+
+        Printer.FontSize = 18
+        Printer.CurrentX = 610
+        Printer.CurrentY = 650
+
+        If dteServiceDate.Value <> "" Then
+            Printer.Print(Microsoft.VisualBasic.Left(dteServiceDate.Value, 10))
+            Printer.FontSize = 14
+            Printer.CurrentX = 1000
+            Printer.Print(Format(dteServiceDate.Value, "DDDD"))
+            Printer.CurrentX = 610
+            PrintInBox(Printer, DescribeTimeWindow(dtpDelWindow0, dtpDelWindow1), 600, Printer.CurrentY, 1800, 300)
+        End If
+
+        Printer.FontBold = False
+        Printer.FontSize = 10
+        Printer.CurrentX = 10000
+        Printer.CurrentY = 400
+        Printer.Print("Service Order:")
+        Printer.CurrentX = 10200
+        Printer.FontSize = 14
+        Printer.Print(ServiceOrderNumber)
+        Printer.FontBold = False
+        Printer.FontSize = 10
+
+        Printer.CurrentX = 10000
+        Printer.CurrentY = 1000
+        Printer.FontSize = 10
+        Printer.FontBold = False
+        Printer.Print("Date Of Claim:")
+        Printer.CurrentX = 10075
+        Printer.Print(lblClaimDate.Text)
+
+        Printer.CurrentX = 200
+        Printer.CurrentY = 2600
+        Printer.FontSize = 6
+        If lblLastName.Text <> "" And lblFirstName.Text = "" Then
+            Printer.Print("Business Name")
+        Else
+            Printer.Print("First Name", TAB(58), "Last Name")
+        End If
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.CurrentX = 200
+        Printer.Print("Address")
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.CurrentX = 200
+        Printer.Print("City / State", TAB(75), "Zip")
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.CurrentX = 200
+        'Printer.Print "Telephone1"; Tab(58); "Telephone2"
+        Printer.Print(IIf(lblCapTele.Text = "Tele: ", "Telephone1", lblCapTele.Text), TAB(75), IIf(lblCapTele2.Text = "Tele2: ", "Telephone2", lblCapTele2.Text)) '; Tab(58); IIf(lblCapTele3 = "Tele3: ", "Telephone3", lblCapTele3)
+        Printer.Print()
+        Printer.Print()
+        Printer.CurrentX = 200
+        Printer.Print()
+        Printer.CurrentX = 200
+        Printer.CurrentY = 5000
+        Printer.FontSize = 10
+        Printer.Print("Special Instructions   ")
+
+        '.DrawWidth = 10 'box for spec inst.
+        'Printer.Line (150, 5300)-Step(11220, 350), QBColor(0), B
+
+        Dim SpInstLines() As String, Sp As String, I As Long
+        Sp = lblSpecial.Text
+        Sp = WrapLongTextByPrintWidth(Printer, Sp, Printer.ScaleWidth, vbCrLf)
+        SpInstLines = Split(Sp, vbCrLf)
+        For I = LBound(SpInstLines) To UBound(SpInstLines)
+            If I - LBound(SpInstLines) > 2 Then Exit For
+            Printer.CurrentX = 400 ': Printer.CurrentY = Printer.CurrentY - 300
+            Printer.Print(SpInstLines(I)) ' lblSpecial
+        Next
+
+        ' Ship to
+        Printer.CurrentX = 6200 : Printer.CurrentY = 2400
+        Printer.FontSize = 14
+        Printer.Print("                SHIP TO ADDRESS:")
+
+        Printer.FontSize = 6
+
+        Printer.CurrentX = 6200 : Printer.CurrentY = 3139
+        Printer.Print("Address")
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.CurrentX = 6200
+        Printer.Print("City / State", SPC(58), "Zip")
+        Printer.Print()
+        Printer.Print()
+        Printer.Print()
+        Printer.CurrentX = 6200
+        'Printer.Print "Telephone3 "
+        Printer.Print(Mail2.PhoneLabel3)
+
+        Printer.CurrentX = 200 : Printer.CurrentY = 5350
+        'special inst
+        Printer.FontSize = 10
+        Printer.Print(MailCheck.SpecialIns)  ' This won't be available..
+
+        Printer.CurrentX = 200 : Printer.CurrentY = 5350
+        ' special inst
+        Printer.FontSize = 10
+
+        Printer_Location(200, 2700, 14) 'name
+        If lblFirstName.Text = "" And lblLastName.Text <> "" Then
+            Printer.Print(lblLastName.Text)
+        Else
+            Printer.Print(lblFirstName.Text, TAB(25), lblLastName.Text)
+        End If
+
+        Printer_Location(200, 3250, 12, lblAddress.Text) 'address
+        Printer_Location(200, 3500, 12, lblAddress2.Text)
+
+        Printer_Location(200, 4050, 12)
+        Printer.Print(Trim(lblCity.Text), TAB(40), Trim(lblZip.Text))
+
+        Printer_Location(200, 4600, 12)
+        Printer.Print(lblTele.Text, TAB(25), lblTele2.Text)
+
+        Printer_Location(6200, 2700, 12)
+        Printer.Print(Mail2.ShipToFirst & " " & Mail2.ShipToLast)
+
+        Printer_Location(6200, 3250, 12)
+        Printer.Print(Trim(Mail2.Address2))
+
+        Printer_Location(6200, 4050, 12)
+        Printer.Print(Trim(Mail2.City2), TAB(96), Trim(Mail2.Zip2))
+
+        Printer_Location(6200, 4600, 12, DressAni(CleanAni(Mail2.Tele3)))
+
+        'Check boxes
+        Printer.FontSize = 14
+        Printer.FontBold = True
+        Printer.DrawWidth = 12
+
+        If QuickCheck = 1 Then SetColor()  'get from data base
+        'Printer.Line(500, 5900)-Step(500, 500), QBColor(0), B
+        Printer.Line(500, 5900, 500, 500, QBColor(0), True)
+        If QuickCheck = 1 Then EndColor
+
+        If QuickCheck = 2 Then SetColor()  'get from data base
+        Printer.Line(3200, 5900, 500, 500, QBColor(0), True)
+        If QuickCheck = 2 Then EndColor
+
+        If QuickCheck = 3 Then SetColor()  'get from data base
+        Printer.Line(6000, 5900, 500, 500, QBColor(0), True)
+        If QuickCheck = 3 Then EndColor
+
+        If QuickCheck = 4 Then SetColor()  'get from data base
+        Printer.Line(9200, 5900, 500, 500, QBColor(0), True)
+        If QuickCheck = 4 Then EndColor
+
+        Printer.CurrentY = 6000
+        Printer.CurrentX = 1100
+        Printer.FontSize = 12
+
+        Printer.Print("Store Service", TAB(34), "Outside Service", TAB(58), "Pick Up & Exchange", TAB(86), "Other")
+
+        Printer.CurrentY = 7000
+        Printer.CurrentX = 150
+        Printer.FontSize = 12
+        Printer.FontBold = True
+        Printer.Print("Items Reported: ")
+
+        Printer.CurrentX = 0 '1000
+        Printer.FontSize = 9
+        Printer.Print("  Vendor", TAB(22), "Style", TAB(43), "Sale No", TAB(56), "Quan", TAB(63), "Del Date", TAB(78), "Description", TAB(118), "Inv/Ack No.")
+        Printer.FontBold = False
+        Printer.FontName = "Courier New"
+        Printer.FontSize = 9
+        Printer.FontBold = True
+
+
+
+        '          Printer.Print txtItems 'items  and notes..
+        Dim ind As Integer, PrintNotes As Boolean
+        For ind = 1 To tvItemNotes.Nodes.Count
+            If IsIn(Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2), "ML", "EX") Then
+                If tvItemNotes.Nodes(ind).ForeColor = Color.Red Then
+                    Printer.Print(tvItemNotes.Nodes(ind).Text)
+                    ' Print this line..
+                    PrintNotes = True
+                Else
+                    PrintNotes = False
+                End If
+            ElseIf PrintNotes And (microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2)) = "SN" Then
+                ' Print this line.
+                Printer.Print(TAB(5), tvItemNotes.Nodes(ind).Text)
+            End If
+        Next
+
+        Printer.FontBold = False
+        Printer.FontName = "Arial"
+        Printer.Print()
+        Printer.Print()
+        Printer.FontSize = 14
+        Printer.CurrentX = 150
+        Printer.FontBold = True
+        Printer.Print("Customer Complaint:")
+        Printer.FontBold = False
+        Printer.FontSize = 12
+        Printer.CurrentX = 0
+        Printer.Print(WrapLongText(Notes_Text.Text, 92))
+
+        Printer.Print()
+        Printer.Print()
+        Printer.FontSize = 14
+        Printer.CurrentX = 150
+        Printer.FontBold = True
+        Printer.Print("Store Response:")
+        Printer.FontBold = False
+        Printer.FontSize = 12
+        Printer.CurrentX = 0
+        Printer.Print(WrapLongText(Notes_New.Text, 92))
+
+        Printer.Print()
+        Printer.Print()
+        Printer.FontSize = 14
+        Printer.CurrentX = 150
+        Printer.FontBold = True
+        Printer.Print("Technician's Report:")
+        Printer.FontBold = False
+        Printer.FontSize = 12
+        Printer.CurrentX = 0
+
+        Printer.FontSize = 10
+        Printer.CurrentY = 14400 '14500
+        Printer.CurrentX = 0
+
+        Printer.FontBold = True
+        Printer.Print("______________________________ ")
+
+        Printer.FontBold = False
+        Printer.Print("Technician:______________________ Hours:__________ Charges:__________")
+
+        Printer.FontBold = True
+        Printer.Print("     Customer Satisfied:")
+        Printer.FontBold = False
+        Printer.EndDoc()
+    End Sub
+
+    Private Function GetCheckBoxValue() As Long
+        If chkOther.Checked = True Then GetCheckBoxValue = 4
+        If chkPickupExchange.Checked = True Then GetCheckBoxValue = 3
+        If chkOutsideService.Checked = True Then GetCheckBoxValue = 2
+        If chkStoreService.Checked = True Then GetCheckBoxValue = 1
+    End Function
+
+    Private Sub SetColor()
+        Printer.FillColor = QBColor(0)
+        Printer.FillStyle = QBColor(0)
+    End Sub
+
+    Private Sub EndColor()
+        Printer.FillColor = QBColor(15)
+    End Sub
+
 End Class
+

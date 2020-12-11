@@ -24,6 +24,7 @@ Partial Class Service
     Private Sub InitializeComponent()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.fraCustInfo = New System.Windows.Forms.GroupBox()
+        Me.lblSpecial = New System.Windows.Forms.Label()
         Me.cmdAddItem = New System.Windows.Forms.Button()
         Me.cmdRepairTag = New System.Windows.Forms.Button()
         Me.cmdAddItemNote = New System.Windows.Forms.Button()
@@ -34,8 +35,8 @@ Partial Class Service
         Me.chkStoreService = New System.Windows.Forms.CheckBox()
         Me.tvItemNotes = New System.Windows.Forms.TreeView()
         Me.lblTimeWindow = New System.Windows.Forms.Label()
-        Me.dtpDelWindow2 = New System.Windows.Forms.DateTimePicker()
-        Me.dtpDelWindow = New System.Windows.Forms.DateTimePicker()
+        Me.dtpDelWindow1 = New System.Windows.Forms.DateTimePicker()
+        Me.dtpDelWindow0 = New System.Windows.Forms.DateTimePicker()
         Me.lblSaleNo = New System.Windows.Forms.Label()
         Me.lblSaleNoCaption = New System.Windows.Forms.Label()
         Me.lblClaimDate = New System.Windows.Forms.Label()
@@ -76,10 +77,18 @@ Partial Class Service
         Me.cmdMoveFirst = New System.Windows.Forms.Button()
         Me.Notes_New = New System.Windows.Forms.TextBox()
         Me.Notes_Text = New System.Windows.Forms.TextBox()
-        Me.lblSpecial = New System.Windows.Forms.Label()
+        Me.ItemNotesFrame = New System.Windows.Forms.GroupBox()
+        Me.cmdCancelItemNote = New System.Windows.Forms.Button()
+        Me.cmdSaveItemNote = New System.Windows.Forms.Button()
+        Me.txtItemNotes = New System.Windows.Forms.TextBox()
+        Me.lblItemNotesCaption = New System.Windows.Forms.Label()
+        Me.lblNewNote = New System.Windows.Forms.Label()
+        Me.fraTimeWindow = New System.Windows.Forms.GroupBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraCustInfo.SuspendLayout()
         Me.Notes_Frame.SuspendLayout()
+        Me.ItemNotesFrame.SuspendLayout()
+        Me.fraTimeWindow.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgLogo
@@ -87,11 +96,14 @@ Partial Class Service
         Me.imgLogo.Location = New System.Drawing.Point(3, 3)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(348, 164)
+        Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.imgLogo.TabIndex = 0
         Me.imgLogo.TabStop = False
+        Me.imgLogo.Visible = False
         '
         'fraCustInfo
         '
+        Me.fraCustInfo.Controls.Add(Me.fraTimeWindow)
         Me.fraCustInfo.Controls.Add(Me.lblSpecial)
         Me.fraCustInfo.Controls.Add(Me.cmdAddItem)
         Me.fraCustInfo.Controls.Add(Me.cmdRepairTag)
@@ -102,9 +114,6 @@ Partial Class Service
         Me.fraCustInfo.Controls.Add(Me.chkOutsideService)
         Me.fraCustInfo.Controls.Add(Me.chkStoreService)
         Me.fraCustInfo.Controls.Add(Me.tvItemNotes)
-        Me.fraCustInfo.Controls.Add(Me.lblTimeWindow)
-        Me.fraCustInfo.Controls.Add(Me.dtpDelWindow2)
-        Me.fraCustInfo.Controls.Add(Me.dtpDelWindow)
         Me.fraCustInfo.Controls.Add(Me.lblSaleNo)
         Me.fraCustInfo.Controls.Add(Me.lblSaleNoCaption)
         Me.fraCustInfo.Controls.Add(Me.lblClaimDate)
@@ -135,6 +144,14 @@ Partial Class Service
         Me.fraCustInfo.TabIndex = 1
         Me.fraCustInfo.TabStop = False
         Me.fraCustInfo.Text = " Customer Information "
+        '
+        'lblSpecial
+        '
+        Me.lblSpecial.Location = New System.Drawing.Point(16, 132)
+        Me.lblSpecial.Name = "lblSpecial"
+        Me.lblSpecial.Size = New System.Drawing.Size(378, 8)
+        Me.lblSpecial.TabIndex = 36
+        Me.lblSpecial.Text = "lblSpecial"
         '
         'cmdAddItem
         '
@@ -217,6 +234,8 @@ Partial Class Service
         '
         'tvItemNotes
         '
+        Me.tvItemNotes.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tvItemNotes.FullRowSelect = True
         Me.tvItemNotes.Location = New System.Drawing.Point(10, 143)
         Me.tvItemNotes.Name = "tvItemNotes"
         Me.tvItemNotes.Size = New System.Drawing.Size(664, 97)
@@ -225,31 +244,31 @@ Partial Class Service
         'lblTimeWindow
         '
         Me.lblTimeWindow.AutoSize = True
-        Me.lblTimeWindow.Location = New System.Drawing.Point(564, 86)
+        Me.lblTimeWindow.Location = New System.Drawing.Point(96, 20)
         Me.lblTimeWindow.Name = "lblTimeWindow"
         Me.lblTimeWindow.Size = New System.Drawing.Size(20, 13)
         Me.lblTimeWindow.TabIndex = 24
         Me.lblTimeWindow.Text = "To"
         '
-        'dtpDelWindow2
+        'dtpDelWindow1
         '
-        Me.dtpDelWindow2.CustomFormat = "h:mm tt"
-        Me.dtpDelWindow2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDelWindow2.Location = New System.Drawing.Point(584, 85)
-        Me.dtpDelWindow2.Name = "dtpDelWindow2"
-        Me.dtpDelWindow2.ShowCheckBox = True
-        Me.dtpDelWindow2.Size = New System.Drawing.Size(90, 20)
-        Me.dtpDelWindow2.TabIndex = 23
+        Me.dtpDelWindow1.CustomFormat = "h:mm tt"
+        Me.dtpDelWindow1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDelWindow1.Location = New System.Drawing.Point(116, 13)
+        Me.dtpDelWindow1.Name = "dtpDelWindow1"
+        Me.dtpDelWindow1.ShowCheckBox = True
+        Me.dtpDelWindow1.Size = New System.Drawing.Size(80, 20)
+        Me.dtpDelWindow1.TabIndex = 23
         '
-        'dtpDelWindow
+        'dtpDelWindow0
         '
-        Me.dtpDelWindow.CustomFormat = "h:mm tt"
-        Me.dtpDelWindow.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDelWindow.Location = New System.Drawing.Point(477, 86)
-        Me.dtpDelWindow.Name = "dtpDelWindow"
-        Me.dtpDelWindow.ShowCheckBox = True
-        Me.dtpDelWindow.Size = New System.Drawing.Size(88, 20)
-        Me.dtpDelWindow.TabIndex = 22
+        Me.dtpDelWindow0.CustomFormat = "h:mm tt"
+        Me.dtpDelWindow0.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDelWindow0.Location = New System.Drawing.Point(6, 13)
+        Me.dtpDelWindow0.Name = "dtpDelWindow0"
+        Me.dtpDelWindow0.ShowCheckBox = True
+        Me.dtpDelWindow0.Size = New System.Drawing.Size(84, 20)
+        Me.dtpDelWindow0.TabIndex = 22
         '
         'lblSaleNo
         '
@@ -257,13 +276,14 @@ Partial Class Service
         Me.lblSaleNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblSaleNo.Location = New System.Drawing.Point(584, 61)
         Me.lblSaleNo.Name = "lblSaleNo"
-        Me.lblSaleNo.Size = New System.Drawing.Size(90, 23)
+        Me.lblSaleNo.Size = New System.Drawing.Size(90, 20)
         Me.lblSaleNo.TabIndex = 21
+        Me.lblSaleNo.Visible = False
         '
         'lblSaleNoCaption
         '
         Me.lblSaleNoCaption.AutoSize = True
-        Me.lblSaleNoCaption.Location = New System.Drawing.Point(494, 62)
+        Me.lblSaleNoCaption.Location = New System.Drawing.Point(492, 61)
         Me.lblSaleNoCaption.Name = "lblSaleNoCaption"
         Me.lblSaleNoCaption.Size = New System.Drawing.Size(71, 13)
         Me.lblSaleNoCaption.TabIndex = 20
@@ -275,13 +295,13 @@ Partial Class Service
         Me.lblClaimDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblClaimDate.Location = New System.Drawing.Point(584, 37)
         Me.lblClaimDate.Name = "lblClaimDate"
-        Me.lblClaimDate.Size = New System.Drawing.Size(90, 23)
+        Me.lblClaimDate.Size = New System.Drawing.Size(90, 21)
         Me.lblClaimDate.TabIndex = 19
         '
         'lblCapClaimDate
         '
         Me.lblCapClaimDate.AutoSize = True
-        Me.lblCapClaimDate.Location = New System.Drawing.Point(494, 40)
+        Me.lblCapClaimDate.Location = New System.Drawing.Point(492, 38)
         Me.lblCapClaimDate.Name = "lblCapClaimDate"
         Me.lblCapClaimDate.Size = New System.Drawing.Size(73, 13)
         Me.lblCapClaimDate.TabIndex = 18
@@ -293,13 +313,13 @@ Partial Class Service
         Me.lblServiceOrderNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblServiceOrderNo.Location = New System.Drawing.Point(584, 11)
         Me.lblServiceOrderNo.Name = "lblServiceOrderNo"
-        Me.lblServiceOrderNo.Size = New System.Drawing.Size(90, 25)
+        Me.lblServiceOrderNo.Size = New System.Drawing.Size(90, 23)
         Me.lblServiceOrderNo.TabIndex = 17
         '
         'lblCapServiceOrderNo
         '
         Me.lblCapServiceOrderNo.AutoSize = True
-        Me.lblCapServiceOrderNo.Location = New System.Drawing.Point(494, 15)
+        Me.lblCapServiceOrderNo.Location = New System.Drawing.Point(492, 12)
         Me.lblCapServiceOrderNo.Name = "lblCapServiceOrderNo"
         Me.lblCapServiceOrderNo.Size = New System.Drawing.Size(92, 13)
         Me.lblCapServiceOrderNo.TabIndex = 16
@@ -308,7 +328,7 @@ Partial Class Service
         'lblTele3
         '
         Me.lblTele3.AutoSize = True
-        Me.lblTele3.Location = New System.Drawing.Point(369, 113)
+        Me.lblTele3.Location = New System.Drawing.Point(364, 113)
         Me.lblTele3.Name = "lblTele3"
         Me.lblTele3.Size = New System.Drawing.Size(44, 13)
         Me.lblTele3.TabIndex = 15
@@ -363,7 +383,7 @@ Partial Class Service
         'lblTele2
         '
         Me.lblTele2.AutoSize = True
-        Me.lblTele2.Location = New System.Drawing.Point(211, 113)
+        Me.lblTele2.Location = New System.Drawing.Point(185, 113)
         Me.lblTele2.Name = "lblTele2"
         Me.lblTele2.Size = New System.Drawing.Size(44, 13)
         Me.lblTele2.TabIndex = 9
@@ -381,7 +401,7 @@ Partial Class Service
         'lblTele
         '
         Me.lblTele.AutoSize = True
-        Me.lblTele.Location = New System.Drawing.Point(59, 113)
+        Me.lblTele.Location = New System.Drawing.Point(54, 113)
         Me.lblTele.Name = "lblTele"
         Me.lblTele.Size = New System.Drawing.Size(38, 13)
         Me.lblTele.TabIndex = 7
@@ -416,7 +436,7 @@ Partial Class Service
         '
         Me.lblAddress2.Location = New System.Drawing.Point(13, 63)
         Me.lblAddress2.Name = "lblAddress2"
-        Me.lblAddress2.Size = New System.Drawing.Size(297, 23)
+        Me.lblAddress2.Size = New System.Drawing.Size(318, 23)
         Me.lblAddress2.TabIndex = 3
         Me.lblAddress2.Text = "lblAddress2"
         '
@@ -479,9 +499,9 @@ Partial Class Service
         Me.Notes_Frame.Controls.Add(Me.cmdMoveFirst)
         Me.Notes_Frame.Controls.Add(Me.Notes_New)
         Me.Notes_Frame.Controls.Add(Me.Notes_Text)
-        Me.Notes_Frame.Location = New System.Drawing.Point(3, 286)
+        Me.Notes_Frame.Location = New System.Drawing.Point(704, 17)
         Me.Notes_Frame.Name = "Notes_Frame"
-        Me.Notes_Frame.Size = New System.Drawing.Size(680, 279)
+        Me.Notes_Frame.Size = New System.Drawing.Size(680, 256)
         Me.Notes_Frame.TabIndex = 2
         Me.Notes_Frame.TabStop = False
         Me.Notes_Frame.Text = "Customer Comp&laint:"
@@ -489,7 +509,7 @@ Partial Class Service
         'lblStoreResponse
         '
         Me.lblStoreResponse.AutoSize = True
-        Me.lblStoreResponse.Location = New System.Drawing.Point(36, 115)
+        Me.lblStoreResponse.Location = New System.Drawing.Point(36, 102)
         Me.lblStoreResponse.Name = "lblStoreResponse"
         Me.lblStoreResponse.Size = New System.Drawing.Size(95, 13)
         Me.lblStoreResponse.TabIndex = 14
@@ -500,60 +520,62 @@ Partial Class Service
         Me.lblPartsOrd.AutoSize = True
         Me.lblPartsOrd.BackColor = System.Drawing.Color.Yellow
         Me.lblPartsOrd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblPartsOrd.Location = New System.Drawing.Point(586, 259)
+        Me.lblPartsOrd.Location = New System.Drawing.Point(586, 233)
         Me.lblPartsOrd.Name = "lblPartsOrd"
         Me.lblPartsOrd.Size = New System.Drawing.Size(90, 15)
         Me.lblPartsOrd.TabIndex = 13
         Me.lblPartsOrd.Text = "N Parts On Order"
+        Me.lblPartsOrd.Visible = False
         '
         'cmdOrderParts
         '
-        Me.cmdOrderParts.Location = New System.Drawing.Point(599, 232)
+        Me.cmdOrderParts.Location = New System.Drawing.Point(599, 206)
         Me.cmdOrderParts.Name = "cmdOrderParts"
         Me.cmdOrderParts.Size = New System.Drawing.Size(75, 23)
         Me.cmdOrderParts.TabIndex = 12
         Me.cmdOrderParts.Text = "&Order Parts"
         Me.cmdOrderParts.UseVisualStyleBackColor = True
+        Me.cmdOrderParts.Visible = False
         '
         'cmdMenu
         '
-        Me.cmdMenu.Location = New System.Drawing.Point(424, 229)
+        Me.cmdMenu.Location = New System.Drawing.Point(421, 203)
         Me.cmdMenu.Name = "cmdMenu"
-        Me.cmdMenu.Size = New System.Drawing.Size(47, 29)
+        Me.cmdMenu.Size = New System.Drawing.Size(47, 43)
         Me.cmdMenu.TabIndex = 11
         Me.cmdMenu.Text = "&Menu"
         Me.cmdMenu.UseVisualStyleBackColor = True
         '
         'cmdNext
         '
-        Me.cmdNext.Location = New System.Drawing.Point(384, 229)
+        Me.cmdNext.Location = New System.Drawing.Point(382, 203)
         Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(40, 29)
+        Me.cmdNext.Size = New System.Drawing.Size(40, 43)
         Me.cmdNext.TabIndex = 10
         Me.cmdNext.Text = "&Next"
         Me.cmdNext.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(344, 229)
+        Me.cmdPrint.Location = New System.Drawing.Point(343, 203)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(40, 29)
+        Me.cmdPrint.Size = New System.Drawing.Size(40, 43)
         Me.cmdPrint.TabIndex = 9
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(304, 229)
+        Me.cmdSave.Location = New System.Drawing.Point(304, 203)
         Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(40, 29)
+        Me.cmdSave.Size = New System.Drawing.Size(40, 43)
         Me.cmdSave.TabIndex = 8
         Me.cmdSave.Text = "&Save"
         Me.cmdSave.UseVisualStyleBackColor = True
         '
         'cmdMoveSearch
         '
-        Me.cmdMoveSearch.Location = New System.Drawing.Point(178, 246)
+        Me.cmdMoveSearch.Location = New System.Drawing.Point(138, 223)
         Me.cmdMoveSearch.Name = "cmdMoveSearch"
         Me.cmdMoveSearch.Size = New System.Drawing.Size(69, 23)
         Me.cmdMoveSearch.TabIndex = 7
@@ -563,7 +585,7 @@ Partial Class Service
         'lblMoveRecords
         '
         Me.lblMoveRecords.AutoSize = True
-        Me.lblMoveRecords.Location = New System.Drawing.Point(6, 229)
+        Me.lblMoveRecords.Location = New System.Drawing.Point(32, 203)
         Me.lblMoveRecords.Name = "lblMoveRecords"
         Me.lblMoveRecords.Size = New System.Drawing.Size(80, 13)
         Me.lblMoveRecords.TabIndex = 6
@@ -571,44 +593,44 @@ Partial Class Service
         '
         'cmdMoveLast
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(123, 242)
+        Me.cmdMoveLast.Location = New System.Drawing.Point(100, 216)
         Me.cmdMoveLast.Name = "cmdMoveLast"
-        Me.cmdMoveLast.Size = New System.Drawing.Size(38, 30)
+        Me.cmdMoveLast.Size = New System.Drawing.Size(32, 30)
         Me.cmdMoveLast.TabIndex = 5
         Me.cmdMoveLast.UseVisualStyleBackColor = True
         '
         'cmdMoveNext
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(85, 242)
+        Me.cmdMoveNext.Location = New System.Drawing.Point(70, 216)
         Me.cmdMoveNext.Name = "cmdMoveNext"
-        Me.cmdMoveNext.Size = New System.Drawing.Size(38, 30)
+        Me.cmdMoveNext.Size = New System.Drawing.Size(32, 30)
         Me.cmdMoveNext.TabIndex = 4
         Me.cmdMoveNext.UseVisualStyleBackColor = True
         '
         'cmdMovePrevious
         '
-        Me.cmdMovePrevious.Location = New System.Drawing.Point(47, 242)
+        Me.cmdMovePrevious.Location = New System.Drawing.Point(39, 216)
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
-        Me.cmdMovePrevious.Size = New System.Drawing.Size(38, 30)
+        Me.cmdMovePrevious.Size = New System.Drawing.Size(32, 30)
         Me.cmdMovePrevious.TabIndex = 3
         Me.cmdMovePrevious.UseVisualStyleBackColor = True
         '
         'cmdMoveFirst
         '
-        Me.cmdMoveFirst.Location = New System.Drawing.Point(9, 242)
+        Me.cmdMoveFirst.Location = New System.Drawing.Point(9, 216)
         Me.cmdMoveFirst.Name = "cmdMoveFirst"
-        Me.cmdMoveFirst.Size = New System.Drawing.Size(38, 30)
+        Me.cmdMoveFirst.Size = New System.Drawing.Size(32, 30)
         Me.cmdMoveFirst.TabIndex = 2
         Me.cmdMoveFirst.UseVisualStyleBackColor = True
         '
         'Notes_New
         '
         Me.Notes_New.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Notes_New.Location = New System.Drawing.Point(10, 131)
+        Me.Notes_New.Location = New System.Drawing.Point(10, 118)
         Me.Notes_New.Multiline = True
         Me.Notes_New.Name = "Notes_New"
         Me.Notes_New.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Notes_New.Size = New System.Drawing.Size(665, 94)
+        Me.Notes_New.Size = New System.Drawing.Size(665, 80)
         Me.Notes_New.TabIndex = 1
         '
         'Notes_Text
@@ -618,32 +640,103 @@ Partial Class Service
         Me.Notes_Text.Multiline = True
         Me.Notes_Text.Name = "Notes_Text"
         Me.Notes_Text.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Notes_Text.Size = New System.Drawing.Size(665, 93)
+        Me.Notes_Text.Size = New System.Drawing.Size(665, 80)
         Me.Notes_Text.TabIndex = 0
         '
-        'lblSpecial
+        'ItemNotesFrame
         '
-        Me.lblSpecial.Location = New System.Drawing.Point(16, 132)
-        Me.lblSpecial.Name = "lblSpecial"
-        Me.lblSpecial.Size = New System.Drawing.Size(378, 8)
-        Me.lblSpecial.TabIndex = 36
-        Me.lblSpecial.Text = "lblSpecial"
+        Me.ItemNotesFrame.Controls.Add(Me.cmdCancelItemNote)
+        Me.ItemNotesFrame.Controls.Add(Me.cmdSaveItemNote)
+        Me.ItemNotesFrame.Controls.Add(Me.txtItemNotes)
+        Me.ItemNotesFrame.Controls.Add(Me.lblItemNotesCaption)
+        Me.ItemNotesFrame.Controls.Add(Me.lblNewNote)
+        Me.ItemNotesFrame.Location = New System.Drawing.Point(12, 286)
+        Me.ItemNotesFrame.Name = "ItemNotesFrame"
+        Me.ItemNotesFrame.Size = New System.Drawing.Size(680, 256)
+        Me.ItemNotesFrame.TabIndex = 3
+        Me.ItemNotesFrame.TabStop = False
+        Me.ItemNotesFrame.Text = " Item Notes "
+        '
+        'cmdCancelItemNote
+        '
+        Me.cmdCancelItemNote.Location = New System.Drawing.Point(301, 193)
+        Me.cmdCancelItemNote.Name = "cmdCancelItemNote"
+        Me.cmdCancelItemNote.Size = New System.Drawing.Size(75, 55)
+        Me.cmdCancelItemNote.TabIndex = 4
+        Me.cmdCancelItemNote.Text = "&Cancel Note"
+        Me.cmdCancelItemNote.UseVisualStyleBackColor = True
+        '
+        'cmdSaveItemNote
+        '
+        Me.cmdSaveItemNote.Location = New System.Drawing.Point(220, 193)
+        Me.cmdSaveItemNote.Name = "cmdSaveItemNote"
+        Me.cmdSaveItemNote.Size = New System.Drawing.Size(75, 55)
+        Me.cmdSaveItemNote.TabIndex = 3
+        Me.cmdSaveItemNote.Text = "&Save Note"
+        Me.cmdSaveItemNote.UseVisualStyleBackColor = True
+        '
+        'txtItemNotes
+        '
+        Me.txtItemNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtItemNotes.Location = New System.Drawing.Point(16, 40)
+        Me.txtItemNotes.Multiline = True
+        Me.txtItemNotes.Name = "txtItemNotes"
+        Me.txtItemNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtItemNotes.Size = New System.Drawing.Size(604, 135)
+        Me.txtItemNotes.TabIndex = 2
+        '
+        'lblItemNotesCaption
+        '
+        Me.lblItemNotesCaption.AutoSize = True
+        Me.lblItemNotesCaption.Location = New System.Drawing.Point(144, 19)
+        Me.lblItemNotesCaption.Name = "lblItemNotesCaption"
+        Me.lblItemNotesCaption.Size = New System.Drawing.Size(122, 13)
+        Me.lblItemNotesCaption.TabIndex = 1
+        Me.lblItemNotesCaption.Text = "(Item Identification Here)"
+        '
+        'lblNewNote
+        '
+        Me.lblNewNote.AutoSize = True
+        Me.lblNewNote.Location = New System.Drawing.Point(16, 19)
+        Me.lblNewNote.Name = "lblNewNote"
+        Me.lblNewNote.Size = New System.Drawing.Size(122, 13)
+        Me.lblNewNote.TabIndex = 0
+        Me.lblNewNote.Text = "Enter new note for item: "
+        '
+        'fraTimeWindow
+        '
+        Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow0)
+        Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow1)
+        Me.fraTimeWindow.Controls.Add(Me.lblTimeWindow)
+        Me.fraTimeWindow.Location = New System.Drawing.Point(466, 86)
+        Me.fraTimeWindow.Name = "fraTimeWindow"
+        Me.fraTimeWindow.Size = New System.Drawing.Size(200, 36)
+        Me.fraTimeWindow.TabIndex = 4
+        Me.fraTimeWindow.TabStop = False
         '
         'Service
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(689, 571)
+        Me.ClientSize = New System.Drawing.Size(1136, 546)
+        Me.Controls.Add(Me.ItemNotesFrame)
         Me.Controls.Add(Me.Notes_Frame)
         Me.Controls.Add(Me.fraCustInfo)
         Me.Controls.Add(Me.imgLogo)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.Name = "Service"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Service Module Intake"
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraCustInfo.ResumeLayout(False)
         Me.fraCustInfo.PerformLayout()
         Me.Notes_Frame.ResumeLayout(False)
         Me.Notes_Frame.PerformLayout()
+        Me.ItemNotesFrame.ResumeLayout(False)
+        Me.ItemNotesFrame.PerformLayout()
+        Me.fraTimeWindow.ResumeLayout(False)
+        Me.fraTimeWindow.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -672,8 +765,8 @@ Partial Class Service
     Friend WithEvents lblCapTele2 As Label
     Friend WithEvents lblTele As Label
     Friend WithEvents lblCapTele As Label
-    Friend WithEvents dtpDelWindow2 As DateTimePicker
-    Friend WithEvents dtpDelWindow As DateTimePicker
+    Friend WithEvents dtpDelWindow1 As DateTimePicker
+    Friend WithEvents dtpDelWindow0 As DateTimePicker
     Friend WithEvents lblTimeWindow As Label
     Friend WithEvents cmdRepairTag As Button
     Friend WithEvents cmdAddItemNote As Button
@@ -703,4 +796,11 @@ Partial Class Service
     Friend WithEvents txtItems As TextBox
     Friend WithEvents lstPurchases As CheckedListBox
     Friend WithEvents lblSpecial As Label
+    Friend WithEvents ItemNotesFrame As GroupBox
+    Friend WithEvents cmdCancelItemNote As Button
+    Friend WithEvents cmdSaveItemNote As Button
+    Friend WithEvents txtItemNotes As TextBox
+    Friend WithEvents lblItemNotesCaption As Label
+    Friend WithEvents lblNewNote As Label
+    Friend WithEvents fraTimeWindow As GroupBox
 End Class

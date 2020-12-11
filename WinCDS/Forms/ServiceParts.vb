@@ -4,10 +4,22 @@
     Dim Store As Integer
     Dim ServiceCallNumber As Integer
     Dim PartsOrderID As Integer
+
     Public Enum ServiceForMode
         ServiceMode_ForCustomer = 0
         ServiceMode_ForStock = 1
     End Enum
+
+    Public Function SetOwner(ByRef frmOwner As Form) As Boolean
+        If Not Owner Is Nothing Then
+            SetOwner = False
+            MessageBox.Show("Error setting owner of ServiceParts form.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Function
+        End If
+        Owner = frmOwner
+        ' Also affect navigation buttons.
+        ' On Unload, notify owner.
+    End Function
 
     Public Sub SelectMode(Optional ByVal Sm As ServiceForMode = ServiceForMode.ServiceMode_ForCustomer, Optional ByVal ChangeSelectBox As Boolean = False, Optional ByVal ChangeBaseFormMode As Boolean = False)
         Dim Stock As Boolean
@@ -145,4 +157,124 @@
         cmdMovePrevious.Enabled = Navigate
         cmdMoveSearch.Enabled = Search
     End Sub
+
+    Public Sub LoadInfoFromMarginLine(Optional ByVal ML As Long = -1, Optional ByVal HideSaleNo As Boolean = False)
+        Dim Margin As CGrossMargin
+  
+  Set Margin = New CGrossMargin
+  
+  If ML <> -1 Then MarginLine = ML
+
+        If Margin.Load(CStr(MarginLine), "#MarginLine") Then
+            txtStyleNo = Margin.Style
+            txtDescription = Margin.Desc
+            txtSaleNo = Margin.SaleNo
+            GetInvoiceInfoFromSaleNo Margin.SaleNo
+    txtSaleNo.Tag = IIf(txtSaleNo = "", "", "VALID")
+            LoadVendor Margin.Vendor
+'    Notes_Text.Text = "Margin Line " & AddedML  ' removed:  bfh20050218
+        Else
+            MsgBox "Error: Can't load GrossMargin item.", vbCritical, "Error"
+    MarginLine = 0
+        End If
+
+        lblMarginLine = MarginLine
+
+        If MarginLine = 0 Then
+            txtStyleNo = ""
+            txtDescription = ""
+            txtSaleNo = ""
+        End If
+        If HideSaleNo Then
+            txtSaleNo.Visible = False
+            lblSaleNo.Visible = False
+        End If
+
+        DisposeDA Margin
+End Sub
+
+    Public Function LoadServiceCall(ByVal sC As Long) As Boolean
+        ' Load as much as we can from Service Call Number (vendor, cust, etc).
+        ServiceCallNumber = sC
+        lblServiceOrderNo.Caption = sC
+        Dim nSC As clsServiceOrder
+        Dim MailRec As clsMailRec
+  
+  Set nSC = New clsServiceOrder
+  If nSC.Load(CStr(sC), "#ServiceOrderNo") Then
+            ' Fill in necessary SC-related information.
+            ' Customer name and address
+            LoadServiceCall = True
+    ' Look up mail record for this information:
+    Set MailRec = New clsMailRec
+    If MailRec.Load(nSC.MailIndex, "#Index") Then
+                lblFirstName.Caption = MailRec.First
+                lblLastName.Caption = MailRec.Last
+                lblAddress.Caption = MailRec.Address
+                lblAddress2.Caption = MailRec.AddAddress
+                lblCity.Caption = MailRec.City
+                lblZip.Caption = MailRec.Zip
+                lblTele.Caption = DressAni(CleanAni(MailRec.Tele))
+                lblTele2.Caption = DressAni(CleanAni(MailRec.Tele2))
+                Dim Mail2 As MailNew2
+                modMail.Mail2_GetAtIndex MailRec.Index, Mail2
+      lblTele3.Caption = Mail2.Tele3
+                UpdateTelephoneLabels MailRec.PhoneLabel1, MailRec.PhoneLabel2, Mail2.PhoneLabel3
+    Else ' Can't load mail record.
+                lblLastName.Caption = "Missing Customer Information"
+                UpdateTelephoneLabels "", "", ""
+    End If
+        Else
+            ' Can't load service call!
+            ' Calling functions will handle error messages.
+            LoadServiceCall = False
+        End If
+
+        ' Some operations are affected when ordering parts for a customer:
+        '  Parts list is limited to parts the customer has purchased.
+        '  When displaying parts in AddOnAcc, omit parts on current SO.
+        '  Navigation is only possible within the SO/Customer.
+        '   Different vendors are possible, so many PO/SO can happen.
+        EnableNavigation()
+
+        DisposeDA nSC, MailRec
+End Function
+
+    Public Function LoadRelativePartsOrder(ByVal Dir As Long, Optional ByVal Max As Boolean = False, Optional ByVal RestrictToCurrentServiceCall As Boolean = True) As Boolean
+        Dim SQL As String, BaseRestrict As String, DirS As String, DirP As String
+        Dim RS As Recordset, NewID As Long
+
+        If Dir = 0 Then Exit Function
+        BaseRestrict = "WHERE (TRUE=TRUE)" ' allows adding additional " AND ..." clauses w/o checks
+        If CreateNewMode = ServiceMode_ForCustomer And ServiceCallNumber <> 0 And RestrictToCurrentServiceCall Then
+            BaseRestrict = BaseRestrict & " AND (ServiceOrderNo = " & ServiceCallNumber & ")"
+        End If
+
+        If Max Then
+            DirS = ""
+            DirP = IIf(Dir < 0, " ASC", " DESC")
+        Else
+            DirS = " AND (ServicePartsOrderNo" &
+           IIf(Dir < 0, "<", ">") &
+           PartsOrderID &
+          ")"
+            DirP = IIf(Dir > 0, " ASC", " DESC")
+        End If
+
+        SQL = "SELECT TOP 1 ServicePartsOrderNo FROM ServicePartsOrder " & BaseRestrict & DirS &
+        " ORDER BY ServicePartsOrderNo" & DirP
+  Set RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+  
+  On Error GoTo NoID
+        NewID = 0
+        NewID = RS("ServicePartsOrderNo")
+        If NewID <> 0 Then
+            ClearServiceCall True
+    LoadPartsOrder NewID
+  End If
+        LoadRelativePartsOrder = True
+        DisposeDA RS
+NoID:
+    End Function
+
 End Class

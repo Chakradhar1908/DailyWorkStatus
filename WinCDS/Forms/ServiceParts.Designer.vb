@@ -46,6 +46,20 @@ Partial Class ServiceParts
         Me.cmdMoveLast = New System.Windows.Forms.Button()
         Me.cmdMoveSearch = New System.Windows.Forms.Button()
         Me.lblMoveRecords = New System.Windows.Forms.Label()
+        Me.lblFirstName = New System.Windows.Forms.Label()
+        Me.lblLastName = New System.Windows.Forms.Label()
+        Me.lblAddress = New System.Windows.Forms.Label()
+        Me.lblAddress2 = New System.Windows.Forms.Label()
+        Me.lblCity = New System.Windows.Forms.Label()
+        Me.lblZip = New System.Windows.Forms.Label()
+        Me.lblTele1Caption = New System.Windows.Forms.Label()
+        Me.lblTele2Caption = New System.Windows.Forms.Label()
+        Me.lblTele3Caption = New System.Windows.Forms.Label()
+        Me.lblTele = New System.Windows.Forms.Label()
+        Me.lblTele2 = New System.Windows.Forms.Label()
+        Me.lblTele3 = New System.Windows.Forms.Label()
+        Me.txtStyleNo = New System.Windows.Forms.TextBox()
+        Me.txtDescription = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'optTagStock
@@ -74,7 +88,7 @@ Partial Class ServiceParts
         '
         Me.fraCustomer.Location = New System.Drawing.Point(65, 109)
         Me.fraCustomer.Name = "fraCustomer"
-        Me.fraCustomer.Size = New System.Drawing.Size(200, 100)
+        Me.fraCustomer.Size = New System.Drawing.Size(200, 77)
         Me.fraCustomer.TabIndex = 2
         Me.fraCustomer.TabStop = False
         Me.fraCustomer.Text = "GroupBox1"
@@ -251,11 +265,147 @@ Partial Class ServiceParts
         Me.lblMoveRecords.TabIndex = 23
         Me.lblMoveRecords.Text = "Label1"
         '
+        'lblFirstName
+        '
+        Me.lblFirstName.AutoSize = True
+        Me.lblFirstName.Location = New System.Drawing.Point(12, 209)
+        Me.lblFirstName.Name = "lblFirstName"
+        Me.lblFirstName.Size = New System.Drawing.Size(39, 13)
+        Me.lblFirstName.TabIndex = 24
+        Me.lblFirstName.Text = "Label1"
+        '
+        'lblLastName
+        '
+        Me.lblLastName.AutoSize = True
+        Me.lblLastName.Location = New System.Drawing.Point(12, 233)
+        Me.lblLastName.Name = "lblLastName"
+        Me.lblLastName.Size = New System.Drawing.Size(39, 13)
+        Me.lblLastName.TabIndex = 25
+        Me.lblLastName.Text = "Label1"
+        '
+        'lblAddress
+        '
+        Me.lblAddress.AutoSize = True
+        Me.lblAddress.Location = New System.Drawing.Point(12, 255)
+        Me.lblAddress.Name = "lblAddress"
+        Me.lblAddress.Size = New System.Drawing.Size(39, 13)
+        Me.lblAddress.TabIndex = 26
+        Me.lblAddress.Text = "Label1"
+        '
+        'lblAddress2
+        '
+        Me.lblAddress2.AutoSize = True
+        Me.lblAddress2.Location = New System.Drawing.Point(12, 285)
+        Me.lblAddress2.Name = "lblAddress2"
+        Me.lblAddress2.Size = New System.Drawing.Size(39, 13)
+        Me.lblAddress2.TabIndex = 27
+        Me.lblAddress2.Text = "Label1"
+        '
+        'lblCity
+        '
+        Me.lblCity.AutoSize = True
+        Me.lblCity.Location = New System.Drawing.Point(12, 307)
+        Me.lblCity.Name = "lblCity"
+        Me.lblCity.Size = New System.Drawing.Size(39, 13)
+        Me.lblCity.TabIndex = 28
+        Me.lblCity.Text = "Label1"
+        '
+        'lblZip
+        '
+        Me.lblZip.AutoSize = True
+        Me.lblZip.Location = New System.Drawing.Point(12, 333)
+        Me.lblZip.Name = "lblZip"
+        Me.lblZip.Size = New System.Drawing.Size(39, 13)
+        Me.lblZip.TabIndex = 29
+        Me.lblZip.Text = "Label1"
+        '
+        'lblTele1Caption
+        '
+        Me.lblTele1Caption.AutoSize = True
+        Me.lblTele1Caption.Location = New System.Drawing.Point(12, 359)
+        Me.lblTele1Caption.Name = "lblTele1Caption"
+        Me.lblTele1Caption.Size = New System.Drawing.Size(39, 13)
+        Me.lblTele1Caption.TabIndex = 30
+        Me.lblTele1Caption.Text = "Label1"
+        '
+        'lblTele2Caption
+        '
+        Me.lblTele2Caption.AutoSize = True
+        Me.lblTele2Caption.Location = New System.Drawing.Point(12, 382)
+        Me.lblTele2Caption.Name = "lblTele2Caption"
+        Me.lblTele2Caption.Size = New System.Drawing.Size(39, 13)
+        Me.lblTele2Caption.TabIndex = 31
+        Me.lblTele2Caption.Text = "Label1"
+        '
+        'lblTele3Caption
+        '
+        Me.lblTele3Caption.AutoSize = True
+        Me.lblTele3Caption.Location = New System.Drawing.Point(12, 410)
+        Me.lblTele3Caption.Name = "lblTele3Caption"
+        Me.lblTele3Caption.Size = New System.Drawing.Size(39, 13)
+        Me.lblTele3Caption.TabIndex = 32
+        Me.lblTele3Caption.Text = "Label1"
+        '
+        'lblTele
+        '
+        Me.lblTele.AutoSize = True
+        Me.lblTele.Location = New System.Drawing.Point(12, 428)
+        Me.lblTele.Name = "lblTele"
+        Me.lblTele.Size = New System.Drawing.Size(39, 13)
+        Me.lblTele.TabIndex = 33
+        Me.lblTele.Text = "Label1"
+        '
+        'lblTele2
+        '
+        Me.lblTele2.AutoSize = True
+        Me.lblTele2.Location = New System.Drawing.Point(89, 209)
+        Me.lblTele2.Name = "lblTele2"
+        Me.lblTele2.Size = New System.Drawing.Size(39, 13)
+        Me.lblTele2.TabIndex = 34
+        Me.lblTele2.Text = "Label1"
+        '
+        'lblTele3
+        '
+        Me.lblTele3.AutoSize = True
+        Me.lblTele3.Location = New System.Drawing.Point(89, 233)
+        Me.lblTele3.Name = "lblTele3"
+        Me.lblTele3.Size = New System.Drawing.Size(39, 13)
+        Me.lblTele3.TabIndex = 35
+        Me.lblTele3.Text = "Label1"
+        '
+        'txtStyleNo
+        '
+        Me.txtStyleNo.Location = New System.Drawing.Point(92, 255)
+        Me.txtStyleNo.Name = "txtStyleNo"
+        Me.txtStyleNo.Size = New System.Drawing.Size(100, 20)
+        Me.txtStyleNo.TabIndex = 36
+        '
+        'txtDescription
+        '
+        Me.txtDescription.Location = New System.Drawing.Point(92, 300)
+        Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.Size = New System.Drawing.Size(100, 20)
+        Me.txtDescription.TabIndex = 37
+        '
         'ServiceParts
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.txtDescription)
+        Me.Controls.Add(Me.txtStyleNo)
+        Me.Controls.Add(Me.lblTele3)
+        Me.Controls.Add(Me.lblTele2)
+        Me.Controls.Add(Me.lblTele)
+        Me.Controls.Add(Me.lblTele3Caption)
+        Me.Controls.Add(Me.lblTele2Caption)
+        Me.Controls.Add(Me.lblTele1Caption)
+        Me.Controls.Add(Me.lblZip)
+        Me.Controls.Add(Me.lblCity)
+        Me.Controls.Add(Me.lblAddress2)
+        Me.Controls.Add(Me.lblAddress)
+        Me.Controls.Add(Me.lblLastName)
+        Me.Controls.Add(Me.lblFirstName)
         Me.Controls.Add(Me.lblMoveRecords)
         Me.Controls.Add(Me.cmdMoveSearch)
         Me.Controls.Add(Me.cmdMoveLast)
@@ -311,4 +461,18 @@ Partial Class ServiceParts
     Friend WithEvents cmdMoveLast As Button
     Friend WithEvents cmdMoveSearch As Button
     Friend WithEvents lblMoveRecords As Label
+    Friend WithEvents lblFirstName As Label
+    Friend WithEvents lblLastName As Label
+    Friend WithEvents lblAddress As Label
+    Friend WithEvents lblAddress2 As Label
+    Friend WithEvents lblCity As Label
+    Friend WithEvents lblZip As Label
+    Friend WithEvents lblTele1Caption As Label
+    Friend WithEvents lblTele2Caption As Label
+    Friend WithEvents lblTele3Caption As Label
+    Friend WithEvents lblTele As Label
+    Friend WithEvents lblTele2 As Label
+    Friend WithEvents lblTele3 As Label
+    Friend WithEvents txtStyleNo As TextBox
+    Friend WithEvents txtDescription As TextBox
 End Class

@@ -955,7 +955,8 @@ Module modMainMenu
                         'MailCheck.HelpContextID = 49500
                         MailCheck.HidePriorSales = True
                         'MailCheck.optTelephone.Value = True
-                        MailCheck.optTelephone.Checked = True
+                        'MailCheck.optTelephone.Checked = True
+                        MailCheckSaleNoChecked = False
                         MailCheck.ShowDialog()
                         MailCheck.HidePriorSales = False
                     Case "damagedstock"

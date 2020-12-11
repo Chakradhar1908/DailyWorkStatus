@@ -383,4 +383,36 @@ Module modService
         End If
         DisposeDA(cServ)
     End Function
+
+    Public Function CreateServiceNote(ByRef MarginNo As Long, ByRef ServiceCall As Long, ByRef Note As String, Optional ByRef NoteDate As Date = #1/1/1800#, Optional ByRef NoteType As Long = 0) As Long
+        '::::CreateServiceNote
+        ':::SUMMARY
+        ': Creates ServiceNotes field values.
+        ':::DESCRIPTION
+        ': By calling this function, we can update colums values present in ServiceNotes table.
+        ':::PARAMETERS
+        ': - MarginNo - Indicates Margin number.
+        ': - ServiceCall - Indicates the Service call.
+        ': - Note - Indicates the Notes regarding stock.
+        ': - NoteDate - Indicates the Note Date.
+        ': - NoteType - Indicates the Type of Note.
+        ':::RETURN
+        ': Long - Returns the ServiceNote as a long.
+        Dim NewID As Long, cServNote As clsServiceNotes
+  Set cServNote = New clsServiceNotes
+  If NoteDate = #1/1/1800# Then NoteDate = Date
+        With cServNote
+            .MarginNo = MarginNo
+            .ServiceCall = ServiceCall
+            .Note = Note
+            .NoteDate = NoteDate
+            .NoteType = NoteType
+            .Save
+            NewID = .ServiceNoteID
+        End With
+        DisposeDA cServNote
+
+  CreateServiceNote = NewID
+    End Function
+
 End Module
