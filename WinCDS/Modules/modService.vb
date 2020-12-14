@@ -26,9 +26,7 @@ Module modService
         Dim vName As String, vAddress As String = "", vAddress2 As String = "", vAddress3 As String = ""
         Dim VZip As String = "", VPhone As String = "", VFax As String = "", vEMail As String = ""
 
-
         Dim PicID As Integer
-
         On Error Resume Next
 
         If StoreNo = 0 Then StoreNo = StoresSld
@@ -71,7 +69,6 @@ Module modService
             End If
 
             S = S & "  <table border=0 cellspacing=0 cellpadding=0 width='100%'>" & vbCrLf ' alignment table
-
 
             S = S & "   <tr><td colspan=3 align=center>" & vbCrLf
             '------- Page Title (w/ date)
@@ -150,8 +147,6 @@ Module modService
             S = S & " <tr><td colspan=2>" & .Notes & "</td></tr>" & vbCrLf
             S = S & "</table>" & vbCrLf
 
-
-
             S = S & "  </td></tr></table>" & vbCrLf  ' end of alignment table
 
             If Not NoPageSetup Then
@@ -215,7 +210,6 @@ Module modService
         End If
         Oper = ChargeBackLetterOperationDesc(LetterType, Amount, InvoiceNo)
 
-
         S = ""
 
         ' templates
@@ -231,7 +225,6 @@ Module modService
         S = S & " <body bgcolor=#FFFFFF text=#000000 vlink=#FF0000 link=#FFFF00 hspace=0 vspace=0>" & vbCrLf
 
         S = S & "  <table border=0 cellspacing=0 cellpadding=0 width='100%'>" & vbCrLf ' alignment table
-
 
         S = S & "   <tr><td colspan=3 align=center>" & vbCrLf
         '------- Page Title (w/ date)
@@ -384,7 +377,7 @@ Module modService
         DisposeDA(cServ)
     End Function
 
-    Public Function CreateServiceNote(ByRef MarginNo As Long, ByRef ServiceCall As Long, ByRef Note As String, Optional ByRef NoteDate As Date = #1/1/1800#, Optional ByRef NoteType As Long = 0) As Long
+    Public Function CreateServiceNote(ByRef MarginNo As Integer, ByRef ServiceCall As Integer, ByRef Note As String, Optional ByRef NoteDate As Date = #1/1/1800#, Optional ByRef NoteType As Integer = 0) As Integer
         '::::CreateServiceNote
         ':::SUMMARY
         ': Creates ServiceNotes field values.
@@ -398,9 +391,9 @@ Module modService
         ': - NoteType - Indicates the Type of Note.
         ':::RETURN
         ': Long - Returns the ServiceNote as a long.
-        Dim NewID As Long, cServNote As clsServiceNotes
-  Set cServNote = New clsServiceNotes
-  If NoteDate = #1/1/1800# Then NoteDate = Date
+        Dim NewID As Integer, cServNote As clsServiceNotes
+        cServNote = New clsServiceNotes
+        If NoteDate = #1/1/1800# Then NoteDate = Today
         With cServNote
             .MarginNo = MarginNo
             .ServiceCall = ServiceCall
@@ -410,9 +403,88 @@ Module modService
             .Save
             NewID = .ServiceNoteID
         End With
-        DisposeDA cServNote
+        DisposeDA(cServNote)
 
-  CreateServiceNote = NewID
+        CreateServiceNote = NewID
     End Function
+
+    'Public Function LoadVendorToServiceForm(ByRef frm As Form, ByRef nVendorName As String) As Boolean
+    '    ':::LoadVendorToServiceForm
+    '    ':::SUMMARY
+    '    ': Loads Vendor details to Service form.
+    '    ':::DESCRIPTION
+    '    ': By calling this function, Vendors details like vendor Name,City,Telephone number,Email to Service form.Also used to handle errors.
+    '    ':::PARAMETERS
+    '    ': - frm - Indicates form.
+    '    ': - nVendorname - Indicates Vendor name.
+    '    ':::RETURN
+    '    ': Boolean - Returns whether it is true or false.
+    '    On Error Resume Next
+    '    frm.Vendor = nVendorName
+    '    frm.txtVendorName = nVendorName
+    '    frm.txtVendorAddress = ""
+    '    frm.txtVendorCity = ""
+    '    frm.txtVendorTele = ""
+    '    frm.txtVendorEmail = ""
+    '    If nVendorName <> "" Then
+    '        OpenApDatabase 1, False
+    'GetVendorToServiceForm frm     ' Fill in vendor address.
+    '        dbClose()
+    '    End If
+    '    LoadVendorToServiceForm = (nVendorName = "" Or frm.txtVendorAddress <> "")
+    'End Function
+
+    Public Function LoadVendorToServiceForm(ByRef frm As ServiceParts, ByRef nVendorName As String) As Boolean
+        ':::LoadVendorToServiceForm
+        ':::SUMMARY
+        ': Loads Vendor details to Service form.
+        ':::DESCRIPTION
+        ': By calling this function, Vendors details like vendor Name,City,Telephone number,Email to Service form.Also used to handle errors.
+        ':::PARAMETERS
+        ': - frm - Indicates form.
+        ': - nVendorname - Indicates Vendor name.
+        ':::RETURN
+        ': Boolean - Returns whether it is true or false.
+        On Error Resume Next
+        frm.Vendor = nVendorName
+        frm.txtVendorName.Text = nVendorName
+        frm.txtVendorAddress.Text = ""
+        frm.txtVendorCity.Text = ""
+        frm.txtVendorTele.Text = ""
+        frm.txtVendorEmail.Text = ""
+        If nVendorName <> "" Then
+            OpenApDatabase(1, False)
+            GetVendorToServiceForm(frm)     ' Fill in vendor address.
+            dbClose()
+        End If
+        LoadVendorToServiceForm = (nVendorName = "" Or frm.txtVendorAddress.Text <> "")
+    End Function
+
+    Private Sub GetVendorToServiceForm(ByRef frm As ServiceParts)
+        '  get from A/P vendor physical address and record no
+        Dim TName As String
+        Dim tAddress As String
+        Dim tAddress2 As String
+        Dim tAddress3 As String
+        Dim tZip As String
+        Dim tPhone As String
+        Dim tFax As String
+        Dim Em As String
+
+        On Error Resume Next
+
+        If UseQB() Then
+            QBGetVendorName(frm.Vendor, TName, tAddress, tAddress2, tAddress3, tZip, tPhone, tFax, , Em)
+        Else
+            GetVendorName(frm.Vendor, TName, tAddress, tAddress2, tAddress3, tZip, tPhone, tFax, , Em)
+        End If
+
+        If Trim(TName) = "" Then TName = frm.Vendor
+        frm.txtVendorName.Text = TName
+        frm.txtVendorAddress.Text = tAddress
+        frm.txtVendorCity.Text = Trim(tAddress2 & " " & tZip)
+        frm.txtVendorTele.Text = PhoneAndFax(tPhone, tFax)
+        frm.txtVendorEmail.Text = Trim(Em)
+    End Sub
 
 End Module

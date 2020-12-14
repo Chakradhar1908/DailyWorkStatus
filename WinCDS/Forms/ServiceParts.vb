@@ -4,6 +4,8 @@
     Dim Store As Integer
     Dim ServiceCallNumber As Integer
     Dim PartsOrderID As Integer
+    Dim MarginLine As Integer
+    Public Vendor As String
 
     Public Enum ServiceForMode
         ServiceMode_ForCustomer = 0
@@ -158,72 +160,72 @@
         cmdMoveSearch.Enabled = Search
     End Sub
 
-    Public Sub LoadInfoFromMarginLine(Optional ByVal ML As Long = -1, Optional ByVal HideSaleNo As Boolean = False)
+    Public Sub LoadInfoFromMarginLine(Optional ByVal ML As Integer = -1, Optional ByVal HideSaleNo As Boolean = False)
         Dim Margin As CGrossMargin
-  
-  Set Margin = New CGrossMargin
-  
-  If ML <> -1 Then MarginLine = ML
+
+        Margin = New CGrossMargin
+
+        If ML <> -1 Then MarginLine = ML
 
         If Margin.Load(CStr(MarginLine), "#MarginLine") Then
-            txtStyleNo = Margin.Style
-            txtDescription = Margin.Desc
-            txtSaleNo = Margin.SaleNo
-            GetInvoiceInfoFromSaleNo Margin.SaleNo
-    txtSaleNo.Tag = IIf(txtSaleNo = "", "", "VALID")
-            LoadVendor Margin.Vendor
-'    Notes_Text.Text = "Margin Line " & AddedML  ' removed:  bfh20050218
+            txtStyleNo.Text = Margin.Style
+            txtDescription.Text = Margin.Desc
+            txtSaleNo.Text = Margin.SaleNo
+            GetInvoiceInfoFromSaleNo(Margin.SaleNo)
+            txtSaleNo.Tag = IIf(txtSaleNo.Text = "", "", "VALID")
+            LoadVendor(Margin.Vendor)
+            '    Notes_Text.Text = "Margin Line " & AddedML  ' removed:  bfh20050218
         Else
-            MsgBox "Error: Can't load GrossMargin item.", vbCritical, "Error"
-    MarginLine = 0
+            MessageBox.Show("Error: Can't load GrossMargin item.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MarginLine = 0
         End If
 
-        lblMarginLine = MarginLine
+        lblMarginLine.Text = MarginLine
 
         If MarginLine = 0 Then
-            txtStyleNo = ""
-            txtDescription = ""
-            txtSaleNo = ""
+            txtStyleNo.Text = ""
+            txtDescription.Text = ""
+            txtSaleNo.Text = ""
         End If
         If HideSaleNo Then
             txtSaleNo.Visible = False
             lblSaleNo.Visible = False
         End If
 
-        DisposeDA Margin
-End Sub
+        DisposeDA(Margin)
+    End Sub
 
-    Public Function LoadServiceCall(ByVal sC As Long) As Boolean
+    Public Function LoadServiceCall(ByVal sC As Integer) As Boolean
         ' Load as much as we can from Service Call Number (vendor, cust, etc).
         ServiceCallNumber = sC
-        lblServiceOrderNo.Caption = sC
+        lblServiceOrderNo.Text = sC
         Dim nSC As clsServiceOrder
         Dim MailRec As clsMailRec
-  
-  Set nSC = New clsServiceOrder
-  If nSC.Load(CStr(sC), "#ServiceOrderNo") Then
+
+        nSC = New clsServiceOrder
+        If nSC.Load(CStr(sC), "#ServiceOrderNo") Then
             ' Fill in necessary SC-related information.
             ' Customer name and address
             LoadServiceCall = True
-    ' Look up mail record for this information:
-    Set MailRec = New clsMailRec
-    If MailRec.Load(nSC.MailIndex, "#Index") Then
-                lblFirstName.Caption = MailRec.First
-                lblLastName.Caption = MailRec.Last
-                lblAddress.Caption = MailRec.Address
-                lblAddress2.Caption = MailRec.AddAddress
-                lblCity.Caption = MailRec.City
-                lblZip.Caption = MailRec.Zip
-                lblTele.Caption = DressAni(CleanAni(MailRec.Tele))
-                lblTele2.Caption = DressAni(CleanAni(MailRec.Tele2))
+            ' Look up mail record for this information:
+            MailRec = New clsMailRec
+            If MailRec.Load(nSC.MailIndex, "#Index") Then
+                lblFirstName.Text = MailRec.First
+                lblLastName.Text = MailRec.Last
+                lblAddress.Text = MailRec.Address
+                lblAddress2.Text = MailRec.AddAddress
+                lblCity.Text = MailRec.City
+                lblZip.Text = MailRec.Zip
+                lblTele.Text = DressAni(CleanAni(MailRec.Tele))
+                lblTele2.Text = DressAni(CleanAni(MailRec.Tele2))
                 Dim Mail2 As MailNew2
-                modMail.Mail2_GetAtIndex MailRec.Index, Mail2
-      lblTele3.Caption = Mail2.Tele3
-                UpdateTelephoneLabels MailRec.PhoneLabel1, MailRec.PhoneLabel2, Mail2.PhoneLabel3
-    Else ' Can't load mail record.
-                lblLastName.Caption = "Missing Customer Information"
-                UpdateTelephoneLabels "", "", ""
-    End If
+                modMail.Mail2_GetAtIndex(MailRec.Index, Mail2)
+                lblTele3.Text = Mail2.Tele3
+                UpdateTelephoneLabels(MailRec.PhoneLabel1, MailRec.PhoneLabel2, Mail2.PhoneLabel3)
+            Else ' Can't load mail record.
+                lblLastName.Text = "Missing Customer Information"
+                UpdateTelephoneLabels("", "", "")
+            End If
         Else
             ' Can't load service call!
             ' Calling functions will handle error messages.
@@ -237,16 +239,16 @@ End Sub
         '   Different vendors are possible, so many PO/SO can happen.
         EnableNavigation()
 
-        DisposeDA nSC, MailRec
-End Function
+        DisposeDA(nSC, MailRec)
+    End Function
 
-    Public Function LoadRelativePartsOrder(ByVal Dir As Long, Optional ByVal Max As Boolean = False, Optional ByVal RestrictToCurrentServiceCall As Boolean = True) As Boolean
+    Public Function LoadRelativePartsOrder(ByVal Dir As Integer, Optional ByVal Max As Boolean = False, Optional ByVal RestrictToCurrentServiceCall As Boolean = True) As Boolean
         Dim SQL As String, BaseRestrict As String, DirS As String, DirP As String
-        Dim RS As Recordset, NewID As Long
+        Dim RS As ADODB.Recordset, NewID As Integer
 
         If Dir = 0 Then Exit Function
         BaseRestrict = "WHERE (TRUE=TRUE)" ' allows adding additional " AND ..." clauses w/o checks
-        If CreateNewMode = ServiceMode_ForCustomer And ServiceCallNumber <> 0 And RestrictToCurrentServiceCall Then
+        If CreateNewMode = ServiceForMode.ServiceMode_ForCustomer And ServiceCallNumber <> 0 And RestrictToCurrentServiceCall Then
             BaseRestrict = BaseRestrict & " AND (ServiceOrderNo = " & ServiceCallNumber & ")"
         End If
 
@@ -263,18 +265,175 @@ End Function
 
         SQL = "SELECT TOP 1 ServicePartsOrderNo FROM ServicePartsOrder " & BaseRestrict & DirS &
         " ORDER BY ServicePartsOrderNo" & DirP
-  Set RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
-  
-  On Error GoTo NoID
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+
+        On Error GoTo NoID
         NewID = 0
-        NewID = RS("ServicePartsOrderNo")
+        NewID = RS("ServicePartsOrderNo").Value
         If NewID <> 0 Then
-            ClearServiceCall True
-    LoadPartsOrder NewID
-  End If
+            ClearServiceCall(True)
+            LoadPartsOrder(NewID)
+        End If
         LoadRelativePartsOrder = True
-        DisposeDA RS
+        DisposeDA(RS)
 NoID:
     End Function
 
+    Public Sub LoadPartsOrder(ByVal PO As Integer)
+        ' Load Parts Order (+items, service call, etc)
+
+        ' The PO has already been saved.  We'll need to know if it's a Customer/Stock order.
+        ' We'll also need all the details to populate the form..
+        Dim cParts As clsServicePartsOrder
+        cParts = New clsServicePartsOrder
+        If cParts.Load(CStr(PO), "#ServicePartsOrderNo") Then ' We've got the record, populate the form.
+            PartsOrderID = cParts.ServicePartsOrderNo
+            LoadStore(cParts.Store)
+            MarginLine = cParts.MarginLine
+            If MarginLine <> 0 Then
+                LoadInfoFromMarginLine() ' Also load the actual parts..
+            Else
+                txtStyleNo.Text = cParts.Style
+                txtDescription.Text = cParts.Desc
+            End If
+
+            If Not Len(txtInvoiceNo.Text) And Len(cParts.InvoiceNo) Then txtInvoiceNo.Text = cParts.InvoiceNo
+            dteClaimDate.Value = cParts.InvoiceDate
+
+            lblPartsOrderNo.Text = PO
+            lblClaimDate.Text = Format(cParts.DateOfClaim, "mm/dd/yy")
+
+            Vendor = cParts.Vendor
+            txtVendorName.Text = cParts.Vendor
+            txtVendorAddress.Text = cParts.VendorAddress
+            txtVendorCity.Text = cParts.VendorCity
+            txtVendorTele.Text = cParts.VendorTele
+
+            If cParts.ServiceOrderNo <> 0 Then
+                SelectMode(ServiceForMode.ServiceMode_ForCustomer, True)
+                LoadServiceCall(cParts.ServiceOrderNo)
+            Else
+                SelectMode(ServiceForMode.ServiceMode_ForStock, True)
+            End If
+
+            SelectStatus(cParts.Status)
+
+            SelectChargeBackOption(cParts.ChargeBackType)
+            txtRepairCost.Text = FormatCurrency(cParts.ChargeBackAmount)
+            chkPaid.Checked = IIf(cParts.Paid, 1, 0)
+
+            Notes_Text.Text = cParts.Notes
+        Else  ' Can't find the record.  This is a problem.
+            MessageBox.Show("Error locating parts order in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            DisposeDA(cParts)
+            Exit Sub
+        End If
+
+        DisposeDA(cParts)
+    End Sub
+
+    Private Sub SelectChargeBackOption(ByVal nVal As Integer)
+        If nVal = 2 Then
+            optCBCredit.Checked = True
+        ElseIf nVal = 1 Then
+            optCBDeduct.Checked = True
+        Else ' 0
+            optCBChargeBack.Checked = True
+        End If
+    End Sub
+
+    Private Sub SelectStatus(ByVal Stat As String)
+        Select Case UCase(Trim(Stat))
+            Case "", "OPEN"  ' allow "" for clearing
+                cboStatus.SelectedIndex = 0
+            Case "CLOSED"
+                cboStatus.SelectedIndex = 1
+        End Select
+    End Sub
+
+    Public Function ClearServiceCall(Optional ByVal PreventEnableNavigation As Boolean = False) As Boolean
+        ServiceCallNumber = 0
+
+        lblServiceOrderNo.Text = ""
+        lblFirstName.Text = ""
+        lblLastName.Text = ""
+        lblAddress.Text = ""
+        lblAddress2.Text = ""
+        lblCity.Text = ""
+        lblZip.Text = ""
+        lblTele.Text = ""
+        lblTele2.Text = ""
+        lblTele3.Text = ""
+        UpdateTelephoneLabels("", "", "")
+
+        ClearPartsOrder(PreventEnableNavigation)
+        ClearServiceCall = True
+    End Function
+
+    Public Function ClearPartsOrder(Optional ByVal PreventEnableNavigation As Boolean = False) As Boolean
+        On Error Resume Next
+        PartsOrderID = 0
+        MarginLine = 0
+
+        lblPartsOrderNo.Text = ""
+        lblMarginLine.Text = ""
+        lblClaimDate.Text = ""
+        SelectStatus("")
+
+        SelectChargeBackOption(0)
+        txtRepairCost.Text = FormatCurrency(0#)
+
+        Notes_Text.Text = ""
+
+        txtInvoiceNo.Text = ""
+        dteClaimDate.Value = ""
+        '  dteClaimDate.Value = date ' no longer clear to current date... BFH20050421
+        txtSaleNo.Text = ""
+        txtSaleNo.Tag = ""
+
+        LoadVendor("")
+
+        LoadStore(StoresSld)
+
+        txtStyleNo.Text = ""
+        txtDescription.Text = ""
+
+        If Not PreventEnableNavigation Then EnableNavigation()
+        ClearPartsOrder = True
+    End Function
+
+    Public Sub GetInvoiceInfoFromSaleNo(ByVal SaleNo As String)
+        Dim SQL As String, RS As ADODB.Recordset
+        SQL = "SELECT TOP 1 Misc as InvoiceNumber, DDate1 as InvoiceDate FROM Detail WHERE SaleNo = '" & SaleNo & "'"
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseInventory)
+        On Error Resume Next
+        If RS.EOF Then Exit Sub
+        RS.MoveFirst()
+        txtInvoiceNo.Text = RS("InvoiceNumber").Value
+        dteClaimDate.Value = RS("InvoiceDate").Value
+
+        DisposeDA(RS)
+    End Sub
+
+    ' LoadVendor(nVendorName) - send "" to clear..
+    Private Function LoadVendor(ByVal nVendorName As String) As Boolean
+        LoadVendorToServiceForm(Me, nVendorName)
+    End Function
+
+    Private Sub UpdateTelephoneLabels(ByVal Lbl1 As String, ByVal Lbl2 As String, ByVal Lbl3 As String)
+        If Trim(Lbl1) = "" Then Lbl1 = "Tele: "
+        If Trim(Lbl2) = "" Then Lbl2 = "Tele2: "
+        If Trim(Lbl3) = "" Then Lbl3 = "Tele3: "
+        If Microsoft.VisualBasic.Right(Trim(Lbl1), 1) <> ":" Then Lbl1 = Lbl1 & ": "
+        If Microsoft.VisualBasic.Right(Trim(Lbl2), 1) <> ":" Then Lbl2 = Lbl2 & ": "
+        If Microsoft.VisualBasic.Right(Trim(Lbl3), 1) <> ":" Then Lbl3 = Lbl3 & ": "
+        lblTele1Caption.Text = Lbl1
+        lblTele2Caption.Text = Lbl2
+        lblTele3Caption.Text = Lbl3
+        Dim Longest As Integer
+        Longest = Max(lblTele1Caption.Width, lblTele2Caption.Width, lblTele3Caption.Width)
+        lblTele.Left = lblTele1Caption.Left + Longest + 60
+        lblTele2.Left = lblTele1Caption.Left + Longest + 60
+        lblTele3.Left = lblTele1Caption.Left + Longest + 60
+    End Sub
 End Class

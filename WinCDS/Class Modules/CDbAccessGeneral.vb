@@ -6,6 +6,7 @@
     Dim Mrs As ADODB.Recordset
     Public Event UpdateFailed(RS As ADODB.Recordset, ByRef Cancel As Boolean)
     Public Event GetRecordNotFound()
+    'Public Event GetRecordEvent(RS As ADODB.Recordset)
     Public Event GetRecordEvent(RS As ADODB.Recordset)
     Public Event SetRecordEvent(RS As ADODB.Recordset)
     Public Event RecordUpdated(RS As ADODB.Recordset)

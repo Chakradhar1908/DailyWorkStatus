@@ -172,6 +172,7 @@ F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSDataGridLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSFlexGridLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.MSWinsockLib.dll
 F:\WinCDS\WinCDS\bin\Debug\AxInterop.VJCZIPLib.dll
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
 F:\WinCDS\WinCDS\obj\Debug\Interop.ADODB.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.ADOR.dll
 F:\WinCDS\WinCDS\obj\Debug\Interop.APG554QFAX21Lib.dll
@@ -310,6 +311,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.Practice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RestoreInv.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.SelectPrinter.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Service.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceManualItem.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceParts.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Resources.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MessageCenter.resources
@@ -324,4 +326,3 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
-F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

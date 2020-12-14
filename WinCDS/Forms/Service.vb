@@ -10,7 +10,7 @@ Public Class Service
     Private Mail2 As MailNew2
     Public ServiceStatus As String
     Private StartDate As String
-    Private CurrentNoteMarginNo As Long
+    Private CurrentNoteMarginNo As Integer
     Private ServicePartsLoaded As Boolean
     Private Const AllowOrderParts As Boolean = True
 
@@ -185,6 +185,10 @@ HandleErr:
         a = mDBService.dbOpen(GetDatabaseAtLocation())
     End Sub
 
+    Private Sub mDBService_GetRecordNotFound() Handles mDBService.GetRecordNotFound
+        '  MsgBox ("No Prior Service Call")
+    End Sub
+
     Private Sub ClearServiceOrder()
         ServiceOrderNumber = 0
         lblServiceOrderNo.Text = ""
@@ -278,12 +282,13 @@ HandleErr:
         lstPurchases.Items.Clear()
         tvItemNotes.Visible = False
         tvItemNotes.Nodes.Clear()
-        tvItemNotes.Nodes.Add("", "", "LABEL",
-        ArrangeString("VENDOR", 17) & ArrangeString("STYLE", 17) & ArrangeString("SALE NO", 10) & ArrangeString("QUAN", 6) _
-        & ArrangeString("DEL DATE", 12) & ArrangeString("DESCRIPTION", 32) & "ACK/INV NO")
+        'tvItemNotes.Nodes.Add("", "", "LABEL",
+        'ArrangeString("VENDOR", 17) & ArrangeString("STYLE", 17) & ArrangeString("SALE NO", 10) & ArrangeString("QUAN", 6) _
+        '& ArrangeString("DEL DATE", 12) & ArrangeString("DESCRIPTION", 32) & "ACK/INV NO")
 
+        tvItemNotes.Nodes.Add("LABEL", ArrangeString("VENDOR", 17) & ArrangeString("STYLE", 17) & ArrangeString("SALE NO", 10) & ArrangeString("QUAN", 6) & ArrangeString("DEL DATE", 12) & ArrangeString("DESCRIPTION", 32) & "ACK/INV NO")
         'tvItemNotes.Nodes("LABEL").Bold = True
-        'tvItemNotes.Nodes("LABEL").NodeFont = New Font(tvItemNotes.Font, FontStyle.Bold)
+        tvItemNotes.Nodes("LABEL").NodeFont = New Font(tvItemNotes.Font, FontStyle.Bold)
 
         A = Val(lblServiceOrderNo.Text)
         If A = 0 And IsFormLoaded("MailCheck") Then
@@ -318,7 +323,7 @@ HandleErr:
 
         Margin.DataAccess.Records_OpenSQL(SQL)
         Do While Margin.DataAccess.Records_Available
-
+            Margin.cDataAccess_GetRecordSet(Margin.DataAccess.RS)
             'added detail 03/23/2003
             RS = GetRecordsetBySQL("SELECT * FROM Detail WHERE MarginRn=" & Margin.MarginLine & " AND Store=" & StoresSld, , GetDatabaseInventory)
             If Not RS.EOF Then
@@ -335,12 +340,12 @@ HandleErr:
             'lstPurchases.AddItem ItemDescString
             'lstPurchases.itemData(lstPurchases.NewIndex) = Margin.Detail
 
-            '--> Note: replaced above two lines with the below one. created custom class ItemDataclass to implement
-            '--> itemData property of vb6 in vb.net
+            '--> Note: replaced above two lines with the below one. created custom class ItemDataclass to implement itemData property of vb6 in vb.net
             lstPurchases.Items.Add(New ItemDataClass(ItemDescString, Margin.Detail))
 
             'NN = tvItemNotes.Nodes.Add(, , "ML" & Margin.MarginLine, ItemDescString)
-            NN = tvItemNotes.Nodes.Add("", "", "ML" & Margin.MarginLine, ItemDescString)
+            'NN = tvItemNotes.Nodes.Add("", "", "ML" & Margin.MarginLine, ItemDescString)
+            NN = tvItemNotes.Nodes.Add("ML" & Margin.MarginLine, ItemDescString)
             ColorTaggedItem(Margin.MarginLine, IsItemTaggedForRepair(Margin.MarginLine))
 
             On Error Resume Next
@@ -366,6 +371,7 @@ HandleErr:
                 .DataAccess.Records_OpenSQL("SELECT * FROM ServiceNotes WHERE MarginNo=" & Margin.MarginLine & " AND ServiceCall=" & ServiceOrderNumber & " ORDER BY NoteDate, ServiceNoteID")
                 If Not .DataAccess.Record_EOF Then
                     Do While .DataAccess.Records_Available
+
                         Dim Note As Object, I As Integer
                         Note = SplitLongText(" --- " & .NoteTypeString & " entered at " & DateFormat(.NoteDate) & " ---" & vbCrLf & .Note, 75)
                         For I = LBound(Note) To UBound(Note)
@@ -390,7 +396,7 @@ HandleErr:
             cSR = New clsServiceOrder
             If cSR.Load(CStr(ServiceOrderNumber), "#ServiceOrderNo") Then
                 cSR.Item = "" '  txtItems.Text  ' Just clear it.
-                cSR.Save
+                cSR.Save()
             Else
                 ' How can it not load, we're in it?
                 MessageBox.Show("Error upgrading service record structure.", "Error")
@@ -448,10 +454,12 @@ HandleErr:
     Private Function IsItemTaggedForRepair(ByVal ML As Integer)
         Dim CSI As clsServiceItemParts
         CSI = New clsServiceItemParts
-        With CSI
-            .DataAccess.Records_OpenSQL("SELECT * FROM ServiceItemParts WHERE ServiceOrderNo=" & ServiceOrderNumber & " AND MarginNo=" & ML)
-            IsItemTaggedForRepair = .DataAccess.Records_Available
-        End With
+
+        CSI.DataAccess.Records_OpenSQL("SELECT * FROM ServiceItemParts WHERE ServiceOrderNo=" & ServiceOrderNumber & " AND MarginNo=" & ML)
+        IsItemTaggedForRepair = CSI.DataAccess.Records_Available
+        If IsItemTaggedForRepair = True Then
+            CSI.cDataAccess_GetRecordSet(CSI.DataAccess.RS)
+        End If
         DisposeDA(CSI)
     End Function
 
@@ -519,7 +527,8 @@ HandleErr:
         If MessageBox.Show("This will add an item to this service call that is not in the inventory Database.", "Add Item?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then Exit Sub
 
         'If lblServiceOrderNo = "" Then cmdSave.Value = True
-        If lblServiceOrderNo.Text = "" Then cmdSave.Value = True
+        'If lblServiceOrderNo.Text = "" Then cmdSave.Value = True
+        If lblServiceOrderNo.Text = "" Then cmdSave_Click(cmdSave, New EventArgs)
 
         'ServiceManualItem.Show 1
         ServiceManualItem.ShowDialog()
@@ -608,7 +617,7 @@ HandleErr:
     End Sub
 
     Private Sub cmdMoveSearch_Click(sender As Object, e As EventArgs) Handles cmdMoveSearch.Click
-        Dim X As Long
+        Dim X As Integer
         X = Val(InputBox("Search for ServiceOrder:", "New Service Order Number"))
         If X <= 0 Then Exit Sub
         SearchingSOID = True
@@ -634,8 +643,9 @@ HandleErr:
     End Sub
 
     Private Sub cmdOrderParts_Click(sender As Object, e As EventArgs) Handles cmdOrderParts.Click
-        Dim X As Long
-        X = SelectedMarginNode
+        Dim X As Integer
+        X = SelectedMarginNode()
+
         If X = 0 Or Not MLItemIsTagged(X) Then
             MessageBox.Show("Please select a tagged item to order parts for.", "Wait!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -686,7 +696,7 @@ HandleErr:
         End If
     End Sub
 
-    Private Function SelectedMarginNode() As Long
+    Private Function SelectedMarginNode() As Integer
         Dim CurRow As String
         'If tvItemNotes.SelectedItem Is Nothing Then Exit Function
         If tvItemNotes.SelectedNode.Text Is Nothing Then Exit Function
@@ -695,9 +705,9 @@ HandleErr:
 
         If Microsoft.VisualBasic.Left(CurRow, 2) = "ML" Then
             SelectedMarginNode = Val(Mid(CurRow, 3))
-        ElseIf microsoft.VisualBasic.Left(CurRow, 2) = "EX" Then
+        ElseIf Microsoft.VisualBasic.Left(CurRow, 2) = "EX" Then
             SelectedMarginNode = -1
-        ElseIf microsoft.VisualBasic.Left(CurRow, 2) = "SN" Then
+        ElseIf Microsoft.VisualBasic.Left(CurRow, 2) = "SN" Then
             'CurRow = tvItemNotes.Nodes(CurRow).Parent.Key
             CurRow = tvItemNotes.Nodes(CurRow).Parent.SelectedImageKey
             'If Microsoft.VisualBasic.Left(CurRow, 2) = "SN" Then CurRow = tvItemNotes.Nodes(CurRow).Parent.Key
@@ -712,7 +722,7 @@ HandleErr:
         End If
     End Function
 
-    Private Function MLItemIsTagged(ByVal MLItem As Long) As Boolean
+    Private Function MLItemIsTagged(ByVal MLItem As Integer) As Boolean
         If MLItem = 0 Then Exit Function
         If MLItem = -1 Then MLItemIsTagged = True : Exit Function
         MLItemIsTagged = tvItemNotes.Nodes.Item("ML" & MLItem).ForeColor = Color.Red
@@ -754,7 +764,7 @@ HandleErr:
     End Sub
 
     Private Sub cmdSaveItemNote_Click(sender As Object, e As EventArgs) Handles cmdSaveItemNote.Click
-        Dim NewID As Long
+        Dim NewID As Integer
         ' Validate, save note, and hide item notes frame.
         If CurrentNoteMarginNo = 0 Then
             MessageBox.Show("Error: Can't determine which item to save note for.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -764,7 +774,8 @@ HandleErr:
             If MessageBox.Show("You can't save a blank note.  Would you like to enter one now?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                 Exit Sub
             Else
-                cmdCancelItemNote.Value = True
+                'cmdCancelItemNote.Value = True
+                cmdCancelItemNote_Click(cmdCancelItemNote, New EventArgs)
                 Exit Sub
             End If
         End If
@@ -791,7 +802,7 @@ HandleErr:
     End Sub
 
     Private Sub cmdAddItemNote_Click(sender As Object, e As EventArgs) Handles cmdAddItemNote.Click
-        Dim MLRow As Long
+        Dim MLRow As Integer
         On Error GoTo SayNo
         MLRow = SelectedMarginNode()
         If MLRow = 0 Then MessageBox.Show("Please select an item from the list first.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Exit Sub
@@ -809,7 +820,7 @@ SayNo:
     End Sub
 
     Private Sub cmdTagForRepair_Click(sender As Object, e As EventArgs) Handles cmdTagForRepair.Click
-        Dim ISelected As Long
+        Dim ISelected As Integer
         ' Get the selected ML.
         ISelected = SelectedMarginNode()
         If ISelected = 0 Then MessageBox.Show("Please select an item from the list first.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Exit Sub
@@ -900,6 +911,11 @@ SayNo:
 
     'form unload of vb6.0
     Private Sub Service_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        'Query Unload event of vb6.0
+        'If UnloadMode = vbFormControlMenu Then cmdMenu.Value = True
+        If e.CloseReason = CloseReason.UserClosing Then cmdMenu.PerformClick()
+
+        'Form unload event of vb6.0
         On Error Resume Next
         mDBAccess.dbClose()
         mDBService.dbClose()
@@ -908,15 +924,15 @@ SayNo:
     End Sub
 
     Private Sub GetServiceNo()
-        Dim SerNo As Long
+        Dim SerNo As Integer
         SerNo = GetFileAutonumber(SerNoFile, 1001)
         lblServiceOrderNo.Text = SerNo
         ServiceOrderNumber = SerNo
     End Sub
 
     Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
-        Dim QuickCheck As Long
-        QuickCheck = GetCheckBoxValue
+        Dim QuickCheck As Integer
+        QuickCheck = GetCheckBoxValue()
 
         Printer.FontName = "Arial"
         Printer.FontSize = 13
@@ -1028,7 +1044,7 @@ SayNo:
         '.DrawWidth = 10 'box for spec inst.
         'Printer.Line (150, 5300)-Step(11220, 350), QBColor(0), B
 
-        Dim SpInstLines() As String, Sp As String, I As Long
+        Dim SpInstLines() As String, Sp As String, I As Integer
         Sp = lblSpecial.Text
         Sp = WrapLongTextByPrintWidth(Printer, Sp, Printer.ScaleWidth, vbCrLf)
         SpInstLines = Split(Sp, vbCrLf)
@@ -1105,19 +1121,19 @@ SayNo:
         If QuickCheck = 1 Then SetColor()  'get from data base
         'Printer.Line(500, 5900)-Step(500, 500), QBColor(0), B
         Printer.Line(500, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 1 Then EndColor
+        If QuickCheck = 1 Then EndColor()
 
         If QuickCheck = 2 Then SetColor()  'get from data base
         Printer.Line(3200, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 2 Then EndColor
+        If QuickCheck = 2 Then EndColor()
 
         If QuickCheck = 3 Then SetColor()  'get from data base
         Printer.Line(6000, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 3 Then EndColor
+        If QuickCheck = 3 Then EndColor()
 
         If QuickCheck = 4 Then SetColor()  'get from data base
         Printer.Line(9200, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 4 Then EndColor
+        If QuickCheck = 4 Then EndColor()
 
         Printer.CurrentY = 6000
         Printer.CurrentX = 1100
@@ -1152,7 +1168,7 @@ SayNo:
                 Else
                     PrintNotes = False
                 End If
-            ElseIf PrintNotes And (microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2)) = "SN" Then
+            ElseIf PrintNotes And (Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2)) = "SN" Then
                 ' Print this line.
                 Printer.Print(TAB(5), tvItemNotes.Nodes(ind).Text)
             End If
@@ -1208,7 +1224,7 @@ SayNo:
         Printer.EndDoc()
     End Sub
 
-    Private Function GetCheckBoxValue() As Long
+    Private Function GetCheckBoxValue() As Integer
         If chkOther.Checked = True Then GetCheckBoxValue = 4
         If chkPickupExchange.Checked = True Then GetCheckBoxValue = 3
         If chkOutsideService.Checked = True Then GetCheckBoxValue = 2
@@ -1224,5 +1240,262 @@ SayNo:
         Printer.FillColor = QBColor(15)
     End Sub
 
+    Private Sub lstPurchases_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles lstPurchases.ItemCheck
+        Dim InvoiceNo As String
+        Dim InvDetail As CInventoryDetail
+        InvDetail = New CInventoryDetail
+
+        ' check for detail (S/O) and if so get invoice no.
+        'If lstPurchases.ListCount < lstPurchases.ListIndex Or lstPurchases.ListIndex < 0 Then Exit Sub
+        If lstPurchases.Items.Count < lstPurchases.SelectedIndex Or lstPurchases.SelectedIndex < 0 Then Exit Sub
+
+        ' Later: load this info into the grid at search time.
+        'If InvDetail.Load(CStr(lstPurchases.itemData(lstPurchases.ListIndex)), "#DetailID") Then
+        If InvDetail.Load(CType(lstPurchases.Items(lstPurchases.SelectedIndex), ItemDataClass).ItemData, "#DetailID") Then
+            InvoiceNo = InvDetail.Misc
+            If InvoiceNo <> "" Then
+                If Asc(InvoiceNo) = 0 Then InvoiceNo = ""
+            End If
+        Else
+            ' Temporarily removed for demo, 20030716
+            '    MsgBox "Invalid Detail Item in Service.lstPurchases_ItemCheck."
+            InvoiceNo = ""
+        End If
+        DisposeDA(InvDetail)
+
+        'If lstPurchases.Selected(Item) Then
+        If lstPurchases.GetSelected(e.Index) Then
+            'txtItems = txtItems & lstPurchases.List(lstPurchases.ListIndex) & "  " & InvoiceNo & vbCrLf
+            txtItems.Text = txtItems.Text & lstPurchases.Items(lstPurchases.SelectedIndex) & "  " & InvoiceNo & vbCrLf
+        Else
+            'txtItems = Replace(txtItems.Text, lstPurchases.List(lstPurchases.ListIndex) & "  " & InvoiceNo & vbCrLf, "")
+            txtItems.Text = Replace(txtItems.Text, lstPurchases.Items(lstPurchases.SelectedIndex) & "  " & InvoiceNo & vbCrLf, "")
+        End If
+    End Sub
+
+    Private Sub Printer_Location(X As Single, Y As Single, FontSize As Integer, Optional Prt As String = "")
+        Printer.CurrentX = X
+        Printer.CurrentY = Y
+        Printer.FontSize = FontSize
+        If Len(Prt) <> 0 Then Printer.Print(Prt)
+    End Sub
+
+    Private Sub chkStoreService_CheckedChanged(sender As Object, e As EventArgs) Handles chkStoreService.CheckedChanged
+        If LoadingCheckBoxes Then Exit Sub
+        If chkStoreService.Checked = False Then chkStoreService.Checked = True : Exit Sub
+        LoadCheckBoxes(1, True)
+    End Sub
+
+    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+        'save
+        'MailIndex = MailCheck.Index  ' This should already be stored in Service!
+        If ServiceOrderNumber < 1 Then 'new service
+            mDBAccess_Init(, , MailIndex)
+            'Service.ServiceStatus = "Open"
+            mDBAccess.SetRecord(True) ' this sets NEW record
+        Else
+            mDBAccess_Init(ServiceOrderNumber)
+            mDBAccess.SetRecord()             ' this sets same record
+        End If
+        mDBAccess.dbClose()
+        mDBAccess = Nothing
+    End Sub
+
+    Private Sub chkOutsideService_CheckedChanged(sender As Object, e As EventArgs) Handles chkOutsideService.CheckedChanged
+        If LoadingCheckBoxes Then Exit Sub
+        If chkOutsideService.Checked = False Then chkOutsideService.Checked = True : Exit Sub
+        LoadCheckBoxes(2, True)
+    End Sub
+
+    Private Sub chkPickupExchange_CheckedChanged(sender As Object, e As EventArgs) Handles chkPickupExchange.CheckedChanged
+        If LoadingCheckBoxes Then Exit Sub
+        If chkPickupExchange.Checked = False Then chkPickupExchange.Checked = True : Exit Sub
+        LoadCheckBoxes(3, True)
+    End Sub
+
+    Private Sub chkOther_CheckedChanged(sender As Object, e As EventArgs) Handles chkOther.CheckedChanged
+        If LoadingCheckBoxes Then Exit Sub
+        If chkOther.Checked = False Then chkOther.Checked = True : Exit Sub
+        LoadCheckBoxes(4, True)
+    End Sub
+
+    Private Sub mDBService_GetRecordEvent(RS As ADODB.Recordset) Handles mDBService.GetRecordEvent   ' called if record is found
+        Dim Tid As String, NoteType As String
+
+        Notes_Text.Text = ""
+        AccountFound = "Y"
+        AddOnAcc.lstAccounts.Items.Clear()
+
+        Do While RS.EOF = False
+            Application.DoEvents()
+            lblServiceOrderNo.Text = Trim(RS("ServiceOrderNo").Value)
+            ServiceOrderNumber = Trim(RS("ServiceOrderNo").Value)
+            cmdOrderParts.Enabled = True
+            lblLastName.Text = Trim(RS("LastName").Value)
+            UpdateTelephoneLabels("", "", "")
+            lblTele = DressAni(CleanAni(RS("Telephone").Value))
+            MailIndex = RS("MailIndex").Value
+
+            lblSaleNo.Text = Trim(IfNullThenNilString(RS("SaleNo").Value))
+            lblSaleNo.Visible = lblSaleNo.Text <> ""
+            lblSaleNoCaption.Visible = lblSaleNo.Text <> ""
+
+            If IsNothing(RS("ServiceOnDate").Value) Then
+                dteServiceDate.Value = Today
+                dteServiceDate.Value = Date.FromOADate(0)
+            Else
+                If RS("ServiceOnDate").Value = "NONE" Then
+                    dteServiceDate.Value = Today
+                    dteServiceDate.Value = Date.FromOADate(0)
+                Else
+                    dteServiceDate.Value = CDate(Microsoft.VisualBasic.Left(RS("ServiceOnDate").Value, 10))
+                End If
+            End If
+            lblClaimDate.Text = Trim(RS("DateOfClaim").Value)
+            ServiceStatus = Trim(RS("Status").Value)
+
+            SelectStatus(RS("Status").Value)
+            LoadCheckBoxes(RS("QuickCheck").Value) 'this is for checkboxes
+
+            NoteType = Trim(RS("Type").Value)
+            txtItems.Text = Trim(RS("Item").Value)  ' Match this against the treeview?
+
+            Notes_Text.Text = Trim(RS("Complaint").Value)
+            Notes_New.Text = Trim(RS("StoreAction").Value)
+            ' rs("Mfg")
+            ' rs("InvoiceNo")
+
+            'AddOnAcc.lstAccounts.AddItem " " & ServiceOrderNumber & "            " & lblLastName & "  " & lblTele
+            AddOnAcc.lstAccounts.Items.Add(" " & ServiceOrderNumber & "            " & lblLastName.Text & "  " & lblTele.Text)
+            RS.MoveNext()
+        Loop
+
+        LoadPartsOrders()
+    End Sub
+
+    Private Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.SetRecordEvent    ' called to write the record
+        If ServiceOrderNumber <= 0 Then
+            GetServiceNo()
+        End If
+        RS("ServiceOrderNo").Value = Trim(ServiceOrderNumber)  ' Can't do this if it's an autonumber.
+        RS("MailIndex").Value = MailIndex
+        RS("LastName").Value = Trim(lblLastName.Text)
+        RS("Telephone").Value = CleanAni(lblTele.Text)
+
+        RS("SaleNo").Value = Trim(lblSaleNo.Text)
+        RS("ServiceOnDate").Value = Trim(dteServiceDate.Value)
+        RS("DateOfClaim").Value = Trim(lblClaimDate.Text)
+
+        If cboStatus.SelectedIndex = -1 Then cboStatus.SelectedIndex = 0
+        RS("Status").Value = Trim(cboStatus.Text)
+        RS("QuickCheck").Value = GetCheckBoxValue()
+        RS("Item").Value = Trim(txtItems.Text)
+        RS("Complaint").Value = Trim(Notes_Text.Text)
+        RS("Type").Value = "Store"                                      ' WHAT IS THIS FOR???!!
+        RS("StoreAction").Value = Trim(Notes_New.Text)
+        RS("Mfg").Value = Trim(Mid(txtItems.Text, 17, 16)) '###MANUFLENGTH16
+        If RS("Mfg").Value = "" Then RS("Mfg").Value = " "
+        RS("InvoiceNo").Value = " "
+        RS("Detail").Value = ""
+        RS("StopStart").Value = IIf(IsDate(dtpDelWindow0.Value), Format(dtpDelWindow0.Value, "h:mm ampm"), "")
+        RS("StopEnd").Value = IIf(IsDate(dtpDelWindow1.Value), Format(dtpDelWindow1.Value, "h:mm ampm"), "")
+    End Sub
+
+    Private Sub mDBAccess_GetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.GetRecordEvent
+        'This should be called by the mDBAccess component when it finds a record.
+        On Error GoTo HandleErr
+
+        lblServiceOrderNo.Text = RS("ServiceOrderNo").Value
+        ServiceOrderNumber = RS("ServiceOrderNo").Value
+        lblLastName.Text = RS("LastName").Value
+        UpdateTelephoneLabels("", "", "")
+        lblTele.Text = DressAni(CleanAni(RS("Telephone").Value))
+
+        '  MailIndex = rs("MailIndex")
+
+        lblSaleNo.Text = Trim(RS("SaleNo").Value)
+        lblSaleNo.Visible = lblSaleNo.Text <> ""
+        lblSaleNoCaption.Visible = lblSaleNo.Text <> ""
+
+        If IsNothing(RS("ServiceOnDate").Value) Then
+            dteServiceDate.Value = Today
+            dteServiceDate.Value = Date.FromOADate(0)
+            ShowTimeWindowBox(False)
+        Else
+            dteServiceDate.Value = RS("ServiceOnDate").Value
+            ShowTimeWindowBox(True, True)
+        End If
+        lblClaimDate.Text = Trim(RS("DateOfClaim").Value)
+
+        cboStatus.Text = Trim(RS("Status").Value)  ' This may cause an error if the element's not in the list?
+
+        LoadCheckBoxes(RS("QuickCheck").Value)
+        cmdOrderParts.Enabled = True
+
+        txtItems.Text = Trim(RS("Item").Value)
+        Notes_Text.Text = Trim(RS("Complaint").Value)
+        Notes_New.Text = Trim(RS("StoreAction").Value)
+        '  FindItems
+
+        LoadCustomer(RS("MailIndex").Value, False)  ' Load extended mail information
+
+        dtpDelWindow0.Value = RS("StopStart").Value
+        dtpDelWindow1.Value = RS("StopEnd").Value
+        Exit Sub
+
+HandleErr:
+        Err.Clear()
+        Resume Next
+    End Sub
+
+    Private Sub mDBAccess_GetRecordNotFound() Handles mDBAccess.GetRecordNotFound
+        If SearchingSOID Then
+            MessageBox.Show("Unable to find that Service Order Number.", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+        If ServiceOrderNumber > 0 Then Exit Sub  ' Don't clear if it's an error..
+        ClearServiceOrder()
+    End Sub
+
+    Private Sub cmdMoveFirst_Click(sender As Object, e As EventArgs) Handles cmdMoveFirst.Click
+        LoadServiceCall(0, "First")
+    End Sub
+
+    Private Sub cmdMoveLast_Click(sender As Object, e As EventArgs) Handles cmdMoveLast.Click
+        LoadServiceCall(0, "Last")
+    End Sub
+
+    Private Sub cmdMoveNext_Click(sender As Object, e As EventArgs) Handles cmdMoveNext.Click
+        LoadServiceCall(0, "Next")
+    End Sub
+
+    Private Sub cmdMovePrevious_Click(sender As Object, e As EventArgs) Handles cmdMovePrevious.Click
+        LoadServiceCall(0, "Previous")
+    End Sub
+
+    Private Sub MoveRecord(ByVal strDirection As String)
+        ' Implements the move first, last, next, previous
+        ' by using strDirection
+        ' and modifying the SQL created in mDBAccess_Init
+        ' This affects the record(s) returned.
+        LoadServiceCall(0, strDirection)
+    End Sub
+
+    Private Sub Notes_New_TextChanged(sender As Object, e As EventArgs) Handles Notes_New.TextChanged
+        Dim Stamp As Boolean
+        Select Case Notes_New.Tag
+            Case "" : Notes_New.Tag = "EDIT1" : If Len(Notes_New) = 1 Then Stamp = True
+            Case "EDIT1" : Stamp = True
+        End Select
+
+        On Error Resume Next
+        If Stamp Then
+            Notes_New.Tag = "EDIT2"
+            Notes_New.Text = Microsoft.VisualBasic.Left(Notes_New.Text, Len(Notes_New.Text) - 1) & vbCrLf & Now & ":" & vbCrLf & Microsoft.VisualBasic.Right(Notes_New.Text, 1)
+            If Microsoft.VisualBasic.Left(Notes_New.Text, 2) = vbCrLf Then Notes_New.Text = Mid(Notes_New.Text, 3)
+            Notes_New.SelectionStart = Len(Notes_New.Text)
+        End If
+    End Sub
 End Class
+
 

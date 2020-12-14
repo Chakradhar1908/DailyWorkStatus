@@ -263,7 +263,7 @@ NotLoaded:
         Resume Next
     End Function
 
-    Public Function SerNoFile(Optional ByVal StoreNum As Long = 0) As String
+    Public Function SerNoFile(Optional ByVal StoreNum As Integer = 0) As String
         '::::SerNoFile
         ':::SUMMARY
         ': Service Number File

@@ -60,6 +60,21 @@ Partial Class ServiceParts
         Me.lblTele3 = New System.Windows.Forms.Label()
         Me.txtStyleNo = New System.Windows.Forms.TextBox()
         Me.txtDescription = New System.Windows.Forms.TextBox()
+        Me.lblMarginLine = New System.Windows.Forms.Label()
+        Me.lblPartsOrderNo = New System.Windows.Forms.Label()
+        Me.lblClaimDate = New System.Windows.Forms.Label()
+        Me.txtVendorName = New System.Windows.Forms.TextBox()
+        Me.txtVendorAddress = New System.Windows.Forms.TextBox()
+        Me.txtVendorCity = New System.Windows.Forms.TextBox()
+        Me.txtVendorTele = New System.Windows.Forms.TextBox()
+        Me.txtRepairCost = New System.Windows.Forms.TextBox()
+        Me.chkPaid = New System.Windows.Forms.CheckBox()
+        Me.Notes_Text = New System.Windows.Forms.TextBox()
+        Me.optCBCredit = New System.Windows.Forms.RadioButton()
+        Me.optCBDeduct = New System.Windows.Forms.RadioButton()
+        Me.optCBChargeBack = New System.Windows.Forms.RadioButton()
+        Me.cboStatus = New System.Windows.Forms.ComboBox()
+        Me.txtVendorEmail = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'optTagStock
@@ -387,11 +402,153 @@ Partial Class ServiceParts
         Me.txtDescription.Size = New System.Drawing.Size(100, 20)
         Me.txtDescription.TabIndex = 37
         '
+        'lblMarginLine
+        '
+        Me.lblMarginLine.AutoSize = True
+        Me.lblMarginLine.Location = New System.Drawing.Point(89, 333)
+        Me.lblMarginLine.Name = "lblMarginLine"
+        Me.lblMarginLine.Size = New System.Drawing.Size(69, 13)
+        Me.lblMarginLine.TabIndex = 38
+        Me.lblMarginLine.Text = "lblMarginLine"
+        '
+        'lblPartsOrderNo
+        '
+        Me.lblPartsOrderNo.AutoSize = True
+        Me.lblPartsOrderNo.Location = New System.Drawing.Point(89, 359)
+        Me.lblPartsOrderNo.Name = "lblPartsOrderNo"
+        Me.lblPartsOrderNo.Size = New System.Drawing.Size(81, 13)
+        Me.lblPartsOrderNo.TabIndex = 39
+        Me.lblPartsOrderNo.Text = "lblPartsOrderNo"
+        '
+        'lblClaimDate
+        '
+        Me.lblClaimDate.AutoSize = True
+        Me.lblClaimDate.Location = New System.Drawing.Point(89, 377)
+        Me.lblClaimDate.Name = "lblClaimDate"
+        Me.lblClaimDate.Size = New System.Drawing.Size(65, 13)
+        Me.lblClaimDate.TabIndex = 40
+        Me.lblClaimDate.Text = "lblClaimDate"
+        '
+        'txtVendorName
+        '
+        Me.txtVendorName.Location = New System.Drawing.Point(92, 393)
+        Me.txtVendorName.Name = "txtVendorName"
+        Me.txtVendorName.Size = New System.Drawing.Size(100, 20)
+        Me.txtVendorName.TabIndex = 41
+        '
+        'txtVendorAddress
+        '
+        Me.txtVendorAddress.Location = New System.Drawing.Point(92, 425)
+        Me.txtVendorAddress.Name = "txtVendorAddress"
+        Me.txtVendorAddress.Size = New System.Drawing.Size(100, 20)
+        Me.txtVendorAddress.TabIndex = 42
+        '
+        'txtVendorCity
+        '
+        Me.txtVendorCity.Location = New System.Drawing.Point(207, 192)
+        Me.txtVendorCity.Name = "txtVendorCity"
+        Me.txtVendorCity.Size = New System.Drawing.Size(100, 20)
+        Me.txtVendorCity.TabIndex = 43
+        '
+        'txtVendorTele
+        '
+        Me.txtVendorTele.Location = New System.Drawing.Point(207, 219)
+        Me.txtVendorTele.Name = "txtVendorTele"
+        Me.txtVendorTele.Size = New System.Drawing.Size(100, 20)
+        Me.txtVendorTele.TabIndex = 44
+        '
+        'txtRepairCost
+        '
+        Me.txtRepairCost.Location = New System.Drawing.Point(207, 248)
+        Me.txtRepairCost.Name = "txtRepairCost"
+        Me.txtRepairCost.Size = New System.Drawing.Size(100, 20)
+        Me.txtRepairCost.TabIndex = 45
+        '
+        'chkPaid
+        '
+        Me.chkPaid.AutoSize = True
+        Me.chkPaid.Location = New System.Drawing.Point(207, 281)
+        Me.chkPaid.Name = "chkPaid"
+        Me.chkPaid.Size = New System.Drawing.Size(81, 17)
+        Me.chkPaid.TabIndex = 46
+        Me.chkPaid.Text = "CheckBox1"
+        Me.chkPaid.UseVisualStyleBackColor = True
+        '
+        'Notes_Text
+        '
+        Me.Notes_Text.Location = New System.Drawing.Point(207, 309)
+        Me.Notes_Text.Name = "Notes_Text"
+        Me.Notes_Text.Size = New System.Drawing.Size(100, 20)
+        Me.Notes_Text.TabIndex = 47
+        '
+        'optCBCredit
+        '
+        Me.optCBCredit.AutoSize = True
+        Me.optCBCredit.Location = New System.Drawing.Point(207, 342)
+        Me.optCBCredit.Name = "optCBCredit"
+        Me.optCBCredit.Size = New System.Drawing.Size(81, 17)
+        Me.optCBCredit.TabIndex = 48
+        Me.optCBCredit.TabStop = True
+        Me.optCBCredit.Text = "optCBCredit"
+        Me.optCBCredit.UseVisualStyleBackColor = True
+        '
+        'optCBDeduct
+        '
+        Me.optCBDeduct.AutoSize = True
+        Me.optCBDeduct.Location = New System.Drawing.Point(207, 365)
+        Me.optCBDeduct.Name = "optCBDeduct"
+        Me.optCBDeduct.Size = New System.Drawing.Size(89, 17)
+        Me.optCBDeduct.TabIndex = 49
+        Me.optCBDeduct.TabStop = True
+        Me.optCBDeduct.Text = "optCBDeduct"
+        Me.optCBDeduct.UseVisualStyleBackColor = True
+        '
+        'optCBChargeBack
+        '
+        Me.optCBChargeBack.AutoSize = True
+        Me.optCBChargeBack.Location = New System.Drawing.Point(207, 383)
+        Me.optCBChargeBack.Name = "optCBChargeBack"
+        Me.optCBChargeBack.Size = New System.Drawing.Size(113, 17)
+        Me.optCBChargeBack.TabIndex = 50
+        Me.optCBChargeBack.TabStop = True
+        Me.optCBChargeBack.Text = "optCBChargeBack"
+        Me.optCBChargeBack.UseVisualStyleBackColor = True
+        '
+        'cboStatus
+        '
+        Me.cboStatus.FormattingEnabled = True
+        Me.cboStatus.Location = New System.Drawing.Point(237, 12)
+        Me.cboStatus.Name = "cboStatus"
+        Me.cboStatus.Size = New System.Drawing.Size(121, 21)
+        Me.cboStatus.TabIndex = 51
+        '
+        'txtVendorEmail
+        '
+        Me.txtVendorEmail.Location = New System.Drawing.Point(237, 39)
+        Me.txtVendorEmail.Name = "txtVendorEmail"
+        Me.txtVendorEmail.Size = New System.Drawing.Size(100, 20)
+        Me.txtVendorEmail.TabIndex = 52
+        '
         'ServiceParts
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.txtVendorEmail)
+        Me.Controls.Add(Me.cboStatus)
+        Me.Controls.Add(Me.optCBChargeBack)
+        Me.Controls.Add(Me.optCBDeduct)
+        Me.Controls.Add(Me.optCBCredit)
+        Me.Controls.Add(Me.Notes_Text)
+        Me.Controls.Add(Me.chkPaid)
+        Me.Controls.Add(Me.txtRepairCost)
+        Me.Controls.Add(Me.txtVendorTele)
+        Me.Controls.Add(Me.txtVendorCity)
+        Me.Controls.Add(Me.txtVendorAddress)
+        Me.Controls.Add(Me.txtVendorName)
+        Me.Controls.Add(Me.lblClaimDate)
+        Me.Controls.Add(Me.lblPartsOrderNo)
+        Me.Controls.Add(Me.lblMarginLine)
         Me.Controls.Add(Me.txtDescription)
         Me.Controls.Add(Me.txtStyleNo)
         Me.Controls.Add(Me.lblTele3)
@@ -475,4 +632,19 @@ Partial Class ServiceParts
     Friend WithEvents lblTele3 As Label
     Friend WithEvents txtStyleNo As TextBox
     Friend WithEvents txtDescription As TextBox
+    Friend WithEvents lblMarginLine As Label
+    Friend WithEvents lblPartsOrderNo As Label
+    Friend WithEvents lblClaimDate As Label
+    Friend WithEvents txtVendorName As TextBox
+    Friend WithEvents txtVendorAddress As TextBox
+    Friend WithEvents txtVendorCity As TextBox
+    Friend WithEvents txtVendorTele As TextBox
+    Friend WithEvents txtRepairCost As TextBox
+    Friend WithEvents chkPaid As CheckBox
+    Friend WithEvents Notes_Text As TextBox
+    Friend WithEvents optCBCredit As RadioButton
+    Friend WithEvents optCBDeduct As RadioButton
+    Friend WithEvents optCBChargeBack As RadioButton
+    Friend WithEvents cboStatus As ComboBox
+    Friend WithEvents txtVendorEmail As TextBox
 End Class

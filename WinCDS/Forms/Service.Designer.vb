@@ -24,6 +24,10 @@ Partial Class Service
     Private Sub InitializeComponent()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.fraCustInfo = New System.Windows.Forms.GroupBox()
+        Me.fraTimeWindow = New System.Windows.Forms.GroupBox()
+        Me.dtpDelWindow0 = New System.Windows.Forms.DateTimePicker()
+        Me.dtpDelWindow1 = New System.Windows.Forms.DateTimePicker()
+        Me.lblTimeWindow = New System.Windows.Forms.Label()
         Me.lblSpecial = New System.Windows.Forms.Label()
         Me.cmdAddItem = New System.Windows.Forms.Button()
         Me.cmdRepairTag = New System.Windows.Forms.Button()
@@ -34,9 +38,6 @@ Partial Class Service
         Me.chkOutsideService = New System.Windows.Forms.CheckBox()
         Me.chkStoreService = New System.Windows.Forms.CheckBox()
         Me.tvItemNotes = New System.Windows.Forms.TreeView()
-        Me.lblTimeWindow = New System.Windows.Forms.Label()
-        Me.dtpDelWindow1 = New System.Windows.Forms.DateTimePicker()
-        Me.dtpDelWindow0 = New System.Windows.Forms.DateTimePicker()
         Me.lblSaleNo = New System.Windows.Forms.Label()
         Me.lblSaleNoCaption = New System.Windows.Forms.Label()
         Me.lblClaimDate = New System.Windows.Forms.Label()
@@ -83,12 +84,11 @@ Partial Class Service
         Me.txtItemNotes = New System.Windows.Forms.TextBox()
         Me.lblItemNotesCaption = New System.Windows.Forms.Label()
         Me.lblNewNote = New System.Windows.Forms.Label()
-        Me.fraTimeWindow = New System.Windows.Forms.GroupBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraCustInfo.SuspendLayout()
+        Me.fraTimeWindow.SuspendLayout()
         Me.Notes_Frame.SuspendLayout()
         Me.ItemNotesFrame.SuspendLayout()
-        Me.fraTimeWindow.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgLogo
@@ -144,6 +144,46 @@ Partial Class Service
         Me.fraCustInfo.TabIndex = 1
         Me.fraCustInfo.TabStop = False
         Me.fraCustInfo.Text = " Customer Information "
+        '
+        'fraTimeWindow
+        '
+        Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow0)
+        Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow1)
+        Me.fraTimeWindow.Controls.Add(Me.lblTimeWindow)
+        Me.fraTimeWindow.Location = New System.Drawing.Point(466, 86)
+        Me.fraTimeWindow.Name = "fraTimeWindow"
+        Me.fraTimeWindow.Size = New System.Drawing.Size(200, 36)
+        Me.fraTimeWindow.TabIndex = 4
+        Me.fraTimeWindow.TabStop = False
+        '
+        'dtpDelWindow0
+        '
+        Me.dtpDelWindow0.CustomFormat = "h:mm tt"
+        Me.dtpDelWindow0.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDelWindow0.Location = New System.Drawing.Point(6, 13)
+        Me.dtpDelWindow0.Name = "dtpDelWindow0"
+        Me.dtpDelWindow0.ShowCheckBox = True
+        Me.dtpDelWindow0.Size = New System.Drawing.Size(84, 20)
+        Me.dtpDelWindow0.TabIndex = 22
+        '
+        'dtpDelWindow1
+        '
+        Me.dtpDelWindow1.CustomFormat = "h:mm tt"
+        Me.dtpDelWindow1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDelWindow1.Location = New System.Drawing.Point(116, 13)
+        Me.dtpDelWindow1.Name = "dtpDelWindow1"
+        Me.dtpDelWindow1.ShowCheckBox = True
+        Me.dtpDelWindow1.Size = New System.Drawing.Size(80, 20)
+        Me.dtpDelWindow1.TabIndex = 23
+        '
+        'lblTimeWindow
+        '
+        Me.lblTimeWindow.AutoSize = True
+        Me.lblTimeWindow.Location = New System.Drawing.Point(96, 20)
+        Me.lblTimeWindow.Name = "lblTimeWindow"
+        Me.lblTimeWindow.Size = New System.Drawing.Size(20, 13)
+        Me.lblTimeWindow.TabIndex = 24
+        Me.lblTimeWindow.Text = "To"
         '
         'lblSpecial
         '
@@ -240,35 +280,6 @@ Partial Class Service
         Me.tvItemNotes.Name = "tvItemNotes"
         Me.tvItemNotes.Size = New System.Drawing.Size(664, 97)
         Me.tvItemNotes.TabIndex = 25
-        '
-        'lblTimeWindow
-        '
-        Me.lblTimeWindow.AutoSize = True
-        Me.lblTimeWindow.Location = New System.Drawing.Point(96, 20)
-        Me.lblTimeWindow.Name = "lblTimeWindow"
-        Me.lblTimeWindow.Size = New System.Drawing.Size(20, 13)
-        Me.lblTimeWindow.TabIndex = 24
-        Me.lblTimeWindow.Text = "To"
-        '
-        'dtpDelWindow1
-        '
-        Me.dtpDelWindow1.CustomFormat = "h:mm tt"
-        Me.dtpDelWindow1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDelWindow1.Location = New System.Drawing.Point(116, 13)
-        Me.dtpDelWindow1.Name = "dtpDelWindow1"
-        Me.dtpDelWindow1.ShowCheckBox = True
-        Me.dtpDelWindow1.Size = New System.Drawing.Size(80, 20)
-        Me.dtpDelWindow1.TabIndex = 23
-        '
-        'dtpDelWindow0
-        '
-        Me.dtpDelWindow0.CustomFormat = "h:mm tt"
-        Me.dtpDelWindow0.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDelWindow0.Location = New System.Drawing.Point(6, 13)
-        Me.dtpDelWindow0.Name = "dtpDelWindow0"
-        Me.dtpDelWindow0.ShowCheckBox = True
-        Me.dtpDelWindow0.Size = New System.Drawing.Size(84, 20)
-        Me.dtpDelWindow0.TabIndex = 22
         '
         'lblSaleNo
         '
@@ -703,17 +714,6 @@ Partial Class Service
         Me.lblNewNote.TabIndex = 0
         Me.lblNewNote.Text = "Enter new note for item: "
         '
-        'fraTimeWindow
-        '
-        Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow0)
-        Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow1)
-        Me.fraTimeWindow.Controls.Add(Me.lblTimeWindow)
-        Me.fraTimeWindow.Location = New System.Drawing.Point(466, 86)
-        Me.fraTimeWindow.Name = "fraTimeWindow"
-        Me.fraTimeWindow.Size = New System.Drawing.Size(200, 36)
-        Me.fraTimeWindow.TabIndex = 4
-        Me.fraTimeWindow.TabStop = False
-        '
         'Service
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -731,12 +731,12 @@ Partial Class Service
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraCustInfo.ResumeLayout(False)
         Me.fraCustInfo.PerformLayout()
+        Me.fraTimeWindow.ResumeLayout(False)
+        Me.fraTimeWindow.PerformLayout()
         Me.Notes_Frame.ResumeLayout(False)
         Me.Notes_Frame.PerformLayout()
         Me.ItemNotesFrame.ResumeLayout(False)
         Me.ItemNotesFrame.PerformLayout()
-        Me.fraTimeWindow.ResumeLayout(False)
-        Me.fraTimeWindow.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
