@@ -41,6 +41,7 @@ Public Class Service
             Dim mR As MailNew
             Mail_GetAtIndex(CStr(NewMailIndex), mR)
             If mR.Index > 0 Then
+                Service_Load(Me, New EventArgs)
                 LoadMailRecord(mR)
                 FindItems()
             Else
@@ -304,9 +305,8 @@ HandleErr:
           ArrangeString(UCase(IfNullThenNilString(X("Desc").Value)), 32) & ArrangeString("", 15)
 
                 'NN = tvItemNotes.Nodes.Add(, , "EX-" & X("STYLE").Value & "-" & Random(1000), ItemDescString)
-                NN = tvItemNotes.Nodes.Add("", "", "EX-" & X("STYLE").Value & "-" & Random(1000), ItemDescString)
+                NN = tvItemNotes.Nodes.Add("EX-" & X("STYLE").Value & "-" & Random(1000), ItemDescString)
                 NN.ForeColor = Color.Red
-
                 X.MoveNext()
             Loop
             X = Nothing
@@ -371,11 +371,21 @@ HandleErr:
                 .DataAccess.Records_OpenSQL("SELECT * FROM ServiceNotes WHERE MarginNo=" & Margin.MarginLine & " AND ServiceCall=" & ServiceOrderNumber & " ORDER BY NoteDate, ServiceNoteID")
                 If Not .DataAccess.Record_EOF Then
                     Do While .DataAccess.Records_Available
-
+                        ServiceNote.cDataAccess_GetRecordSet(ServiceNote.DataAccess.RS)
                         Dim Note As Object, I As Integer
                         Note = SplitLongText(" --- " & .NoteTypeString & " entered at " & DateFormat(.NoteDate) & " ---" & vbCrLf & .Note, 75)
                         For I = LBound(Note) To UBound(Note)
-                            tvItemNotes.Nodes.Add(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine), "4", "SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
+                            'tvItemNotes.Nodes.Add(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine), "4", "SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
+
+                            Dim Relative As String, Relationship As String
+                            If I > LBound(Note) Then
+                                Relative = "SN" & .ServiceNoteID
+                                Relationship = 4 'tvwChild
+                            Else
+                                Relative = "ML" & Margin.MarginLine
+                                Relationship = 4 'tvwChild
+                            End If
+                            tvItemNotes.Nodes(0).Nodes.Add("SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
                             tvItemNotes.Nodes(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine)).Expanded = True
                         Next
                     Loop
@@ -389,7 +399,6 @@ HandleErr:
         DisposeDA(Margin)
         'lstPurchases.Clear
         lstPurchases.Items.Clear()
-
 
         If ItemsUpdated Then
             Dim cSR As clsServiceOrder
