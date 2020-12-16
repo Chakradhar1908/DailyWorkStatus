@@ -13,6 +13,7 @@ Public Class Service
     Private CurrentNoteMarginNo As Integer
     Private ServicePartsLoaded As Boolean
     Private Const AllowOrderParts As Boolean = True
+    Private ServiceFormLoad As Boolean
 
     Public Sub LoadCustomer(ByVal NewMailIndex As Integer, Optional ByVal CheckServiceCalls As Boolean = True)
         ' Load the customer info.
@@ -42,6 +43,7 @@ Public Class Service
             Mail_GetAtIndex(CStr(NewMailIndex), mR)
             If mR.Index > 0 Then
                 Service_Load(Me, New EventArgs)
+                ServiceFormLoad = True
                 LoadMailRecord(mR)
                 FindItems()
             Else
@@ -199,7 +201,8 @@ HandleErr:
         lblSaleNoCaption.Visible = False
 
         dteServiceDate.Value = Today
-        dteServiceDate.Value = Date.FromOADate(0)
+        'dteServiceDate.Value = Null
+        'dteServiceDate.Value = Date.FromOADate(0)
         lblClaimDate.Text = Today
 
         SelectStatus("")
@@ -433,8 +436,8 @@ HandleErr:
             lblFirstName.Text = Trim(MailRec.First)
             lblLastName.Text = Trim(MailRec.Last)
             'lblLastName.Move 2640, lblLastName.Top, 2175
-            lblLastName.Location = New Point(2640, lblLastName.Top)
-            lblLastName.Size = New Size(2175, lblLastName.Height)
+            lblLastName.Location = New Point(180, lblLastName.Top)
+            lblLastName.Size = New Size(152, lblLastName.Height)
         Else
             lblFirstName.Text = ""
             lblLastName.Text = Trim(MailRec.Last)
@@ -521,11 +524,11 @@ HandleErr:
         lblCapTele.Text = Lbl1
         lblCapTele2.Text = Lbl2
         lblCapTele3.Text = Lbl3
-        lblTele.Left = lblCapTele.Left + lblCapTele.Width + 60
-        lblCapTele2.Left = lblTele.Left + lblTele.Width + 100
-        lblTele2.Left = lblCapTele2.Left + lblCapTele2.Width + 60
+        lblTele.Left = lblCapTele.Left + lblCapTele.Width + 2
+        lblCapTele2.Left = lblTele.Left + lblTele.Width + 40
+        lblTele2.Left = lblCapTele2.Left + lblCapTele2.Width + 2
         lblCapTele3.Left = lblTele2.Left + lblTele2.Width + 100
-        lblTele3.Left = lblCapTele3.Left + lblCapTele3.Width + 60
+        lblTele3.Left = lblCapTele3.Left + lblCapTele3.Width + 2
     End Sub
 
     Private Sub cmdAddItem_Click(sender As Object, e As EventArgs) Handles cmdAddItem.Click
@@ -844,10 +847,12 @@ SayNo:
     End Sub
 
     Private Sub ShowTimeWindowBox(ByVal Show As Boolean, Optional ByVal Enabled As Boolean = False)
-        dtpDelWindow0.Value = "7:00 am"
-        dtpDelWindow0.Value = ""
-        dtpDelWindow1.Value = "5:00 pm"
-        dtpDelWindow1.Value = ""
+        'dtpDelWindow0.Value = "7:00 am"
+        dtpDelWindow0.Value = DateTime.ParseExact("7:00 AM", "h:mm tt", System.Globalization.CultureInfo.InvariantCulture)
+        'dtpDelWindow0.Value = ""
+        'dtpDelWindow1.Value = "5:00 pm"
+        dtpDelWindow1.Value = DateTime.ParseExact("5:00 PM", "h:mm tt", System.Globalization.CultureInfo.InvariantCulture)
+        'dtpDelWindow1.Value = ""
 
         fraTimeWindow.Visible = Show And (StoreSettings.bUseTimeWindows)
         dtpDelWindow0.Enabled = Enabled
@@ -873,10 +878,18 @@ SayNo:
     End Sub
 
     Private Sub dteServiceDate_CloseUp(sender As Object, e As EventArgs) Handles dteServiceDate.CloseUp
-        ShowTimeWindowBox(IsDate(dteServiceDate.Value), True)
+        'ShowTimeWindowBox(IsDate(dteServiceDate.Value), True)
+        'If dteServiceDate.Value > Date.FromOADate(0) Then
+        '    dteServiceDate.Checked = True
+        '    ShowTimeWindowBox(True, True)
+        'Else
+        '    dteServiceDate.Checked = False
+        '    ShowTimeWindowBox(False, True)
+        'End If
     End Sub
 
     Private Sub Service_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If ServiceFormLoad = True Then Exit Sub
         'SetButtonImage cmdMoveFirst, "previous"
         SetButtonImage(cmdMoveFirst, 7)
         'SetButtonImage(cmdMovePrevious, "previous1")
@@ -905,7 +918,8 @@ SayNo:
         Left = (Me.ClientSize.Width - Width) / 2
         lblClaimDate.Text = DateFormat(Today)
         StartDate = DateFormat(Today)
-        dteServiceDate.Value = Date.FromOADate(0)
+        'dteServiceDate.Value = Date.FromOADate(0)
+        'dteServiceDate.Value = Today
         Notes_Frame.Visible = True
         InitStatusList()
 
@@ -1351,11 +1365,11 @@ SayNo:
 
             If IsNothing(RS("ServiceOnDate").Value) Then
                 dteServiceDate.Value = Today
-                dteServiceDate.Value = Date.FromOADate(0)
+                'dteServiceDate.Value = Date.FromOADate(0)
             Else
                 If RS("ServiceOnDate").Value = "NONE" Then
                     dteServiceDate.Value = Today
-                    dteServiceDate.Value = Date.FromOADate(0)
+                    'dteServiceDate.Value = Date.FromOADate(0)
                 Else
                     dteServiceDate.Value = CDate(Microsoft.VisualBasic.Left(RS("ServiceOnDate").Value, 10))
                 End If
@@ -1428,7 +1442,7 @@ SayNo:
 
         If IsNothing(RS("ServiceOnDate").Value) Then
             dteServiceDate.Value = Today
-            dteServiceDate.Value = Date.FromOADate(0)
+            'dteServiceDate.Value = Date.FromOADate(0)
             ShowTimeWindowBox(False)
         Else
             dteServiceDate.Value = RS("ServiceOnDate").Value
@@ -1503,6 +1517,21 @@ HandleErr:
             Notes_New.Text = Microsoft.VisualBasic.Left(Notes_New.Text, Len(Notes_New.Text) - 1) & vbCrLf & Now & ":" & vbCrLf & Microsoft.VisualBasic.Right(Notes_New.Text, 1)
             If Microsoft.VisualBasic.Left(Notes_New.Text, 2) = vbCrLf Then Notes_New.Text = Mid(Notes_New.Text, 3)
             Notes_New.SelectionStart = Len(Notes_New.Text)
+        End If
+    End Sub
+
+    Private Sub chkServiceOnDate_CheckedChanged(sender As Object, e As EventArgs) Handles chkServiceOnDate.CheckedChanged
+        'ShowTimeWindowBox(IsDate(dteServiceDate.Value), True)
+        If chkServiceOnDate.Checked = True Then
+            dteServiceDate.Enabled = True
+            dtpDelWindow0.Enabled = True
+            dtpDelWindow1.Enabled = True
+            ShowTimeWindowBox(True, True)
+        Else
+            dteServiceDate.Enabled = False
+            dtpDelWindow0.Enabled = False
+            dtpDelWindow1.Enabled = False
+            ShowTimeWindowBox(False, True)
         End If
     End Sub
 End Class
