@@ -14,6 +14,7 @@ Public Class Service
     Private ServicePartsLoaded As Boolean
     Private Const AllowOrderParts As Boolean = True
     Private ServiceFormLoad As Boolean
+    Public ServiceFormSetRecord As Boolean
 
     Public Sub LoadCustomer(ByVal NewMailIndex As Integer, Optional ByVal CheckServiceCalls As Boolean = True)
         ' Load the customer info.
@@ -1315,10 +1316,14 @@ SayNo:
         If ServiceOrderNumber < 1 Then 'new service
             mDBAccess_Init(, , MailIndex)
             'Service.ServiceStatus = "Open"
+            ServiceFormSetRecord = True
             mDBAccess.SetRecord(True) ' this sets NEW record
+            ServiceFormSetRecord = False
         Else
             mDBAccess_Init(ServiceOrderNumber)
+            ServiceFormSetRecord = True
             mDBAccess.SetRecord()             ' this sets same record
+            ServiceFormSetRecord = True
         End If
         mDBAccess.dbClose()
         mDBAccess = Nothing
@@ -1356,7 +1361,7 @@ SayNo:
             cmdOrderParts.Enabled = True
             lblLastName.Text = Trim(RS("LastName").Value)
             UpdateTelephoneLabels("", "", "")
-            lblTele = DressAni(CleanAni(RS("Telephone").Value))
+            lblTele.Text = DressAni(CleanAni(RS("Telephone").Value))
             MailIndex = RS("MailIndex").Value
 
             lblSaleNo.Text = Trim(IfNullThenNilString(RS("SaleNo").Value))
@@ -1389,14 +1394,15 @@ SayNo:
             ' rs("InvoiceNo")
 
             'AddOnAcc.lstAccounts.AddItem " " & ServiceOrderNumber & "            " & lblLastName & "  " & lblTele
-            AddOnAcc.lstAccounts.Items.Add(" " & ServiceOrderNumber & "            " & lblLastName.Text & "  " & lblTele.Text)
+            'AddOnAcc.lstAccounts.Items.Add(" " & ServiceOrderNumber & "            " & lblLastName.Text & "  " & lblTele.Text)
+            AddOnAcc.lstAccounts.Items.Add(" " & ServiceOrderNumber & "                 " & lblLastName.Text & "       " & lblTele.Text)
             RS.MoveNext()
         Loop
 
         LoadPartsOrders()
     End Sub
 
-    Private Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.SetRecordEvent    ' called to write the record
+    Public Sub mDBAccess_SetRecordEvent(RS As ADODB.Recordset) Handles mDBAccess.SetRecordEvent    ' called to write the record
         If ServiceOrderNumber <= 0 Then
             GetServiceNo()
         End If
@@ -1462,8 +1468,11 @@ SayNo:
 
         LoadCustomer(RS("MailIndex").Value, False)  ' Load extended mail information
 
-        dtpDelWindow0.Value = RS("StopStart").Value
-        dtpDelWindow1.Value = RS("StopEnd").Value
+        'dtpDelWindow0.Value = RS("StopStart").Value
+        'dtpDelWindow1.Value = RS("StopEnd").Value
+
+        dtpDelWindow0.Value = DateTime.ParseExact(Trim(RS("StopStart").Value), "h:mm tt", System.Globalization.CultureInfo.InvariantCulture)
+        dtpDelWindow1.Value = DateTime.ParseExact(Trim(RS("StopEnd").Value), "h:mm tt", System.Globalization.CultureInfo.InvariantCulture)
         Exit Sub
 
 HandleErr:
@@ -1507,7 +1516,7 @@ HandleErr:
     Private Sub Notes_New_TextChanged(sender As Object, e As EventArgs) Handles Notes_New.TextChanged
         Dim Stamp As Boolean
         Select Case Notes_New.Tag
-            Case "" : Notes_New.Tag = "EDIT1" : If Len(Notes_New) = 1 Then Stamp = True
+            Case "" : Notes_New.Tag = "EDIT1" : If Len(Notes_New.Text) = 1 Then Stamp = True
             Case "EDIT1" : Stamp = True
         End Select
 

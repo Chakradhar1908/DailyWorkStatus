@@ -87,12 +87,15 @@ AnError:
             '.Edit ' for DAO only
         End If
 
+        'RaiseEvent SetRecordEvent(Mrs)
         If ARPaySetUp.DBAccess_SetRecordEvent = True Then
             ARPaySetUp.mDBAccess_SetRecordEvent(Mrs)
         ElseIf ARPaySetUp.DBAccessTransactions_SetRecordEvent = True Then
             ARPaySetUp.mDBAccessTransactions_SetRecordEvent(Mrs)
+        ElseIf Service.ServiceFormSetRecord = True Then
+            Service.mDBAccess_SetRecordEvent(Mrs)
         End If
-        'RaiseEvent SetRecordEvent(Mrs)
+
         'Recordset_DebugPrint(mrs)
         Mrs.Update() ' .UpdateBatch
         RaiseEvent RecordUpdated(Mrs)
