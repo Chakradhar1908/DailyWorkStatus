@@ -24,11 +24,11 @@ Partial Class Service
     Private Sub InitializeComponent()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.fraCustInfo = New System.Windows.Forms.GroupBox()
+        Me.chkServiceOnDate = New System.Windows.Forms.CheckBox()
         Me.fraTimeWindow = New System.Windows.Forms.GroupBox()
         Me.dtpDelWindow0 = New System.Windows.Forms.DateTimePicker()
         Me.dtpDelWindow1 = New System.Windows.Forms.DateTimePicker()
         Me.lblTimeWindow = New System.Windows.Forms.Label()
-        Me.lblSpecial = New System.Windows.Forms.Label()
         Me.cmdAddItem = New System.Windows.Forms.Button()
         Me.cmdRepairTag = New System.Windows.Forms.Button()
         Me.cmdAddItemNote = New System.Windows.Forms.Button()
@@ -62,6 +62,7 @@ Partial Class Service
         Me.lblFirstName = New System.Windows.Forms.Label()
         Me.txtItems = New System.Windows.Forms.TextBox()
         Me.lstPurchases = New System.Windows.Forms.CheckedListBox()
+        Me.lblSpecial = New System.Windows.Forms.Label()
         Me.Notes_Frame = New System.Windows.Forms.GroupBox()
         Me.lblStoreResponse = New System.Windows.Forms.Label()
         Me.lblPartsOrd = New System.Windows.Forms.Label()
@@ -84,7 +85,6 @@ Partial Class Service
         Me.txtItemNotes = New System.Windows.Forms.TextBox()
         Me.lblItemNotesCaption = New System.Windows.Forms.Label()
         Me.lblNewNote = New System.Windows.Forms.Label()
-        Me.chkServiceOnDate = New System.Windows.Forms.CheckBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraCustInfo.SuspendLayout()
         Me.fraTimeWindow.SuspendLayout()
@@ -147,6 +147,15 @@ Partial Class Service
         Me.fraCustInfo.TabStop = False
         Me.fraCustInfo.Text = " Customer Information "
         '
+        'chkServiceOnDate
+        '
+        Me.chkServiceOnDate.AutoSize = True
+        Me.chkServiceOnDate.Location = New System.Drawing.Point(330, 78)
+        Me.chkServiceOnDate.Name = "chkServiceOnDate"
+        Me.chkServiceOnDate.Size = New System.Drawing.Size(15, 14)
+        Me.chkServiceOnDate.TabIndex = 5
+        Me.chkServiceOnDate.UseVisualStyleBackColor = True
+        '
         'fraTimeWindow
         '
         Me.fraTimeWindow.Controls.Add(Me.dtpDelWindow0)
@@ -185,14 +194,6 @@ Partial Class Service
         Me.lblTimeWindow.Size = New System.Drawing.Size(20, 13)
         Me.lblTimeWindow.TabIndex = 24
         Me.lblTimeWindow.Text = "To"
-        '
-        'lblSpecial
-        '
-        Me.lblSpecial.Location = New System.Drawing.Point(16, 132)
-        Me.lblSpecial.Name = "lblSpecial"
-        Me.lblSpecial.Size = New System.Drawing.Size(378, 8)
-        Me.lblSpecial.TabIndex = 36
-        Me.lblSpecial.Text = "lblSpecial"
         '
         'cmdAddItem
         '
@@ -497,6 +498,14 @@ Partial Class Service
         Me.lstPurchases.Size = New System.Drawing.Size(562, 19)
         Me.lstPurchases.TabIndex = 35
         '
+        'lblSpecial
+        '
+        Me.lblSpecial.Location = New System.Drawing.Point(16, 132)
+        Me.lblSpecial.Name = "lblSpecial"
+        Me.lblSpecial.Size = New System.Drawing.Size(378, 8)
+        Me.lblSpecial.TabIndex = 36
+        Me.lblSpecial.Text = "lblSpecial"
+        '
         'Notes_Frame
         '
         Me.Notes_Frame.Controls.Add(Me.lblStoreResponse)
@@ -718,15 +727,6 @@ Partial Class Service
         Me.lblNewNote.Size = New System.Drawing.Size(122, 13)
         Me.lblNewNote.TabIndex = 0
         Me.lblNewNote.Text = "Enter new note for item: "
-        '
-        'chkServiceOnDate
-        '
-        Me.chkServiceOnDate.AutoSize = True
-        Me.chkServiceOnDate.Location = New System.Drawing.Point(330, 78)
-        Me.chkServiceOnDate.Name = "chkServiceOnDate"
-        Me.chkServiceOnDate.Size = New System.Drawing.Size(15, 14)
-        Me.chkServiceOnDate.TabIndex = 5
-        Me.chkServiceOnDate.UseVisualStyleBackColor = True
         '
         'Service
         '

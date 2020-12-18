@@ -390,7 +390,7 @@ HandleErr:
                                 Relationship = 4 'tvwChild
                             End If
                             tvItemNotes.Nodes(0).Nodes.Add("SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
-                            tvItemNotes.Nodes(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine)).Expanded = True
+                            'tvItemNotes.Nodes(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine)).Expanded = True
                         Next
                     Loop
                     'tvItemNotes.Nodes("ML" & Margin.MarginLine).Expanded = True
@@ -568,7 +568,7 @@ HandleErr:
         S = lblServiceOrderNo.Text
         FindItems()
     End Sub
-
+    Delegate Function d()
     Private Sub cmdMenu_Click(sender As Object, e As EventArgs) Handles cmdMenu.Click
         ClearServiceOrder()
         If cmdMenu.Text = "&Menu" Then
@@ -576,7 +576,10 @@ HandleErr:
             MainMenu.Show()
         End If
         'Unload Me
-        Me.Close()
+        'Me.Close() This line is throwing error of Notes_Frame frme is running on different thread. To clear the error, replaced the line with the below me.Invoke code.
+        Me.Invoke(Sub()
+                      Me.Close()
+                  End Sub)
     End Sub
 
     Public Sub QuickShowServiceCall(ByVal sC As String, Optional ByVal StoreNo As Integer = 0, Optional ByVal ReturnToOriginalStore As Boolean = True)
@@ -712,9 +715,10 @@ HandleErr:
     Private Function SelectedMarginNode() As Integer
         Dim CurRow As String
         'If tvItemNotes.SelectedItem Is Nothing Then Exit Function
-        If tvItemNotes.SelectedNode.Text Is Nothing Then Exit Function
+        If tvItemNotes.SelectedNode Is Nothing Then Exit Function
         'CurRow = tvItemNotes.SelectedItem.Key
-        CurRow = tvItemNotes.SelectedNode.SelectedImageKey
+        CurRow = tvItemNotes.SelectedNode.Name
+
 
         If Microsoft.VisualBasic.Left(CurRow, 2) = "ML" Then
             SelectedMarginNode = Val(Mid(CurRow, 3))
@@ -1355,7 +1359,7 @@ SayNo:
         AddOnAcc.lstAccounts.Items.Clear()
 
         Do While RS.EOF = False
-            Application.DoEvents()
+            'Application.DoEvents()
             lblServiceOrderNo.Text = Trim(RS("ServiceOrderNo").Value)
             ServiceOrderNumber = Trim(RS("ServiceOrderNo").Value)
             cmdOrderParts.Enabled = True
@@ -1528,6 +1532,10 @@ HandleErr:
             Notes_New.SelectionStart = Len(Notes_New.Text)
         End If
     End Sub
+
+    'Private Sub tvItemNotes_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles tvItemNotes.AfterSelect
+    '    e.Node.Name
+    'End Sub
 
     Private Sub chkServiceOnDate_CheckedChanged(sender As Object, e As EventArgs) Handles chkServiceOnDate.CheckedChanged
         'ShowTimeWindowBox(IsDate(dteServiceDate.Value), True)

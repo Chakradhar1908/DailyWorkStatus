@@ -73,9 +73,11 @@
         If DataAccess.Record_Count = 0 Then
             ' Record not found.  This means we're adding a new one.
             DataAccess.Records_Add()
+            cDataAccess_SetRecordSet(DataAccess.RS)
         End If
         ' Then load our data into the recordset.
         DataAccess.Record_Update()
+        cDataAccess_SetRecordSet(DataAccess.RS)
         ' And finally, tell the class to save the recordset.
         DataAccess.Records_Update()
         Exit Function
@@ -104,7 +106,10 @@ NoSave:
         End If
 
         ' Move to the first record if we can, and return success.
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
 
     Private Sub mDataAccess_RecordUpdated()
