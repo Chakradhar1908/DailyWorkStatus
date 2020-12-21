@@ -619,6 +619,79 @@ PrinterDialogCancelled:
         If Italic Then OO.FontItalic = oI
     End Sub
 
+    '<CT>Created this PrintAligned2 as an alternative to PrintAligned sub. Cause OO as object, OO.FontBold, OO.TextWidth etc with as object will not work in vb.net </CT>
+    Public Sub PrintAligned2(ByVal Text As String, Optional ByVal Align As Byte = AlignmentConstants.vbLeftJustify, Optional ByVal Location As Integer = 0, Optional ByVal yPos As Integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
+        Dim List() As String, X As Integer
+        Dim Ob As Boolean, oI As Boolean
+        Dim OO As Object
+        OO = OutputObject
+
+        'Ob = OO.FontBold
+        Ob = Printer.FontBold
+        'oI = OO.FontItalic
+        oI = Printer.FontItalic
+
+        'If Bold Then OO.FontBold = True
+        If Bold Then Printer.FontBold = True
+        'If Italic Then OO.FontItalic = True
+        If Italic Then Printer.FontItalic = True
+        'If yPos > 0 Then OO.CurrentY = yPos
+        If yPos > 0 Then Printer.CurrentY = yPos
+
+        If InStr(Text, vbCrLf) Then 'Multi-line string
+            'ReDim List(UBound(List) + 1)
+            'List() = Split(Text, vbCrLf)
+            List = Split(Text, vbCrLf)
+            For X = LBound(List) To UBound(List)
+                Select Case Align
+                    Case AlignmentConstants.vbLeftJustify, AlignConstants.vbAlignLeft '0
+                        'OO.CurrentX = Location
+                        Printer.CurrentX = Location
+                    Case AlignmentConstants.vbRightJustify, AlignConstants.vbAlignRight '1
+                        'OO.CurrentX = Printer.ScaleWidth - OO.TextWidth(List(X)) + Location
+                        Printer.CurrentX = Printer.ScaleWidth - Printer.TextWidth(List(X)) + Location
+                    Case AlignmentConstants.vbCenter '2
+                        'OO.CurrentX = (Printer.Width - OO.TextWidth(List(X))) / 2 + Location 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+                        Printer.CurrentX = (Printer.Width - Printer.TextWidth(List(X))) / 2 + Location 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+                    Case Else
+                        Debug.Print("UNKNOWN ALIGNMENT CONSTANT IN modPrintToolsCommon.PrintAligned: " & CStr(Align))
+                End Select
+                OutputObject.Print(List(X))
+            Next
+        Else 'Single-line string
+            Select Case Align
+                Case AlignmentConstants.vbLeftJustify, AlignConstants.vbAlignLeft '0
+                    'OO.CurrentX = Location
+                    Printer.CurrentX = Location
+                Case AlignmentConstants.vbRightJustify, AlignConstants.vbAlignRight '1
+                    If Location <= 0 Then
+                        'OO.CurrentX = Printer.ScaleWidth - OO.TextWidth(Text)
+                        Printer.CurrentX = Printer.ScaleWidth - Printer.TextWidth(Text)
+                    Else
+                        'OO.CurrentX = (Location) - OO.TextWidth(Text)
+                        Printer.CurrentX = (Location) - Printer.TextWidth(Text)
+                    End If
+                Case AlignmentConstants.vbCenter '2
+                    'OO.CurrentX = (Printer.Width - OO.TextWidth(Text)) / 2 + Location 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+                    Printer.CurrentX = (Printer.Width - Printer.TextWidth(Text)) / 2 + Location 'Use Printer.Width to keep the heading centered even with larger screen resolutions.
+                Case Else
+                    Debug.Print("UNKNOWN ALIGNMENT CONSTANT IN modPrintToolsCommon.PrintAligned: " & CStr(Align))
+            End Select
+            If Not IscPrinter(OutputObject) Then
+                'OutputObject.Print(Text)
+                Printer.Print(Text)
+            Else
+                'OutputObject.PrintNL(Text)
+                Printer.Print(Text)
+            End If
+        End If
+
+        'If Bold Then OO.FontBold = Ob         ' this is to preserve the original settings
+        If Bold Then Printer.FontBold = Ob         ' this is to preserve the original settings
+        'If Italic Then OO.FontItalic = oI
+        If Italic Then Printer.FontItalic = oI
+    End Sub
+
     Public Sub CommonReportAddColumn(Optional ByVal ColumnHeader As String = "", Optional ByVal Width As Integer = 0, Optional ByVal Reset As Boolean = False, Optional ByRef OptionString As String = "")
         On Error Resume Next
         If Reset Then

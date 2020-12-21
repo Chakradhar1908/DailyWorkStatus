@@ -389,8 +389,9 @@ HandleErr:
                                 Relative = "ML" & Margin.MarginLine
                                 Relationship = 4 'tvwChild
                             End If
-                            tvItemNotes.Nodes(0).Nodes.Add("SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
+                            'tvItemNotes.Nodes(0).Nodes.Add("SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
                             'tvItemNotes.Nodes(IIf(I > LBound(Note), "SN" & .ServiceNoteID, "ML" & Margin.MarginLine)).Expanded = True
+                            tvItemNotes.SelectedNode.Nodes.Add("SN" & .ServiceNoteID & IIf(I > LBound(Note), "." & I, ""), Note(I))
                         Next
                     Loop
                     'tvItemNotes.Nodes("ML" & Margin.MarginLine).Expanded = True
@@ -762,18 +763,27 @@ HandleErr:
         Printer.FontSize = 18
         Printer.FontBold = True
         Printer.FontUnderline = True
-        PrintAligned("REPAIR TAG", VBRUN.AlignConstants.vbAlignLeft, 0) '  vbCenter, Printer.ScaleWidth / 2
+        'PrintAligned("REPAIR TAG", VBRUN.AlignConstants.vbAlignLeft, 0) '  vbCenter, Printer.ScaleWidth / 2
+        PrintAligned2("REPAIR TAG", VBRUN.AlignConstants.vbAlignLeft, 0) '  vbCenter, Printer.ScaleWidth / 2
         Printer.FontUnderline = False
         Printer.FontSize = 14
-        PrintAligned("SrvOrd#: " & lblServiceOrderNo.Text & " [" & dteServiceDate.Value & "]")
-        PrintAligned("Claim Date: " & lblClaimDate.Text)
-        PrintAligned("SaleNo: " & lblSaleNo.Text)
-        PrintAligned("Name: " & lblLastName.Text)
+        'PrintAligned("SrvOrd#: " & lblServiceOrderNo.Text & " [" & dteServiceDate.Value & "]")
+        PrintAligned2("SrvOrd#: " & lblServiceOrderNo.Text & " [" & dteServiceDate.Value & "]")
+        'PrintAligned("Claim Date: " & lblClaimDate.Text)
+        PrintAligned2("Claim Date: " & lblClaimDate.Text)
+        'PrintAligned("SaleNo: " & lblSaleNo.Text)
+        PrintAligned2("SaleNo: " & lblSaleNo.Text)
+        'PrintAligned("Name: " & lblLastName.Text)
+        PrintAligned2("Name: " & lblLastName.Text)
         'PrintAligned "Phone: " & lblTele
-        PrintAligned(lblCapTele.Text & lblTele.Text)
-        PrintAligned(lblCapTele2.Text & lblTele2.Text)
-        PrintAligned(lblTele3.Text) 'lblCapTele3 & lblTele3
-        PrintAligned("Type: " & Switch(chkStoreService.Checked = True, "Store", chkOutsideService.Checked = True, "Outside", chkPickupExchange.Checked = True, "P-Up/Exg", chkOther.Checked = True, "Other", True, "Other"))
+        'PrintAligned(lblCapTele.Text & lblTele.Text)
+        PrintAligned2(lblCapTele.Text & lblTele.Text)
+        'PrintAligned(lblCapTele2.Text & lblTele2.Text)
+        PrintAligned2(lblCapTele2.Text & lblTele2.Text)
+        'PrintAligned(lblTele3.Text) 'lblCapTele3 & lblTele3
+        PrintAligned2(lblTele3.Text) 'lblCapTele3 & lblTele3
+        'PrintAligned("Type: " & Switch(chkStoreService.Checked = True, "Store", chkOutsideService.Checked = True, "Outside", chkPickupExchange.Checked = True, "P-Up/Exg", chkOther.Checked = True, "Other", True, "Other"))
+        PrintAligned2("Type: " & Switch(chkStoreService.Checked = True, "Store", chkOutsideService.Checked = True, "Outside", chkPickupExchange.Checked = True, "P-Up/Exg", chkOther.Checked = True, "Other", True, "Other"))
         '  PrintAligned "Serv Date: " & dteServiceDate
 
         Printer.EndDoc()
@@ -801,7 +811,8 @@ HandleErr:
 
         ' Refresh the items/notes treeview, making sure the new note is visible.
         FindItems()
-        tvItemNotes.Nodes("SN" & NewID).EnsureVisible()
+        'tvItemNotes.Nodes("SN" & NewID).EnsureVisible()
+        tvItemNotes.SelectedNode.Nodes("SN" & NewID).EnsureVisible()
 
         Notes_Frame.Visible = True
         ItemNotesFrame.Visible = False
@@ -1552,5 +1563,6 @@ HandleErr:
         End If
     End Sub
 End Class
+
 
 
