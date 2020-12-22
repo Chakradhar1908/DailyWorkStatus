@@ -15,6 +15,7 @@ Public Class Service
     Private Const AllowOrderParts As Boolean = True
     Private ServiceFormLoad As Boolean
     Public ServiceFormSetRecord As Boolean
+    Private FromCmdNext As Boolean
 
     Public Sub LoadCustomer(ByVal NewMailIndex As Integer, Optional ByVal CheckServiceCalls As Boolean = True)
         ' Load the customer info.
@@ -627,8 +628,11 @@ HandleErr:
     Private Sub cmdNext_Click(sender As Object, e As EventArgs) Handles cmdNext.Click
         ClearServiceOrder()
         'Unload Me
+        FromCmdNext = True
         Me.Close()
-        MailCheck.optTelephone.Checked = True
+        FromCmdNext = False
+        'MailCheck.optTelephone.Checked = True
+        MailCheckSaleNoChecked = False
         'MailCheck.Show vbModal
         MailCheck.ShowDialog()
     End Sub
@@ -945,15 +949,17 @@ SayNo:
 
         On Error Resume Next
         'imgLogo.Picture = LoadPictureStd(StoreLogoFile())
-        imgLogo.Image = LoadPictureStd(StoreLogoFile())
+        'imgLogo.Image = LoadPictureStd(StoreLogoFile())
+        imgLogo.Image = Image.FromFile(StoreLogoFile())
     End Sub
 
     'form unload of vb6.0
     Private Sub Service_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         'Query Unload event of vb6.0
         'If UnloadMode = vbFormControlMenu Then cmdMenu.Value = True
-        If e.CloseReason = CloseReason.UserClosing Then cmdMenu.PerformClick()
-
+        If FromCmdNext = False Then
+            If e.CloseReason = CloseReason.UserClosing Then cmdMenu.PerformClick()
+        End If
         'Form unload event of vb6.0
         On Error Resume Next
         mDBAccess.dbClose()
@@ -1000,7 +1006,9 @@ SayNo:
             PrintCentered(StoreSettings.Phone)
         Else  'logo
             Printer.CurrentX = 4000
-            Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - imgLogo.Width / 2, 390, imgLogo.Width, imgLogo.Height)
+            'Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - imgLogo.Width / 2, 390, imgLogo.Width, imgLogo.Height)
+            'Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 4000, 200, 5000, 5000, 1200, 1000, 35000, 35000)
+            Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 4000, 400, 5000, 5000, 1200, 1000, 35000, 35000)
         End If
 
         Printer.FontBold = True
@@ -1010,20 +1018,25 @@ SayNo:
         Printer.Print(" SERVICE ON:")
         Printer.DrawWidth = 8
         'Printer.Line(500, 600)-Step(2000, 1200), QBColor(0), B
-        Printer.Line(500, 600, 2000, 1200, QBColor(0), True)
+        Printer.Line(500, 600, 2500, 1800, QBColor(0), True)
         Printer.DrawWidth = 1
 
         Printer.FontSize = 18
         Printer.CurrentX = 610
         Printer.CurrentY = 650
 
-        If dteServiceDate.Value <> "" Then
+        If dteServiceDate.Value.ToString <> "" Then
             Printer.Print(Microsoft.VisualBasic.Left(dteServiceDate.Value, 10))
             Printer.FontSize = 14
             Printer.CurrentX = 1000
+            Dim y As Integer
+            y = Printer.CurrentY
             Printer.Print(Format(dteServiceDate.Value, "DDDD"))
             Printer.CurrentX = 610
-            PrintInBox(Printer, DescribeTimeWindow(dtpDelWindow0, dtpDelWindow1), 600, Printer.CurrentY, 1800, 300)
+            'PrintInBox(Printer, DescribeTimeWindow(dtpDelWindow0.Value, dtpDelWindow1.Value), 600, Printer.CurrentY, 1800, 300)
+            Printer.FontSize = 8
+            Printer.CurrentY = Printer.CurrentY + 40
+            Printer.Print(DescribeTimeWindow(dtpDelWindow0.Value, dtpDelWindow1.Value))
         End If
 
         Printer.FontBold = False
@@ -1051,7 +1064,7 @@ SayNo:
         If lblLastName.Text <> "" And lblFirstName.Text = "" Then
             Printer.Print("Business Name")
         Else
-            Printer.Print("First Name", TAB(58), "Last Name")
+            Printer.Print("First Name", TAB(78), "Last Name")
         End If
         Printer.Print()
         Printer.Print()
@@ -1064,13 +1077,13 @@ SayNo:
         Printer.Print()
         Printer.Print()
         Printer.CurrentX = 200
-        Printer.Print("City / State", TAB(75), "Zip")
+        Printer.Print("City / State", TAB(97), "Zip")
         Printer.Print()
         Printer.Print()
         Printer.Print()
         Printer.CurrentX = 200
         'Printer.Print "Telephone1"; Tab(58); "Telephone2"
-        Printer.Print(IIf(lblCapTele.Text = "Tele: ", "Telephone1", lblCapTele.Text), TAB(75), IIf(lblCapTele2.Text = "Tele2: ", "Telephone2", lblCapTele2.Text)) '; Tab(58); IIf(lblCapTele3 = "Tele3: ", "Telephone3", lblCapTele3)
+        Printer.Print(IIf(lblCapTele.Text = "Tele: ", "Telephone1", lblCapTele.Text), TAB(120), IIf(lblCapTele2.Text = "Tele2: ", "Telephone2", lblCapTele2.Text)) '; Tab(58); IIf(lblCapTele3 = "Tele3: ", "Telephone3", lblCapTele3)
         Printer.Print()
         Printer.Print()
         Printer.CurrentX = 200
@@ -1108,7 +1121,8 @@ SayNo:
         Printer.Print()
         Printer.Print()
         Printer.CurrentX = 6200
-        Printer.Print("City / State", SPC(58), "Zip")
+        'Printer.Print("City / State", SPC(58), "Zip")
+        Printer.Print("City / State", SPC(88), "Zip")
         Printer.Print()
         Printer.Print()
         Printer.Print()
@@ -1129,7 +1143,7 @@ SayNo:
         If lblFirstName.Text = "" And lblLastName.Text <> "" Then
             Printer.Print(lblLastName.Text)
         Else
-            Printer.Print(lblFirstName.Text, TAB(25), lblLastName.Text)
+            Printer.Print(lblFirstName.Text, TAB(29), lblLastName.Text)
         End If
 
         Printer_Location(200, 3250, 12, lblAddress.Text) 'address
@@ -1159,20 +1173,24 @@ SayNo:
 
         If QuickCheck = 1 Then SetColor()  'get from data base
         'Printer.Line(500, 5900)-Step(500, 500), QBColor(0), B
-        Printer.Line(500, 5900, 500, 500, QBColor(0), True)
+        'Printer.Line(500, 600, 2500, 1800, QBColor(0), True)
+
+        'Printer.Line(500, 5900, 500, 500, QBColor(0), True)
+        'Printer.Line(500, 5900, 900, 8000, QBColor(0), True)
+        Printer.Line(500, 5900, 1000, 6400, QBColor(0), True)
         If QuickCheck = 1 Then EndColor()
 
-        If QuickCheck = 2 Then SetColor()  'get from data base
-        Printer.Line(3200, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 2 Then EndColor()
+        'If QuickCheck = 2 Then SetColor()  'get from data base
+        'Printer.Line(3200, 5900, 500, 500, QBColor(0), True)
+        'If QuickCheck = 2 Then EndColor()
 
-        If QuickCheck = 3 Then SetColor()  'get from data base
-        Printer.Line(6000, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 3 Then EndColor()
+        'If QuickCheck = 3 Then SetColor()  'get from data base
+        'Printer.Line(6000, 5900, 500, 500, QBColor(0), True)
+        'If QuickCheck = 3 Then EndColor()
 
-        If QuickCheck = 4 Then SetColor()  'get from data base
-        Printer.Line(9200, 5900, 500, 500, QBColor(0), True)
-        If QuickCheck = 4 Then EndColor()
+        'If QuickCheck = 4 Then SetColor()  'get from data base
+        'Printer.Line(9200, 5900, 500, 500, QBColor(0), True)
+        'If QuickCheck = 4 Then EndColor()
 
         Printer.CurrentY = 6000
         Printer.CurrentX = 1100
@@ -1198,7 +1216,8 @@ SayNo:
 
         '          Printer.Print txtItems 'items  and notes..
         Dim ind As Integer, PrintNotes As Boolean
-        For ind = 1 To tvItemNotes.Nodes.Count
+        'For ind = 1 To tvItemNotes.Nodes.Count
+        For ind = 0 To tvItemNotes.Nodes.Count - 1
             If IsIn(Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2), "ML", "EX") Then
                 If tvItemNotes.Nodes(ind).ForeColor = Color.Red Then
                     Printer.Print(tvItemNotes.Nodes(ind).Text)

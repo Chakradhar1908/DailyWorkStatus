@@ -29,14 +29,16 @@
         ': String - Returns the result as a String.
         If Not IsDate(twA) Then twA = ""
         If Not IsDate(twB) Then twB = ""
-        If twA = "" And twB = "" Then Exit Function
+        'If twA = "" And twB = "" Then Exit Function
+        If twA.ToString = "" And twB.ToString = "" Then Exit Function
 
-        If twA = "" Then
+        If twA.ToString = "" Then
             DescribeTimeWindow = "Before " & Format(TimeValue(twB), "h:mm ampm")
-        ElseIf twB = "" Then
+        ElseIf twB.ToString = "" Then
             DescribeTimeWindow = "After " & Format(TimeValue(twA), "h:mm ampm")
         Else
-            DescribeTimeWindow = Format(twA, "h:mm ampm") & " to " & Format(twB, "h:mm ampm")
+            'DescribeTimeWindow = Format(twA, "h:mm ampm") & " to " & Format(twB, "h:mm ampm")
+            DescribeTimeWindow = Format(twA, "h:mm tt") & " to " & Format(twB, "h:mm tt")
         End If
     End Function
 

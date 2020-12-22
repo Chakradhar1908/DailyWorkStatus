@@ -18,7 +18,6 @@ Module modPrintToolsCommon
     Public Const DYMO_PaperBin_Right As Integer = 16                             ' ?? Left is 15, we just did +1 for the twin
     Public Const DYMO_PaperBin_DEFAULT As Integer = DYMO_PaperBin_Left           ' Default to LEFT bin
     Public Const DYMO_PaperSize_ContW As Integer = DYMO_PaperSize_30270          ' A shorter alias...
-    'Note: Printer code will be move to reporting software.
 
     '  Public Sub PrintCentered(ByVal Text As String, Optional ByVal yPos as integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
     '      Dim Ob As Boolean, oI As Boolean
@@ -656,7 +655,8 @@ PrinterDialogCancelled:
                     Case Else
                         Debug.Print("UNKNOWN ALIGNMENT CONSTANT IN modPrintToolsCommon.PrintAligned: " & CStr(Align))
                 End Select
-                OutputObject.Print(List(X))
+                'OutputObject.Print(List(X))
+                Printer.Print(List(X))
             Next
         Else 'Single-line string
             Select Case Align
