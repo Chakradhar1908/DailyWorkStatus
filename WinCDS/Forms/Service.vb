@@ -1008,7 +1008,7 @@ SayNo:
             Printer.CurrentX = 4000
             'Printer.PaintPicture(imgLogo.Image, Printer.Width / 2 - imgLogo.Width / 2, 390, imgLogo.Width, imgLogo.Height)
             'Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 4000, 200, 5000, 5000, 1200, 1000, 35000, 35000)
-            Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), 4000, 400, 5000, 5000, 1200, 1000, 35000, 35000)
+            Printer.PaintPicture(Image.FromFile(StoreLogoFile()), 4000, 400, 5000, 5000, 1200, 1000, 35000, 35000)
         End If
 
         Printer.FontBold = True
@@ -1033,7 +1033,7 @@ SayNo:
             y = Printer.CurrentY
             Printer.Print(Format(dteServiceDate.Value, "DDDD"))
             Printer.CurrentX = 610
-            'PrintInBox(Printer, DescribeTimeWindow(dtpDelWindow0.Value, dtpDelWindow1.Value), 600, Printer.CurrentY, 1800, 300)
+            'PrintInBox(Printer, DescribeTimeWindow(dtpDelWindow0.Value, dtpDelWindow1.Value), 600, Printer.CurrentY, 1800, 300) <CT>'PrintInBox is notworking. Replaced it with direct Printer.Print(DescribeTimeWindow(dtpDelWindow0.Value, dtpDelWindow1.Value))</CT>
             Printer.FontSize = 8
             Printer.CurrentY = Printer.CurrentY + 40
             Printer.Print(DescribeTimeWindow(dtpDelWindow0.Value, dtpDelWindow1.Value))
@@ -1180,23 +1180,26 @@ SayNo:
         Printer.Line(500, 5900, 1000, 6400, QBColor(0), True)
         If QuickCheck = 1 Then EndColor()
 
-        'If QuickCheck = 2 Then SetColor()  'get from data base
+        If QuickCheck = 2 Then SetColor()  'get from data base
         'Printer.Line(3200, 5900, 500, 500, QBColor(0), True)
-        'If QuickCheck = 2 Then EndColor()
+        Printer.Line(3200, 5900, 3700, 6400, QBColor(0), True)
+        If QuickCheck = 2 Then EndColor()
 
-        'If QuickCheck = 3 Then SetColor()  'get from data base
+        If QuickCheck = 3 Then SetColor()  'get from data base
         'Printer.Line(6000, 5900, 500, 500, QBColor(0), True)
-        'If QuickCheck = 3 Then EndColor()
+        Printer.Line(6000, 5900, 6500, 6400, QBColor(0), True)
+        If QuickCheck = 3 Then EndColor()
 
-        'If QuickCheck = 4 Then SetColor()  'get from data base
+        If QuickCheck = 4 Then SetColor()  'get from data base
         'Printer.Line(9200, 5900, 500, 500, QBColor(0), True)
-        'If QuickCheck = 4 Then EndColor()
+        Printer.Line(9200, 5900, 9700, 6400, QBColor(0), True)
+        If QuickCheck = 4 Then EndColor()
 
         Printer.CurrentY = 6000
         Printer.CurrentX = 1100
         Printer.FontSize = 12
 
-        Printer.Print("Store Service", TAB(34), "Outside Service", TAB(58), "Pick Up & Exchange", TAB(86), "Other")
+        Printer.Print("Store Service", TAB(32), "Outside Service", TAB(61), "Pick Up & Exchange", TAB(92), "Other")
 
         Printer.CurrentY = 7000
         Printer.CurrentX = 150
@@ -1206,29 +1209,35 @@ SayNo:
 
         Printer.CurrentX = 0 '1000
         Printer.FontSize = 9
-        Printer.Print("  Vendor", TAB(22), "Style", TAB(43), "Sale No", TAB(56), "Quan", TAB(63), "Del Date", TAB(78), "Description", TAB(118), "Inv/Ack No.")
+        Printer.Print("  Vendor", TAB(30), "Style", TAB(65), "Sale No", TAB(83), "Quan", TAB(90), "Del Date", TAB(110), "Description", TAB(170), "Inv/Ack No.")
         Printer.FontBold = False
         Printer.FontName = "Courier New"
         Printer.FontSize = 9
         Printer.FontBold = True
 
-
-
-        '          Printer.Print txtItems 'items  and notes..
+        'Printer.Print txtItems 'items  and notes..
         Dim ind As Integer, PrintNotes As Boolean
         'For ind = 1 To tvItemNotes.Nodes.Count
         For ind = 0 To tvItemNotes.Nodes.Count - 1
-            If IsIn(Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2), "ML", "EX") Then
+            If IsIn(Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).Name, 2), "ML", "EX") Then
                 If tvItemNotes.Nodes(ind).ForeColor = Color.Red Then
                     Printer.Print(tvItemNotes.Nodes(ind).Text)
+                    'Printer.Print(TAB(5), tvItemNotes.SelectedNode.Nodes(ind).Text)
+                    'Printer.Print(TAB(5), tvItemNotes.SelectedNode.Text)
+                    Dim Cn As Integer
+                    For Cn = 0 To tvItemNotes.Nodes(ind).Nodes.Count - 1 '<CT> printing Notes </CT>
+                        Printer.Print(TAB(5), tvItemNotes.Nodes(ind).Nodes(Cn).Text)
+                    Next
                     ' Print this line..
                     PrintNotes = True
                 Else
                     PrintNotes = False
                 End If
-            ElseIf PrintNotes And (Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).SelectedImageKey, 2)) = "SN" Then
+                'ElseIf PrintNotes And (Microsoft.VisualBasic.Left(tvItemNotes.Nodes(ind).Name, 2)) = "SN" Then
+            ElseIf PrintNotes And (Microsoft.VisualBasic.Left(tvItemNotes.SelectedNode.Nodes(ind).Name, 2)) = "SN" Then '<CT> This condition will not work. So replaced it with the above for loop to display service notes </CT>
                 ' Print this line.
-                Printer.Print(TAB(5), tvItemNotes.Nodes(ind).Text)
+                'Printer.Print(TAB(5), tvItemNotes.Nodes(ind).Text)
+                Printer.Print(TAB(5), tvItemNotes.SelectedNode.Nodes(ind).Text)
             End If
         Next
 
@@ -1273,8 +1282,10 @@ SayNo:
         Printer.FontBold = True
         Printer.Print("______________________________ ")
 
+        Printer.CurrentX = 3200
+        Printer.CurrentY = 14400 '14500
         Printer.FontBold = False
-        Printer.Print("Technician:______________________ Hours:__________ Charges:__________")
+        Printer.Print(TAB(5), "Technician:______________________ Hours:__________ Charges:__________")
 
         Printer.FontBold = True
         Printer.Print("     Customer Satisfied:")
@@ -1485,7 +1496,7 @@ SayNo:
             'dteServiceDate.Value = Date.FromOADate(0)
             ShowTimeWindowBox(False)
         Else
-            dteServiceDate.Value = RS("ServiceOnDate").Value
+            dteServiceDate.Value = Date.Parse(RS("ServiceOnDate").Value, Globalization.CultureInfo.InvariantCulture)
             ShowTimeWindowBox(True, True)
         End If
         lblClaimDate.Text = Trim(RS("DateOfClaim").Value)

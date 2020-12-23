@@ -1678,7 +1678,17 @@ Public Class MainMenu4
         'PrintToPosition2(Printer, "PRICE", 3000, VBRUN.AlignConstants.vbAlignRight, False, 2000)
         ''End If
         'Printer.EndDoc()
-        Printer.Line(500, 5900, 1100, 6400, QBColor(0), True)
+        'Printer.Line(500, 5900, 1100, 6400, QBColor(0), True)
+        Printer.FontSize = 10
+        Printer.CurrentY = 14400 '14500
+        Printer.CurrentX = 0
+
+        Printer.FontBold = True
+        Printer.Print("______________________________ ")
+        Printer.CurrentX = 3200
+        Printer.CurrentY = 14400 '14500
+        Printer.FontBold = False
+        Printer.Print(TAB(5), "Technician:______________________ Hours:__________ Charges:__________")
         Printer.EndDoc()
         'End
     End Sub

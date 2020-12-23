@@ -22,6 +22,7 @@ Partial Class Service
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.fraCustInfo = New System.Windows.Forms.GroupBox()
         Me.chkServiceOnDate = New System.Windows.Forms.CheckBox()
@@ -85,6 +86,7 @@ Partial Class Service
         Me.txtItemNotes = New System.Windows.Forms.TextBox()
         Me.lblItemNotesCaption = New System.Windows.Forms.Label()
         Me.lblNewNote = New System.Windows.Forms.Label()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraCustInfo.SuspendLayout()
         Me.fraTimeWindow.SuspendLayout()
@@ -163,7 +165,7 @@ Partial Class Service
         Me.fraTimeWindow.Controls.Add(Me.lblTimeWindow)
         Me.fraTimeWindow.Location = New System.Drawing.Point(468, 67)
         Me.fraTimeWindow.Name = "fraTimeWindow"
-        Me.fraTimeWindow.Size = New System.Drawing.Size(196, 30)
+        Me.fraTimeWindow.Size = New System.Drawing.Size(184, 32)
         Me.fraTimeWindow.TabIndex = 4
         Me.fraTimeWindow.TabStop = False
         Me.fraTimeWindow.Visible = False
@@ -171,19 +173,21 @@ Partial Class Service
         'dtpDelWindow0
         '
         Me.dtpDelWindow0.CustomFormat = "h:mm tt"
+        Me.dtpDelWindow0.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpDelWindow0.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpDelWindow0.Location = New System.Drawing.Point(6, 10)
         Me.dtpDelWindow0.Name = "dtpDelWindow0"
-        Me.dtpDelWindow0.Size = New System.Drawing.Size(71, 20)
+        Me.dtpDelWindow0.Size = New System.Drawing.Size(71, 21)
         Me.dtpDelWindow0.TabIndex = 22
         '
         'dtpDelWindow1
         '
         Me.dtpDelWindow1.CustomFormat = "h:mm tt"
+        Me.dtpDelWindow1.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpDelWindow1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpDelWindow1.Location = New System.Drawing.Point(100, 10)
         Me.dtpDelWindow1.Name = "dtpDelWindow1"
-        Me.dtpDelWindow1.Size = New System.Drawing.Size(80, 20)
+        Me.dtpDelWindow1.Size = New System.Drawing.Size(80, 21)
         Me.dtpDelWindow1.TabIndex = 23
         '
         'lblTimeWindow
@@ -326,6 +330,7 @@ Partial Class Service
         '
         Me.lblServiceOrderNo.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblServiceOrderNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblServiceOrderNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblServiceOrderNo.Location = New System.Drawing.Point(584, 11)
         Me.lblServiceOrderNo.Name = "lblServiceOrderNo"
         Me.lblServiceOrderNo.Size = New System.Drawing.Size(90, 18)
@@ -372,10 +377,11 @@ Partial Class Service
         '
         Me.dteServiceDate.CustomFormat = "MM/dd/yyyy"
         Me.dteServiceDate.Enabled = False
+        Me.dteServiceDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dteServiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dteServiceDate.Location = New System.Drawing.Point(345, 77)
         Me.dteServiceDate.Name = "dteServiceDate"
-        Me.dteServiceDate.Size = New System.Drawing.Size(121, 20)
+        Me.dteServiceDate.Size = New System.Drawing.Size(121, 22)
         Me.dteServiceDate.TabIndex = 12
         '
         'cboStatus
@@ -564,53 +570,54 @@ Partial Class Service
         '
         'cmdMenu
         '
-        Me.cmdMenu.Location = New System.Drawing.Point(421, 179)
+        Me.cmdMenu.Location = New System.Drawing.Point(454, 177)
         Me.cmdMenu.Name = "cmdMenu"
-        Me.cmdMenu.Size = New System.Drawing.Size(47, 43)
+        Me.cmdMenu.Size = New System.Drawing.Size(51, 48)
         Me.cmdMenu.TabIndex = 11
         Me.cmdMenu.Text = "&Menu"
         Me.cmdMenu.UseVisualStyleBackColor = True
         '
         'cmdNext
         '
-        Me.cmdNext.Location = New System.Drawing.Point(382, 179)
+        Me.cmdNext.Location = New System.Drawing.Point(404, 177)
         Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(40, 43)
+        Me.cmdNext.Size = New System.Drawing.Size(51, 48)
         Me.cmdNext.TabIndex = 10
         Me.cmdNext.Text = "&Next"
         Me.cmdNext.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(343, 179)
+        Me.cmdPrint.Location = New System.Drawing.Point(354, 177)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(40, 43)
+        Me.cmdPrint.Size = New System.Drawing.Size(51, 48)
         Me.cmdPrint.TabIndex = 9
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(304, 179)
+        Me.cmdSave.Location = New System.Drawing.Point(304, 177)
         Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(40, 43)
+        Me.cmdSave.Size = New System.Drawing.Size(51, 48)
         Me.cmdSave.TabIndex = 8
         Me.cmdSave.Text = "&Save"
         Me.cmdSave.UseVisualStyleBackColor = True
         '
         'cmdMoveSearch
         '
-        Me.cmdMoveSearch.Location = New System.Drawing.Point(138, 199)
+        Me.cmdMoveSearch.Location = New System.Drawing.Point(164, 204)
         Me.cmdMoveSearch.Name = "cmdMoveSearch"
         Me.cmdMoveSearch.Size = New System.Drawing.Size(69, 23)
         Me.cmdMoveSearch.TabIndex = 7
         Me.cmdMoveSearch.Text = "&Look-Up"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveSearch, "Search for a Record")
         Me.cmdMoveSearch.UseVisualStyleBackColor = True
         '
         'lblMoveRecords
         '
         Me.lblMoveRecords.AutoSize = True
-        Me.lblMoveRecords.Location = New System.Drawing.Point(32, 179)
+        Me.lblMoveRecords.Location = New System.Drawing.Point(32, 174)
         Me.lblMoveRecords.Name = "lblMoveRecords"
         Me.lblMoveRecords.Size = New System.Drawing.Size(80, 13)
         Me.lblMoveRecords.TabIndex = 6
@@ -618,49 +625,57 @@ Partial Class Service
         '
         'cmdMoveLast
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(100, 192)
+        Me.cmdMoveLast.Location = New System.Drawing.Point(118, 187)
         Me.cmdMoveLast.Name = "cmdMoveLast"
-        Me.cmdMoveLast.Size = New System.Drawing.Size(32, 30)
+        Me.cmdMoveLast.Size = New System.Drawing.Size(38, 40)
         Me.cmdMoveLast.TabIndex = 5
+        Me.ToolTip1.SetToolTip(Me.cmdMoveLast, " Move To The Last Record ")
         Me.cmdMoveLast.UseVisualStyleBackColor = True
         '
         'cmdMoveNext
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(70, 192)
+        Me.cmdMoveNext.Location = New System.Drawing.Point(82, 187)
         Me.cmdMoveNext.Name = "cmdMoveNext"
-        Me.cmdMoveNext.Size = New System.Drawing.Size(32, 30)
+        Me.cmdMoveNext.Size = New System.Drawing.Size(38, 40)
         Me.cmdMoveNext.TabIndex = 4
+        Me.ToolTip1.SetToolTip(Me.cmdMoveNext, " Move Forward 1 Record ")
         Me.cmdMoveNext.UseVisualStyleBackColor = True
         '
         'cmdMovePrevious
         '
-        Me.cmdMovePrevious.Location = New System.Drawing.Point(39, 192)
+        Me.cmdMovePrevious.Location = New System.Drawing.Point(46, 187)
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
-        Me.cmdMovePrevious.Size = New System.Drawing.Size(32, 30)
+        Me.cmdMovePrevious.Size = New System.Drawing.Size(38, 40)
         Me.cmdMovePrevious.TabIndex = 3
+        Me.ToolTip1.SetToolTip(Me.cmdMovePrevious, " Move Back 1 Record ")
         Me.cmdMovePrevious.UseVisualStyleBackColor = True
         '
         'cmdMoveFirst
         '
-        Me.cmdMoveFirst.Location = New System.Drawing.Point(9, 192)
+        Me.cmdMoveFirst.Location = New System.Drawing.Point(10, 187)
         Me.cmdMoveFirst.Name = "cmdMoveFirst"
-        Me.cmdMoveFirst.Size = New System.Drawing.Size(32, 30)
+        Me.cmdMoveFirst.Size = New System.Drawing.Size(38, 40)
         Me.cmdMoveFirst.TabIndex = 2
+        Me.ToolTip1.SetToolTip(Me.cmdMoveFirst, "Move To The First Record ")
         Me.cmdMoveFirst.UseVisualStyleBackColor = True
         '
         'Notes_New
         '
         Me.Notes_New.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Notes_New.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Notes_New.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Notes_New.Location = New System.Drawing.Point(10, 103)
         Me.Notes_New.Multiline = True
         Me.Notes_New.Name = "Notes_New"
         Me.Notes_New.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Notes_New.Size = New System.Drawing.Size(665, 69)
+        Me.Notes_New.Size = New System.Drawing.Size(665, 65)
         Me.Notes_New.TabIndex = 1
         '
         'Notes_Text
         '
         Me.Notes_Text.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Notes_Text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Notes_Text.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Notes_Text.Location = New System.Drawing.Point(10, 19)
         Me.Notes_Text.Multiline = True
         Me.Notes_Text.Name = "Notes_Text"
@@ -703,6 +718,7 @@ Partial Class Service
         'txtItemNotes
         '
         Me.txtItemNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtItemNotes.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemNotes.Location = New System.Drawing.Point(16, 40)
         Me.txtItemNotes.Multiline = True
         Me.txtItemNotes.Name = "txtItemNotes"
@@ -732,7 +748,7 @@ Partial Class Service
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(849, 561)
+        Me.ClientSize = New System.Drawing.Size(689, 561)
         Me.Controls.Add(Me.Notes_Frame)
         Me.Controls.Add(Me.fraCustInfo)
         Me.Controls.Add(Me.imgLogo)
@@ -818,4 +834,5 @@ Partial Class Service
     Friend WithEvents lblNewNote As Label
     Friend WithEvents fraTimeWindow As GroupBox
     Friend WithEvents chkServiceOnDate As CheckBox
+    Friend WithEvents ToolTip1 As ToolTip
 End Class
