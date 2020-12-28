@@ -853,6 +853,10 @@ HandleErr:
 
         Me.Left = (Screen.PrimaryScreen.Bounds.Width - Me.Width) / 2
         Me.Top = (Screen.PrimaryScreen.Bounds.Height - Me.Height) / 2
+
+        'CT>
+        InputBox.Text = " "
+        '</CT>
     End Sub
 
     Private Sub Setup()

@@ -1077,7 +1077,7 @@ SayNo:
         Printer.Print()
         Printer.Print()
         Printer.CurrentX = 200
-        Printer.Print("City / State", TAB(97), "Zip")
+        Printer.Print("City / State", TAB(100), "Zip")
         Printer.Print()
         Printer.Print()
         Printer.Print()
@@ -1156,13 +1156,13 @@ SayNo:
         Printer.Print(lblTele.Text, TAB(25), lblTele2.Text)
 
         Printer_Location(6200, 2700, 12)
-        Printer.Print(Mail2.ShipToFirst & " " & Mail2.ShipToLast)
+        Printer.Print(Mail2.ShipToFirst & "     " & Mail2.ShipToLast)
 
         Printer_Location(6200, 3250, 12)
         Printer.Print(Trim(Mail2.Address2))
 
         Printer_Location(6200, 4050, 12)
-        Printer.Print(Trim(Mail2.City2), TAB(96), Trim(Mail2.Zip2))
+        Printer.Print(Trim(Mail2.City2), TAB(40), Trim(Mail2.Zip2))
 
         Printer_Location(6200, 4600, 12, DressAni(CleanAni(Mail2.Tele3)))
 
@@ -1209,7 +1209,7 @@ SayNo:
 
         Printer.CurrentX = 0 '1000
         Printer.FontSize = 9
-        Printer.Print("  Vendor", TAB(30), "Style", TAB(65), "Sale No", TAB(83), "Quan", TAB(90), "Del Date", TAB(110), "Description", TAB(170), "Inv/Ack No.")
+        Printer.Print("  Vendor", TAB(30), "Style", TAB(65), "Sale No", TAB(80), "Quan", TAB(90), "Del Date", TAB(110), "Description", TAB(170), "Inv/Ack No.")
         Printer.FontBold = False
         Printer.FontName = "Courier New"
         Printer.FontSize = 9
@@ -1496,7 +1496,8 @@ SayNo:
             'dteServiceDate.Value = Date.FromOADate(0)
             ShowTimeWindowBox(False)
         Else
-            dteServiceDate.Value = Date.Parse(RS("ServiceOnDate").Value, Globalization.CultureInfo.InvariantCulture)
+            'dteServiceDate.Value = Date.Parse(RS("ServiceOnDate").Value, Globalization.CultureInfo.InvariantCulture)
+            dteServiceDate.Value = Date.Parse(DateFormat(RS("ServiceOnDate").Value), Globalization.CultureInfo.InvariantCulture)
             ShowTimeWindowBox(True, True)
         End If
         lblClaimDate.Text = Trim(RS("DateOfClaim").Value)
