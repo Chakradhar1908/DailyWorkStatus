@@ -58,7 +58,7 @@
         ' other non-usable fields for stock mode....
         lblInvoiceNo.Visible = Not Stock
         txtInvoiceNo.Visible = Not Stock
-        dteClaimDateCaption.Visible = Not Stock
+        dteClaimDateCaption1.Visible = Not Stock
         dteClaimDate.Visible = Not Stock
         lblSaleNo.Visible = Not Stock
         txtSaleNo.Visible = Not Stock
@@ -436,4 +436,6 @@ NoID:
         lblTele2.Left = lblTele1Caption.Left + Longest + 60
         lblTele3.Left = lblTele1Caption.Left + Longest + 60
     End Sub
+
+
 End Class
