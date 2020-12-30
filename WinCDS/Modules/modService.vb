@@ -492,4 +492,41 @@ Module modService
         frm.txtVendorEmail.Text = Trim(Em)
     End Sub
 
+    Public Function GetVendorCodeFromName(ByVal vN As String) As String
+        '::::GetVendorCodeFromName
+        ':::SUMMARY
+        ':Gets Vendor code.
+        ':::DESCRIPTION
+        ': By calling this function, we gets Vendor Code from Vendor Name.
+        ':::PARAMETERS
+        ': - vN - Indicates Vendor Name.
+        ':::RETURN
+        ':String - Returns Vendor Code as a String.
+        GetVendorName vN, vN, , , , , , , GetVendorCodeFromName
+End Function
+
+    Public Function SetServiceNoteText(ByRef NoteID As Long, ByRef Text As String) As Boolean
+        '::::SetServiceNoteText
+        ':::SUMMARY
+        ': Sets Text message on Service Note field value.
+        ':::DESCRIPTION
+        ': By calling this function, we can set Text on Service Note field value.
+        ':::PARAMETERS
+        ': - NoteID - Indicates the Note Id.
+        ': - Text - Represent the text message given by user.
+        ':::RETURN
+        ': Boolean - Returns whether it is true or false.
+        Dim cServNote As clsServiceNotes
+  Set cServNote = New clsServiceNotes
+On Error GoTo NoSuchNote
+        With cServNote
+            .Load CStr(NoteID), "#ServiceNoteID"
+    .Note = Text
+            .Save()
+        End With
+        SetServiceNoteText = True
+NoSuchNote:
+        DisposeDA cServNote
+End Function
+
 End Module

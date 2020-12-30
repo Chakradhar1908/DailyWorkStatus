@@ -811,4 +811,25 @@ ReadError:
         TicketCodesFile = StoreFolder(1) & "TICKETCODES.DAT"
     End Function
 
+    Public Sub GetInfoFromStyle(ByVal Style As String, ByRef Description As String, ByRef Vendor As String, ByRef VendorNo As String)
+        '::::GetInfoFromStyle
+        ':::SUMMARY
+        ': Gets Info based on Style.
+        ':::DESCRIPTION
+        ': This function is used to get Description and Vendor name and number from 2date table  based on Style.
+        ':::PARAMETERS
+        ': - Style - Indicates the Style.
+        ': - Description - Indicates the description.
+        ': - Vendor - Indicates the Vendor name.
+        ': - VendorNo - Indicates the Vendor number.
+        ':::RETURN
+        Dim SQL As String, RS As ADODB.Recordset
+        SQL = "select [desc], vendor, vendorno from [2data] where style='" & Style & "'"
+  Set RS = GetRecordsetBySQL(SQL, , GetDatabaseInventory)
+  If RS.EOF Then Exit Sub
+        Description = RS("Desc")
+        Vendor = RS("Vendor")
+        VendorNo = RS("VendorNo")
+    End Sub
+
 End Module

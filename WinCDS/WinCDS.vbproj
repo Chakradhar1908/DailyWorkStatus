@@ -518,6 +518,12 @@
     <Compile Include="Forms\frmPhysicalInventoryMainMenu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmPictures.Designer.vb">
+      <DependentUpon>frmPictures.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPictures.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmPOEmails.Designer.vb">
       <DependentUpon>frmPOEmails.vb</DependentUpon>
     </Compile>
@@ -1064,6 +1070,12 @@
       <DependentUpon>Service.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Service.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ServiceIntake.Designer.vb">
+      <DependentUpon>ServiceIntake.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ServiceIntake.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ServiceManualItem.Designer.vb">

@@ -79,4 +79,21 @@ Module mod2DataPictures
             .datPicture.ConnectionString = ""
         End With
     End Function
+
+    Public Function FindDatabasePicture(ByVal mLoc As Long, ByVal mType As Long, ByVal mRef As String, Optional ByVal mIdx As Long = 1) As StdPicture
+        '::::FindDatabasePicture
+        ':::SUMMARY
+        ': Used to find Pictures from Database.
+        ':::DESCRIPTION
+        ': This function is used to find Pictures from Database based on parameters given above.
+        ':::PARAMETERS
+        ':::RETURN
+        ': StdPicture - Returns the result as StdPicture.
+        Dim X As Long
+        X = FindDatabasePictureID(mLoc, mType, mRef, mIdx)
+        If X <> 0 Then
+    Set FindDatabasePicture = GetDatabasePicture(X)
+  End If
+    End Function
+
 End Module

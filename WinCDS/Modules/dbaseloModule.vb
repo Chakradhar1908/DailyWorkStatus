@@ -233,4 +233,76 @@ AnError:
         GetUnique = Year(TimeNow) & Month(TimeNow) & DateAndTime.Day(TimeNow) & "." & Hour(TimeNow) & Minute(TimeNow) & Second(TimeNow)
     End Function
 
+    Public Function SetAPTransaction(ByVal Vend As String, ByVal InvoiceNo As String, ByVal InvoiceDate As String, ByVal Amount As Currency, ByVal DueDate As String, ByRef Acct1 As String, ByRef Acct1Amt As Currency, Optional ByVal Acct2 As String, Optional ByVal Acct2Amt As Currency, Optional ByVal Balance As Currency = 0, Optional ByVal CheckNum As Long, Optional ByVal CheckDate As Date = #1/1/1901#, Optional ByVal APAcct As String = "10100", Optional ByVal CashAcct As String = "10100", Optional ByVal DiscountDate As String = "", Optional ByVal DiscountPct As Single = 0, Optional ByVal DiscountAmount As Currency = 0, Optional ByVal Comment As String = "", Optional ByVal User As String = "JK") As Boolean
+        '::::SetAPTransaction
+        ':::SUMMARY
+        ': Add a record to the AP Transaction table.
+        ':::DESCRIPTION
+        ': This function is used to update AP Transactions using parameters.
+        ':::PARAMETERS
+        ': - Vendor
+        ': - Invoice Number
+        ': - Invoide Date
+        ': - Amount
+        ': - Due Date
+        ': - Acct #1
+        ': - Acct #1 Date
+        ': - Acct #2
+        ': - Acct #2 Date
+        ': - Balance
+        ': - Check Number
+        ': - Check Date
+        ': - AP Account
+        ': - Cash Acct
+        ': - Discount Date
+        ': - Discount Pct
+        ': - Discount Amt
+        ': - Comment
+        ': - User
+        ':::RETURN
+        ': Returns True
+        Dim X As ADODB.Recordset, I As Long
+
+        dbOpen GetDatabaseAP
+  dbGen.SQL = "tblAPTransaction"
+  Set X = dbGen.getRecordset
+  
+  X.AddNew()
+        X("fldVendorCode") = Left(Vend, 10) 'can't be blank   Abrivation
+        X("fldInvoiceNum") = InvoiceNo 'can't be blank
+        X("fldInvoiceDate") = IIf(IsDate(InvoiceDate), InvoiceDate, Date) 'can't be blank
+        X("fldInvoiceDue") = IIf(IsDate(DueDate), DueDate, Date)
+        X("fldInvoiceAmount") = Amount
+        X("fldInvDiscountDate") = IIf(IsDate(DiscountDate), DiscountDate, Date)
+        X("fldInvDiscountPct") = DiscountPct
+        X("fldInvDiscountAmt") = DiscountAmount
+
+        X("fldInvoiceBalance") = Balance
+
+        X("fldPayablesAcct") = APAcct
+        X("fldCashAcct") = CashAcct
+
+
+        X("fldCheckNum") = CheckNum
+        X("fldCheckDate") = IIf(IsDate(CheckDate), CheckDate, #1/1/1901#)
+        X("fldPaymentsTotal") = 0
+
+        X("fldAccount1") = Acct1
+        X("fldAccount1Amount") = Acct1Amt
+        If Acct2 <> "" Then X("fldAccount2") = Acct2
+        X("fldAccount2Amount") = Acct2Amt
+
+        For I = 3 To 12
+            X("fldAccount" & I & "Amount") = 0
+        Next
+
+        If Comment <> "" Then X("fldComment") = Comment
+        X("fldUser") = User
+        dbGen.UpdateRecordSet X
+
+  DisposeDA X
+  dbClose()
+        SetAPTransaction = True
+    End Function
+
 End Module

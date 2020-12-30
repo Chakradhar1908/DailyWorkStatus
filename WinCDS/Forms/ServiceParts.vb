@@ -1,4 +1,6 @@
-﻿Public Class ServiceParts
+﻿Imports System.ComponentModel
+Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Public Class ServiceParts
     Private Mode As ServiceForMode
     Public CreateNewMode As ServiceForMode
     Dim Store As Integer
@@ -6,6 +8,15 @@
     Dim PartsOrderID As Integer
     Dim MarginLine As Integer
     Public Vendor As String
+    Dim mCurrentCode As String
+    Dim LocationVar As Integer
+    Private OwnerVar As Form                         ' For showing as a child of Service, etc.
+    Dim WithEvents mInvCkStyle As InvCkStyle
+    Dim WithEvents mSelectStyle As InvCkStyle
+    Dim mSelectedStyle As String
+    Private Const Debugging As Boolean = False
+    Private Const APText_Charged As String = "[""DEDUCT FROM INVOICE"" CHARGED TO AP]"
+    'Private Const APText_Paid    As String = "[PAID IN AP]"
 
     Public Enum ServiceForMode
         ServiceMode_ForCustomer = 0
@@ -322,9 +333,9 @@ NoID:
             txtRepairCost.Text = FormatCurrency(cParts.ChargeBackAmount)
             chkPaid.Checked = IIf(cParts.Paid, 1, 0)
 
+            MessageBox.Show("Error locating parts order in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Notes_Text.Text = cParts.Notes
         Else  ' Can't find the record.  This is a problem.
-            MessageBox.Show("Error locating parts order in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             DisposeDA(cParts)
             Exit Sub
         End If
@@ -437,5 +448,485 @@ NoID:
         lblTele3.Left = lblTele1Caption.Left + Longest + 60
     End Sub
 
+    Private Sub cmdEmail_Click(sender As Object, e As EventArgs) Handles cmdEmail.Click
+        If IsDate(cmdEmail.Tag) Then
+            If Math.Abs(DateDiff("s", cmdEmail.Tag, Now)) < 10 Then
+                MessageBox.Show("Please wait a few moments for the email process to finish." & vbCrLf & " You will be notified of any success or failure.", "Please Wait!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+        End If
+        cmdEmail.Tag = Now
+        frmEmail.EmailPartOrder(lblPartsOrderNo.Text, , txtVendorEmail.Text)
+    End Sub
+
+    Private Sub cmdPictures_Click(sender As Object, e As EventArgs) Handles cmdPictures.Click
+        If Trim(lblPartsOrderNo.Text) = "" Then
+            MessageBox.Show("Please select a valid Part Order.", "No Part Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+        frmPictures.LoadPicturesByRef(frmPictures.dbPicType.dbpty_ServiceParts, lblPartsOrderNo.Text)
+    End Sub
+
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        Dim P As Printer, N As String, NextY As Integer, Ty As Integer
+        Dim A As Integer, B As Integer
+        P = Printer
+
+        P.FontName = "Arial"
+        P.DrawWidth = 1
+        P.FontSize = 10
+
+        P.FontSize = 16 : PrintAligned("PARTS ORDER", VBRUN.AlignmentConstants.vbCenter, , 100, True)
+        P.FontSize = 10
+
+        PrintAutoMailingLetterHeader(txtStoreName.Text, txtStoreAddress.Text, txtStoreCity.Text, txtStorePhone.Text, txtVendorName.Text, txtVendorAddress.Text, txtVendorCity.Text, txtVendorTele.Text, True)
+
+        P.Print("")
+        P.Print("") : P.Print("") : P.Print("") : P.Print("")
+
+        NextY = P.CurrentY
+
+        A = 1000 : B = A + 2250
+        Ty = NextY
+        PrintAligned("Parts Order Number:", , A, Ty)
+        PrintAligned(CStr(PartsOrderID), , B, Ty, True)
+        Ty = P.CurrentY
+        If Mode = ServiceForMode.ServiceMode_ForCustomer Then
+            PrintAligned("Service Order Number:", , A, Ty)
+            PrintAligned(CStr(ServiceCallNumber), , B, Ty, True)
+            Ty = P.CurrentY
+        End If
+        PrintAligned("Date of Claim:", , A, Ty)
+        PrintAligned(CStr(IfNullThenNilString(dteClaimDate)), , B, Ty, True)
+        Ty = P.CurrentY
+        PrintAligned("Status:", , A, Ty)
+        PrintAligned(CStr(cboStatus.Text), , B, Ty, True)
+        Ty = P.CurrentY
+
+        P.Print("")
+
+        If Mode = ServiceForMode.ServiceMode_ForCustomer Then
+            PrintAligned("Invoice No:", , A, Ty)
+            PrintAligned(CStr(txtInvoiceNo.Text), , B, Ty, True)
+            Ty = P.CurrentY
+            PrintAligned("Invoice Date:", , A, Ty)
+            PrintAligned(IfNullThenNilString(dteClaimDate.Value), , B, Ty, True)
+            Ty = P.CurrentY
+            PrintAligned("Sale Number:", , A, Ty)
+            PrintAligned(txtSaleNo.Text, , B, Ty, True)
+            Ty = P.CurrentY
+        End If
+        PrintAligned("Repair Cost:", , A, Ty)
+        PrintAligned(txtRepairCost.Text, , B, Ty, True)
+        Ty = P.CurrentY
+        PrintAligned("Paid?", , A, Ty)
+        PrintAligned(YesNo(chkPaid.Checked = True), , B, Ty, True)
+        Ty = P.CurrentY
+        N = DescribeChargeBackOption(GetChargeBackOption)
+        PrintAligned("Reimbursement:", , A, Ty)
+        PrintAligned(N, , B, Ty, True)
+
+        P.Print("")
+        NextY = P.CurrentY
+
+        A = 1000 : B = 1080
+        P.FontSize = 8 : PrintAligned("Style No", , A, NextY, True, True)
+        P.FontSize = 10 : PrintAligned(txtStyleNo.Text, , B)
+        P.FontSize = 8 : PrintAligned("Description:", , 3000 + A, NextY, True, True)
+        P.FontSize = 10 : PrintAligned(txtDescription.Text, , 3000 + B)
+        P.Print("")
+        P.FontSize = 8 : PrintAligned("Notes:", , A, , True, True)
+        P.FontSize = 10 : PrintAligned(WrapLongText(Notes_Text.Text, 100), , B)
+
+        P.Print("")
+        NextY = P.CurrentY
+
+        'imgPicture.Picture = FindDatabasePicture(0, cdspicType_PartsOrder, PartsOrderID)
+        imgPicture.Image = FindDatabasePicture(0, cdspicType_PartsOrder, PartsOrderID)
+
+        If Not (imgPicture.Image Is Nothing) Then
+            'If imgPicture.Image <> 0 Then
+            If imgPicture.Image IsNot Nothing Then
+                MaintainPictureRatio(imgPicture, 10000, 5000, True)
+                P.CurrentX = 0
+                P.PaintPicture(imgPicture.Image, (P.ScaleWidth - imgPicture.Width) / 2, P.CurrentY, imgPicture.Width, imgPicture.Height)
+            End If
+        End If
+
+        P.EndDoc()
+    End Sub
+
+    Private Function GetChargeBackOption() As Integer
+        Dim N As Integer
+        If optCBChargeBack.Checked = True Then
+            N = 0
+        ElseIf optCBDeduct.Checked = True Then
+            N = 1
+        Else  ' optCBCredit
+            N = 2
+        End If
+        GetChargeBackOption = N
+    End Function
+
+    Private Sub cmdPrintChargeBack_Click(sender As Object, e As EventArgs) Handles cmdPrintChargeBack.Click
+        If GetPrice(txtRepairCost.Text) = 0 Then
+            MessageBox.Show("Please enter a value into the Repair Cost field.", "Insufficient Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        cmdSave.Value = True
+        ServiceIntake.InitForm(ServiceCallNumber, PartsOrderID, GetChargeBackOption, txtRepairCost.Text, txtInvoiceNo.Text, Store, Vendor)
+        'ServiceIntake.Show vbModal, Me
+        ServiceIntake.ShowDialog(Me)
+    End Sub
+
+    Public Sub PrintedChargeBack(Optional ByVal Success As Boolean = False, Optional ByVal AsEmail As Boolean = False, Optional ByVal CBType As Integer = 0)
+        If Success Then
+            Notes_Text.Text = Notes_Text.Text & IIf(Len(Notes_Text.Text) > 0, vbCrLf, "") & "Charge Back Letter " & IIf(AsEmail, "Emailed", "Printed") & ": " & Today
+
+            If CBType = 1 Then RecordRequestPayment()
+
+            cmdSave.Value = True
+        End If
+    End Sub
+
+    Private Function APCharged() As Boolean
+        APCharged = InStr(Notes_Text.Text, APText_Charged) > 0
+    End Function
+
+    Private Sub RecordRequestPayment()
+        Dim A As Decimal
+        Dim StoreNum As Integer, R As String, Mem As String
+        Dim RET As Integer, RetMsg As String
+        A = GetPrice(txtRepairCost.Text)
+        StoreNum = IIf(StoreSettings.bPostToLoc1, 1, StoresSld)
+        Mem = "Parts Order #" & lblPartsOrderNo.Text & IIf(Len(lblServiceOrderNo) > 0, " (SO#" & lblServiceOrderNo.Text & ")", "")
+
+        If StoreSettings.bAPPost Then
+            If Not APCharged() Then
+                Notes_Text.Text = Notes_Text.Text & vbCrLf & APText_Charged & " " & Now
+                'BFH20061127 - in as a negative amount because it is a credit
+                SetAPTransaction(GetVendorCodeFromName(txtVendorName.Text), "PartOrd #" & lblPartsOrderNo.Text, Today, -A, Today, "11500", -A, , , -A, , , , , , , , , "JK")
+
+                If UseQB(R) Then
+                    QB_VendorQuery_Vendor(txtVendorName.Text, RET, RetMsg)
+                    If RET <> 0 Then
+                        MessageBox.Show("Vendor " & txtVendorName.Text & " does not exist in QuickBooks." & vbCrLf & "No invoice transaction will be posted.", "Vendor does not exist in QuickBooks", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        If Not QBCreateJournalEntry(Today, , , ,
+              , , QueryGLQBAccountMap("10001"), A, Mem, , txtVendorName.Text, , QBLocationClassID(StoreNum, True),
+              , , QueryGLQBAccountMap("11500"), A, Mem, , , , QBLocationClassID(StoreNum, True)) Then
+                            MessageBox.Show("Repair Charge Posting to QB failed.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End If
+                Else
+                    If QBWanted() Then MessageBox.Show("Could not record parts order charge to accounting QB." & vbCrLf & R, "QB Support Selected but not Available", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub txtRepairCost_Enter(sender As Object, e As EventArgs) Handles txtRepairCost.Enter
+        SelectContents(txtRepairCost)
+    End Sub
+
+    Private Sub txtRepairCost_Leave(sender As Object, e As EventArgs) Handles txtRepairCost.Leave
+        On Error Resume Next
+        txtRepairCost.Text = FormatCurrency(txtRepairCost.Text)
+    End Sub
+
+    Private Sub txtVendorName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles txtVendorName.SelectedIndexChanged
+        LoadVendor(txtVendorName.Text)
+    End Sub
+
+    Private Sub txtVendorName_Validating(sender As Object, e As CancelEventArgs) Handles txtVendorName.Validating
+        LoadVendor(txtVendorName.Text)
+    End Sub
+
+    Public Sub SetInvoiceInfoOnSaleNo(ByVal SaleNo As String, ByVal InvoiceNo As String, ByVal InvoiceDate As String)
+        Dim SQL As String, IDC As String
+        IDC = IIf(IsNothing(InvoiceDate), "NULL", "#" & InvoiceDate & "#")
+        SQL = "UPDATE DETAIL SET Misc = '" & InvoiceNo & "', DDate1 = " & IDC & " WHERE SaleNo = '" & SaleNo & "'"
+        ExecuteRecordsetBySQL(SQL, , GetDatabaseInventory)
+    End Sub
+
+    Private Sub dteClaimDate_CloseUp(sender As Object, e As EventArgs) Handles dteClaimDate.CloseUp
+        If txtSaleNo.Tag <> "VALID" Then Exit Sub
+        SetInvoiceInfoOnSaleNo(Val(txtSaleNo), txtInvoiceNo.Text, dteClaimDate.Value)
+    End Sub
+
+    Private Sub txtInvoiceNo_Validating(sender As Object, e As CancelEventArgs) Handles txtInvoiceNo.Validating
+        If txtSaleNo.Tag <> "VALID" Then Exit Sub
+        SetInvoiceInfoOnSaleNo(Val(txtSaleNo.Text), txtInvoiceNo.Text, dteClaimDate.Value)
+    End Sub
+
+    Private Sub txtSaleNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaleNo.TextChanged
+        txtSaleNo.Tag = ""
+    End Sub
+
+    Private Sub cmdAddPart_Click(sender As Object, e As EventArgs) Handles cmdAddPart.Click
+        ' Set mInvCkStyle's limit to items in Detail with MarginRn=0.
+        If ServiceCallNumber > 0 Then
+            ' Limit list to customer parts..
+            Dim AddedML As Integer
+            AddedML = AddOnAcc.GetMarginLine(ServiceCallNumber, Me)
+            'Unload AddOnAcc
+            AddOnAcc.Close()
+            AddOnAcc = Nothing
+            If AddedML <= 0 Then
+                MessageBox.Show("Invalid item.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            LoadInfoFromMarginLine(AddedML)
+        Else
+            ' Limit list to parts in stock?
+            ' Can't enforce that limit.  We aren't certain that everything is in Detail,
+            ' but we'll try to get an invoice number if we can.
+            mInvCkStyle = New InvCkStyle
+            '    mInvCkStyle.ParentForm = Me.Name
+            '    mInvCkStyle.LimitToStock = True   ' Allow any defined part.
+            'mInvCkStyle.Show vbModal, Me 'ServiceParts
+            mInvCkStyle.ShowDialog(Me)
+            mInvCkStyle = Nothing
+        End If
+    End Sub
+
+    Private Sub cmdMoveFirst_Click(sender As Object, e As EventArgs) Handles cmdMoveFirst.Click
+        If Not LoadRelativePartsOrder(-1, True, Mode = ServiceForMode.ServiceMode_ForCustomer) And cmdMoveFirst.Text <> "<<" Then
+            MessageBox.Show("There were no other parts orders for this Service Call.", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+        EnableNavigation()
+    End Sub
+
+    Private Sub cmdMoveLast_Click(sender As Object, e As EventArgs) Handles cmdMoveLast.Click
+        LoadRelativePartsOrder(1, True, Mode = ServiceForMode.ServiceMode_ForCustomer)
+    End Sub
+
+    Private Sub cmdMoveNext_Click(sender As Object, e As EventArgs) Handles cmdMoveNext.Click
+        LoadRelativePartsOrder(1, , Mode = ServiceForMode.ServiceMode_ForCustomer)
+    End Sub
+
+    Private Sub cmdMovePrevious_Click(sender As Object, e As EventArgs) Handles cmdMovePrevious.Click
+        LoadRelativePartsOrder(-1, , Mode = ServiceForMode.ServiceMode_ForCustomer)
+    End Sub
+
+    Private Sub cmdNext_Click(sender As Object, e As EventArgs) Handles cmdNext.Click
+        SelectMode(CreateNewMode, True)
+        If CreateNewMode = ServiceForMode.ServiceMode_ForCustomer Then
+            ClearPartsOrder()
+        Else
+            ClearServiceCall()
+        End If
+    End Sub
+
+    Private Sub cmdMoveSearch_Click(sender As Object, e As EventArgs) Handles cmdMoveSearch.Click
+        Dim X As Integer
+        X = Val(InputBox("Search for Order Number:", "New Service Parts Order Number"))
+        If X <= 0 Then Exit Sub
+        LoadPartsOrder(X)
+    End Sub
+
+    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+        Dim cParts As clsServicePartsOrder
+        cParts = New clsServicePartsOrder
+        ' This could be a new parts order or an update.
+        ' If it's an update, load the existing parts Order.
+        If PartsOrderID <> 0 Then
+            If cParts.Load(CStr(PartsOrderID), "#ServicePartsOrderNo") Then
+                ' We've got the record, it's okay.
+            Else
+                ' Can't find the record.  This is a problem.
+                MessageBox.Show("Error locating parts order in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
+        ' Then regardless, set the form variables into it.
+        cParts.MarginLine = MarginLine
+        cParts.Style = txtStyleNo.Text
+        cParts.Desc = txtDescription.Text
+        cParts.Store = Store
+
+        cParts.Vendor = txtVendorName.Text
+        '    If txtVendorName.ListIndex >= 0 Then
+        '      cParts.VendorNo = txtVendorName.ItemData(txtVendorName.ListIndex)
+        '    Else
+        '      cParts.VendorNo = ""
+        '    End If
+        cParts.VendorAddress = txtVendorAddress.Text
+        cParts.VendorCity = txtVendorCity.Text
+        cParts.VendorTele = txtVendorTele.Text
+
+        cParts.ServiceOrderNo = ServiceCallNumber
+        cParts.DateOfClaim = Today
+        cParts.Status = cboStatus.Text
+        cParts.Notes = Notes_Text.Text
+
+        cParts.ChargeBackType = GetChargeBackOption()
+        cParts.ChargeBackAmount = GetPrice(txtRepairCost.Text)
+        cParts.Paid = chkPaid.Checked = True
+
+        If MarginLine <> 0 And ServiceCallNumber <> 0 Then
+            If cParts.NoteID = 0 Then
+                cParts.NoteID = CreateServiceNote(MarginLine, ServiceCallNumber, "Ordered Part, Status=" & cboStatus.Text, , 1)
+            Else
+                SetServiceNoteText(cParts.NoteID, "Ordered Part, Status=" & cboStatus.Text)
+            End If
+        Else
+            cParts.NoteID = 0
+        End If
+
+        cParts.InvoiceDate = IfNullThenNilString(dteClaimDate.Value)
+        cParts.InvoiceNo = txtInvoiceNo.Text
+
+        ' Save, and grab the Autonumber (in case it's a new record).
+        cParts.Save()
+        PartsOrderID = cParts.ServicePartsOrderNo
+
+        lblPartsOrderNo.Text = cParts.ServicePartsOrderNo
+        lblClaimDate.Text = Format(cParts.DateOfClaim, "mm/dd/yy")
+
+        ' Also save the actual parts.. We need the autonumber first!
+
+        EnableNavigation()
+
+        DisposeDA(cParts)
+    End Sub
+
+    Public Sub InitStatusList()
+        cboStatus.Items.Clear()
+        cboStatus.Items.Insert(0, "Open")
+        cboStatus.Items.Insert(1, "Closed")
+        cboStatus.SelectedIndex = 0
+    End Sub
+
+    Private Sub ServiceParts_Load(sender As Object, e As EventArgs) Handles Me.Load
+        SetButtonImage(cmdSave, 2)
+        SetButtonImage(cmdPrint, 19)
+        SetButtonImage(cmdEmail, 1)
+        SetButtonImage(cmdNext, 6)
+        SetButtonImage(cmdMenu, 9)
+        'SetButtonImage(cmdPictures, "camera")
+        SetButtonImage(cmdPictures, "camera")
+        SetButtonImage(cmdMoveFirst, 7)
+        SetButtonImage(cmdMovePrevious, 4)
+        SetButtonImage(cmdMoveNext, 5)
+        SetButtonImage(cmdMoveLast, 6)
+
+        ' general initialization
+        ' these 2 lables are just for displaying debugging information
+        '  lblMarginLinelbl.Visible = False
+        '  lblMarginLine.Visible = False
+
+        CreateNewMode = ServiceForMode.ServiceMode_ForCustomer
+        InitStatusList()
+        LoadMfgNamesIntoComboBox(txtVendorName, , True, True)
+        LoadStoresIntoComboBox(cboStores, , True)
+        SelectMode(, True, True) 'default to order for customer
+
+        ClearServiceCall()
+
+        If Debugging Then
+            lblMarginLine.Visible = Debugging
+            lblMarginLinelbl.Visible = Debugging
+        End If
+    End Sub
+
+    Private Sub ServiceParts_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        'If UnloadMode = vbFormControlMenu Then
+        '    cmdMenu.Value = True
+        'End If
+
+    End Sub
+
+    Private Sub mInvCkStyle_CancelClicked(ByRef Override As Boolean) Handles mInvCkStyle.CancelClicked
+        Override = True   ' Don't InvCkStyle continue processing.
+        'Unload mInvCkStyle
+        mInvCkStyle.Close()
+    End Sub
+
+    Private Sub mInvCkStyle_OKClicked(ByRef Override As Boolean, Picked As String, IsNew As Boolean) Handles mInvCkStyle.OKClicked
+        Override = True  ' No matter what, don't InvCkStyle continue processing.
+        If IsNew Then Exit Sub     ' We only allow existing styles.
+        ' Bring up AddOnAcc with a list of items, and go with the result.
+        Dim AddedDL As Integer
+        AddedDL = AddOnAcc.GetDetailLine(Picked, Me)
+        If AddedDL <= 0 Then
+            MessageBox.Show("Invalid item.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Override = True
+            Exit Sub
+        End If
+
+        txtStyleNo.Text = Picked  ' This is temporary!  We will have to get Detail for the item.
+        Notes_Text.Text = "Detail Line " & AddedDL
+        'Unload mInvCkStyle
+        mInvCkStyle.Close()
+    End Sub
+
+    Private Sub cmdMenu_Click(sender As Object, e As EventArgs) Handles cmdMenu.Click
+        If Owner Is Nothing Then
+            modProgramState.Order = ""
+            MainMenu.Show()
+        Else
+            Owner.Show()
+            If Owner.Name = Service.Name Then Service.PartsOrderFormClosed()
+            Owner = Nothing
+        End If
+        'Unload Me
+        Me.Close()
+    End Sub
+
+    Private Sub cboStores_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboStores.SelectedIndexChanged
+        'LoadStore(cboStores.itemData(cboStores.ListIndex))
+        LoadStore(CType(cboStores.Items(cboStores.SelectedIndex), ItemDataClass).ItemData)
+    End Sub
+
+    Private Sub mSelectStyle_CancelClicked(ByRef Override As Boolean) Handles mSelectStyle.CancelClicked
+        Override = True
+        mSelectedStyle = ""
+        'Unload mSelectStyle
+        mSelectStyle.Close()
+    End Sub
+
+    Private Sub mSelectStyle_OKClicked(ByRef Override As Boolean, Picked As String, IsNew As Boolean) Handles mSelectStyle.OKClicked
+        Override = True
+        mSelectedStyle = Picked
+        'Unload mSelectStyle
+        mSelectStyle.Close()
+    End Sub
+
+    Private Sub SelectStyle(ByRef Style As String, ByRef Description As String, ByRef Vendor As String)
+        mSelectStyle = New InvCkStyle
+
+        'mSelectStyle.Show vbModal, Me
+        mSelectStyle.ShowDialog(Me)
+        If Len(mSelectedStyle) > 0 Then
+            Style = mSelectedStyle
+            GetInfoFromStyle(Style, Description, Vendor, "")
+        End If
+    End Sub
+
+    Private Sub txtStyleNo_Enter(sender As Object, e As EventArgs) Handles txtStyleNo.Enter
+        Dim ST As String, Des As String, Ven As String
+        If Mode <> ServiceForMode.ServiceMode_ForCustomer Then
+            Notes_Text.Select()  ' this, among other things, prevents bad loops
+            SelectStyle(ST, Des, Ven)
+            If Len(ST) > 0 Then
+                txtStyleNo.Text = ST
+                txtDescription.Text = Des
+                LoadVendor(Ven)
+            End If
+        End If
+    End Sub
+
+    Public Function ChargeBackTypeDesc(ByVal Typ As Integer, Optional ByVal LDesc As Boolean = False) As String
+        Select Case Typ
+            Case 0 : ChargeBackTypeDesc = IIf(LDesc, "Charging Back", "Charge Back")
+            Case 1 : ChargeBackTypeDesc = IIf(LDesc, "Deducting", "Deduct")
+            Case 2 : ChargeBackTypeDesc = IIf(LDesc, "Requesting a Credit", "Credit")
+            Case Else : ChargeBackTypeDesc = "???"
+        End Select
+    End Function
 
 End Class

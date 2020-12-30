@@ -46,7 +46,6 @@ Partial Class ServiceParts
         Me.txtInvoiceNo = New System.Windows.Forms.TextBox()
         Me.txtSaleNo = New System.Windows.Forms.TextBox()
         Me.txtStoreName = New System.Windows.Forms.TextBox()
-        Me.dteClaimDateCaption1 = New System.Windows.Forms.DateTimePicker()
         Me.dteClaimDate = New System.Windows.Forms.DateTimePicker()
         Me.cboStores = New System.Windows.Forms.ComboBox()
         Me.txtStoreAddress = New System.Windows.Forms.TextBox()
@@ -78,6 +77,11 @@ Partial Class ServiceParts
         Me.fraVendor = New System.Windows.Forms.GroupBox()
         Me.txtVendorName = New System.Windows.Forms.ComboBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cmdMenu = New System.Windows.Forms.Button()
+        Me.cmdNext = New System.Windows.Forms.Button()
+        Me.cmdEmail = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdSave = New System.Windows.Forms.Button()
         Me.fraStatus = New System.Windows.Forms.GroupBox()
         Me.cmdPictures = New System.Windows.Forms.Button()
         Me.imgPicture = New System.Windows.Forms.PictureBox()
@@ -87,16 +91,11 @@ Partial Class ServiceParts
         Me.dteClaimDateCaption = New System.Windows.Forms.Label()
         Me.lblStatus = New System.Windows.Forms.Label()
         Me.fraNotes = New System.Windows.Forms.GroupBox()
-        Me.cmdMenu = New System.Windows.Forms.Button()
-        Me.cmdNext = New System.Windows.Forms.Button()
-        Me.cmdEmail = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.cmdSave = New System.Windows.Forms.Button()
+        Me.cmdPrintChargeBack = New System.Windows.Forms.Button()
+        Me.cmdAddPart = New System.Windows.Forms.Button()
+        Me.lblMarginLinelbl = New System.Windows.Forms.Label()
         Me.lblDescription = New System.Windows.Forms.Label()
         Me.lblStyleNo = New System.Windows.Forms.Label()
-        Me.lblMarginLinelbl = New System.Windows.Forms.Label()
-        Me.cmdAddPart = New System.Windows.Forms.Button()
-        Me.cmdPrintChargeBack = New System.Windows.Forms.Button()
         Me.fraCustomer.SuspendLayout()
         Me.fraSoldTo.SuspendLayout()
         Me.fraVendor.SuspendLayout()
@@ -317,18 +316,11 @@ Partial Class ServiceParts
         'txtStoreName
         '
         Me.txtStoreName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtStoreName.Location = New System.Drawing.Point(8, 28)
+        Me.txtStoreName.Location = New System.Drawing.Point(8, 23)
         Me.txtStoreName.Name = "txtStoreName"
         Me.txtStoreName.Size = New System.Drawing.Size(246, 20)
         Me.txtStoreName.TabIndex = 10
         Me.ToolTip1.SetToolTip(Me.txtStoreName, "This box should contain the Store's Name.")
-        '
-        'dteClaimDateCaption1
-        '
-        Me.dteClaimDateCaption1.Location = New System.Drawing.Point(722, 325)
-        Me.dteClaimDateCaption1.Name = "dteClaimDateCaption1"
-        Me.dteClaimDateCaption1.Size = New System.Drawing.Size(200, 20)
-        Me.dteClaimDateCaption1.TabIndex = 11
         '
         'dteClaimDate
         '
@@ -342,11 +334,13 @@ Partial Class ServiceParts
         '
         'cboStores
         '
+        Me.cboStores.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboStores.FormattingEnabled = True
-        Me.cboStores.Location = New System.Drawing.Point(722, 377)
+        Me.cboStores.Location = New System.Drawing.Point(8, 23)
         Me.cboStores.Name = "cboStores"
-        Me.cboStores.Size = New System.Drawing.Size(121, 21)
+        Me.cboStores.Size = New System.Drawing.Size(246, 21)
         Me.cboStores.TabIndex = 13
+        Me.cboStores.Text = "txtVendorName"
         '
         'txtStoreAddress
         '
@@ -382,6 +376,7 @@ Partial Class ServiceParts
         Me.cmdMoveFirst.Size = New System.Drawing.Size(36, 32)
         Me.cmdMoveFirst.TabIndex = 18
         Me.cmdMoveFirst.Text = "Button1"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveFirst, " Move To The First Record ")
         Me.cmdMoveFirst.UseVisualStyleBackColor = True
         '
         'cmdMovePrevious
@@ -390,7 +385,7 @@ Partial Class ServiceParts
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
         Me.cmdMovePrevious.Size = New System.Drawing.Size(35, 32)
         Me.cmdMovePrevious.TabIndex = 19
-        Me.cmdMovePrevious.Text = "Button1"
+        Me.cmdMovePrevious.Text = " Move Back 1 Record "
         Me.cmdMovePrevious.UseVisualStyleBackColor = True
         '
         'cmdMoveNext
@@ -400,6 +395,7 @@ Partial Class ServiceParts
         Me.cmdMoveNext.Size = New System.Drawing.Size(34, 32)
         Me.cmdMoveNext.TabIndex = 20
         Me.cmdMoveNext.Text = "Button1"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveNext, " Move Forward 1 Record ")
         Me.cmdMoveNext.UseVisualStyleBackColor = True
         '
         'cmdMoveLast
@@ -409,6 +405,7 @@ Partial Class ServiceParts
         Me.cmdMoveLast.Size = New System.Drawing.Size(47, 32)
         Me.cmdMoveLast.TabIndex = 21
         Me.cmdMoveLast.Text = "Button1"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveLast, " Move To The Last Record ")
         Me.cmdMoveLast.UseVisualStyleBackColor = True
         '
         'cmdMoveSearch
@@ -418,6 +415,7 @@ Partial Class ServiceParts
         Me.cmdMoveSearch.Size = New System.Drawing.Size(75, 35)
         Me.cmdMoveSearch.TabIndex = 22
         Me.cmdMoveSearch.Text = "Parts Order &Look-Up"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveSearch, "Search for a Record")
         Me.cmdMoveSearch.UseVisualStyleBackColor = True
         '
         'lblMoveRecords
@@ -451,6 +449,7 @@ Partial Class ServiceParts
         Me.lblMarginLine.Size = New System.Drawing.Size(65, 13)
         Me.lblMarginLine.TabIndex = 38
         Me.lblMarginLine.Text = "Margin Line:"
+        Me.lblMarginLine.Visible = False
         '
         'lblPartsOrderNo
         '
@@ -543,6 +542,7 @@ Partial Class ServiceParts
         Me.optCBDeduct.Size = New System.Drawing.Size(124, 17)
         Me.optCBDeduct.TabIndex = 49
         Me.optCBDeduct.Text = "&Deduct From Invoice"
+        Me.ToolTip1.SetToolTip(Me.optCBDeduct, " Enters Credit into Payables, if in use. ")
         Me.optCBDeduct.UseVisualStyleBackColor = True
         '
         'optCBChargeBack
@@ -555,6 +555,7 @@ Partial Class ServiceParts
         Me.optCBChargeBack.TabIndex = 50
         Me.optCBChargeBack.TabStop = True
         Me.optCBChargeBack.Text = "&Charge Back"
+        Me.ToolTip1.SetToolTip(Me.optCBChargeBack, " Request Credit Memo ")
         Me.optCBChargeBack.UseVisualStyleBackColor = True
         '
         'cboStatus
@@ -580,6 +581,7 @@ Partial Class ServiceParts
         Me.fraSoldTo.Controls.Add(Me.txtStoreAddress)
         Me.fraSoldTo.Controls.Add(Me.txtStoreCity)
         Me.fraSoldTo.Controls.Add(Me.txtStorePhone)
+        Me.fraSoldTo.Controls.Add(Me.cboStores)
         Me.fraSoldTo.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fraSoldTo.Location = New System.Drawing.Point(6, 7)
         Me.fraSoldTo.Name = "fraSoldTo"
@@ -612,6 +614,56 @@ Partial Class ServiceParts
         Me.txtVendorName.Size = New System.Drawing.Size(246, 21)
         Me.txtVendorName.TabIndex = 52
         Me.ToolTip1.SetToolTip(Me.txtVendorName, "This box should contain the Vendor's Name.")
+        '
+        'cmdMenu
+        '
+        Me.cmdMenu.Location = New System.Drawing.Point(501, 191)
+        Me.cmdMenu.Name = "cmdMenu"
+        Me.cmdMenu.Size = New System.Drawing.Size(50, 41)
+        Me.cmdMenu.TabIndex = 52
+        Me.cmdMenu.Text = "&Menu"
+        Me.ToolTip1.SetToolTip(Me.cmdMenu, "Return from this screen.")
+        Me.cmdMenu.UseVisualStyleBackColor = True
+        '
+        'cmdNext
+        '
+        Me.cmdNext.Location = New System.Drawing.Point(443, 192)
+        Me.cmdNext.Name = "cmdNext"
+        Me.cmdNext.Size = New System.Drawing.Size(57, 41)
+        Me.cmdNext.TabIndex = 51
+        Me.cmdNext.Text = "&New"
+        Me.ToolTip1.SetToolTip(Me.cmdNext, "Create a new part order.")
+        Me.cmdNext.UseVisualStyleBackColor = True
+        '
+        'cmdEmail
+        '
+        Me.cmdEmail.Location = New System.Drawing.Point(384, 192)
+        Me.cmdEmail.Name = "cmdEmail"
+        Me.cmdEmail.Size = New System.Drawing.Size(53, 41)
+        Me.cmdEmail.TabIndex = 50
+        Me.cmdEmail.Text = "&Email"
+        Me.ToolTip1.SetToolTip(Me.cmdEmail, "Email this order to the above vendor.")
+        Me.cmdEmail.UseVisualStyleBackColor = True
+        '
+        'cmdPrint
+        '
+        Me.cmdPrint.Location = New System.Drawing.Point(326, 192)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(52, 41)
+        Me.cmdPrint.TabIndex = 49
+        Me.cmdPrint.Text = "&Print"
+        Me.ToolTip1.SetToolTip(Me.cmdPrint, "Print this part order.")
+        Me.cmdPrint.UseVisualStyleBackColor = True
+        '
+        'cmdSave
+        '
+        Me.cmdSave.Location = New System.Drawing.Point(260, 192)
+        Me.cmdSave.Name = "cmdSave"
+        Me.cmdSave.Size = New System.Drawing.Size(51, 41)
+        Me.cmdSave.TabIndex = 48
+        Me.cmdSave.Text = "&Save"
+        Me.ToolTip1.SetToolTip(Me.cmdSave, "Save the details of this form.")
+        Me.cmdSave.UseVisualStyleBackColor = True
         '
         'fraStatus
         '
@@ -736,50 +788,34 @@ Partial Class ServiceParts
         Me.fraNotes.TabStop = False
         Me.fraNotes.Text = "Request:"
         '
-        'cmdMenu
+        'cmdPrintChargeBack
         '
-        Me.cmdMenu.Location = New System.Drawing.Point(516, 192)
-        Me.cmdMenu.Name = "cmdMenu"
-        Me.cmdMenu.Size = New System.Drawing.Size(60, 41)
-        Me.cmdMenu.TabIndex = 52
-        Me.cmdMenu.Text = "&Menu"
-        Me.cmdMenu.UseVisualStyleBackColor = True
+        Me.cmdPrintChargeBack.Location = New System.Drawing.Point(557, 209)
+        Me.cmdPrintChargeBack.Name = "cmdPrintChargeBack"
+        Me.cmdPrintChargeBack.Size = New System.Drawing.Size(136, 23)
+        Me.cmdPrintChargeBack.TabIndex = 55
+        Me.cmdPrintChargeBack.Text = "Send Charge Back &Letter"
+        Me.cmdPrintChargeBack.UseVisualStyleBackColor = True
         '
-        'cmdNext
+        'cmdAddPart
         '
-        Me.cmdNext.Location = New System.Drawing.Point(453, 192)
-        Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(60, 41)
-        Me.cmdNext.TabIndex = 51
-        Me.cmdNext.Text = "&New"
-        Me.cmdNext.UseVisualStyleBackColor = True
+        Me.cmdAddPart.Location = New System.Drawing.Point(619, 195)
+        Me.cmdAddPart.Name = "cmdAddPart"
+        Me.cmdAddPart.Size = New System.Drawing.Size(60, 18)
+        Me.cmdAddPart.TabIndex = 54
+        Me.cmdAddPart.Text = "&Add Part"
+        Me.cmdAddPart.UseVisualStyleBackColor = True
+        Me.cmdAddPart.Visible = False
         '
-        'cmdEmail
+        'lblMarginLinelbl
         '
-        Me.cmdEmail.Location = New System.Drawing.Point(392, 192)
-        Me.cmdEmail.Name = "cmdEmail"
-        Me.cmdEmail.Size = New System.Drawing.Size(60, 41)
-        Me.cmdEmail.TabIndex = 50
-        Me.cmdEmail.Text = "&Email"
-        Me.cmdEmail.UseVisualStyleBackColor = True
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(326, 192)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(60, 41)
-        Me.cmdPrint.TabIndex = 49
-        Me.cmdPrint.Text = "&Print"
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdSave
-        '
-        Me.cmdSave.Location = New System.Drawing.Point(260, 192)
-        Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(60, 41)
-        Me.cmdSave.TabIndex = 48
-        Me.cmdSave.Text = "&Save"
-        Me.cmdSave.UseVisualStyleBackColor = True
+        Me.lblMarginLinelbl.AutoSize = True
+        Me.lblMarginLinelbl.Location = New System.Drawing.Point(540, 179)
+        Me.lblMarginLinelbl.Name = "lblMarginLinelbl"
+        Me.lblMarginLinelbl.Size = New System.Drawing.Size(65, 13)
+        Me.lblMarginLinelbl.TabIndex = 53
+        Me.lblMarginLinelbl.Text = "Margin Line:"
+        Me.lblMarginLinelbl.Visible = False
         '
         'lblDescription
         '
@@ -799,33 +835,6 @@ Partial Class ServiceParts
         Me.lblStyleNo.TabIndex = 8
         Me.lblStyleNo.Text = "Style No:"
         '
-        'lblMarginLinelbl
-        '
-        Me.lblMarginLinelbl.AutoSize = True
-        Me.lblMarginLinelbl.Location = New System.Drawing.Point(540, 179)
-        Me.lblMarginLinelbl.Name = "lblMarginLinelbl"
-        Me.lblMarginLinelbl.Size = New System.Drawing.Size(65, 13)
-        Me.lblMarginLinelbl.TabIndex = 53
-        Me.lblMarginLinelbl.Text = "Margin Line:"
-        '
-        'cmdAddPart
-        '
-        Me.cmdAddPart.Location = New System.Drawing.Point(619, 195)
-        Me.cmdAddPart.Name = "cmdAddPart"
-        Me.cmdAddPart.Size = New System.Drawing.Size(60, 18)
-        Me.cmdAddPart.TabIndex = 54
-        Me.cmdAddPart.Text = "&Add Part"
-        Me.cmdAddPart.UseVisualStyleBackColor = True
-        '
-        'cmdPrintChargeBack
-        '
-        Me.cmdPrintChargeBack.Location = New System.Drawing.Point(582, 210)
-        Me.cmdPrintChargeBack.Name = "cmdPrintChargeBack"
-        Me.cmdPrintChargeBack.Size = New System.Drawing.Size(111, 23)
-        Me.cmdPrintChargeBack.TabIndex = 55
-        Me.cmdPrintChargeBack.Text = "Send Charge Back &Letter"
-        Me.cmdPrintChargeBack.UseVisualStyleBackColor = True
-        '
         'ServiceParts
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -835,8 +844,6 @@ Partial Class ServiceParts
         Me.Controls.Add(Me.fraStatus)
         Me.Controls.Add(Me.fraVendor)
         Me.Controls.Add(Me.fraSoldTo)
-        Me.Controls.Add(Me.cboStores)
-        Me.Controls.Add(Me.dteClaimDateCaption1)
         Me.Controls.Add(Me.fraCustomer)
         Me.Controls.Add(Me.optTagCustomer)
         Me.Controls.Add(Me.optTagStock)
@@ -872,7 +879,6 @@ Partial Class ServiceParts
     Friend WithEvents txtInvoiceNo As TextBox
     Friend WithEvents txtSaleNo As TextBox
     Friend WithEvents txtStoreName As TextBox
-    Friend WithEvents dteClaimDateCaption1 As DateTimePicker
     Friend WithEvents dteClaimDate As DateTimePicker
     Friend WithEvents cboStores As ComboBox
     Friend WithEvents txtStoreAddress As TextBox
