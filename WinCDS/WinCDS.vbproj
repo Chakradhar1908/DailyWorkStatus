@@ -1327,6 +1327,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\AddOnAcc.resx">
       <DependentUpon>AddOnAcc.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ArApp.resx">
       <DependentUpon>ArApp.vb</DependentUpon>
@@ -1438,6 +1439,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPermissionMonitor.resx">
       <DependentUpon>frmPermissionMonitor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPictures.resx">
+      <DependentUpon>frmPictures.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPOEmails.resx">
       <DependentUpon>frmPOEmails.vb</DependentUpon>
@@ -1582,6 +1586,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Service.resx">
       <DependentUpon>Service.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ServiceIntake.resx">
+      <DependentUpon>ServiceIntake.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ServiceManualItem.resx">
       <DependentUpon>ServiceManualItem.vb</DependentUpon>

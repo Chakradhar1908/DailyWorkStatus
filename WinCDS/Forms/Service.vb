@@ -707,6 +707,7 @@ HandleErr:
         ' Tell ServiceParts it's working from this Service Call.
         If ServiceParts.LoadServiceCall(ServiceOrderNumber) Then
             ServiceParts.Show()
+            ServiceParts.ServiceCallNumber = ServiceOrderNumber
             ServiceParts.LoadRelativePartsOrder(-1, True, True)
             Hide()
         Else

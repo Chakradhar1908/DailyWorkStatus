@@ -80,7 +80,7 @@ Module mod2DataPictures
         End With
     End Function
 
-    Public Function FindDatabasePicture(ByVal mLoc As Long, ByVal mType As Long, ByVal mRef As String, Optional ByVal mIdx As Long = 1) As StdPicture
+    Public Function FindDatabasePicture(ByVal mLoc As Integer, ByVal mType As Integer, ByVal mRef As String, Optional ByVal mIdx As Integer = 1) As StdPicture
         '::::FindDatabasePicture
         ':::SUMMARY
         ': Used to find Pictures from Database.
@@ -89,11 +89,11 @@ Module mod2DataPictures
         ':::PARAMETERS
         ':::RETURN
         ': StdPicture - Returns the result as StdPicture.
-        Dim X As Long
+        Dim X As Integer
         X = FindDatabasePictureID(mLoc, mType, mRef, mIdx)
         If X <> 0 Then
-    Set FindDatabasePicture = GetDatabasePicture(X)
-  End If
+            FindDatabasePicture = GetDatabasePicture(X)
+        End If
     End Function
 
 End Module

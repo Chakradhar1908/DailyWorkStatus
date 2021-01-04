@@ -502,10 +502,10 @@ Module modService
         ': - vN - Indicates Vendor Name.
         ':::RETURN
         ':String - Returns Vendor Code as a String.
-        GetVendorName vN, vN, , , , , , , GetVendorCodeFromName
-End Function
+        GetVendorName(vN, vN, , , , , , , GetVendorCodeFromName)
+    End Function
 
-    Public Function SetServiceNoteText(ByRef NoteID As Long, ByRef Text As String) As Boolean
+    Public Function SetServiceNoteText(ByRef NoteID As Integer, ByRef Text As String) As Boolean
         '::::SetServiceNoteText
         ':::SUMMARY
         ': Sets Text message on Service Note field value.
@@ -517,16 +517,16 @@ End Function
         ':::RETURN
         ': Boolean - Returns whether it is true or false.
         Dim cServNote As clsServiceNotes
-  Set cServNote = New clsServiceNotes
-On Error GoTo NoSuchNote
+        cServNote = New clsServiceNotes
+        On Error GoTo NoSuchNote
         With cServNote
-            .Load CStr(NoteID), "#ServiceNoteID"
-    .Note = Text
+            .Load(CStr(NoteID), "#ServiceNoteID")
+            .Note = Text
             .Save()
         End With
         SetServiceNoteText = True
 NoSuchNote:
-        DisposeDA cServNote
-End Function
+        DisposeDA(cServNote)
+    End Function
 
 End Module

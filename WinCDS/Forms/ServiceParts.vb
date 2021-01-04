@@ -4,7 +4,8 @@ Public Class ServiceParts
     Private Mode As ServiceForMode
     Public CreateNewMode As ServiceForMode
     Dim Store As Integer
-    Dim ServiceCallNumber As Integer
+    'Dim ServiceCallNumber As Integer
+    Public ServiceCallNumber As Integer
     Dim PartsOrderID As Integer
     Dim MarginLine As Integer
     Public Vendor As String
@@ -69,7 +70,7 @@ Public Class ServiceParts
         ' other non-usable fields for stock mode....
         lblInvoiceNo.Visible = Not Stock
         txtInvoiceNo.Visible = Not Stock
-        dteClaimDateCaption1.Visible = Not Stock
+        dteClaimDateCaption.Visible = Not Stock
         dteClaimDate.Visible = Not Stock
         lblSaleNo.Visible = Not Stock
         txtSaleNo.Visible = Not Stock
@@ -574,7 +575,8 @@ NoID:
             Exit Sub
         End If
 
-        cmdSave.Value = True
+        'cmdSave.Value = True
+        cmdSave_Click(cmdSave, New EventArgs)
         ServiceIntake.InitForm(ServiceCallNumber, PartsOrderID, GetChargeBackOption, txtRepairCost.Text, txtInvoiceNo.Text, Store, Vendor)
         'ServiceIntake.Show vbModal, Me
         ServiceIntake.ShowDialog(Me)
@@ -586,7 +588,8 @@ NoID:
 
             If CBType = 1 Then RecordRequestPayment()
 
-            cmdSave.Value = True
+            'cmdSave.Value = True
+            cmdSave_Click(cmdSave, New EventArgs)
         End If
     End Sub
 
@@ -808,7 +811,7 @@ NoID:
         SetButtonImage(cmdNext, 6)
         SetButtonImage(cmdMenu, 9)
         'SetButtonImage(cmdPictures, "camera")
-        SetButtonImage(cmdPictures, "camera")
+        'SetButtonImage(cmdPictures, "camera")
         SetButtonImage(cmdMoveFirst, 7)
         SetButtonImage(cmdMovePrevious, 4)
         SetButtonImage(cmdMoveNext, 5)

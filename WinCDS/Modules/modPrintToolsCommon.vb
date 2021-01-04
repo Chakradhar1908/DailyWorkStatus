@@ -1049,7 +1049,7 @@ PrinterDialogCancelled:
     End Function
 
     Public Sub PrintAutoMailingLetterHeader(ByVal Name1 As String, ByVal addr1 As String, ByVal City1 As String, ByVal Tele1 As String, ByVal Name2 As String, ByVal addr2 As String, ByVal City2 As String, ByVal Tele2 As String, Optional ByVal ShowDate As Boolean = True)
-        Dim oFN As String, oFS As Long, oDW As Long
+        Dim oFN As String, oFS As Integer, oDW As Integer
         oFN = OutputObject.FontName
         oFS = OutputObject.FontSize
         oDW = OutputObject.DrawWidth
@@ -1057,19 +1057,19 @@ PrinterDialogCancelled:
         OutputObject.FontSize = 12
         OutputObject.DrawWidth = 2
 
-        If ShowDate Then PrintAligned Date, , 8000, 1020
+        If ShowDate Then PrintAligned(Today, , 8000, 1020)
 
-  PrintAligned Name1, , , 1020
-  PrintAligned addr1
-  PrintAligned City1
-  PrintAligned Tele1
+        PrintAligned(Name1, , , 1020)
+        PrintAligned(addr1)
+        PrintAligned(City1)
+        PrintAligned(Tele1)
 
-  PrintAligned Name2, , , 3170
-  PrintAligned addr2
-  PrintAligned City2
-  PrintAligned Tele2
+        PrintAligned(Name2, , , 3170)
+        PrintAligned(addr2)
+        PrintAligned(City2)
+        PrintAligned(Tele2)
 
-  OutputObject.FontName = oFN
+        OutputObject.FontName = oFN
         OutputObject.FontSize = oFS
         OutputObject.DrawWidth = oDW
         OutputObject.CurrentY = 4514

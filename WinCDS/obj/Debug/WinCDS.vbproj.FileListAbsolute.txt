@@ -263,6 +263,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmOptimize.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmOptimizeConfig.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmOptimizeRoute.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPermissionMonitor.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPictures.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPOEmails.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmPrintPreviewDocument.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmProgress.resources
@@ -311,6 +312,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.Practice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RestoreInv.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.SelectPrinter.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Service.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceIntake.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceManualItem.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceParts.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Resources.resources

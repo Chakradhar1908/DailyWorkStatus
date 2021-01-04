@@ -449,4 +449,18 @@ GetPercentError:
         FormatVendorNo = Format(Val(VendorNo), "000")
     End Function
 
+    Public Function IfBlankThenSpace(ByVal Inp As String) As String
+        '::::IfBlankThenSpace
+        ':::SUMMARY
+        ':Just used to display space in Excel sheet,when user did not give any input.Only for string format.
+        ':::DESCRIPTION
+        ':This function is used mostly, when we access data from excel to check whether cell contain any input or empty.
+        ':::PARAMETERS
+        ':-Inp-Denotes the input value given by user.
+        ':::RETURN
+        ':String-Returns the IfBlankThenSpace string.
+
+        IfBlankThenSpace = IIf(Inp = "", " ", Inp)
+    End Function
+
 End Module

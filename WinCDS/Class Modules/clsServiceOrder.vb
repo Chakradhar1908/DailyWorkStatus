@@ -55,7 +55,10 @@
         End If
 
         ' Move to the first record if we can, and return success.
-        If DataAccess.Records_Available Then Load = True
+        If DataAccess.Records_Available Then
+            cDataAccess_GetRecordSet(DataAccess.RS)
+            Load = True
+        End If
     End Function
 
     Public Function Save() As Boolean
@@ -64,9 +67,11 @@
         If DataAccess.Record_Count = 0 Then
             ' Record not found.  This means we're adding a new one.
             DataAccess.Records_Add()
+            cDataAccess_SetRecordSet(DataAccess.RS)
         End If
         ' Then load our data into the recordset.
         DataAccess.Record_Update()
+        cDataAccess_SetRecordSet(DataAccess.RS)
         ' And finally, tell the class to save the recordset.
         DataAccess.Records_Update()
         Exit Function
@@ -110,4 +115,36 @@ NoSave:
             StopEnd = ""
         End If
     End Sub
+
+    Public Sub cDataAccess_SetRecordSet(RS As ADODB.Recordset)
+        On Error Resume Next
+        '  rs("ServiceOrderNo") = ServiceOrderNo
+        RS("LastName").Value = IfBlankThenSpace(IfNullThenNilString(Trim(LastName)))
+        RS("Telphone").Value = IfBlankThenSpace(IfNullThenNilString(Trim(Telphone)))
+        RS("MailIndex").Value = MailIndex
+        RS("SaleNo").Value = Trim(IfNullThenNilString(SaleNo))
+        RS("ServiceOnDate").Value = IfBlankThenSpace(IfNullThenNilString(Trim(ServiceOnDate)))
+        RS("DateOfClaim").Value = DateOfClaim
+        RS("Status").Value = IfBlankThenSpace(IfNullThenNilString(Trim(Status)))
+        RS("QuickCheck").Value = IfBlankThenSpace(IfNullThenNilString(Trim(QuickCheck)))
+        RS("Item").Value = IfNullThenNilString(Trim(Item))
+        RS("Complaint").Value = IfNullThenNilString(Trim(Complaint))
+        RS("StoreAction").Value = IfNullThenNilString(Trim(StoreAction))
+        RS("Type").Value = IfBlankThenSpace(IfNullThenNilString(Trim(SOType)))
+        RS("Mfg").Value = IfBlankThenSpace(IfNullThenNilString(Trim(Mfg)))
+        RS("InvoiceNo").Value = IfBlankThenSpace(IfNullThenNilString(Trim(InvoiceNo)))
+        RS("Detail").Value = IfNullThenNilString(Trim(Detail))
+
+        If IsDate(StopStart) Then
+            RS("StopStart").Value = Format(TimeValue(StopStart), "h:mm ampm")
+        Else
+            RS("StopStart").Value = ""
+        End If
+        If IsDate(StopEnd) Then
+            RS("StopEnd").Value = Format(TimeValue(StopEnd), "h:mm ampm")
+        Else
+            RS("StopEnd").Value = ""
+        End If
+    End Sub
+
 End Class

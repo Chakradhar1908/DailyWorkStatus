@@ -825,11 +825,11 @@ ReadError:
         ':::RETURN
         Dim SQL As String, RS As ADODB.Recordset
         SQL = "select [desc], vendor, vendorno from [2data] where style='" & Style & "'"
-  Set RS = GetRecordsetBySQL(SQL, , GetDatabaseInventory)
-  If RS.EOF Then Exit Sub
-        Description = RS("Desc")
-        Vendor = RS("Vendor")
-        VendorNo = RS("VendorNo")
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseInventory)
+        If RS.EOF Then Exit Sub
+        Description = RS("Desc").Value
+        Vendor = RS("Vendor").Value
+        VendorNo = RS("VendorNo").Value
     End Sub
 
 End Module

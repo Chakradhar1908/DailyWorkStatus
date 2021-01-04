@@ -233,7 +233,7 @@ AnError:
         GetUnique = Year(TimeNow) & Month(TimeNow) & DateAndTime.Day(TimeNow) & "." & Hour(TimeNow) & Minute(TimeNow) & Second(TimeNow)
     End Function
 
-    Public Function SetAPTransaction(ByVal Vend As String, ByVal InvoiceNo As String, ByVal InvoiceDate As String, ByVal Amount As Currency, ByVal DueDate As String, ByRef Acct1 As String, ByRef Acct1Amt As Currency, Optional ByVal Acct2 As String, Optional ByVal Acct2Amt As Currency, Optional ByVal Balance As Currency = 0, Optional ByVal CheckNum As Long, Optional ByVal CheckDate As Date = #1/1/1901#, Optional ByVal APAcct As String = "10100", Optional ByVal CashAcct As String = "10100", Optional ByVal DiscountDate As String = "", Optional ByVal DiscountPct As Single = 0, Optional ByVal DiscountAmount As Currency = 0, Optional ByVal Comment As String = "", Optional ByVal User As String = "JK") As Boolean
+    Public Function SetAPTransaction(ByVal Vend As String, ByVal InvoiceNo As String, ByVal InvoiceDate As String, ByVal Amount As Decimal, ByVal DueDate As String, ByRef Acct1 As String, ByRef Acct1Amt As Decimal, Optional ByVal Acct2 As String = "", Optional ByVal Acct2Amt As Decimal = 0, Optional ByVal Balance As Decimal = 0, Optional ByVal CheckNum As Integer = 0, Optional ByVal CheckDate As Date = #1/1/1901#, Optional ByVal APAcct As String = "10100", Optional ByVal CashAcct As String = "10100", Optional ByVal DiscountDate As String = "", Optional ByVal DiscountPct As Single = 0, Optional ByVal DiscountAmount As Decimal = 0, Optional ByVal Comment As String = "", Optional ByVal User As String = "JK") As Boolean
         '::::SetAPTransaction
         ':::SUMMARY
         ': Add a record to the AP Transaction table.
@@ -261,47 +261,47 @@ AnError:
         ': - User
         ':::RETURN
         ': Returns True
-        Dim X As ADODB.Recordset, I As Long
+        Dim X As ADODB.Recordset, I As Integer
 
-        dbOpen GetDatabaseAP
-  dbGen.SQL = "tblAPTransaction"
-  Set X = dbGen.getRecordset
-  
-  X.AddNew()
-        X("fldVendorCode") = Left(Vend, 10) 'can't be blank   Abrivation
-        X("fldInvoiceNum") = InvoiceNo 'can't be blank
-        X("fldInvoiceDate") = IIf(IsDate(InvoiceDate), InvoiceDate, Date) 'can't be blank
-        X("fldInvoiceDue") = IIf(IsDate(DueDate), DueDate, Date)
-        X("fldInvoiceAmount") = Amount
-        X("fldInvDiscountDate") = IIf(IsDate(DiscountDate), DiscountDate, Date)
-        X("fldInvDiscountPct") = DiscountPct
-        X("fldInvDiscountAmt") = DiscountAmount
+        dbOpen(GetDatabaseAP)
+        dbGen.SQL = "tblAPTransaction"
+        X = dbGen.getRecordset
 
-        X("fldInvoiceBalance") = Balance
+        X.AddNew()
+        X("fldVendorCode").Value = Left(Vend, 10) 'can't be blank   Abrivation
+        X("fldInvoiceNum").Value = InvoiceNo 'can't be blank
+        X("fldInvoiceDate").Value = IIf(IsDate(InvoiceDate), InvoiceDate, Today) 'can't be blank
+        X("fldInvoiceDue").Value = IIf(IsDate(DueDate), DueDate, Today)
+        X("fldInvoiceAmount").Value = Amount
+        X("fldInvDiscountDate").Value = IIf(IsDate(DiscountDate), DiscountDate, Today)
+        X("fldInvDiscountPct").Value = DiscountPct
+        X("fldInvDiscountAmt").Value = DiscountAmount
 
-        X("fldPayablesAcct") = APAcct
-        X("fldCashAcct") = CashAcct
+        X("fldInvoiceBalance").Value = Balance
+
+        X("fldPayablesAcct").Value = APAcct
+        X("fldCashAcct").Value = CashAcct
 
 
-        X("fldCheckNum") = CheckNum
-        X("fldCheckDate") = IIf(IsDate(CheckDate), CheckDate, #1/1/1901#)
-        X("fldPaymentsTotal") = 0
+        X("fldCheckNum").Value = CheckNum
+        X("fldCheckDate").Value = IIf(IsDate(CheckDate), CheckDate, #1/1/1901#)
+        X("fldPaymentsTotal").Value = 0
 
-        X("fldAccount1") = Acct1
-        X("fldAccount1Amount") = Acct1Amt
-        If Acct2 <> "" Then X("fldAccount2") = Acct2
-        X("fldAccount2Amount") = Acct2Amt
+        X("fldAccount1").Value = Acct1
+        X("fldAccount1Amount").Value = Acct1Amt
+        If Acct2 <> "" Then X("fldAccount2").Value = Acct2
+        X("fldAccount2Amount").Value = Acct2Amt
 
         For I = 3 To 12
-            X("fldAccount" & I & "Amount") = 0
+            X("fldAccount" & I & "Amount").Value = 0
         Next
 
-        If Comment <> "" Then X("fldComment") = Comment
-        X("fldUser") = User
-        dbGen.UpdateRecordSet X
+        If Comment <> "" Then X("fldComment").Value = Comment
+        X("fldUser").Value = User
+        dbGen.UpdateRecordSet(X)
 
-  DisposeDA X
-  dbClose()
+        DisposeDA(X)
+        dbClose()
         SetAPTransaction = True
     End Function
 
