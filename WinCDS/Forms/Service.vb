@@ -680,21 +680,23 @@ HandleErr:
         EnableNavigation(False)    ' Disable navigation while ServiceParts is showing.
 
         'ServiceParts.HelpContextID = 0 ' forces form_load
+        ServiceParts.Show()  '<CT>
+        ServiceParts.ServicePartsFormLoaded = True '<CT>
         ServiceParts.SetOwner(Me)  ' Make ServiceParts behave as a child form.
 
         ' ServiceParts will get this directly from the service call table.
-        ServiceParts.lblFirstName = lblFirstName
-        ServiceParts.lblLastName = lblLastName
-        ServiceParts.lblAddress = lblAddress
-        ServiceParts.lblAddress2 = lblAddress2
-        ServiceParts.lblCity = lblCity
-        ServiceParts.lblZip = lblZip
-        ServiceParts.lblTele1Caption = lblCapTele
-        ServiceParts.lblTele2Caption = lblCapTele2
-        ServiceParts.lblTele3Caption = lblCapTele3
-        ServiceParts.lblTele = lblTele
-        ServiceParts.lblTele2 = lblTele2
-        ServiceParts.lblTele3 = lblTele3
+        ServiceParts.lblFirstName.Text = lblFirstName.Text
+        ServiceParts.lblLastName.Text = lblLastName.Text
+        ServiceParts.lblAddress.Text = lblAddress.Text
+        ServiceParts.lblAddress2.Text = lblAddress2.Text
+        ServiceParts.lblCity.Text = lblCity.Text
+        ServiceParts.lblZip.Text = lblZip.Text
+        ServiceParts.lblTele1Caption.Text = lblCapTele.Text
+        ServiceParts.lblTele2Caption.Text = lblCapTele2.Text
+        ServiceParts.lblTele3Caption.Text = lblCapTele3.Text
+        ServiceParts.lblTele.Text = lblTele.Text
+        ServiceParts.lblTele2.Text = lblTele2.Text
+        ServiceParts.lblTele3.Text = lblTele3.Text
         If X > 0 Then
             ServiceParts.LoadInfoFromMarginLine(X)
         Else
@@ -706,7 +708,7 @@ HandleErr:
 
         ' Tell ServiceParts it's working from this Service Call.
         If ServiceParts.LoadServiceCall(ServiceOrderNumber) Then
-            ServiceParts.Show()
+            'ServiceParts.Show()
             ServiceParts.ServiceCallNumber = ServiceOrderNumber
             ServiceParts.LoadRelativePartsOrder(-1, True, True)
             Hide()

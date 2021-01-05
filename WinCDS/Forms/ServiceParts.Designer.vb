@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ServiceParts
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class ServiceParts
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.optTagStock = New System.Windows.Forms.RadioButton()
@@ -166,35 +166,32 @@ Partial Class ServiceParts
         '
         'lblAddress
         '
-        Me.lblAddress.AutoSize = True
-        Me.lblAddress.Location = New System.Drawing.Point(11, 36)
+        Me.lblAddress.Location = New System.Drawing.Point(11, 33)
         Me.lblAddress.Name = "lblAddress"
-        Me.lblAddress.Size = New System.Drawing.Size(13, 13)
+        Me.lblAddress.Size = New System.Drawing.Size(343, 13)
         Me.lblAddress.TabIndex = 26
         Me.lblAddress.Text = "2"
         '
         'lblAddress2
         '
-        Me.lblAddress2.AutoSize = True
-        Me.lblAddress2.Location = New System.Drawing.Point(11, 52)
+        Me.lblAddress2.Location = New System.Drawing.Point(11, 49)
         Me.lblAddress2.Name = "lblAddress2"
-        Me.lblAddress2.Size = New System.Drawing.Size(13, 13)
+        Me.lblAddress2.Size = New System.Drawing.Size(362, 13)
         Me.lblAddress2.TabIndex = 27
         Me.lblAddress2.Text = "3"
         '
         'lblCity
         '
-        Me.lblCity.AutoSize = True
-        Me.lblCity.Location = New System.Drawing.Point(12, 70)
+        Me.lblCity.Location = New System.Drawing.Point(11, 67)
         Me.lblCity.Name = "lblCity"
-        Me.lblCity.Size = New System.Drawing.Size(13, 13)
+        Me.lblCity.Size = New System.Drawing.Size(184, 13)
         Me.lblCity.TabIndex = 28
         Me.lblCity.Text = "4"
         '
         'lblZip
         '
         Me.lblZip.AutoSize = True
-        Me.lblZip.Location = New System.Drawing.Point(201, 70)
+        Me.lblZip.Location = New System.Drawing.Point(201, 67)
         Me.lblZip.Name = "lblZip"
         Me.lblZip.Size = New System.Drawing.Size(32, 13)
         Me.lblZip.TabIndex = 29
@@ -202,55 +199,49 @@ Partial Class ServiceParts
         '
         'lblTele1Caption
         '
-        Me.lblTele1Caption.AutoSize = True
-        Me.lblTele1Caption.Location = New System.Drawing.Point(42, 86)
+        Me.lblTele1Caption.Location = New System.Drawing.Point(11, 83)
         Me.lblTele1Caption.Name = "lblTele1Caption"
-        Me.lblTele1Caption.Size = New System.Drawing.Size(37, 13)
+        Me.lblTele1Caption.Size = New System.Drawing.Size(85, 13)
         Me.lblTele1Caption.TabIndex = 30
         Me.lblTele1Caption.Text = "Tele1:"
         '
         'lblTele3
         '
-        Me.lblTele3.AutoSize = True
-        Me.lblTele3.Location = New System.Drawing.Point(77, 114)
+        Me.lblTele3.Location = New System.Drawing.Point(97, 109)
         Me.lblTele3.Name = "lblTele3"
-        Me.lblTele3.Size = New System.Drawing.Size(44, 13)
+        Me.lblTele3.Size = New System.Drawing.Size(73, 13)
         Me.lblTele3.TabIndex = 35
         Me.lblTele3.Text = "lblTele3"
         '
         'lblTele2Caption
         '
-        Me.lblTele2Caption.AutoSize = True
-        Me.lblTele2Caption.Location = New System.Drawing.Point(42, 100)
+        Me.lblTele2Caption.Location = New System.Drawing.Point(11, 96)
         Me.lblTele2Caption.Name = "lblTele2Caption"
-        Me.lblTele2Caption.Size = New System.Drawing.Size(37, 13)
+        Me.lblTele2Caption.Size = New System.Drawing.Size(85, 13)
         Me.lblTele2Caption.TabIndex = 31
         Me.lblTele2Caption.Text = "Tele2:"
         '
         'lblTele2
         '
-        Me.lblTele2.AutoSize = True
-        Me.lblTele2.Location = New System.Drawing.Point(77, 100)
+        Me.lblTele2.Location = New System.Drawing.Point(97, 96)
         Me.lblTele2.Name = "lblTele2"
-        Me.lblTele2.Size = New System.Drawing.Size(44, 13)
+        Me.lblTele2.Size = New System.Drawing.Size(73, 13)
         Me.lblTele2.TabIndex = 34
         Me.lblTele2.Text = "lblTele2"
         '
         'lblTele3Caption
         '
-        Me.lblTele3Caption.AutoSize = True
-        Me.lblTele3Caption.Location = New System.Drawing.Point(42, 114)
+        Me.lblTele3Caption.Location = New System.Drawing.Point(11, 109)
         Me.lblTele3Caption.Name = "lblTele3Caption"
-        Me.lblTele3Caption.Size = New System.Drawing.Size(37, 13)
+        Me.lblTele3Caption.Size = New System.Drawing.Size(82, 13)
         Me.lblTele3Caption.TabIndex = 32
         Me.lblTele3Caption.Text = "Tele3:"
         '
         'lblTele
         '
-        Me.lblTele.AutoSize = True
-        Me.lblTele.Location = New System.Drawing.Point(77, 86)
+        Me.lblTele.Location = New System.Drawing.Point(97, 83)
         Me.lblTele.Name = "lblTele"
-        Me.lblTele.Size = New System.Drawing.Size(38, 13)
+        Me.lblTele.Size = New System.Drawing.Size(80, 13)
         Me.lblTele.TabIndex = 33
         Me.lblTele.Text = "lblTele"
         '
@@ -284,9 +275,10 @@ Partial Class ServiceParts
         'lblServiceOrderNo
         '
         Me.lblServiceOrderNo.AutoSize = True
+        Me.lblServiceOrderNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblServiceOrderNo.Location = New System.Drawing.Point(308, 12)
         Me.lblServiceOrderNo.Name = "lblServiceOrderNo"
-        Me.lblServiceOrderNo.Size = New System.Drawing.Size(92, 13)
+        Me.lblServiceOrderNo.Size = New System.Drawing.Size(132, 16)
         Me.lblServiceOrderNo.TabIndex = 6
         Me.lblServiceOrderNo.Text = "Service Order No:"
         '
@@ -371,48 +363,44 @@ Partial Class ServiceParts
         '
         'cmdMoveFirst
         '
-        Me.cmdMoveFirst.Location = New System.Drawing.Point(4, 195)
+        Me.cmdMoveFirst.Location = New System.Drawing.Point(9, 195)
         Me.cmdMoveFirst.Name = "cmdMoveFirst"
-        Me.cmdMoveFirst.Size = New System.Drawing.Size(36, 32)
+        Me.cmdMoveFirst.Size = New System.Drawing.Size(33, 32)
         Me.cmdMoveFirst.TabIndex = 18
-        Me.cmdMoveFirst.Text = "Button1"
         Me.ToolTip1.SetToolTip(Me.cmdMoveFirst, " Move To The First Record ")
         Me.cmdMoveFirst.UseVisualStyleBackColor = True
         '
         'cmdMovePrevious
         '
-        Me.cmdMovePrevious.Location = New System.Drawing.Point(46, 195)
+        Me.cmdMovePrevious.Location = New System.Drawing.Point(40, 195)
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
-        Me.cmdMovePrevious.Size = New System.Drawing.Size(35, 32)
+        Me.cmdMovePrevious.Size = New System.Drawing.Size(33, 32)
         Me.cmdMovePrevious.TabIndex = 19
-        Me.cmdMovePrevious.Text = " Move Back 1 Record "
         Me.cmdMovePrevious.UseVisualStyleBackColor = True
         '
         'cmdMoveNext
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(87, 195)
+        Me.cmdMoveNext.Location = New System.Drawing.Point(65, 195)
         Me.cmdMoveNext.Name = "cmdMoveNext"
-        Me.cmdMoveNext.Size = New System.Drawing.Size(34, 32)
+        Me.cmdMoveNext.Size = New System.Drawing.Size(33, 32)
         Me.cmdMoveNext.TabIndex = 20
-        Me.cmdMoveNext.Text = "Button1"
         Me.ToolTip1.SetToolTip(Me.cmdMoveNext, " Move Forward 1 Record ")
         Me.cmdMoveNext.UseVisualStyleBackColor = True
         '
         'cmdMoveLast
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(127, 195)
+        Me.cmdMoveLast.Location = New System.Drawing.Point(96, 195)
         Me.cmdMoveLast.Name = "cmdMoveLast"
-        Me.cmdMoveLast.Size = New System.Drawing.Size(47, 32)
+        Me.cmdMoveLast.Size = New System.Drawing.Size(33, 32)
         Me.cmdMoveLast.TabIndex = 21
-        Me.cmdMoveLast.Text = "Button1"
         Me.ToolTip1.SetToolTip(Me.cmdMoveLast, " Move To The Last Record ")
         Me.cmdMoveLast.UseVisualStyleBackColor = True
         '
         'cmdMoveSearch
         '
-        Me.cmdMoveSearch.Location = New System.Drawing.Point(182, 195)
+        Me.cmdMoveSearch.Location = New System.Drawing.Point(133, 195)
         Me.cmdMoveSearch.Name = "cmdMoveSearch"
-        Me.cmdMoveSearch.Size = New System.Drawing.Size(75, 35)
+        Me.cmdMoveSearch.Size = New System.Drawing.Size(68, 34)
         Me.cmdMoveSearch.TabIndex = 22
         Me.cmdMoveSearch.Text = "Parts Order &Look-Up"
         Me.ToolTip1.SetToolTip(Me.cmdMoveSearch, "Search for a Record")
@@ -429,6 +417,7 @@ Partial Class ServiceParts
         '
         'txtStyleNo
         '
+        Me.txtStyleNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtStyleNo.Location = New System.Drawing.Point(60, 26)
         Me.txtStyleNo.Name = "txtStyleNo"
         Me.txtStyleNo.Size = New System.Drawing.Size(130, 20)
@@ -436,6 +425,7 @@ Partial Class ServiceParts
         '
         'txtDescription
         '
+        Me.txtDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDescription.Location = New System.Drawing.Point(292, 26)
         Me.txtDescription.Name = "txtDescription"
         Me.txtDescription.Size = New System.Drawing.Size(401, 20)
@@ -443,8 +433,7 @@ Partial Class ServiceParts
         '
         'lblMarginLine
         '
-        Me.lblMarginLine.AutoSize = True
-        Me.lblMarginLine.Location = New System.Drawing.Point(616, 179)
+        Me.lblMarginLine.Location = New System.Drawing.Point(567, 195)
         Me.lblMarginLine.Name = "lblMarginLine"
         Me.lblMarginLine.Size = New System.Drawing.Size(65, 13)
         Me.lblMarginLine.TabIndex = 38
@@ -454,9 +443,10 @@ Partial Class ServiceParts
         'lblPartsOrderNo
         '
         Me.lblPartsOrderNo.AutoSize = True
+        Me.lblPartsOrderNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPartsOrderNo.Location = New System.Drawing.Point(308, 31)
         Me.lblPartsOrderNo.Name = "lblPartsOrderNo"
-        Me.lblPartsOrderNo.Size = New System.Drawing.Size(81, 13)
+        Me.lblPartsOrderNo.Size = New System.Drawing.Size(120, 16)
         Me.lblPartsOrderNo.TabIndex = 39
         Me.lblPartsOrderNo.Text = "lblPartsOrderNo"
         '
@@ -617,9 +607,9 @@ Partial Class ServiceParts
         '
         'cmdMenu
         '
-        Me.cmdMenu.Location = New System.Drawing.Point(501, 191)
+        Me.cmdMenu.Location = New System.Drawing.Point(445, 188)
         Me.cmdMenu.Name = "cmdMenu"
-        Me.cmdMenu.Size = New System.Drawing.Size(50, 41)
+        Me.cmdMenu.Size = New System.Drawing.Size(52, 51)
         Me.cmdMenu.TabIndex = 52
         Me.cmdMenu.Text = "&Menu"
         Me.ToolTip1.SetToolTip(Me.cmdMenu, "Return from this screen.")
@@ -627,9 +617,9 @@ Partial Class ServiceParts
         '
         'cmdNext
         '
-        Me.cmdNext.Location = New System.Drawing.Point(443, 192)
+        Me.cmdNext.Location = New System.Drawing.Point(395, 188)
         Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(57, 41)
+        Me.cmdNext.Size = New System.Drawing.Size(52, 51)
         Me.cmdNext.TabIndex = 51
         Me.cmdNext.Text = "&New"
         Me.ToolTip1.SetToolTip(Me.cmdNext, "Create a new part order.")
@@ -637,9 +627,9 @@ Partial Class ServiceParts
         '
         'cmdEmail
         '
-        Me.cmdEmail.Location = New System.Drawing.Point(384, 192)
+        Me.cmdEmail.Location = New System.Drawing.Point(345, 188)
         Me.cmdEmail.Name = "cmdEmail"
-        Me.cmdEmail.Size = New System.Drawing.Size(53, 41)
+        Me.cmdEmail.Size = New System.Drawing.Size(52, 51)
         Me.cmdEmail.TabIndex = 50
         Me.cmdEmail.Text = "&Email"
         Me.ToolTip1.SetToolTip(Me.cmdEmail, "Email this order to the above vendor.")
@@ -647,9 +637,9 @@ Partial Class ServiceParts
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(326, 192)
+        Me.cmdPrint.Location = New System.Drawing.Point(295, 188)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(52, 41)
+        Me.cmdPrint.Size = New System.Drawing.Size(52, 51)
         Me.cmdPrint.TabIndex = 49
         Me.cmdPrint.Text = "&Print"
         Me.ToolTip1.SetToolTip(Me.cmdPrint, "Print this part order.")
@@ -657,9 +647,9 @@ Partial Class ServiceParts
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(260, 192)
+        Me.cmdSave.Location = New System.Drawing.Point(245, 188)
         Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(51, 41)
+        Me.cmdSave.Size = New System.Drawing.Size(52, 51)
         Me.cmdSave.TabIndex = 48
         Me.cmdSave.Text = "&Save"
         Me.ToolTip1.SetToolTip(Me.cmdSave, "Save the details of this form.")
@@ -760,6 +750,8 @@ Partial Class ServiceParts
         '
         'fraNotes
         '
+        Me.fraNotes.Controls.Add(Me.cmdMoveFirst)
+        Me.fraNotes.Controls.Add(Me.cmdMovePrevious)
         Me.fraNotes.Controls.Add(Me.cmdPrintChargeBack)
         Me.fraNotes.Controls.Add(Me.cmdAddPart)
         Me.fraNotes.Controls.Add(Me.lblMarginLinelbl)
@@ -779,8 +771,6 @@ Partial Class ServiceParts
         Me.fraNotes.Controls.Add(Me.cmdMoveLast)
         Me.fraNotes.Controls.Add(Me.txtDescription)
         Me.fraNotes.Controls.Add(Me.cmdMoveNext)
-        Me.fraNotes.Controls.Add(Me.cmdMoveFirst)
-        Me.fraNotes.Controls.Add(Me.cmdMovePrevious)
         Me.fraNotes.Location = New System.Drawing.Point(14, 332)
         Me.fraNotes.Name = "fraNotes"
         Me.fraNotes.Size = New System.Drawing.Size(699, 245)
@@ -790,7 +780,7 @@ Partial Class ServiceParts
         '
         'cmdPrintChargeBack
         '
-        Me.cmdPrintChargeBack.Location = New System.Drawing.Point(557, 209)
+        Me.cmdPrintChargeBack.Location = New System.Drawing.Point(504, 213)
         Me.cmdPrintChargeBack.Name = "cmdPrintChargeBack"
         Me.cmdPrintChargeBack.Size = New System.Drawing.Size(136, 23)
         Me.cmdPrintChargeBack.TabIndex = 55
@@ -799,9 +789,9 @@ Partial Class ServiceParts
         '
         'cmdAddPart
         '
-        Me.cmdAddPart.Location = New System.Drawing.Point(619, 195)
+        Me.cmdAddPart.Location = New System.Drawing.Point(633, 192)
         Me.cmdAddPart.Name = "cmdAddPart"
-        Me.cmdAddPart.Size = New System.Drawing.Size(60, 18)
+        Me.cmdAddPart.Size = New System.Drawing.Size(60, 20)
         Me.cmdAddPart.TabIndex = 54
         Me.cmdAddPart.Text = "&Add Part"
         Me.cmdAddPart.UseVisualStyleBackColor = True
@@ -810,7 +800,7 @@ Partial Class ServiceParts
         'lblMarginLinelbl
         '
         Me.lblMarginLinelbl.AutoSize = True
-        Me.lblMarginLinelbl.Location = New System.Drawing.Point(540, 179)
+        Me.lblMarginLinelbl.Location = New System.Drawing.Point(499, 195)
         Me.lblMarginLinelbl.Name = "lblMarginLinelbl"
         Me.lblMarginLinelbl.Size = New System.Drawing.Size(65, 13)
         Me.lblMarginLinelbl.TabIndex = 53

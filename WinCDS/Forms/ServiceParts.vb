@@ -18,6 +18,7 @@ Public Class ServiceParts
     Private Const Debugging As Boolean = False
     Private Const APText_Charged As String = "[""DEDUCT FROM INVOICE"" CHARGED TO AP]"
     'Private Const APText_Paid    As String = "[PAID IN AP]"
+    Public ServicePartsFormLoaded As Boolean
 
     Public Enum ServiceForMode
         ServiceMode_ForCustomer = 0
@@ -148,21 +149,24 @@ Public Class ServiceParts
 
         Select Case Mode
             Case 1  ' show all
-                cmdMoveFirst.Width = 375
-                SetButtonImage(cmdMoveFirst, "previous")
+                cmdMoveFirst.Width = 36
+                'SetButtonImage(cmdMoveFirst, "previous")
+                SetButtonImage(cmdMoveFirst, 7)
                 cmdMoveFirst.Text = ""
                 Navigate = True : Search = True
             Case 2  ' show 1
-                cmdMoveFirst.Width = 2655
+                cmdMoveFirst.Width = 195
                 cmdMoveFirst.Text = "Browse Records"
                 'cmdMoveFirst.Picture = Nothing
                 cmdMoveFirst.Image = Nothing
+                cmdMoveFirst.TextAlign = ContentAlignment.MiddleCenter
                 Navigate = False : Search = False
             Case 3  ' show browse and search
-                cmdMoveFirst.Width = 1455
+                cmdMoveFirst.Width = 80
                 cmdMoveFirst.Text = "Browse Records"
                 'cmdMoveFirst.Picture = Nothing
                 cmdMoveFirst.Image = Nothing
+                cmdMoveFirst.TextAlign = ContentAlignment.MiddleCenter
                 Navigate = False : Search = True
         End Select
 
@@ -444,9 +448,9 @@ NoID:
         lblTele3Caption.Text = Lbl3
         Dim Longest As Integer
         Longest = Max(lblTele1Caption.Width, lblTele2Caption.Width, lblTele3Caption.Width)
-        lblTele.Left = lblTele1Caption.Left + Longest + 60
-        lblTele2.Left = lblTele1Caption.Left + Longest + 60
-        lblTele3.Left = lblTele1Caption.Left + Longest + 60
+        lblTele.Left = lblTele1Caption.Left + Longest - 3
+        lblTele2.Left = lblTele1Caption.Left + Longest - 3
+        lblTele3.Left = lblTele1Caption.Left + Longest - 3
     End Sub
 
     Private Sub cmdEmail_Click(sender As Object, e As EventArgs) Handles cmdEmail.Click
@@ -805,6 +809,8 @@ NoID:
     End Sub
 
     Private Sub ServiceParts_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If ServicePartsFormLoaded = True Then Exit Sub
+
         SetButtonImage(cmdSave, 2)
         SetButtonImage(cmdPrint, 19)
         SetButtonImage(cmdEmail, 1)
