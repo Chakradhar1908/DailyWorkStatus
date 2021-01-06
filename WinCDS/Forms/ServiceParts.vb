@@ -337,10 +337,9 @@ NoID:
             SelectChargeBackOption(cParts.ChargeBackType)
             txtRepairCost.Text = FormatCurrency(cParts.ChargeBackAmount)
             chkPaid.Checked = IIf(cParts.Paid, 1, 0)
-
-            MessageBox.Show("Error locating parts order in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Notes_Text.Text = cParts.Notes
         Else  ' Can't find the record.  This is a problem.
+            MessageBox.Show("Error locating parts order in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             DisposeDA(cParts)
             Exit Sub
         End If
@@ -402,8 +401,9 @@ NoID:
         Notes_Text.Text = ""
 
         txtInvoiceNo.Text = ""
-        dteClaimDate.Value = ""
-        '  dteClaimDate.Value = date ' no longer clear to current date... BFH20050421
+        'dteClaimDate.Value = ""
+        dteClaimDate.Value = Today
+        'dteClaimDate.Value = date ' no longer clear to current date... BFH20050421
         txtSaleNo.Text = ""
         txtSaleNo.Tag = ""
 
@@ -659,7 +659,7 @@ NoID:
 
     Private Sub dteClaimDate_CloseUp(sender As Object, e As EventArgs) Handles dteClaimDate.CloseUp
         If txtSaleNo.Tag <> "VALID" Then Exit Sub
-        SetInvoiceInfoOnSaleNo(Val(txtSaleNo), txtInvoiceNo.Text, dteClaimDate.Value)
+        SetInvoiceInfoOnSaleNo(Val(txtSaleNo.Text), txtInvoiceNo.Text, dteClaimDate.Value)
     End Sub
 
     Private Sub txtInvoiceNo_Validating(sender As Object, e As CancelEventArgs) Handles txtInvoiceNo.Validating
@@ -789,10 +789,17 @@ NoID:
 
         ' Save, and grab the Autonumber (in case it's a new record).
         cParts.Save()
-        PartsOrderID = cParts.ServicePartsOrderNo
+        'PartsOrderID = cParts.ServicePartsOrderNo   -------> This line replaced with the below block using GetRecordSetBySQL.
+
+        Dim rsMax As New ADODB.Recordset
+        rsMax = GetRecordsetBySQL("Select max(ServicePartsOrderNo) from ServicePartsOrder", True, GetDatabaseAtLocation)
+        If Not rsMax.EOF And Not rsMax.BOF Then
+            PartsOrderID = rsMax(0).Value
+            cParts.ServicePartsOrderNo = PartsOrderID
+        End If
 
         lblPartsOrderNo.Text = cParts.ServicePartsOrderNo
-        lblClaimDate.Text = Format(cParts.DateOfClaim, "mm/dd/yy")
+        lblClaimDate.Text = Format(cParts.DateOfClaim, "MM/dd/yy")
 
         ' Also save the actual parts.. We need the autonumber first!
 
