@@ -248,7 +248,7 @@ Partial Class ServiceParts
         'lblInvoiceNo
         '
         Me.lblInvoiceNo.AutoSize = True
-        Me.lblInvoiceNo.Location = New System.Drawing.Point(4, 36)
+        Me.lblInvoiceNo.Location = New System.Drawing.Point(8, 36)
         Me.lblInvoiceNo.Name = "lblInvoiceNo"
         Me.lblInvoiceNo.Size = New System.Drawing.Size(62, 13)
         Me.lblInvoiceNo.TabIndex = 3
@@ -257,7 +257,7 @@ Partial Class ServiceParts
         'lblSaleNo
         '
         Me.lblSaleNo.AutoSize = True
-        Me.lblSaleNo.Location = New System.Drawing.Point(18, 84)
+        Me.lblSaleNo.Location = New System.Drawing.Point(22, 84)
         Me.lblSaleNo.Name = "lblSaleNo"
         Me.lblSaleNo.Size = New System.Drawing.Size(48, 13)
         Me.lblSaleNo.TabIndex = 4
@@ -266,21 +266,22 @@ Partial Class ServiceParts
         'lblServiceOrderNoCaption
         '
         Me.lblServiceOrderNoCaption.AutoSize = True
-        Me.lblServiceOrderNoCaption.Location = New System.Drawing.Point(216, 12)
+        Me.lblServiceOrderNoCaption.Location = New System.Drawing.Point(207, 12)
         Me.lblServiceOrderNoCaption.Name = "lblServiceOrderNoCaption"
         Me.lblServiceOrderNoCaption.Size = New System.Drawing.Size(92, 13)
         Me.lblServiceOrderNoCaption.TabIndex = 5
         Me.lblServiceOrderNoCaption.Text = "Service Order No:"
+        Me.lblServiceOrderNoCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblServiceOrderNo
         '
-        Me.lblServiceOrderNo.AutoSize = True
         Me.lblServiceOrderNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblServiceOrderNo.Location = New System.Drawing.Point(308, 12)
+        Me.lblServiceOrderNo.Location = New System.Drawing.Point(297, 12)
         Me.lblServiceOrderNo.Name = "lblServiceOrderNo"
         Me.lblServiceOrderNo.Size = New System.Drawing.Size(132, 16)
         Me.lblServiceOrderNo.TabIndex = 6
         Me.lblServiceOrderNo.Text = "Service Order No:"
+        Me.lblServiceOrderNo.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblWhatToDoWStyle
         '
@@ -295,14 +296,14 @@ Partial Class ServiceParts
         '
         Me.txtInvoiceNo.Location = New System.Drawing.Point(74, 35)
         Me.txtInvoiceNo.Name = "txtInvoiceNo"
-        Me.txtInvoiceNo.Size = New System.Drawing.Size(121, 20)
+        Me.txtInvoiceNo.Size = New System.Drawing.Size(110, 20)
         Me.txtInvoiceNo.TabIndex = 8
         '
         'txtSaleNo
         '
         Me.txtSaleNo.Location = New System.Drawing.Point(74, 82)
         Me.txtSaleNo.Name = "txtSaleNo"
-        Me.txtSaleNo.Size = New System.Drawing.Size(100, 20)
+        Me.txtSaleNo.Size = New System.Drawing.Size(110, 20)
         Me.txtSaleNo.TabIndex = 9
         '
         'txtStoreName
@@ -321,7 +322,7 @@ Partial Class ServiceParts
         Me.dteClaimDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dteClaimDate.Location = New System.Drawing.Point(74, 59)
         Me.dteClaimDate.Name = "dteClaimDate"
-        Me.dteClaimDate.Size = New System.Drawing.Size(121, 22)
+        Me.dteClaimDate.Size = New System.Drawing.Size(110, 22)
         Me.dteClaimDate.TabIndex = 12
         '
         'cboStores
@@ -442,22 +443,22 @@ Partial Class ServiceParts
         '
         'lblPartsOrderNo
         '
-        Me.lblPartsOrderNo.AutoSize = True
         Me.lblPartsOrderNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPartsOrderNo.Location = New System.Drawing.Point(308, 31)
+        Me.lblPartsOrderNo.Location = New System.Drawing.Point(309, 31)
         Me.lblPartsOrderNo.Name = "lblPartsOrderNo"
         Me.lblPartsOrderNo.Size = New System.Drawing.Size(120, 16)
         Me.lblPartsOrderNo.TabIndex = 39
         Me.lblPartsOrderNo.Text = "lblPartsOrderNo"
+        Me.lblPartsOrderNo.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblClaimDate
         '
-        Me.lblClaimDate.AutoSize = True
-        Me.lblClaimDate.Location = New System.Drawing.Point(308, 50)
+        Me.lblClaimDate.Location = New System.Drawing.Point(364, 50)
         Me.lblClaimDate.Name = "lblClaimDate"
         Me.lblClaimDate.Size = New System.Drawing.Size(65, 13)
         Me.lblClaimDate.TabIndex = 40
         Me.lblClaimDate.Text = "lblClaimDate"
+        Me.lblClaimDate.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'txtVendorAddress
         '
@@ -490,7 +491,7 @@ Partial Class ServiceParts
         '
         Me.txtRepairCost.Location = New System.Drawing.Point(74, 105)
         Me.txtRepairCost.Name = "txtRepairCost"
-        Me.txtRepairCost.Size = New System.Drawing.Size(100, 20)
+        Me.txtRepairCost.Size = New System.Drawing.Size(110, 20)
         Me.txtRepairCost.TabIndex = 45
         '
         'chkPaid
@@ -506,6 +507,8 @@ Partial Class ServiceParts
         '
         'Notes_Text
         '
+        Me.Notes_Text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Notes_Text.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Notes_Text.Location = New System.Drawing.Point(9, 49)
         Me.Notes_Text.Multiline = True
         Me.Notes_Text.Name = "Notes_Text"
@@ -553,7 +556,7 @@ Partial Class ServiceParts
         Me.cboStatus.FormattingEnabled = True
         Me.cboStatus.Location = New System.Drawing.Point(74, 12)
         Me.cboStatus.Name = "cboStatus"
-        Me.cboStatus.Size = New System.Drawing.Size(121, 21)
+        Me.cboStatus.Size = New System.Drawing.Size(110, 21)
         Me.cboStatus.TabIndex = 51
         '
         'txtVendorEmail
@@ -706,25 +709,27 @@ Partial Class ServiceParts
         'lblClaimDateCaption
         '
         Me.lblClaimDateCaption.AutoSize = True
-        Me.lblClaimDateCaption.Location = New System.Drawing.Point(235, 50)
+        Me.lblClaimDateCaption.Location = New System.Drawing.Point(226, 50)
         Me.lblClaimDateCaption.Name = "lblClaimDateCaption"
         Me.lblClaimDateCaption.Size = New System.Drawing.Size(73, 13)
         Me.lblClaimDateCaption.TabIndex = 55
         Me.lblClaimDateCaption.Text = "Date of Claim:"
+        Me.lblClaimDateCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblPartsOrderNoCaption
         '
         Me.lblPartsOrderNoCaption.AutoSize = True
-        Me.lblPartsOrderNoCaption.Location = New System.Drawing.Point(228, 31)
+        Me.lblPartsOrderNoCaption.Location = New System.Drawing.Point(219, 31)
         Me.lblPartsOrderNoCaption.Name = "lblPartsOrderNoCaption"
         Me.lblPartsOrderNoCaption.Size = New System.Drawing.Size(80, 13)
         Me.lblPartsOrderNoCaption.TabIndex = 54
         Me.lblPartsOrderNoCaption.Text = "Parts Order No:"
+        Me.lblPartsOrderNoCaption.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblRepairCost
         '
         Me.lblRepairCost.AutoSize = True
-        Me.lblRepairCost.Location = New System.Drawing.Point(1, 108)
+        Me.lblRepairCost.Location = New System.Drawing.Point(5, 108)
         Me.lblRepairCost.Name = "lblRepairCost"
         Me.lblRepairCost.Size = New System.Drawing.Size(65, 13)
         Me.lblRepairCost.TabIndex = 53
@@ -733,7 +738,7 @@ Partial Class ServiceParts
         'dteClaimDateCaption
         '
         Me.dteClaimDateCaption.AutoSize = True
-        Me.dteClaimDateCaption.Location = New System.Drawing.Point(-5, 60)
+        Me.dteClaimDateCaption.Location = New System.Drawing.Point(-1, 60)
         Me.dteClaimDateCaption.Name = "dteClaimDateCaption"
         Me.dteClaimDateCaption.Size = New System.Drawing.Size(71, 13)
         Me.dteClaimDateCaption.TabIndex = 52
@@ -742,7 +747,7 @@ Partial Class ServiceParts
         'lblStatus
         '
         Me.lblStatus.AutoSize = True
-        Me.lblStatus.Location = New System.Drawing.Point(26, 12)
+        Me.lblStatus.Location = New System.Drawing.Point(30, 12)
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(40, 13)
         Me.lblStatus.TabIndex = 0

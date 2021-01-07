@@ -493,42 +493,42 @@ NoID:
 
         A = 1000 : B = A + 2250
         Ty = NextY
-        PrintAligned("Parts Order Number:", , A, Ty)
+        PrintAligned("Parts Order Number:", , A, Ty, True)
         PrintAligned(CStr(PartsOrderID), , B, Ty, True)
         Ty = P.CurrentY
         If Mode = ServiceForMode.ServiceMode_ForCustomer Then
-            PrintAligned("Service Order Number:", , A, Ty)
+            PrintAligned("Service Order Number:", , A, Ty, True)
             PrintAligned(CStr(ServiceCallNumber), , B, Ty, True)
             Ty = P.CurrentY
         End If
-        PrintAligned("Date of Claim:", , A, Ty)
-        PrintAligned(CStr(IfNullThenNilString(dteClaimDate)), , B, Ty, True)
+        PrintAligned("Date of Claim:", , A, Ty, True)
+        PrintAligned(CStr(IfNullThenNilString(dteClaimDate.Value)), , B, Ty, True)
         Ty = P.CurrentY
-        PrintAligned("Status:", , A, Ty)
+        PrintAligned("Status:", , A, Ty, True)
         PrintAligned(CStr(cboStatus.Text), , B, Ty, True)
         Ty = P.CurrentY
 
         P.Print("")
 
         If Mode = ServiceForMode.ServiceMode_ForCustomer Then
-            PrintAligned("Invoice No:", , A, Ty)
+            PrintAligned("Invoice No:", , A, Ty, True)
             PrintAligned(CStr(txtInvoiceNo.Text), , B, Ty, True)
             Ty = P.CurrentY
-            PrintAligned("Invoice Date:", , A, Ty)
+            PrintAligned("Invoice Date:", , A, Ty, True)
             PrintAligned(IfNullThenNilString(dteClaimDate.Value), , B, Ty, True)
             Ty = P.CurrentY
-            PrintAligned("Sale Number:", , A, Ty)
+            PrintAligned("Sale Number:", , A, Ty, True)
             PrintAligned(txtSaleNo.Text, , B, Ty, True)
             Ty = P.CurrentY
         End If
-        PrintAligned("Repair Cost:", , A, Ty)
+        PrintAligned("Repair Cost:", , A, Ty, True)
         PrintAligned(txtRepairCost.Text, , B, Ty, True)
         Ty = P.CurrentY
-        PrintAligned("Paid?", , A, Ty)
+        PrintAligned("Paid?", , A, Ty, True)
         PrintAligned(YesNo(chkPaid.Checked = True), , B, Ty, True)
         Ty = P.CurrentY
         N = DescribeChargeBackOption(GetChargeBackOption)
-        PrintAligned("Reimbursement:", , A, Ty)
+        PrintAligned("Reimbursement:", , A, Ty, True)
         PrintAligned(N, , B, Ty, True)
 
         P.Print("")
@@ -536,12 +536,12 @@ NoID:
 
         A = 1000 : B = 1080
         P.FontSize = 8 : PrintAligned("Style No", , A, NextY, True, True)
-        P.FontSize = 10 : PrintAligned(txtStyleNo.Text, , B)
+        P.FontSize = 10 : PrintAligned(txtStyleNo.Text, , B,, True)
         P.FontSize = 8 : PrintAligned("Description:", , 3000 + A, NextY, True, True)
-        P.FontSize = 10 : PrintAligned(txtDescription.Text, , 3000 + B)
+        P.FontSize = 10 : PrintAligned(txtDescription.Text, , 3000 + B,, True)
         P.Print("")
         P.FontSize = 8 : PrintAligned("Notes:", , A, , True, True)
-        P.FontSize = 10 : PrintAligned(WrapLongText(Notes_Text.Text, 100), , B)
+        P.FontSize = 10 : PrintAligned(WrapLongText(Notes_Text.Text, 100), , B,, True)
 
         P.Print("")
         NextY = P.CurrentY
@@ -549,12 +549,13 @@ NoID:
         'imgPicture.Picture = FindDatabasePicture(0, cdspicType_PartsOrder, PartsOrderID)
         imgPicture.Image = FindDatabasePicture(0, cdspicType_PartsOrder, PartsOrderID)
 
-        If Not (imgPicture.Image Is Nothing) Then
+        If Not imgPicture.Image Is Nothing Then
             'If imgPicture.Image <> 0 Then
             If imgPicture.Image IsNot Nothing Then
                 MaintainPictureRatio(imgPicture, 10000, 5000, True)
                 P.CurrentX = 0
-                P.PaintPicture(imgPicture.Image, (P.ScaleWidth - imgPicture.Width) / 2, P.CurrentY, imgPicture.Width, imgPicture.Height)
+                'P.PaintPicture(imgPicture.Image, (P.ScaleWidth - imgPicture.Width) / 2, P.CurrentY, imgPicture.Width, imgPicture.Height)
+                P.PaintPicture(imgPicture.Image, (P.ScaleWidth - imgPicture.Width) / 2, P.CurrentY, 600, 400)
             End If
         End If
 
