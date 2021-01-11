@@ -314,10 +314,11 @@ NoID:
             End If
 
             If Not Len(txtInvoiceNo.Text) And Len(cParts.InvoiceNo) Then txtInvoiceNo.Text = cParts.InvoiceNo
-            dteClaimDate.Value = cParts.InvoiceDate
-
+            If cParts.InvoiceDate <> "" Then
+                dteClaimDate.Value = cParts.InvoiceDate
+            End If
             lblPartsOrderNo.Text = PO
-            lblClaimDate.Text = Format(cParts.DateOfClaim, "mm/dd/yy")
+            lblClaimDate.Text = Format(cParts.DateOfClaim, "MM/dd/yy")
 
             Vendor = cParts.Vendor
             txtVendorName.Text = cParts.Vendor
@@ -945,5 +946,4 @@ NoID:
             Case Else : ChargeBackTypeDesc = "???"
         End Select
     End Function
-
 End Class

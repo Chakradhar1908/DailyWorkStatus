@@ -954,7 +954,8 @@ NextItem:
         SetButtonImage(cmdNextSale, 6)
         SetButtonImage(cmdMainMenu, 9)
         SetButtonImage(cmdClear, 3)
-        SetButtonImage(Notes_Open, 17)
+        'SetButtonImage(Notes_Open, 17)
+        SetButtonImage(Notes_Open, 25)
 
         SetButtonImageSmall(cmdChangePrice, 0)
         SetButtonImageSmall(cmdNoChangePrice, 2)

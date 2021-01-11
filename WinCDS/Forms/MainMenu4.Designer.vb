@@ -158,6 +158,7 @@ Partial Class MainMenu4
         Me.imlStandardButtons.Images.SetKeyName(22, "StandardButton-Clear.gif")
         Me.imlStandardButtons.Images.SetKeyName(23, "calendar.bmp")
         Me.imlStandardButtons.Images.SetKeyName(24, "StandardButton-Config.gif")
+        Me.imlStandardButtons.Images.SetKeyName(25, "notes-30x30.bmp")
         '
         'txtPassword
         '

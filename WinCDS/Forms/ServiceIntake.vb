@@ -1,4 +1,5 @@
-﻿Public Class ServiceIntake
+﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+Public Class ServiceIntake
     Private mSONO As Integer
     Private PartsOrderNumber As Integer
     Private mStore As Integer
@@ -86,10 +87,130 @@
             'cboImage.AddItem IfNullThenNilString(RS("Caption"))
             'cboImage.itemData(cboImage.NewIndex) = IfNullThenZero(RS("PictureID"))
             cboImage.Items.Add(New ItemDataClass(IfNullThenNilString(RS("Caption").Value), IfNullThenZero(RS("PictureID").Value)))
-            RS.MoveNext
+            RS.MoveNext()
         Loop
         'cboImage.ListIndex = IIf(cboImage.Enabled, 1, 0)
         cboImage.SelectedIndex = IIf(cboImage.Enabled, 1, 0)
+    End Sub
+
+    Private Sub cboImage_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboImage.SelectedIndexChanged
+        Dim X As Integer
+
+        'X = cboImage.itemData(cboImage.ListIndex)
+        Try
+            X = CType(cboImage.Items(cboImage.SelectedIndex), ItemDataClass).ItemData
+            If X > 0 Then
+                'datPicture.DatabaseName = GetDatabaseAtLocation()
+                'datPicture.RecordSource = "SELECT Picture FROM Pictures WHERE PictureID=" & X
+                'datPicture.Refresh
+                'datPicture.DataBase.Close
+
+                Dim Rs As ADODB.Recordset
+                Rs = GetRecordsetBySQL("SELECT Picture FROM Pictures WHERE PictureID=" & X,, GetDatabaseAtLocation)
+                Rs.Close()
+            End If
+        Catch ic As System.InvalidCastException
+            'If no items in cboImage except "No Image" item, this error will thrown because of using ItemDataClass in the top line.
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub ServiceIntake_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdPrint, 2)
+        SetButtonImage(cmdCancel, 3)
+        SetButtonImage(cmdEditTemplate, 25)
+    End Sub
+
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
+        ServiceParts.PrintedChargeBack(False)
+        'Unload Me
+        Me.Close()
+    End Sub
+
+    Private Sub cmdEditTemplate_Click(sender As Object, e As EventArgs) Handles cmdEditTemplate.Click
+        'frmEmailEdit.Show vbModal
+        frmEmailEdit.ShowDialog()
+    End Sub
+
+    Private Sub cmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
+        Dim OK As String, Em As Boolean
+        If optDelivery0.Checked = True Then
+            OK = True
+            Em = False
+            PrintChargeBackLetter(CBType, Store, Amount, InvoiceNo, imgPicture)
+        Else
+            OK = frmEmail.EmailChargeBackLetter(PartsOrderNumber, CBType, Store, Amount, InvoiceNo)
+            Em = True
+        End If
+        ServiceParts.PrintedChargeBack(True, Em, CBType)
+        'Unload Me
+        Me.Close()
+    End Sub
+
+    Private Sub PrintChargeBackLetter(ByVal LetterType As Integer, ByVal StoreNum As Integer, ByVal Amount As Decimal, ByVal InvoiceNo As String, ByRef MyPic As PictureBox)
+        Dim P As Printer, Oper As String
+        Dim Ex As String
+
+        OutputObject = Printer
+        OutputToPrinter = True
+
+        If PartsOrderNumber = 0 Then
+            MessageBox.Show("No Parts Order Number Available!", "Insufficient Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Oper = ChargeBackLetterOperationDesc(LetterType, Amount, InvoiceNo)
+        P = Printer
+
+        P.FontName = "Arial New"
+        P.FontSize = 16 : PrintAligned("CREDIT DEPARTMENT", VBRUN.AlignmentConstants.vbCenter, 0, 100, True)
+        P.FontSize = 12
+        P.DrawWidth = 2
+
+        PrintAutoMailingLetterHeader(StoreSettings.Name, StoreSettings.Address, StoreSettings.City, StoreSettings.Phone, ServiceParts.txtVendorName.Text, ServiceParts.txtVendorAddress.Text, ServiceParts.txtVendorCity.Text, ServiceParts.txtVendorTele.Text)
+
+        P.FontBold = True
+        If Len(InvoiceNo) > 0 Or mSONO <> 0 Then
+            Ex = ""
+            Ex = Ex & " ("
+            If mSONO <> 0 Then Ex = Ex & "Service Order #" & mSONO
+            If Len(InvoiceNo) > 0 Then
+                Ex = Ex & IIf(Len(Ex) > 2, ", ", "")
+                Ex = Ex & "Invoice #" & InvoiceNo
+            End If
+            Ex = Ex & ")"
+        End If
+        P.Print("RE: Service Parts Order #" & PartsOrderNumber & Ex)
+        P.FontBold = False
+
+        P.Print("")
+
+        P.Print("Attention: Accounts Receivable Department")
+
+        P.Print("")
+
+        P.Print("Dear Sir:")
+
+        P.Print("")
+
+        P.Print("", "As per the attached service order, we are " & Oper & ".")
+
+        P.Print("")
+        'If MyPic.Image <> 0 Then
+        If Not IsNothing(MyPic.Image) Then
+            MaintainPictureRatio(MyPic, 7000, 5000, True)
+            Printer.PaintPicture(MyPic.Image, (P.ScaleWidth - MyPic.Width) / 2, P.CurrentY, MyPic.Width, MyPic.Height)
+            P.CurrentY = P.CurrentY + 5000
+        End If
+
+        P.Print("")
+
+        P.Print("Thank You,")
+        P.Print("")
+        '    P.Print "", SI.ContactName  ' it'd be nice if we had something like this...
+        P.Print("", StoreSettings.Name)
+        P.EndDoc()
     End Sub
 
 End Class
