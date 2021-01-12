@@ -162,7 +162,7 @@
             MessageBox.Show("No email address in vendor information!")
         ElseIf Trim(txtFromAddr.Text) = "" Then
             frmEmail_Load(Me, New EventArgs)
-            If txtFromAddr.Text = "" Then
+            If Trim(txtFromAddr.Text) = "" Then
                 MessageBox.Show("Store Email Address not specified." & vbCrLf & EMAIL_SETUP_INST, "No Sender Email Address", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 E = SendSimpleEmail(txtFromAddr.Text, txtFromName.Text, E, En, "Part Order #" & PartOrderNo & " - " & txtFromName.Text, X, , , Attach)
@@ -183,7 +183,13 @@
         If Trim(vEm) = "" Then
             MessageBox.Show("No email address in vendor information!")
         ElseIf Trim(txtFromAddr.Text) = "" Then
-            MessageBox.Show("Store Email Address not specified." & vbCrLf & EMAIL_SETUP_INST, "No Sender Email Address", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            frmEmail_Load(Me, New EventArgs)
+            If Trim(txtFromAddr.Text) = "" Then
+                MessageBox.Show("Store Email Address not specified." & vbCrLf & EMAIL_SETUP_INST, "No Sender Email Address", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+                E = SendSimpleEmail(txtFromAddr.Text, txtFromName.Text, vEm, vNm, "Charge Back - " & StoreSettings.Name, S, , , Attach)
+                MessageBox.Show("Email Charge Back: " & IIf(E = "", "Success!", "FAILURE - " & E))
+            End If
         Else
             E = SendSimpleEmail(txtFromAddr.Text, txtFromName.Text, vEm, vNm, "Charge Back - " & StoreSettings.Name, S, , , Attach)
             MessageBox.Show("Email Charge Back: " & IIf(E = "", "Success!", "FAILURE - " & E))

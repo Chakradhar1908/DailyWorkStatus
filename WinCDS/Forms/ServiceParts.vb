@@ -19,6 +19,7 @@ Public Class ServiceParts
     Private Const APText_Charged As String = "[""DEDUCT FROM INVOICE"" CHARGED TO AP]"
     'Private Const APText_Paid    As String = "[PAID IN AP]"
     Public ServicePartsFormLoaded As Boolean
+    Dim FromSendChargeBackLetter As Boolean
 
     Public Enum ServiceForMode
         ServiceMode_ForCustomer = 0
@@ -581,8 +582,10 @@ NoID:
             Exit Sub
         End If
 
+        FromSendChargeBackLetter = True
         'cmdSave.Value = True
         cmdSave_Click(cmdSave, New EventArgs)
+        FromSendChargeBackLetter = False
         ServiceIntake.InitForm(ServiceCallNumber, PartsOrderID, GetChargeBackOption, txtRepairCost.Text, txtInvoiceNo.Text, Store, Vendor)
         'ServiceIntake.Show vbModal, Me
         ServiceIntake.ShowDialog(Me)
@@ -791,14 +794,14 @@ NoID:
 
         ' Save, and grab the Autonumber (in case it's a new record).
         cParts.Save()
-        'PartsOrderID = cParts.ServicePartsOrderNo   -------> This line replaced with the below block using GetRecordSetBySQL.
+        PartsOrderID = cParts.ServicePartsOrderNo
 
-        Dim rsMax As New ADODB.Recordset
-        rsMax = GetRecordsetBySQL("Select max(ServicePartsOrderNo) from ServicePartsOrder", True, GetDatabaseAtLocation)
-        If Not rsMax.EOF And Not rsMax.BOF Then
-            PartsOrderID = rsMax(0).Value
-            cParts.ServicePartsOrderNo = PartsOrderID
-        End If
+        'Dim rsMax As New ADODB.Recordset
+        'rsMax = GetRecordsetBySQL("Select max(ServicePartsOrderNo) from ServicePartsOrder", True, GetDatabaseAtLocation)
+        'If Not rsMax.EOF And Not rsMax.BOF Then
+        '    PartsOrderID = rsMax(0).Value
+        '    cParts.ServicePartsOrderNo = PartsOrderID
+        'End If
 
         lblPartsOrderNo.Text = cParts.ServicePartsOrderNo
         lblClaimDate.Text = Format(cParts.DateOfClaim, "MM/dd/yy")

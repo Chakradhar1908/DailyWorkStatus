@@ -145,4 +145,8 @@ NoSave:
         RS("NoteID").Value = IfNullThenZero(NoteID)
     End Sub
 
+    Private Sub mDataAccess_RecordUpdated() Handles mDataAccess.RecordUpdated
+        ServicePartsOrderNo = mDataAccess.Value("ServicePartsOrderNo")
+    End Sub
+
 End Class

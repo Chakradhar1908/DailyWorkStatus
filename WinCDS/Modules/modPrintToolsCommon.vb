@@ -1053,6 +1053,7 @@ PrinterDialogCancelled:
     Public Sub PrintAutoMailingLetterHeader(ByVal Name1 As String, ByVal addr1 As String, ByVal City1 As String, ByVal Tele1 As String, ByVal Name2 As String, ByVal addr2 As String, ByVal City2 As String, ByVal Tele2 As String, Optional ByVal ShowDate As Boolean = True)
         Dim oFN As String, oFS As Integer, oDW As Integer
 
+
         OutputObject = Printer
 
         oFN = OutputObject.FontName

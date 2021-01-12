@@ -401,12 +401,12 @@ Module modService
             .NoteDate = NoteDate
             .NoteType = NoteType
             .Save
-            'NewID = .ServiceNoteID      -------> This line replaced with the below block using GetRecordSetBySQL.
-            Dim rsMax As New ADODB.Recordset
-            rsMax = GetRecordsetBySQL("Select max(ServiceNoteID) from ServiceNotes", True, GetDatabaseAtLocation)
-            If Not rsMax.EOF And Not rsMax.BOF Then
-                NewID = rsMax(0).Value
-            End If
+            NewID = .ServiceNoteID      '-------> This line replaced with the below block using GetRecordSetBySQL.
+            'Dim rsMax As New ADODB.Recordset
+            'rsMax = GetRecordsetBySQL("Select max(ServiceNoteID) from ServiceNotes", True, GetDatabaseAtLocation)
+            'If Not rsMax.EOF And Not rsMax.BOF Then
+            '    NewID = rsMax(0).Value
+            'End If
         End With
         DisposeDA(cServNote)
 

@@ -112,7 +112,7 @@ NoSave:
         End If
     End Function
 
-    Private Sub mDataAccess_RecordUpdated()
+    Private Sub mDataAccess_RecordUpdated() Handles mDataAccess.RecordUpdated
         ServiceNoteID = mDataAccess.Value("ServiceNoteID")
     End Sub
 
