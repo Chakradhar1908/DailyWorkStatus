@@ -92,6 +92,11 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.BLD">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.blue_180x60">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -147,12 +152,22 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.CNT">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.comm">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.configw">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.COPY">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -172,12 +187,22 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.CUT">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.damagedstock">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.debit">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.DELETE">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -208,6 +233,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.download">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.DRAWING">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -243,6 +273,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.factoryshipments">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.FONTCOLOR">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -322,6 +357,16 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.ITL">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.LFT">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.loadorig_import">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -343,6 +388,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.mAccounting_U">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.MAIL">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -483,6 +533,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.password">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.PASTE">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -772,6 +827,11 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.RT">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.s3">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -852,6 +912,11 @@ WinCDS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:WinCDS.My.Resources.Resources.STRIKTHR">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:WinCDS.My.Resources.Resources.system">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -868,6 +933,11 @@ WinCDS
 </summary>
 </member>
 <member name="P:WinCDS.My.Resources.Resources.tags1">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:WinCDS.My.Resources.Resources.UNDRLN">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

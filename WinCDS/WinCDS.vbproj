@@ -1305,6 +1305,12 @@
     <Compile Include="UserControls\RichTextBoxNew.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\RTBCompose.Designer.vb">
+      <DependentUpon>RTBCompose.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\RTBCompose.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\testusercontrol.Designer.vb">
       <DependentUpon>testusercontrol.vb</DependentUpon>
     </Compile>
@@ -1616,6 +1622,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RichTextBoxNew.resx">
       <DependentUpon>RichTextBoxNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\RTBCompose.resx">
+      <DependentUpon>RTBCompose.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\testusercontrol.resx">
       <DependentUpon>testusercontrol.vb</DependentUpon>
@@ -2664,6 +2673,20 @@
     <Content Include="Code Snippet\NewSaleCodeSnippet.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\MAIL.BMP" />
+    <None Include="Resources\DRAWING.BMP" />
+    <None Include="Resources\RT.BMP" />
+    <None Include="Resources\CNT.BMP" />
+    <None Include="Resources\LFT.BMP" />
+    <None Include="Resources\FONTCOLOR.BMP" />
+    <None Include="Resources\STRIKTHR.BMP" />
+    <None Include="Resources\UNDRLN.BMP" />
+    <None Include="Resources\ITL.BMP" />
+    <None Include="Resources\BLD.BMP" />
+    <None Include="Resources\DELETE.BMP" />
+    <None Include="Resources\PASTE.BMP" />
+    <None Include="Resources\COPY.BMP" />
+    <None Include="Resources\CUT.BMP" />
     <None Include="Resources\zoom.ico" />
     <None Include="Resources\returntosale.bmp" />
     <None Include="Resources\storecard.bmp" />

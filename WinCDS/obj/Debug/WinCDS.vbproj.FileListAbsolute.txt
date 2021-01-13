@@ -319,6 +319,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.Resources.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MessageCenter.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PrinterSelector.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RichTextBoxNew.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.RTBCompose.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.testusercontrol.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ucPBar.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.UGridIO.resources

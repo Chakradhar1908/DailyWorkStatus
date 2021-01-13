@@ -50,13 +50,22 @@
                 Case ">" : C = "&gt;"
                 Case "&" : C = "&amp;"
             End Select
+
             RTF.SelectionLength = 2
-            If InStr(RTF.SelectedText, vbCr) Then
+            If InStr(RTF.SelectedText, vbLf) Then
                 RTF.SelectionStart = P + 1
                 If RTF.SelectionAlignment = HorizontalAlignment.Center Then
-                    C = C & PC
+                    If C = vbLf Then
+                        C = PC
+                    Else
+                        C = C & PC
+                    End If
                 Else
-                    C = C & pL
+                    If C = vbLf Then
+                        C = pL
+                    Else
+                        C = C & pL
+                    End If
                 End If
             End If
 
