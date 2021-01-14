@@ -139,6 +139,7 @@
     <Compile Include="Class Modules\clsXCharge.vb" />
     <Compile Include="Class Modules\clsXChargeXpressLink.vb" />
     <Compile Include="Class Modules\CLyndonLife.vb" />
+    <Compile Include="Class Modules\CommonDlgs.vb" />
     <Compile Include="Class Modules\cPODetail.vb" />
     <Compile Include="Class Modules\cPOReceived.vb" />
     <Compile Include="Class Modules\cRegHotKey.vb" />
@@ -2659,12 +2660,12 @@
   <ItemGroup>
     <PublishFile Include="ADODB">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
