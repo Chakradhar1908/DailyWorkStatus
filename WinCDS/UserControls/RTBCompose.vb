@@ -307,67 +307,109 @@ Public Class RTBCompose
     Private Sub cmdFontColor_Click(sender As Object, e As EventArgs) Handles cmdFontColor.Click
         With CommonDlgs
             .DialogTitle = "Choose font and color"
-            .Flags = cdlCFEffects _
-                  Or cdlCFForceFontExist _
-                  Or cdlCFInitFont _
-                  Or cdlCFNoScriptSel _
-                  Or cdlCFScreenFonts
+            .Flags = CommonDlgs.FontsConstants.cdlCFEffects _
+                  Or CommonDlgs.FontsConstants.cdlCFForceFontExist _
+                  Or CommonDlgs.FontsConstants.cdlCFInitFont _
+                  Or CommonDlgs.FontsConstants.cdlCFNoScriptSel _
+                  Or CommonDlgs.FontsConstants.cdlCFScreenFonts
 
-            If IsNull(RTB.SelFontName) Then
+            'If IsNull(RTB.SelFontName) Then
+            If IsNothing(RTB.SelectionFont.Name) Then
                 .FontName = ""
             Else
-                .FontName = RTB.SelFontName
+                .FontName = RTB.SelectionFont.Name
             End If
-            If IsNull(RTB.SelFontSize) Then
+            'If IsNull(RTB.SelFontSize) Then
+            If IsNothing(RTB.SelectionFont.Size) Then
                 .FontSize = 0
             Else
-                .FontSize = RTB.SelFontSize
+                .FontSize = RTB.SelectionFont.Size
             End If
-            If IsNull(RTB.SelBold) Then
+            'If IsNull(RTB.SelBold) Then
+            If IsNothing(RTB.SelectionFont.Bold) Then
                 .FontBold = False
             Else
-                .FontBold = RTB.SelBold
+                .FontBold = RTB.SelectionFont.Bold
             End If
-            If IsNull(RTB.SelItalic) Then
+            'If IsNull(RTB.SelItalic) Then
+            If IsNothing(RTB.SelectionFont.Italic) Then
                 .FontItalic = False
             Else
-                .FontItalic = RTB.SelItalic
+                .FontItalic = RTB.SelectionFont.Italic
             End If
-            If IsNull(RTB.SelStrikeThru) Then
+            'If IsNull(RTB.SelStrikeThru) Then
+            If IsNothing(RTB.SelectionFont.Strikeout) Then
                 .FontStrikeThru = False
             Else
-                .FontStrikeThru = RTB.SelStrikeThru
+                .FontStrikeThru = RTB.SelectionFont.Strikeout
             End If
-            If IsNull(RTB.SelUnderline) Then
+            'If IsNull(RTB.SelUnderline) Then
+            If IsNothing(RTB.SelectionFont.Underline) Then
                 .FontUnderline = False
             Else
-                .FontUnderline = RTB.SelUnderline
+                .FontUnderline = RTB.SelectionFont.Underline
             End If
-            If IsNull(RTB.SelColor) Then
-                .Color = vbBlack
+            'If IsNull(RTB.SelColor) Then
+            'If IsNull(RTB.SelColor) Then
+            If IsNothing(RTB.SelectionColor) Then
+                .Color = Color.Black
             Else
-                .Color = RTB.SelColor
+                .Color = RTB.SelectionColor
             End If
 
-            If .ShowFont(Parent.hwnd, Parent.hDC) Then
-                RTB.SelFontName = .FontName
-                RTB.SelFontSize = .FontSize
-                RTB.SelBold = .FontBold
-                chkBold.Value = IIf(.FontBold, vbChecked, vbUnchecked)
-                RTB.SelItalic = .FontItalic
-                chkItalic.Value = IIf(.FontItalic, vbChecked, vbUnchecked)
-                RTB.SelStrikeThru = .FontStrikeThru
-                chkStrikeThru.Value = IIf(.FontStrikeThru, vbChecked, vbUnchecked)
-                RTB.SelUnderline = .FontUnderline
-                chkUnderline.Value = IIf(.FontUnderline, vbChecked, vbUnchecked)
-                RTB.SelColor = .Color
-                With RTB
-                    .SelStart = .SelStart + .SelLength
-                End With
+            Dim Gr As Graphics
+            Dim H As IntPtr
+            Dim Hdc As Integer
+            Gr = Parent.CreateGraphics
+            H = Gr.GetHdc
+            Hdc = H.ToInt32
+
+            'If .ShowFont(Parent.hwnd, Parent.hDC) Then
+            If .ShowFont(Parent.Handle, Hdc) Then
+                'RTB.SelFontName = .FontName
+                'RTB.SelFontSize = .FontSize
+                'RTB.Font = New Drawing.Font(.FontName, .FontSize, .FontBold)
+                RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize)
+                'RTB.SelBold = .FontBold
+                If .FontBold = True Then
+                    RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Bold)
+                End If
+                'chkBold.Value = IIf(.FontBold, vbChecked, vbUnchecked)
+                chkBold.Checked = IIf(.FontBold, True, False)
+                'RTB.SelItalic = .FontItalic
+                If .FontBold = True And .FontItalic = True Then
+                    RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Bold And FontStyle.Italic)
+                ElseIf .FontBold = True And .Fontitalic = False Then
+                    RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Bold)
+                ElseIf .FontBold = False And .Fontitalic = True Then
+                    RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Italic)
+                End If
+                'chkItalic.Value = IIf(.FontItalic, vbChecked, vbUnchecked)
+                chkItalic.Checked = IIf(.FontItalic, True, False)
+                'RTB.SelStrikeThru = .FontStrikeThru
+                If .FontStrikeThru = True Then
+                    RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Strikeout)
+                End If
+
+                'chkStrikeThru.Value = IIf(.FontStrikeThru, vbChecked, vbUnchecked)
+                chkStrikeThru.Checked = IIf(.FontStrikeThru, True, False)
+                'RTB.SelUnderline = .FontUnderline
+                If .FontUnderline = True Then
+                    RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Underline)
+                End If
+                'chkUnderline.Value = IIf(.FontUnderline, vbChecked, vbUnchecked)
+                chkUnderline.Checked = IIf(.FontUnderline, True, False)
+                'RTB.SelColor = .Color
+                RTB.SelectionColor = .Color
+                'With RTB
+                '    .SelStart = .SelStart + .SelLength
+                'End With
+                RTB.SelectionStart = RTB.SelectionStart + RTB.SelectionLength
             End If
         End With
 
-        RTB.SetFocus
+        'RTB.SetFocus
+        RTB.Select()
     End Sub
 
     Private Sub cmdLeft_Click(sender As Object, e As EventArgs) Handles cmdLeft.Click
@@ -464,7 +506,7 @@ Public Class RTBCompose
 
     Private Sub RTB_SelectionChanged(sender As Object, e As EventArgs) Handles RTB.SelectionChanged
         Dim Selected As Boolean
-        'Dim ForeBrightness As Long
+        'Dim ForeBrightness as integer
         Dim ForeBrightness As Color
 
         ChangeSelection = False
@@ -505,5 +547,89 @@ Public Class RTBCompose
             End If
         End With
         ChangeSelection = True
+    End Sub
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        'Grab a few button bar item dimensions used in resizing here
+        'and in the Parent (Form) via the MinWidth property.
+
+        'Buttons are all the same sizes, use this as a representative.
+        'Also it is the last button before the "floating" button at
+        'the right which is optional (see SendButton property).
+        '
+        'If you remove this button then replace this by another.
+        With cmdPicture
+            ButtonTop = .Top
+            ButtonHeight = .Height
+            ButtonWidth = .Width
+
+            'Buttons used here are two that have a "Group Gap"
+            'between them:
+            ButtonGroupsGap = .Left - cmdRight.Left - ButtonWidth
+
+            'These also need changes if you remove or add buttons:
+            MinWidthNoSendButton = .Left + ButtonWidth
+            MinWidthWithSendButton = MinWidthNoSendButton + ButtonGroupsGap + ButtonGroupsGap
+        End With
+
+        'Set up the RTB's default Font property.
+        mFont = New StdFont
+        RTB.Font = mFont
+        lblFontColor.Text = mFont.Name & " " & CStr(Int(mFont.Size))
+        ChangeSelection = True
+    End Sub
+
+    Private Sub RTBCompose_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        Dim RTBTop As Single
+
+        'Use ButtonTop as padding height, 1 for the top of the buttons,
+        'and 2 more for the gap below the button bar:
+        RTBTop = ButtonHeight + (3 * ButtonTop)
+        'RTB.Move 0, RTBTop, ScaleWidth, ScaleHeight - RTBTop
+        RTB.Location = New Point(0, RTBTop)
+        RTB.Size = New Size(Me.Width, Me.Height - RTBTop)
+
+        'This will need updating if you remove the Send button from this
+        'UserControl:
+        If mSendButton Then
+            'cmdSend.Left = ScaleWidth - ButtonWidth
+            cmdSend.Left = Width - ButtonWidth
+        End If
+    End Sub
+
+    Public Function asHtml() As String
+        asHtml = RtfToHtml(RTB)
+    End Function
+
+    Private Sub cmdPicture_Click(sender As Object, e As EventArgs) Handles cmdPicture.Click
+        With CommonDlgs
+            .DialogTitle = "Picture to insert"
+            .Filter = "Pictures (*.jpg;*.gif;*.bmp)|*.jpg;*.jpeg;*.gif;*.bmp"
+            If Len(.InitDir) = 0 Then
+                With CreateObject("Shell.Application").Namespace(PICTURES_DEFAULT).Self
+                    CommonDlgs.InitDir = .Path
+                End With
+            End If
+            .Flags = CommonDlgs.FileOpenConstants.cdlOFNExplorer _
+              Or CommonDlgs.FileOpenConstants.cdlOFNFileMustExist _
+              Or CommonDlgs.FileOpenConstants.cdlOFNPathMustExist _
+              Or CommonDlgs.FileOpenConstants.cdlOFNLongNames _
+              Or CommonDlgs.FileOpenConstants.cdlOFNShareAware
+            If .ShowOpen(Parent.Handle) Then
+                Clipboard.Clear()
+                'Clipboard.SetData LoadPictureStd(.FileName)
+                Clipboard.SetData(DataFormats.Bitmap, LoadPictureStd(.FileName))
+                'SendMessage RTB.hwnd, WM_PASTE, 0, 0
+                SendMessage(RTB.Handle, WM_PASTE, 0, 0)
+            End If
+        End With
+
+        'RTB.SetFocus
+        RTB.Select()
     End Sub
 End Class
