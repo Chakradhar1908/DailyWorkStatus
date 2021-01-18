@@ -157,6 +157,7 @@ Partial Class RTBCompose
         '
         'cmdDelete
         '
+        Me.cmdDelete.Enabled = False
         Me.cmdDelete.Image = Global.WinCDS.My.Resources.Resources.DELETE
         Me.cmdDelete.Location = New System.Drawing.Point(88, 3)
         Me.cmdDelete.Name = "cmdDelete"
@@ -177,6 +178,7 @@ Partial Class RTBCompose
         '
         'cmdCopy
         '
+        Me.cmdCopy.Enabled = False
         Me.cmdCopy.Image = Global.WinCDS.My.Resources.Resources.COPY
         Me.cmdCopy.Location = New System.Drawing.Point(32, 3)
         Me.cmdCopy.Name = "cmdCopy"
@@ -187,6 +189,7 @@ Partial Class RTBCompose
         '
         'cmdCut
         '
+        Me.cmdCut.Enabled = False
         Me.cmdCut.Image = Global.WinCDS.My.Resources.Resources.CUT
         Me.cmdCut.Location = New System.Drawing.Point(4, 3)
         Me.cmdCut.Name = "cmdCut"

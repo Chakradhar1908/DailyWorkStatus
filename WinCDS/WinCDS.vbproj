@@ -1414,6 +1414,9 @@
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmEmailEdit.resx">
+      <DependentUpon>frmEmailEdit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExport.resx">
       <DependentUpon>frmExport.vb</DependentUpon>
     </EmbeddedResource>

@@ -249,6 +249,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDeliveryMap.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDemoNotify.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDesignTag.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmail.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmailEdit.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmExport.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmHTTPServer.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmINet.resources
@@ -328,4 +329,3 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
-F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache

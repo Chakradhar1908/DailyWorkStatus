@@ -1,4 +1,4 @@
-﻿Imports stdole
+﻿'Imports stdole
 Public Class RTBCompose
     '
     'RTBCompose
@@ -56,8 +56,8 @@ Public Class RTBCompose
     Private mMargins As Integer
     Private mSendButton As Boolean
 
-    Private WithEvents mFont As StdFont
-
+    'Private WithEvents mFont As StdFont
+    Private mFont As Font
     Public FileName As String
 
     '=== Public events ===========================================
@@ -78,18 +78,40 @@ Public Class RTBCompose
         End Set
     End Property
 
-    Public Property Font() As StdFont
+    'Public Property Font() As StdFont
+    '    Get
+    '        Font = mFont
+    '    End Get
+    '    Set(value As StdFont)
+    '        With mFont
+    '            .Bold = Font.Bold
+    '            .Italic = Font.Italic
+    '            .Name = Font.Name
+    '            .Size = Font.Size
+    '        End With
+    '        'PropertyChanged "Font"
+    '    End Set
+    'End Property
+
+    Public Overrides Property Font() As Font
         Get
             Font = mFont
         End Get
-        Set(value As StdFont)
+        Set(value As Font)
             With mFont
-                .Bold = Font.Bold
-                .Italic = Font.Italic
-                .Name = Font.Name
-                .Size = Font.Size
+                '.Bold = Font.Bold
+                '.Italic = Font.Italic
+                '.Name = Font.Name
+                '.Size = Font.Size
             End With
+            If Font.Bold = True Then
+                mFont = New Font(Font.Name, Font.Size, FontStyle.Bold)
+            End If
+            If Font.Italic = True Then
+                mFont = New Font(Font.Name, Font.Size, FontStyle.Italic)
+            End If
             'PropertyChanged "Font"
+            mFont_FontChanged("Font")
         End Set
     End Property
 
@@ -578,10 +600,21 @@ Public Class RTBCompose
         End With
 
         'Set up the RTB's default Font property.
-        mFont = New StdFont
-        RTB.Font = mFont
+        'mFont = New StdFont
+        mFont = New Font("MS Sans Serif", 8, FontStyle.Regular)
+        RTB.Font = New Drawing.Font(mFont.Name, mFont.Size, mFont.Style)
+
         lblFontColor.Text = mFont.Name & " " & CStr(Int(mFont.Size))
         ChangeSelection = True
+
+        UserControl_InitProperties()
+    End Sub
+
+    Private Sub UserControl_InitProperties()
+        'Defaults when new control instance created:
+        mBackColor = RTB.BackColor
+        Margins = MARGINS_DEFAULT
+        SendButton = SENDBUTTON_DEFAULT
     End Sub
 
     Private Sub RTBCompose_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
