@@ -64,6 +64,8 @@ Public Class RTBCompose
 
     Public Event IsDirtyChanged()
     Public Event SendClicked()
+    Dim CurrentFont As Font
+    Dim NewStyle As FontStyle
 
     '=== Public properties =======================================
 
@@ -224,10 +226,14 @@ Public Class RTBCompose
                 '.SelBold = chkBold.Value = vbChecked
                 '.SelectionFont.Bold = chkBold.Checked = True
                 '.SelectionFont = New Font(.SelectionFont,.SelectionFont.Style ^ FontStyle.Bold)
-                If chkBold.Checked = True Then
-                    .SelectedRtf = FontStyle.Bold
-                Else
-                    .SelectedRtf = FontStyle.Regular
+                If .SelectionFont IsNot Nothing Then
+                    CurrentFont = .SelectionFont
+                    If .SelectionFont.Bold = True Then
+                        NewStyle = CurrentFont.Style - FontStyle.Bold
+                    Else
+                        NewStyle = CurrentFont.Style + FontStyle.Bold
+                    End If
+                    .SelectionFont = New Font(CurrentFont.FontFamily, CurrentFont.Size, NewStyle)
                 End If
                 '.SetFocus
                 .Select()
@@ -239,11 +245,16 @@ Public Class RTBCompose
         If ChangeSelection Then
             With RTB
                 '.SelItalic = chkItalic.Value = vbChecked
-                If chkItalic.Checked = True Then
-                    .SelectedRtf = FontStyle.Italic
-                Else
-                    .SelectedRtf = FontStyle.Regular
+                If .SelectionFont IsNot Nothing Then
+                    CurrentFont = .SelectionFont
+                    If .SelectionFont.Italic = True Then
+                        NewStyle = CurrentFont.Style - FontStyle.Italic
+                    Else
+                        NewStyle = CurrentFont.Style + FontStyle.Italic
+                    End If
+                    .SelectionFont = New Font(CurrentFont.FontFamily, CurrentFont.Size, NewStyle)
                 End If
+
                 '.SetFocus
                 .Select()
             End With
@@ -254,11 +265,16 @@ Public Class RTBCompose
         If ChangeSelection Then
             With RTB
                 '.SelStrikeThru = chkStrikeThru.Value = vbChecked
-                If chkStrikeThru.Checked = True Then
-                    .SelectedRtf = FontStyle.Strikeout
-                Else
-                    .SelectedRtf = FontStyle.Regular
+                If .SelectionFont IsNot Nothing Then
+                    CurrentFont = .SelectionFont
+                    If .SelectionFont.Strikeout = True Then
+                        NewStyle = CurrentFont.Style - FontStyle.Strikeout
+                    Else
+                        NewStyle = CurrentFont.Style + FontStyle.Strikeout
+                    End If
+                    .SelectionFont = New Font(CurrentFont.FontFamily, CurrentFont.Size, NewStyle)
                 End If
+
                 '.SetFocus
                 .Select()
             End With
@@ -269,11 +285,16 @@ Public Class RTBCompose
         If ChangeSelection Then
             With RTB
                 '.SelUnderline = chkUnderline.Value = vbChecked
-                If chkUnderline.Checked = True Then
-                    .SelectedRtf = FontStyle.Underline
-                Else
-                    .SelectedRtf = FontStyle.Regular
+                If .SelectionFont IsNot Nothing Then
+                    CurrentFont = .SelectionFont
+                    If .SelectionFont.Underline = True Then
+                        NewStyle = CurrentFont.Style - FontStyle.Underline
+                    Else
+                        NewStyle = CurrentFont.Style + FontStyle.Underline
+                    End If
+                    .SelectionFont = New Font(CurrentFont.FontFamily, CurrentFont.Size, NewStyle)
                 End If
+
                 '.SetFocus
             End With
         End If
@@ -401,9 +422,9 @@ Public Class RTBCompose
                 'RTB.SelItalic = .FontItalic
                 If .FontBold = True And .FontItalic = True Then
                     RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Bold And FontStyle.Italic)
-                ElseIf .FontBold = True And .Fontitalic = False Then
+                ElseIf .FontBold = True And .FontItalic = False Then
                     RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Bold)
-                ElseIf .FontBold = False And .Fontitalic = True Then
+                ElseIf .FontBold = False And .FontItalic = True Then
                     RTB.SelectionFont = New Drawing.Font(.FontName, .FontSize, FontStyle.Italic)
                 End If
                 'chkItalic.Value = IIf(.FontItalic, vbChecked, vbUnchecked)
@@ -607,7 +628,8 @@ Public Class RTBCompose
         lblFontColor.Text = mFont.Name & " " & CStr(Int(mFont.Size))
         ChangeSelection = True
 
-        UserControl_InitProperties()
+        UserControl_InitProperties() 'Explicitly calling. Cause, in vb.net InitProperties event will not available.
+        UserControl_ReadProperties() 'Explicitly calling. Cause, in vb.net ReadProperties event wil not available.
     End Sub
 
     Private Sub UserControl_InitProperties()
@@ -615,6 +637,18 @@ Public Class RTBCompose
         mBackColor = RTB.BackColor
         Margins = MARGINS_DEFAULT
         SendButton = SENDBUTTON_DEFAULT
+    End Sub
+
+    Private Sub UserControl_ReadProperties()
+        On Error Resume Next
+        CommonDlgs = New CommonDlgs
+        'With PropBag
+        '    BackColor = .ReadProperty("BackColor", vbWindowBackground)
+        'Set Font = .ReadProperty("Font")
+        'Margins = .ReadProperty("Margins", MARGINS_DEFAULT)
+        '    SendButton = .ReadProperty("SendButton", SENDBUTTON_DEFAULT)
+        '    Text = .ReadProperty("Text", "")
+        'End With
     End Sub
 
     Private Sub RTBCompose_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize

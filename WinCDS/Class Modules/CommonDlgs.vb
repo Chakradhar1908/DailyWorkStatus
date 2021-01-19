@@ -171,8 +171,9 @@ Public Class CommonDlgs
     Private Off As OPENFILENAME
 
     Private Sub InitChooseFont(ByVal hwnd As Integer, ByVal hDC As Integer)
-        'Dim bytFaceName() As Byte
-        Dim bytFaceName(0) As String
+        Dim bytFaceName() As Byte
+        'Dim bytFaceName(0) As String
+        'Dim bytFaceName(0) As Byte
         Dim intByte As Integer
 
         If FontSize = 0 Then
@@ -186,7 +187,9 @@ Public Class CommonDlgs
         Lf.lfUnderline = IIf(FontUnderline, 1, 0)
         Lf.lfStrikeOut = IIf(FontStrikeThru, 1, 0)
         Lf.lfCharSet = Charset
-        bytFaceName(0) = StrConv(Left(FontName & New String("0", LF_FACESIZE), LF_FACESIZE), VBA.VbStrConv.vbFromUnicode)
+        'bytFaceName(0) = StrConv(Left(FontName & New String("0", LF_FACESIZE), LF_FACESIZE), VBA.VbStrConv.vbFromUnicode)
+        bytFaceName = Text.Encoding.Default.GetBytes(Left(FontName & New String("0", LF_FACESIZE), LF_FACESIZE))
+        Lf.lfFaceName = bytFaceName
         For intByte = 0 To LF_FACESIZE - 1
             Lf.lfFaceName(intByte) = bytFaceName(intByte)
         Next
@@ -271,6 +274,10 @@ Public Class CommonDlgs
     End Function
 
     Public Sub New()
+        'On Error Resume Next
+        'Dim lfFaceName(LF_FACESIZE - 1) As Byte
+        ReDim Preserve Lf.lfFaceName(LF_FACESIZE - 1)
+
         CF.lStructSize = Len(CF)
         'CF.hInstance = App.hInstance
 
@@ -279,8 +286,10 @@ Public Class CommonDlgs
         'CF.lpLogFont = VarPtr(Lf)
         Dim Handle As GCHandle
         Handle = GCHandle.Alloc(Lf, GCHandleType.Pinned)
-        CF.lpLogFont = Handle.AddrOfPinnedObject
-
+        'CF.lpLogFont = Handle.AddrOfPinnedObject
+        Dim i As IntPtr
+        i = Handle.AddrOfPinnedObject
+        CF.lpLogFont = i
         Dim NF As New StdFont
         Charset = NF.Charset
         Color = Color.Black
