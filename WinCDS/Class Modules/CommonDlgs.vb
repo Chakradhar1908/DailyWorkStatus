@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
 Imports stdole
-
 Public Class CommonDlgs
     '@NO-LINT-TYPE
     '
@@ -10,6 +9,7 @@ Public Class CommonDlgs
     '
     Private Const LOGPIXELSY As Integer = 90
     Private Const LF_FACESIZE As Integer = 32
+    Dim f As New FontDialog
 
     Public Enum FileOpenConstants
         'ShowOpen, ShowSave constants.
@@ -101,8 +101,8 @@ Public Class CommonDlgs
         Dim lCustData As Integer
         Dim lpfnHook As Integer
         Dim lpTemplateName As String
-        'Dim hInstance As integer
         Dim hInstance As Integer
+        'Dim hInstance As IntPtr
         Dim lpszStyle As String
         Dim nFontType As Integer
         Dim MISSING_ALIGNMENT As Integer
@@ -169,6 +169,7 @@ Public Class CommonDlgs
     Private Lf As LOGFONT
     'Private Of As OPENFILENAME
     Private Off As OPENFILENAME
+    Private Declare Function VarPtrAny Lib "msvbvm60.dll" Alias "VarPtr" (ByRef lpObject As Object) As Integer
 
     Private Sub InitChooseFont(ByVal hwnd As Integer, ByVal hDC As Integer)
         Dim bytFaceName() As Byte
@@ -213,8 +214,11 @@ Public Class CommonDlgs
         FontUnderline = CBool(Lf.lfUnderline)
         FontStrikeThru = CBool(Lf.lfStrikeOut)
         Charset = Lf.lfCharSet
-        FontName = StrConv(Lf.lfFaceName.ToString, VBA.VbStrConv.vbUnicode)
-        FontName = Left(FontName, InStr(FontName, vbNullChar) - 1)
+        'FontName = StrConv(Lf.lfFaceName.ToString, VBA.VbStrConv.vbUnicode)
+        'FontName = Text.Encoding.Default.GetChars(Lf.lfFaceName)
+        FontName = f.Font.Name
+        'FontName = Left(FontName, InStr(FontName, vbNullChar) - 1)
+        'FontName = Left(FontName, InStr(FontName, "0") - 1)
 
         Color = CF.rgbColors
         Flags = CF.Flags
@@ -223,9 +227,18 @@ Public Class CommonDlgs
     Public Function ShowFont(ByVal hwnd As Integer, ByVal hDC As Integer) As Boolean
         'Returns False on Cancel or error.
         InitChooseFont(hwnd, hDC)
-        ShowFont = ChooseFont(CF) <> 0
-        If ShowFont Then
+        'ShowFont = ChooseFont(CF) <> 0
+        'If ShowFont Then
+        '    ExtractChooseFont(hDC)
+        'End If
+
+        'Dim f As New FontDialog
+        f.ShowColor = True
+        If f.ShowDialog = DialogResult.OK Then
             ExtractChooseFont(hDC)
+            ShowFont = True
+        Else
+            ShowFont = False
         End If
     End Function
 
@@ -276,20 +289,32 @@ Public Class CommonDlgs
     Public Sub New()
         'On Error Resume Next
         'Dim lfFaceName(LF_FACESIZE - 1) As Byte
-        ReDim Preserve Lf.lfFaceName(LF_FACESIZE - 1)
+        ReDim Lf.lfFaceName(LF_FACESIZE - 1)
 
         CF.lStructSize = Len(CF)
         'CF.hInstance = App.hInstance
 
-        CF.hInstance = Marshal.GetHINSTANCE(GetType(CommonDlgs).Module)
+        'CF.hInstance = Marshal.GetHINSTANCE(GetType(CommonDlgs).Module)
+        'Dim i As IntPtr
+        CF.hInstance = Marshal.GetHINSTANCE(GetType(Application).Module).ToInt32
 
-        'CF.lpLogFont = VarPtr(Lf)
-        Dim Handle As GCHandle
-        Handle = GCHandle.Alloc(Lf, GCHandleType.Pinned)
-        'CF.lpLogFont = Handle.AddrOfPinnedObject
-        Dim i As IntPtr
-        i = Handle.AddrOfPinnedObject
-        CF.lpLogFont = i
+
+        'CF.lpLogFont = VarPtrAny(Lf)
+        'CF.lpLogFont = VarPtrArray(Lf)
+
+
+        'Dim Handle As GCHandle
+        'Handle.Free()
+        'Dim g As Integer
+        'Handle = GCHandle.Alloc(Lf, GCHandleType.Pinned)
+        'Handle = GCHandle.Alloc(g, GCHandleType.Pinned)
+        'Handle = GCHandle.Alloc(CF)
+        'i = Handle.AddrOfPinnedObject
+        'CF.lpLogFont = Handle.AddrOfPinnedObject.ToInt32
+        'Handle.Free()
+        'Dim i As IntPtr
+        'i = Handle.AddrOfPinnedObject
+        'CF.lpLogFont = i
         Dim NF As New StdFont
         Charset = NF.Charset
         Color = Color.Black
@@ -298,10 +323,13 @@ Public Class CommonDlgs
 
         Off.lStructSize = Len(Off)
         'Off.hInstance = App.hInstance
-        Off.hInstance = Marshal.GetHINSTANCE(GetType(CommonDlgs).Module)
+        'Off.hInstance = Marshal.GetHINSTANCE(GetType(CommonDlgs).Module)
+        Off.hInstance = Marshal.GetHINSTANCE(GetType(Application).Module).ToInt32
 
         Filter = "All files (*.*)|*.*"
         FilterIndex = 1
         MaxFileSize = 256
     End Sub
 End Class
+
+

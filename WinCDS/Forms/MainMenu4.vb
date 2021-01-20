@@ -1690,8 +1690,12 @@ Public Class MainMenu4
         'Printer.FontBold = False
         'Printer.Print(TAB(5), "Technician:______________________ Hours:__________ Charges:__________")
         'Printer.EndDoc()
-        Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), (Printer.ScaleWidth - imgPicture.Width) / 2, Printer.CurrentY, 700, 400)
-        Printer.EndDoc()
+        'Printer.PaintPicture(Image.FromFile(StoreLogoFile(0)), (Printer.ScaleWidth - imgPicture.Width) / 2, Printer.CurrentY, 700, 400)
+        'Printer.EndDoc()
+
+        Dim f As New FontDialog
+        f.ShowColor = True
+        f.ShowDialog()
         'End
     End Sub
 

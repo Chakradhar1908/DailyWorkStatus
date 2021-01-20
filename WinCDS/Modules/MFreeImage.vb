@@ -266,6 +266,10 @@ Module MFreeImage
     ByVal hwnd As Integer,
     ByVal hDC As Integer) As Integer
 
+    'Private Declare Function VarPtrArray Lib "msvbvm60.dll" Alias "VarPtr" (
+    'ByRef ptr() As Object) As Integer
+
+
     Public Function FreeImage_IsAvailable(Optional ByRef Version As String = "") As Boolean
         On Error Resume Next
         Version = FreeImage_GetVersion()

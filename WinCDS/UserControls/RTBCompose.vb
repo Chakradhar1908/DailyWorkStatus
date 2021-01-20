@@ -348,6 +348,7 @@ Public Class RTBCompose
     End Sub
 
     Private Sub cmdFontColor_Click(sender As Object, e As EventArgs) Handles cmdFontColor.Click
+        CommonDlgs = New CommonDlgs
         With CommonDlgs
             .DialogTitle = "Choose font and color"
             .Flags = CommonDlgs.FontsConstants.cdlCFEffects _
@@ -629,7 +630,7 @@ Public Class RTBCompose
         ChangeSelection = True
 
         UserControl_InitProperties() 'Explicitly calling. Cause, in vb.net InitProperties event will not available.
-        UserControl_ReadProperties() 'Explicitly calling. Cause, in vb.net ReadProperties event wil not available.
+        'UserControl_ReadProperties() 'Explicitly calling. Cause, in vb.net ReadProperties event wil not available.
     End Sub
 
     Private Sub UserControl_InitProperties()
@@ -639,17 +640,17 @@ Public Class RTBCompose
         SendButton = SENDBUTTON_DEFAULT
     End Sub
 
-    Private Sub UserControl_ReadProperties()
-        On Error Resume Next
-        CommonDlgs = New CommonDlgs
-        'With PropBag
-        '    BackColor = .ReadProperty("BackColor", vbWindowBackground)
-        'Set Font = .ReadProperty("Font")
-        'Margins = .ReadProperty("Margins", MARGINS_DEFAULT)
-        '    SendButton = .ReadProperty("SendButton", SENDBUTTON_DEFAULT)
-        '    Text = .ReadProperty("Text", "")
-        'End With
-    End Sub
+    'Private Sub UserControl_ReadProperties()
+    'On Error Resume Next
+    'CommonDlgs = New CommonDlgs
+    'With PropBag
+    '    BackColor = .ReadProperty("BackColor", vbWindowBackground)
+    'Set Font = .ReadProperty("Font")
+    'Margins = .ReadProperty("Margins", MARGINS_DEFAULT)
+    '    SendButton = .ReadProperty("SendButton", SENDBUTTON_DEFAULT)
+    '    Text = .ReadProperty("Text", "")
+    'End With
+    'End Sub
 
     Private Sub RTBCompose_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
         Dim RTBTop As Single

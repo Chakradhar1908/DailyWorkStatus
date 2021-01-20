@@ -1138,6 +1138,7 @@
     <Compile Include="Modules\modBackup.vb" />
     <Compile Include="Modules\modBarcode.vb" />
     <Compile Include="Modules\modBase64.vb" />
+    <Compile Include="Modules\modBase85.vb" />
     <Compile Include="Modules\modBenchmark.vb" />
     <Compile Include="Modules\modBOS.vb" />
     <Compile Include="Modules\modBuildDate.vb" />
@@ -2663,12 +2664,12 @@
   <ItemGroup>
     <PublishFile Include="ADODB">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
