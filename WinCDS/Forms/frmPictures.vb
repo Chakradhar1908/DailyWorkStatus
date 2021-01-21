@@ -21,6 +21,13 @@
         ShowDialog()
     End Sub
 
+    Private Sub frmPictures_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdMoveFirst, 7)
+        SetButtonImage(cmdMovePrevious, 4)
+        SetButtonImage(cmdMoveNext, 5)
+        SetButtonImage(cmdMoveLast, 6)
+    End Sub
+
     Private Sub UpdateCaption()
         Dim T As String
         Select Case mType

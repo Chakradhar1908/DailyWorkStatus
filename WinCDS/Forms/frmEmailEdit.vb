@@ -3,7 +3,7 @@
         Select Case Inven
             Case "AK-E"
                 If Trim(RTBEditTemplate.Text) = "" Then
-                    If MessageBox.Show("Do you want to reset to the default message?", "Edit Tempalet - WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    If MessageBox.Show("Do you want to reset to the default message?", "Edit Template - WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                         DeleteFileIfExists(EmailTemplateFactOrdNotAckFile)
                     Else
                         Exit Sub
@@ -16,7 +16,7 @@
                 End If
             Case "OverdueOrders-E"
                 If Trim(RTBEditTemplate.Text) = "" Then
-                    If MessageBox.Show("Do you want to reset to the default message?", "Edit Tempalet - WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    If MessageBox.Show("Do you want to reset to the default message?", "Edit Template - WinCDS", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                         DeleteFileIfExists(EmailTemplateOverdueOrdersFile)
                     Else
                         Exit Sub

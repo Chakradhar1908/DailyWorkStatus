@@ -169,7 +169,7 @@ Public Class CommonDlgs
     Private Lf As LOGFONT
     'Private Of As OPENFILENAME
     Private Off As OPENFILENAME
-    Private Declare Function VarPtrAny Lib "msvbvm60.dll" Alias "VarPtr" (ByRef lpObject As Object) As Integer
+    'Private Declare Function VarPtrAny Lib "msvbvm60.dll" Alias "VarPtr" (ByRef lpObject As Object) As Integer
 
     Private Sub InitChooseFont(ByVal hwnd As Integer, ByVal hDC As Integer)
         Dim bytFaceName() As Byte
@@ -208,11 +208,16 @@ Public Class CommonDlgs
     End Sub
 
     Private Sub ExtractChooseFont(ByVal hDC As Integer)
-        FontSize = -MulDiv(Lf.lfHeight, 72, GetDeviceCaps(hDC, LOGPIXELSY))
-        FontBold = Lf.lfWeight >= 600
-        FontItalic = CBool(Lf.lfItalic)
-        FontUnderline = CBool(Lf.lfUnderline)
-        FontStrikeThru = CBool(Lf.lfStrikeOut)
+        'FontSize = -MulDiv(Lf.lfHeight, 72, GetDeviceCaps(hDC, LOGPIXELSY))
+        FontSize = f.Font.Size
+        'FontBold = Lf.lfWeight >= 600
+        FontBold = f.Font.Bold
+        'FontItalic = CBool(Lf.lfItalic)
+        FontItalic = f.Font.Italic
+        'FontUnderline = CBool(Lf.lfUnderline)
+        FontUnderline = f.Font.Underline
+        'FontStrikeThru = CBool(Lf.lfStrikeOut)
+        FontStrikeThru = f.Font.Strikeout
         Charset = Lf.lfCharSet
         'FontName = StrConv(Lf.lfFaceName.ToString, VBA.VbStrConv.vbUnicode)
         'FontName = Text.Encoding.Default.GetChars(Lf.lfFaceName)
@@ -220,7 +225,8 @@ Public Class CommonDlgs
         'FontName = Left(FontName, InStr(FontName, vbNullChar) - 1)
         'FontName = Left(FontName, InStr(FontName, "0") - 1)
 
-        Color = CF.rgbColors
+        'Color = CF.rgbColors
+        Color = f.Color
         Flags = CF.Flags
     End Sub
 
@@ -331,5 +337,3 @@ Public Class CommonDlgs
         MaxFileSize = 256
     End Sub
 End Class
-
-

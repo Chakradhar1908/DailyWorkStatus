@@ -690,12 +690,13 @@ Partial Class ServiceParts
         '
         'cmdPictures
         '
-        Me.cmdPictures.Location = New System.Drawing.Point(376, 128)
+        Me.cmdPictures.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.cmdPictures.Location = New System.Drawing.Point(376, 108)
         Me.cmdPictures.Name = "cmdPictures"
-        Me.cmdPictures.Size = New System.Drawing.Size(54, 38)
+        Me.cmdPictures.Size = New System.Drawing.Size(53, 55)
         Me.cmdPictures.TabIndex = 57
         Me.cmdPictures.Text = "Pictur&es"
-        Me.cmdPictures.UseVisualStyleBackColor = True
+        Me.cmdPictures.UseVisualStyleBackColor = False
         '
         'imgPicture
         '

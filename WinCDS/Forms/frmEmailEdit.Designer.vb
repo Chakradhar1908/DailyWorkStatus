@@ -23,8 +23,8 @@ Partial Class frmEmailEdit
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.fraEditTemplate = New System.Windows.Forms.GroupBox()
-        Me.cmdOK = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
+        Me.cmdOK = New System.Windows.Forms.Button()
         Me.RTBEditTemplate = New WinCDS.RTBCompose()
         Me.fraEditTemplate.SuspendLayout()
         Me.SuspendLayout()
@@ -41,24 +41,24 @@ Partial Class frmEmailEdit
         Me.fraEditTemplate.TabStop = False
         Me.fraEditTemplate.Text = "Edit Template:"
         '
-        'cmdOK
-        '
-        Me.cmdOK.Location = New System.Drawing.Point(169, 264)
-        Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(64, 46)
-        Me.cmdOK.TabIndex = 1
-        Me.cmdOK.Text = "&Save"
-        Me.cmdOK.UseVisualStyleBackColor = True
-        '
         'cmdCancel
         '
         Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Location = New System.Drawing.Point(249, 264)
+        Me.cmdCancel.Location = New System.Drawing.Point(249, 254)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(64, 46)
+        Me.cmdCancel.Size = New System.Drawing.Size(64, 56)
         Me.cmdCancel.TabIndex = 2
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
+        '
+        'cmdOK
+        '
+        Me.cmdOK.Location = New System.Drawing.Point(169, 254)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(64, 56)
+        Me.cmdOK.TabIndex = 1
+        Me.cmdOK.Text = "&Save"
+        Me.cmdOK.UseVisualStyleBackColor = True
         '
         'RTBEditTemplate
         '
@@ -68,7 +68,7 @@ Partial Class frmEmailEdit
         Me.RTBEditTemplate.Margins = 4
         Me.RTBEditTemplate.Name = "RTBEditTemplate"
         Me.RTBEditTemplate.SendButton = False
-        Me.RTBEditTemplate.Size = New System.Drawing.Size(469, 239)
+        Me.RTBEditTemplate.Size = New System.Drawing.Size(469, 229)
         Me.RTBEditTemplate.TabIndex = 0
         Me.RTBEditTemplate.TextRTF = "{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft S" &
     "ans Serif;}}" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "\viewkind4\uc1\pard\f0\fs17\par" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "}" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
