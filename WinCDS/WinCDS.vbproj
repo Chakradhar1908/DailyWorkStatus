@@ -1141,6 +1141,7 @@
     <Compile Include="Modules\modBase85.vb" />
     <Compile Include="Modules\modBenchmark.vb" />
     <Compile Include="Modules\modBOS.vb" />
+    <Compile Include="Modules\modBrowse.vb" />
     <Compile Include="Modules\modBuildDate.vb" />
     <Compile Include="Modules\modCashJournal.vb" />
     <Compile Include="Modules\modCDSCustomers.vb" />

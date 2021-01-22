@@ -377,6 +377,7 @@ Partial Class ServiceParts
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
         Me.cmdMovePrevious.Size = New System.Drawing.Size(33, 32)
         Me.cmdMovePrevious.TabIndex = 19
+        Me.ToolTip1.SetToolTip(Me.cmdMovePrevious, " Move Back 1 Record ")
         Me.cmdMovePrevious.UseVisualStyleBackColor = True
         '
         'cmdMoveNext
