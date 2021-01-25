@@ -471,6 +471,7 @@ NoID:
             MessageBox.Show("Please select a valid Part Order.", "No Part Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
+
         frmPictures.LoadPicturesByRef(frmPictures.dbPicType.dbpty_ServiceParts, lblPartsOrderNo.Text)
     End Sub
 

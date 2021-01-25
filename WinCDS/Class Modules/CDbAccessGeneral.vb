@@ -23,7 +23,7 @@
         'mRs_External.LockType = ADODB.LockTypeEnum.adLockBatchOptimistic
         '.Properties("Update Resync") = adResyncAutoIncrement
         'mRs_External.Source = mSQL
-        mRs_External.Open(mSQL, mConnection, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic,)
+        mRs_External.Open(mSQL, mConnection, ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockBatchOptimistic)
 
         If Always Then
             If (mRs_External.RecordCount = 0) Or SetNew Then

@@ -9,6 +9,7 @@ Public Class frmPictures
 
     Private mType As dbPicType, mRef As String, mLoc As Integer
     Private NewIndex As Integer
+    Public FormResizeExecuted As Boolean
 
     Private Function StartAdd() As Integer
         Dim SQL As String, RS As ADODB.Recordset
@@ -59,7 +60,7 @@ Public Class frmPictures
             cmdPrint.Visible = False
             cmdAdd.Text = "S&ave"
             cmdOK.Text = "Cance&l"
-            SetButtonImage(cmdOK, 2)
+            SetButtonImage(cmdOK, 3)
         Else
             cmdDelete.Visible = True
             cmdPrint.Visible = True
@@ -69,7 +70,6 @@ Public Class frmPictures
             NewIndex = 0
             UpdateData()
         End If
-
     End Sub
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
@@ -94,6 +94,7 @@ Public Class frmPictures
             NewIndex = 0
         End If
         'Unload Me
+        DisposeDA(Me)
         Me.Close()
     End Sub
 
@@ -131,7 +132,6 @@ Public Class frmPictures
     End Sub
 
     Private Sub frmPictures_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-
         If Width < 225 Then Width = 225
         If Height < 295 Then Height = 295
         fraPicture.Width = Me.ClientSize.Width - 2 * fraPicture.Left '312,295
@@ -225,7 +225,7 @@ Canceled:
         '    datPictures.Caption = (datPictures.Recordset.AbsolutePosition + 1) & " of " & datPictures.Recordset.RecordCount
         'End If
 
-        Dim Rs As ADODB.Recordset
+        Dim Rs As New ADODB.Recordset
 
         If ID <> 0 Then
             Rs = GetRecordsetBySQL("SELECT * FROM [Pictures] WHERE PictureID=" & ID,, GetDatabaseAtLocation(mLoc))
@@ -253,6 +253,7 @@ Canceled:
         Else
             lblPictures.Text = Rs.AbsolutePosition + 1 & " of " & Rs.RecordCount
         End If
+        DisposeDA(Rs)
     End Sub
 
     Private Sub ReceivePictureDrop(ByRef Data As DataObject, ByRef Effect As Integer, ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
