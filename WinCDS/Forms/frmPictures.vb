@@ -10,6 +10,7 @@ Public Class frmPictures
     Private mType As dbPicType, mRef As String, mLoc As Integer
     Private NewIndex As Integer
     Public FormResizeExecuted As Boolean
+    Dim Rs As New ADODB.Recordset
 
     Private Function StartAdd() As Integer
         Dim SQL As String, RS As ADODB.Recordset
@@ -180,7 +181,8 @@ Public Class frmPictures
         cdgFile.FilterIndex = 1
         cdgFile.CancelError = True
         cdgFile.ShowOpen()
-        imgPicture.Image = LoadPictureStd(cdgFile.FileName)
+        'imgPicture.Image = LoadPictureStd(cdgFile.FileName)
+        imgPicture.Image = Image.FromFile(cdgFile.FileName)
 Canceled:
     End Sub
 
@@ -225,7 +227,7 @@ Canceled:
         '    datPictures.Caption = (datPictures.Recordset.AbsolutePosition + 1) & " of " & datPictures.Recordset.RecordCount
         'End If
 
-        Dim Rs As New ADODB.Recordset
+        'Dim Rs As New ADODB.Recordset
 
         If ID <> 0 Then
             Rs = GetRecordsetBySQL("SELECT * FROM [Pictures] WHERE PictureID=" & ID,, GetDatabaseAtLocation(mLoc))
@@ -251,9 +253,10 @@ Canceled:
         If Rs.RecordCount = 0 Then
             lblPictures.Text = "No Pictures (Click Add)"
         Else
-            lblPictures.Text = Rs.AbsolutePosition + 1 & " of " & Rs.RecordCount
+            'lblPictures.Text = Rs.AbsolutePosition + 1 & " of " & Rs.RecordCount
+            lblPictures.Text = Rs.AbsolutePosition & " of " & Rs.RecordCount
         End If
-        DisposeDA(Rs)
+        'DisposeDA(Rs)
     End Sub
 
     Private Sub ReceivePictureDrop(ByRef Data As DataObject, ByRef Effect As Integer, ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
@@ -262,11 +265,42 @@ Canceled:
         If Data.GetFormat(15) Then
             On Error Resume Next
             'If Data.Files.Count >= 1 Then imgPicture.Picture = LoadPictureStd(Data.Files(1))
-            If Data.Files.Count >= 1 Then imgPicture.Image = LoadPictureStd(Data.Files(1))
+            'If Data.Files.Count >= 1 Then imgPicture.Image = LoadPictureStd(Data.Files(1))
+            If Data.Files.Count >= 1 Then imgPicture.Image = Image.FromFile(Data.Files(1))
         ElseIf Data.GetFormat(2) Then
             'imgPicture.Picture = Data.GetData(2)
             imgPicture.Image = Data.GetData(2)
         End If
     End Sub
 
+    Private Sub cmdMoveFirst_Click(sender As Object, e As EventArgs) Handles cmdMoveFirst.Click
+        Rs.MoveFirst()
+        lblPictures.Text = Rs.AbsolutePosition & " of " & Rs.RecordCount
+    End Sub
+
+    Private Sub cmdMoveLast_Click(sender As Object, e As EventArgs) Handles cmdMoveLast.Click
+        Rs.MoveLast()
+        lblPictures.Text = Rs.AbsolutePosition & " of " & Rs.RecordCount
+    End Sub
+
+    Private Sub cmdMoveNext_Click(sender As Object, e As EventArgs) Handles cmdMoveNext.Click
+        Rs.MoveNext()
+        If Rs.EOF = True Then
+            Rs.MoveLast()
+        End If
+        lblPictures.Text = Rs.AbsolutePosition & " of " & Rs.RecordCount
+    End Sub
+
+    Private Sub cmdMovePrevious_Click(sender As Object, e As EventArgs) Handles cmdMovePrevious.Click
+        Rs.MovePrevious()
+        If Rs.BOF = True Then
+            Rs.MoveFirst()
+        Else
+        End If
+        lblPictures.Text = Rs.AbsolutePosition & " of " & Rs.RecordCount
+    End Sub
+
+    Private Sub frmPictures_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        DisposeDA(Rs)
+    End Sub
 End Class

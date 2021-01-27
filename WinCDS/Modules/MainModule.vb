@@ -465,7 +465,8 @@ ServerLockedFailed:
     Public Function LoadPictureStd(ByVal FileName As String) As StdPicture
         If FileExists(FileName) Then
             If FreeImage_IsAvailable() Then
-                LoadPictureStd = LoadPictureEx(FileName)
+                'LoadPictureStd = LoadPictureEx(FileName)
+                LoadPictureStd = Image.FromFile(FileName)
             Else
                 'LoadPictureStd = LoadPicture(FileName)
                 LoadPictureStd = Image.FromFile(FileName)

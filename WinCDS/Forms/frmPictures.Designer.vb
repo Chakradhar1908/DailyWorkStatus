@@ -65,7 +65,7 @@ Partial Class frmPictures
         '
         Me.lblPictures.Location = New System.Drawing.Point(64, 262)
         Me.lblPictures.Name = "lblPictures"
-        Me.lblPictures.Size = New System.Drawing.Size(181, 20)
+        Me.lblPictures.Size = New System.Drawing.Size(190, 20)
         Me.lblPictures.TabIndex = 1
         '
         'fraPicture
@@ -93,18 +93,18 @@ Partial Class frmPictures
         '
         'cmdMoveLast
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(274, 256)
+        Me.cmdMoveLast.Location = New System.Drawing.Point(273, 256)
         Me.cmdMoveLast.Name = "cmdMoveLast"
-        Me.cmdMoveLast.Size = New System.Drawing.Size(25, 32)
+        Me.cmdMoveLast.Size = New System.Drawing.Size(25, 34)
         Me.cmdMoveLast.TabIndex = 14
         Me.ToolTip1.SetToolTip(Me.cmdMoveLast, " Move To The Last Record ")
         Me.cmdMoveLast.UseVisualStyleBackColor = True
         '
         'cmdMoveNext
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(251, 256)
+        Me.cmdMoveNext.Location = New System.Drawing.Point(250, 256)
         Me.cmdMoveNext.Name = "cmdMoveNext"
-        Me.cmdMoveNext.Size = New System.Drawing.Size(25, 32)
+        Me.cmdMoveNext.Size = New System.Drawing.Size(25, 34)
         Me.cmdMoveNext.TabIndex = 13
         Me.ToolTip1.SetToolTip(Me.cmdMoveNext, " Move Forward 1 Record ")
         Me.cmdMoveNext.UseVisualStyleBackColor = True
@@ -113,7 +113,7 @@ Partial Class frmPictures
         '
         Me.cmdMovePrevious.Location = New System.Drawing.Point(35, 256)
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
-        Me.cmdMovePrevious.Size = New System.Drawing.Size(25, 32)
+        Me.cmdMovePrevious.Size = New System.Drawing.Size(25, 34)
         Me.cmdMovePrevious.TabIndex = 12
         Me.ToolTip1.SetToolTip(Me.cmdMovePrevious, " Move Back 1 Record ")
         Me.cmdMovePrevious.UseVisualStyleBackColor = True
@@ -122,7 +122,7 @@ Partial Class frmPictures
         '
         Me.cmdMoveFirst.Location = New System.Drawing.Point(13, 256)
         Me.cmdMoveFirst.Name = "cmdMoveFirst"
-        Me.cmdMoveFirst.Size = New System.Drawing.Size(25, 32)
+        Me.cmdMoveFirst.Size = New System.Drawing.Size(25, 34)
         Me.cmdMoveFirst.TabIndex = 11
         Me.ToolTip1.SetToolTip(Me.cmdMoveFirst, " Move To The First Record ")
         Me.cmdMoveFirst.UseVisualStyleBackColor = True
