@@ -96,6 +96,7 @@ Partial Class ServiceParts
         Me.lblMarginLinelbl = New System.Windows.Forms.Label()
         Me.lblDescription = New System.Windows.Forms.Label()
         Me.lblStyleNo = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.fraCustomer.SuspendLayout()
         Me.fraSoldTo.SuspendLayout()
         Me.fraVendor.SuspendLayout()
@@ -757,6 +758,7 @@ Partial Class ServiceParts
         '
         'fraNotes
         '
+        Me.fraNotes.Controls.Add(Me.Button1)
         Me.fraNotes.Controls.Add(Me.cmdMoveFirst)
         Me.fraNotes.Controls.Add(Me.cmdMovePrevious)
         Me.fraNotes.Controls.Add(Me.cmdPrintChargeBack)
@@ -831,6 +833,15 @@ Partial Class ServiceParts
         Me.lblStyleNo.Size = New System.Drawing.Size(50, 13)
         Me.lblStyleNo.TabIndex = 8
         Me.lblStyleNo.Text = "Style No:"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(9, 233)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(120, 23)
+        Me.Button1.TabIndex = 57
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'ServiceParts
         '
@@ -938,4 +949,5 @@ Partial Class ServiceParts
     Friend WithEvents cmdPrintChargeBack As Button
     Friend WithEvents cmdAddPart As Button
     Friend WithEvents lblMarginLinelbl As Label
+    Friend WithEvents Button1 As Button
 End Class

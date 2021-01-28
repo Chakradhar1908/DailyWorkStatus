@@ -963,8 +963,8 @@ Module modMainMenu
                         Order = "SDam"
                         MainMenu.Hide()
                         'ServiceParts.HelpContextID = 49502
-                        ServiceParts.SelectMode(ServiceParts.ServiceForMode.ServiceMode_ForStock, True, True)
                         ServiceParts.Show()
+                        ServiceParts.SelectMode(ServiceParts.ServiceForMode.ServiceMode_ForStock, True, True)
                     Case "partsorders"
                         Order = "SParts"
                         MainMenu.Hide()

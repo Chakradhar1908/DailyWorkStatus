@@ -163,7 +163,8 @@ Public Class ServiceParts
                 cmdMoveFirst.TextAlign = ContentAlignment.MiddleCenter
                 Navigate = False : Search = False
             Case 3  ' show browse and search
-                cmdMoveFirst.Width = 80
+                'cmdMoveFirst.Width = 80
+                cmdMoveFirst.Width = 120
                 cmdMoveFirst.Text = "Browse Records"
                 'cmdMoveFirst.Picture = Nothing
                 cmdMoveFirst.Image = Nothing
