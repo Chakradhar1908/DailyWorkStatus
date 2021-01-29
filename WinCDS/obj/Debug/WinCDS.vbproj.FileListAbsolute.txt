@@ -316,6 +316,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.Service.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceIntake.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceManualItem.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceParts.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.ServiceReports.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Resources.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MessageCenter.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PrinterSelector.resources

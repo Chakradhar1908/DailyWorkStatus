@@ -897,7 +897,7 @@ Public Class MainMenu4
 
     'Private Sub imgMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
     'Private Sub lblMenuItem_Click(Index As Integer) : SelectMenuItem Index: End Sub
-
+    'Dim P As PictureBox
     Private Sub imgMenuItem_Click(sender As Object, e As EventArgs) Handles imgMenuItem.Click
         'SelectMenuItem(Index)
         Dim I As Integer
@@ -905,14 +905,20 @@ Public Class MainMenu4
 
         P = CType(sender, PictureBox)
         I = Mid(P.Name, 12)
-        SelectMenuItem(I,,, P)
+        'SelectMenuItem(I,,, P)
+        SelectMenuItem(I,,, P.Tag)
     End Sub
 
     Private Sub lblMenuItem_Click(sender As Object, e As EventArgs) Handles lblMenuItem.Click
         'SelectMenuItem(Index)
         Dim I As Integer
-        I = Mid(lblMenuItem.Name, 12)
-        SelectMenuItem(I)
+        Dim L As Label
+
+        L = CType(sender, Label)
+        I = Mid(L.Name, 12)
+        'I = Mid(lblMenuItem.Name, 12)
+        'SelectMenuItem(I)
+        SelectMenuItem(I,,, L.Tag)
     End Sub
 
     Public Sub LoadMenuToForm(ByVal Menu As String)
@@ -1217,6 +1223,7 @@ Public Class MainMenu4
                 l.Name = "lblMenuItem" & I
                 l.Text = Replace(MI.Caption, "/", vbCrLf)
                 'l.Text = Replace(MI.Caption, "/", "")
+                l.Tag = ItemOptionString(MI.Caption, MenuName, MI.Operation, MI.ImageKey, MI.HotKeys)
 
                 ToolTip1.SetToolTip(p, TTT)
                 SetMenuItemImage(p, MenuName, MI.ImageKey)
@@ -1275,6 +1282,7 @@ Public Class MainMenu4
                     'AddHandler l.MouseMove, AddressOf lblMenuItem_MouseMove
                     AddHandler l.MouseEnter, AddressOf lblMenuItem_MouseEnter
                     AddHandler l.MouseLeave, AddressOf lblMenuItem_MouseLeave
+                    AddHandler l.Click, AddressOf lblMenuItem_Click
                     'l.Refresh()
                     'l.BringToFront()
                     'l.Update()
@@ -1311,7 +1319,8 @@ Public Class MainMenu4
         End If
     End Sub
 
-    Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "", Optional ByVal P As PictureBox = Nothing) As Boolean
+    'Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "", Optional ByVal P As PictureBox = Nothing) As Boolean
+    Public Function SelectMenuItem(Optional ByVal Index As Integer = -1, Optional ByVal ExplicitMenu As String = "", Optional ByVal ExplicitOperation As String = "", Optional ByVal OP As String = "") As Boolean
         Dim X As Integer, F As String
         Dim Operation As String, Source As String, MI As MyMenuItem
 
@@ -1326,7 +1335,8 @@ Public Class MainMenu4
             'On Error Resume Next
             'Operation = ItemOptionOp(imgMenuItem(Index).Tag)
             'Operation = ItemOptionOp(imgMenuItem.Tag)
-            Operation = ItemOptionOp(P.Tag)
+            'Operation = ItemOptionOp(P.Tag)
+            Operation = ItemOptionOp(OP)
         End If
 
         FailMsg = "You have encountered a program error or the resource has moved." & vbCrLf & "Please contact " & AdminContactCompany & " at " & AdminContactPhone2 & " immediately." & vbCrLf & "Thank-you, and sorry for the inconvenience." & vbCrLf & "Source=" & Source & vbCrLf & "Operation=" & Operation

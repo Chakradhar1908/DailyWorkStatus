@@ -969,9 +969,9 @@ Module modMainMenu
                         Order = "SParts"
                         MainMenu.Hide()
                         'ServiceParts.HelpContextID = 49503
+                        ServiceParts.Show()
                         ServiceParts.SelectMode(ServiceParts.ServiceForMode.ServiceMode_ForStock, True, True)
                         ServiceParts.Text = "Parts Orders Form"
-                        ServiceParts.Show()
                     Case "openservicecalls"
                         If Not CheckAccess("Sales Reports") Then Exit Function
                         MainMenu.Hide()

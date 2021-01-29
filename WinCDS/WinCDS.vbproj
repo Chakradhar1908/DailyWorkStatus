@@ -1614,6 +1614,9 @@
     <EmbeddedResource Include="Forms\ServiceParts.resx">
       <DependentUpon>ServiceParts.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ServiceReports.resx">
+      <DependentUpon>ServiceReports.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
