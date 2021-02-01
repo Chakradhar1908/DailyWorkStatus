@@ -223,6 +223,7 @@
             GM.DataAccess.DataBase = GetDatabaseAtLocation()
             GM.DataAccess.Records_OpenSQL("SELECT GrossMargin.* FROM GrossMargin INNER JOIN ServiceItemParts on GrossMargin.MarginLine=ServiceItemParts.MarginNo WHERE ServiceItemParts.ServiceOrderNo=" & ServiceNo & " ORDER BY MarginLine")
             Do While GM.DataAccess.Records_Available
+                GM.cDataAccess_GetRecordSet(GM.DataAccess.RS)
                 Item = Item & vbCrLf & GM.Vendor & " " & GM.Style & " " & GM.SaleNo & " " & AlignString(CStr(GM.Quantity), 6, VBRUN.AlignConstants.vbAlignLeft) & " " & DateFormat(GM.DDelDat) & "  " & Trim(GM.Desc)
             Loop
             DisposeDA(GM)

@@ -128,6 +128,7 @@
     <Compile Include="Class Modules\clsItemLocation.vb" />
     <Compile Include="Class Modules\clsMailRec.vb" />
     <Compile Include="Class Modules\clsMailShipTo.vb" />
+    <Compile Include="Class Modules\clsPDFPrinter.vb" />
     <Compile Include="Class Modules\clsPopup.vb" />
     <Compile Include="Class Modules\clsSaleItem.vb" />
     <Compile Include="Class Modules\clsServiceItemParts.vb" />
@@ -142,6 +143,7 @@
     <Compile Include="Class Modules\CommonDlgs.vb" />
     <Compile Include="Class Modules\cPODetail.vb" />
     <Compile Include="Class Modules\cPOReceived.vb" />
+    <Compile Include="Class Modules\cPrinter.vb" />
     <Compile Include="Class Modules\cRegHotKey.vb" />
     <Compile Include="Class Modules\CryptoCls.vb" />
     <Compile Include="Class Modules\CSearchNew.vb" />

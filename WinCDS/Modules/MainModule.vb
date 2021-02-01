@@ -1463,4 +1463,7 @@ TestClearFailed:
         CashRegisterMessageFile = FXFile("CashRegisterMessage.rtf", , False)
     End Function
 
+    Public Function PDFFontsFolder() As String
+        PDFFontsFolder = FXFolder() & "PDF Fonts\"
+    End Function
 End Module
