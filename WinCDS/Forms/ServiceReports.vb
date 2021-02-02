@@ -162,10 +162,18 @@
             Case "SCR"
                 OutputObject.CurrentX = 0
                 OutputObject.CurrentY = 700
-                PrintToTab(, "ServiceNo", 0)
-                PrintToTab(, "DateOfClaim", 20)
-                PrintToTab(, "Last", 40)
-                PrintToTab(, "Telephone", 60)
+                'PrintToTab(, "ServiceNo", 0)
+                'PrintToTab(, "ServiceNo", 0,,, 700, 0, True)
+                PrintToPosition2(, "ServiceNo", ,,, 700, 0)
+                'PrintToTab(, "DateOfClaim", 20)
+                'PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
+                PrintToPosition2(, "DateOfClaim", ,,, 700, 1500)
+                'PrintToTab(, "Last", 40)
+                'PrintToTab(, "Last", 40,,, 700, 40, True)
+                PrintToPosition2(, "Last", ,,, 700, 3000)
+                'PrintToTab(, "Telephone", 60)
+                'PrintToTab(, "Telephone", 60,,, 700, 60, True)
+                PrintToPosition2(, "Telephone", ,,, 700, 4800)
                 OutputObject.FontBold = False
             Case "SPR"
                 PrintAligned("PartsOrderNo", , 10, Y, True)
@@ -210,6 +218,7 @@
         Dim DateOfClaim As String
         Dim Item As String, ILine As Object, FN As String
         Dim GM As CGrossMargin
+        Dim CY As Integer = 900, cnt As Integer
 
         Do Until RS.EOF
             ServiceNo = RS("ServiceOrderNo").Value
@@ -229,11 +238,19 @@
             DisposeDA(GM)
 
             DoNewPage()
-
-            PrintToTab(, Trim(ServiceNo), 0)
-            PrintToTab(, DateFormat(DateOfClaim), 20)
-            PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40)
-            PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, , True)
+            'Exit Sub
+            'PrintToTab(, Trim(ServiceNo), 0)
+            'PrintToTab(, Trim(ServiceNo), 0,,, CY, True)
+            PrintToPosition2(, Trim(ServiceNo), ,,, CY, 0)
+            'PrintToTab(, DateFormat(DateOfClaim), 20)
+            'PrintToTab(, DateFormat(DateOfClaim), 20,,, CY, True)
+            PrintToPosition2(, DateFormat(DateOfClaim), ,,, CY, 1500)
+            'PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40)
+            'PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40,,, CY, True)
+            PrintToPosition2(, Microsoft.VisualBasic.Left(Last, 20), ,,, CY, 3000)
+            'PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, , True)
+            'PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, ,, CY, True)
+            PrintToPosition2(, DressAni(CleanAni(Tele, 0)), ,,, CY, 4800)
 
             Do While Microsoft.VisualBasic.Left(Item, 2) = vbCrLf : Item = Trim(Mid(Item, 3)) : Loop                ' Trim off extra blank lines.
             Do While Microsoft.VisualBasic.Right(Item, 2) = vbCrLf : Item = Trim(Microsoft.VisualBasic.Left(Item, Len(Item) - 2)) : Loop  ' Trim off extra blank lines.
@@ -241,12 +258,16 @@
             FN = OutputObject.FontName
             OutputObject.FontName = "Lucida Console"
             For Each ILine In Split(Item, vbCrLf)
-                OutputObject.Print("      Item: ", ILine)
+                'OutputObject.Print("      Item:", ILine)
+                OutputObject.Print("      Item:" & " " & ILine)
             Next
             OutputObject.FontName = FN
             If Item = "" Then OutputObject.Print("  No Item Specified")
             OutputObject.Print
             RS.MoveNext()
+            CY = CY + 600
+            cnt = cnt + 1
+            If cnt = 2 Then Exit Sub
         Loop
     End Sub
 
@@ -260,7 +281,7 @@
 
         Do Until RS.EOF
             PartsOrderNo = IfNullThenNilString(RS("ServicePartsOrderNo").Value)
-            Status = IfNullThenNilString(RS("Status"))
+            Status = IfNullThenNilString(RS("Status").Value)
             ServiceNo = IfNullThenNilString(RS("ServiceOrderNo").Value)
             DateOfClaim = IfNullThenNilString(RS("DateOfClaim").Value)
             Vendor = IfNullThenNilString(RS("Vendor").Value)

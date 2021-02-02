@@ -317,11 +317,14 @@ CantSave:
         End If
     End Sub
 
-    '<CT> Created this sub to include a parameter CY to accept CurrentY value which is not there in PrintToPostion sub.
-    Public Sub PrintToPosition2(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0)
+    '<CT> Created this sub to include a parameter CY and CX to accept CurrentY and CurrentX values which are not there in PrintToPostion sub.
+    Public Sub PrintToPosition2(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0, Optional ByVal CX As Integer = 0)
         If OutOb Is Nothing Then OutOb = OutputObject
         If IsNothing(OutOb) Then Exit Sub
         If Position = -1 Then Position = OutOb.CurrentX
+        If CX > 0 Then
+            Position = CX
+        End If
 
         Dim TruePos As Integer
         TruePos = Position  ' Already set to exact position.
@@ -837,7 +840,8 @@ PrinterDialogCancelled:
     End Function
 
     ' Generic method to print at a specified Tab(..) location..  corrects alignment for BOLD
-    Public Sub PrintToTab(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal TabLoc As Integer = 0, Optional ByVal Alignment As AlignConstants = VBRUN.AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+    '<CT> Added three optional parameters (CY, CX and PP2) to PrintToTab sub</CT>
+    Public Sub PrintToTab(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal TabLoc As Integer = 0, Optional ByVal Alignment As AlignConstants = VBRUN.AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0, Optional CX As Integer = 0, Optional ByVal PP2 As Boolean = False)
         Dim X As Boolean
         If OutOb Is Nothing Then OutOb = OutputObject
         X = OutOb.FontBold
@@ -848,8 +852,6 @@ PrinterDialogCancelled:
             OutOb.CurrentX = OutOb.TextWidth("X") * TabLoc
         End If
         OutOb.FontBold = X
-
-        PrintToPosition(OutOb, OutText, , Alignment, NewLine)
     End Sub
 
     Public Function PrinterStat(Optional ByVal vDeviceName As String = "") As Boolean
