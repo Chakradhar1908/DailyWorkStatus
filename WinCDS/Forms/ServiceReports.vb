@@ -3,7 +3,7 @@
     Private WithEvents mDBAccess As CDbAccessGeneral
     Private WithEvents mDBAccessParts As CDbAccessGeneral
     Private WithEvents mDBAccessBilling As CDbAccessGeneral
-
+    Dim CY As Integer = 900
     Private ReadOnly Property Mode() As String
         Get
             Mode = Order
@@ -147,13 +147,13 @@
         PrintCentered(ReportTitle, 100, True)
 
         OutputObject.FontSize = 8
-        PrintAligned("Time: " & Format(Now, "h:mm:ss am/pm"), , 10, 100)
+        'PrintAligned("Time: " & Format(Now, "h:mm:ss am/pm"), , 10, 100)
+        PrintAligned("Time: " & Format(Now, "h:mm:ss tt"), , 10, 100)
 
         If OutputToPrinter Then PageNumber = OutputObject.Page
         PrintAligned("Page: " & PageNumber, , 10100, 100)
 
         PrintCentered(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, 500)
-
 
         OutputObject.FontSize = 9
         OutputObject.FontBold = True
@@ -195,19 +195,23 @@
         OutputObject.FontBold = False
     End Sub
 
-    Private Sub DoNewPage(Optional ByVal ExtraLines As Integer = 1)
+    Private Sub DoNewPage(Optional ByVal ExtraLines As Integer = 2)
         Dim ExtraHeight As Integer
+        Dim Newpage As Boolean
+
         ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
         If OutputObject.ScaleHeight < OutputObject.CurrentY + ExtraHeight Then
             If OutputToPrinter Then
                 Printer.NewPage()
+                Newpage = True
+                CY = 700
             Else
                 frmPrintPreviewDocument.NewPage()
             End If
         End If
-        If OutputObject.CurrentY = 0 Then
+        If OutputObject.CurrentY = 0 And Newpage = False Then
             Heading()
-            '    If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
+            'If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
         End If
     End Sub
 
@@ -218,7 +222,6 @@
         Dim DateOfClaim As String
         Dim Item As String, ILine As Object, FN As String
         Dim GM As CGrossMargin
-        Dim CY As Integer = 900, cnt As Integer
 
         Do Until RS.EOF
             ServiceNo = RS("ServiceOrderNo").Value
@@ -238,7 +241,7 @@
             DisposeDA(GM)
 
             DoNewPage()
-            'Exit Sub
+
             'PrintToTab(, Trim(ServiceNo), 0)
             'PrintToTab(, Trim(ServiceNo), 0,,, CY, True)
             PrintToPosition2(, Trim(ServiceNo), ,,, CY, 0)
@@ -266,8 +269,6 @@
             OutputObject.Print
             RS.MoveNext()
             CY = CY + 600
-            cnt = cnt + 1
-            If cnt = 2 Then Exit Sub
         Loop
     End Sub
 
