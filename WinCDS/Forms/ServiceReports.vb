@@ -127,6 +127,7 @@
         Working(True)
 
         'Load frmPrintPreviewMain
+        frmPrintPreviewMain.Show()
         OutputToPrinter = False
         OutputObject = frmPrintPreviewDocument.picPicture
 
@@ -199,19 +200,66 @@
         Dim ExtraHeight As Integer
         Dim Newpage As Boolean
 
-        ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
-        If OutputObject.ScaleHeight < OutputObject.CurrentY + ExtraHeight Then
-            If OutputToPrinter Then
-                Printer.NewPage()
-                Newpage = True
-                CY = 700
-            Else
-                frmPrintPreviewDocument.NewPage()
+        '        Private void AutoSizeControl(Control control, int textPadding)
+        '{
+        '   // Create a Graphics object for the Control.
+        '   Graphics g = Control.CreateGraphics();
+
+        '   // Get the Size needed to accommodate the formatted Text.
+        '   Size PreferredSize = g.MeasureString(
+        '      Control.Text, Control.Font).ToSize();
+
+        '   // Pad the text And resize the control.
+        '   Control.ClientSize = New Size(
+        '      PreferredSize.Width + (textPadding * 2),
+        '      PreferredSize.Height + (textPadding * 2));
+
+        '   // Clean up the Graphics object.
+        '   g.Dispose();
+        '}
+
+        If TypeOf OutputObject Is PictureBox Then
+            'ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
+            'ExtraHeight = CreateGraphics.MeasureString("X", Me.Font).Height
+            ExtraHeight = OutputObject.CreateGraphics.MeasureString("X", Me.Font).Height
+        Else
+            ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
+        End If
+
+        'ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
+        If TypeOf OutputObject Is PictureBox Then
+            If OutputObject.ClientRectangle.Height < OutputObject.Location.Y + ExtraHeight Then
+                If OutputToPrinter Then
+                    Printer.NewPage()
+                    Newpage = True
+                    CY = 700
+                Else
+                    frmPrintPreviewDocument.NewPage()
+                End If
+            End If
+
+        Else
+            If OutputObject.ScaleHeight < OutputObject.CurrentY + ExtraHeight Then
+                If OutputToPrinter Then
+                    Printer.NewPage()
+                    Newpage = True
+                    CY = 700
+                Else
+                    frmPrintPreviewDocument.NewPage()
+                End If
             End If
         End If
-        If OutputObject.CurrentY = 0 And Newpage = False Then
-            Heading()
-            'If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
+
+        If TypeOf OutputObject Is PictureBox Then
+            If OutputObject.Location.Y = 0 And Newpage = False Then
+                Heading()
+                'If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
+            End If
+        Else
+            If OutputObject.CurrentY = 0 And Newpage = False Then
+                Heading()
+                'If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
+            End If
         End If
     End Sub
 

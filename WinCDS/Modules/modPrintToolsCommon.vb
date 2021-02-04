@@ -321,11 +321,21 @@ CantSave:
     Public Sub PrintToPosition2(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0, Optional ByVal CX As Integer = 0)
         If OutOb Is Nothing Then OutOb = OutputObject
         If IsNothing(OutOb) Then Exit Sub
-        If Position = -1 Then Position = OutOb.CurrentX
+        If Position = -1 Then
+            If TypeOf OutOb Is PictureBox Then
+                Position = OutOb.Location.X
+            Else
+                Position = OutOb.CurrentX
+            End If
+        End If
+
         If CX > 0 Then
             Position = CX
         End If
 
+        If TypeOf OutOb Is PictureBox Then
+            frmPrintPreviewDocument.DataEnd()
+        End If
         Dim TruePos As Integer
         TruePos = Position  ' Already set to exact position.
         If TruePos = 0 And (Alignment = AlignConstants.vbAlignTop Or Alignment = AlignConstants.vbAlignNone) Then TruePos = OutOb.ScaleWidth / 2
@@ -357,6 +367,59 @@ CantSave:
             End If
         End If
     End Sub
+    'Public Sub PrintToPosition2(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0, Optional ByVal CX As Integer = 0)
+    '    If OutOb Is Nothing Then OutOb = OutputObject
+    '    If IsNothing(OutOb) Then Exit Sub
+    '    If Position = -1 Then Position = OutOb.CurrentX
+    '    If CX > 0 Then
+    '        Position = CX
+    '    End If
+
+    '    Dim TruePos As Integer
+    '    TruePos = Position  ' Already set to exact position.
+    '    If TruePos = 0 And (Alignment = AlignConstants.vbAlignTop Or Alignment = AlignConstants.vbAlignNone) Then TruePos = OutOb.ScaleWidth / 2
+    '    If TruePos <> 0 Then
+    '        If TypeOf OutOb Is Printer Then
+    '            Select Case Alignment
+    '            'Case vbAlignRight, vbRightJustify
+    '                Case AlignConstants.vbAlignRight
+    '                    OutOb.CurrentX = TruePos - OutOb.TextWidth(OutText)
+    '                    OutOb.Location.X = TruePos - System.Drawing.Graphics.CreateGraphics.MeasureStrin
+    '            'Case vbAlignTop, vbCenter, 5 ' Center.. hmm.
+    '                Case AlignConstants.vbAlignTop
+    '                    OutOb.CurrentX = TruePos - (OutOb.TextWidth(OutText) / 2)
+    '                Case Else ' Left
+    '                    OutOb.CurrentX = TruePos
+    '            End Select
+    '        Else
+    '            Select Case Alignment
+    '            'Case vbAlignRight, vbRightJustify
+    '                Case AlignConstants.vbAlignRight
+    '                    OutOb.CurrentX = TruePos - OutOb.TextWidth(OutText)
+    '            'Case vbAlignTop, vbCenter, 5 ' Center.. hmm.
+    '                Case AlignConstants.vbAlignTop
+    '                    OutOb.CurrentX = TruePos - (OutOb.TextWidth(OutText) / 2)
+    '                Case Else ' Left
+    '                    OutOb.CurrentX = TruePos
+    '            End Select
+    '        End If
+    '    End If
+
+    '    OutOb.CurrentY = CY
+    '    If Not IscPrinter(OutOb) Then
+    '        If NewLine Then
+    '            OutOb.Print(OutText)
+    '        Else
+    '            OutOb.Print(OutText)
+    '        End If
+    '    Else
+    '        If NewLine Then
+    '            OutOb.PrintNL(OutText)
+    '        Else
+    '            OutOb.PrintNNL(OutText)
+    '        End If
+    '    End If
+    'End Sub
     '</CT>
 
     Public Function IscPrinter(ByVal Ob As Object) As Boolean

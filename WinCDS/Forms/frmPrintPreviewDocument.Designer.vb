@@ -24,6 +24,8 @@ Partial Class frmPrintPreviewDocument
     Private Sub InitializeComponent()
         Me.picPicture = New System.Windows.Forms.PictureBox()
         Me.cmdNavigate7 = New System.Windows.Forms.Button()
+        Me.fraNavigate = New System.Windows.Forms.GroupBox()
+        Me.lblHelp = New System.Windows.Forms.Label()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -44,20 +46,42 @@ Partial Class frmPrintPreviewDocument
         Me.cmdNavigate7.Text = "Goto"
         Me.cmdNavigate7.UseVisualStyleBackColor = True
         '
+        'fraNavigate
+        '
+        Me.fraNavigate.Location = New System.Drawing.Point(119, 210)
+        Me.fraNavigate.Name = "fraNavigate"
+        Me.fraNavigate.Size = New System.Drawing.Size(200, 100)
+        Me.fraNavigate.TabIndex = 2
+        Me.fraNavigate.TabStop = False
+        '
+        'lblHelp
+        '
+        Me.lblHelp.AutoSize = True
+        Me.lblHelp.Location = New System.Drawing.Point(547, 254)
+        Me.lblHelp.Name = "lblHelp"
+        Me.lblHelp.Size = New System.Drawing.Size(39, 13)
+        Me.lblHelp.TabIndex = 3
+        Me.lblHelp.Text = "Label1"
+        '
         'frmPrintPreviewDocument
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.lblHelp)
+        Me.Controls.Add(Me.fraNavigate)
         Me.Controls.Add(Me.cmdNavigate7)
         Me.Controls.Add(Me.picPicture)
         Me.Name = "frmPrintPreviewDocument"
         Me.Text = "frmPrintPreviewDocument"
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents picPicture As PictureBox
     Friend WithEvents cmdNavigate7 As Button
+    Friend WithEvents fraNavigate As GroupBox
+    Friend WithEvents lblHelp As Label
 End Class

@@ -1469,6 +1469,9 @@
     <EmbeddedResource Include="Forms\frmPrintPreviewDocument.resx">
       <DependentUpon>frmPrintPreviewDocument.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPrintPreviewMain.resx">
+      <DependentUpon>frmPrintPreviewMain.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProgress.resx">
       <DependentUpon>frmProgress.vb</DependentUpon>
     </EmbeddedResource>

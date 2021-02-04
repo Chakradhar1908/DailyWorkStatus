@@ -122,4 +122,45 @@ LoadFailed:
                 MessageBox.Show("Error loading Print Preview Page." & vbCrLf & PageFile(N))
         End Select
     End Function
+
+    Private Sub frmPrintPreviewDocument_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ActiveLog("frmPrintPreviewDocument::Form_Load()", 9)
+        SkipFormActivate = False
+        PageNumber = 1
+        TotalPages = 1
+        Me.MdiParent = frmPrintPreviewMain
+    End Sub
+
+    Private Sub frmPrintPreviewDocument_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        If Not Visible Then Exit Sub
+        ActiveLog("frmPrintPreviewDocument::Form_Resize() -- Scalewidth=" & Me.ClientSize.Width & ", Scaleheight=" & Me.ClientSize.Height, 8)
+        'Move 0, 0, frmPrintPreviewMain.ScaleWidth, frmPrintPreviewMain.ScaleHeight
+        Me.Location = New Point(0, 0)
+        Me.Size = New Size(frmPrintPreviewMain.ClientSize.Width, frmPrintPreviewMain.ClientSize.Height)
+        'picPicture.Move 0 - 30, 0 - 30, ScaleWidth + 30, 15840 + 1440 + 30 '1440=1 Inch
+        picPicture.Location = New Point(0 - 30, 0 - 30)
+        picPicture.Size = New Size(Me.ClientSize.Width + 30, 15840 + 1440 + 30)
+
+        On Error Resume Next ' Printer.Scalewidth can fail...
+        'fraNavigate.Move ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
+        fraNavigate.Location = New Point(Me.ClientSize.Width - fraNavigate.Width, Me.ClientSize.Height - fraNavigate.Height)
+        '  fraNavigate.Move Printer.ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
+        'fraNavigate.Move Printer.ScaleWidth, ScaleHeight - fraNavigate.Height
+        fraNavigate.Location = New Point(Printer.ScaleWidth, Me.ClientSize.Height - fraNavigate.Height)
+        lblHelp.Top = Me.ClientSize.Height - lblHelp.Height
+    End Sub
+
+    Private Sub frmPrintPreviewDocument_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If SkipFormActivate Then Exit Sub
+        Application.DoEvents()
+        'Move 0, 0, frmPrintPreviewMain.ScaleWidth, frmPrintPreviewMain.ScaleHeight
+        Me.Location = New Point(0, 0)
+        Me.Size = New Size(frmPrintPreviewMain.ClientSize.Width, frmPrintPreviewMain.ClientSize.Height)
+        'MousePointer = vbHourglass
+        Me.Cursor = Cursors.WaitCursor
+        SkipFormActivate = True
+        PageNumber = 1
+        TotalPages = 1
+    End Sub
+
 End Class
