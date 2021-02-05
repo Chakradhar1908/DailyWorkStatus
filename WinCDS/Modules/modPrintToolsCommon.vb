@@ -18,6 +18,8 @@ Module modPrintToolsCommon
     Public Const DYMO_PaperBin_Right As Integer = 16                             ' ?? Left is 15, we just did +1 for the twin
     Public Const DYMO_PaperBin_DEFAULT As Integer = DYMO_PaperBin_Left           ' Default to LEFT bin
     Public Const DYMO_PaperSize_ContW As Integer = DYMO_PaperSize_30270          ' A shorter alias...
+    Public L As Integer, T As Integer
+    Public PrintText As String
 
     '  Public Sub PrintCentered(ByVal Text As String, Optional ByVal yPos as integer = -1, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False)
     '      Dim Ob As Boolean, oI As Boolean
@@ -334,8 +336,13 @@ CantSave:
         End If
 
         If TypeOf OutOb Is PictureBox Then
-            frmPrintPreviewDocument.DataEnd()
+            L = Position
+            T = CY
+            PrintText = OutText
+            frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
+            Exit Sub
         End If
+
         Dim TruePos As Integer
         TruePos = Position  ' Already set to exact position.
         If TruePos = 0 And (Alignment = AlignConstants.vbAlignTop Or Alignment = AlignConstants.vbAlignNone) Then TruePos = OutOb.ScaleWidth / 2

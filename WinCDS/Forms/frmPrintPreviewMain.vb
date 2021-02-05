@@ -3,7 +3,7 @@
         'WindowState = vbMaximized
         'Load frmPrintPreviewDocument
         frmPrintPreviewDocument.Show()
-        Hide()
+        'Hide()
     End Sub
 
     Private Sub frmPrintPreviewMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing

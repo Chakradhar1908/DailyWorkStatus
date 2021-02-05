@@ -4,7 +4,9 @@
     Private WithEvents mDBAccessParts As CDbAccessGeneral
     Private WithEvents mDBAccessBilling As CDbAccessGeneral
     Dim CY As Integer = 900
-    Private ReadOnly Property Mode() As String
+    Public ExecutePaint As Boolean
+
+    Public ReadOnly Property Mode() As String
         Get
             Mode = Order
         End Get
@@ -252,7 +254,9 @@
 
         If TypeOf OutputObject Is PictureBox Then
             If OutputObject.Location.Y = 0 And Newpage = False Then
-                Heading()
+                'Heading()
+                ExecutePaint = True
+                frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
                 'If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
             End If
         Else
@@ -290,6 +294,13 @@
 
             DoNewPage()
 
+            If TypeOf OutputObject Is PictureBox Then
+                frmPrintPreviewDocument.PServiceNo = ServiceNo
+                frmPrintPreviewDocument.PLast = Last
+                frmPrintPreviewDocument.PTele = Tele
+                frmPrintPreviewDocument.PDateOfClaim = DateOfClaim
+                frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
+            End If
             'PrintToTab(, Trim(ServiceNo), 0)
             'PrintToTab(, Trim(ServiceNo), 0,,, CY, True)
             PrintToPosition2(, Trim(ServiceNo), ,,, CY, 0)
