@@ -230,7 +230,8 @@
 
         'ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
         If TypeOf OutputObject Is PictureBox Then
-            If OutputObject.ClientRectangle.Height < OutputObject.Location.Y + ExtraHeight Then
+            'If OutputObject.ClientRectangle.Height < OutputObject.Location.Y + ExtraHeight Then
+            If OutputObject.ClientRectangle.Height < frmPrintPreviewDocument.TopValue + ExtraHeight Then
                 If OutputToPrinter Then
                     Printer.NewPage()
                     Newpage = True
@@ -239,7 +240,6 @@
                     frmPrintPreviewDocument.NewPage()
                 End If
             End If
-
         Else
             If OutputObject.ScaleHeight < OutputObject.CurrentY + ExtraHeight Then
                 If OutputToPrinter Then
@@ -253,7 +253,9 @@
         End If
 
         If TypeOf OutputObject Is PictureBox Then
-            If OutputObject.Location.Y = 0 And Newpage = False Then
+            'OutputObject.Location.Y = frmPrintPreviewDocument.TopValue
+            'If OutputObject.Location.Y = 0 And Newpage = False Then
+            If frmPrintPreviewDocument.TopValue = 0 And Newpage = False Then
                 'Heading()
                 ExecutePaint = True
                 frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
@@ -274,6 +276,7 @@
         Dim DateOfClaim As String
         Dim Item As String, ILine As Object, FN As String
         Dim GM As CGrossMargin
+        Dim T As Integer = 65
 
         Do Until RS.EOF
             ServiceNo = RS("ServiceOrderNo").Value
@@ -299,35 +302,58 @@
                 frmPrintPreviewDocument.PLast = Last
                 frmPrintPreviewDocument.PTele = Tele
                 frmPrintPreviewDocument.PDateOfClaim = DateOfClaim
+                frmPrintPreviewDocument.TopValue = T
+
+                Do While Microsoft.VisualBasic.Left(Item, 2) = vbCrLf : Item = Trim(Mid(Item, 3)) : Loop                ' Trim off extra blank lines.
+                Do While Microsoft.VisualBasic.Right(Item, 2) = vbCrLf : Item = Trim(Microsoft.VisualBasic.Left(Item, Len(Item) - 2)) : Loop  ' Trim off extra blank lines.
+
+                'FN = OutputObject.FontName
+                'OutputObject.FontName = "Lucida Console"
+                For Each ILine In Split(Item, vbCrLf)
+                    'OutputObject.Print("      Item:", ILine)
+                    'OutputObject.Print("      Item:" & " " & ILine)
+                    frmPrintPreviewDocument.ItemLine = "      Item:" & " " & ILine
+                    'T = T + 15
+                Next
+                'OutputObject.FontName = FN
+                'If Item = "" Then OutputObject.Print("  No Item Specified")
+                If Item = "" Then
+                    frmPrintPreviewDocument.ItemLine = "  No Item Specified"
+                    'T = T + 15
+                End If
+                'OutputObject.Print
                 frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
+                T = T + 30
+            Else
+                'PrintToTab(, Trim(ServiceNo), 0)
+                'PrintToTab(, Trim(ServiceNo), 0,,, CY, True)
+                PrintToPosition2(, Trim(ServiceNo), ,,, CY, 0)
+                'PrintToTab(, DateFormat(DateOfClaim), 20)
+                'PrintToTab(, DateFormat(DateOfClaim), 20,,, CY, True)
+                PrintToPosition2(, DateFormat(DateOfClaim), ,,, CY, 1500)
+                'PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40)
+                'PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40,,, CY, True)
+                PrintToPosition2(, Microsoft.VisualBasic.Left(Last, 20), ,,, CY, 3000)
+                'PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, , True)
+                'PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, ,, CY, True)
+                PrintToPosition2(, DressAni(CleanAni(Tele, 0)), ,,, CY, 4800)
+
+                Do While Microsoft.VisualBasic.Left(Item, 2) = vbCrLf : Item = Trim(Mid(Item, 3)) : Loop                ' Trim off extra blank lines.
+                Do While Microsoft.VisualBasic.Right(Item, 2) = vbCrLf : Item = Trim(Microsoft.VisualBasic.Left(Item, Len(Item) - 2)) : Loop  ' Trim off extra blank lines.
+
+                FN = OutputObject.FontName
+                OutputObject.FontName = "Lucida Console"
+                For Each ILine In Split(Item, vbCrLf)
+                    'OutputObject.Print("      Item:", ILine)
+                    OutputObject.Print("      Item:" & " " & ILine)
+                Next
+                OutputObject.FontName = FN
+                If Item = "" Then OutputObject.Print("  No Item Specified")
+                OutputObject.Print
+                'RS.MoveNext()
+                CY = CY + 600
             End If
-            'PrintToTab(, Trim(ServiceNo), 0)
-            'PrintToTab(, Trim(ServiceNo), 0,,, CY, True)
-            PrintToPosition2(, Trim(ServiceNo), ,,, CY, 0)
-            'PrintToTab(, DateFormat(DateOfClaim), 20)
-            'PrintToTab(, DateFormat(DateOfClaim), 20,,, CY, True)
-            PrintToPosition2(, DateFormat(DateOfClaim), ,,, CY, 1500)
-            'PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40)
-            'PrintToTab(, Microsoft.VisualBasic.Left(Last, 20), 40,,, CY, True)
-            PrintToPosition2(, Microsoft.VisualBasic.Left(Last, 20), ,,, CY, 3000)
-            'PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, , True)
-            'PrintToTab(, DressAni(CleanAni(Tele, 0)), 60, ,, CY, True)
-            PrintToPosition2(, DressAni(CleanAni(Tele, 0)), ,,, CY, 4800)
-
-            Do While Microsoft.VisualBasic.Left(Item, 2) = vbCrLf : Item = Trim(Mid(Item, 3)) : Loop                ' Trim off extra blank lines.
-            Do While Microsoft.VisualBasic.Right(Item, 2) = vbCrLf : Item = Trim(Microsoft.VisualBasic.Left(Item, Len(Item) - 2)) : Loop  ' Trim off extra blank lines.
-
-            FN = OutputObject.FontName
-            OutputObject.FontName = "Lucida Console"
-            For Each ILine In Split(Item, vbCrLf)
-                'OutputObject.Print("      Item:", ILine)
-                OutputObject.Print("      Item:" & " " & ILine)
-            Next
-            OutputObject.FontName = FN
-            If Item = "" Then OutputObject.Print("  No Item Specified")
-            OutputObject.Print
             RS.MoveNext()
-            CY = CY + 600
         Loop
     End Sub
 

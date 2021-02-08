@@ -11,8 +11,15 @@ Public Class frmPrintPreviewDocument
 
     Public Sub NewPage()
         Application.DoEvents()
-        If OutputObject.CurrentY = 0 And PageNumber <> 0 Then
-            Exit Sub 'If page is blank, do not add a page
+
+        If TypeOf OutputObject Is PictureBox Then
+            If OutputObject.Location.Y = 0 And PageNumber <> 0 Then
+                Exit Sub 'If page is blank, do not add a page
+            End If
+        Else
+            If OutputObject.CurrentY = 0 And PageNumber <> 0 Then
+                Exit Sub 'If page is blank, do not add a page
+            End If
         End If
         'picPicture.Visible = False
 
@@ -26,7 +33,11 @@ Public Class frmPrintPreviewDocument
             End If
         End If
 
-        PrintPageOverflowIndicator()  ' draws nice dotted lines at the page size so we know if it would overflow
+        If TypeOf OutputObject Is PictureBox Then
+        Else
+            PrintPageOverflowIndicator()  ' draws nice dotted lines at the page size so we know if it would overflow
+        End If
+
         If PageNumber <> 0 Then SavePage(PageNumber) 'Save current page to temp file on disk
         'Set picPicture = Nothing
         'picPicture.Cls 'Clear the picturebox
@@ -220,11 +231,15 @@ LoadFailed:
             End Select
 
             'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
-            e.Graphics.DrawString(PServiceNo, New Font("Arial", 10), MyBrush, 0, 65)
-            e.Graphics.DrawString(PDateOfClaim, New Font("Arial", 10), MyBrush, 100, 65)
-            e.Graphics.DrawString(PLast, New Font("Arial", 10), MyBrush, 200, 65)
-            e.Graphics.DrawString(PTele, New Font("Arial", 10), MyBrush, 300, 65)
-
+            'e.Graphics.DrawString(PServiceNo, New Font("Arial", 10), MyBrush, 0, 65)
+            'e.Graphics.DrawString(PDateOfClaim, New Font("Arial", 10), MyBrush, 100, 65)
+            'e.Graphics.DrawString(PLast, New Font("Arial", 10), MyBrush, 200, 65)
+            'e.Graphics.DrawString(PTele, New Font("Arial", 10), MyBrush, 300, 65)
+            e.Graphics.DrawString(PServiceNo, New Font("Arial", 10), MyBrush, 0, TopValue)
+            e.Graphics.DrawString(DateFormat(PDateOfClaim), New Font("Arial", 10), MyBrush, 100, TopValue)
+            e.Graphics.DrawString(Microsoft.VisualBasic.Left(PLast, 20), New Font("Arial", 10), MyBrush, 200, TopValue)
+            e.Graphics.DrawString(DressAni(CleanAni(PTele, 0)), New Font("Arial", 10), MyBrush, 300, TopValue)
+            e.Graphics.DrawString(ItemLine, New Font("Lucida Console", 10), MyBrush, 0, TopValue + 15)
         End If
         'OutputObject.FontSize = 8
         ''PrintAligned("Time: " & Format(Now, "h:mm:ss am/pm"), , 10, 100)
@@ -280,6 +295,8 @@ LoadFailed:
     Dim Last As String
     Dim Tele As String
     Dim DateOfClaim As String
+    Dim Tv As Integer
+    Dim Il As String
 
     Public Property PServiceNo As String
         Get
@@ -321,5 +338,23 @@ LoadFailed:
         End Set
     End Property
 
+    Public Property TopValue As Integer
+        Get
+            TopValue = Tv
+            Return TopValue
+        End Get
+        Set(value As Integer)
+            Tv = value
+        End Set
+    End Property
 
+    Public Property ItemLine As String
+        Get
+            ItemLine = Il
+            Return Il
+        End Get
+        Set(value As String)
+            Il = value
+        End Set
+    End Property
 End Class
