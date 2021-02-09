@@ -8,12 +8,16 @@ Public Class frmPrintPreviewDocument
     Private SkipKey As Boolean
     Private DoLandscape As Boolean
     Private NotifiedOverrun As Boolean
+    Dim LoadBitmap As Boolean
+    'Dim b As Bitmap
+    Dim g As Graphics
 
     Public Sub NewPage()
-        Application.DoEvents()
+        'Application.DoEvents()
 
         If TypeOf OutputObject Is PictureBox Then
-            If OutputObject.Location.Y = 0 And PageNumber <> 0 Then
+            'If OutputObject.Location.Y = 0 And PageNumber <> 0 Then
+            If TopValue = 0 And PageNumber <> 0 Then
                 Exit Sub 'If page is blank, do not add a page
             End If
         Else
@@ -49,12 +53,13 @@ Public Class frmPrintPreviewDocument
         'Load OutputObject
         'OutputObject.Visible = True
         'fraNavigate.ZOrder 0
-        Application.DoEvents()
+        'Application.DoEvents()
     End Sub
 
     Private Function SavePage(Optional ByVal N As Integer = 0) As Boolean
         If N <> 0 Then
             'SavePicture(picPicture.Image, PageFile(N))
+            'picPicture.Image.Save(PageFile(N), Imaging.ImageFormat.Png)
             picPicture.Image.Save(PageFile(N))
         End If
         SavePage = True
@@ -64,6 +69,7 @@ Public Class frmPrintPreviewDocument
         Get
             If N = 0 Then N = CurrentPage
             PageFile = GetTempDir() & "PP" & Format(N, "000") & ".tmp"
+            'PageFile = GetTempDir() & "PP" & Format(N, "000") & ".png"
         End Get
     End Property
 
@@ -139,6 +145,17 @@ LoadFailed:
         TotalPages = 1
         Me.MdiParent = frmPrintPreviewMain
         ServiceReports.ExecutePaint = False
+        LoadBitmap = True
+
+        'b = New Bitmap(picPicture.Width, picPicture.Height)
+        'Dim g As Graphics = picPicture.CreateGraphics
+        'e.Graphics.FillRectangle(Brushes.White, New Rectangle(0, 0, b.Width, b.Height))
+        'g.FillRectangle(Brushes.White, New Rectangle(0, 0, b.Width, b.Height))
+        'g.DrawImage(b, b.Width, b.Height)
+        'picPicture.Image = b
+
+        'g = Graphics.FromImage(b)
+        'picPicture.Image = b
     End Sub
 
     Private Sub frmPrintPreviewDocument_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -151,8 +168,13 @@ LoadFailed:
         'picPicture.Move 0 - 30, 0 - 30, ScaleWidth + 30, 15840 + 1440 + 30 '1440=1 Inch
         'picPicture.Location = New Point(0 - 30, 0 - 30)
         picPicture.Location = New Point(0, 0)
-        picPicture.Size = New Size(Me.ClientSize.Width + 30, 15840 + 1440 + 30)
-        'picPicture.Size = New Size(Me.Width, Me.Height)
+        'picPicture.Size = New Size(Me.ClientSize.Width + 30, 15840 + 1440 + 30)
+        picPicture.Size = New Size(Me.Width, Me.Height)
+
+        '<CT>
+        'Dim b As Bitmap = New Bitmap(picPicture.Width, picPicture.Height)
+        'picPicture.Image = b
+        '</CT>
 
         On Error Resume Next ' Printer.Scalewidth can fail...
         'fraNavigate.Move ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
@@ -179,18 +201,32 @@ LoadFailed:
     Public Sub picPicture_Paint(sender As Object, e As PaintEventArgs) Handles picPicture.Paint
         Dim MyBrush As New SolidBrush(Color.Black)
 
-        'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
-
+        'If LoadBitmap = True Then
+        '    Dim b As Bitmap = New Bitmap(picPicture.Width, picPicture.Height)
+        '    '    'Dim g As Graphics = Graphics.FromImage(b)
+        'e.Graphics.FillRectangle(Brushes.White, New Rectangle(0, 0, b.Width, b.Height))
+        '    '    'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
+        '    LoadBitmap = False
+        'End If
         'Dim Y As Integer
         'OutputObject.FontName = "Arial"
         'OutputObject.FontSize = 18
         'PrintCentered(ReportTitle, 100, True)
+
         If ServiceReports.ExecutePaint = True Then
+            Dim b As Bitmap = New Bitmap(picPicture.Width, picPicture.Height)
+            picPicture.Image = b
+            'e.Graphics.FillRectangle(Brushes.White, New Rectangle(0, 0, b.Width, b.Height))
+
+
             e.Graphics.DrawString(ServiceReports.ReportTitle, New Font("Arial", 18), MyBrush, picPicture.ClientRectangle.Width / 4, 10)
+            Button1_Click(Button1, New EventArgs)
             e.Graphics.DrawString("Time: " & Format(Now, "h:mm:ss tt"), New Font("Arial", 8), MyBrush, 1, 10)
             If OutputToPrinter Then PageNumber = OutputObject.Page
             e.Graphics.DrawString("Page: " & PageNumber, New Font("Arial", 8), MyBrush, 1000, 10)
             e.Graphics.DrawString(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, New Font("Arial", 8), MyBrush, picPicture.ClientRectangle.Width / 4, 35)
+
+            picPicture.Image.Save("d:\123.png")
 
             Select Case ServiceReports.Mode
                 Case "SCR"
@@ -240,6 +276,10 @@ LoadFailed:
             e.Graphics.DrawString(Microsoft.VisualBasic.Left(PLast, 20), New Font("Arial", 10), MyBrush, 200, TopValue)
             e.Graphics.DrawString(DressAni(CleanAni(PTele, 0)), New Font("Arial", 10), MyBrush, 300, TopValue)
             e.Graphics.DrawString(ItemLine, New Font("Lucida Console", 10), MyBrush, 0, TopValue + 15)
+
+            'picPicture.Image = b
+            picPicture.Image.Save("d:\123.png")
+            'b.Save("D:\pp.png", Imaging.ImageFormat.Png)
         End If
         'OutputObject.FontSize = 8
         ''PrintAligned("Time: " & Format(Now, "h:mm:ss am/pm"), , 10, 100)
@@ -289,6 +329,8 @@ LoadFailed:
         'End Select
         'OutputObject.FontBold = False
 
+        'picPicture.Image = b
+        'b.Save("D:\pp.jpg", Imaging.ImageFormat.Jpeg)
     End Sub
 
     Dim ServiceNo As String
@@ -357,4 +399,9 @@ LoadFailed:
             Il = value
         End Set
     End Property
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        'picPicture.Image.Save("D:\abcd.png")
+        picPicture.Image.Save(PageFile(3))
+    End Sub
 End Class

@@ -231,7 +231,8 @@
         'ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
         If TypeOf OutputObject Is PictureBox Then
             'If OutputObject.ClientRectangle.Height < OutputObject.Location.Y + ExtraHeight Then
-            If OutputObject.ClientRectangle.Height < frmPrintPreviewDocument.TopValue + ExtraHeight Then
+            'If OutputObject.ClientRectangle.Height < frmPrintPreviewDocument.TopValue + ExtraHeight Then
+            If (OutputObject.Height - 737) < frmPrintPreviewDocument.TopValue + ExtraHeight Then
                 If OutputToPrinter Then
                     Printer.NewPage()
                     Newpage = True
@@ -277,6 +278,7 @@
         Dim Item As String, ILine As Object, FN As String
         Dim GM As CGrossMargin
         Dim T As Integer = 65
+        Dim ItemCount As Integer
 
         Do Until RS.EOF
             ServiceNo = RS("ServiceOrderNo").Value
@@ -354,6 +356,9 @@
                 CY = CY + 600
             End If
             RS.MoveNext()
+
+            'ItemCount = ItemCount + 1
+            'If ItemCount = 2 Then Exit Sub
         Loop
     End Sub
 
