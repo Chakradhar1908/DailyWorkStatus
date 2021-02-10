@@ -202,24 +202,6 @@
         Dim ExtraHeight As Integer
         Dim Newpage As Boolean
 
-        '        Private void AutoSizeControl(Control control, int textPadding)
-        '{
-        '   // Create a Graphics object for the Control.
-        '   Graphics g = Control.CreateGraphics();
-
-        '   // Get the Size needed to accommodate the formatted Text.
-        '   Size PreferredSize = g.MeasureString(
-        '      Control.Text, Control.Font).ToSize();
-
-        '   // Pad the text And resize the control.
-        '   Control.ClientSize = New Size(
-        '      PreferredSize.Width + (textPadding * 2),
-        '      PreferredSize.Height + (textPadding * 2));
-
-        '   // Clean up the Graphics object.
-        '   g.Dispose();
-        '}
-
         If TypeOf OutputObject Is PictureBox Then
             'ExtraHeight = OutputObject.TextHeight("X") * ExtraLines
             'ExtraHeight = CreateGraphics.MeasureString("X", Me.Font).Height
@@ -232,7 +214,7 @@
         If TypeOf OutputObject Is PictureBox Then
             'If OutputObject.ClientRectangle.Height < OutputObject.Location.Y + ExtraHeight Then
             'If OutputObject.ClientRectangle.Height < frmPrintPreviewDocument.TopValue + ExtraHeight Then
-            If (OutputObject.Height - 737) < frmPrintPreviewDocument.TopValue + ExtraHeight Then
+            If OutputObject.Height - 100 < frmPrintPreviewDocument.TopValue + ExtraHeight Then
                 If OutputToPrinter Then
                     Printer.NewPage()
                     Newpage = True
@@ -259,7 +241,7 @@
             If frmPrintPreviewDocument.TopValue = 0 And Newpage = False Then
                 'Heading()
                 ExecutePaint = True
-                frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
+                'frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
                 'If Not OutputToPrinter Then frmPrintPreviewDocument.NewPage
             End If
         Else
@@ -278,7 +260,17 @@
         Dim Item As String, ILine As Object, FN As String
         Dim GM As CGrossMargin
         Dim T As Integer = 65
-        Dim ItemCount As Integer
+        Dim ItemCount As Integer, I As Integer
+
+        '<CT>
+        If TypeOf OutputObject Is PictureBox Then
+            ReDim frmPrintPreviewDocument.SrnoArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.DateofClaimArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.LastNameArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.TelephoneArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.ItemLineArray(RS.RecordCount)
+        End If
+        '</CT>
 
         Do Until RS.EOF
             ServiceNo = RS("ServiceOrderNo").Value
@@ -301,9 +293,13 @@
 
             If TypeOf OutputObject Is PictureBox Then
                 frmPrintPreviewDocument.PServiceNo = ServiceNo
+                frmPrintPreviewDocument.SrnoArray(I) = ServiceNo
                 frmPrintPreviewDocument.PLast = Last
+                frmPrintPreviewDocument.LastNameArray(I) = Last
                 frmPrintPreviewDocument.PTele = Tele
+                frmPrintPreviewDocument.TelephoneArray(I) = Tele
                 frmPrintPreviewDocument.PDateOfClaim = DateOfClaim
+                frmPrintPreviewDocument.DateofClaimArray(I) = DateOfClaim
                 frmPrintPreviewDocument.TopValue = T
 
                 Do While Microsoft.VisualBasic.Left(Item, 2) = vbCrLf : Item = Trim(Mid(Item, 3)) : Loop                ' Trim off extra blank lines.
@@ -315,17 +311,20 @@
                     'OutputObject.Print("      Item:", ILine)
                     'OutputObject.Print("      Item:" & " " & ILine)
                     frmPrintPreviewDocument.ItemLine = "      Item:" & " " & ILine
+                    frmPrintPreviewDocument.ItemLineArray(I) = "      Item:" & " " & ILine
                     'T = T + 15
                 Next
                 'OutputObject.FontName = FN
                 'If Item = "" Then OutputObject.Print("  No Item Specified")
                 If Item = "" Then
                     frmPrintPreviewDocument.ItemLine = "  No Item Specified"
+                    frmPrintPreviewDocument.ItemLineArray(I) = "  No Item Specified"
                     'T = T + 15
                 End If
                 'OutputObject.Print
-                frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
+                'frmPrintPreviewDocument.picPicture_Paint(New Object, New PaintEventArgs(frmPrintPreviewDocument.picPicture.CreateGraphics, New Rectangle))
                 T = T + 30
+                I = I + 1
             Else
                 'PrintToTab(, Trim(ServiceNo), 0)
                 'PrintToTab(, Trim(ServiceNo), 0,,, CY, True)
@@ -356,9 +355,6 @@
                 CY = CY + 600
             End If
             RS.MoveNext()
-
-            'ItemCount = ItemCount + 1
-            'If ItemCount = 2 Then Exit Sub
         Loop
     End Sub
 

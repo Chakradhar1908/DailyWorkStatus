@@ -1105,6 +1105,12 @@
     <Compile Include="Forms\ServiceReports.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Testform.Designer.vb">
+      <DependentUpon>Testform.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Testform.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Ticket.Designer.vb">
       <DependentUpon>Ticket.vb</DependentUpon>
     </Compile>
