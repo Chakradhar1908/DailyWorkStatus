@@ -1707,28 +1707,32 @@ Public Class MainMenu4
         'f.ShowColor = True
         'f.ShowDialog()
 
-        Printer.CurrentX = 0
-        Printer.CurrentY = 700
-        Printer.Print("ServiceNo")
-        'PrintToTab(, "DateOfClaim", 20)
-        'PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
-        'PrintToPosition2(, "DateOfClaim", ,,, 700, 20)
-        Printer.CurrentX = 1500
-        Printer.CurrentY = 700
-        Printer.Print("DateOfClaim")
-        'PrintToTab(, "Last", 40)
-        'PrintToTab(, "Last", 40,,, 700, 40, True)
-        'PrintToPosition2(, "Last", ,,, 700, 40)
-        Printer.CurrentX = 3000
-        Printer.CurrentY = 700
-        Printer.Print("Last")
-        'PrintToTab(, "Telephone", 60)
-        'PrintToTab(, "Telephone", 60,,, 700, 60, True)
-        'PrintToPosition2(, "Telephone", ,,, 700, 60)
-        Printer.CurrentX = 4800
-        Printer.CurrentY = 700
-        Printer.Print("Telephone")
-        Printer.EndDoc()
+        'Printer.CurrentX = 0
+        'Printer.CurrentY = 700
+        'Printer.Print("ServiceNo")
+        ''PrintToTab(, "DateOfClaim", 20)
+        ''PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
+        ''PrintToPosition2(, "DateOfClaim", ,,, 700, 20)
+        'Printer.CurrentX = 1500
+        'Printer.CurrentY = 700
+        'Printer.Print("DateOfClaim")
+        ''PrintToTab(, "Last", 40)
+        ''PrintToTab(, "Last", 40,,, 700, 40, True)
+        ''PrintToPosition2(, "Last", ,,, 700, 40)
+        'Printer.CurrentX = 3000
+        'Printer.CurrentY = 700
+        'Printer.Print("Last")
+        ''PrintToTab(, "Telephone", 60)
+        ''PrintToTab(, "Telephone", 60,,, 700, 60, True)
+        ''PrintToPosition2(, "Telephone", ,,, 700, 60)
+        'Printer.CurrentX = 4800
+        'Printer.CurrentY = 700
+        'Printer.Print("Telephone")
+        'Printer.EndDoc()
+        Dim r As Integer, re As Decimal
+        r = 50 / 20
+        re = 50 / 20
+        MessageBox.Show(r & "--" & Math.Ceiling(re))
         'End
     End Sub
 

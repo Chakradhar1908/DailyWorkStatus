@@ -85,7 +85,7 @@ Public Class frmPrintPreviewDocument
     Public Sub DataEnd()
         'If EndOfDocumentEnabled Then Exit Sub
         If TypeOf OutputObject Is PictureBox Then
-            frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage & " of " & TotalPages
+            'frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage & " of " & TotalPages
             'Show() 'Show PrintPreview module
             'MousePointer = vbDefault
             Me.Cursor = Cursors.Default
@@ -162,6 +162,7 @@ LoadFailed:
         Me.MdiParent = frmPrintPreviewMain
         ServiceReports.ExecutePaint = False
         LoadBitmap = True
+        SetButtonImage(btnPrint, 19)
     End Sub
 
     Private Sub frmPrintPreviewDocument_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -186,7 +187,7 @@ LoadFailed:
         'fraNavigate.Location = New Point(Me.ClientSize.Width - fraNavigate.Width, Me.ClientSize.Height - fraNavigate.Height)
         '  fraNavigate.Move Printer.ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
         'fraNavigate.Move Printer.ScaleWidth, ScaleHeight - fraNavigate.Height
-        fraNavigate.Location = New Point(Printer.ScaleWidth, Me.ClientSize.Height - fraNavigate.Height)
+        fraNavigate.Location = New Point(500, 500)
         lblHelp.Top = Me.ClientSize.Height - lblHelp.Height
     End Sub
 
@@ -221,12 +222,12 @@ LoadFailed:
         'PrintCentered(ReportTitle, 100, True)
 
         If ServiceReports.ExecutePaint = True Then
-            e.Graphics.DrawString(ServiceReports.ReportTitle, New Font("Arial", 18), MyBrush, picPicture.ClientRectangle.Width / 4, 10)
+            e.Graphics.DrawString(ServiceReports.ReportTitle, New Font("Arial", 18), MyBrush, picPicture.Width / 6, 10)
             'Button1_Click(Button1, New EventArgs)
             e.Graphics.DrawString("Time: " & Format(Now, "h:mm:ss tt"), New Font("Arial", 8), MyBrush, 1, 10)
             If OutputToPrinter Then PageNumber = OutputObject.Page
-            e.Graphics.DrawString("Page: " & PageNumber, New Font("Arial", 8), MyBrush, 1000, 10)
-            e.Graphics.DrawString(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, New Font("Arial", 8), MyBrush, picPicture.ClientRectangle.Width / 4, 35)
+            'e.Graphics.DrawString("Page: " & PageNumber, New Font("Arial", 8), MyBrush, 1000, 10)
+            e.Graphics.DrawString(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, New Font("Arial", 8), MyBrush, picPicture.Width / 6, 35)
 
             Select Case ServiceReports.Mode
                 Case "SCR"
@@ -277,15 +278,30 @@ LoadFailed:
             'e.Graphics.DrawString(DressAni(CleanAni(PTele, 0)), New Font("Arial", 10), MyBrush, 300, TopValue)
             'e.Graphics.DrawString(ItemLine, New Font("Lucida Console", 10), MyBrush, 0, TopValue + 15)
             '--------
-            Dim R As Integer = 65
+            Dim R As Integer = 65, i As Integer, j As Integer
             For i = 0 To SrnoArray.Count - 1
-                e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 10), MyBrush, 0, R)
-                e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 10), MyBrush, 100, R)
-                e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), New Font("Arial", 10), MyBrush, 200, R)
-                e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), New Font("Arial", 10), MyBrush, 300, R)
-                e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 10), MyBrush, 0, R + 15)
+                e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
+                e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 8), MyBrush, 100, R)
+                e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), New Font("Arial", 8), MyBrush, 200, R)
+                e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), New Font("Arial", 8), MyBrush, 300, R)
+
+                e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
+                'If i = 25 Then
+                '    fraNavigate.Location = New Point(picPicture.Width / 2, R)
+                'End If
                 R = R + 30
             Next
+            Dim Pages As Decimal
+            Pages = i / 20
+            Pages = Math.Ceiling(Pages)
+            e.Graphics.DrawString("Page: " & 1, New Font("Arial", 8), MyBrush, 700, 10)
+            frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage + 1 & " of " & Pages
+
+            For j = 0 To R Step 4
+                e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 80, j)
+            Next
+
+            'fraNavigate.Location = New Point(800, 10)
 
             'picPicture.Image = b
             'b.Save("D:\pp.png", Imaging.ImageFormat.Png)

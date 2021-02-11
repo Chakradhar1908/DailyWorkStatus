@@ -26,6 +26,7 @@ Partial Class frmPrintPreviewDocument
         Me.cmdNavigate7 = New System.Windows.Forms.Button()
         Me.fraNavigate = New System.Windows.Forms.GroupBox()
         Me.lblHelp = New System.Windows.Forms.Label()
+        Me.btnPrint = New System.Windows.Forms.Button()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraNavigate.SuspendLayout()
         Me.SuspendLayout()
@@ -50,10 +51,11 @@ Partial Class frmPrintPreviewDocument
         '
         'fraNavigate
         '
+        Me.fraNavigate.Controls.Add(Me.btnPrint)
         Me.fraNavigate.Controls.Add(Me.cmdNavigate7)
-        Me.fraNavigate.Location = New System.Drawing.Point(69, 164)
+        Me.fraNavigate.Location = New System.Drawing.Point(69, 154)
         Me.fraNavigate.Name = "fraNavigate"
-        Me.fraNavigate.Size = New System.Drawing.Size(200, 53)
+        Me.fraNavigate.Size = New System.Drawing.Size(200, 63)
         Me.fraNavigate.TabIndex = 2
         Me.fraNavigate.TabStop = False
         '
@@ -65,6 +67,15 @@ Partial Class frmPrintPreviewDocument
         Me.lblHelp.Size = New System.Drawing.Size(39, 13)
         Me.lblHelp.TabIndex = 3
         Me.lblHelp.Text = "Label1"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(102, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(75, 42)
+        Me.btnPrint.TabIndex = 4
+        Me.btnPrint.Text = "Print"
+        Me.btnPrint.UseVisualStyleBackColor = True
         '
         'frmPrintPreviewDocument
         '
@@ -92,4 +103,5 @@ Partial Class frmPrintPreviewDocument
     Friend WithEvents cmdNavigate7 As Button
     Friend WithEvents fraNavigate As GroupBox
     Friend WithEvents lblHelp As Label
+    Friend WithEvents btnPrint As Button
 End Class
