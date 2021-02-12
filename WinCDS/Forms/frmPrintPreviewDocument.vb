@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+﻿Imports System.Drawing.Printing
+Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Public Class frmPrintPreviewDocument
     Public CallingForm As Object
     Public ReportName As String
@@ -123,7 +124,7 @@ Public Class frmPrintPreviewDocument
         'picPicture(CurrentPage).Visible = True
         'cmdNavigate(7).Enabled = (picPicture.Count - 1 > 1) 'Enable Goto button only if number of pages is greater than one
         'cmdNavigate(7).Enabled = (TotalPages > 1) 'Enable Goto button only if number of pages is greater than one
-        cmdNavigate7.Enabled = (TotalPages > 1) 'Enable Goto button only if number of pages is greater than one
+        'cmdNavigate7.Enabled = (TotalPages > 1) 'Enable Goto button only if number of pages is greater than one
         'frmPrintPreviewMain.Caption = "Print Preview: " & ReportName & ", page " & CurrentPage & " of " & picPicture.Count - 1
         frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage & " of " & TotalPages
         Show() 'Show PrintPreview module
@@ -177,7 +178,7 @@ LoadFailed:
         'picPicture.Location = New Point(0 - 30, 0 - 30)
         picPicture.Location = New Point(0, 0)
         'picPicture.Size = New Size(Me.ClientSize.Width + 30, 15840 + 1440 + 30)
-        picPicture.Size = New Size(Me.Width, Me.Height)
+        picPicture.Size = New Size(Me.Width - 280, Me.Height)
 
         'pnlPicture.Location = New Point(0, 0)
         'pnlPicture.Size = New Size(Me.Width, Me.Height)
@@ -187,8 +188,8 @@ LoadFailed:
         'fraNavigate.Location = New Point(Me.ClientSize.Width - fraNavigate.Width, Me.ClientSize.Height - fraNavigate.Height)
         '  fraNavigate.Move Printer.ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
         'fraNavigate.Move Printer.ScaleWidth, ScaleHeight - fraNavigate.Height
-        fraNavigate.Location = New Point(500, 500)
-        lblHelp.Top = Me.ClientSize.Height - lblHelp.Height
+        fraNavigate.Location = New Point(Me.Width - 220, Me.Height - 130)
+        'lblHelp.Top = Me.ClientSize.Height - lblHelp.Height
     End Sub
 
     Private Sub frmPrintPreviewDocument_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -298,7 +299,7 @@ LoadFailed:
             frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage + 1 & " of " & Pages
 
             For j = 0 To R Step 4
-                e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 80, j)
+                e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
             Next
 
             'fraNavigate.Location = New Point(800, 10)
@@ -425,4 +426,124 @@ LoadFailed:
         End Set
     End Property
 
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        PrintDialog1.Document = PrintDocument1
+        PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
+        PrintDialog1.AllowSomePages = True
+
+        If PrintDialog1.ShowDialog = DialogResult.OK Then
+            PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
+            PrintDocument1.Print()
+        End If
+    End Sub
+
+    Dim i As Integer, j As Integer
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
+        Dim MyBrush As New SolidBrush(Color.Black)
+        Dim PrintFont As Font = New Font("Arial", 8)
+
+        e.Graphics.DrawString(ServiceReports.ReportTitle, New Font("Arial", 18), MyBrush, picPicture.Width / 6, 10)
+        'Button1_Click(Button1, New EventArgs)
+        e.Graphics.DrawString("Time: " & Format(Now, "h:mm:ss tt"), New Font("Arial", 8), MyBrush, 1, 10)
+        If OutputToPrinter Then PageNumber = OutputObject.Page
+        'e.Graphics.DrawString("Page: " & PageNumber, New Font("Arial", 8), MyBrush, 1000, 10)
+        e.Graphics.DrawString(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, New Font("Arial", 8), MyBrush, picPicture.Width / 6, 35)
+
+        Select Case ServiceReports.Mode
+            Case "SCR"
+                'OutputObject.CurrentX = 0
+                'OutputObject.CurrentY = 700
+                'PrintToTab(, "ServiceNo", 0)
+                'PrintToTab(, "ServiceNo", 0,,, 700, 0, True)
+                'PrintToPosition2(, "ServiceNo", ,,, 700, 0)
+                e.Graphics.DrawString("ServiceNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
+                'PrintToTab(, "DateOfClaim", 20)
+                'PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
+                'PrintToPosition2(, "DateOfClaim", ,,, 700, 1500)
+                e.Graphics.DrawString("DateOfClaim", New Font("Arial", 9, FontStyle.Bold), MyBrush, 100, 50)
+                'PrintToTab(, "Last", 40)
+                'PrintToTab(, "Last", 40,,, 700, 40, True)
+                'PrintToPosition2(, "Last", ,,, 700, 3000)
+                e.Graphics.DrawString("Last", New Font("Arial", 9, FontStyle.Bold), MyBrush, 200, 50)
+                'PrintToTab(, "Telephone", 60)
+                'PrintToTab(, "Telephone", 60,,, 700, 60, True)
+                'PrintToPosition2(, "Telephone", ,,, 700, 4800)
+                e.Graphics.DrawString("Telephone", New Font("Arial", 9, FontStyle.Bold), MyBrush, 300, 50)
+                '    Case "SPR"
+                '        PrintAligned("PartsOrderNo", , 10, Y, True)
+                '        PrintAligned("Status", , 1300, Y, True)
+                '        PrintAligned("ServiceNo", , 2000, Y, True)
+                '        PrintAligned("Vendor", , 3000, Y, True)
+                '        PrintAligned("DateOfClaim", , 5900, Y, True)
+                '        PrintAligned("Repair Cost", , 7200, Y, True)
+                '        PrintAligned("Paid", , 8400, Y, True)
+                '    Case "SBR"
+                '        PrintAligned("Vendor", , 10, Y, True)
+                '        PrintAligned("Date", , 3200, Y, True)
+                '        PrintAligned("Repair Cost", , 4500, Y, True)
+                '        PrintAligned("Type", , 6000, Y, True)
+                '        PrintAligned("PartsOrderNo", , 7500, Y, True)
+                '        PrintAligned("Status", , 8800, Y, True)
+                '        PrintAligned("Service No", , 9500, Y, True)
+        End Select
+
+        'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
+        'e.Graphics.DrawString(PServiceNo, New Font("Arial", 10), MyBrush, 0, 65)
+        'e.Graphics.DrawString(PDateOfClaim, New Font("Arial", 10), MyBrush, 100, 65)
+        'e.Graphics.DrawString(PLast, New Font("Arial", 10), MyBrush, 200, 65)
+        'e.Graphics.DrawString(PTele, New Font("Arial", 10), MyBrush, 300, 65)
+        'e.Graphics.DrawString(PServiceNo, New Font("Arial", 10), MyBrush, 0, TopValue)
+        'e.Graphics.DrawString(DateFormat(PDateOfClaim), New Font("Arial", 10), MyBrush, 100, TopValue)
+        'e.Graphics.DrawString(Microsoft.VisualBasic.Left(PLast, 20), New Font("Arial", 10), MyBrush, 200, TopValue)
+        'e.Graphics.DrawString(DressAni(CleanAni(PTele, 0)), New Font("Arial", 10), MyBrush, 300, TopValue)
+        'e.Graphics.DrawString(ItemLine, New Font("Lucida Console", 10), MyBrush, 0, TopValue + 15)
+        '--------
+        'Dim R As Integer = 65, i As Integer, j As Integer, LineNo As Integer
+        Dim R As Integer = 65, LineNo As Integer
+        Dim LinesPerPage As Decimal
+
+        LinesPerPage = e.MarginBounds.Height / PrintFont.GetHeight(e.Graphics)
+        LinesPerPage = Math.Ceiling(LinesPerPage)
+
+        Do While LineNo < LinesPerPage And i < (SrnoArray.Count - 1)
+            e.Graphics.DrawString(SrnoArray(i), PrintFont, MyBrush, 0, R)
+            e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), PrintFont, MyBrush, 100, R)
+            e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), PrintFont, MyBrush, 200, R)
+            e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), PrintFont, MyBrush, 300, R)
+            R = R + 15
+            'e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
+            e.Graphics.DrawString(ItemLineArray(i), PrintFont, MyBrush, 0, R)
+            R = R + 15
+            e.Graphics.DrawString("", PrintFont, MyBrush, 0, R)
+            R = R + 15
+            LineNo = LineNo + 4
+            i = i + 1
+        Loop
+        'For i = 0 To SrnoArray.Count - 1
+        '    e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
+        '    e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 8), MyBrush, 100, R)
+        '    e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), New Font("Arial", 8), MyBrush, 200, R)
+        '    e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), New Font("Arial", 8), MyBrush, 300, R)
+        '    R = R + 15
+        '    'e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
+        '    e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R)
+        '    R = R + 15
+        '    e.Graphics.DrawString("", New Font("Arial", 8), MyBrush, 0, R)
+        '    R = R + 15
+        'Next
+        Dim Pages As Decimal
+        Pages = i / 20
+        Pages = Math.Ceiling(Pages)
+        e.Graphics.DrawString("Page: " & 1, New Font("Arial", 8), MyBrush, 700, 10)
+        frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage + 1 & " of " & Pages
+
+
+
+        If i < SrnoArray.Count - 1 Then
+            e.HasMorePages = True
+        Else
+            e.HasMorePages = False
+        End If
+
+    End Sub
 End Class

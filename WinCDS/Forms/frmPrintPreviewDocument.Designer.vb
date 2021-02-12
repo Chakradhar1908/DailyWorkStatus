@@ -23,41 +23,42 @@ Partial Class frmPrintPreviewDocument
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.picPicture = New System.Windows.Forms.PictureBox()
-        Me.cmdNavigate7 = New System.Windows.Forms.Button()
         Me.fraNavigate = New System.Windows.Forms.GroupBox()
-        Me.lblHelp = New System.Windows.Forms.Label()
         Me.btnPrint = New System.Windows.Forms.Button()
+        Me.lblHelp = New System.Windows.Forms.Label()
+        Me.btnClose = New System.Windows.Forms.Button()
+        Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
+        Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraNavigate.SuspendLayout()
         Me.SuspendLayout()
         '
         'picPicture
         '
-        Me.picPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.picPicture.Location = New System.Drawing.Point(1, 12)
         Me.picPicture.Name = "picPicture"
         Me.picPicture.Size = New System.Drawing.Size(268, 88)
         Me.picPicture.TabIndex = 0
         Me.picPicture.TabStop = False
         '
-        'cmdNavigate7
-        '
-        Me.cmdNavigate7.Location = New System.Drawing.Point(6, 14)
-        Me.cmdNavigate7.Name = "cmdNavigate7"
-        Me.cmdNavigate7.Size = New System.Drawing.Size(75, 23)
-        Me.cmdNavigate7.TabIndex = 1
-        Me.cmdNavigate7.Text = "Goto"
-        Me.cmdNavigate7.UseVisualStyleBackColor = True
-        '
         'fraNavigate
         '
+        Me.fraNavigate.Controls.Add(Me.btnClose)
         Me.fraNavigate.Controls.Add(Me.btnPrint)
-        Me.fraNavigate.Controls.Add(Me.cmdNavigate7)
         Me.fraNavigate.Location = New System.Drawing.Point(69, 154)
         Me.fraNavigate.Name = "fraNavigate"
-        Me.fraNavigate.Size = New System.Drawing.Size(200, 63)
+        Me.fraNavigate.Size = New System.Drawing.Size(173, 63)
         Me.fraNavigate.TabIndex = 2
         Me.fraNavigate.TabStop = False
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(6, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(69, 42)
+        Me.btnPrint.TabIndex = 4
+        Me.btnPrint.Text = "Print"
+        Me.btnPrint.UseVisualStyleBackColor = True
         '
         'lblHelp
         '
@@ -68,14 +69,18 @@ Partial Class frmPrintPreviewDocument
         Me.lblHelp.TabIndex = 3
         Me.lblHelp.Text = "Label1"
         '
-        'btnPrint
+        'btnClose
         '
-        Me.btnPrint.Location = New System.Drawing.Point(102, 15)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(75, 42)
-        Me.btnPrint.TabIndex = 4
-        Me.btnPrint.Text = "Print"
-        Me.btnPrint.UseVisualStyleBackColor = True
+        Me.btnClose.Location = New System.Drawing.Point(98, 15)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(69, 42)
+        Me.btnClose.TabIndex = 5
+        Me.btnClose.Text = "Close"
+        Me.btnClose.UseVisualStyleBackColor = True
+        '
+        'PrintDialog1
+        '
+        Me.PrintDialog1.UseEXDialog = True
         '
         'frmPrintPreviewDocument
         '
@@ -100,8 +105,10 @@ Partial Class frmPrintPreviewDocument
     End Sub
 
     Friend WithEvents picPicture As PictureBox
-    Friend WithEvents cmdNavigate7 As Button
     Friend WithEvents fraNavigate As GroupBox
     Friend WithEvents lblHelp As Label
     Friend WithEvents btnPrint As Button
+    Friend WithEvents btnClose As Button
+    Friend WithEvents PrintDialog1 As PrintDialog
+    Friend WithEvents PrintDocument1 As Printing.PrintDocument
 End Class
