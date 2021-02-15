@@ -24,9 +24,9 @@ Partial Class frmPrintPreviewDocument
     Private Sub InitializeComponent()
         Me.picPicture = New System.Windows.Forms.PictureBox()
         Me.fraNavigate = New System.Windows.Forms.GroupBox()
+        Me.btnClose = New System.Windows.Forms.Button()
         Me.btnPrint = New System.Windows.Forms.Button()
         Me.lblHelp = New System.Windows.Forms.Label()
-        Me.btnClose = New System.Windows.Forms.Button()
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -45,17 +45,26 @@ Partial Class frmPrintPreviewDocument
         '
         Me.fraNavigate.Controls.Add(Me.btnClose)
         Me.fraNavigate.Controls.Add(Me.btnPrint)
-        Me.fraNavigate.Location = New System.Drawing.Point(69, 154)
+        Me.fraNavigate.Location = New System.Drawing.Point(69, 156)
         Me.fraNavigate.Name = "fraNavigate"
-        Me.fraNavigate.Size = New System.Drawing.Size(173, 63)
+        Me.fraNavigate.Size = New System.Drawing.Size(173, 68)
         Me.fraNavigate.TabIndex = 2
         Me.fraNavigate.TabStop = False
         '
+        'btnClose
+        '
+        Me.btnClose.Location = New System.Drawing.Point(98, 10)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(69, 54)
+        Me.btnClose.TabIndex = 5
+        Me.btnClose.Text = "Close"
+        Me.btnClose.UseVisualStyleBackColor = True
+        '
         'btnPrint
         '
-        Me.btnPrint.Location = New System.Drawing.Point(6, 15)
+        Me.btnPrint.Location = New System.Drawing.Point(6, 10)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 42)
+        Me.btnPrint.Size = New System.Drawing.Size(69, 54)
         Me.btnPrint.TabIndex = 4
         Me.btnPrint.Text = "Print"
         Me.btnPrint.UseVisualStyleBackColor = True
@@ -69,18 +78,12 @@ Partial Class frmPrintPreviewDocument
         Me.lblHelp.TabIndex = 3
         Me.lblHelp.Text = "Label1"
         '
-        'btnClose
-        '
-        Me.btnClose.Location = New System.Drawing.Point(98, 15)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 42)
-        Me.btnClose.TabIndex = 5
-        Me.btnClose.Text = "Close"
-        Me.btnClose.UseVisualStyleBackColor = True
-        '
         'PrintDialog1
         '
         Me.PrintDialog1.UseEXDialog = True
+        '
+        'PrintDocument1
+        '
         '
         'frmPrintPreviewDocument
         '

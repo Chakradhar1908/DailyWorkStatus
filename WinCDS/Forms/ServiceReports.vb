@@ -379,16 +379,20 @@
 
             DoNewPage()
 
-            Dim Y As Integer
-            Y = OutputObject.CurrentY
+            If TypeOf OutputObject Is PictureBox Then
 
-            PrintAligned(PartsOrderNo, , 10, Y)
-            PrintAligned(Status, , 1300, Y)
-            PrintAligned(IIf(Val(ServiceNo) > 0, ServiceNo, "[none]"), , 2000, Y)
-            PrintAligned(Microsoft.VisualBasic.Left(Vendor, 30), , 3000, Y)
-            PrintAligned(DateOfClaim, , 5900, Y)
-            PrintAligned(RepairCost, , 7200, Y)
-            PrintAligned(Paid, , 8400, Y)
+            Else
+                Dim Y As Integer
+                Y = OutputObject.CurrentY
+
+                PrintAligned(PartsOrderNo, , 10, Y)
+                PrintAligned(Status, , 1300, Y)
+                PrintAligned(IIf(Val(ServiceNo) > 0, ServiceNo, "[none]"), , 2000, Y)
+                PrintAligned(Microsoft.VisualBasic.Left(Vendor, 30), , 3000, Y)
+                PrintAligned(DateOfClaim, , 5900, Y)
+                PrintAligned(RepairCost, , 7200, Y)
+                PrintAligned(Paid, , 8400, Y)
+            End If
             RS.MoveNext()
         Loop
     End Sub

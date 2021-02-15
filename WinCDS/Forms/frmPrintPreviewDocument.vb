@@ -17,6 +17,8 @@ Public Class frmPrintPreviewDocument
     Public DateofClaimArray() As String
     Public TelephoneArray() As String
     Public ItemLineArray() As String
+    Private SecondPage As Boolean
+    Private Pages As Decimal, Cp As Integer = 1
 
     Public Sub NewPage()
         'Application.DoEvents()
@@ -164,6 +166,7 @@ LoadFailed:
         ServiceReports.ExecutePaint = False
         LoadBitmap = True
         SetButtonImage(btnPrint, 19)
+        SetButtonImage(btnClose, 2)
     End Sub
 
     Private Sub frmPrintPreviewDocument_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -188,7 +191,7 @@ LoadFailed:
         'fraNavigate.Location = New Point(Me.ClientSize.Width - fraNavigate.Width, Me.ClientSize.Height - fraNavigate.Height)
         '  fraNavigate.Move Printer.ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
         'fraNavigate.Move Printer.ScaleWidth, ScaleHeight - fraNavigate.Height
-        fraNavigate.Location = New Point(Me.Width - 220, Me.Height - 130)
+        fraNavigate.Location = New Point(Me.Width - 220, Me.Height - 140)
         'lblHelp.Top = Me.ClientSize.Height - lblHelp.Height
     End Sub
 
@@ -280,18 +283,23 @@ LoadFailed:
             'e.Graphics.DrawString(ItemLine, New Font("Lucida Console", 10), MyBrush, 0, TopValue + 15)
             '--------
             Dim R As Integer = 65, i As Integer, j As Integer
-            For i = 0 To SrnoArray.Count - 1
-                e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
-                e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 8), MyBrush, 100, R)
-                e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), New Font("Arial", 8), MyBrush, 200, R)
-                e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), New Font("Arial", 8), MyBrush, 300, R)
+            If ServiceReports.ReportTitle = "Open Service Call Report" Then
+                For i = 0 To SrnoArray.Count - 1
+                    e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
+                    e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 8), MyBrush, 100, R)
+                    e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), New Font("Arial", 8), MyBrush, 200, R)
+                    e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), New Font("Arial", 8), MyBrush, 300, R)
 
-                e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
-                'If i = 25 Then
-                '    fraNavigate.Location = New Point(picPicture.Width / 2, R)
-                'End If
-                R = R + 30
-            Next
+                    e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
+                    'If i = 25 Then
+                    '    fraNavigate.Location = New Point(picPicture.Width / 2, R)
+                    'End If
+                    R = R + 30
+                Next
+            ElseIf ServiceReports.ReportTitle = "Open Part Orders Report" Then
+
+            End If
+
             Dim Pages As Decimal
             Pages = i / 20
             Pages = Math.Ceiling(Pages)
@@ -301,12 +309,12 @@ LoadFailed:
             For j = 0 To R Step 4
                 e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
             Next
-
+        End If
             'fraNavigate.Location = New Point(800, 10)
 
-            'picPicture.Image = b
-            'b.Save("D:\pp.png", Imaging.ImageFormat.Png)
-        End If
+        'picPicture.Image = b
+        'b.Save("D:\pp.png", Imaging.ImageFormat.Png)
+
         'OutputObject.FontSize = 8
         ''PrintAligned("Time: " & Format(Now, "h:mm:ss am/pm"), , 10, 100)
         'PrintAligned("Time: " & Format(Now, "h:mm:ss tt"), , 10, 100)
@@ -319,44 +327,7 @@ LoadFailed:
         'OutputObject.FontSize = 9
         'OutputObject.FontBold = True
         'Y = OutputObject.CurrentY
-        'Select Case Mode
-        '    Case "SCR"
-        '        OutputObject.CurrentX = 0
-        '        OutputObject.CurrentY = 700
-        '        'PrintToTab(, "ServiceNo", 0)
-        '        'PrintToTab(, "ServiceNo", 0,,, 700, 0, True)
-        '        PrintToPosition2(, "ServiceNo", ,,, 700, 0)
-        '        'PrintToTab(, "DateOfClaim", 20)
-        '        'PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
-        '        PrintToPosition2(, "DateOfClaim", ,,, 700, 1500)
-        '        'PrintToTab(, "Last", 40)
-        '        'PrintToTab(, "Last", 40,,, 700, 40, True)
-        '        PrintToPosition2(, "Last", ,,, 700, 3000)
-        '        'PrintToTab(, "Telephone", 60)
-        '        'PrintToTab(, "Telephone", 60,,, 700, 60, True)
-        '        PrintToPosition2(, "Telephone", ,,, 700, 4800)
-        '        OutputObject.FontBold = False
-        '    Case "SPR"
-        '        PrintAligned("PartsOrderNo", , 10, Y, True)
-        '        PrintAligned("Status", , 1300, Y, True)
-        '        PrintAligned("ServiceNo", , 2000, Y, True)
-        '        PrintAligned("Vendor", , 3000, Y, True)
-        '        PrintAligned("DateOfClaim", , 5900, Y, True)
-        '        PrintAligned("Repair Cost", , 7200, Y, True)
-        '        PrintAligned("Paid", , 8400, Y, True)
-        '    Case "SBR"
-        '        PrintAligned("Vendor", , 10, Y, True)
-        '        PrintAligned("Date", , 3200, Y, True)
-        '        PrintAligned("Repair Cost", , 4500, Y, True)
-        '        PrintAligned("Type", , 6000, Y, True)
-        '        PrintAligned("PartsOrderNo", , 7500, Y, True)
-        '        PrintAligned("Status", , 8800, Y, True)
-        '        PrintAligned("Service No", , 9500, Y, True)
-        'End Select
-        'OutputObject.FontBold = False
 
-        'picPicture.Image = b
-        'b.Save("D:\pp.jpg", Imaging.ImageFormat.Jpeg)
     End Sub
 
     Dim ServiceNo As String
@@ -442,51 +413,53 @@ LoadFailed:
         Dim MyBrush As New SolidBrush(Color.Black)
         Dim PrintFont As Font = New Font("Arial", 8)
 
-        e.Graphics.DrawString(ServiceReports.ReportTitle, New Font("Arial", 18), MyBrush, picPicture.Width / 6, 10)
-        'Button1_Click(Button1, New EventArgs)
-        e.Graphics.DrawString("Time: " & Format(Now, "h:mm:ss tt"), New Font("Arial", 8), MyBrush, 1, 10)
-        If OutputToPrinter Then PageNumber = OutputObject.Page
-        'e.Graphics.DrawString("Page: " & PageNumber, New Font("Arial", 8), MyBrush, 1000, 10)
-        e.Graphics.DrawString(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, New Font("Arial", 8), MyBrush, picPicture.Width / 6, 35)
 
-        Select Case ServiceReports.Mode
-            Case "SCR"
-                'OutputObject.CurrentX = 0
-                'OutputObject.CurrentY = 700
-                'PrintToTab(, "ServiceNo", 0)
-                'PrintToTab(, "ServiceNo", 0,,, 700, 0, True)
-                'PrintToPosition2(, "ServiceNo", ,,, 700, 0)
-                e.Graphics.DrawString("ServiceNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
-                'PrintToTab(, "DateOfClaim", 20)
-                'PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
-                'PrintToPosition2(, "DateOfClaim", ,,, 700, 1500)
-                e.Graphics.DrawString("DateOfClaim", New Font("Arial", 9, FontStyle.Bold), MyBrush, 100, 50)
-                'PrintToTab(, "Last", 40)
-                'PrintToTab(, "Last", 40,,, 700, 40, True)
-                'PrintToPosition2(, "Last", ,,, 700, 3000)
-                e.Graphics.DrawString("Last", New Font("Arial", 9, FontStyle.Bold), MyBrush, 200, 50)
-                'PrintToTab(, "Telephone", 60)
-                'PrintToTab(, "Telephone", 60,,, 700, 60, True)
-                'PrintToPosition2(, "Telephone", ,,, 700, 4800)
-                e.Graphics.DrawString("Telephone", New Font("Arial", 9, FontStyle.Bold), MyBrush, 300, 50)
-                '    Case "SPR"
-                '        PrintAligned("PartsOrderNo", , 10, Y, True)
-                '        PrintAligned("Status", , 1300, Y, True)
-                '        PrintAligned("ServiceNo", , 2000, Y, True)
-                '        PrintAligned("Vendor", , 3000, Y, True)
-                '        PrintAligned("DateOfClaim", , 5900, Y, True)
-                '        PrintAligned("Repair Cost", , 7200, Y, True)
-                '        PrintAligned("Paid", , 8400, Y, True)
-                '    Case "SBR"
-                '        PrintAligned("Vendor", , 10, Y, True)
-                '        PrintAligned("Date", , 3200, Y, True)
-                '        PrintAligned("Repair Cost", , 4500, Y, True)
-                '        PrintAligned("Type", , 6000, Y, True)
-                '        PrintAligned("PartsOrderNo", , 7500, Y, True)
-                '        PrintAligned("Status", , 8800, Y, True)
-                '        PrintAligned("Service No", , 9500, Y, True)
-        End Select
+        If SecondPage = False Then
+            e.Graphics.DrawString(ServiceReports.ReportTitle, New Font("Arial", 18), MyBrush, picPicture.Width / 6, 10)
+            'Button1_Click(Button1, New EventArgs)
+            e.Graphics.DrawString("Time: " & Format(Now, "h:mm:ss tt"), New Font("Arial", 8), MyBrush, 1, 10)
+            If OutputToPrinter Then PageNumber = OutputObject.Page
+            'e.Graphics.DrawString("Page: " & PageNumber, New Font("Arial", 8), MyBrush, 1000, 10)
+            e.Graphics.DrawString(StoreSettings.Name & "    " & StoreSettings.Address & "    " & StoreSettings.City, New Font("Arial", 8), MyBrush, picPicture.Width / 6, 35)
 
+            Select Case ServiceReports.Mode
+                Case "SCR"
+                    'OutputObject.CurrentX = 0
+                    'OutputObject.CurrentY = 700
+                    'PrintToTab(, "ServiceNo", 0)
+                    'PrintToTab(, "ServiceNo", 0,,, 700, 0, True)
+                    'PrintToPosition2(, "ServiceNo", ,,, 700, 0)
+                    e.Graphics.DrawString("ServiceNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
+                    'PrintToTab(, "DateOfClaim", 20)
+                    'PrintToTab(, "DateOfClaim", 20,,, 700, 20, True)
+                    'PrintToPosition2(, "DateOfClaim", ,,, 700, 1500)
+                    e.Graphics.DrawString("DateOfClaim", New Font("Arial", 9, FontStyle.Bold), MyBrush, 100, 50)
+                    'PrintToTab(, "Last", 40)
+                    'PrintToTab(, "Last", 40,,, 700, 40, True)
+                    'PrintToPosition2(, "Last", ,,, 700, 3000)
+                    e.Graphics.DrawString("Last", New Font("Arial", 9, FontStyle.Bold), MyBrush, 200, 50)
+                    'PrintToTab(, "Telephone", 60)
+                    'PrintToTab(, "Telephone", 60,,, 700, 60, True)
+                    'PrintToPosition2(, "Telephone", ,,, 700, 4800)
+                    e.Graphics.DrawString("Telephone", New Font("Arial", 9, FontStyle.Bold), MyBrush, 300, 50)
+                    '    Case "SPR"
+                    '        PrintAligned("PartsOrderNo", , 10, Y, True)
+                    '        PrintAligned("Status", , 1300, Y, True)
+                    '        PrintAligned("ServiceNo", , 2000, Y, True)
+                    '        PrintAligned("Vendor", , 3000, Y, True)
+                    '        PrintAligned("DateOfClaim", , 5900, Y, True)
+                    '        PrintAligned("Repair Cost", , 7200, Y, True)
+                    '        PrintAligned("Paid", , 8400, Y, True)
+                    '    Case "SBR"
+                    '        PrintAligned("Vendor", , 10, Y, True)
+                    '        PrintAligned("Date", , 3200, Y, True)
+                    '        PrintAligned("Repair Cost", , 4500, Y, True)
+                    '        PrintAligned("Type", , 6000, Y, True)
+                    '        PrintAligned("PartsOrderNo", , 7500, Y, True)
+                    '        PrintAligned("Status", , 8800, Y, True)
+                    '        PrintAligned("Service No", , 9500, Y, True)
+            End Select
+        End If
         'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
         'e.Graphics.DrawString(PServiceNo, New Font("Arial", 10), MyBrush, 0, 65)
         'e.Graphics.DrawString(PDateOfClaim, New Font("Arial", 10), MyBrush, 100, 65)
@@ -516,7 +489,7 @@ LoadFailed:
             R = R + 15
             e.Graphics.DrawString("", PrintFont, MyBrush, 0, R)
             R = R + 15
-            LineNo = LineNo + 4
+            LineNo = LineNo + 3
             i = i + 1
         Loop
         'For i = 0 To SrnoArray.Count - 1
@@ -531,19 +504,29 @@ LoadFailed:
         '    e.Graphics.DrawString("", New Font("Arial", 8), MyBrush, 0, R)
         '    R = R + 15
         'Next
-        Dim Pages As Decimal
+
         Pages = i / 20
         Pages = Math.Ceiling(Pages)
-        e.Graphics.DrawString("Page: " & 1, New Font("Arial", 8), MyBrush, 700, 10)
+        Cp = Pages - Cp
+
+        'e.Graphics.DrawString("Page: " & 1, New Font("Arial", 8), MyBrush, 700, 10)
+        e.Graphics.DrawString("Page: " & Pages - Cp, New Font("Arial", 8), MyBrush, 700, 10)
         frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage + 1 & " of " & Pages
-
-
+        Cp = Cp + 1
 
         If i < SrnoArray.Count - 1 Then
             e.HasMorePages = True
+            SecondPage = True
         Else
             e.HasMorePages = False
         End If
+    End Sub
 
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        SkipFormActivate = False
+        'Unload frmPrintPreviewMain
+        frmPrintPreviewMain.Close()
+        'Unload Me
+        Me.Close()
     End Sub
 End Class
