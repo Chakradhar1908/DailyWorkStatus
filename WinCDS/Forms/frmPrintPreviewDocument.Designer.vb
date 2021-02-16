@@ -29,15 +29,17 @@ Partial Class frmPrintPreviewDocument
         Me.lblHelp = New System.Windows.Forms.Label()
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
+        Me.pnlPictureContainer = New System.Windows.Forms.Panel()
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraNavigate.SuspendLayout()
+        Me.pnlPictureContainer.SuspendLayout()
         Me.SuspendLayout()
         '
         'picPicture
         '
-        Me.picPicture.Location = New System.Drawing.Point(1, 12)
+        Me.picPicture.Location = New System.Drawing.Point(3, 3)
         Me.picPicture.Name = "picPicture"
-        Me.picPicture.Size = New System.Drawing.Size(268, 88)
+        Me.picPicture.Size = New System.Drawing.Size(297, 135)
         Me.picPicture.TabIndex = 0
         Me.picPicture.TabStop = False
         '
@@ -85,13 +87,22 @@ Partial Class frmPrintPreviewDocument
         'PrintDocument1
         '
         '
+        'pnlPictureContainer
+        '
+        Me.pnlPictureContainer.AutoScroll = True
+        Me.pnlPictureContainer.Controls.Add(Me.picPicture)
+        Me.pnlPictureContainer.Location = New System.Drawing.Point(10, 12)
+        Me.pnlPictureContainer.Name = "pnlPictureContainer"
+        Me.pnlPictureContainer.Size = New System.Drawing.Size(298, 124)
+        Me.pnlPictureContainer.TabIndex = 4
+        '
         'frmPrintPreviewDocument
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(322, 236)
         Me.ControlBox = False
-        Me.Controls.Add(Me.picPicture)
+        Me.Controls.Add(Me.pnlPictureContainer)
         Me.Controls.Add(Me.lblHelp)
         Me.Controls.Add(Me.fraNavigate)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -102,6 +113,7 @@ Partial Class frmPrintPreviewDocument
         Me.Text = "Up"
         CType(Me.picPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraNavigate.ResumeLayout(False)
+        Me.pnlPictureContainer.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -114,4 +126,5 @@ Partial Class frmPrintPreviewDocument
     Friend WithEvents btnClose As Button
     Friend WithEvents PrintDialog1 As PrintDialog
     Friend WithEvents PrintDocument1 As Printing.PrintDocument
+    Friend WithEvents pnlPictureContainer As Panel
 End Class

@@ -365,6 +365,20 @@
         '  Dim Style As String, Desc As String
         Dim RepairCost As String, Paid As String
         Dim CBType As String
+        Dim I As Integer
+
+        '<CT>
+        If TypeOf OutputObject Is PictureBox Then
+            ReDim frmPrintPreviewDocument.PartsOrderNoArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.StatusArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.ServiceNoArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.DateOfClaimPartsArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.VendorArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.CBTypeArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.RepairCostArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.PaidArray(RS.RecordCount)
+        End If
+        '</CT>
 
         Do Until RS.EOF
             PartsOrderNo = IfNullThenNilString(RS("ServicePartsOrderNo").Value)
@@ -380,7 +394,15 @@
             DoNewPage()
 
             If TypeOf OutputObject Is PictureBox Then
-
+                frmPrintPreviewDocument.PartsOrderNoArray(I) = PartsOrderNo
+                frmPrintPreviewDocument.StatusArray(I) = Status
+                frmPrintPreviewDocument.ServiceNoArray(I) = ServiceNo
+                frmPrintPreviewDocument.DateOfClaimPartsArray(I) = DateOfClaim
+                frmPrintPreviewDocument.VendorArray(I) = Vendor
+                frmPrintPreviewDocument.CBTypeArray(I) = CBType
+                frmPrintPreviewDocument.RepairCostArray(I) = RepairCost
+                frmPrintPreviewDocument.PaidArray(I) = Paid
+                I = I + 1
             Else
                 Dim Y As Integer
                 Y = OutputObject.CurrentY

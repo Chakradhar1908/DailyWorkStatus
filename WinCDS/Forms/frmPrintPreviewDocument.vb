@@ -17,8 +17,19 @@ Public Class frmPrintPreviewDocument
     Public DateofClaimArray() As String
     Public TelephoneArray() As String
     Public ItemLineArray() As String
+
+    Public PartsOrderNoArray() As String
+    Public StatusArray() As String
+    Public ServiceNoArray() As String
+    Public DateOfClaimPartsArray() As String
+    Public VendorArray() As String
+    Public CBTypeArray() As String
+    Public RepairCostArray() As String
+    Public PaidArray() As String
+
     Private SecondPage As Boolean
     Private Pages As Decimal, Cp As Integer = 1
+
 
     Public Sub NewPage()
         'Application.DoEvents()
@@ -177,14 +188,14 @@ LoadFailed:
         'Me.Size = New Size(frmPrintPreviewMain.ClientSize.Width, frmPrintPreviewMain.ClientSize.Height)
         'Me.Size = New Size(frmPrintPreviewMain.Width, frmPrintPreviewMain.Height)
         Me.Size = New Size(frmPrintPreviewMain.Width, frmPrintPreviewMain.Height)
+        pnlPictureContainer.Location = New Point(0, 0)
+        pnlPictureContainer.Size = New Size(Me.Width - 280, Me.Height)
         'picPicture.Move 0 - 30, 0 - 30, ScaleWidth + 30, 15840 + 1440 + 30 '1440=1 Inch
         'picPicture.Location = New Point(0 - 30, 0 - 30)
         picPicture.Location = New Point(0, 0)
         'picPicture.Size = New Size(Me.ClientSize.Width + 30, 15840 + 1440 + 30)
-        picPicture.Size = New Size(Me.Width - 280, Me.Height)
+        picPicture.Size = New Size(pnlPictureContainer.Width, pnlPictureContainer.Height + 50)
 
-        'pnlPicture.Location = New Point(0, 0)
-        'pnlPicture.Size = New Size(Me.Width, Me.Height)
 
         On Error Resume Next ' Printer.Scalewidth can fail...
         'fraNavigate.Move ScaleWidth - fraNavigate.Width, ScaleHeight - fraNavigate.Height
@@ -253,14 +264,21 @@ LoadFailed:
                     'PrintToTab(, "Telephone", 60,,, 700, 60, True)
                     'PrintToPosition2(, "Telephone", ,,, 700, 4800)
                     e.Graphics.DrawString("Telephone", New Font("Arial", 9, FontStyle.Bold), MyBrush, 300, 50)
-                    '    Case "SPR"
-                    '        PrintAligned("PartsOrderNo", , 10, Y, True)
-                    '        PrintAligned("Status", , 1300, Y, True)
-                    '        PrintAligned("ServiceNo", , 2000, Y, True)
-                    '        PrintAligned("Vendor", , 3000, Y, True)
-                    '        PrintAligned("DateOfClaim", , 5900, Y, True)
-                    '        PrintAligned("Repair Cost", , 7200, Y, True)
-                    '        PrintAligned("Paid", , 8400, Y, True)
+                Case "SPR"
+                    'PrintAligned("PartsOrderNo", , 0, 50, True)
+                    e.Graphics.DrawString("PartsOrderNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
+                    'PrintAligned("Status", , 100, 50, True)
+                    e.Graphics.DrawString("Status", New Font("Arial", 9, FontStyle.Bold), MyBrush, 90, 50)
+                    'PrintAligned("ServiceNo", , 200, 50, True)
+                    e.Graphics.DrawString("ServiceNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 130, 50)
+                    'PrintAligned("Vendor", , 300, 50, True)
+                    e.Graphics.DrawString("Vendor", New Font("Arial", 9, FontStyle.Bold), MyBrush, 220, 50)
+                    'PrintAligned("DateOfClaim", , 400, 50, True)
+                    e.Graphics.DrawString("DateOfClaim", New Font("Arial", 9, FontStyle.Bold), MyBrush, 400, 50)
+                    'PrintAligned("Repair Cost", , 500, 50, True)
+                    e.Graphics.DrawString("Repair Cost", New Font("Arial", 9, FontStyle.Bold), MyBrush, 500, 50)
+                    'PrintAligned("Paid", , 600, 50, True)
+                    e.Graphics.DrawString("Paid", New Font("Arial", 9, FontStyle.Bold), MyBrush, 600, 50)
                     '    Case "SBR"
                     '        PrintAligned("Vendor", , 10, Y, True)
                     '        PrintAligned("Date", , 3200, Y, True)
@@ -289,15 +307,20 @@ LoadFailed:
                     e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 8), MyBrush, 100, R)
                     e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), New Font("Arial", 8), MyBrush, 200, R)
                     e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), New Font("Arial", 8), MyBrush, 300, R)
-
                     e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
-                    'If i = 25 Then
-                    '    fraNavigate.Location = New Point(picPicture.Width / 2, R)
-                    'End If
                     R = R + 30
                 Next
             ElseIf ServiceReports.ReportTitle = "Open Part Orders Report" Then
-
+                For i = 0 To PartsOrderNoArray.Count - 1
+                    e.Graphics.DrawString(PartsOrderNoArray(i), New Font("Arial", 8), MyBrush, 0, R)
+                    e.Graphics.DrawString(StatusArray(i), New Font("Arial", 8), MyBrush, 90, R)
+                    e.Graphics.DrawString(IIf(Val(ServiceNoArray(i)) > 0, ServiceNoArray(i), "none"), New Font("Arial", 8), MyBrush, 130, R)
+                    e.Graphics.DrawString(Microsoft.VisualBasic.Left(VendorArray(i), 30), New Font("Arial", 8), MyBrush, 220, R)
+                    e.Graphics.DrawString(DateOfClaimPartsArray(i), New Font("Arial", 8), MyBrush, 400, R)
+                    e.Graphics.DrawString(RepairCostArray(i), New Font("Arial", 8), MyBrush, 500, R)
+                    e.Graphics.DrawString(PaidArray(i), New Font("Arial", 8), MyBrush, 600, R)
+                    R = R + 15
+                Next
             End If
 
             Dim Pages As Decimal
@@ -306,12 +329,23 @@ LoadFailed:
             e.Graphics.DrawString("Page: " & 1, New Font("Arial", 8), MyBrush, 700, 10)
             frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage + 1 & " of " & Pages
 
-            For j = 0 To R Step 4
+            For j = 0 To (R + 15) Step 4
                 e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
             Next
-        End If
-            'fraNavigate.Location = New Point(800, 10)
 
+            If picPicture.Height < R Then
+                picPicture.Height = R
+                For j = 0 To (R + 15) Step 4
+                    e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
+                Next
+            Else
+                For j = 0 To picPicture.Height Step 4
+                    e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
+                Next
+            End If
+        End If
+
+        'fraNavigate.Location = New Point(800, 10)
         'picPicture.Image = b
         'b.Save("D:\pp.png", Imaging.ImageFormat.Png)
 
@@ -327,7 +361,6 @@ LoadFailed:
         'OutputObject.FontSize = 9
         'OutputObject.FontBold = True
         'Y = OutputObject.CurrentY
-
     End Sub
 
     Dim ServiceNo As String
@@ -529,4 +562,5 @@ LoadFailed:
         'Unload Me
         Me.Close()
     End Sub
+
 End Class
