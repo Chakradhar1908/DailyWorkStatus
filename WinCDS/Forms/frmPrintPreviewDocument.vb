@@ -314,7 +314,7 @@ LoadFailed:
                 For i = 0 To PartsOrderNoArray.Count - 1
                     e.Graphics.DrawString(PartsOrderNoArray(i), New Font("Arial", 8), MyBrush, 0, R)
                     e.Graphics.DrawString(StatusArray(i), New Font("Arial", 8), MyBrush, 90, R)
-                    e.Graphics.DrawString(IIf(Val(ServiceNoArray(i)) > 0, ServiceNoArray(i), "none"), New Font("Arial", 8), MyBrush, 130, R)
+                    e.Graphics.DrawString(IIf(Val(ServiceNoArray(i)) > 0, ServiceNoArray(i), "[none]"), New Font("Arial", 8), MyBrush, 130, R)
                     e.Graphics.DrawString(Microsoft.VisualBasic.Left(VendorArray(i), 30), New Font("Arial", 8), MyBrush, 220, R)
                     e.Graphics.DrawString(DateOfClaimPartsArray(i), New Font("Arial", 8), MyBrush, 400, R)
                     e.Graphics.DrawString(RepairCostArray(i), New Font("Arial", 8), MyBrush, 500, R)
@@ -475,14 +475,21 @@ LoadFailed:
                     'PrintToTab(, "Telephone", 60,,, 700, 60, True)
                     'PrintToPosition2(, "Telephone", ,,, 700, 4800)
                     e.Graphics.DrawString("Telephone", New Font("Arial", 9, FontStyle.Bold), MyBrush, 300, 50)
-                    '    Case "SPR"
+                Case "SPR"
                     '        PrintAligned("PartsOrderNo", , 10, Y, True)
+                    e.Graphics.DrawString("PartsOrderNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
                     '        PrintAligned("Status", , 1300, Y, True)
+                    e.Graphics.DrawString("Status", New Font("Arial", 9, FontStyle.Bold), MyBrush, 90, 50)
                     '        PrintAligned("ServiceNo", , 2000, Y, True)
+                    e.Graphics.DrawString("ServiceNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 130, 50)
                     '        PrintAligned("Vendor", , 3000, Y, True)
+                    e.Graphics.DrawString("Vendor", New Font("Arial", 9, FontStyle.Bold), MyBrush, 220, 50)
                     '        PrintAligned("DateOfClaim", , 5900, Y, True)
+                    e.Graphics.DrawString("DateOfClaim", New Font("Arial", 9, FontStyle.Bold), MyBrush, 400, 50)
                     '        PrintAligned("Repair Cost", , 7200, Y, True)
+                    e.Graphics.DrawString("Repair Cost", New Font("Arial", 9, FontStyle.Bold), MyBrush, 500, 50)
                     '        PrintAligned("Paid", , 8400, Y, True)
+                    e.Graphics.DrawString("Paid", New Font("Arial", 9, FontStyle.Bold), MyBrush, 600, 50)
                     '    Case "SBR"
                     '        PrintAligned("Vendor", , 10, Y, True)
                     '        PrintAligned("Date", , 3200, Y, True)
@@ -511,20 +518,40 @@ LoadFailed:
         LinesPerPage = e.MarginBounds.Height / PrintFont.GetHeight(e.Graphics)
         LinesPerPage = Math.Ceiling(LinesPerPage)
 
-        Do While LineNo < LinesPerPage And i < (SrnoArray.Count - 1)
-            e.Graphics.DrawString(SrnoArray(i), PrintFont, MyBrush, 0, R)
-            e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), PrintFont, MyBrush, 100, R)
-            e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), PrintFont, MyBrush, 200, R)
-            e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), PrintFont, MyBrush, 300, R)
-            R = R + 15
-            'e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
-            e.Graphics.DrawString(ItemLineArray(i), PrintFont, MyBrush, 0, R)
-            R = R + 15
-            e.Graphics.DrawString("", PrintFont, MyBrush, 0, R)
-            R = R + 15
-            LineNo = LineNo + 3
-            i = i + 1
-        Loop
+        If ServiceReports.ReportTitle = "Open Service Call Report" Then
+            Do While LineNo < LinesPerPage And i < (SrnoArray.Count - 1)
+                e.Graphics.DrawString(SrnoArray(i), PrintFont, MyBrush, 0, R)
+                e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), PrintFont, MyBrush, 100, R)
+                e.Graphics.DrawString(Microsoft.VisualBasic.Left(LastNameArray(i), 20), PrintFont, MyBrush, 200, R)
+                e.Graphics.DrawString(DressAni(CleanAni(TelephoneArray(i), 0)), PrintFont, MyBrush, 300, R)
+                R = R + 15
+                'e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
+                e.Graphics.DrawString(ItemLineArray(i), PrintFont, MyBrush, 0, R)
+                R = R + 15
+                e.Graphics.DrawString("", PrintFont, MyBrush, 0, R)
+                R = R + 15
+                LineNo = LineNo + 3
+                i = i + 1
+            Loop
+        ElseIf ServiceReports.ReportTitle = "Open Part Orders Report" Then
+            Do While LineNo < LinesPerPage And i < (PartsOrderNoArray.Count - 1)
+                e.Graphics.DrawString(PartsOrderNoArray(i), PrintFont, MyBrush, 0, R)
+                e.Graphics.DrawString(StatusArray(i), PrintFont, MyBrush, 90, R)
+                e.Graphics.DrawString(IIf(Val(ServiceNoArray(i)) > 0, ServiceNoArray(i), "[none]"), PrintFont, MyBrush, 130, R)
+                e.Graphics.DrawString(Microsoft.VisualBasic.Left(VendorArray(i), 30), PrintFont, MyBrush, 220, R)
+                e.Graphics.DrawString(DateOfClaimPartsArray(i), PrintFont, MyBrush, 400, R)
+                e.Graphics.DrawString(RepairCostArray(i), PrintFont, MyBrush, 500, R)
+                e.Graphics.DrawString(PaidArray(i), PrintFont, MyBrush, 600, R)
+                'R = R + 15
+                'e.Graphics.DrawString(ItemLineArray(i), New Font("Lucida Console", 8), MyBrush, 0, R + 15)
+                'e.Graphics.DrawString(ItemLineArray(i), PrintFont, MyBrush, 0, R)
+                'R = R + 15
+                'e.Graphics.DrawString("", PrintFont, MyBrush, 0, R)
+                R = R + 15
+                LineNo = LineNo + 3
+                i = i + 1
+            Loop
+        End If
         'For i = 0 To SrnoArray.Count - 1
         '    e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
         '    e.Graphics.DrawString(DateFormat(DateofClaimArray(i)), New Font("Arial", 8), MyBrush, 100, R)
@@ -547,12 +574,22 @@ LoadFailed:
         frmPrintPreviewMain.Text = "Print Preview: " & ReportName & ", page " & CurrentPage + 1 & " of " & Pages
         Cp = Cp + 1
 
-        If i < SrnoArray.Count - 1 Then
-            e.HasMorePages = True
-            SecondPage = True
-        Else
-            e.HasMorePages = False
+        If ServiceReports.ReportTitle = "Open Service Call Report" Then
+            If i < SrnoArray.Count - 1 Then
+                e.HasMorePages = True
+                SecondPage = True
+            Else
+                e.HasMorePages = False
+            End If
+        ElseIf ServiceReports.ReportTitle = "Open Part Orders Report" Then
+            If i < PartsOrderNoArray.Count - 1 Then
+                e.HasMorePages = True
+                SecondPage = True
+            Else
+                e.HasMorePages = False
+            End If
         End If
+
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
