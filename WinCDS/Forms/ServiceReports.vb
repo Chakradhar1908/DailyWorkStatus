@@ -198,7 +198,7 @@
         OutputObject.FontBold = False
     End Sub
 
-    Private Sub DoNewPage(Optional ByVal ExtraLines As Integer = 2)
+    Public Sub DoNewPage(Optional ByVal ExtraLines As Integer = 2)
         Dim ExtraHeight As Integer
         Dim Newpage As Boolean
 
@@ -426,33 +426,60 @@
         '  Dim Style As String, Desc As String
         Dim RepairCost As String, Paid As String
         Dim CBType As String
-
         Dim TotCost As Decimal
+        Dim I As Integer
 
         TotCost = 0
+
+        '<CT>
+        If TypeOf OutputObject Is PictureBox Then
+            ReDim frmPrintPreviewDocument.BPartsOrderNoArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BStatusArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BServiceNoArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BDateOfClaimArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BVendorArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BCBTypeArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BRepairCostArray(RS.RecordCount)
+            ReDim frmPrintPreviewDocument.BPaidArray(RS.RecordCount)
+        End If
+        '</CT>
+
         Do Until RS.EOF
             PartsOrderNo = IfNullThenNilString(RS("ServicePartsOrderNo").Value)
             Status = IfNullThenNilString(RS("Status").Value)
             ServiceNo = IfNullThenNilString(RS("ServiceOrderNo").Value)
             DateOfClaim = IfNullThenNilString(RS("DateOfClaim").Value)
             Vendor = IfNullThenNilString(RS("Vendor").Value)
-
             CBType = ServiceParts.ChargeBackTypeDesc(RS("ChargeBackType").Value)
             RepairCost = FormatCurrency(IfNullThenZero(RS("ChargeBackAmount").Value))
             Paid = YesNo(IfNullThenZero(RS("Paid").Value) <> 0)
 
             DoNewPage()
 
-            Dim Y As Integer
-            Y = OutputObject.CurrentY
-            PrintAligned(Microsoft.VisualBasic.Left(Vendor, 30), , 10, Y)
-            PrintAligned(DateOfClaim, , 3200, Y)
-            PrintAligned(RepairCost, , 4500, Y)
-            PrintAligned(CBType, , 6000, Y)
-            PrintAligned(PartsOrderNo, , 7500, Y)
-            PrintAligned(Status, , 8800, Y)
-            PrintAligned(ServiceNo, , 9500, Y)
-            TotCost = TotCost + RS("ChargeBackAmount").Value
+            If TypeOf OutputObject Is PictureBox Then
+                frmPrintPreviewDocument.BPartsOrderNoArray(I) = PartsOrderNo
+                frmPrintPreviewDocument.BStatusArray(I) = Status
+                frmPrintPreviewDocument.BServiceNoArray(I) = ServiceNo
+                frmPrintPreviewDocument.BDateOfClaimArray(I) = DateOfClaim
+                frmPrintPreviewDocument.BVendorArray(I) = Vendor
+                frmPrintPreviewDocument.BCBTypeArray(I) = CBType
+                frmPrintPreviewDocument.BRepairCostArray(I) = RepairCost
+                frmPrintPreviewDocument.BPaidArray(I) = Paid
+                TotCost = TotCost + RS("ChargeBackAmount").Value
+                frmPrintPreviewDocument.TotalCost = TotCost
+                I = I + 1
+            Else
+                Dim Y As Integer
+                Y = OutputObject.CurrentY
+                PrintAligned(Microsoft.VisualBasic.Left(Vendor, 30), , 10, Y)
+                PrintAligned(DateOfClaim, , 3200, Y)
+                PrintAligned(RepairCost, , 4500, Y)
+                PrintAligned(CBType, , 6000, Y)
+                PrintAligned(PartsOrderNo, , 7500, Y)
+                PrintAligned(Status, , 8800, Y)
+                PrintAligned(ServiceNo, , 9500, Y)
+                TotCost = TotCost + RS("ChargeBackAmount").Value
+            End If
             RS.MoveNext()
         Loop
 
@@ -461,6 +488,10 @@
         PrintAligned("----------", , 4500, , True)
         PrintAligned(FormatCurrency(TotCost), , 4500, , True)
         PrintAligned("----------", , 4500, , True)
+
+        '<CT>
+        OutputObject = frmPrintPreviewDocument.picPicture
+        '</CT>
     End Sub
 
 End Class

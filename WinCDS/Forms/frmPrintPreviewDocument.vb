@@ -27,9 +27,18 @@ Public Class frmPrintPreviewDocument
     Public RepairCostArray() As String
     Public PaidArray() As String
 
+    Public BPartsOrderNoArray() As String
+    Public BStatusArray() As String
+    Public BServiceNoArray() As String
+    Public BDateOfClaimArray() As String
+    Public BVendorArray() As String
+    Public BCBTypeArray() As String
+    Public BRepairCostArray() As String
+    Public BPaidArray() As String
+
     Private SecondPage As Boolean
     Private Pages As Decimal, Cp As Integer = 1
-
+    Public TotalCost As Decimal
 
     Public Sub NewPage()
         'Application.DoEvents()
@@ -279,14 +288,21 @@ LoadFailed:
                     e.Graphics.DrawString("Repair Cost", New Font("Arial", 9, FontStyle.Bold), MyBrush, 500, 50)
                     'PrintAligned("Paid", , 600, 50, True)
                     e.Graphics.DrawString("Paid", New Font("Arial", 9, FontStyle.Bold), MyBrush, 600, 50)
-                    '    Case "SBR"
+                Case "SBR"
                     '        PrintAligned("Vendor", , 10, Y, True)
+                    e.Graphics.DrawString("Vendor", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
                     '        PrintAligned("Date", , 3200, Y, True)
+                    e.Graphics.DrawString("Date", New Font("Arial", 9, FontStyle.Bold), MyBrush, 160, 50)
                     '        PrintAligned("Repair Cost", , 4500, Y, True)
+                    e.Graphics.DrawString("Repair Cost", New Font("Arial", 9, FontStyle.Bold), MyBrush, 240, 50)
                     '        PrintAligned("Type", , 6000, Y, True)
+                    e.Graphics.DrawString("Type", New Font("Arial", 9, FontStyle.Bold), MyBrush, 330, 50)
                     '        PrintAligned("PartsOrderNo", , 7500, Y, True)
+                    e.Graphics.DrawString("PartsOrderNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 460, 50)
                     '        PrintAligned("Status", , 8800, Y, True)
+                    e.Graphics.DrawString("Status", New Font("Arial", 9, FontStyle.Bold), MyBrush, 550, 50)
                     '        PrintAligned("Service No", , 9500, Y, True)
+                    e.Graphics.DrawString("Service No", New Font("Arial", 9, FontStyle.Bold), MyBrush, 600, 50)
             End Select
 
             'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
@@ -321,6 +337,17 @@ LoadFailed:
                     e.Graphics.DrawString(PaidArray(i), New Font("Arial", 8), MyBrush, 600, R)
                     R = R + 15
                 Next
+            ElseIf ServiceReports.ReportTitle = "Service Parts Billing Report" Then
+                For i = 0 To BPartsOrderNoArray.Count - 1
+                    e.Graphics.DrawString(Microsoft.VisualBasic.Left(BVendorArray(i), 30), New Font("Arial", 8), MyBrush, 0, R)
+                    e.Graphics.DrawString(BDateOfClaimArray(i), New Font("Arial", 8), MyBrush, 160, R)
+                    e.Graphics.DrawString(BRepairCostArray(i), New Font("Arial", 8), MyBrush, 240, R)
+                    e.Graphics.DrawString(BCBTypeArray(i), New Font("Arial", 8), MyBrush, 330, R)
+                    e.Graphics.DrawString(BPartsOrderNoArray(i), New Font("Arial", 8), MyBrush, 460, R)
+                    e.Graphics.DrawString(BStatusArray(i), New Font("Arial", 8), MyBrush, 550, R)
+                    e.Graphics.DrawString(BServiceNoArray(i), New Font("Arial", 8), MyBrush, 600, R)
+                    R = R + 15
+                Next
             End If
 
             Dim Pages As Decimal
@@ -338,10 +365,20 @@ LoadFailed:
                 For j = 0 To (R + 15) Step 4
                     e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
                 Next
+                e.Graphics.DrawString("----------", New Font("Arial", 8, FontStyle.Bold), MyBrush, 240, R - 15)
+                'R = R + 15
+                e.Graphics.DrawString(FormatCurrency(TotalCost), New Font("Arial", 9, FontStyle.Bold), MyBrush, 240, R)
+                R = R + 15
+                e.Graphics.DrawString("----------", New Font("Arial", 8, FontStyle.Bold), MyBrush, 240, R)
             Else
                 For j = 0 To picPicture.Height Step 4
                     e.Graphics.DrawString("'", New Font("Arial", 8), MyBrush, (picPicture.Width / 2) + 180, j)
                 Next
+                e.Graphics.DrawString("----------", New Font("Arial", 8, FontStyle.Bold), MyBrush, 240, R - 15)
+                'R = R + 15
+                e.Graphics.DrawString(FormatCurrency(TotalCost), New Font("Arial", 9, FontStyle.Bold), MyBrush, 240, R)
+                R = R + 15
+                e.Graphics.DrawString("----------", New Font("Arial", 8, FontStyle.Bold), MyBrush, 240, R)
             End If
         End If
 
@@ -490,7 +527,7 @@ LoadFailed:
                     e.Graphics.DrawString("Repair Cost", New Font("Arial", 9, FontStyle.Bold), MyBrush, 500, 50)
                     '        PrintAligned("Paid", , 8400, Y, True)
                     e.Graphics.DrawString("Paid", New Font("Arial", 9, FontStyle.Bold), MyBrush, 600, 50)
-                    '    Case "SBR"
+                Case "SBR"
                     '        PrintAligned("Vendor", , 10, Y, True)
                     '        PrintAligned("Date", , 3200, Y, True)
                     '        PrintAligned("Repair Cost", , 4500, Y, True)
@@ -498,6 +535,13 @@ LoadFailed:
                     '        PrintAligned("PartsOrderNo", , 7500, Y, True)
                     '        PrintAligned("Status", , 8800, Y, True)
                     '        PrintAligned("Service No", , 9500, Y, True)
+                    e.Graphics.DrawString("Vendor", New Font("Arial", 9, FontStyle.Bold), MyBrush, 0, 50)
+                    e.Graphics.DrawString("Date", New Font("Arial", 9, FontStyle.Bold), MyBrush, 160, 50)
+                    e.Graphics.DrawString("Repair Cost", New Font("Arial", 9, FontStyle.Bold), MyBrush, 240, 50)
+                    e.Graphics.DrawString("Type", New Font("Arial", 9, FontStyle.Bold), MyBrush, 330, 50)
+                    e.Graphics.DrawString("PartsOrderNo", New Font("Arial", 9, FontStyle.Bold), MyBrush, 460, 50)
+                    e.Graphics.DrawString("Status", New Font("Arial", 9, FontStyle.Bold), MyBrush, 550, 50)
+                    e.Graphics.DrawString("Service No", New Font("Arial", 9, FontStyle.Bold), MyBrush, 600, 50)
             End Select
         End If
         'e.Graphics.DrawString(PrintText, New Font("Arial", 10), MyBrush, L, T)
@@ -551,6 +595,19 @@ LoadFailed:
                 LineNo = LineNo + 3
                 i = i + 1
             Loop
+        ElseIf ServiceReports.ReportTitle = "Service Parts Billing Report" Then
+            Do While LineNo < LinesPerPage And i < (BPartsOrderNoArray.Count - 1)
+                e.Graphics.DrawString(BVendorArray(i), PrintFont, MyBrush, 0, R)
+                e.Graphics.DrawString(BDateOfClaimArray(i), PrintFont, MyBrush, 160, R)
+                e.Graphics.DrawString(BRepairCostArray(i), PrintFont, MyBrush, 240, R)
+                e.Graphics.DrawString(BCBTypeArray(i), PrintFont, MyBrush, 330, R)
+                e.Graphics.DrawString(BPartsOrderNoArray(i), PrintFont, MyBrush, 460, R)
+                e.Graphics.DrawString(BStatusArray(i), PrintFont, MyBrush, 550, R)
+                e.Graphics.DrawString(BServiceNoArray(i), PrintFont, MyBrush, 600, R)
+                R = R + 15
+                LineNo = LineNo + 3
+                i = i + 1
+            Loop
         End If
         'For i = 0 To SrnoArray.Count - 1
         '    e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
@@ -588,8 +645,23 @@ LoadFailed:
             Else
                 e.HasMorePages = False
             End If
+        ElseIf ServiceReports.ReportTitle = "Service Parts Billing Report" Then
+            If i < BPartsOrderNoArray.Count - 1 Then
+                e.HasMorePages = True
+                SecondPage = True
+            Else
+                e.HasMorePages = False
+                ServiceReports.DoNewPage(3)
+                'PrintAligned("----------", , 4500, , True)
+                e.Graphics.DrawString("----------", New Font("Arial", 8, FontStyle.Bold), MyBrush, 240, R)
+                'PrintAligned(FormatCurrency(TotCost), , 4500, , True)
+                R = R + 15
+                e.Graphics.DrawString(FormatCurrency(TotalCost), New Font("Arial", 9, FontStyle.Bold), MyBrush, 240, R)
+                'PrintAligned("----------", , 4500, , True)
+                R = R + 15
+                e.Graphics.DrawString("----------", New Font("Arial", 8, FontStyle.Bold), MyBrush, 240, R)
+            End If
         End If
-
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
