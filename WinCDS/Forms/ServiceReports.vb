@@ -427,7 +427,7 @@
         Dim RepairCost As String, Paid As String
         Dim CBType As String
         Dim TotCost As Decimal
-        Dim I As Integer
+        Dim I As Integer, PrintPreview As Boolean
 
         TotCost = 0
 
@@ -441,6 +441,7 @@
             ReDim frmPrintPreviewDocument.BCBTypeArray(RS.RecordCount)
             ReDim frmPrintPreviewDocument.BRepairCostArray(RS.RecordCount)
             ReDim frmPrintPreviewDocument.BPaidArray(RS.RecordCount)
+            PrintPreview = True
         End If
         '</CT>
 
@@ -490,7 +491,9 @@
         PrintAligned("----------", , 4500, , True)
 
         '<CT>
-        OutputObject = frmPrintPreviewDocument.picPicture
+        If PrintPreview = True Then
+            OutputObject = frmPrintPreviewDocument.picPicture
+        End If
         '</CT>
     End Sub
 

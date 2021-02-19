@@ -348,6 +348,17 @@ LoadFailed:
                     e.Graphics.DrawString(BServiceNoArray(i), New Font("Arial", 8), MyBrush, 600, R)
                     R = R + 15
                 Next
+            ElseIf ServiceReports.ReportTitle = "Unpaid Service Orders" Then
+                For i = 0 To BPartsOrderNoArray.Count - 1
+                    e.Graphics.DrawString(Microsoft.VisualBasic.Left(BVendorArray(i), 30), New Font("Arial", 8), MyBrush, 0, R)
+                    e.Graphics.DrawString(BDateOfClaimArray(i), New Font("Arial", 8), MyBrush, 160, R)
+                    e.Graphics.DrawString(BRepairCostArray(i), New Font("Arial", 8), MyBrush, 240, R)
+                    e.Graphics.DrawString(BCBTypeArray(i), New Font("Arial", 8), MyBrush, 330, R)
+                    e.Graphics.DrawString(BPartsOrderNoArray(i), New Font("Arial", 8), MyBrush, 460, R)
+                    e.Graphics.DrawString(BStatusArray(i), New Font("Arial", 8), MyBrush, 550, R)
+                    e.Graphics.DrawString(BServiceNoArray(i), New Font("Arial", 8), MyBrush, 600, R)
+                    R = R + 15
+                Next
             End If
 
             Dim Pages As Decimal
@@ -608,6 +619,19 @@ LoadFailed:
                 LineNo = LineNo + 3
                 i = i + 1
             Loop
+        ElseIf ServiceReports.ReportTitle = "Unpaid Service Orders" Then
+            Do While LineNo < LinesPerPage And i < (BPartsOrderNoArray.Count - 1)
+                e.Graphics.DrawString(BVendorArray(i), PrintFont, MyBrush, 0, R)
+                e.Graphics.DrawString(BDateOfClaimArray(i), PrintFont, MyBrush, 160, R)
+                e.Graphics.DrawString(BRepairCostArray(i), PrintFont, MyBrush, 240, R)
+                e.Graphics.DrawString(BCBTypeArray(i), PrintFont, MyBrush, 330, R)
+                e.Graphics.DrawString(BPartsOrderNoArray(i), PrintFont, MyBrush, 460, R)
+                e.Graphics.DrawString(BStatusArray(i), PrintFont, MyBrush, 550, R)
+                e.Graphics.DrawString(BServiceNoArray(i), PrintFont, MyBrush, 600, R)
+                R = R + 15
+                LineNo = LineNo + 3
+                i = i + 1
+            Loop
         End If
         'For i = 0 To SrnoArray.Count - 1
         '    e.Graphics.DrawString(SrnoArray(i), New Font("Arial", 8), MyBrush, 0, R)
@@ -645,7 +669,7 @@ LoadFailed:
             Else
                 e.HasMorePages = False
             End If
-        ElseIf ServiceReports.ReportTitle = "Service Parts Billing Report" Then
+        ElseIf ServiceReports.ReportTitle = "Service Parts Billing Report" Or ServiceReports.ReportTitle = "Unpaid Service Orders" Then
             If i < BPartsOrderNoArray.Count - 1 Then
                 e.HasMorePages = True
                 SecondPage = True

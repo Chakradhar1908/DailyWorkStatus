@@ -113,4 +113,8 @@ HandleErr:
 
         fraInformation.Top = imgPicture.Top + imgPicture.Height + 100
     End Sub
+
+    Private Sub fraControl_Enter(sender As Object, e As EventArgs) Handles fraControl.Enter
+
+    End Sub
 End Class
