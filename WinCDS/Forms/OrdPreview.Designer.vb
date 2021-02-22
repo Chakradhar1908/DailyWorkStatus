@@ -54,26 +54,26 @@ Partial Class OrdPreview
         Me.lblOrder7 = New System.Windows.Forms.Label()
         Me.lblOrder8 = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.imgPicture = New System.Windows.Forms.PictureBox()
-        Me.fraInformation = New System.Windows.Forms.GroupBox()
-        Me.StoreName = New System.Windows.Forms.Label()
-        Me.fraControl = New System.Windows.Forms.GroupBox()
-        Me.lblOnSale = New System.Windows.Forms.Label()
-        Me.cmdClose = New System.Windows.Forms.Button()
-        Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.cmdShow = New System.Windows.Forms.Button()
-        Me.cmdNext = New System.Windows.Forms.Button()
-        Me.lblManufacturer = New System.Windows.Forms.Label()
-        Me.cboVendor = New System.Windows.Forms.ComboBox()
-        Me.lblDepartment = New System.Windows.Forms.Label()
-        Me.cboDepartment = New System.Windows.Forms.ComboBox()
-        Me.lblStyle = New System.Windows.Forms.Label()
         Me.cmdMoveFirst = New System.Windows.Forms.Button()
         Me.cmdMovePrevious = New System.Windows.Forms.Button()
         Me.cmdMoveNext = New System.Windows.Forms.Button()
         Me.cmdMoveLast = New System.Windows.Forms.Button()
         Me.cmdPrevStores = New System.Windows.Forms.Button()
         Me.cmdNextStores = New System.Windows.Forms.Button()
+        Me.imgPicture = New System.Windows.Forms.PictureBox()
+        Me.fraInformation = New System.Windows.Forms.GroupBox()
+        Me.StoreName = New System.Windows.Forms.Label()
+        Me.fraControl = New System.Windows.Forms.GroupBox()
+        Me.lblStyle = New System.Windows.Forms.Label()
+        Me.cboDepartment = New System.Windows.Forms.ComboBox()
+        Me.lblDepartment = New System.Windows.Forms.Label()
+        Me.cboVendor = New System.Windows.Forms.ComboBox()
+        Me.lblManufacturer = New System.Windows.Forms.Label()
+        Me.cmdNext = New System.Windows.Forms.Button()
+        Me.cmdShow = New System.Windows.Forms.Button()
+        Me.cmdPrint = New System.Windows.Forms.Button()
+        Me.cmdClose = New System.Windows.Forms.Button()
+        Me.lblOnSale = New System.Windows.Forms.Label()
         Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.imgPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fraInformation.SuspendLayout()
@@ -334,6 +334,66 @@ Partial Class OrdPreview
         Me.lblOrder8.TabIndex = 29
         Me.lblOrder8.Text = "Label9"
         '
+        'cmdMoveFirst
+        '
+        Me.cmdMoveFirst.Location = New System.Drawing.Point(23, 316)
+        Me.cmdMoveFirst.Name = "cmdMoveFirst"
+        Me.cmdMoveFirst.Size = New System.Drawing.Size(30, 23)
+        Me.cmdMoveFirst.TabIndex = 33
+        Me.cmdMoveFirst.Text = "<<"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveFirst, " Move To The First Record ")
+        Me.cmdMoveFirst.UseVisualStyleBackColor = True
+        '
+        'cmdMovePrevious
+        '
+        Me.cmdMovePrevious.Location = New System.Drawing.Point(51, 316)
+        Me.cmdMovePrevious.Name = "cmdMovePrevious"
+        Me.cmdMovePrevious.Size = New System.Drawing.Size(30, 23)
+        Me.cmdMovePrevious.TabIndex = 38
+        Me.cmdMovePrevious.Text = "<"
+        Me.ToolTip1.SetToolTip(Me.cmdMovePrevious, " Move Back 1 Record ")
+        Me.cmdMovePrevious.UseVisualStyleBackColor = True
+        '
+        'cmdMoveNext
+        '
+        Me.cmdMoveNext.Location = New System.Drawing.Point(79, 316)
+        Me.cmdMoveNext.Name = "cmdMoveNext"
+        Me.cmdMoveNext.Size = New System.Drawing.Size(30, 23)
+        Me.cmdMoveNext.TabIndex = 39
+        Me.cmdMoveNext.Text = ">"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveNext, " Move Forward 1 Record ")
+        Me.cmdMoveNext.UseVisualStyleBackColor = True
+        '
+        'cmdMoveLast
+        '
+        Me.cmdMoveLast.Location = New System.Drawing.Point(107, 316)
+        Me.cmdMoveLast.Name = "cmdMoveLast"
+        Me.cmdMoveLast.Size = New System.Drawing.Size(30, 23)
+        Me.cmdMoveLast.TabIndex = 40
+        Me.cmdMoveLast.Text = ">>"
+        Me.ToolTip1.SetToolTip(Me.cmdMoveLast, " Move To The Last Record ")
+        Me.cmdMoveLast.UseVisualStyleBackColor = True
+        '
+        'cmdPrevStores
+        '
+        Me.cmdPrevStores.Location = New System.Drawing.Point(13, 60)
+        Me.cmdPrevStores.Name = "cmdPrevStores"
+        Me.cmdPrevStores.Size = New System.Drawing.Size(25, 18)
+        Me.cmdPrevStores.TabIndex = 34
+        Me.cmdPrevStores.Text = "<"
+        Me.ToolTip1.SetToolTip(Me.cmdPrevStores, " Move Back 1 Record ")
+        Me.cmdPrevStores.UseVisualStyleBackColor = True
+        '
+        'cmdNextStores
+        '
+        Me.cmdNextStores.Location = New System.Drawing.Point(36, 60)
+        Me.cmdNextStores.Name = "cmdNextStores"
+        Me.cmdNextStores.Size = New System.Drawing.Size(25, 18)
+        Me.cmdNextStores.TabIndex = 35
+        Me.cmdNextStores.Text = ">"
+        Me.ToolTip1.SetToolTip(Me.cmdNextStores, " Move Forward 1 Record ")
+        Me.cmdNextStores.UseVisualStyleBackColor = True
+        '
         'imgPicture
         '
         Me.imgPicture.Location = New System.Drawing.Point(190, 46)
@@ -415,67 +475,22 @@ Partial Class OrdPreview
         Me.fraControl.TabIndex = 32
         Me.fraControl.TabStop = False
         '
-        'lblOnSale
+        'lblStyle
         '
-        Me.lblOnSale.AutoSize = True
-        Me.lblOnSale.Font = New System.Drawing.Font("Times New Roman", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOnSale.Location = New System.Drawing.Point(22, 16)
-        Me.lblOnSale.Name = "lblOnSale"
-        Me.lblOnSale.Size = New System.Drawing.Size(108, 27)
-        Me.lblOnSale.TabIndex = 33
-        Me.lblOnSale.Text = "Sale Price"
+        Me.lblStyle.AutoSize = True
+        Me.lblStyle.Location = New System.Drawing.Point(16, 273)
+        Me.lblStyle.Name = "lblStyle"
+        Me.lblStyle.Size = New System.Drawing.Size(33, 13)
+        Me.lblStyle.TabIndex = 33
+        Me.lblStyle.Text = "&Style:"
         '
-        'cmdClose
+        'cboDepartment
         '
-        Me.cmdClose.Location = New System.Drawing.Point(19, 81)
-        Me.cmdClose.Name = "cmdClose"
-        Me.cmdClose.Size = New System.Drawing.Size(61, 42)
-        Me.cmdClose.TabIndex = 33
-        Me.cmdClose.Text = "&Close"
-        Me.cmdClose.UseVisualStyleBackColor = True
-        '
-        'cmdPrint
-        '
-        Me.cmdPrint.Location = New System.Drawing.Point(79, 81)
-        Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(57, 42)
-        Me.cmdPrint.TabIndex = 34
-        Me.cmdPrint.Text = " &Print"
-        Me.cmdPrint.UseVisualStyleBackColor = True
-        '
-        'cmdShow
-        '
-        Me.cmdShow.Location = New System.Drawing.Point(19, 122)
-        Me.cmdShow.Name = "cmdShow"
-        Me.cmdShow.Size = New System.Drawing.Size(117, 26)
-        Me.cmdShow.TabIndex = 35
-        Me.cmdShow.UseVisualStyleBackColor = True
-        '
-        'cmdNext
-        '
-        Me.cmdNext.Location = New System.Drawing.Point(19, 145)
-        Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(117, 30)
-        Me.cmdNext.TabIndex = 36
-        Me.cmdNext.Text = "&Select Item By Style"
-        Me.cmdNext.UseVisualStyleBackColor = True
-        '
-        'lblManufacturer
-        '
-        Me.lblManufacturer.AutoSize = True
-        Me.lblManufacturer.Location = New System.Drawing.Point(16, 183)
-        Me.lblManufacturer.Name = "lblManufacturer"
-        Me.lblManufacturer.Size = New System.Drawing.Size(73, 13)
-        Me.lblManufacturer.TabIndex = 33
-        Me.lblManufacturer.Text = "&Manufacturer:"
-        '
-        'cboVendor
-        '
-        Me.cboVendor.FormattingEnabled = True
-        Me.cboVendor.Location = New System.Drawing.Point(27, 198)
-        Me.cboVendor.Name = "cboVendor"
-        Me.cboVendor.Size = New System.Drawing.Size(121, 21)
-        Me.cboVendor.TabIndex = 33
+        Me.cboDepartment.FormattingEnabled = True
+        Me.cboDepartment.Location = New System.Drawing.Point(27, 242)
+        Me.cboDepartment.Name = "cboDepartment"
+        Me.cboDepartment.Size = New System.Drawing.Size(121, 21)
+        Me.cboDepartment.TabIndex = 37
         '
         'lblDepartment
         '
@@ -486,82 +501,67 @@ Partial Class OrdPreview
         Me.lblDepartment.TabIndex = 33
         Me.lblDepartment.Text = "&Department:"
         '
-        'cboDepartment
+        'cboVendor
         '
-        Me.cboDepartment.FormattingEnabled = True
-        Me.cboDepartment.Location = New System.Drawing.Point(27, 242)
-        Me.cboDepartment.Name = "cboDepartment"
-        Me.cboDepartment.Size = New System.Drawing.Size(121, 21)
-        Me.cboDepartment.TabIndex = 37
+        Me.cboVendor.FormattingEnabled = True
+        Me.cboVendor.Location = New System.Drawing.Point(27, 198)
+        Me.cboVendor.Name = "cboVendor"
+        Me.cboVendor.Size = New System.Drawing.Size(121, 21)
+        Me.cboVendor.TabIndex = 33
         '
-        'lblStyle
+        'lblManufacturer
         '
-        Me.lblStyle.AutoSize = True
-        Me.lblStyle.Location = New System.Drawing.Point(16, 273)
-        Me.lblStyle.Name = "lblStyle"
-        Me.lblStyle.Size = New System.Drawing.Size(33, 13)
-        Me.lblStyle.TabIndex = 33
-        Me.lblStyle.Text = "&Style:"
+        Me.lblManufacturer.AutoSize = True
+        Me.lblManufacturer.Location = New System.Drawing.Point(16, 183)
+        Me.lblManufacturer.Name = "lblManufacturer"
+        Me.lblManufacturer.Size = New System.Drawing.Size(73, 13)
+        Me.lblManufacturer.TabIndex = 33
+        Me.lblManufacturer.Text = "&Manufacturer:"
         '
-        'cmdMoveFirst
+        'cmdNext
         '
-        Me.cmdMoveFirst.Location = New System.Drawing.Point(23, 316)
-        Me.cmdMoveFirst.Name = "cmdMoveFirst"
-        Me.cmdMoveFirst.Size = New System.Drawing.Size(30, 23)
-        Me.cmdMoveFirst.TabIndex = 33
-        Me.cmdMoveFirst.Text = "<<"
-        Me.ToolTip1.SetToolTip(Me.cmdMoveFirst, " Move To The First Record ")
-        Me.cmdMoveFirst.UseVisualStyleBackColor = True
+        Me.cmdNext.Location = New System.Drawing.Point(19, 145)
+        Me.cmdNext.Name = "cmdNext"
+        Me.cmdNext.Size = New System.Drawing.Size(117, 30)
+        Me.cmdNext.TabIndex = 36
+        Me.cmdNext.Text = "&Select Item By Style"
+        Me.cmdNext.UseVisualStyleBackColor = True
         '
-        'cmdMovePrevious
+        'cmdShow
         '
-        Me.cmdMovePrevious.Location = New System.Drawing.Point(51, 316)
-        Me.cmdMovePrevious.Name = "cmdMovePrevious"
-        Me.cmdMovePrevious.Size = New System.Drawing.Size(30, 23)
-        Me.cmdMovePrevious.TabIndex = 38
-        Me.cmdMovePrevious.Text = "<"
-        Me.ToolTip1.SetToolTip(Me.cmdMovePrevious, " Move Back 1 Record ")
-        Me.cmdMovePrevious.UseVisualStyleBackColor = True
+        Me.cmdShow.Location = New System.Drawing.Point(19, 122)
+        Me.cmdShow.Name = "cmdShow"
+        Me.cmdShow.Size = New System.Drawing.Size(117, 26)
+        Me.cmdShow.TabIndex = 35
+        Me.cmdShow.UseVisualStyleBackColor = True
         '
-        'cmdMoveNext
+        'cmdPrint
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(79, 316)
-        Me.cmdMoveNext.Name = "cmdMoveNext"
-        Me.cmdMoveNext.Size = New System.Drawing.Size(30, 23)
-        Me.cmdMoveNext.TabIndex = 39
-        Me.cmdMoveNext.Text = ">"
-        Me.ToolTip1.SetToolTip(Me.cmdMoveNext, " Move Forward 1 Record ")
-        Me.cmdMoveNext.UseVisualStyleBackColor = True
+        Me.cmdPrint.Location = New System.Drawing.Point(79, 81)
+        Me.cmdPrint.Name = "cmdPrint"
+        Me.cmdPrint.Size = New System.Drawing.Size(57, 42)
+        Me.cmdPrint.TabIndex = 34
+        Me.cmdPrint.Text = " &Print"
+        Me.cmdPrint.UseVisualStyleBackColor = True
         '
-        'cmdMoveLast
+        'cmdClose
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(107, 316)
-        Me.cmdMoveLast.Name = "cmdMoveLast"
-        Me.cmdMoveLast.Size = New System.Drawing.Size(30, 23)
-        Me.cmdMoveLast.TabIndex = 40
-        Me.cmdMoveLast.Text = ">>"
-        Me.ToolTip1.SetToolTip(Me.cmdMoveLast, " Move To The Last Record ")
-        Me.cmdMoveLast.UseVisualStyleBackColor = True
+        Me.cmdClose.Location = New System.Drawing.Point(19, 81)
+        Me.cmdClose.Name = "cmdClose"
+        Me.cmdClose.Size = New System.Drawing.Size(61, 42)
+        Me.cmdClose.TabIndex = 33
+        Me.cmdClose.Text = "&Close"
+        Me.cmdClose.UseVisualStyleBackColor = True
         '
-        'cmdPrevStores
+        'lblOnSale
         '
-        Me.cmdPrevStores.Location = New System.Drawing.Point(13, 60)
-        Me.cmdPrevStores.Name = "cmdPrevStores"
-        Me.cmdPrevStores.Size = New System.Drawing.Size(25, 18)
-        Me.cmdPrevStores.TabIndex = 34
-        Me.cmdPrevStores.Text = "<"
-        Me.ToolTip1.SetToolTip(Me.cmdPrevStores, " Move Back 1 Record ")
-        Me.cmdPrevStores.UseVisualStyleBackColor = True
-        '
-        'cmdNextStores
-        '
-        Me.cmdNextStores.Location = New System.Drawing.Point(36, 60)
-        Me.cmdNextStores.Name = "cmdNextStores"
-        Me.cmdNextStores.Size = New System.Drawing.Size(25, 18)
-        Me.cmdNextStores.TabIndex = 35
-        Me.cmdNextStores.Text = ">"
-        Me.ToolTip1.SetToolTip(Me.cmdNextStores, " Move Forward 1 Record ")
-        Me.cmdNextStores.UseVisualStyleBackColor = True
+        Me.lblOnSale.AutoSize = True
+        Me.lblOnSale.Font = New System.Drawing.Font("Times New Roman", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOnSale.Location = New System.Drawing.Point(22, 16)
+        Me.lblOnSale.Name = "lblOnSale"
+        Me.lblOnSale.Size = New System.Drawing.Size(108, 27)
+        Me.lblOnSale.TabIndex = 33
+        Me.lblOnSale.Text = "Sale Price"
         '
         'OrdPreview
         '
