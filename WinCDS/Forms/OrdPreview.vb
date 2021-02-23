@@ -142,18 +142,18 @@ HandleErr:
     Private Sub OrdPreview_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
         Dim MaxPicX As Integer, MaxPicY As Integer
         'MaxPicX = ScaleWidth - imgPicture.Left - 240
-        MaxPicX = Me.ClientSize.Width - imgPicture.Left - 240
+        MaxPicX = Me.ClientSize.Width - imgPicture.Left - 24
         'MaxPicY = ScaleHeight - imgPicture.Top - fraInformation.Height - 100 - 240
-        MaxPicY = Me.ClientSize.Height - imgPicture.Top - fraInformation.Height - 100 - 240
+        MaxPicY = Me.ClientSize.Height - imgPicture.Top - fraInformation.Height - 10 - 24
 
         MaintainPictureRatio(imgPicture, MaxPicX, MaxPicY)
 
         StoreName.Width = imgPicture.Width
         fraInformation.Width = imgPicture.Width
-        Comments.Width = IIf(fraInformation.Width - 240 > 0, fraInformation.Width - 240, 10)
+        Comments.Width = IIf(fraInformation.Width - 24 > 0, fraInformation.Width - 24, 1)
         Desc.Width = Comments.Width
 
-        fraInformation.Top = imgPicture.Top + imgPicture.Height + 100
+        fraInformation.Top = imgPicture.Top + imgPicture.Height + 10
     End Sub
 
     Private Sub fraControl_Enter(sender As Object, e As EventArgs) Handles fraControl.Enter
@@ -825,6 +825,7 @@ HandleErr:
 
     Private Sub ArrangeInfo()
         Dim Max As Integer, N As Integer, I As Integer
+
         Max = LicensedNoOfStores()
 
         cmdNextStores.Visible = LicensedNoOfStores() > 8
@@ -867,6 +868,102 @@ HandleErr:
                     lblStore8.Visible = False
                     lblStock8.Visible = False
                     lblOrder8.Visible = False
+                Case 9
+                    StoreVisible("lblStore9")
+                    StockVisible("lblStock9")
+                    OrderVisible("lblOrder9")
+                Case 10
+                    StoreVisible("lblStore10")
+                    StockVisible("lblStock10")
+                    OrderVisible("lblOrder10")
+                Case 11
+                    StoreVisible("lblStore11")
+                    StockVisible("lblStock11")
+                    OrderVisible("lblOrder11")
+                Case 12
+                    StoreVisible("lblStore12")
+                    StockVisible("lblStock12")
+                    OrderVisible("lblOrder12")
+                Case 13
+                    StoreVisible("lblStore13")
+                    StockVisible("lblStock13")
+                    OrderVisible("lblOrder13")
+                Case 14
+                    StoreVisible("lblStore14")
+                    StockVisible("lblStock14")
+                    OrderVisible("lblOrder14")
+                Case 15
+                    StoreVisible("lblStore15")
+                    StockVisible("lblStock15")
+                    OrderVisible("lblOrder15")
+                Case 16
+                    StoreVisible("lblStore16")
+                    StockVisible("lblStock16")
+                    OrderVisible("lblOrder16")
+                Case 17
+                    StoreVisible("lblStore17")
+                    StockVisible("lblStock17")
+                    OrderVisible("lblOrder17")
+                Case 18
+                    StoreVisible("lblStore18")
+                    StockVisible("lblStock18")
+                    OrderVisible("lblOrder18")
+                Case 19
+                    StoreVisible("lblStore19")
+                    StockVisible("lblStock19")
+                    OrderVisible("lblOrder19")
+                Case 20
+                    StoreVisible("lblStore20")
+                    StockVisible("lblStock20")
+                    OrderVisible("lblOrder20")
+                Case 21
+                    StoreVisible("lblStore21")
+                    StockVisible("lblStock21")
+                    OrderVisible("lblOrder21")
+                Case 22
+                    StoreVisible("lblStore22")
+                    StockVisible("lblStock22")
+                    OrderVisible("lblOrder22")
+                Case 23
+                    StoreVisible("lblStore23")
+                    StockVisible("lblStock23")
+                    OrderVisible("lblOrder23")
+                Case 24
+                    StoreVisible("lblStore24")
+                    StockVisible("lblStock24")
+                    OrderVisible("lblOrder24")
+                Case 25
+                    StoreVisible("lblStore25")
+                    StockVisible("lblStock25")
+                    OrderVisible("lblOrder25")
+                Case 26
+                    StoreVisible("lblStore26")
+                    StockVisible("lblStock26")
+                    OrderVisible("lblOrder26")
+                Case 27
+                    StoreVisible("lblStore27")
+                    StockVisible("lblStock27")
+                    OrderVisible("lblOrder27")
+                Case 28
+                    StoreVisible("lblStore28")
+                    StockVisible("lblStock28")
+                    OrderVisible("lblOrder28")
+                Case 29
+                    StoreVisible("lblStore29")
+                    StockVisible("lblStock29")
+                    OrderVisible("lblOrder29")
+                Case 30
+                    StoreVisible("lblStore30")
+                    StockVisible("lblStock30")
+                    OrderVisible("lblOrder30")
+                Case 31
+                    StoreVisible("lblStore31")
+                    StockVisible("lblStock31")
+                    OrderVisible("lblOrder31")
+                Case 32
+                    StoreVisible("lblStore32")
+                    StockVisible("lblStock32")
+                    OrderVisible("lblOrder32")
             End Select
         Next
 
@@ -974,6 +1071,32 @@ HandleErr:
         Next
     End Sub
 
+    Private Sub StoreVisible(ByVal Lname As String)
+        For Each c As Control In Me.Controls
+            If c.Name = Lname Then
+                c.Visible = False
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub StockVisible(ByVal Lname As String)
+        For Each c As Control In Me.Controls
+            If c.Name = Lname Then
+                c.Visible = False
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub OrderVisible(ByVal Lname As String)
+        For Each c As Control In Me.Controls
+            If c.Name = Lname Then
+                c.Visible = False
+                Exit For
+            End If
+        Next
+    End Sub
     Private Sub cmdPrevStores_Click(sender As Object, e As EventArgs) Handles cmdPrevStores.Click
         InfoBase = 1
         ArrangeInfo()
