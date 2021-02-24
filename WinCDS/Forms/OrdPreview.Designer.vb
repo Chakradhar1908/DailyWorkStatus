@@ -86,35 +86,35 @@ Partial Class OrdPreview
         Me.OnSale.Location = New System.Drawing.Point(6, 53)
         Me.OnSale.Name = "OnSale"
         Me.OnSale.Size = New System.Drawing.Size(108, 29)
-        Me.OnSale.TabIndex = 0
+        Me.OnSale.TabIndex = 40
         Me.OnSale.Text = "Label1"
         '
         'Desc
         '
-        Me.Desc.AutoSize = True
         Me.Desc.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Desc.Location = New System.Drawing.Point(153, 15)
+        Me.Desc.Location = New System.Drawing.Point(6, 15)
         Me.Desc.Name = "Desc"
-        Me.Desc.Size = New System.Drawing.Size(111, 17)
+        Me.Desc.Size = New System.Drawing.Size(363, 17)
         Me.Desc.TabIndex = 1
         Me.Desc.Text = "DESCRIPTION"
+        Me.Desc.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'Comments
         '
-        Me.Comments.AutoSize = True
         Me.Comments.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Comments.Location = New System.Drawing.Point(172, 32)
+        Me.Comments.Location = New System.Drawing.Point(6, 32)
         Me.Comments.Name = "Comments"
-        Me.Comments.Size = New System.Drawing.Size(81, 17)
+        Me.Comments.Size = New System.Drawing.Size(363, 25)
         Me.Comments.TabIndex = 2
         Me.Comments.Text = "Comments"
+        Me.Comments.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'txtStyle
         '
-        Me.txtStyle.Location = New System.Drawing.Point(27, 288)
+        Me.txtStyle.Location = New System.Drawing.Point(27, 281)
         Me.txtStyle.Name = "txtStyle"
         Me.txtStyle.Size = New System.Drawing.Size(121, 20)
-        Me.txtStyle.TabIndex = 3
+        Me.txtStyle.TabIndex = 41
         '
         'lblStore1
         '
@@ -336,7 +336,7 @@ Partial Class OrdPreview
         '
         'cmdMoveFirst
         '
-        Me.cmdMoveFirst.Location = New System.Drawing.Point(23, 316)
+        Me.cmdMoveFirst.Location = New System.Drawing.Point(23, 311)
         Me.cmdMoveFirst.Name = "cmdMoveFirst"
         Me.cmdMoveFirst.Size = New System.Drawing.Size(30, 23)
         Me.cmdMoveFirst.TabIndex = 33
@@ -346,7 +346,7 @@ Partial Class OrdPreview
         '
         'cmdMovePrevious
         '
-        Me.cmdMovePrevious.Location = New System.Drawing.Point(51, 316)
+        Me.cmdMovePrevious.Location = New System.Drawing.Point(51, 311)
         Me.cmdMovePrevious.Name = "cmdMovePrevious"
         Me.cmdMovePrevious.Size = New System.Drawing.Size(30, 23)
         Me.cmdMovePrevious.TabIndex = 38
@@ -356,7 +356,7 @@ Partial Class OrdPreview
         '
         'cmdMoveNext
         '
-        Me.cmdMoveNext.Location = New System.Drawing.Point(79, 316)
+        Me.cmdMoveNext.Location = New System.Drawing.Point(79, 311)
         Me.cmdMoveNext.Name = "cmdMoveNext"
         Me.cmdMoveNext.Size = New System.Drawing.Size(30, 23)
         Me.cmdMoveNext.TabIndex = 39
@@ -366,7 +366,7 @@ Partial Class OrdPreview
         '
         'cmdMoveLast
         '
-        Me.cmdMoveLast.Location = New System.Drawing.Point(107, 316)
+        Me.cmdMoveLast.Location = New System.Drawing.Point(107, 311)
         Me.cmdMoveLast.Name = "cmdMoveLast"
         Me.cmdMoveLast.Size = New System.Drawing.Size(30, 23)
         Me.cmdMoveLast.TabIndex = 40
@@ -437,7 +437,7 @@ Partial Class OrdPreview
         Me.fraInformation.Location = New System.Drawing.Point(190, 280)
         Me.fraInformation.Name = "fraInformation"
         Me.fraInformation.Size = New System.Drawing.Size(375, 121)
-        Me.fraInformation.TabIndex = 31
+        Me.fraInformation.TabIndex = 0
         Me.fraInformation.TabStop = False
         Me.fraInformation.Text = "Item Information"
         '
@@ -447,7 +447,7 @@ Partial Class OrdPreview
         Me.StoreName.Location = New System.Drawing.Point(186, 9)
         Me.StoreName.Name = "StoreName"
         Me.StoreName.Size = New System.Drawing.Size(379, 30)
-        Me.StoreName.TabIndex = 0
+        Me.StoreName.TabIndex = 38
         Me.StoreName.Text = "Store Name"
         Me.StoreName.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
@@ -471,14 +471,14 @@ Partial Class OrdPreview
         Me.fraControl.Controls.Add(Me.OnSale)
         Me.fraControl.Location = New System.Drawing.Point(12, 41)
         Me.fraControl.Name = "fraControl"
-        Me.fraControl.Size = New System.Drawing.Size(156, 360)
+        Me.fraControl.Size = New System.Drawing.Size(156, 350)
         Me.fraControl.TabIndex = 32
         Me.fraControl.TabStop = False
         '
         'lblStyle
         '
         Me.lblStyle.AutoSize = True
-        Me.lblStyle.Location = New System.Drawing.Point(16, 273)
+        Me.lblStyle.Location = New System.Drawing.Point(16, 266)
         Me.lblStyle.Name = "lblStyle"
         Me.lblStyle.Size = New System.Drawing.Size(33, 13)
         Me.lblStyle.TabIndex = 33
@@ -487,7 +487,7 @@ Partial Class OrdPreview
         'cboDepartment
         '
         Me.cboDepartment.FormattingEnabled = True
-        Me.cboDepartment.Location = New System.Drawing.Point(27, 242)
+        Me.cboDepartment.Location = New System.Drawing.Point(27, 245)
         Me.cboDepartment.Name = "cboDepartment"
         Me.cboDepartment.Size = New System.Drawing.Size(121, 21)
         Me.cboDepartment.TabIndex = 37
@@ -495,7 +495,7 @@ Partial Class OrdPreview
         'lblDepartment
         '
         Me.lblDepartment.AutoSize = True
-        Me.lblDepartment.Location = New System.Drawing.Point(16, 227)
+        Me.lblDepartment.Location = New System.Drawing.Point(16, 230)
         Me.lblDepartment.Name = "lblDepartment"
         Me.lblDepartment.Size = New System.Drawing.Size(65, 13)
         Me.lblDepartment.TabIndex = 33
@@ -504,7 +504,7 @@ Partial Class OrdPreview
         'cboVendor
         '
         Me.cboVendor.FormattingEnabled = True
-        Me.cboVendor.Location = New System.Drawing.Point(27, 198)
+        Me.cboVendor.Location = New System.Drawing.Point(27, 209)
         Me.cboVendor.Name = "cboVendor"
         Me.cboVendor.Size = New System.Drawing.Size(121, 21)
         Me.cboVendor.TabIndex = 33
@@ -512,7 +512,7 @@ Partial Class OrdPreview
         'lblManufacturer
         '
         Me.lblManufacturer.AutoSize = True
-        Me.lblManufacturer.Location = New System.Drawing.Point(16, 183)
+        Me.lblManufacturer.Location = New System.Drawing.Point(16, 194)
         Me.lblManufacturer.Name = "lblManufacturer"
         Me.lblManufacturer.Size = New System.Drawing.Size(73, 13)
         Me.lblManufacturer.TabIndex = 33
@@ -520,7 +520,7 @@ Partial Class OrdPreview
         '
         'cmdNext
         '
-        Me.cmdNext.Location = New System.Drawing.Point(19, 145)
+        Me.cmdNext.Location = New System.Drawing.Point(19, 156)
         Me.cmdNext.Name = "cmdNext"
         Me.cmdNext.Size = New System.Drawing.Size(117, 30)
         Me.cmdNext.TabIndex = 36
@@ -529,7 +529,7 @@ Partial Class OrdPreview
         '
         'cmdShow
         '
-        Me.cmdShow.Location = New System.Drawing.Point(19, 122)
+        Me.cmdShow.Location = New System.Drawing.Point(19, 133)
         Me.cmdShow.Name = "cmdShow"
         Me.cmdShow.Size = New System.Drawing.Size(117, 26)
         Me.cmdShow.TabIndex = 35
@@ -539,7 +539,7 @@ Partial Class OrdPreview
         '
         Me.cmdPrint.Location = New System.Drawing.Point(79, 81)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(57, 42)
+        Me.cmdPrint.Size = New System.Drawing.Size(57, 53)
         Me.cmdPrint.TabIndex = 34
         Me.cmdPrint.Text = " &Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
@@ -548,7 +548,7 @@ Partial Class OrdPreview
         '
         Me.cmdClose.Location = New System.Drawing.Point(19, 81)
         Me.cmdClose.Name = "cmdClose"
-        Me.cmdClose.Size = New System.Drawing.Size(61, 42)
+        Me.cmdClose.Size = New System.Drawing.Size(61, 53)
         Me.cmdClose.TabIndex = 33
         Me.cmdClose.Text = "&Close"
         Me.cmdClose.UseVisualStyleBackColor = True
@@ -560,7 +560,7 @@ Partial Class OrdPreview
         Me.lblOnSale.Location = New System.Drawing.Point(22, 16)
         Me.lblOnSale.Name = "lblOnSale"
         Me.lblOnSale.Size = New System.Drawing.Size(108, 27)
-        Me.lblOnSale.TabIndex = 33
+        Me.lblOnSale.TabIndex = 39
         Me.lblOnSale.Text = "Sale Price"
         '
         'OrdPreview

@@ -94,9 +94,9 @@ SkipItem:
             Do Until RS.EOF
                 ReDim Preserve DepartmentList(0 To N)       ' Add active elements.
                 With DepartmentList(N)
-                    .ID = IfNullThenZero(RS("id"))
-                    .Name = IfNullThenNilString(RS("name"))
-                    .Status = IfNullThenZero(RS("status"))
+                    .ID = IfNullThenZero(RS("id").Value)
+                    .Name = IfNullThenNilString(RS("name").Value)
+                    .Status = IfNullThenZero(RS("status").Value)
                 End With
                 N = N + 1
                 RS.MoveNext()

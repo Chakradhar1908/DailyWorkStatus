@@ -3,11 +3,13 @@ Public Class OrdPreview
     Public RN As Integer
     Private InfoBase As Integer
     Private mShowingLabels As Boolean
-    Private Const H_FraInfoShowInfo As Integer = 2055
-    Private Const H_FraInfoHideInfo As Integer = 855
+    Private Const H_FraInfoShowInfo As Integer = 205
+    Private Const H_FraInfoHideInfo As Integer = 58
 
     Public Sub Navigate(ByVal Forward As Boolean, ByVal Absolute As Boolean)
         Dim SQL As String, Rest As String, RS As ADODB.Recordset
+        Dim GetDeptValue As Integer
+
         Rest = " ASC"
         SQL = "SELECT"
         If Absolute Then
@@ -23,7 +25,8 @@ Public Class OrdPreview
         '  SQL = SQL & " FROM [2Data] WHERE (TRUE=TRUE)"
         SQL = SQL & " FROM [2Data] WHERE Rn IN (SELECT Rn From Search) AND (TRUE=TRUE)"
         If GetVendor() <> "" Then SQL = SQL & " AND (Vendor = """ & ProtectSQL(GetVendor) & """)"
-        If GetDept() <> 0 Then SQL = SQL & " AND (Dept = '" & GetDept() & "')"
+        'If GetDept() <> 0 Then SQL = SQL & " AND (Dept = '" & GetDept() & "')"
+        If GetDeptValue = GetDept() <> 0 Then SQL = SQL & " AND (Dept = '" & GetDeptValue & "')"
         If Not Absolute Then SQL = SQL & " AND (Style " & IIf(Forward, ">", "<") & " '" & txtStyle.Text & "')"
         SQL = SQL & " ORDER BY STYLE"
         SQL = SQL & Rest
