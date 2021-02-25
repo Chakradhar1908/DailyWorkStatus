@@ -3,8 +3,8 @@ Public Class OrdPreview
     Public RN As Integer
     Private InfoBase As Integer
     Private mShowingLabels As Boolean
-    Private Const H_FraInfoShowInfo As Integer = 205
-    Private Const H_FraInfoHideInfo As Integer = 58
+    Private Const H_FraInfoShowInfo As Integer = 120
+    Private Const H_FraInfoHideInfo As Integer = 60
 
     Public Sub Navigate(ByVal Forward As Boolean, ByVal Absolute As Boolean)
         Dim SQL As String, Rest As String, RS As ADODB.Recordset
@@ -1002,73 +1002,92 @@ HandleErr:
                     Case 2
                         lblStore2.Visible = True
                         lblStore2.Top = lblStore1.Top
-                        lblStore2.Left = 90 + 60 * (2 - 1)
+                        'lblStore2.Left = 90 + 60 * (2 - 1)
+                        lblStore2.Left = 90 + 50 * (2 - 1)
                         lblStock2.Visible = True
                         lblStock2.Top = lblStock1.Top
-                        lblStock2.Left = 100 + 60 * (2 - 1)
+                        lblStock2.Left = 100 + 40 * (2 - 1)
                         lblOrder2.Visible = True
                         lblOrder2.Top = lblOrder1.Top
-                        lblOrder2.Left = 100 + 50 * (2 - 1)
+                        lblOrder2.Left = 100 + 40 * (2 - 1)
                     Case 3
                         lblStore3.Visible = True
                         lblStore3.Top = lblStore1.Top
-                        lblStore3.Left = 90 + 60 * (3 - 1)
+                        'lblStore3.Left = 90 + 60 * (3 - 1)
+                        lblStore3.Left = 90 + 100
                         lblStock3.Visible = True
                         lblStock3.Top = lblStock1.Top
-                        lblStock3.Left = 100 + 60 * (3 - 1)
+                        'lblStock3.Left = 100 + 60 * (3 - 1)
+                        lblStock3.Left = 100 + 90
                         lblOrder3.Visible = True
                         lblOrder3.Top = lblOrder1.Top
-                        lblOrder3.Left = 100 + 50 * (3 - 1)
+                        'lblOrder3.Left = 100 + 50 * (3 - 1)
+                        lblOrder3.Left = 100 + 90
                     Case 4
                         lblStore4.Visible = True
                         lblStore4.Top = lblStore1.Top
-                        lblStore4.Left = 90 + 60 * (4 - 1)
+                        'lblStore4.Left = 90 + 60 * (4 - 1)
+                        lblStore4.Left = 90 + 150
                         lblStock4.Visible = True
                         lblStock4.Top = lblStock1.Top
-                        lblStock4.Left = 100 + 60 * (4 - 1)
+                        'lblStock4.Left = 100 + 60 * (4 - 1)
+                        lblStock4.Left = 100 + 140
                         lblOrder4.Visible = True
                         lblOrder4.Top = lblOrder1.Top
-                        lblOrder4.Left = 100 + 50 * (4 - 1)
+                        'lblOrder4.Left = 100 + 50 * (4 - 1)
+                        lblOrder4.Left = 100 + 140
                     Case 5
                         lblStore5.Visible = True
                         lblStore5.Top = lblStore1.Top
-                        lblStore5.Left = 90 + 60 * (5 - 1)
+                        'lblStore5.Left = 90 + 60 * (5 - 1)
+                        lblStore5.Left = 90 + 200
                         lblStock5.Visible = True
                         lblStock5.Top = lblStock1.Top
-                        lblStock5.Left = 100 + 60 * (5 - 1)
+                        'lblStock5.Left = 100 + 60 * (5 - 1)
+                        lblStock5.Left = 100 + 190
                         lblOrder5.Visible = True
                         lblOrder5.Top = lblOrder1.Top
-                        lblOrder5.Left = 100 + 50 * (5 - 1)
+                        'lblOrder5.Left = 100 + 50 * (5 - 1)
+                        lblOrder5.Left = 100 + 190
                     Case 6
                         lblStore6.Visible = True
                         lblStore6.Top = lblStore1.Top
-                        lblStore6.Left = 90 + 60 * (6 - 1)
+                        'lblStore6.Left = 90 + 60 * (6 - 1)
+                        lblStore6.Left = 90 + 250
                         lblStock6.Visible = True
                         lblStock6.Top = lblStock1.Top
-                        lblStock6.Left = 100 + 60 * (6 - 1)
+                        'lblStock6.Left = 100 + 60 * (6 - 1)
+                        lblStock6.Left = 100 + 240
                         lblOrder6.Visible = True
                         lblOrder6.Top = lblOrder1.Top
-                        lblOrder6.Left = 100 + 50 * (6 - 1)
+                        'lblOrder6.Left = 100 + 50 * (6 - 1)
+                        lblOrder6.Left = 100 + 240
                     Case 7
                         lblStore7.Visible = True
                         lblStore7.Top = lblStore1.Top
-                        lblStore7.Left = 90 + 60 * (7 - 1)
+                        'lblStore7.Left = 90 + 60 * (7 - 1)
+                        lblStore7.Left = 90 + 300
                         lblStock7.Visible = True
                         lblStock7.Top = lblStock1.Top
-                        lblStock7.Left = 100 + 60 * (7 - 1)
+                        'lblStock7.Left = 100 + 60 * (7 - 1)
+                        lblStock7.Left = 100 + 290
                         lblOrder7.Visible = True
                         lblOrder7.Top = lblOrder1.Top
-                        lblOrder7.Left = 100 + 50 * (7 - 1)
+                        'lblOrder7.Left = 100 + 50 * (7 - 1)
+                        lblOrder7.Left = 100 + 290
                     Case 8
                         lblStore8.Visible = True
                         lblStore8.Top = lblStore1.Top
-                        lblStore8.Left = 90 + 60 * (8 - 1)
+                        'lblStore8.Left = 90 + 60 * (8 - 1)
+                        lblStore8.Left = 90 + 350
                         lblStock8.Visible = True
                         lblStock8.Top = lblStock1.Top
-                        lblStock8.Left = 100 + 60 * (8 - 1)
+                        'lblStock8.Left = 100 + 60 * (8 - 1)
+                        lblStock8.Left = 100 + 340
                         lblOrder8.Visible = True
                         lblOrder8.Top = lblOrder1.Top
-                        lblOrder8.Left = 100 + 50 * (8 - 1)
+                        'lblOrder8.Left = 100 + 50 * (8 - 1)
+                        lblOrder8.Left = 100 + 340
                 End Select
             End If
         Next

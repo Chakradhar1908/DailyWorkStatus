@@ -118,7 +118,7 @@ Partial Class OrdPreview
         '
         'lblStore1
         '
-        Me.lblStore1.AutoSize = True
+        Me.lblStore1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore1.Location = New System.Drawing.Point(67, 64)
         Me.lblStore1.Name = "lblStore1"
         Me.lblStore1.Size = New System.Drawing.Size(31, 13)
@@ -127,7 +127,7 @@ Partial Class OrdPreview
         '
         'lblStore2
         '
-        Me.lblStore2.AutoSize = True
+        Me.lblStore2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore2.Location = New System.Drawing.Point(103, 64)
         Me.lblStore2.Name = "lblStore2"
         Me.lblStore2.Size = New System.Drawing.Size(31, 13)
@@ -136,7 +136,7 @@ Partial Class OrdPreview
         '
         'lblStore3
         '
-        Me.lblStore3.AutoSize = True
+        Me.lblStore3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore3.Location = New System.Drawing.Point(139, 64)
         Me.lblStore3.Name = "lblStore3"
         Me.lblStore3.Size = New System.Drawing.Size(31, 13)
@@ -145,7 +145,7 @@ Partial Class OrdPreview
         '
         'lblStore4
         '
-        Me.lblStore4.AutoSize = True
+        Me.lblStore4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore4.Location = New System.Drawing.Point(175, 64)
         Me.lblStore4.Name = "lblStore4"
         Me.lblStore4.Size = New System.Drawing.Size(31, 13)
@@ -154,7 +154,7 @@ Partial Class OrdPreview
         '
         'lblStore5
         '
-        Me.lblStore5.AutoSize = True
+        Me.lblStore5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore5.Location = New System.Drawing.Point(211, 64)
         Me.lblStore5.Name = "lblStore5"
         Me.lblStore5.Size = New System.Drawing.Size(31, 13)
@@ -163,7 +163,7 @@ Partial Class OrdPreview
         '
         'lblStore6
         '
-        Me.lblStore6.AutoSize = True
+        Me.lblStore6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore6.Location = New System.Drawing.Point(247, 64)
         Me.lblStore6.Name = "lblStore6"
         Me.lblStore6.Size = New System.Drawing.Size(31, 13)
@@ -172,7 +172,7 @@ Partial Class OrdPreview
         '
         'lblStore7
         '
-        Me.lblStore7.AutoSize = True
+        Me.lblStore7.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore7.Location = New System.Drawing.Point(283, 64)
         Me.lblStore7.Name = "lblStore7"
         Me.lblStore7.Size = New System.Drawing.Size(31, 13)
@@ -181,7 +181,7 @@ Partial Class OrdPreview
         '
         'lblStore8
         '
-        Me.lblStore8.AutoSize = True
+        Me.lblStore8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblStore8.Location = New System.Drawing.Point(319, 64)
         Me.lblStore8.Name = "lblStore8"
         Me.lblStore8.Size = New System.Drawing.Size(31, 13)
@@ -264,7 +264,7 @@ Partial Class OrdPreview
         'lblOrder0
         '
         Me.lblOrder0.AutoSize = True
-        Me.lblOrder0.Location = New System.Drawing.Point(8, 98)
+        Me.lblOrder0.Location = New System.Drawing.Point(8, 101)
         Me.lblOrder0.Name = "lblOrder0"
         Me.lblOrder0.Size = New System.Drawing.Size(53, 13)
         Me.lblOrder0.TabIndex = 21
@@ -272,7 +272,7 @@ Partial Class OrdPreview
         '
         'lblOrder1
         '
-        Me.lblOrder1.Location = New System.Drawing.Point(67, 100)
+        Me.lblOrder1.Location = New System.Drawing.Point(67, 103)
         Me.lblOrder1.Name = "lblOrder1"
         Me.lblOrder1.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder1.TabIndex = 22
@@ -280,7 +280,7 @@ Partial Class OrdPreview
         '
         'lblOrder2
         '
-        Me.lblOrder2.Location = New System.Drawing.Point(103, 100)
+        Me.lblOrder2.Location = New System.Drawing.Point(103, 103)
         Me.lblOrder2.Name = "lblOrder2"
         Me.lblOrder2.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder2.TabIndex = 23
@@ -288,7 +288,7 @@ Partial Class OrdPreview
         '
         'lblOrder3
         '
-        Me.lblOrder3.Location = New System.Drawing.Point(139, 100)
+        Me.lblOrder3.Location = New System.Drawing.Point(139, 103)
         Me.lblOrder3.Name = "lblOrder3"
         Me.lblOrder3.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder3.TabIndex = 24
@@ -296,7 +296,7 @@ Partial Class OrdPreview
         '
         'lblOrder4
         '
-        Me.lblOrder4.Location = New System.Drawing.Point(175, 100)
+        Me.lblOrder4.Location = New System.Drawing.Point(175, 103)
         Me.lblOrder4.Name = "lblOrder4"
         Me.lblOrder4.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder4.TabIndex = 25
@@ -304,7 +304,7 @@ Partial Class OrdPreview
         '
         'lblOrder5
         '
-        Me.lblOrder5.Location = New System.Drawing.Point(211, 100)
+        Me.lblOrder5.Location = New System.Drawing.Point(211, 103)
         Me.lblOrder5.Name = "lblOrder5"
         Me.lblOrder5.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder5.TabIndex = 26
@@ -312,7 +312,7 @@ Partial Class OrdPreview
         '
         'lblOrder6
         '
-        Me.lblOrder6.Location = New System.Drawing.Point(247, 100)
+        Me.lblOrder6.Location = New System.Drawing.Point(247, 103)
         Me.lblOrder6.Name = "lblOrder6"
         Me.lblOrder6.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder6.TabIndex = 27
@@ -320,7 +320,7 @@ Partial Class OrdPreview
         '
         'lblOrder7
         '
-        Me.lblOrder7.Location = New System.Drawing.Point(283, 100)
+        Me.lblOrder7.Location = New System.Drawing.Point(283, 103)
         Me.lblOrder7.Name = "lblOrder7"
         Me.lblOrder7.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder7.TabIndex = 28
@@ -328,7 +328,7 @@ Partial Class OrdPreview
         '
         'lblOrder8
         '
-        Me.lblOrder8.Location = New System.Drawing.Point(319, 100)
+        Me.lblOrder8.Location = New System.Drawing.Point(319, 103)
         Me.lblOrder8.Name = "lblOrder8"
         Me.lblOrder8.Size = New System.Drawing.Size(31, 13)
         Me.lblOrder8.TabIndex = 29
