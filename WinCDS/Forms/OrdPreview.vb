@@ -788,7 +788,8 @@ HandleErr:
         vImg = imgPicture.Image
         OutputToPrinter = True
 
-        If imgPicture.Image.Width = 0 And imgPicture.Image.Height = 0 Then
+        'If imgPicture.Image.Width = 0 And imgPicture.Image.Height = 0 Then
+        If imgPicture.Image Is Nothing Then
             MessageBox.Show("There is not an image available for this item.", "No Image Available", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
@@ -1191,5 +1192,13 @@ HandleErr:
 
     Private Sub cmdMovePrevious_Click(sender As Object, e As EventArgs) Handles cmdMovePrevious.Click
         Navigate(False, False)
+    End Sub
+
+    Private Sub OrdPreview_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'cmdClose_Click(cmdClose, New EventArgs)
+        Me.Dispose()
+        Me.Close()
+        modProgramState.Order = ""
+        MainMenu.Show()
     End Sub
 End Class

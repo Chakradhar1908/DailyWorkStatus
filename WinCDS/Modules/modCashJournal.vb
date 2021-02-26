@@ -92,4 +92,25 @@
         If Trim(AcctCode) = cdsPayTypes.cdsPT_StoreCreditCard Then TranslateAccountCode = "Store Card"
         If Trim(AcctCode) = cdsPayTypes.cdsPT_ECheck Then TranslateAccountCode = "E-Check"
     End Function
+
+    Public Sub CashJournalNew_RecordSet_Set(ByRef Cj As CashJournalNew, ByRef RS As ADODB.Recordset)
+        ':::SUMMARY
+        ': Used to Set the CashJournalNew Recordset.
+        ':::DESCRIPTION
+        ': This fucntion is used to assign values to CashJournalNew Recordset after sanitization.
+        ':::PARAMETERS
+        ': - Cj
+        ': - RS -
+
+        On Error Resume Next
+        Cj.CashID = RS("CashID")
+        Cj.LeaseNo = Trim(RS("LeaseNo"))
+        Cj.Money = GetPrice(RS("Money"))
+        Cj.Account = Trim(RS("Account"))
+        Cj.Note = Trim(RS("Note"))
+        Cj.TransDate = Trim(RS("TransDate"))
+        Cj.Cashier = Trim(RS("Cashier"))
+        Cj.Terminal = Trim(RS("Terminal"))
+    End Sub
+
 End Module

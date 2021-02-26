@@ -83,11 +83,10 @@ Partial Class OrdPreview
         'OnSale
         '
         Me.OnSale.Font = New System.Drawing.Font("Times New Roman", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OnSale.Location = New System.Drawing.Point(6, 53)
+        Me.OnSale.Location = New System.Drawing.Point(22, 49)
         Me.OnSale.Name = "OnSale"
         Me.OnSale.Size = New System.Drawing.Size(108, 29)
         Me.OnSale.TabIndex = 40
-        Me.OnSale.Text = "Label1"
         '
         'Desc
         '
