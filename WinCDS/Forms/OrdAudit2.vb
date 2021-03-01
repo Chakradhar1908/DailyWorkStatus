@@ -25,12 +25,12 @@ Public Class OrdAudit2
     Dim NETRECEIPTS As Decimal, CASHSALES As Decimal, Check As Decimal, VISA As Decimal, MASTER As Decimal, Disc As Decimal, AMCX As Decimal, FINC As Decimal, None As Decimal, STORECARD As Decimal
     Dim PNETRECEIPTS As Decimal, PCASHSALES As Decimal, PCheck As Decimal, PVISA As Decimal, PMASTER As Decimal, PDISC As Decimal, PAMCX As Decimal, PFINC As Decimal, PNONE As Decimal, PSTORECARD As Decimal
 
-
     Dim BVISA As Decimal, BDisc As Decimal, BAmcx As Decimal, BSTORECARD As Decimal
     Dim PBVISA As Decimal, PBDisc As Decimal, PBAmcx As Decimal, PBSTORECARD As Decimal, VISACHECK As Decimal, PTOTCASHIN As Decimal, TOTCASHIN As Decimal, BECHECKS As Decimal, PBECHECKS As Decimal
     Dim PCashIn As Decimal, CashIn As Decimal, PCashOut As Decimal, CashOut As Decimal, CARRYCHARGE As Decimal, PCARRYCHARGE As Decimal
     Dim POTHER As Decimal, PRTAX As Decimal, OTHER As Decimal, PBANK As Decimal, CASHONHAND As Decimal, SalesTax As String
     Dim PBEGCASH As Decimal, BMASTER As Decimal, BNETRECEIPTS As Decimal, COHAND As Decimal, PCOHAND As Decimal
+
     Dim PBMASTER As Decimal, PEROIDBANK As Decimal, MTDEBITS As Decimal, PMTDEBITS As Decimal, MTDCREDITS As Decimal, PMTDCREDITS As Decimal
 
     Dim PAR As Decimal, AR As Decimal, PINTEREST As Decimal, INTEREST As Decimal, Bank As Decimal, RECPAYMENTS As Decimal, PRECPAYMENTS As Decimal
@@ -373,7 +373,7 @@ ErrorHandler:
     End Sub
 
     Private Sub GenLedgerTrans()
-        Dim Mcol As Long, Pcol As Long
+        Dim Mcol As Integer, Pcol As Integer
         Mcol = 93
         Pcol = 123
 
@@ -482,7 +482,7 @@ ErrorHandler:
     End Sub
 
     Private Sub PrintGLTrans(ByVal Account As String, ByVal Desc As String, ByVal MTD As Decimal, ByVal PTD As Decimal, Optional ByVal Negative As Boolean = False)
-        Dim Mcol As Long, Pcol As Long
+        Dim Mcol As Integer, Pcol As Integer
         Mcol = 93
         Pcol = 123
         PrintTo(OutputObject, Account, 0, AlignConstants.vbAlignLeft, False)
@@ -536,7 +536,7 @@ ErrorHandler:
         Headings()
         OutputObject.FontSize = 10
 
-        Dim CS1 As Long, CS2 As Long, CS3 As Long, CS4 As Long
+        Dim CS1 As Integer, CS2 As Integer, CS3 As Integer, CS4 As Integer
         CS1 = 60
         CS2 = 80
         CS3 = 100
@@ -866,6 +866,31 @@ ErrorHandler:
         SalesDistribution  ' Also add to MTD.
     End Sub
 
+    Private Sub SetWorking(ByVal Working As Boolean)
+        cmdPrint.Enabled = Not Working
+        cmdPrintPreview.Enabled = Not Working
+        cmdCancel.Enabled = Not Working
+
+        lblStartDateLabel.Enabled = Not Working
+        lblEndDateLabel.Enabled = Not Working
+        dteStartDate.Enabled = Not Working
+        dteEndDate.Enabled = Not Working
+
+        optDetail.Enabled = Not Working
+        optSummary.Enabled = Not Working
+
+        lblCashInDrawer.Enabled = Not Working
+        lblPriorPeriodCash.Enabled = Not Working
+        txtCashInDrawer.Enabled = Not Working
+        txtPriorPeriodCash.Enabled = Not Working
+
+        lblCashier.Enabled = Not Working
+        cmbCashier.Enabled = Not Working
+
+        'MousePointer = IIf(Working, vbHourglass, vbDefault)
+        Me.Cursor = IIf(Working, Cursors.WaitCursor, Cursors.Default)
+    End Sub
+
     Private Sub SalesDistribution()
         ' 1-9, 551-559, 561-569
         If Val(NewCash.Account) = 12 Then
@@ -1032,6 +1057,20 @@ ErrorHandler:
         PageCheck()
     End Sub
 
+    Private Sub PrintLinesCashOutOfDate(ByVal Index As Integer)
+        OutputObject.FontName = "Arial"
+        OutputObject.FontBold = False
+        OutputObject.FontSize = 8
+        ConvertCode()
+
+        PrintTo(OutputObject, Index, 10, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, NewCash.LeaseNo, 13, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, Typee, 25, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, NewCash.TransDate, 55, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, NewCash.Note, 57, AlignConstants.vbAlignLeft, True)
+        Counter = Counter + 1
+    End Sub
+
     Private Sub RecControl() '****************** Payments & Credits On Control ****************
         PRECPAYMENTS = 0
         Counter = 0
@@ -1153,29 +1192,29 @@ ErrorHandler:
         PBANK = 0
         '  Counter = 0  ' Prevents page breaks.
 
-        If optDetail Then 'detail
-            OutputObject.PrintNL vbCrLf
-    OutputObject.FontName = "Arial"
+        If optDetail.Checked Then 'detail
+            OutputObject.PrintNL(vbCrLf)
+            OutputObject.FontName = "Arial"
             OutputObject.FontSize = 18
             OutputObject.FontBold = True
-            PrintCentered "Bank Deposits"
-    OutputObject.FontSize = 8
+            PrintCentered("Bank Deposits")
+            OutputObject.FontSize = 8
             OutputObject.FontBold = False
             Header = 32
             Index = 4
-            SubHeading
+            SubHeading()
 
-            PrintTo OutputObject, CurrencyFormat(Bank), 32, vbAlignRight, False
-    PrintTo OutputObject, "*** Previous Balance ***", 85, vbAlignLeft, True
-  End If
+            PrintTo(OutputObject, CurrencyFormat(Bank), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+        End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
             CashJournalRecordSet.MoveFirst()
-            If optDetail Then OutputObject.PrintNL
+            If optDetail.Checked = True Then OutputObject.PrintNL
         End If
         Do Until CashJournalRecordSet.EOF
-            CashJournalNew_RecordSet_Set NewCash, CashJournalRecordSet
-    DoEvents
+            CashJournalNew_RecordSet_Set(NewCash, CashJournalRecordSet)
+            Application.DoEvents()
             NewCash.Money = GetPrice(NewCash.Money)
 
             ' Period to date
@@ -1183,7 +1222,7 @@ ErrorHandler:
             If Val(NewCash.Account) >= 10200 And Val(NewCash.Account) <= 10650 Then
                 PBANK = PBANK + NewCash.Money
                 BankTypePeriod
-                If optDetail Then PrintLinesMisc        'detail
+                If optDetail.Checked = True Then PrintLinesMisc        'detail
             End If
             CashJournalRecordSet.MoveNext()
         Loop
@@ -1198,16 +1237,53 @@ ErrorHandler:
         Debit = Debit + PDebit
         BSTORECARD = BSTORECARD + PBSTORECARD
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo OutputObject, "Period To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, Format(PBANK, "$###,##0.00"), 32, vbAlignRight, True
-    PageCheck
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Format(PBANK, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PageCheck()
 
-            PrintTo OutputObject, "Month To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, Format(Bank, "$###,##0.00"), 32, vbAlignRight, True
-    PageCheck
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Format(Bank, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PageCheck()
         End If
+    End Sub
+
+    Private Sub PrintLinesMisc()
+        'Misc Cash and Bank reports
+        OutputObject.FontName = "Arial"
+        OutputObject.FontBold = False
+        OutputObject.FontSize = 8
+
+        PrintTo(OutputObject, Format(NewCash.Money, "###,##0.00"), 35, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Trim(NewCash.Account), 51, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Trim(NewCash.TransDate), 73, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Trim(NewCash.Note), 83, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, IIf(Trim(NewCash.Cashier) = "DEMO", "", Trim(NewCash.Cashier)), 125, AlignConstants.vbAlignLeft, True)
+
+        '    PrintTo OutputObject, Trim(Typee), 40, vbAlignLeft, False
+        Counter = Counter + 1
+        PageCheck()
+    End Sub
+
+    Private Sub BankTypePeriod()
+        ' PERIOD BANK TOTALS
+        Select Case Val(NewCash.Account)
+            Case 10200
+                PBCASHSALES = PBCASHSALES + NewCash.Money
+            Case 10250
+                PBECHECKS = PBECHECKS + NewCash.Money
+            Case 10300
+                PBVISA = PBVISA + NewCash.Money
+            Case 10400
+                PBDisc = PBDisc + NewCash.Money
+            Case 10500
+                PBAmcx = PBAmcx + NewCash.Money
+            Case 10600
+                PDebit = PDebit + NewCash.Money
+            Case 10650
+                PBSTORECARD = PBSTORECARD + NewCash.Money
+        End Select
     End Sub
 
     Private Sub CashOutDwr()
@@ -1216,30 +1292,30 @@ ErrorHandler:
         '  Counter = 0 'Prevents page breaks..
         Counter = Counter + 7 ' account for headings
 
-        If optDetail Then 'detail
-            OutputObject.PrintNL vbCrLf
-    OutputObject.FontName = "Arial"
+        If optDetail.Checked = True Then 'detail
+            OutputObject.PrintNL(vbCrLf)
+            OutputObject.FontName = "Arial"
             OutputObject.FontSize = 18
             OutputObject.FontBold = True
-            PrintCentered "Misc. Cash Out"
-    OutputObject.FontBold = False
+            PrintCentered("Misc. Cash Out")
+            OutputObject.FontBold = False
             OutputObject.FontSize = 8
 
             Header = 31
             Index = 4
-            SubHeading
+            SubHeading()
 
-            PrintTo OutputObject, CurrencyFormat(CashOut), 32, vbAlignRight, False
-    PrintTo OutputObject, "*** Previous Balance ***", 85, vbAlignLeft, True
-  End If
+            PrintTo(OutputObject, CurrencyFormat(CashOut), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+        End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
             CashJournalRecordSet.MoveFirst()
-            If optDetail Then OutputObject.PrintNL  ' Extra space after previous balance.
+            If optDetail.Checked = True Then OutputObject.PrintNL  ' Extra space after previous balance.
         End If
         Do Until CashJournalRecordSet.EOF
-            CashJournalNew_RecordSet_Set NewCash, CashJournalRecordSet
-    DoEvents
+            CashJournalNew_RecordSet_Set(NewCash, CashJournalRecordSet)
+            Application.DoEvents()
             NewCash.Money = GetPrice(NewCash.Money)
             ' Period to date
             Typee = Val(NewCash.Account)
@@ -1281,8 +1357,8 @@ ErrorHandler:
             End Select
 
             PCashOut = PCashOut + NewCash.Money
-            If optDetail Then
-                PrintLinesMisc      'detail
+            If optDetail.Checked = True Then
+                PrintLinesMisc()      'detail
             End If
 SkipLine:
             CashJournalRecordSet.MoveNext()
@@ -1304,19 +1380,18 @@ SkipLine:
 
 
         CashOut = CashOut + PCashOut
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo OutputObject, "Period To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, Format(PCashOut, "$###,##0.00"), 32, vbAlignRight, True
-    Counter = Counter + 1
-            PageCheck
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            Counter = Counter + 1
+            PageCheck()
 
-            PrintTo OutputObject, "Month To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, Format(CashOut, "$###,##0.00"), 32, vbAlignRight, True
-    Counter = Counter + 1
-            PageCheck
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            Counter = Counter + 1
+            PageCheck()
         End If
-
     End Sub
 
     Private Sub CashInReport()
@@ -1324,7 +1399,7 @@ SkipLine:
         XPCashIn = 0
         Counter = 7  ' This should reset the counter, but account for headings..
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             '    With OutputObject
             '      OutputObject.Print vbCrLf
             '
@@ -1340,20 +1415,20 @@ SkipLine:
             Header = 3
             Index = 4
             Headings()
-            SubHeading
+            SubHeading()
             '    OutputObject.FontSize = 11
 
-            PrintTo OutputObject, CurrencyFormat(CashIn), 32, vbAlignRight, False
-    PrintTo OutputObject, "*** Previous Balance ***", 85, vbAlignLeft, False
-  End If
+            PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, False)
+        End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
             CashJournalRecordSet.MoveFirst()
-            If optDetail Then OutputObject.PrintNL  ' Extra space after previous balance.
+            If optDetail.Checked = True Then OutputObject.PrintNL  ' Extra space after previous balance.
         End If
         Do Until CashJournalRecordSet.EOF
-            CashJournalNew_RecordSet_Set NewCash, CashJournalRecordSet
-    DoEvents
+            CashJournalNew_RecordSet_Set(NewCash, CashJournalRecordSet)
+            Application.DoEvents()
             NewCash.Money = GetPrice(NewCash.Money)
 
             ' Period to date
@@ -1386,7 +1461,7 @@ SkipLine:
             XPCashIn = XPCashIn + NewCash.Money ' this is done for 41500
             PCashIn = PCashIn + NewCash.Money   ' this is not done for 41500
 
-            If optDetail Then PrintLinesMisc
+            If optDetail.Checked = True Then PrintLinesMisc()
 SkipLine:
             CashJournalRecordSet.MoveNext()
         Loop
@@ -1401,17 +1476,17 @@ SkipLine:
         MISCCASHIN = PMISCCASHIN + MISCCASHIN
         RESALE = PRESALE + RESALE
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo OutputObject, "Period To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, CurrencyFormat(PCashIn), 32, vbAlignRight, True
-    Counter = Counter + 1
-            PageCheck
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, CurrencyFormat(PCashIn), 32, AlignConstants.vbAlignRight, True)
+            Counter = Counter + 1
+            PageCheck()
 
-            PrintTo OutputObject, "Month To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, CurrencyFormat(CashIn), 32, vbAlignRight, True
-    Counter = Counter + 1
-            PageCheck
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, True)
+            Counter = Counter + 1
+            PageCheck()
         End If
 
         TOTCASHIN = XCashIn
@@ -1427,8 +1502,8 @@ SkipLine:
         SS = SS & DateFilter
         SS = SS & CashierFilter
         SS = SS & "ORDER BY [TransDate], [CashID]"
-  Set CashJournalRecordSet = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
-  Exit Sub
+        CashJournalRecordSet = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
+        Exit Sub
 HandleErr:
     End Sub
 
@@ -1441,23 +1516,23 @@ HandleErr:
         ' Jerry says enter $100 for each when running the report for real.
         ' Then he says to enter $100 no matter what.  I'm a little confused, but okay.
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             Index = 2
             Header = 2
             Headings()
-            SubHeading
+            SubHeading()
 
             ' Print previous balances.
-            PrintTo OutputObject, "Previous:", 0, vbAlignLeft, False
-    PrintTo OutputObject, FormatCurrency(Cash), 33, vbAlignRight, True
-  End If
+            PrintTo(OutputObject, "Previous:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True)
+        End If
 
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then CashJournalRecordSet.MoveFirst()
 
         Do Until CashJournalRecordSet.EOF
-            CashJournalNew_RecordSet_Set NewCash, CashJournalRecordSet
-    NewCash.Money = GetPrice(NewCash.Money)
+            CashJournalNew_RecordSet_Set(NewCash, CashJournalRecordSet)
+            NewCash.Money = GetPrice(NewCash.Money)
             Typee = Val(NewCash.Account)
 
             If Typee = 90000 Then BEGCASH = NewCash.Money
@@ -1466,8 +1541,8 @@ HandleErr:
                 '      Or _
                 '      (Typee >= 550 And Typee <= 569))
                 ' Account 15 (NSF) removed.
-                PSalesDistribution
-                If optDetail Then PrintLinesCash          ' This increments Counter and prints the record.
+                PSalesDistribution()
+                If optDetail.Checked = True Then PrintLinesCash()          ' This increments Counter and prints the record.
                 Pcash = Pcash + NewCash.Money
                 TotPCash = TotPCash + GetPrice(NewCash.Money)
             ElseIf (NewCash.Money < 0 Or Val(NewCash.Note) < 0) And ((Typee >= 1 And Typee <= 9) Or Typee = 12 Or Typee = 13) Then
@@ -1476,10 +1551,10 @@ HandleErr:
                 PRSALES = PRSALES + NewCash.Money
                 Pcash = Pcash + NewCash.Money
                 TotPCash = TotPCash + GetPrice(NewCash.Money)
-                If optDetail Then PrintLinesCash
+                If optDetail.Checked = True Then PrintLinesCash()
             End If
             CashJournalRecordSet.MoveNext()
-            DoEvents
+            Application.DoEvents()
         Loop
 
         TotCash = TotCash + TotPCash
@@ -1501,15 +1576,15 @@ HandleErr:
         Tax = 0
         STAX = 0
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo OutputObject, "Period To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, FormatCurrency(Pcash), 33, vbAlignRight, True
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, FormatCurrency(Pcash), 33, AlignConstants.vbAlignRight, True)
 
-    PrintTo OutputObject, "Month To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, FormatCurrency(Cash), 33, vbAlignRight, True
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True)
 
-    If OutputToPrinter Then
+            If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
             Else
                 frmPrintPreviewDocument.NewPage()
@@ -1518,6 +1593,8 @@ HandleErr:
     End Sub
 
     Private Sub AuditReport()
+        Dim RS As ADODB.Recordset, SS As String
+
         On Error GoTo HandleErr
 
         Written = 0
@@ -1538,26 +1615,26 @@ HandleErr:
         OTHER = 0
         POTHER = 0
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             Index = 1
             Header = 1
             Headings()
-            SubHeading
+            SubHeading()
         End If
 
         ' Prior balance
-        If Day(theDate) <> 1 Then
-            Dim RS As ADODB.Recordset, SS As String
+        If DateAndTime.Day(theDate) <> 1 Then
+
             SS = ""
             SS = SS & "SELECT * FROM [" & SalesJournal_TABLE & "] "
             SS = SS & "WHERE 1=1 "
             SS = SS & DateFilter(True)
             SS = SS & CashierFilter
             SS = SS & "ORDER BY [TransDate], AuditID"
-    Set RS = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
-    Do Until RS.EOF
-                SalesJournalNew_RecordSet_Set NewAudit, RS
-      Written = Written + GetPrice(NewAudit.Written)
+            RS = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
+            Do Until RS.EOF
+                SalesJournalNew_RecordSet_Set(NewAudit, RS)
+                Written = Written + GetPrice(NewAudit.Written)
                 TaxCHARGED = TaxCHARGED + GetPrice(NewAudit.TaxCharged1)
                 ARCASHSALES = ARCASHSALES + GetPrice(NewAudit.ArCashSls)
                 CUSTDEP = CUSTDEP + GetPrice(NewAudit.Control)
@@ -1565,19 +1642,19 @@ HandleErr:
                 DELSALES = DELSALES + GetPrice(NewAudit.DelSls)
                 TAXREC = TAXREC + GetPrice(NewAudit.TaxRec1)
                 RS.MoveNext()
-                DoEvents
+                Application.DoEvents()
             Loop
         End If
-        If optDetail Then ' detail
-            PrintTo OutputObject, "Previous Balance:", 0, vbAlignLeft, False
-    PrintTo OutputObject, CurrencyFormat(Written), 57, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(TaxCHARGED), 71, vbAlignRight, False
-'    PrintTo OutputObject, CurrencyFormat(ARCASHSALES), 86, vbAlignRight, False ' was 14 wide
-            PrintTo OutputObject, CurrencyFormat(CUSTDEP), 86, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(UNDSALES), 99, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(DELSALES), 112, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(TAXREC), 125, vbAlignRight, True
-  End If
+        If optDetail.Checked = True Then ' detail
+            PrintTo(OutputObject, "Previous Balance:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False)
+            '    PrintTo OutputObject, CurrencyFormat(ARCASHSALES), 86, alignconstants.vbAlignRight, False ' was 14 wide
+            PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
+        End If
 
         SS = ""
         SS = SS & "SELECT * FROM [" & SalesJournal_TABLE & "] "
@@ -1585,13 +1662,13 @@ HandleErr:
         SS = SS & DateFilter()
         SS = SS & CashierFilter
         SS = SS & "ORDER BY [TransDate], SaleNo, AuditID"
-  Set RS = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
-  
-  Do Until RS.EOF
+        RS = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
+
+        Do Until RS.EOF
             ' Period
-            DoEvents
-            SalesJournalNew_RecordSet_Set NewAudit, RS
-    PWRITTEN = PWRITTEN + GetPrice(NewAudit.Written)
+            Application.DoEvents()
+            SalesJournalNew_RecordSet_Set(NewAudit, RS)
+            PWRITTEN = PWRITTEN + GetPrice(NewAudit.Written)
             PTAXCHARGED = PTAXCHARGED + GetPrice(NewAudit.TaxCharged1)
             PARCASHSALES = PARCASHSALES + GetPrice(NewAudit.ArCashSls)
             PCUSTDEP = PCUSTDEP + GetPrice(NewAudit.Control)
@@ -1599,19 +1676,19 @@ HandleErr:
             PDELSALES = PDELSALES + GetPrice(NewAudit.DelSls)
             PTAXREC = PTAXREC + GetPrice(NewAudit.TaxRec1)
 
-            If optDetail Then 'detail
+            If optDetail.Checked = True Then 'detail
                 OutputObject.FontSize = 8
-                PrintTo OutputObject, Trim(NewAudit.SaleNo), 0, vbAlignLeft, False
-      PrintTo OutputObject, Trim(Left(NewAudit.Name1, 17)), 12, vbAlignLeft, False
-      PrintTo OutputObject, Trim(NewAudit.TransDate), 33, vbAlignLeft, False
-      PrintTo OutputObject, CurrencyFormat(NewAudit.Written), 57, vbAlignRight, False
-      PrintTo OutputObject, CurrencyFormat(NewAudit.TaxCharged1), 71, vbAlignRight, False
-'      PrintTo OutputObject, CurrencyFormat(NewAudit.ArCashSls), 86, vbAlignRight, False
-                PrintTo OutputObject, CurrencyFormat(NewAudit.Control), 86, vbAlignRight, False
-      PrintTo OutputObject, CurrencyFormat(NewAudit.UndSls), 99, vbAlignRight, False
-      PrintTo OutputObject, CurrencyFormat(NewAudit.DelSls), 112, vbAlignRight, False
-      PrintTo OutputObject, CurrencyFormat(NewAudit.TaxRec1), 125, vbAlignRight, False
-      PrintTo OutputObject, IIf(Trim(NewAudit.Cashier) = "DEMO", "", Trim(NewAudit.Cashier)), 130, vbAlignLeft, True ' 139, vbAlignRight, True
+                PrintTo(OutputObject, Trim(NewAudit.SaleNo), 0, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Trim(Left(NewAudit.Name1, 17)), 12, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Trim(NewAudit.TransDate), 33, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.Written), 57, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxCharged1), 71, AlignConstants.vbAlignRight, False)
+                '      PrintTo OutputObject, CurrencyFormat(NewAudit.ArCashSls), 86, alignconstants.vbAlignRight, False
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.Control), 86, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.UndSls), 99, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.DelSls), 112, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxRec1), 125, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, IIf(Trim(NewAudit.Cashier) = "DEMO", "", Trim(NewAudit.Cashier)), 130, AlignConstants.vbAlignLeft, True) ' 139, alignconstants.vbAlignRight, True
 
                 Counter = Counter + 1
 
@@ -1623,10 +1700,10 @@ HandleErr:
                     End If
                     Counter = 0
                     Headings()
-                    SubHeading
+                    SubHeading()
                 End If
             End If
-            RS.MoveNext
+            RS.MoveNext()
         Loop
 
         Written = Written + PWRITTEN
@@ -1637,27 +1714,27 @@ HandleErr:
         DELSALES = DELSALES + PDELSALES
         TAXREC = TAXREC + PTAXREC
 
-        If optDetail Then 'detail
+        If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo OutputObject, "Period To Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, CurrencyFormat(PWRITTEN), 57, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(PTAXCHARGED), 71, vbAlignRight, False
-'    PrintTo OutputObject, CurrencyFormat(PARCASHSALES), 86, vbAlignRight, False
-            PrintTo OutputObject, CurrencyFormat(PCUSTDEP), 86, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(PUNDSALES), 99, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(PDELSALES), 112, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(PTAXREC), 125, vbAlignRight, True
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, CurrencyFormat(PWRITTEN), 57, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PTAXCHARGED), 71, AlignConstants.vbAlignRight, False)
+            '    PrintTo OutputObject, CurrencyFormat(PARCASHSALES), 86, alignconstants.vbAlignRight, False
+            PrintTo(OutputObject, CurrencyFormat(PCUSTDEP), 86, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PUNDSALES), 99, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PDELSALES), 112, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PTAXREC), 125, AlignConstants.vbAlignRight, True)
 
-    PrintTo OutputObject, "Month to Date:", 0, vbAlignLeft, False
-    PrintTo OutputObject, CurrencyFormat(Written), 57, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(TaxCHARGED), 71, vbAlignRight, False
-'    PrintTo OutputObject, CurrencyFormat(ARCASHSALES), 86, vbAlignRight, False
-            PrintTo OutputObject, CurrencyFormat(CUSTDEP), 86, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(UNDSALES), 99, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(DELSALES), 112, vbAlignRight, False
-    PrintTo OutputObject, CurrencyFormat(TAXREC), 125, vbAlignRight, True
+            PrintTo(OutputObject, "Month to Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False)
+            '    PrintTo OutputObject, CurrencyFormat(ARCASHSALES), 86, alignconstants.vbAlignRight, False
+            PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
 
-    If OutputToPrinter Then
+            If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
             Else
                 frmPrintPreviewDocument.NewPage()
@@ -1669,19 +1746,33 @@ HandleErr:
         Resume Next
     End Sub
 
+    Private Sub LoadPriorCash(ByVal theDate As String)
+        Dim SS As String
+        On Error GoTo HandleErr
+        SS = ""
+        SS = SS & "SELECT * FROM [" & CashJournal_TABLE & "] "
+        SS = SS & "WHERE 1=1 "
+        SS = SS & DateFilter(True)
+        SS = SS & CashierFilter
+        SS = SS & "ORDER BY [TransDate], [CashID]"
+        CashJournalRecordSet = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
+        Exit Sub
+HandleErr:
+    End Sub
+
     Private Sub CalculatePreviousTotals()
         CashIn = 0
         XCashIn = 0
-        LoadPriorCash theDate
+        LoadPriorCash(theDate)
 
-  ' The cash/check/visa/etc subtotals are used in CashSummary (Cash Management report) later.
+        ' The cash/check/visa/etc subtotals are used in CashSummary (Cash Management report) later.
         ' We need two loops, for previous and period balances for each category.
         ' Can't do an aggregate query easily here.  Can we do all the previous balance loops together?
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then CashJournalRecordSet.MoveFirst()
 
         Do Until CashJournalRecordSet.EOF
-            CashJournalNew_RecordSet_Set NewCash, CashJournalRecordSet
-    NewCash.Money = GetPrice(NewCash.Money)
+            CashJournalNew_RecordSet_Set(NewCash, CashJournalRecordSet)
+            NewCash.Money = GetPrice(NewCash.Money)
             Typee = Val(NewCash.Account)
 
             ' CashReport
@@ -1809,10 +1900,139 @@ HandleErr:
             TotCash = TotCash + NewCash.Money
 
             CashJournalRecordSet.MoveNext()
-            DoEvents
+            Application.DoEvents()
         Loop
 
         TotCash = Cash
     End Sub
 
+    Private Sub BankType()
+        'BANK TOTALS
+        Select Case Val(NewCash.Account)
+            Case 10200
+                BCASHSALES = BCASHSALES + NewCash.Money
+            Case 10250
+                BECHECKS = BECHECKS + NewCash.Money
+            Case 10300
+                BVISA = BVISA + NewCash.Money
+            Case 10400
+                BDisc = BDisc + NewCash.Money
+            Case 10500
+                BAmcx = BAmcx + NewCash.Money
+            Case 10600
+                Debit = Debit + NewCash.Money
+            Case 10650
+                BSTORECARD = BSTORECARD + NewCash.Money
+        End Select
+    End Sub
+
+    Private Sub cmdPrintPreview_Click(sender As Object, e As EventArgs) Handles cmdPrintPreview.Click
+        Dim DBG As String
+        On Error GoTo ErrorHandler
+        DBG = "a"
+
+        If Not StoreSettings.bManualBillofSaleNo Then
+            If Not frmEditSalesJournal.OutOfDateSalesReport(StoresSld, dteStartDate.Value, dteEndDate.Value) Then Exit Sub
+            DBG = "aa"
+            If Not frmEditCash.OutOfDateCashReport(StoresSld, dteStartDate.Value, dteEndDate.Value) Then Exit Sub
+        End If
+
+        DBG = "b"
+        SetWorking(True)
+
+        OutputObject = New cPrinter
+        OutputObject.SetPreview("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report", Me)
+
+        DBG = "cc"
+        PrintSub()
+
+        DBG = "dd"
+
+        DBG = "e"
+        SetWorking(False)
+        DBG = "f"
+
+        Exit Sub
+
+ErrorHandler:
+        Select Case Err.Number
+            Case 482 : ErrNoPrinter()
+                Exit Sub
+            Case Else
+                MessageBox.Show("Error in previewing audit report (" & Err.Number & "):" & vbCrLf & Err.Description & vbCrLf & "Source: " & Err.Source & vbCrLf & "DBG=" & DBG)
+        End Select
+        Resume Next
+    End Sub
+
+    Private Sub OrdAudit2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetButtonImage(cmdPrint, 19) ' "print")
+        SetButtonImage(cmdPrintPreview, 20) ' "preview")
+        SetButtonImage(cmdCancel, 3) ' "cancel")
+        theDate = CurrentMonthStart()
+        dteStartDate.Value = theDate
+
+        ToTheDate = Today
+        dteEndDate.Value = ToTheDate
+
+        LoadCashiers
+
+    End Sub
+
+    Private Sub LoadCashiers()
+        Dim SS As String, RS As ADODB.Recordset
+        cmbCashier.Items.Clear()
+        cmbCashier.Items.Add(EntireStore)
+        cmbCashier.Text = EntireStore
+
+        If False Then ' Not IsDevelopment Then
+            lblCashier.Visible = False
+            cmbCashier.Visible = False
+            Exit Sub
+        End If
+
+        lblCashier.Visible = True
+        cmbCashier.Visible = True
+
+        SS = ""
+        SS = SS & "SELECT DISTINCT [Cashier] FROM [Audit] "
+        SS = SS & "WHERE 1=1 "
+        SS = SS & DateFilter
+        SS = SS & "ORDER BY [Cashier]"
+        RS = GetRecordsetBySQL(SS, , GetDatabaseAtLocation)
+        Do While Not RS.EOF
+            cmbCashier.Items.Add(IfNullThenNilString(RS("Cashier").Value))
+            RS.MoveNext
+        Loop
+    End Sub
+
+    Private Sub txtCashInDrawer_Enter(sender As Object, e As EventArgs) Handles txtCashInDrawer.Enter
+        SelectContents(txtCashInDrawer)
+    End Sub
+
+    Private Sub txtCashInDrawer_Leave(sender As Object, e As EventArgs) Handles txtCashInDrawer.Leave
+        txtCashInDrawer.Text = Format(txtCashInDrawer.Text, "$###,##0.00")
+    End Sub
+
+    Private Sub txtPriorPeriodCash_Enter(sender As Object, e As EventArgs) Handles txtPriorPeriodCash.Enter
+        SelectContents(txtPriorPeriodCash)
+    End Sub
+
+    Private Sub txtPriorPeriodCash_Leave(sender As Object, e As EventArgs) Handles txtPriorPeriodCash.Leave
+        txtPriorPeriodCash.Text = Format(txtPriorPeriodCash.Text, "$###,##0.00")
+    End Sub
+
+    Private Sub dteStartDate_CloseUp(sender As Object, e As EventArgs) Handles dteStartDate.CloseUp
+        theDate = dteStartDate.Value
+        LoadCashiers()
+    End Sub
+
+    Private Sub dteEndDate_CloseUp(sender As Object, e As EventArgs) Handles dteEndDate.CloseUp
+        ToTheDate = dteEndDate.Value
+        LoadCashiers()
+    End Sub
+
+    Private Sub OrdAudit2_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        'If UnloadMode = vbFormControlMenu Then cmdCancel.Value = True
+        cmdCancel_Click(cmdCancel, New EventArgs)
+    End Sub
 End Class

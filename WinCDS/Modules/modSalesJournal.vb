@@ -138,4 +138,33 @@
         If Not RS.EOF Then LastAuditID = RS("AuditID").Value
         RS = Nothing
     End Function
+
+    Public Sub SalesJournalNew_RecordSet_Set(ByRef Sj As SalesJournalNew, ByRef RS As ADODB.Recordset)
+        '::::SalesJournalNew_RecordSet_Set
+        ':::SUMMARY
+        ': Used to set SalesJournalNew Recordset.
+        ':::DESCRIPTION
+        ': This function is used to update SalesJournalNew Recordset.
+        ':::PARAMETERS
+        ': - Sj - Indicates the SalesJournalNew Recordset.
+        ': - RS - Indicates the ADODB.Recordset.
+        On Error Resume Next
+        Sj.AuditID = RS("AuditID")
+        Sj.SaleNo = Trim(RS("SaleNo"))
+        Sj.Name1 = Trim(RS("Name1"))
+        Sj.TransDate = Trim(RS("TransDate"))
+        Sj.Written = GetPrice(RS("Written"))
+        Sj.TaxCharged1 = GetPrice(RS("TaxCharged1"))
+        Sj.ArCashSls = GetPrice(RS("ArCashSls"))
+        Sj.Control = GetPrice(RS("Controll"))
+        Sj.UndSls = GetPrice(RS("UndSls"))
+        Sj.DelSls = GetPrice(RS("DelSls"))
+        Sj.TaxRec1 = GetPrice(RS("TaxRec1"))
+        Sj.TaxCode = IIf(Val(RS("TaxCode")) = 0, 1, Val(RS("TaxCode")))
+        Sj.Salesman = Trim(RS("Salesman"))
+        Sj.NonTaxable = IfNullThenZeroCurrency(RS("NonTaxable"))
+        Sj.Cashier = Trim(IfNullThenNilString(RS("Cashier")))
+        Sj.Terminal = Trim(IfNullThenNilString(RS("Terminal")))
+    End Sub
+
 End Module

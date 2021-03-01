@@ -401,6 +401,18 @@
     <Compile Include="Forms\frmDesignTag.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmEditCash.Designer.vb">
+      <DependentUpon>frmEditCash.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmEditCash.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmEditSalesJournal.Designer.vb">
+      <DependentUpon>frmEditSalesJournal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmEditSalesJournal.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmEmail.Designer.vb">
       <DependentUpon>frmEmail.vb</DependentUpon>
     </Compile>
@@ -1420,6 +1432,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDesignTag.resx">
       <DependentUpon>frmDesignTag.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmEditCash.resx">
+      <DependentUpon>frmEditCash.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmEditSalesJournal.resx">
+      <DependentUpon>frmEditSalesJournal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmail.resx">
       <DependentUpon>frmEmail.vb</DependentUpon>
