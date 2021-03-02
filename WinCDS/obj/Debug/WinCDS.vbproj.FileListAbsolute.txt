@@ -248,6 +248,8 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmCrippleBugNotify.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDeliveryMap.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDemoNotify.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmDesignTag.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEditCash.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEditSalesJournal.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmail.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmEmailEdit.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmExport.resources
@@ -300,6 +302,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.MailCheck.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MainMenu4.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.MainMenu4_Images.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OnScreenReport.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdAudit2.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdCashflow.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdConvertLAW.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdPay.resources

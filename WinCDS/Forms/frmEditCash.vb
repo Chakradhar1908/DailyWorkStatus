@@ -53,7 +53,8 @@
         If RS Is Nothing Then Exit Function
         If RS.EOF Then RS = Nothing : Exit Function
 
-        If IsNothing(RS("NC").Value) Or IsNothing(RS("XC").Value) Then Exit Function
+        'If IsNothing(RS("NC").Value) Or IsNothing(RS("XC").Value) Then Exit Function
+        If RS("NC").Value.ToString = "" Or RS("XC").Value.ToString = "" Then Exit Function
         MinCash = RS("NC").Value
         MaxCash = RS("XC").Value
         RS.Close()

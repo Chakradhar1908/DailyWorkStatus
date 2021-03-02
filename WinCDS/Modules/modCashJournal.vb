@@ -103,14 +103,14 @@
         ': - RS -
 
         On Error Resume Next
-        Cj.CashID = RS("CashID")
-        Cj.LeaseNo = Trim(RS("LeaseNo"))
-        Cj.Money = GetPrice(RS("Money"))
-        Cj.Account = Trim(RS("Account"))
-        Cj.Note = Trim(RS("Note"))
-        Cj.TransDate = Trim(RS("TransDate"))
-        Cj.Cashier = Trim(RS("Cashier"))
-        Cj.Terminal = Trim(RS("Terminal"))
+        Cj.CashID = RS("CashID").Value
+        Cj.LeaseNo = Trim(RS("LeaseNo").Value)
+        Cj.Money = GetPrice(RS("Money").Value)
+        Cj.Account = Trim(RS("Account").Value)
+        Cj.Note = Trim(RS("Note").Value)
+        Cj.TransDate = Trim(RS("TransDate").Value)
+        Cj.Cashier = Trim(RS("Cashier").Value)
+        Cj.Terminal = Trim(RS("Terminal").Value)
     End Sub
 
 End Module

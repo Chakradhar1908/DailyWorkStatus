@@ -35,7 +35,8 @@
         If RS Is Nothing Then Exit Function
         If RS.EOF Then RS = Nothing : Exit Function
 
-        If IsNothing(RS("NS").Value) Or IsNothing(RS("XS").Value) Then Exit Function
+        'If IsNothing(RS("NS").Value) Or IsNothing(RS("XS").Value) Then Exit Function
+        If RS("NS").Value.ToString = "" Or RS("XS").Value.ToString = "" Then Exit Function
         MinAudit = RS("NS").Value
         MaxAudit = RS("XS").Value
         RS.Close()
@@ -137,10 +138,10 @@
 
     Private Sub frmEditSalesJournal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetButtonImage(cmdApply, 2)
-        SetButtonImage(cmdCancel, 3) '"clear"
+        SetButtonImage(cmdCancel, 22) '"clear"
         SetButtonImage(cmdContinueAudit, 1) ' "forward"
         SetButtonImage(cmdCancelAudit, 3) ' "cancel"
-        SetButtonImage(cmdRefresh)
+        SetButtonImage(cmdRefresh, 12)
     End Sub
 
     Private Sub grdSalesJournal_RowColChange(sender As Object, e As EventArgs) Handles grdSalesJournal.RowColChange

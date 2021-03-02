@@ -34,6 +34,11 @@ Public Class OrdAudit2
     Dim PBMASTER As Decimal, PEROIDBANK As Decimal, MTDEBITS As Decimal, PMTDEBITS As Decimal, MTDCREDITS As Decimal, PMTDCREDITS As Decimal
 
     Dim PAR As Decimal, AR As Decimal, PINTEREST As Decimal, INTEREST As Decimal, Bank As Decimal, RECPAYMENTS As Decimal, PRECPAYMENTS As Decimal
+
+    Private Sub txtPriorPeriodCash_TextChanged(sender As Object, e As EventArgs) Handles txtPriorPeriodCash.TextChanged
+
+    End Sub
+
     Dim PCHECKREFUND As Decimal, CheckRefund As Decimal, PVISACHECK As Decimal, PBCPAY As Decimal, BCPAY As Decimal, PMISCCASHIN As Decimal, MISCCASHIN As Decimal
     Dim PMISCCASHOUT As Decimal, MiscCashOut As Decimal, PPURCHASES As Decimal, PURCHASES As Decimal
     Dim PRESALE As Decimal, RESALE As Decimal, PFINANCE As Decimal, FINANCE As Decimal
@@ -104,6 +109,7 @@ Public Class OrdAudit2
         'Unload frmPrintPreviewMain
         frmPrintPreviewMain.Close()
         'Unload Me
+        Me.Dispose()
         Me.Close()
         MainMenu.Show()
         modProgramState.Reports = ""
@@ -547,7 +553,7 @@ ErrorHandler:
         PrintTo(OutputObject, "CREDITS", CS4, AlignConstants.vbAlignRight, True)
 
         'If Start = 1 Then  ' commented out mjk 20030908
-        If Day(theDate) = 1 Then
+        If DateAndTime.Day(theDate) = 1 Then
             PBEGCASH = BEGCASH   ' ***  Is this right, or should it be added to the calculated value?
         Else
             PBEGCASH = GetPrice(txtPriorPeriodCash.Text)
@@ -601,9 +607,9 @@ ErrorHandler:
 
         PrintTo(OutputObject, "Forfeit Deposit", 0, AlignConstants.vbAlignLeft, False)
         PrintTo(OutputObject, Format(Forfeit, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PFORFEIT, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True
+        PrintTo(OutputObject, Format(PFORFEIT, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
 
-'    OutputObject.Print Tab(29); "______________"; Tab(69); "______________" & vbCrLf
+        '    OutputObject.Print Tab(29); "______________"; Tab(69); "______________" & vbCrLf
         PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False)
         PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True)
 
@@ -612,8 +618,8 @@ ErrorHandler:
         PNETRECEIPTS = PCASHSALES + PFORFEIT + PCheck + PVISA + PMASTER + PDISC + PAMCX + PFINC + PNONE + PSTORECARD + PECHECKS
         NETRECEIPTS = CASHSALES + Forfeit + Check + VISA + MASTER + Disc + AMCX + FINC + None + STORECARD + ECHECKS
 
-        PrintTo(OutputObject, "Net Receipts", 0, AlignConstants.vbAlignLeft, False
-  PrintTo(OutputObject, Format(NETRECEIPTS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, "Net Receipts", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, Format(NETRECEIPTS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
         PrintTo(OutputObject, Format(PNETRECEIPTS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
 
         OutputObject.PrintNL
@@ -622,8 +628,8 @@ ErrorHandler:
         PrintTo(OutputObject, Format(PCashIn, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
 
         OutputObject.FontBold = True
-        OutputObject.PrintNL(vbCrLf & " Bank Deposits:"
-  OutputObject.FontBold = False
+        OutputObject.PrintNL(vbCrLf & " Bank Deposits:")
+        OutputObject.FontBold = False
 
         PrintTo(OutputObject, "Cash & Checks", 0, AlignConstants.vbAlignLeft, False)
         PrintTo(OutputObject, Format(BCASHSALES, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
@@ -1679,7 +1685,7 @@ HandleErr:
             If optDetail.Checked = True Then 'detail
                 OutputObject.FontSize = 8
                 PrintTo(OutputObject, Trim(NewAudit.SaleNo), 0, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, Trim(Left(NewAudit.Name1, 17)), 12, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Trim(Microsoft.VisualBasic.Left(NewAudit.Name1, 17)), 12, AlignConstants.vbAlignLeft, False)
                 PrintTo(OutputObject, Trim(NewAudit.TransDate), 33, AlignConstants.vbAlignLeft, False)
                 PrintTo(OutputObject, CurrencyFormat(NewAudit.Written), 57, AlignConstants.vbAlignRight, False)
                 PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxCharged1), 71, AlignConstants.vbAlignRight, False)
@@ -1969,13 +1975,12 @@ ErrorHandler:
         SetButtonImage(cmdPrintPreview, 20) ' "preview")
         SetButtonImage(cmdCancel, 3) ' "cancel")
         theDate = CurrentMonthStart()
-        dteStartDate.Value = theDate
+        dteStartDate.Value = Date.ParseExact(theDate, "MM-dd-yyyy", Globalization.CultureInfo.InvariantCulture)
 
         ToTheDate = Today
         dteEndDate.Value = ToTheDate
 
         LoadCashiers
-
     End Sub
 
     Private Sub LoadCashiers()
@@ -2010,7 +2015,11 @@ ErrorHandler:
     End Sub
 
     Private Sub txtCashInDrawer_Leave(sender As Object, e As EventArgs) Handles txtCashInDrawer.Leave
-        txtCashInDrawer.Text = Format(txtCashInDrawer.Text, "$###,##0.00")
+        'txtCashInDrawer.Text = Format(txtCashInDrawer.Text, "$###,##0.00")
+        Try
+            txtCashInDrawer.Text = Format(Convert.ToDecimal(txtCashInDrawer.Text), "$###,##0.00")
+        Catch ex As FormatException
+        End Try
     End Sub
 
     Private Sub txtPriorPeriodCash_Enter(sender As Object, e As EventArgs) Handles txtPriorPeriodCash.Enter
@@ -2018,7 +2027,11 @@ ErrorHandler:
     End Sub
 
     Private Sub txtPriorPeriodCash_Leave(sender As Object, e As EventArgs) Handles txtPriorPeriodCash.Leave
-        txtPriorPeriodCash.Text = Format(txtPriorPeriodCash.Text, "$###,##0.00")
+        'txtPriorPeriodCash.Text = Format(txtPriorPeriodCash.Text, "$###,##0.00")
+        Try
+            txtPriorPeriodCash.Text = Format(Convert.ToDecimal(txtPriorPeriodCash.Text), "$###,##0.00")
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub dteStartDate_CloseUp(sender As Object, e As EventArgs) Handles dteStartDate.CloseUp

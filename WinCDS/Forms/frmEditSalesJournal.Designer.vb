@@ -25,21 +25,21 @@ Partial Class frmEditSalesJournal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEditSalesJournal))
         Me.cmdContinueAudit = New System.Windows.Forms.Button()
         Me.cmdCancelAudit = New System.Windows.Forms.Button()
-        Me.grdSalesJournal = New AxMSFlexGridLib.AxMSFlexGrid()
         Me.fraEditControls = New System.Windows.Forms.GroupBox()
+        Me.lblTransDate = New System.Windows.Forms.Label()
         Me.lblIndex = New System.Windows.Forms.Label()
         Me.dteTransDate = New System.Windows.Forms.DateTimePicker()
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdRefresh = New System.Windows.Forms.Button()
-        Me.lblTransDate = New System.Windows.Forms.Label()
-        CType(Me.grdSalesJournal, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grdSalesJournal = New AxMSFlexGridLib.AxMSFlexGrid()
         Me.fraEditControls.SuspendLayout()
+        CType(Me.grdSalesJournal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cmdContinueAudit
         '
-        Me.cmdContinueAudit.Location = New System.Drawing.Point(281, 291)
+        Me.cmdContinueAudit.Location = New System.Drawing.Point(281, 274)
         Me.cmdContinueAudit.Name = "cmdContinueAudit"
         Me.cmdContinueAudit.Size = New System.Drawing.Size(86, 60)
         Me.cmdContinueAudit.TabIndex = 0
@@ -48,20 +48,12 @@ Partial Class frmEditSalesJournal
         '
         'cmdCancelAudit
         '
-        Me.cmdCancelAudit.Location = New System.Drawing.Point(373, 291)
+        Me.cmdCancelAudit.Location = New System.Drawing.Point(373, 274)
         Me.cmdCancelAudit.Name = "cmdCancelAudit"
         Me.cmdCancelAudit.Size = New System.Drawing.Size(98, 60)
         Me.cmdCancelAudit.TabIndex = 1
         Me.cmdCancelAudit.Text = "Cancel Audit Re&port"
         Me.cmdCancelAudit.UseVisualStyleBackColor = True
-        '
-        'grdSalesJournal
-        '
-        Me.grdSalesJournal.Location = New System.Drawing.Point(12, 12)
-        Me.grdSalesJournal.Name = "grdSalesJournal"
-        Me.grdSalesJournal.OcxState = CType(resources.GetObject("grdSalesJournal.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.grdSalesJournal.Size = New System.Drawing.Size(481, 129)
-        Me.grdSalesJournal.TabIndex = 2
         '
         'fraEditControls
         '
@@ -70,9 +62,18 @@ Partial Class frmEditSalesJournal
         Me.fraEditControls.Controls.Add(Me.dteTransDate)
         Me.fraEditControls.Location = New System.Drawing.Point(96, 156)
         Me.fraEditControls.Name = "fraEditControls"
-        Me.fraEditControls.Size = New System.Drawing.Size(316, 129)
+        Me.fraEditControls.Size = New System.Drawing.Size(316, 114)
         Me.fraEditControls.TabIndex = 3
         Me.fraEditControls.TabStop = False
+        '
+        'lblTransDate
+        '
+        Me.lblTransDate.AutoSize = True
+        Me.lblTransDate.Location = New System.Drawing.Point(49, 92)
+        Me.lblTransDate.Name = "lblTransDate"
+        Me.lblTransDate.Size = New System.Drawing.Size(63, 13)
+        Me.lblTransDate.TabIndex = 1
+        Me.lblTransDate.Text = "Trans Date:"
         '
         'lblIndex
         '
@@ -86,14 +87,14 @@ Partial Class frmEditSalesJournal
         '
         Me.dteTransDate.CustomFormat = "MM/dd/yyyy"
         Me.dteTransDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dteTransDate.Location = New System.Drawing.Point(118, 89)
+        Me.dteTransDate.Location = New System.Drawing.Point(118, 85)
         Me.dteTransDate.Name = "dteTransDate"
-        Me.dteTransDate.Size = New System.Drawing.Size(92, 20)
+        Me.dteTransDate.Size = New System.Drawing.Size(97, 20)
         Me.dteTransDate.TabIndex = 4
         '
         'cmdApply
         '
-        Me.cmdApply.Location = New System.Drawing.Point(119, 291)
+        Me.cmdApply.Location = New System.Drawing.Point(119, 274)
         Me.cmdApply.Name = "cmdApply"
         Me.cmdApply.Size = New System.Drawing.Size(75, 60)
         Me.cmdApply.TabIndex = 5
@@ -102,7 +103,7 @@ Partial Class frmEditSalesJournal
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(200, 291)
+        Me.cmdCancel.Location = New System.Drawing.Point(200, 274)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 60)
         Me.cmdCancel.TabIndex = 6
@@ -118,20 +119,19 @@ Partial Class frmEditSalesJournal
         Me.cmdRefresh.Text = "&Refresh"
         Me.cmdRefresh.UseVisualStyleBackColor = True
         '
-        'lblTransDate
+        'grdSalesJournal
         '
-        Me.lblTransDate.AutoSize = True
-        Me.lblTransDate.Location = New System.Drawing.Point(49, 96)
-        Me.lblTransDate.Name = "lblTransDate"
-        Me.lblTransDate.Size = New System.Drawing.Size(63, 13)
-        Me.lblTransDate.TabIndex = 1
-        Me.lblTransDate.Text = "Trans Date:"
+        Me.grdSalesJournal.Location = New System.Drawing.Point(12, 12)
+        Me.grdSalesJournal.Name = "grdSalesJournal"
+        Me.grdSalesJournal.OcxState = CType(resources.GetObject("grdSalesJournal.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.grdSalesJournal.Size = New System.Drawing.Size(514, 129)
+        Me.grdSalesJournal.TabIndex = 2
         '
         'frmEditSalesJournal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(502, 359)
+        Me.ClientSize = New System.Drawing.Size(526, 336)
         Me.Controls.Add(Me.cmdRefresh)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdApply)
@@ -144,9 +144,9 @@ Partial Class frmEditSalesJournal
         Me.Name = "frmEditSalesJournal"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Sales Journal Editor"
-        CType(Me.grdSalesJournal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fraEditControls.ResumeLayout(False)
         Me.fraEditControls.PerformLayout()
+        CType(Me.grdSalesJournal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

@@ -149,22 +149,22 @@
         ': - Sj - Indicates the SalesJournalNew Recordset.
         ': - RS - Indicates the ADODB.Recordset.
         On Error Resume Next
-        Sj.AuditID = RS("AuditID")
-        Sj.SaleNo = Trim(RS("SaleNo"))
-        Sj.Name1 = Trim(RS("Name1"))
-        Sj.TransDate = Trim(RS("TransDate"))
-        Sj.Written = GetPrice(RS("Written"))
-        Sj.TaxCharged1 = GetPrice(RS("TaxCharged1"))
-        Sj.ArCashSls = GetPrice(RS("ArCashSls"))
-        Sj.Control = GetPrice(RS("Controll"))
-        Sj.UndSls = GetPrice(RS("UndSls"))
-        Sj.DelSls = GetPrice(RS("DelSls"))
-        Sj.TaxRec1 = GetPrice(RS("TaxRec1"))
-        Sj.TaxCode = IIf(Val(RS("TaxCode")) = 0, 1, Val(RS("TaxCode")))
-        Sj.Salesman = Trim(RS("Salesman"))
-        Sj.NonTaxable = IfNullThenZeroCurrency(RS("NonTaxable"))
-        Sj.Cashier = Trim(IfNullThenNilString(RS("Cashier")))
-        Sj.Terminal = Trim(IfNullThenNilString(RS("Terminal")))
+        Sj.AuditID = RS("AuditID").Value
+        Sj.SaleNo = Trim(RS("SaleNo").Value)
+        Sj.Name1 = Trim(RS("Name1").Value)
+        Sj.TransDate = Trim(RS("TransDate").Value)
+        Sj.Written = GetPrice(RS("Written").Value)
+        Sj.TaxCharged1 = GetPrice(RS("TaxCharged1").Value)
+        Sj.ArCashSls = GetPrice(RS("ArCashSls").Value)
+        Sj.Control = GetPrice(RS("Controll").Value)
+        Sj.UndSls = GetPrice(RS("UndSls").Value)
+        Sj.DelSls = GetPrice(RS("DelSls").Value)
+        Sj.TaxRec1 = GetPrice(RS("TaxRec1").Value)
+        Sj.TaxCode = IIf(Val(RS("TaxCode").Value) = 0, 1, Val(RS("TaxCode").Value))
+        Sj.Salesman = Trim(RS("Salesman").Value)
+        Sj.NonTaxable = IfNullThenZeroCurrency(RS("NonTaxable").Value)
+        Sj.Cashier = Trim(IfNullThenNilString(RS("Cashier").Value))
+        Sj.Terminal = Trim(IfNullThenNilString(RS("Terminal").Value))
     End Sub
 
 End Module

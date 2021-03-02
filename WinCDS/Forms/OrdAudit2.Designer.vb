@@ -93,17 +93,18 @@ Partial Class OrdAudit2
         '
         'txtCashInDrawer
         '
+        Me.txtCashInDrawer.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCashInDrawer.Location = New System.Drawing.Point(124, 77)
-        Me.txtCashInDrawer.Multiline = True
         Me.txtCashInDrawer.Name = "txtCashInDrawer"
-        Me.txtCashInDrawer.Size = New System.Drawing.Size(121, 30)
+        Me.txtCashInDrawer.Size = New System.Drawing.Size(121, 26)
         Me.txtCashInDrawer.TabIndex = 5
+        Me.txtCashInDrawer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblPriorPeriodCash
         '
         Me.lblPriorPeriodCash.AutoSize = True
         Me.lblPriorPeriodCash.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPriorPeriodCash.Location = New System.Drawing.Point(4, 121)
+        Me.lblPriorPeriodCash.Location = New System.Drawing.Point(4, 116)
         Me.lblPriorPeriodCash.Name = "lblPriorPeriodCash"
         Me.lblPriorPeriodCash.Size = New System.Drawing.Size(116, 16)
         Me.lblPriorPeriodCash.TabIndex = 6
@@ -111,15 +112,17 @@ Partial Class OrdAudit2
         '
         'txtPriorPeriodCash
         '
-        Me.txtPriorPeriodCash.Location = New System.Drawing.Point(124, 115)
-        Me.txtPriorPeriodCash.Multiline = True
+        Me.txtPriorPeriodCash.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPriorPeriodCash.Location = New System.Drawing.Point(124, 109)
         Me.txtPriorPeriodCash.Name = "txtPriorPeriodCash"
-        Me.txtPriorPeriodCash.Size = New System.Drawing.Size(121, 31)
+        Me.txtPriorPeriodCash.Size = New System.Drawing.Size(121, 26)
         Me.txtPriorPeriodCash.TabIndex = 7
+        Me.txtPriorPeriodCash.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'optDetail
         '
         Me.optDetail.AutoSize = True
+        Me.optDetail.Checked = True
         Me.optDetail.Location = New System.Drawing.Point(56, 152)
         Me.optDetail.Name = "optDetail"
         Me.optDetail.Size = New System.Drawing.Size(55, 17)
@@ -135,7 +138,6 @@ Partial Class OrdAudit2
         Me.optSummary.Name = "optSummary"
         Me.optSummary.Size = New System.Drawing.Size(68, 17)
         Me.optSummary.TabIndex = 9
-        Me.optSummary.TabStop = True
         Me.optSummary.Text = "Su&mmary"
         Me.optSummary.UseVisualStyleBackColor = True
         '
@@ -171,7 +173,7 @@ Partial Class OrdAudit2
         Me.GroupBox1.Controls.Add(Me.lblCashInDrawer)
         Me.GroupBox1.Controls.Add(Me.lblPriorPeriodCash)
         Me.GroupBox1.Controls.Add(Me.txtCashInDrawer)
-        Me.GroupBox1.Location = New System.Drawing.Point(3, 3)
+        Me.GroupBox1.Location = New System.Drawing.Point(3, 2)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(260, 210)
         Me.GroupBox1.TabIndex = 12
@@ -179,27 +181,27 @@ Partial Class OrdAudit2
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(14, 222)
+        Me.cmdPrint.Location = New System.Drawing.Point(14, 216)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(75, 47)
+        Me.cmdPrint.Size = New System.Drawing.Size(75, 62)
         Me.cmdPrint.TabIndex = 13
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
         '
         'cmdPrintPreview
         '
-        Me.cmdPrintPreview.Location = New System.Drawing.Point(95, 222)
+        Me.cmdPrintPreview.Location = New System.Drawing.Point(95, 216)
         Me.cmdPrintPreview.Name = "cmdPrintPreview"
-        Me.cmdPrintPreview.Size = New System.Drawing.Size(78, 47)
+        Me.cmdPrintPreview.Size = New System.Drawing.Size(78, 62)
         Me.cmdPrintPreview.TabIndex = 14
         Me.cmdPrintPreview.Text = "P&rint Preview"
         Me.cmdPrintPreview.UseVisualStyleBackColor = True
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(179, 222)
+        Me.cmdCancel.Location = New System.Drawing.Point(179, 216)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 47)
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 62)
         Me.cmdCancel.TabIndex = 15
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
@@ -208,7 +210,7 @@ Partial Class OrdAudit2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(271, 275)
+        Me.ClientSize = New System.Drawing.Size(271, 281)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdPrintPreview)
         Me.Controls.Add(Me.cmdPrint)
