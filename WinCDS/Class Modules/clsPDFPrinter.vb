@@ -86,14 +86,20 @@
     Private ParentNum As Object, ContentNum As Object, ResourceNum As Object, FontNum As Object, CatalogNum As Object, FontNumber As Object, CurrentPDFSetPageObject As Object, NumberofImages As Object, iOutlineRoot As Integer
     Private CurrentObjectNum As Integer
     Private ObjectOffset As Integer
-    Private ObjectOffsetList As Object
-    Private PageNumberList As Object
+    'Private ObjectOffsetList As Object
+    Private ObjectOffsetList() As Object
+    'Private PageNumberList As Object
+    Private PageNumberList() As Object
     'Private PageLinksList(1 To 1000, 1 To 1000) As Object  '@NO-LINT
     Private PageLinksList(0 To 999, 0 To 999) As Object  '@NO-LINT
-    Private LinksList As Object
-    Private PageCanvasWidth As Object
-    Private PageCanvasHeight As Object
-    Private FontNumberList As Object
+    'Private LinksList As Object
+    Private LinksList() As Object
+    'Private PageCanvasWidth As Object
+    Private PageCanvasWidth() As Object
+    'Private PageCanvasHeight As Object
+    Private PageCanvasHeight() As Object
+    'Private FontNumberList As Object
+    Private FontNumberList() As Object
     Private CRCounter As Integer
 
     Private ColorSpace As String
@@ -104,8 +110,10 @@
     Private sTempStream As String
     Private cTempStream As String
     Private dTempStream As String
-    Private boPageLinksList As Object
-    Private NbPageLinksList As Object
+    'Private boPageLinksList As Object
+    Private boPageLinksList() As Object
+    'Private NbPageLinksList As Object
+    Private NbPageLinksList() As Object
     Private StreamSize1 As Integer, StreamSize2 As Integer
     Private in_xCurrent As Double
     Private in_yCurrent As Double
@@ -130,6 +138,122 @@
     End Structure
     Private PDFLnStyle As String
     Private PDFLnWidth As Double
+    Private bScanAdobe As Boolean
+    Private PDFMargin As Integer
+    Private PDFcMargin As Integer ' Center Margin
+    Private PDFlMargin As Integer ' Left Margin
+    Private PDFtMargin As Integer ' Top Margin
+    Private PDFLineColor As String
+    Private PDFDrawColor As String
+    Private PDFTextColor As String
+    Private PDFrMargin As Integer ' Right Margin
+    Private PDFbMargin As Integer ' Bottom Margin
+
+
+    Public Sub New()
+        PDFInit()
+    End Sub
+
+    Public Sub PDFInit()
+
+        bScanAdobe = False
+        Fso = CreateObject("scripting.filesystemobject")
+
+        'If wsPathConfig = "" Then wsPathConfig = App.Path
+        If wsPathConfig = "" Then wsPathConfig = My.Application.Info.DirectoryPath
+        Dim Position As Integer
+        Position = InStr(wsPathConfig, "bin")
+        wsPathConfig = Mid(wsPathConfig, 1, Position - 2) 'c:\wincds\wincds\bin
+        'If wsPathConfig = "" Then wsPathConfig = Application.StartupPath
+        'If wsPathConfig = "" Then wsPathConfig = Assembly.GetExecutingAssembly.Location
+        'wsPathConfig = Path.GetDirectoryName(wsPathConfig)
+        PDFLoadAfm = wsPathConfig
+
+        'ObjectOffsetList = Array()
+        'PageNumberList = Array()
+        'PageCanvasWidth = Array()
+        'PageCanvasHeight = Array()
+
+        'boPageLinksList = Array()
+        'NbPageLinksList = Array()
+        'LinksList = Array()
+
+        'FontNumberList = Array()
+
+        In_offset = 1
+        in_FontNum = 1
+        in_PagesNum = 1
+        in_Canvas = 1
+        FPageLink = 0
+
+        boPDFUnderline = False
+        boPDFBold = False
+        boPDFItalic = False
+
+        ' Unité de mesure par défaut : cm
+        in_Ech = 72 / 2.54
+
+        ' Marges de la page (1 cm)
+        PDFMargin = in_Ech / 28.35
+        PDFSetMargins(PDFMargin, PDFMargin)
+
+        ' Marge interieure des cellules (1 mm)
+        PDFcMargin = in_Ech * (PDFMargin / 10)
+
+        ' Largeur de ligne (0.2 mm)
+        PDFLnWidth = 0.567
+
+        in_xCurrent = PDFlMargin
+        in_yCurrent = PDFtMargin
+
+        TempStream = ""
+        ImageStream = ""
+        pTempStream = ""
+        sTempStream = ""
+        cTempStream = ""
+        dTempStream = ""
+
+        FontNum = 1
+
+        ' Définition dzes couleurs par défaut
+        PDFLineColor = "0 G"
+        PDFDrawColor = "0 g"
+        PDFTextColor = "0 g"
+
+        ' Format d'orientation de page par défaut : A4
+        'ReDim Preserve PDFCanvasWidth(1 To in_Canvas)
+        ReDim Preserve PDFCanvasWidth(0 To in_Canvas - 1)
+        'ReDim Preserve PDFCanvasHeight(1 To in_Canvas)
+        ReDim Preserve PDFCanvasHeight(0 To in_Canvas - 1)
+        'ReDim Preserve PDFCanvasOrientation(1 To in_Canvas)
+        ReDim Preserve PDFCanvasOrientation(0 To in_Canvas - 1)
+
+        PDFCanvasWidth(in_Canvas - 1) = 595.28
+        PDFCanvasHeight(in_Canvas - 1) = 841.89
+        PDFCanvasOrientation(in_Canvas - 1) = "p"
+
+        FProducer = ""
+        FAuthor = ""
+        FCreator = ""
+        FKeywords = ""
+        FSubject = ""
+        Exit Sub
+    End Sub
+
+    Public Sub PDFSetMargins(In_left As Integer, In_top As Integer, Optional In_right As Integer = -1, Optional In_bottom As Integer = -1)
+        'Attribute PDFSetMargins.VB_HelpID = 2044
+
+        PDFlMargin = In_left
+        PDFtMargin = In_top
+
+        If In_right = -1 Then In_right = In_left
+        If In_bottom = -1 Then In_bottom = In_top
+
+        PDFrMargin = In_right
+        PDFbMargin = In_bottom
+
+    End Sub
+
 
     Public Property PDFTitle() As String
         Get
@@ -293,37 +417,38 @@ Err_File:
             ReDim Preserve PDFCanvasOrientation(0 To in_Canvas - 1)
 
             Select Case TypeName(value)
-                Case "Long"
+                'Case "Long"
+                Case "PDFFormatPgStr"
                     Select Case value
                         Case PDFFormatPgStr.FORMAT_A4
-                            PDFCanvasWidth(in_Canvas) = 595.28
-                            PDFCanvasHeight(in_Canvas) = 841.89
+                            PDFCanvasWidth(in_Canvas - 1) = 595.28
+                            PDFCanvasHeight(in_Canvas - 1) = 841.89
                         Case PDFFormatPgStr.FORMAT_A3
-                            PDFCanvasWidth(in_Canvas) = 841.89
-                            PDFCanvasHeight(in_Canvas) = 1190.55
+                            PDFCanvasWidth(in_Canvas - 1) = 841.89
+                            PDFCanvasHeight(in_Canvas - 1) = 1190.55
                         Case PDFFormatPgStr.FORMAT_A5
-                            PDFCanvasWidth(in_Canvas) = 420.94
-                            PDFCanvasHeight(in_Canvas) = 595.28
+                            PDFCanvasWidth(in_Canvas - 1) = 420.94
+                            PDFCanvasHeight(in_Canvas - 1) = 595.28
                         Case PDFFormatPgStr.FORMAT_LETTER
-                            PDFCanvasWidth(in_Canvas) = 612
-                            PDFCanvasHeight(in_Canvas) = 792
+                            PDFCanvasWidth(in_Canvas - 1) = 612
+                            PDFCanvasHeight(in_Canvas - 1) = 792
                         Case PDFFormatPgStr.FORMAT_LEGAL
-                            PDFCanvasWidth(in_Canvas) = 612
-                            PDFCanvasHeight(in_Canvas) = 1008
+                            PDFCanvasWidth(in_Canvas - 1) = 612
+                            PDFCanvasHeight(in_Canvas - 1) = 1008
                         Case Else
                             MessageBox.Show("Format page set incorrectly : " & value & "." & vbNewLine & "Format page set to A4.", "Format Page - " & mjwPDFVersion, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                            PDFCanvasWidth(in_Canvas) = 595.28
-                            PDFCanvasHeight(in_Canvas) = 841.89
+                            PDFCanvasWidth(in_Canvas - 1) = 595.28
+                            PDFCanvasHeight(in_Canvas - 1) = 841.89
                     End Select
                 Case "Double()"
                     'PDFCanvasWidth(in_Canvas) = str_FormatPage(0)
-                    PDFCanvasWidth(in_Canvas) = value
+                    PDFCanvasWidth(in_Canvas - 1) = value
                     'PDFCanvasHeight(in_Canvas) = str_FormatPage(1)
-                    PDFCanvasHeight(in_Canvas) = value
+                    PDFCanvasHeight(in_Canvas - 1) = value
                 Case Else
                     MessageBox.Show("Format page set incorrectly : " & value & "." & vbNewLine & "Format page set to A4", "Format Page - " & mjwPDFVersion, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    PDFCanvasWidth(in_Canvas) = 595.28
-                    PDFCanvasHeight(in_Canvas) = 841.89
+                    PDFCanvasWidth(in_Canvas - 1) = 595.28
+                    PDFCanvasHeight(in_Canvas - 1) = 841.89
             End Select
         End Set
     End Property
@@ -345,23 +470,23 @@ Err_File:
             'ReDim Preserve PDFCanvasOrientation(1 To in_Canvas)
             ReDim Preserve PDFCanvasOrientation(0 To in_Canvas - 1)
 
-            tmp_PDFCanvasWidth = PDFCanvasWidth(in_Canvas)
-            tmp_PDFCanvasHeight = PDFCanvasHeight(in_Canvas)
+            tmp_PDFCanvasWidth = PDFCanvasWidth(in_Canvas - 1)
+            tmp_PDFCanvasHeight = PDFCanvasHeight(in_Canvas - 1)
 
             Select Case value
                 Case PDFOrientationStr.ORIENT_PORTRAIT
-                    PDFCanvasWidth(in_Canvas) = tmp_PDFCanvasWidth
-                    PDFCanvasHeight(in_Canvas) = tmp_PDFCanvasHeight
-                    PDFCanvasOrientation(in_Canvas) = "p"
+                    PDFCanvasWidth(in_Canvas - 1) = tmp_PDFCanvasWidth
+                    PDFCanvasHeight(in_Canvas - 1) = tmp_PDFCanvasHeight
+                    PDFCanvasOrientation(in_Canvas - 1) = "p"
                 Case PDFOrientationStr.ORIENT_PAYSAGE
-                    PDFCanvasWidth(in_Canvas) = tmp_PDFCanvasHeight
-                    PDFCanvasHeight(in_Canvas) = tmp_PDFCanvasWidth
-                    PDFCanvasOrientation(in_Canvas) = "l"
+                    PDFCanvasWidth(in_Canvas - 1) = tmp_PDFCanvasHeight
+                    PDFCanvasHeight(in_Canvas - 1) = tmp_PDFCanvasWidth
+                    PDFCanvasOrientation(in_Canvas - 1) = "l"
                 Case Else
                     MessageBox.Show("Orientation set incorrectly: " & value & "." & vbNewLine & "Orientation set to portrait.", "Error in orientation - " & mjwPDFVersion, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    PDFCanvasWidth(in_Canvas) = tmp_PDFCanvasWidth
-                    PDFCanvasHeight(in_Canvas) = tmp_PDFCanvasHeight
-                    PDFCanvasOrientation(in_Canvas) = "p"
+                    PDFCanvasWidth(in_Canvas - 1) = tmp_PDFCanvasWidth
+                    PDFCanvasHeight(in_Canvas - 1) = tmp_PDFCanvasHeight
+                    PDFCanvasOrientation(in_Canvas - 1) = "p"
             End Select
 
             'ReDim Preserve PDFCanvasWidth(1 To in_Canvas)

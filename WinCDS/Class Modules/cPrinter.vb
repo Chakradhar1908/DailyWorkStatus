@@ -2,15 +2,96 @@
 Public Class cPrinter
     Private Const PI As Double = 3.14159265358979
     Private Const PI_2 As Double = 6.28318530717958
-
     Private mBuildPDF As Boolean
     Private mPreviewImage As Object
-
     Private mDocTitle As String
     Private mDocFile As String
     Private mDocKeywords As String
     Private pW As Integer, pH As Integer
     Private PDFPrinter As clsPDFPrinter
+
+    Public Sub New()
+        OutputToPrinter = True
+        Orientation = VBRUN.PrinterObjectConstants.vbPRORPortrait
+    End Sub
+
+    Public Property Orientation() As Integer
+        Get
+            On Error Resume Next
+            Orientation = oPrinter.Orientation
+        End Get
+        Set(value As Integer)
+            On Error Resume Next
+            oPrinter.Orientation = value
+        End Set
+    End Property
+
+    Public ReadOnly Property oPrinter() As Object
+        Get
+            If BuildDLS Then
+                oPrinter = DYMOObject
+            ElseIf Preview Then
+                oPrinter = PreviewImage
+            Else
+                oPrinter = Printer
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property DYMOObject(Optional ByVal Reset As Boolean = False) As Object 'As Dymo.LabelEngine
+        Get
+            On Error Resume Next
+            Static dymoAddInObj  'As Dymo.LabelEngine
+            If Reset Then dymoAddInObj = Nothing
+            If dymoAddInObj Is Nothing Then
+                dymoAddInObj = CreateObject("DYMO.LabelEngine")
+                dymoAddInObj.NewLabel(DateTimeStamp)
+                'DYMO_Label_Framework.ope
+                'Dim X As DYMO_Label_Framework.Label
+            End If
+            DYMOObject = dymoAddInObj
+        End Get
+    End Property
+
+    Public ReadOnly Property Preview() As Boolean
+        Get
+            Preview = Not (mPreviewImage Is Nothing)
+        End Get
+    End Property
+
+    Public ReadOnly Property PreviewImage() As Object
+        Get
+            PreviewImage = mPreviewImage
+        End Get
+    End Property
+
+    Public ReadOnly Property BuildDLS() As Boolean
+        Get
+            BuildDLS = False And IsDymo And HasDLS
+        End Get
+    End Property
+
+    Public ReadOnly Property IsDymo() As Boolean
+        Get
+            IsDymo = IsInStr(DeviceName, "DYMO")
+        End Get
+    End Property
+
+    Public ReadOnly Property DeviceName() As String
+        Get
+            On Error Resume Next
+            DeviceName = Printer.DeviceName
+        End Get
+    End Property
+
+    Public ReadOnly Property HasDLS() As Boolean
+        Get
+            Static vValue As TriState
+            On Error Resume Next
+            If vValue = vbFalse Then vValue = IIf(IsNotNothing(CreateObject("DYMO.LabelEngine")), vbTrue, vbUseDefault)
+            HasDLS = (vValue = vbTrue)
+        End Get
+    End Property
 
     Public Sub SetPrintToPDF(Optional ByVal vDocTitle As String = "", Optional ByVal vKeywords As String = "")
         If vDocTitle <> "" Then DocTitle = vDocTitle

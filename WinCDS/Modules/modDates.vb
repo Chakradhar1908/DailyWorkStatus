@@ -92,8 +92,16 @@ Module modDates
     End Function
 
     Public Function DateTimeStamp(Optional ByVal D As Date = Nothing) As String
-        If CLng(D.ToString) = 0 Then D = Now
-        DateTimeStamp = Format(D, "YYYYMMDDHHmm")
+        Try
+            If CLng(D.ToString) = 0 Then D = Now
+            DateTimeStamp = Format(D, "YYYYMMDDHHmm")
+        Catch ic As InvalidCastException
+            D = Now
+            DateTimeStamp = Format(D, "YYYYMMDDHHmm")
+        Catch ex As FormatException
+            D = Now
+            DateTimeStamp = Format(D, "YYYYMMDDHHmm")
+        End Try
     End Function
 
     Public Function DateStampFile(ByVal S As String, Optional ByVal DateAndTime As Boolean = False) As String
