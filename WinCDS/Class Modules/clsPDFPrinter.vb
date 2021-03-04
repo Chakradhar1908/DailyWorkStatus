@@ -39,6 +39,7 @@
     Private in_Ech As Double
     Private in_Canvas As Integer
     Private iWidthStr As Double
+    Private PDFFontName As String
     Enum PDFFormatPgStr
         FORMAT_A4 = 0
         FORMAT_A3 = 1
@@ -73,6 +74,24 @@
         pPDF_DASHDOT = 2
         pPDF_DASHDOTDOT = 3
     End Enum
+    Enum PDFFontStl
+        FONT_NORMAL = 0
+        FONT_ITALIC = 1
+        FONT_BOLD = 2
+        FONT_UNDERLINE = 3
+    End Enum
+    Enum PDFFontNme
+        FONT_ARIAL = 0
+        FONT_COURIER = 1
+        FONT_TIMES = 2
+        FONT_SYMBOL = 3
+        FONT_ZAPFDINGBATS = 4
+    End Enum
+    Private Structure PDFRGB
+        Dim in_R As Integer
+        Dim in_G As Integer
+        Dim in_B As Integer
+    End Structure
 
     Private Const mjwPDF As String = "1.3"
     Private Const mjwPDFVersion As String = "mjwPDF 1.0"
@@ -120,6 +139,8 @@
     Private aOutlines() As oOutlines
     Private iOutlines As Integer
     Private aPage() As Object
+    Private PDFFontSize As Integer
+    Private PDFFontNum As Integer
 
     Private Structure oOutlines
         Dim sText As String
@@ -148,7 +169,9 @@
     Private PDFTextColor As String
     Private PDFrMargin As Integer ' Right Margin
     Private PDFbMargin As Integer ' Bottom Margin
-
+    Private PDFAngle As Double
+    Private bAngle As Double
+    Private str_TmpFont As String
 
     Public Sub New()
         PDFInit()
@@ -251,9 +274,7 @@
 
         PDFrMargin = In_right
         PDFbMargin = In_bottom
-
     End Sub
-
 
     Public Property PDFTitle() As String
         Get
@@ -615,7 +636,6 @@ Err_File:
         PDFSetHeader()
         PDFSetDocInfo()
         PDFStartStream()
-
     End Sub
 
     Private Sub PDFSetHeader()
@@ -625,7 +645,6 @@ Err_File:
 
         Strm.WriteLine("%PDF-" & mjwPDF)
         PDFAddToOffset(Len("%PDF-" & mjwPDF))
-
     End Sub
 
     Private Sub PDFAddToOffset(ByRef Offset As Integer)
@@ -635,7 +654,7 @@ Err_File:
         ReDim Preserve ObjectOffsetList(0 To In_offset - 1)
 
         ObjectOffset = ObjectOffset + Offset
-        ObjectOffsetList(In_offset) = ObjectOffset
+        ObjectOffsetList(In_offset - 1) = ObjectOffset
 
         In_offset = In_offset + 1
 
@@ -756,6 +775,421 @@ Err_File:
             'Attribute PDFSetLineWidth.VB_HelpID = 2048
             PDFLnWidth = value
         End Set
+    End Property
+
+    Public Sub PDFTextOut(str_Text As String, Optional ByRef X As Double = -1, Optional ByRef Y As Double = -1)
+        'Attribute PDFTextOut.VB_HelpID = 2072
+
+        Dim J As Integer
+        Dim in_PositionFont As Integer
+        Dim str_Tmp As String
+        Dim str_TmpText As String
+
+        str_TmpText = Replace(str_Text, "\", "\\")
+        str_TmpText = Replace(str_TmpText, "\\", "\\\\")
+        str_TmpText = Replace(str_TmpText, "(", "\(")
+        str_TmpText = Replace(str_TmpText, ")", "\)")
+
+        str_Tmp = ""
+
+        If X = -1 Then X = in_xCurrent
+        If Y = -1 Then Y = in_yCurrent
+
+        If PDFFontName = "" Then
+            in_PositionFont = 1
+        Else
+            For J = 0 To UBound(Arr_Font)
+                If Arr_Font(J) = PDFFontName Then
+                    in_PositionFont = J + 1
+                    Exit For
+                End If
+            Next
+        End If
+
+        If PDFFontSize = 0 Then PDFFontSize = 10
+        If PDFTextColor <> "" Then PDFOutStream(sTempStream, "q " & PDFTextColor & " ")
+        If boPDFUnderline Then str_Tmp = PDFUnderline(False, str_Text, CDbl(X * in_Ech), CDbl(Y * in_Ech))
+
+        PDFOutStream(sTempStream, "%DEBUT_TEXT/%")
+        PDFOutStream(sTempStream, "BT")
+
+        If PDFAngle = 0 Then
+            PDFOutStream(sTempStream, PDFFormatDouble((X + PDFlMargin) * in_Ech) & " " & PDFFormatDouble(PDFCanvasHeight(in_Canvas) - Y * in_Ech) & " Td")
+        Else
+            PDFStreamRotate(PDFAngle, X, Y)
+            PDFAngle = 0
+        End If
+
+        PDFOutStream(sTempStream, "/F" & in_PositionFont & " " & PDFFormatDouble(PDFFontSize) & " Tf")
+        PDFOutStream(sTempStream, "(" & str_TmpText & ") Tj")
+
+        If PDFTextColor <> "" Then
+            PDFOutStream(sTempStream, "ET")
+
+            If boPDFUnderline = True Then
+                PDFOutStream(sTempStream, str_Tmp)
+            End If
+
+            PDFOutStream(sTempStream, "Q")
+        Else
+            PDFOutStream(sTempStream, "ET")
+
+            If boPDFUnderline = True Then
+                PDFOutStream(sTempStream, str_Tmp)
+            End If
+        End If
+
+        PDFOutStream(sTempStream, "%FIN_TEXT/%")
+
+        boPDFUnderline = False
+
+        in_xCurrent = X + PDFGetStringWidth(str_Text, PDFFontName, PDFFontSize)
+        in_yCurrent = Y + PDFFontSize
+    End Sub
+
+    Public Function PDFGetStringWidth(ByVal str_Txt As String, Optional ByVal str_FName As String = "", Optional ByVal in_FSize As Integer = 0) As Double
+        'Attribute PDFGetStringWidth.VB_HelpID = 2097
+
+        Dim str_TmpINI As String
+        Dim in_Tmp As Integer
+        Dim In_i As Integer
+        Dim In_j As Integer
+        Dim ArrFNT() As Integer
+        Dim in_Asc As Integer
+        Dim Fso As Object
+        Dim F As Object
+        Dim aTempFNT As Object
+        Dim bWX As Boolean
+        Dim iAscMin As Integer
+        Dim iAscMax As Integer
+        Dim aAsc As Object
+        Dim aWX As Object
+        Dim sReadLine As String
+
+        If str_FName = "" Then
+            str_FName = PDFFontName
+        End If
+
+        'ReDim ArrFNT(1 To 255)
+        ReDim ArrFNT(0 To 254)
+        iAscMin = 0
+        iAscMax = 0
+
+        bWX = False
+
+        Fso = CreateObject("Scripting.FileSystemObject")
+        F = Fso.OpenTextFile(wsPathConfig & "\" & str_FName & ".afm", 1, 0)
+        Do While F.AtEndOfStream <> True
+            sReadLine = F.ReadLine
+
+            If InStr(1, sReadLine, "StartCharMetrics") <> 0 Then
+                bWX = True
+                sReadLine = F.ReadLine
+            End If
+
+            If InStr(1, sReadLine, "-1 ;") <> 0 Or
+   InStr(1, sReadLine, "EndCharMetrics") <> 0 Then
+                iAscMax = aAsc(1)
+                Exit Do
+            End If
+
+            If bWX = True Then
+                aTempFNT = Split(sReadLine, ";")
+                aAsc = Split(Trim(aTempFNT(0)), " ")
+                If iAscMin = 0 Then iAscMin = aAsc(1)
+
+                aWX = Split(Trim(aTempFNT(1)), " ")
+
+                ArrFNT(aAsc(1)) = Int(aWX(1))
+            End If
+        Loop
+        F.Close
+
+        For In_i = 1 To 255
+            If In_i < iAscMin Then ArrFNT(In_i) = 0
+            If In_i > iAscMax Then ArrFNT(In_i) = 0
+        Next
+
+        in_Tmp = 0
+        For In_i = 1 To Len(str_Txt)
+            in_Asc = Asc(Mid(str_Txt, In_i, 1))
+            in_Tmp = in_Tmp + Int(ArrFNT(in_Asc)) ' + FontBBoxAbout
+        Next
+
+        PDFGetStringWidth = (in_Tmp * in_FSize) / 1000
+    End Function
+
+    Private Function PDFFormatDouble(In_dbl As Object, Optional ByRef nZero As Integer = 2) As String
+        'Attribute PDFFormatDouble.VB_HelpID = 2100
+
+        Dim sZero As String
+
+        'sZero = String(nZero, "0")
+        sZero = New String("0", nZero)
+        PDFFormatDouble = Replace(Format(In_dbl, "###0." & sZero), ",", ".")
+    End Function
+
+    Private Sub PDFStreamRotate(ByRef pAngle As Double, ByRef X As Double, ByRef Y As Double)
+        Dim dSin As Double
+        Dim dCos As Double
+        Dim CenterX As Double
+        Dim CenterY As Double
+
+        If pAngle <> 0 Then
+            pAngle = pAngle * 3.1416 / 180
+            dCos = Math.Cos(pAngle)
+            dSin = Math.Sin(pAngle)
+            CenterX = X * in_Ech
+            CenterY = PDFCanvasHeight(in_Canvas) - Y * in_Ech
+
+            PDFOutStream(sTempStream, PDFFormatDouble(dCos, 5) & " " &
+                                  PDFFormatDouble(-1 * dSin, 5) & " " &
+                                  PDFFormatDouble(dSin, 5) & " " &
+                                  PDFFormatDouble(dCos, 5) & " " &
+                                  PDFFormatDouble(CenterX) & " " &
+                                  PDFFormatDouble(CenterY) & " Tm")
+        End If
+
+        bAngle = True
+    End Sub
+
+    Private Function PDFUnderline(ByRef boCell As Boolean, str_Text As String, ByRef X As Double, ByRef Y As Double) As String
+        'Attribute PDFUnderline.VB_HelpID = 2091
+
+        Dim in_wUp As Integer
+        Dim in_wUt As Integer
+        Dim in_wTxt As String
+
+        Dim in_Px As Integer
+        Dim in_Pw As String
+        Dim in_Py As String
+
+        Dim str_TmpUnderl As String
+
+        Dim str_xLeft As String
+        Dim str_yTop As String
+        Dim str_wText As String
+        Dim str_hLine As String
+        Dim iNbSpace As Integer
+
+        str_TmpUnderl = ""
+
+        in_wUp = PDFGetStringWidth("up", PDFFontName, PDFFontSize)
+        in_wUt = 2
+
+        iNbSpace = PDFGetNumberOfCar(str_Text, " ")
+        in_wTxt = PDFGetStringWidth(str_Text, PDFFontName, PDFFontSize) +
+  iNbSpace * PDFGetStringWidth(" ", PDFFontName, PDFFontSize) +
+  iWidthStr * iNbSpace -
+  IIf(iWidthStr <> 0, (iNbSpace + 1) * PDFcMargin, 0)
+
+        in_Px = X + PDFlMargin * in_Ech
+        in_Pw = (PDFCanvasHeight(in_Canvas) - (Y - in_wUp / 1000 * PDFFontSize) - 2)
+        in_Py = -in_wUt / 1000 * in_wTxt
+        str_hLine = PDFFormatDouble(in_Py)
+
+        If boCell = False Then
+            str_wText = PDFFormatDouble(in_wTxt)
+            str_xLeft = PDFFormatDouble(in_Px)
+            str_yTop = PDFFormatDouble(in_Pw)
+
+            str_TmpUnderl = str_xLeft & " " & str_yTop & " " & str_wText & " " & str_hLine & " re f"
+        Else
+            str_wText = PDFFormatDouble(in_wTxt - PDFcMargin)
+            str_xLeft = PDFFormatDouble(X)
+            str_yTop = PDFFormatDouble(Y - 3)
+
+            str_TmpUnderl = str_xLeft & " " & str_yTop & " " & str_wText & " " & str_hLine & " re f"
+        End If
+
+        PDFUnderline = str_TmpUnderl
+    End Function
+
+    Private Function PDFGetNumberOfCar(ByRef sText As String, ByRef sCar As String) As Integer
+        Dim iNbCar As Integer
+        Dim In_i As Integer
+
+        iNbCar = 0
+        In_i = InStr(1, sText, sCar)
+        If In_i <> 0 Then iNbCar = 1
+
+        Do While In_i <> 0
+            In_i = InStr(In_i + 1, sText, sCar)
+            If In_i <> 0 Then iNbCar = iNbCar + 1
+        Loop
+
+        PDFGetNumberOfCar = iNbCar
+    End Function
+
+    Public Sub PDFSetFont(str_Fontname As PDFFontNme, in_FontSize As Integer, Optional str_Style As PDFFontStl = PDFFontStl.FONT_NORMAL)
+        'Attribute PDFSetFont.VB_HelpID = 2051
+        Dim str_TmpFontName As String
+        Dim str_TmpFontNm As String
+
+        If str_Fontname <> PDFFontNme.FONT_ARIAL And
+       str_Fontname <> PDFFontNme.FONT_COURIER And
+       str_Fontname <> PDFFontNme.FONT_SYMBOL And
+       str_Fontname <> PDFFontNme.FONT_TIMES And
+       str_Fontname <> PDFFontNme.FONT_ZAPFDINGBATS Then
+            MessageBox.Show("Font name set incorrectly : " & str_Style & "." & vbNewLine & "Font set to Times New Roman.", "Font name - " & mjwPDFVersion, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            str_TmpFontName = "TimesRoman"
+            boPDFItalic = False
+            boPDFBold = False
+
+            PDFFontName = str_TmpFontName
+            PDFFontNum = FontNum
+            PDFFontSize = in_FontSize
+
+            FontNum = FontNum + 1
+
+            Exit Sub
+        End If
+
+        Select Case str_Fontname
+            Case PDFFontNme.FONT_ARIAL
+                str_TmpFontNm = "Arial"
+            Case PDFFontNme.FONT_COURIER
+                str_TmpFontNm = "Courier"
+            Case PDFFontNme.FONT_TIMES
+                str_TmpFontNm = "Times"
+            Case PDFFontNme.FONT_SYMBOL
+                str_TmpFontNm = "Symbol"
+            Case PDFFontNme.FONT_ZAPFDINGBATS
+                str_TmpFontNm = "ZapfDingbats"
+        End Select
+
+        If str_TmpFontNm = "Arial" Then
+            str_TmpFontName = "Helvetica"
+        Else
+            str_TmpFontName = str_TmpFontNm
+        End If
+
+        boPDFItalic = False
+        boPDFBold = False
+
+        str_TmpFont = str_TmpFontName
+
+        If InStr(1, str_Style.ToString, PDFFontStl.FONT_ITALIC.ToString) <> 0 Then boPDFItalic = True
+        If InStr(1, str_Style.ToString, PDFFontStl.FONT_BOLD.ToString) <> 0 Then boPDFBold = True
+        If InStr(1, str_Style.ToString, PDFFontStl.FONT_UNDERLINE.ToString) <> 0 Then boPDFUnderline = True
+
+        If boPDFItalic = True And boPDFBold = False Then
+            Select Case str_TmpFontName
+                Case "Times"
+                    str_TmpFontName = "TimesItalic"
+                Case Else
+                    str_TmpFontName = str_TmpFontName & "-Oblique"
+            End Select
+        End If
+
+        If boPDFItalic = True And boPDFBold = True Then
+            Select Case str_TmpFontName
+                Case "Times"
+                    str_TmpFontName = str_TmpFontName & "-BoldItalic"
+                Case Else
+                    str_TmpFontName = str_TmpFontName & "-BoldOblique"
+            End Select
+        End If
+
+        If boPDFItalic = False And boPDFBold = True Then
+            str_TmpFontName = str_TmpFontName & "-Bold"
+        End If
+
+        If boPDFItalic = False And boPDFBold = False Then
+            Select Case str_TmpFontName
+                Case "Times"
+                    str_TmpFontName = str_TmpFontName & "-Roman"
+                Case Else
+                    str_TmpFontName = str_TmpFontName
+            End Select
+        End If
+
+        PDFFontName = str_TmpFontName
+        PDFFontNum = FontNum
+        PDFFontSize = in_FontSize
+
+        FontNum = FontNum + 1
+    End Sub
+
+    Public Function PDFSetTextColor(ByRef gColor As Object) As Object
+        'Attribute PDFSetTextColor.VB_HelpID = 2063
+
+        Dim TxtCl As PDFRGB
+        Dim sColor As String
+
+        Select Case TypeName(gColor)
+            Case "Variant()"
+                TxtCl.in_R = gColor(0)
+                TxtCl.in_G = gColor(1)
+                TxtCl.in_B = gColor(2)
+            Case "String"
+                If Left(gColor, 1) <> "#" Then
+                    MessageBox.Show("Invalid HTMl color set" & gColor & "." & vbNewLine & "Set color to  black.", "Text Color " & mjwPDFVersion, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    'TxtCl = PDFGetRGB(vbBlack)
+                    TxtCl = PDFGetRGB(Color.Black.ToArgb)
+                Else
+                    TxtCl = PDFHtml2RgbColor(CStr(gColor))
+                End If
+            Case Else
+                TxtCl = PDFGetRGB(Int(gColor))
+        End Select
+
+        PDFTextColor = PDFStreamColor(TxtCl, "TEXT")
+    End Function
+
+    Private Function PDFGetRGB(ByRef lColor As Integer) As PDFRGB
+        'Attribute PDFGetRGB.VB_HelpID = 2099
+        PDFGetRGB.in_B = CByte(Int(lColor / 65536))
+        PDFGetRGB.in_G = CByte(Int((lColor - CLng(PDFGetRGB.in_B) * 65536) / 256))
+        PDFGetRGB.in_R = CByte(lColor - CLng(PDFGetRGB.in_B) * 65536 - CLng(PDFGetRGB.in_G) * 256)
+    End Function
+
+    Private Function PDFHtml2RgbColor(ByRef sColor As String) As PDFRGB
+        Dim sTmpColor As String
+
+        sTmpColor = Right("000000" & sColor, 6)
+        PDFHtml2RgbColor.in_R = CByte("&h" & Mid(sTmpColor, 1, 2))
+        PDFHtml2RgbColor.in_G = CByte("&h" & Mid(sTmpColor, 3, 2))
+        PDFHtml2RgbColor.in_B = CByte("&h" & Mid(sTmpColor, 5, 2))
+    End Function
+
+    Private Function PDFStreamColor(ByRef PDFRgbColor As PDFRGB, str_Type As String) As String
+        'Attribute PDFStreamColor.VB_HelpID = 2069
+        Dim Int_r As Integer
+        Dim Int_g As Integer
+        Dim Int_b As Integer
+        Dim str_TxtColor As String
+
+        Int_r = PDFRgbColor.in_R
+        Int_g = PDFRgbColor.in_G
+        Int_b = PDFRgbColor.in_B
+
+        Select Case str_Type
+            Case "TEXT", "BORDER"
+                str_TxtColor = Replace(Format(Int_r / 255, "0.000"), ",", ".") & " " &
+                           Replace(Format(Int_g / 255, "0.000"), ",", ".") & " " &
+                           Replace(Format(Int_b / 255, "0.000"), ",", ".") & " rg"
+            Case "LINE"
+                str_TxtColor = Replace(Format(Int_r / 255, "0.000"), ",", ".") & " " &
+                           Replace(Format(Int_g / 255, "0.000"), ",", ".") & " " &
+                           Replace(Format(Int_b / 255, "0.000"), ",", ".") & " RG"
+        End Select
+
+        PDFStreamColor = str_TxtColor
+    End Function
+
+    Public ReadOnly Property PDFGetPageHeight() As Double
+        Get
+            'Attribute PDFGetPageHeight.VB_HelpID = 2031
+            PDFGetPageHeight = PDFCanvasHeight(in_Canvas)
+        End Get
+    End Property
+
+    Public ReadOnly Property PDFGetPageWidth() As Double
+        Get
+            'Attribute PDFGetPageWidth.VB_HelpID = 2033
+            PDFGetPageWidth = PDFCanvasWidth(in_Canvas)
+        End Get
     End Property
 
 End Class

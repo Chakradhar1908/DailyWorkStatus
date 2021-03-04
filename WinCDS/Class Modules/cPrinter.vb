@@ -198,4 +198,177 @@ Public Class cPrinter
         PDFPrinter.PDFSetLineWidth = 1
     End Sub
 
+
+    Public Property fontname() As String
+        Get
+            On Error Resume Next
+            fontname = oPrinter.FontName
+        End Get
+        Set(value As String)
+            On Error Resume Next
+            oPrinter.FontName = value
+        End Set
+    End Property
+
+    Public Property CurrentX() As Single
+        Get
+            On Error Resume Next
+            CurrentX = oPrinter.CurrentX
+        End Get
+        Set(value As Single)
+            On Error Resume Next
+            oPrinter.CurrentX = value
+        End Set
+    End Property
+
+    Public Property CurrentY() As Single
+        Get
+            On Error Resume Next
+            CurrentY = oPrinter.CurrentY
+        End Get
+        Set(value As Single)
+            On Error Resume Next
+            oPrinter.CurrentY = value
+        End Set
+    End Property
+
+    Public Property FontSize() As Single
+        Get
+            On Error Resume Next
+            FontSize = oPrinter.FontSize
+        End Get
+        Set(value As Single)
+            On Error Resume Next
+            oPrinter.FontSize = value
+        End Set
+    End Property
+
+    Public Sub PrintNNL(ByVal Str1 As String, Optional ByVal Str2 As String = "", Optional ByVal Str3 As String = "", Optional ByVal Str4 As String = "", Optional ByVal Str5 As String = "", Optional ByVal Str6 As String = "", Optional ByVal Str7 As String = "", Optional ByVal Str8 As String = "", Optional ByVal Str9 As String = "", Optional ByVal Str10 As String = "")
+        Print_(Str1, Str2, Str3, Str4, Str5, Str6, Str7, Str8, Str9, Str10)
+    End Sub
+
+    Public Sub PrintNL(Optional ByVal Str1 As String = "", Optional ByVal Str2 As String = "", Optional ByVal Str3 As String = "", Optional ByVal Str4 As String = "", Optional ByVal Str5 As String = "", Optional ByVal Str6 As String = "", Optional ByVal Str7 As String = "", Optional ByVal Str8 As String = "", Optional ByVal Str9 As String = "", Optional ByVal Str10 As String = "")
+        ' let the other print routine handle it to standardize all printing
+        On Error GoTo NoPrint
+        Print_(Str1, Str2, Str3, Str4, Str5, Str6, Str7, Str8, Str9, Str10)
+        oPrinter.Print
+        Exit Sub
+NoPrint:
+        CheckStandardErrors()
+    End Sub
+
+    Private Sub Print_(ByVal Str1 As String, Optional ByVal Str2 As String = "", Optional ByVal Str3 As String = "", Optional ByVal Str4 As String = "", Optional ByVal Str5 As String = "", Optional ByVal Str6 As String = "", Optional ByVal Str7 As String = "", Optional ByVal Str8 As String = "", Optional ByVal Str9 As String = "", Optional ByVal Str10 As String = "")
+        If BuildDLS Then
+            '    DYMOObject.PrintObject.AddObject
+        ElseIf BuildPDF Then
+            PDFOutText_Setup()
+            PDFPrinter.PDFTextOut(Str1 & Str2 & Str3 & Str4 & Str5 & Str6 & Str7 & Str8 & Str9 & Str10, PDFScaleX(CurrentX), PDFScaleY(CurrentY))
+            ' printer handles location always.  PDF always mirrors. Newline is therefore irrelevant.
+        End If
+        On Error GoTo NoPrint
+        oPrinter.Print(Str1)
+        If Str2 <> "" Then oPrinter.Print(Str2)
+        If Str3 <> "" Then oPrinter.Print(Str3)
+        If Str4 <> "" Then oPrinter.Print(Str4)
+        If Str5 <> "" Then oPrinter.Print(Str5)
+        If Str6 <> "" Then oPrinter.Print(Str6)
+        If Str7 <> "" Then oPrinter.Print(Str7)
+        If Str8 <> "" Then oPrinter.Print(Str8)
+        If Str9 <> "" Then oPrinter.Print(Str9)
+        If Str10 <> "" Then oPrinter.Print(Str10)
+
+        Exit Sub
+NoPrint:
+        CheckStandardErrors()
+    End Sub
+
+    Public ReadOnly Property BuildPDF() As Boolean
+        Get
+            BuildPDF = mBuildPDF
+        End Get
+    End Property
+
+    Private Function PDFOutText_Setup()
+        Dim FID As Integer, FFlags As Integer
+
+        FFlags = 0
+        If FontBold Then FFlags = FFlags + PDFFontStl.FONT_BOLD
+        If FontItalic Then FFlags = FFlags + PDFFontStl.FONT_ITALIC
+        If FontUnderline Then FFlags = FFlags + PDFFontStl.FONT_UNDERLINE
+        '  If FontStrikethru Then FFlags = FFlags + FONT_STRIKETHRU
+
+        '    FONT_ARIAL = 0
+        '    FONT_COURIER = 1
+        '    FONT_TIMES = 2
+        '    FONT_SYMBOL = 3
+        '    FONT_ZAPFDINGBATS = 4
+        Select Case LCase(fontname)
+            Case "times new roman" : FID = PDFFontNme.FONT_TIMES
+            Case "courier new" : FID = PDFFontNme.FONT_COURIER
+            Case "symbol" : FID = PDFFontNme.FONT_SYMBOL
+            Case Else : FID = PDFFontNme.FONT_ARIAL
+        End Select
+
+        PDFPrinter.PDFSetFont(FID, FontSize, FFlags)
+
+        'PDFPrinter.PDFSetTextColor = ForeColor
+        PDFPrinter.PDFSetTextColor(ForeColor)
+    End Function
+
+    Public Property ForeColor() As Color
+        Get
+            ForeColor = oPrinter.ForeColor
+        End Get
+        Set(value As Color)
+            oPrinter.ForeColor = value
+        End Set
+    End Property
+
+    Private Function PDFScaleX(ByVal X As Single) As Single
+        GetPDFDimensions
+        PDFScaleX = X / Printer.ScaleWidth * pW
+    End Function
+
+    Private Function PDFScaleY(ByVal Y As Single) As Single
+        GetPDFDimensions()
+        PDFScaleY = Y / Printer.ScaleHeight * pH + 10
+    End Function
+
+    Private Function GetPDFDimensions() As Boolean
+        GetPDFDimensions = True
+        If pH <> 0 And pW <> 0 Then Exit Function
+        pH = PDFPrinter.PDFGetPageHeight
+        pW = PDFPrinter.PDFGetPageWidth
+    End Function
+
+    Public Property FontBold() As Boolean
+        Get
+            FontBold = oPrinter.FontBold
+        End Get
+        Set(value As Boolean)
+            oPrinter.FontBold = value
+        End Set
+    End Property
+
+    Public Property FontItalic() As Boolean
+        Get
+            On Error Resume Next
+            FontItalic = oPrinter.FontItalic
+        End Get
+        Set(value As Boolean)
+            On Error Resume Next
+            oPrinter.FontItalic = value
+        End Set
+    End Property
+
+    Public Property FontUnderline() As Boolean
+        Get
+            On Error Resume Next
+            FontUnderline = oPrinter.FontUnderline
+        End Get
+        Set(value As Boolean)
+            On Error Resume Next
+            oPrinter.FontUnderline = value
+        End Set
+    End Property
 End Class
