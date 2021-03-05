@@ -1630,7 +1630,6 @@ HandleErr:
 
         ' Prior balance
         If DateAndTime.Day(theDate) <> 1 Then
-
             SS = ""
             SS = SS & "SELECT * FROM [" & SalesJournal_TABLE & "] "
             SS = SS & "WHERE 1=1 "

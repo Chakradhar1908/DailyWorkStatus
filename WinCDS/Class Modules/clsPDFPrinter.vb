@@ -92,6 +92,14 @@
         Dim in_G As Integer
         Dim in_B As Integer
     End Structure
+    Enum PDFViewerCst
+        VIEW_HIDETOOLBAR = 1
+        VIEW_HIDEMENUBAR = 2
+        VIEW_HIDEWINDOWUI = 3
+        VIEW_FITWINDOW = 4
+        VIEW_CENTERWINDOW = 5
+        VIEW_DISPLAYDOCTITLE = 6
+    End Enum
 
     Private Const mjwPDF As String = "1.3"
     Private Const mjwPDFVersion As String = "mjwPDF 1.0"
@@ -172,6 +180,10 @@
     Private PDFAngle As Double
     Private bAngle As Double
     Private str_TmpFont As String
+    Private PDFDrawMode As String
+    Private strTLink As String
+    Private strTyLink As String
+    Private wRect As Long
 
     Public Sub New()
         PDFInit()
@@ -1191,5 +1203,717 @@ Err_File:
             PDFGetPageWidth = PDFCanvasWidth(in_Canvas)
         End Get
     End Property
+
+    Private Sub PDFHeader()
+        Dim dH As Double
+        Dim dL As Double
+
+        If bPDFWatermark Then
+            PDFSetFont FONT_ARIAL, 50, FONT_BOLD
+    PDFSetTextColor = Array(255, 192, 203)
+
+            dH = (PDFGetPageHeight + PDFGetStringWidth(sPDFWatermark, "", 50) * Sin(45)) / 2.15
+            dL = (PDFGetPageWidth - PDFGetStringWidth(sPDFWatermark, "", 50) * Cos(45)) / 2.75
+
+            PDFRotationText dL, dH, sPDFWatermark, 45
+  End If
+
+    End Sub
+
+    Private Sub PDFEndStream()
+        'Attribute PDFEndStream.VB_HelpID = 2089
+
+        Dim TempSize As Long
+        On Error Resume Next
+
+        TempStream = TempStream & sTempStream
+        If dTempStream <> "" Then TempStream = TempStream & dTempStream
+        sTempStream = ""
+        dTempStream = ""
+
+        PDFOutStream TempStream, "endstream"
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream sTempStream, "%FIN_OBJ/%"
+
+  StreamSize2 = 6
+
+        PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+  TempSize = Len(TempStream) - StreamSize1 - StreamSize2 - Len("Stream") - Len("endstream") - 6
+        ContentNum = CurrentObjectNum
+        CurrentObjectNum = CurrentObjectNum + 1
+        TempStream = ""
+
+        PDFOutStream sTempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+  PDFOutStream TempStream, CStr(TempSize)
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream sTempStream, "%FIN_OBJ/%"
+
+  PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+End Sub
+
+    Private Sub PDFSetFontType()
+        'Attribute PDFSetFontType.VB_HelpID = 2083
+
+        Dim In_i As Integer
+
+        For In_i = 0 To UBound(Arr_Font)
+            PDFCreateFont "Type1", Arr_Font(In_i), "WinAnsiEncoding"
+  Next
+
+    End Sub
+
+    Private Sub PDFSetPages()
+        'Attribute PDFSetPages.VB_HelpID = 2085
+        On Error Resume Next
+        Dim I As Long, PageObjNum As Integer
+
+        CurrentObjectNum = CurrentObjectNum + 1
+        ParentNum = CurrentObjectNum
+        'TempStream = ""
+
+        PDFOutStream TempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+  PDFOutStream TempStream, "<< /Type /Pages"
+  PDFOutStream TempStream, "/Kids ["
+
+  PageObjNum = 2
+        For I = 1 To FPageNumber
+            PDFOutStream TempStream, (CurrentObjectNum + I + 1 + NumberofImages) & " 0 R"
+
+    ReDim Preserve PageNumberList(1 To in_PagesNum)
+            ReDim Preserve PageCanvasHeight(1 To in_PagesNum)
+            ReDim Preserve PageCanvasWidth(1 To in_PagesNum)
+
+            ReDim Preserve boPageLinksList(1 To FPageNumber)
+            ReDim Preserve NbPageLinksList(1 To FPageNumber)
+
+            PageCanvasHeight(in_PagesNum) = PDFCanvasHeight(in_PagesNum)
+            PageCanvasWidth(in_PagesNum) = PDFCanvasWidth(in_PagesNum)
+
+            PageNumberList(in_PagesNum) = PageObjNum
+            in_PagesNum = in_PagesNum + 1
+
+            PageObjNum = PageObjNum + 2
+        Next
+
+        PDFOutStream TempStream, "]"
+  PDFOutStream TempStream, "/Count " & FPageNumber
+  PDFOutStream TempStream, ">>"
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream sTempStream, "%FIN_OBJ/%"
+
+  PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+End Sub
+
+    Private Sub PDFSetArray()
+        'Attribute PDFSetArray.VB_HelpID = 2082
+
+        Dim I As Integer
+
+        CurrentObjectNum = CurrentObjectNum + 1
+        ResourceNum = CurrentObjectNum
+
+        TempStream = ""
+
+        PDFOutStream sTempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+  PDFOutStream TempStream, "<< /ProcSet [ /PDF /Text /ImageC]"
+  PDFOutStream TempStream, "/XObject << "
+
+  For I = 1 To NumberofImages
+            PDFOutStream TempStream, "/ImgJPEG" & I & " " & (CurrentObjectNum + I) & " 0 R"
+  Next
+
+        PDFOutStream TempStream, ">>"
+  PDFOutStream TempStream, "/Font << "
+
+  For I = 1 To FontNumber
+            PDFOutStream TempStream, "/F" & I & " " & FontNumberList(I) & " 0 R "
+  Next
+
+        PDFOutStream TempStream, ">>"
+  PDFOutStream TempStream, ">>"
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream sTempStream, "%FIN_OBJ/%"
+
+  PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+End Sub
+
+    Private Sub PDFWriteImage(In_Img As Integer)
+        'Attribute PDFWriteImage.VB_HelpID = 2079
+
+        Dim TmpImg As String
+
+        TmpImg = ArrIMG(In_Img).in_6
+
+        CurrentObjectNum = CurrentObjectNum + 1
+        TempStream = ""
+
+        PDFOutStream sTempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+
+  ImageStream = ""
+        PDFOutStream ImageStream, "<</Type /XObject"
+  PDFOutStream ImageStream, "/Subtype /Image"
+  PDFOutStream ImageStream, "/Filter [/DCTDecode ]"
+  PDFOutStream ImageStream, "/Width " & ArrIMG(In_Img).in_1
+  PDFOutStream ImageStream, "/Height " & ArrIMG(In_Img).in_2
+  PDFOutStream ImageStream, "/ColorSpace /" & ArrIMG(In_Img).in_3
+  PDFOutStream ImageStream, "/BitsPerComponent " & ArrIMG(In_Img).in_4
+  PDFOutStream ImageStream, "/Length " & Len(ArrIMG(In_Img).in_6)
+  PDFOutStream ImageStream, "/Name /ImgJPEG" & In_Img & ">>"
+  PDFOutStream ImageStream, "stream"
+  PDFOutStream ImageStream, TmpImg
+  PDFOutStream ImageStream, "endstream"
+  PDFOutStream ImageStream, "endobj"
+  PDFOutStream sTempStream, "%FIN_OBJ/%"
+
+  TempStream = TempStream & ImageStream
+
+        PDFAddToOffset Len(TempStream)
+
+  Strm.WriteLine TempStream
+
+End Sub
+
+    Private Sub PDFSetPageObject(In_pg As Integer)
+        'Attribute PDFSetPageObject.VB_HelpID = 2086
+
+        Dim I As Integer
+        Dim str_Rect As String
+        Dim str_Annots As String
+        Dim str_TmpAnnots As String
+
+        ContentNum = ContentNum + 1
+        CurrentObjectNum = CurrentObjectNum + 1
+        TempStream = ""
+
+        ReDim Preserve aPage(1 To In_pg)
+        aPage(In_pg) = CurrentObjectNum
+
+        PDFOutStream sTempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+  PDFOutStream TempStream, "<< /Type /Page"
+  PDFOutStream TempStream, "/Parent " & ParentNum & " 0 R"
+  PDFOutStream TempStream, "/MediaBox [ 0 0 " & PageCanvasWidth(CurrentPDFSetPageObject + 1) & " " & PageCanvasHeight(CurrentPDFSetPageObject + 1) & "]"
+  PDFOutStream TempStream, "/Resources " & ResourceNum & " 0 R"
+
+  If boPageLinksList(In_pg) = True Then
+            str_Annots = "/Annots ["
+            For I = 1 To NbPageLinksList(In_pg)
+                str_Rect = ""
+                str_Rect = PageLinksList(In_pg, I)(0) & " " &
+          PageLinksList(In_pg, I)(1) & " " &
+          PageLinksList(In_pg, I)(0) + PageLinksList(In_pg, I)(2) & " " &
+          PageLinksList(In_pg, I)(1) - PageLinksList(In_pg, I)(3)
+                str_Annots = str_Annots & "<</Type /Annot /Subtype /Link /Rect [" & str_Rect & "] /Border [0 0 0] "
+
+                If TypeName(PageLinksList(In_pg, I)(4)) = "String" And PageLinksList(In_pg, I)(4) <> "" Then
+                    str_TmpAnnots = PageLinksList(In_pg, I)(4)
+
+                    str_TmpAnnots = Replace(str_TmpAnnots, "\", "\\")
+                    str_TmpAnnots = Replace(str_TmpAnnots, "\\", "\\\\")
+                    str_TmpAnnots = Replace(str_TmpAnnots, "(", "\(")
+                    str_TmpAnnots = Replace(str_TmpAnnots, ")", "\)")
+
+                    str_Annots = str_Annots & "/A <</S /URI /URI (" & str_TmpAnnots & ")>>>>" & vbCr & vbLf
+                End If
+            Next
+
+            PDFOutStream TempStream, str_Annots & "]"
+'MsgBox str_Annots
+        End If
+
+        PDFOutStream TempStream, "/Contents " & PageNumberList(CurrentPDFSetPageObject + 1) & " 0 R"
+  PDFOutStream TempStream, ">>"
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream TempStream, "%FIN_OBJ/%"
+
+  PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+  CurrentPDFSetPageObject = CurrentPDFSetPageObject + 1
+
+    End Sub
+
+    Public Sub PDFEndDoc()
+        Dim iRet As Long
+        Dim In_i As Integer
+
+        On Error GoTo PDFError
+
+        PDFHeader
+
+        PDFEndStream
+        PDFSetFontType
+        PDFSetPages
+        PDFSetArray
+
+        For In_i = 1 To NumberofImages
+            PDFWriteImage(In_i)
+        Next
+
+        '    For in_i = FPageNumber To 1 Step -1
+        For In_i = 1 To FPageNumber
+            PDFSetPageObject(In_i)
+        Next
+
+        PDFSetBookmarks
+        PDFSetCatalog
+        PDFSetXref()
+
+        Strm.WriteLine("%%EOF")
+        Strm.Close
+
+        If boPDFConfirm Then MessageBox.Show("PDF file generated.", "Generated PDF file - " & mjwPDFVersion, MessageBoxButtons.OK)
+        If boPDFView Then
+            PDFScanRepAdobe(LocalRoot & "Program Files\", 0)
+            If wsPathAdobe <> "" Then
+                iRet = Shell(wsPathAdobe & " " & PDFGetFileName, vbMaximizedFocus)
+            End If
+        End If
+
+        Exit Sub
+
+PDFError:
+        PDFLog("cls.EndDoc - ERROR - " & Err.Description)
+
+    End Sub
+
+    Private Sub PDFLog(ByVal Msg As String)
+        ActiveLog("clsPDFPrinter::PDFLog - " & Msg, 5)
+        LogFile("PDF", Msg)
+    End Sub
+
+    Public ReadOnly Property PDFGetFileName() As String
+        Get
+            PDFGetFileName = FFileName
+        End Get
+    End Property
+
+    Private Function PDFScanRepAdobe(ByRef sPathBegin As String, ByRef iIndexFolder As Long) As Boolean
+        Dim Fso As Object
+        Dim oRep As Object
+        Dim oSubRep As Object
+        Dim oFolder As Object
+        Dim oFiles As Object
+
+        Fso = CreateObject("Scripting.FileSystemObject")
+        oRep = Fso.GetFolder(sPathBegin)
+
+        For Each oFolder In oRep.SubFolders
+            iIndexFolder = iIndexFolder + 1
+
+            If oFolder.Attributes <> 22 Then
+                For Each oFiles In oFolder.Files
+                    If InStr(1, oFiles.Path, "AcroRd32.exe") <> 0 Then
+                        wsPathAdobe = oFiles.Path
+                        bScanAdobe = True
+                        Exit For
+                    End If
+                Next
+            End If
+
+            If bScanAdobe = True Then Exit For
+        Next
+
+        For Each oSubRep In oRep.SubFolders
+            If bScanAdobe = True Then Exit For
+            PDFScanRepAdobe(oSubRep.Path, iIndexFolder)
+        Next
+
+        Fso = Nothing
+        If bScanAdobe = True Then Exit Function
+    End Function
+
+    Private Sub PDFSetXref()
+        'Attribute PDFSetXref.VB_HelpID = 2090
+
+        Dim I As Integer
+
+        CurrentObjectNum = CurrentObjectNum + 1
+        TempStream = ""
+
+        PDFOutStream(TempStream, "xref")
+        PDFOutStream(TempStream, "0 " & CurrentObjectNum)
+        PDFOutStream(TempStream, "0000000000 65535 f")
+
+        For I = 1 To CurrentObjectNum - 1
+            PDFOutStream(TempStream, PDFGetOffsetNumber(Trim(ObjectOffsetList(I))) + " 00000 n")
+        Next
+
+        PDFOutStream(TempStream, "trailer")
+        PDFOutStream(TempStream, "<< /Size " & CurrentObjectNum)
+        PDFOutStream(TempStream, "/Root " & CatalogNum & " 0 R")
+        PDFOutStream(TempStream, "/Info 1 0 R")
+        PDFOutStream(TempStream, ">>")
+        PDFOutStream(TempStream, "startxref")
+        PDFOutStream(TempStream, Trim(ObjectOffsetList(CurrentObjectNum)))
+
+        Strm.WriteLine(TempStream)
+    End Sub
+
+    Private Function PDFGetOffsetNumber(ByRef Offset As String) As String
+        'Attribute PDFGetOffsetNumber.VB_HelpID = 2094
+        Dim X As Long, Y As Long
+
+        X = Len(Offset)
+        For Y = 1 To 10 - X
+            PDFGetOffsetNumber = PDFGetOffsetNumber + "0"
+        Next
+
+        PDFGetOffsetNumber = PDFGetOffsetNumber + Offset
+    End Function
+
+    Private Sub PDFSetCatalog()
+        'Attribute PDFSetCatalog.VB_HelpID = 2087
+        CurrentObjectNum = CurrentObjectNum + 1
+        CatalogNum = CurrentObjectNum
+        TempStream = ""
+
+        PDFOutStream(sTempStream, "%DEBUT_OBJ/%")
+        PDFOutStream(TempStream, CurrentObjectNum & " 0 obj")
+        PDFOutStream(TempStream, "<<")
+        PDFOutStream(TempStream, "/Type /Catalog")
+        PDFOutStream(TempStream, "/Pages " & ParentNum & " 0 R")
+
+        '    If PDFZoomMode = ZOOM_FULLPAGE Then
+        '        PDFOutStream TempStream, "/OpenAction [3 0 R /Fit]"
+        '    ElseIf PDFZoomMode = ZOOM_FULLWIDTH Then
+        '        PDFOutStream TempStream, "/OpenAction [3 0 R /FitH null]"
+        '    ElseIf PDFZoomMode = ZOOM_REAL Then
+        '        PDFOutStream TempStream, "/OpenAction [3 0 R /XYZ null null 1]"
+        '    ElseIf IsNumeric(PDFZoomMode) Then
+        '        PDFOutStream TempStream, "/OpenAction [3 0 R /XYZ null null " & PDFFormatDouble(PDFZoomMode / 100) & "]"
+        '    End If
+
+        If PDFZoomMode = PDFZoomMd.ZOOM_FULLPAGE Then
+            PDFOutStream(TempStream, "/OpenAction [0 /Fit]")
+        ElseIf PDFZoomMode = PDFZoomMd.ZOOM_FULLWIDTH Then
+            PDFOutStream(TempStream, "/OpenAction [0 /FitH null]")
+        ElseIf PDFZoomMode = PDFZoomMd.ZOOM_REAL Then
+            PDFOutStream(TempStream, "/OpenAction [0 /XYZ null null 1]")
+        ElseIf IsNumeric(PDFZoomMode) Then
+            PDFOutStream(TempStream, "/OpenAction [0 /XYZ null null " & PDFFormatDouble(PDFZoomMode / 100) & "]")
+        End If
+
+        If PDFLayoutMode = PDFLayoutMd.LAYOUT_SINGLE Then
+            PDFOutStream(TempStream, "/PageLayout /SinglePage")
+        ElseIf PDFLayoutMode = PDFLayoutMd.LAYOUT_CONTINOUS Then
+            PDFOutStream(TempStream, "/PageLayout /OneColumn")
+        ElseIf PDFLayoutMode = PDFLayoutMd.LAYOUT_TWO Then
+            PDFOutStream(TempStream, "/PageLayout /TwoColumnLeft")
+        End If
+
+        If PDFboThumbs = True Then
+            PDFOutStream(TempStream, "/PageMode /UseThumbs")
+        End If
+
+        If PDFboOutlines = True Then
+            PDFOutStream(TempStream, "/Outlines " & iOutlines & " 0 R")
+            PDFOutStream(TempStream, "/PageMode /UseOutlines")
+        End If
+
+        If bPDFViewerPref Then
+            PDFOutStream(TempStream, "/ViewerPreferences<<")
+            If InStr(1, PDFViewerPref, PDFViewerCst.VIEW_HIDEMENUBAR.ToString) <> 0 Then PDFOutStream(TempStream, "/HideMenubar true")
+            If InStr(1, PDFViewerPref, PDFViewerCst.VIEW_HIDETOOLBAR.ToString) <> 0 Then PDFOutStream(TempStream, "/HideToolbar true")
+            If InStr(1, PDFViewerPref, PDFViewerCst.VIEW_HIDEWINDOWUI.ToString) <> 0 Then PDFOutStream(TempStream, "/HideWindowUI true")
+            If InStr(1, PDFViewerPref, PDFViewerCst.VIEW_DISPLAYDOCTITLE.ToString) <> 0 Then PDFOutStream(TempStream, "/DisplayDocTitle true")
+            If InStr(1, PDFViewerPref, PDFViewerCst.VIEW_CENTERWINDOW.ToString) <> 0 Then PDFOutStream(TempStream, "/CenterWindow true")
+            If InStr(1, PDFViewerPref, PDFViewerCst.VIEW_FITWINDOW.ToString) <> 0 Then PDFOutStream(TempStream, "/FitWindow true")
+            PDFOutStream(TempStream, ">>")
+        End If
+
+        PDFOutStream(TempStream, ">>")
+        PDFOutStream(TempStream, "endobj")
+        PDFOutStream(sTempStream, "%FIN_OBJ/%")
+
+        PDFAddToOffset(Len(TempStream))
+        Strm.WriteLine(TempStream)
+
+    End Sub
+
+    Private Sub PDFSetBookmarks()
+        Dim iNbBookMrk As Integer
+        Dim aTemp() As Object
+        Dim iLevel As Integer
+        Dim In_i As Integer
+        Dim iParent As Integer
+        Dim iFirst As Integer
+        Dim iPrev As Integer
+        Dim iNb As Integer
+        Dim iPageOut As Integer
+
+        On Error Resume Next
+        iNbBookMrk = UBound(aOutlines)
+        If iNbBookMrk = 0 Then Exit Sub
+        On Error GoTo 0
+
+        iLevel = 0
+        For In_i = 0 To iNbBookMrk
+            If aOutlines(In_i).iLevel > 0 Then
+                iParent = aTemp(aOutlines(In_i).iLevel - 1)
+
+                aOutlines(In_i).iParent = iParent
+                aOutlines(iParent).iLast = In_i
+                aOutlines(iParent).bLast = True
+
+                If aOutlines(In_i).iLevel > iLevel Then
+                    aOutlines(iParent).iFirst = In_i
+                    aOutlines(iParent).bFirst = True
+                End If
+            Else
+                aOutlines(In_i).iParent = iNbBookMrk + 1
+            End If
+
+            If aOutlines(In_i).iLevel <= iLevel And In_i > 1 Then
+                iPrev = aTemp(aOutlines(In_i).iLevel)
+                aOutlines(iPrev).iNext = In_i
+                aOutlines(iPrev).bNext = True
+                aOutlines(In_i).iPrev = iPrev
+                aOutlines(In_i).bPrev = True
+            End If
+
+            ReDim Preserve aTemp(0 To aOutlines(In_i).iLevel)
+            aTemp(aOutlines(In_i).iLevel) = In_i
+            iLevel = aOutlines(In_i).iLevel
+        Next
+
+        iNb = CurrentObjectNum + 1
+        iOutlineRoot = iNb
+        For In_i = 0 To iNbBookMrk
+            CurrentObjectNum = CurrentObjectNum + 1
+            TempStream = ""
+
+            PDFOutStream(sTempStream, "%DEBUT_OBJ/%")
+            PDFOutStream(TempStream, CurrentObjectNum & " 0 obj")
+            PDFOutStream(TempStream, "<</Title (" & aOutlines(In_i).sText & ")")
+            PDFOutStream(TempStream, "/Parent " & (iNb + aOutlines(In_i).iParent) & " 0 R")
+
+            If aOutlines(In_i).bPrev Then
+                PDFOutStream(TempStream, "/Prev " & (iNb + aOutlines(In_i).iPrev) & " 0 R")
+            End If
+            If aOutlines(In_i).bNext Then
+                PDFOutStream(TempStream, "/Next " & (iNb + aOutlines(In_i).iNext) & " 0 R")
+            End If
+            If aOutlines(In_i).bFirst Then
+                PDFOutStream(TempStream, "/First " & (iNb + aOutlines(In_i).iFirst) & " 0 R")
+            End If
+            If aOutlines(In_i).bLast Then
+                PDFOutStream(TempStream, "/Last " & (iNb + aOutlines(In_i).iLast) & " 0 R")
+            End If
+
+            iPageOut = aPage(aOutlines(In_i).iPageNb)
+
+            PDFOutStream(TempStream, "/Dest [" & iPageOut &
+                         " 0 R /XYZ 0 " & PDFFormatDouble(PDFCanvasHeight(aOutlines(In_i).iPageNb) - aOutlines(In_i).yPos * in_Ech) & " null]")
+            PDFOutStream(TempStream, "/Count 0>>")
+            PDFOutStream(TempStream, "endobj")
+            PDFOutStream(sTempStream, "%FIN_OBJ/%")
+
+            PDFAddToOffset(Len(TempStream))
+            Strm.WriteLine(TempStream)
+        Next
+
+        CurrentObjectNum = CurrentObjectNum + 1
+        TempStream = ""
+        iOutlines = CurrentObjectNum
+
+        PDFOutStream(sTempStream, "%DEBUT_OBJ/%")
+        PDFOutStream(TempStream, CurrentObjectNum & " 0 obj")
+
+        PDFOutStream(TempStream, "<</Type /Outlines /First " & iNb & " 0 R")
+        PDFOutStream(TempStream, "/Last " & (iNb + aTemp(1)) & " 0 R>>")
+        PDFOutStream(TempStream, "endobj")
+        PDFOutStream(sTempStream, "%FIN_OBJ/%")
+
+        PDFAddToOffset(Len(TempStream))
+        Strm.WriteLine(TempStream)
+    End Sub
+
+    Public Sub PDFDrawLine(ByRef X1 As Double, ByRef Y1 As Double, ByRef X2 As Double, ByRef Y2 As Double)
+        'Attribute PDFDrawLine.VB_HelpID = 2061
+
+        PDFOutStream(sTempStream, "%DEBUT_LN/%")
+        PDFOutStream(sTempStream, PDFLnStyle)
+        PDFOutStream(sTempStream, PDFFormatDouble(X1 * in_Ech) & " " & PDFFormatDouble(PDFCanvasHeight(in_Canvas) - Y1 * in_Ech) & " m")
+        PDFOutStream(sTempStream, PDFFormatDouble(X2 * in_Ech) & " " & PDFFormatDouble(PDFCanvasHeight(in_Canvas) - Y2 * in_Ech) & " l")
+        PDFOutStream(sTempStream, PDFLineColor)
+        PDFOutStream(sTempStream, PDFFormatDouble(PDFLnWidth * in_Ech) & " w S")
+        PDFOutStream(sTempStream, "%FIN_LN/%")
+
+        If X1 > X2 Then
+            in_xCurrent = X1
+        Else
+            in_xCurrent = X2
+        End If
+
+        If Y1 > Y2 Then
+            in_yCurrent = Y1
+        Else
+            in_yCurrent = Y2
+        End If
+    End Sub
+
+    Public Sub PDFDrawRectangle(ByRef X As Double, ByRef Y As Double, ByRef W As Double, ByRef H As Double, Optional ByRef URLLink As String = "")
+        Dim sTempDrawMode As String
+
+        PDFOutStream(sTempStream, "%DEBUT_RECT/%")
+        Select Case PDFDrawMode
+            Case "D"
+                PDFOutStream(sTempStream, PDFDrawColor)
+                sTempDrawMode = "f"
+            Case "DB"
+                PDFOutStream(sTempStream, PDFDrawColor)
+                PDFOutStream(sTempStream, PDFLineColor)
+                sTempDrawMode = "B"
+            Case ""
+                PDFOutStream(sTempStream, PDFLineColor)
+                sTempDrawMode = "s"
+        End Select
+
+        PDFOutStream(sTempStream, PDFLnStyle)
+        PDFOutStream(sTempStream, PDFFormatDouble(X * in_Ech) & " " &
+                              PDFFormatDouble(PDFCanvasHeight(in_Canvas) - Y * in_Ech) & " " &
+                              PDFFormatDouble(W * in_Ech) & " " &
+                              PDFFormatDouble(-1 * H * in_Ech) & " re " & sTempDrawMode)
+        PDFOutStream(sTempStream, PDFFormatDouble(PDFLnWidth * in_Ech) & " w S")
+
+        'PDFSetTextColor = vbWhite
+        PDFSetTextColor(Color.White)
+
+        strTLink = "LINK"
+        strTyLink = "RECTANGLE"
+        wRect = W
+        PDFSetLink(URLLink, "RECTANGLE", Int(X + 5), Int(Y + H / 2))
+        PDFOutStream(sTempStream, "%FIN_RECT/%")
+
+        strTyLink = ""
+
+        in_xCurrent = X
+        in_yCurrent = Y + H
+
+    End Sub
+
+    Private Sub PDFSetLink(ByRef URLLink As String, ByRef OType As String, ByRef X As Double, ByRef Y As Double)
+        'Attribute PDFSetLink.VB_HelpID = 2074
+
+        If TypeName(URLLink) = "String" Then
+            If OType = "IMAGE" Then
+                PDFboImage = True
+            Else
+                PDFboImage = False
+            End If
+
+            If URLLink <> "" Then PDFLink X, Y, URLLink
+    strTLink = ""
+            PDFboImage = False
+        Else
+            Select Case OType
+                Case "CELL"
+                    MsgBox "Invalid URL link : " & URLLink & "." &
+            vbNewLine &
+            "Unable to include link.", vbCritical, "Url Link - " & mjwPDFVersion
+      Case "IMAGE"
+                    MsgBox "Invalid URL image object: " & URLLink & "." &
+            vbNewLine &
+            "Unable to include URL image.", vbCritical, "Url Link Image - " & mjwPDFVersion
+      Case "RECT"
+                    MsgBox "Invalid URL rectangle: " & URLLink & "." &
+            vbNewLine &
+            "Unable to include URL rectangle.", vbCritical, "Url Link Rectangle - " & mjwPDFVersion
+      Case "ELLIPSE"
+                    MsgBox "Invalid URL Ellipse : " & URLLink & "." &
+            vbNewLine &
+            "Unable ot include URL Ellipse.", vbCritical, "Url Link Ellipse - " & mjwPDFVersion
+    End Select
+        End If
+
+    End Sub
+
+    Public Sub PDFEndPage()
+
+        in_Canvas = in_Canvas + 1
+
+        ReDim Preserve PDFCanvasWidth(1 To in_Canvas)
+        ReDim Preserve PDFCanvasHeight(1 To in_Canvas)
+        ReDim Preserve PDFCanvasOrientation(1 To in_Canvas)
+
+        If PDFCanvasWidth(in_Canvas) = "" Then
+            PDFCanvasWidth(in_Canvas) = PDFCanvasWidth(in_Canvas - 1)
+            PDFCanvasHeight(in_Canvas) = PDFCanvasHeight(in_Canvas - 1)
+            PDFCanvasOrientation(in_Canvas) = PDFCanvasOrientation(in_Canvas - 1)
+        End If
+
+        PDFHeader
+    End Sub
+
+    Public Sub PDFNewPage()
+
+        Dim TempSize As Long
+
+        in_xCurrent = PDFlMargin
+        in_yCurrent = PDFtMargin
+
+        FPageNumber = FPageNumber + 1
+        FPageLink = 0
+
+        TempStream = TempStream & sTempStream
+        If dTempStream <> "" Then TempStream = TempStream & dTempStream
+        sTempStream = ""
+        dTempStream = ""
+
+        PDFOutStream TempStream, "endstream"
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream TempStream, "%FIN_OBJ/%"
+
+  StreamSize2 = 6
+
+        PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+  TempSize = Len(TempStream) - StreamSize1 - StreamSize2 - Len("Stream") - Len("endstream") - 6
+        ContentNum = CurrentObjectNum
+        CurrentObjectNum = CurrentObjectNum + 1
+
+        TempStream = ""
+
+        PDFOutStream TempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+  PDFOutStream TempStream, CStr(TempSize)
+  PDFOutStream TempStream, "endobj"
+  PDFOutStream TempStream, "%FIN_OBJ/%"
+
+  PDFAddToOffset Len(TempStream)
+  Strm.WriteLine TempStream
+
+  ContentNum = CurrentObjectNum
+        CurrentObjectNum = CurrentObjectNum + 1
+
+        TempStream = ""
+
+        PDFOutStream sTempStream, "%DEBUT_OBJ/%"
+  PDFOutStream TempStream, CurrentObjectNum & " 0 obj"
+  PDFOutStream TempStream, "<< /Length " & (CurrentObjectNum + 1) & " 0 R"
+
+  PDFOutStream TempStream, " >>"
+
+  StreamSize1 = Len(TempStream)
+
+        PDFOutStream TempStream, "stream"
+
+  PDFHeader
+
+    End Sub
 
 End Class
