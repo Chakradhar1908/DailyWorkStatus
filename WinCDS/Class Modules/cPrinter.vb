@@ -642,7 +642,7 @@ NoPrint:
         PDFPrinter.PDFSetFont(FID, FontSize, FFlags)
 
         'PDFPrinter.PDFSetTextColor = ForeColor
-        PDFPrinter.PDFSetTextColor(ForeColor)
+        'PDFPrinter.PDFSetTextColor(ForeColor)
     End Function
 
     Public Property ForeColor() As Color
@@ -716,7 +716,8 @@ NoPrint:
     End Sub
 
     Public Sub Box(ByVal X1 As Double, ByVal Y1 As Double, ByVal X2 As Double, ByVal Y2 As Double)
-        oPrinter.Line(X1, Y1, X2, Y2, , B)
+        oPrinter.Line(X1, Y1, X2, Y2,, True)
+
         If BuildPDF Then
             PDFDraw_Setup()
             PDFPrinter.PDFDrawRectangle(X1, X2, X2 - X1, Y2 - Y1)

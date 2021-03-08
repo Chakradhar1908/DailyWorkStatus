@@ -322,7 +322,6 @@ ErrorHandler:
     End Sub
 
     Private Sub Headings()
-
         ' Left Side
         OutputObject.FontName = "Arial"
         OutputObject.CurrentX = 0
@@ -375,7 +374,6 @@ ErrorHandler:
         OutputObject.FontBold = False
         OutputObject.FontSize = 8
         OutputObject.CurrentY = 800
-
     End Sub
 
     Private Sub GenLedgerTrans()
