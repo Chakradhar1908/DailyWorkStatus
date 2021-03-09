@@ -2274,7 +2274,7 @@ PDFError:
         StreamSize2 = 6
 
         PDFAddToOffset(Len(TempStream))
-        Strm.WriteLine(TempStream)
+        'Strm.WriteLine(TempStream)
 
         TempSize = Len(TempStream) - StreamSize1 - StreamSize2 - Len("Stream") - Len("endstream") - 6
         ContentNum = CurrentObjectNum

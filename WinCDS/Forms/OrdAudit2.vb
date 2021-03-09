@@ -327,8 +327,11 @@ ErrorHandler:
         OutputObject.CurrentX = 0
         OutputObject.CurrentY = 100
         OutputObject.FontSize = 8
-        OutputObject.PrintNL("Time: ", Format(Now, "h:mm:ss am/pm")) 'More Conventional
+        'OutputObject.PrintNL("Time: ", Format(Now, "h:mm:ss am/pm")) 'More Conventional
+        OutputObject.PrintNL("Time: ", Format(Now, "h:mm:ss tt")) 'More Conventional
+        OutputObject.CurrentY = 280
         OutputObject.PrintNL("Beginning Date: ", DateFormat(theDate))
+
 
         ' Right Header
         OutputObject.CurrentX = 9500
@@ -336,12 +339,13 @@ ErrorHandler:
         OutputObject.PrintNL("Report Date: ", DateFormat(Now))
 
         OutputObject.CurrentX = 8700
+        OutputObject.CurrentY = 280
         If OutputToPrinter Then 'Does _not_ work with IIf()
             OutputObject.PrintNL(" Page: ", OutputObject.Page, "  Ending Date: ", DateFormat(ToTheDate))
         Else
             OutputObject.PrintNL(" Page: ", PageNumber, "  Ending Date: ", DateFormat(ToTheDate))
         End If
-
+        Printer.EndDoc()
         OutputObject.FontSize = 8
         Counter = 0
 
@@ -1738,7 +1742,9 @@ HandleErr:
             PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
 
             If OutputToPrinter Then
-                If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
+                If OutputObject.CurrentY <> 0 Then
+                    OutputObject.NewPage
+                End If
             Else
                 frmPrintPreviewDocument.NewPage()
             End If

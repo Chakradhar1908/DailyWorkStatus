@@ -596,16 +596,21 @@ NoPrint:
             ' printer handles location always.  PDF always mirrors. Newline is therefore irrelevant.
         End If
         On Error GoTo NoPrint
-        oPrinter.Print(Str1)
-        If Str2 <> "" Then oPrinter.Print(Str2)
-        If Str3 <> "" Then oPrinter.Print(Str3)
-        If Str4 <> "" Then oPrinter.Print(Str4)
-        If Str5 <> "" Then oPrinter.Print(Str5)
-        If Str6 <> "" Then oPrinter.Print(Str6)
-        If Str7 <> "" Then oPrinter.Print(Str7)
-        If Str8 <> "" Then oPrinter.Print(Str8)
-        If Str9 <> "" Then oPrinter.Print(Str9)
-        If Str10 <> "" Then oPrinter.Print(Str10)
+
+        Dim CY As Integer
+        CY = CurrentY
+        'oPrinter.Print(Str1)
+        oPrinter.Print(Str1 & " " & Str2 & " " & Str3 & " " & Str4)
+        'CurrentY = CY
+        'If Str2 <> "" Then oPrinter.Print(Str2)
+        'If Str3 <> "" Then oPrinter.Print(Str3)
+        'If Str4 <> "" Then oPrinter.Print(Str4)
+        'If Str5 <> "" Then oPrinter.Print(Str5)
+        'If Str6 <> "" Then oPrinter.Print(Str6)
+        'If Str7 <> "" Then oPrinter.Print(Str7)
+        'If Str8 <> "" Then oPrinter.Print(Str8)
+        'If Str9 <> "" Then oPrinter.Print(Str9)
+        'If Str10 <> "" Then oPrinter.Print(Str10)
 
         Exit Sub
 NoPrint:
