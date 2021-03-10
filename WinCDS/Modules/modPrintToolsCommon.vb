@@ -283,7 +283,9 @@ CantSave:
         End If
     End Sub
 
-    Public Sub PrintToPosition(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+    Public Sub PrintToPosition(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As String = "", Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0)
+        '<CT>Note: Included optional parameter CY to accept CurrentY value.</CT>
+
         If OutOb Is Nothing Then OutOb = OutputObject
         If IsNothing(OutOb) Then Exit Sub
         If Position = -1 Then Position = OutOb.CurrentX
@@ -304,6 +306,9 @@ CantSave:
             End Select
         End If
 
+        '<CT>
+        If CY > 0 Then OutOb.CurrentY = CY
+        '</CT>
         If Not IscPrinter(OutOb) Then
             If NewLine Then
                 OutOb.Print(OutText)
@@ -485,10 +490,12 @@ NoFit:
     End Sub
 
     ' Generic method to send text to printer or print preview.
-    Public Sub PrintTo(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As Object = Nothing, Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False)
+    '<CT> Note: Included CY optional parameter to get CurrentY value.</CT>
+    Public Sub PrintTo(Optional ByVal OutOb As Object = Nothing, Optional ByVal OutText As Object = Nothing, Optional ByVal Position As Integer = -1, Optional ByVal Alignment As AlignConstants = AlignConstants.vbAlignLeft, Optional ByVal NewLine As Boolean = False, Optional ByVal CY As Integer = 0)
         If OutOb Is Nothing Then OutOb = OutputObject
         If Position = -1 Then Position = OutOb.CurrentX Else Position = Position * 80
-        PrintToPosition(OutOb, OutText, Position, Alignment, NewLine)
+        'PrintToPosition(OutOb, OutText, Position, Alignment, NewLine)
+        PrintToPosition(OutOb, OutText, Position, Alignment, NewLine, CY)
     End Sub
 
     '    Public Property Get LegalContractPrinter(Optional ByVal StoreNo as integer = 0) As String

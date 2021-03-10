@@ -345,7 +345,7 @@ ErrorHandler:
         Else
             OutputObject.PrintNL(" Page: ", PageNumber, "  Ending Date: ", DateFormat(ToTheDate))
         End If
-        Printer.EndDoc()
+
         OutputObject.FontSize = 8
         Counter = 0
 
@@ -936,24 +936,40 @@ ErrorHandler:
     Private Sub SubHeading()
         Select Case Index
             Case 1
-                PrintTo(OutputObject, "SALE", 0, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "TYPE NAME", 12, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "ENTRY DATE", 33, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "WRITTEN", 57, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "TAX", 71, AlignConstants.vbAlignRight, False)
+                'PrintTo(OutputObject, "SALE", 0, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "SALE", 0, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "TYPE NAME", 12, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "TYPE NAME", 12, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "ENTRY DATE", 33, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "ENTRY DATE", 33, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "WRITTEN", 57, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "WRITTEN", 57, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "TAX", 71, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TAX", 71, AlignConstants.vbAlignRight, False, 800)
                 '      PrintTo OutputObject, "AR CSH SLS", 86, alignconstants.vbAlignRight, False)
-                PrintTo(OutputObject, "CUST DEP", 86, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "UND. SLS", 99, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "DEL SALES", 112, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "TAX REC.", 125, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "CASHIER", 130, AlignConstants.vbAlignLeft, True)
+                'PrintTo(OutputObject, "CUST DEP", 86, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "CUST DEP", 86, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "UND. SLS", 99, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "UND. SLS", 99, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "DEL SALES", 112, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "DEL SALES", 112, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "DEL SALES", 112, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TAX REC.", 125, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "CASHIER", 130, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, "CASHIER", 130, AlignConstants.vbAlignLeft, True, 800)
             Case 2
-                PrintTo(OutputObject, "SALE NO.", 5, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "CASH", 37, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "TYPE", 40, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "TRANS DATE", 64, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "NAME", 83, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                'PrintTo(OutputObject, "SALE NO.", 5, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "SALE NO.", 5, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "CASH", 37, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "CASH", 37, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "TYPE", 40, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "TYPE", 40, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "TRANS DATE", 64, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TRANS DATE", 64, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "NAME", 83, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "NAME", 83, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True, 800)
             Case 3
                 PrintTo(OutputObject, "A/R NO.", 5, AlignConstants.vbAlignLeft, False)
                 PrintTo(OutputObject, "CASH", 37, AlignConstants.vbAlignRight, False)
@@ -961,11 +977,16 @@ ErrorHandler:
                 PrintTo(OutputObject, "TRANS DATE", 53, AlignConstants.vbAlignLeft, False)
                 PrintTo(OutputObject, "NAME", 85, AlignConstants.vbAlignLeft, True)
             Case 4
-                PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                'PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False, 800)
+                'PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False, 800)
+                'PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True, 800)
             Case 5
                 PrintTo(OutputObject, "SALE NO.", 5, AlignConstants.vbAlignLeft, False)
                 PrintTo(OutputObject, "ORIG DEP", 36, AlignConstants.vbAlignLeft, False)
@@ -1424,10 +1445,9 @@ SkipLine:
             Index = 4
             Headings()
             SubHeading()
-            '    OutputObject.FontSize = 11
-
-            PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, False)
+            'OutputObject.FontSize = 11
+            PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, False, 980)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, False, 980)
         End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
@@ -1486,17 +1506,21 @@ SkipLine:
 
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, CurrencyFormat(PCashIn), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False, 1160)
+            'PrintTo(OutputObject, CurrencyFormat(PCashIn), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(PCashIn), 32, AlignConstants.vbAlignRight, True, 1160)
             Counter = Counter + 1
             PageCheck()
 
-            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False, 1330)
+            'PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(CashIn), 32, AlignConstants.vbAlignRight, True, 1330)
             Counter = Counter + 1
             PageCheck()
         End If
-
+        Printer.EndDoc()
         TOTCASHIN = XCashIn
         PTOTCASHIN = XPCashIn
     End Sub
@@ -1531,10 +1555,11 @@ HandleErr:
             SubHeading()
 
             ' Print previous balances.
-            PrintTo(OutputObject, "Previous:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Previous:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Previous:", 0, AlignConstants.vbAlignLeft, False, 980)
+            'PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True, 980)
         End If
-
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then CashJournalRecordSet.MoveFirst()
 
@@ -1586,11 +1611,14 @@ HandleErr:
 
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, FormatCurrency(Pcash), 33, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False, 1280)
+            'PrintTo(OutputObject, FormatCurrency(Pcash), 33, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, FormatCurrency(Pcash), 33, AlignConstants.vbAlignRight, True, 1280)
 
-            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False, 1450)
+            PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True, 1450)
 
             If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
@@ -1653,14 +1681,21 @@ HandleErr:
             Loop
         End If
         If optDetail.Checked = True Then ' detail
-            PrintTo(OutputObject, "Previous Balance:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False)
+            'PrintTo(OutputObject, "Previous Balance:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Previous Balance:", 0, AlignConstants.vbAlignLeft, False, 980)
+            'PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False, 980)
+            'PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False, 980)
             '    PrintTo OutputObject, CurrencyFormat(ARCASHSALES), 86, alignconstants.vbAlignRight, False ' was 14 wide
-            PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False, 980)
+            'PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False, 980)
+            'PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False, 980)
+            'PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True, 980)
         End If
 
         SS = ""
@@ -1671,6 +1706,7 @@ HandleErr:
         SS = SS & "ORDER BY [TransDate], SaleNo, AuditID"
         RS = GetRecordsetBySQL(SS, , GetDatabaseAtLocation())
 
+        Dim Cy As Integer = 1160
         Do Until RS.EOF
             ' Period
             Application.DoEvents()
@@ -1685,20 +1721,29 @@ HandleErr:
 
             If optDetail.Checked = True Then 'detail
                 OutputObject.FontSize = 8
-                PrintTo(OutputObject, Trim(NewAudit.SaleNo), 0, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, Trim(Microsoft.VisualBasic.Left(NewAudit.Name1, 17)), 12, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, Trim(NewAudit.TransDate), 33, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, CurrencyFormat(NewAudit.Written), 57, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxCharged1), 71, AlignConstants.vbAlignRight, False)
+                'PrintTo(OutputObject, Trim(NewAudit.SaleNo), 0, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Trim(NewAudit.SaleNo), 0, AlignConstants.vbAlignLeft, False, Cy)
+                'PrintTo(OutputObject, Trim(Microsoft.VisualBasic.Left(NewAudit.Name1, 17)), 12, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Trim(Microsoft.VisualBasic.Left(NewAudit.Name1, 17)), 12, AlignConstants.vbAlignLeft, False, Cy)
+                'PrintTo(OutputObject, Trim(NewAudit.TransDate), 33, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Trim(NewAudit.TransDate), 33, AlignConstants.vbAlignLeft, False, Cy)
+                'PrintTo(OutputObject, CurrencyFormat(NewAudit.Written), 57, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.Written), 57, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxCharged1), 71, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxCharged1), 71, AlignConstants.vbAlignRight, False, Cy)
                 '      PrintTo OutputObject, CurrencyFormat(NewAudit.ArCashSls), 86, alignconstants.vbAlignRight, False
-                PrintTo(OutputObject, CurrencyFormat(NewAudit.Control), 86, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, CurrencyFormat(NewAudit.UndSls), 99, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, CurrencyFormat(NewAudit.DelSls), 112, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxRec1), 125, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, IIf(Trim(NewAudit.Cashier) = "DEMO", "", Trim(NewAudit.Cashier)), 130, AlignConstants.vbAlignLeft, True) ' 139, alignconstants.vbAlignRight, True
-
+                'PrintTo(OutputObject, CurrencyFormat(NewAudit.Control), 86, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.Control), 86, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, CurrencyFormat(NewAudit.UndSls), 99, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.UndSls), 99, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, CurrencyFormat(NewAudit.DelSls), 112, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.DelSls), 112, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxRec1), 125, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, CurrencyFormat(NewAudit.TaxRec1), 125, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, IIf(Trim(NewAudit.Cashier) = "DEMO", "", Trim(NewAudit.Cashier)), 130, AlignConstants.vbAlignLeft, True) ' 139, alignconstants.vbAlignRight, True
+                PrintTo(OutputObject, IIf(Trim(NewAudit.Cashier) = "DEMO", "", Trim(NewAudit.Cashier)), 130, AlignConstants.vbAlignLeft, True, Cy) ' 139, alignconstants.vbAlignRight, True
                 Counter = Counter + 1
-
+                Cy = Cy + 180
                 If Counter >= 69 Then
                     If OutputToPrinter Then
                         If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
@@ -1721,25 +1766,41 @@ HandleErr:
         DELSALES = DELSALES + PDELSALES
         TAXREC = TAXREC + PTAXREC
 
+        Cy = Cy + 260
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, CurrencyFormat(PWRITTEN), 57, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(PTAXCHARGED), 71, AlignConstants.vbAlignRight, False)
+            'PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(PWRITTEN), 57, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PWRITTEN), 57, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(PTAXCHARGED), 71, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PTAXCHARGED), 71, AlignConstants.vbAlignRight, False, Cy)
             '    PrintTo OutputObject, CurrencyFormat(PARCASHSALES), 86, alignconstants.vbAlignRight, False
-            PrintTo(OutputObject, CurrencyFormat(PCUSTDEP), 86, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(PUNDSALES), 99, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(PDELSALES), 112, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(PTAXREC), 125, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, CurrencyFormat(PCUSTDEP), 86, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PCUSTDEP), 86, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(PUNDSALES), 99, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PUNDSALES), 99, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(PDELSALES), 112, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(PDELSALES), 112, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(PTAXREC), 125, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(PTAXREC), 125, AlignConstants.vbAlignRight, True, Cy)
 
-            PrintTo(OutputObject, "Month to Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False)
+            Cy = Cy + 180
+            'PrintTo(OutputObject, "Month to Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month to Date:", 0, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(Written), 57, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(TaxCHARGED), 71, AlignConstants.vbAlignRight, False, Cy)
             '    PrintTo OutputObject, CurrencyFormat(ARCASHSALES), 86, alignconstants.vbAlignRight, False
-            PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(CUSTDEP), 86, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(UNDSALES), 99, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(DELSALES), 112, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True, Cy)
 
             If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then
