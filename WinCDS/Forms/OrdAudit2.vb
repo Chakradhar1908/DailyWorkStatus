@@ -999,6 +999,41 @@ ErrorHandler:
                 PrintTo(OutputObject, "ACC", 25, AlignConstants.vbAlignLeft, False)
                 PrintTo(OutputObject, "TRANS DATE", 55, AlignConstants.vbAlignRight, False)
                 PrintTo(OutputObject, "COMMENTS", 57, AlignConstants.vbAlignLeft, True)
+            Case 7 '<CT> Misc. Cash Out </CT>
+                'PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False, 2650)
+                'PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False, 2650)
+                'PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False, 2650)
+                'PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False, 2650)
+                'PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True, 2650)
+            Case 8 '<CT> Bank Deposits </CT>
+                'PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "CASH", 35, AlignConstants.vbAlignRight, False, 4770)
+                'PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "ACC", 51, AlignConstants.vbAlignRight, False, 4770)
+                'PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TRANS DATE", 73, AlignConstants.vbAlignRight, False, 4770)
+                'PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "COMMENTS", 85, AlignConstants.vbAlignLeft, False, 4770)
+                'PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True, 4770)
+            Case 9 '<CT> Check Refund/Forfeit </CT>
+                'PrintTo(OutputObject, "SALE NO.", 5, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "SALE NO.", 5, AlignConstants.vbAlignLeft, False, 6900)
+                'PrintTo(OutputObject, "CASH", 37, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "CASH", 37, AlignConstants.vbAlignRight, False, 6900)
+                'PrintTo(OutputObject, "TYPE", 40, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "TYPE", 40, AlignConstants.vbAlignLeft, False, 6900)
+                'PrintTo(OutputObject, "TRANS DATE", 64, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, "TRANS DATE", 64, AlignConstants.vbAlignRight, False, 6900)
+                'PrintTo(OutputObject, "NAME", 83, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "NAME", 83, AlignConstants.vbAlignLeft, False, 6900)
+                'PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, "CASHIER", 125, AlignConstants.vbAlignLeft, True, 6900)
         End Select
         OutputObject.FontBold = False
         '  OutputObject.CurrentY = 1000
@@ -1116,8 +1151,10 @@ ErrorHandler:
             Headings()
             SubHeading()
 
-            PrintTo(OutputObject, CurrencyFormat(RECPAYMENTS), 32, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            'PrintTo(OutputObject, CurrencyFormat(RECPAYMENTS), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(RECPAYMENTS), 32, AlignConstants.vbAlignRight, False, 980)
+            'PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True, 980)
         End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
@@ -1140,12 +1177,17 @@ ErrorHandler:
         RECPAYMENTS = RECPAYMENTS + PRECPAYMENTS
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo(OutputObject, "Period To Date:", 5, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(PRECPAYMENTS, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Period To Date:", 5, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 5, AlignConstants.vbAlignLeft, False, 1200)
+            'PrintTo(OutputObject, Format(PRECPAYMENTS, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(PRECPAYMENTS, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 1200)
 
-            PrintTo(OutputObject, "Month To Date:", 5, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(RECPAYMENTS, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Month To Date:", 5, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month To Date:", 5, AlignConstants.vbAlignLeft, False, 1450)
+            'PrintTo(OutputObject, Format(RECPAYMENTS, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(RECPAYMENTS, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 1450)
         End If
+        Printer.EndDoc()
     End Sub
 
     Private Sub CheckForfeit()
@@ -1167,11 +1209,16 @@ ErrorHandler:
             OutputObject.FontBold = False
             OutputObject.FontSize = 8
             Header = 33
-            Index = 2
+            '<CT>
+            'Index = 2
+            Index = 9
+            '</CT>
             SubHeading()
 
-            PrintTo(OutputObject, CurrencyFormat(CheckRefund + Forfeit), 32, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            'PrintTo(OutputObject, CurrencyFormat(CheckRefund + Forfeit), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(CheckRefund + Forfeit), 32, AlignConstants.vbAlignRight, False, 7100)
+            'PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True, 7100)
         End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
@@ -1208,12 +1255,16 @@ ErrorHandler:
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
             PageCheck()
-            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(PCHECKREFUND + PFORFEIT, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False, 7440)
+            'PrintTo(OutputObject, Format(PCHECKREFUND + PFORFEIT, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(PCHECKREFUND + PFORFEIT, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 7440)
             PageCheck()
 
-            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(CheckRefund + Forfeit, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False, 7640)
+            'PrintTo(OutputObject, Format(CheckRefund + Forfeit, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(CheckRefund + Forfeit, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 7640)
         End If
     End Sub
 
@@ -1230,11 +1281,16 @@ ErrorHandler:
             OutputObject.FontSize = 8
             OutputObject.FontBold = False
             Header = 32
-            Index = 4
+            '<CT>
+            'Index = 4
+            Index = 8
+            '</CT>
             SubHeading()
 
-            PrintTo(OutputObject, CurrencyFormat(Bank), 32, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            'PrintTo(OutputObject, CurrencyFormat(Bank), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(Bank), 32, AlignConstants.vbAlignRight, False, 4970)
+            'PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True, 4970)
         End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
@@ -1268,12 +1324,16 @@ ErrorHandler:
 
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(PBANK, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False, 5370)
+            'PrintTo(OutputObject, Format(PBANK, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(PBANK, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 5370)
             PageCheck()
 
-            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(Bank, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False, 5570)
+            'PrintTo(OutputObject, Format(Bank, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(Bank, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 5570)
             PageCheck()
         End If
     End Sub
@@ -1331,11 +1391,16 @@ ErrorHandler:
             OutputObject.FontSize = 8
 
             Header = 31
-            Index = 4
+            '<CT>
+            'Index = 4
+            Index = 7
+            '</CT>
             SubHeading()
 
-            PrintTo(OutputObject, CurrencyFormat(CashOut), 32, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            'PrintTo(OutputObject, CurrencyFormat(CashOut), 32, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, CurrencyFormat(CashOut), 32, AlignConstants.vbAlignRight, False, 2850)
+            'PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True)
+            PrintTo(OutputObject, "*** Previous Balance ***", 85, AlignConstants.vbAlignLeft, True, 2850)
         End If
 
         If Not (CashJournalRecordSet.EOF And CashJournalRecordSet.BOF) Then
@@ -1406,18 +1471,20 @@ SkipLine:
         MiscCashOut = MiscCashOut + PMISCCASHOUT
         PURCHASES = PURCHASES + PPURCHASES
 
-
-
         CashOut = CashOut + PCashOut
         If optDetail.Checked = True Then 'detail
             OutputObject.PrintNL
-            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Period To Date:", 0, AlignConstants.vbAlignLeft, False, 3250)
+            'PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 3250)
             Counter = Counter + 1
             PageCheck()
 
-            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False, 3450)
+            'PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), 32, AlignConstants.vbAlignRight, True, 3450)
             Counter = Counter + 1
             PageCheck()
         End If
@@ -1520,7 +1587,7 @@ SkipLine:
             Counter = Counter + 1
             PageCheck()
         End If
-        Printer.EndDoc()
+
         TOTCASHIN = XCashIn
         PTOTCASHIN = XPCashIn
     End Sub
