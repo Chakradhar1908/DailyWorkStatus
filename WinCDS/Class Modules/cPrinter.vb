@@ -600,7 +600,7 @@ NoPrint:
         Dim CY As Integer
         CY = CurrentY
         'oPrinter.Print(Str1)
-        oPrinter.Print(Str1 & " " & Str2 & " " & Str3 & " " & Str4)
+        oPrinter.Print(Str1 & " " & Str2 & " " & Str3 & " " & Str4 & Str5 & " " & Str6 & " " & Str7 & " " & Str8 & Str9 & " " & Str10)
         'CurrentY = CY
         'If Str2 <> "" Then oPrinter.Print(Str2)
         'If Str3 <> "" Then oPrinter.Print(Str3)

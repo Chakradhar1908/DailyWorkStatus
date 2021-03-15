@@ -580,141 +580,178 @@ ErrorHandler:
         PrintTo(OutputObject, Format(PCASHSALES, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 1660)
 
         'PrintTo(OutputObject, "Check", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Check", 0, AlignConstants.vbAlignLeft, False, 1800)
+        PrintTo(OutputObject, "Check", 0, AlignConstants.vbAlignLeft, False, 1850)
         'PrintTo(OutputObject, Format(Check, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(Check, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 1860)
+        PrintTo(OutputObject, Format(Check, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 1910)
         'PrintTo(OutputObject, Format(PCheck, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PCheck, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 1860)
+        PrintTo(OutputObject, Format(PCheck, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 1910)
 
         'PrintTo(OutputObject, "Visa", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Visa", 0, AlignConstants.vbAlignLeft, False, 2000)
+        PrintTo(OutputObject, "Visa", 0, AlignConstants.vbAlignLeft, False, 2070)
         'PrintTo(OutputObject, Format(VISA, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(VISA, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2060)
+        PrintTo(OutputObject, Format(VISA, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2130)
         'PrintTo(OutputObject, Format(PVISA, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PVISA, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2060)
+        PrintTo(OutputObject, Format(PVISA, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2130)
 
         'PrintTo(OutputObject, "Master", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Master", 0, AlignConstants.vbAlignLeft, False, 2200)
+        PrintTo(OutputObject, "Master", 0, AlignConstants.vbAlignLeft, False, 2300)
         'PrintTo(OutputObject, Format(MASTER, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(MASTER, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2260)
+        PrintTo(OutputObject, Format(MASTER, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2360)
         'PrintTo(OutputObject, Format(PMASTER, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PMASTER, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2260)
+        PrintTo(OutputObject, Format(PMASTER, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2360)
 
         'PrintTo(OutputObject, "Discover", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Discover", 0, AlignConstants.vbAlignLeft, False, 2400)
+        PrintTo(OutputObject, "Discover", 0, AlignConstants.vbAlignLeft, False, 2540)
         'PrintTo(OutputObject, Format(Disc, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(Disc, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2460)
+        PrintTo(OutputObject, Format(Disc, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2600)
         'PrintTo(OutputObject, Format(PDISC, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PDISC, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2460)
+        PrintTo(OutputObject, Format(PDISC, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2600)
 
         'PrintTo(OutputObject, "Amex", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Amex", 0, AlignConstants.vbAlignLeft, False, 2600)
+        PrintTo(OutputObject, "Amex", 0, AlignConstants.vbAlignLeft, False, 2770)
         'PrintTo(OutputObject, Format(AMCX, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(AMCX, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2660)
+        PrintTo(OutputObject, Format(AMCX, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2830)
         'PrintTo(OutputObject, Format(PAMCX, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PAMCX, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2660)
+        PrintTo(OutputObject, Format(PAMCX, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2830)
 
         'PrintTo(OutputObject, "Finance Co.", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Finance Co.", 0, AlignConstants.vbAlignLeft, False, 2800)
+        PrintTo(OutputObject, "Finance Co.", 0, AlignConstants.vbAlignLeft, False, 2980)
         'PrintTo(OutputObject, Format(FINC, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(FINC, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 2880)
+        PrintTo(OutputObject, Format(FINC, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3070)
         'PrintTo(OutputObject, Format(PFINC, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PFINC, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 2880)
+        PrintTo(OutputObject, Format(PFINC, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3070)
 
         'PrintTo(OutputObject, "Debit Card", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Debit Card", 0, AlignConstants.vbAlignLeft, False, 3000)
+        PrintTo(OutputObject, "Debit Card", 0, AlignConstants.vbAlignLeft, False, 3240)
         'PrintTo(OutputObject, Format(None, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(None, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3060)
+        PrintTo(OutputObject, Format(None, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3290)
         'PrintTo(OutputObject, Format(PNONE, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PNONE, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3060)
+        PrintTo(OutputObject, Format(PNONE, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3290)
 
         'PrintTo(OutputObject, "Store Credit Card", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Store Credit Card", 0, AlignConstants.vbAlignLeft, False, 3200)
+        PrintTo(OutputObject, "Store Credit Card", 0, AlignConstants.vbAlignLeft, False, 3460)
         'PrintTo(OutputObject, Format(STORECARD, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(STORECARD, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3260)
+        PrintTo(OutputObject, Format(STORECARD, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3520)
         'PrintTo(OutputObject, Format(PSTORECARD, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PSTORECARD, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3260)
+        PrintTo(OutputObject, Format(PSTORECARD, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3520)
 
         ' BFH20110609 - removed, cuz echeck shoudln't be ion cash management
         ' jk put back 6-16-2011  Wrong logic
         'PrintTo(OutputObject, "Electronic Checks", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Electronic Checks", 0, AlignConstants.vbAlignLeft, False, 3400)
+        PrintTo(OutputObject, "Electronic Checks", 0, AlignConstants.vbAlignLeft, False, 3660)
         'PrintTo(OutputObject, Format(ECHECKS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(ECHECKS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3460)
+        PrintTo(OutputObject, Format(ECHECKS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3720)
         'PrintTo(OutputObject, Format(PECHECKS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PECHECKS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3460)
+        PrintTo(OutputObject, Format(PECHECKS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3720)
 
         'PrintTo(OutputObject, "Forfeit Deposit", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Forfeit Deposit", 0, AlignConstants.vbAlignLeft, False, 3600)
+        PrintTo(OutputObject, "Forfeit Deposit", 0, AlignConstants.vbAlignLeft, False, 3860)
         'PrintTo(OutputObject, Format(Forfeit, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(Forfeit, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3660)
+        PrintTo(OutputObject, Format(Forfeit, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 3920)
         'PrintTo(OutputObject, Format(PFORFEIT, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-        PrintTo(OutputObject, Format(PFORFEIT, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3660)
-        Printer.EndDoc()
+        PrintTo(OutputObject, Format(PFORFEIT, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 3920)
+
         '    OutputObject.Print Tab(29); "______________"; Tab(69); "______________" & vbCrLf
-        PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False, 4340)
+        'PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True, 4340)
 
         'OutputObject.Print
         ' BFH20110609 - Echecks removed
         PNETRECEIPTS = PCASHSALES + PFORFEIT + PCheck + PVISA + PMASTER + PDISC + PAMCX + PFINC + PNONE + PSTORECARD + PECHECKS
         NETRECEIPTS = CASHSALES + Forfeit + Check + VISA + MASTER + Disc + AMCX + FINC + None + STORECARD + ECHECKS
 
-        PrintTo(OutputObject, "Net Receipts", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(NETRECEIPTS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PNETRECEIPTS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Net Receipts", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Net Receipts", 0, AlignConstants.vbAlignLeft, False, 4550)
+        'PrintTo(OutputObject, Format(NETRECEIPTS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(NETRECEIPTS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 4550)
+        'PrintTo(OutputObject, Format(PNETRECEIPTS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PNETRECEIPTS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 4550)
 
         OutputObject.PrintNL
-        PrintTo(OutputObject, "Misc. Receipts", 8, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(CashIn, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PCashIn, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Misc. Receipts", 8, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Misc. Receipts", 8, AlignConstants.vbAlignLeft, False, 4900)
+        'PrintTo(OutputObject, Format(CashIn, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(CashIn, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 4900)
+        'PrintTo(OutputObject, Format(PCashIn, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PCashIn, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 4900)
 
         OutputObject.FontBold = True
         OutputObject.PrintNL(vbCrLf & " Bank Deposits:")
         OutputObject.FontBold = False
 
-        PrintTo(OutputObject, "Cash & Checks", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(BCASHSALES, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PBCASHSALES, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Cash & Checks", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Cash & Checks", 0, AlignConstants.vbAlignLeft, False, 5800)
+        'PrintTo(OutputObject, Format(BCASHSALES, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(BCASHSALES, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 5800)
+        'PrintTo(OutputObject, Format(PBCASHSALES, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PBCASHSALES, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 5800)
 
-        PrintTo(OutputObject, "Visa Master", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(BVISA, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PBVISA, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Visa Master", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Visa Master", 0, AlignConstants.vbAlignLeft, False, 6000)
+        'PrintTo(OutputObject, Format(BVISA, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(BVISA, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 6000)
+        'PrintTo(OutputObject, Format(PBVISA, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PBVISA, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 6000)
 
-        PrintTo(OutputObject, "Discover", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(BDisc, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PBDisc, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Discover", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Discover", 0, AlignConstants.vbAlignLeft, False, 6200)
+        'PrintTo(OutputObject, Format(BDisc, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(BDisc, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 6200)
+        'PrintTo(OutputObject, Format(PBDisc, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PBDisc, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 6200)
 
-        PrintTo(OutputObject, "Amex", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(BAmcx, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PBAmcx, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Amex", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Amex", 0, AlignConstants.vbAlignLeft, False, 6400)
+        'PrintTo(OutputObject, Format(BAmcx, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(BAmcx, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 6400)
+        'PrintTo(OutputObject, Format(PBAmcx, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PBAmcx, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 6400)
 
-        PrintTo(OutputObject, "Debit Deposit", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(Debit, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PDebit, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Debit Deposit", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Debit Deposit", 0, AlignConstants.vbAlignLeft, False, 6600)
+        'PrintTo(OutputObject, Format(Debit, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(Debit, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 6600)
+        'PrintTo(OutputObject, Format(PDebit, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PDebit, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 6600)
 
-        PrintTo(OutputObject, "Store Credit Card", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(BSTORECARD, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PBSTORECARD, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Store Credit Card", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Store Credit Card", 0, AlignConstants.vbAlignLeft, False, 6800)
+        'PrintTo(OutputObject, Format(BSTORECARD, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(BSTORECARD, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 6800)
+        'PrintTo(OutputObject, Format(PBSTORECARD, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PBSTORECARD, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 6800)
 
-        PrintTo(OutputObject, "Electronic Checks", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(BECHECKS, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PBECHECKS, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Electronic Checks", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Electronic Checks", 0, AlignConstants.vbAlignLeft, False, 7000)
+        'PrintTo(OutputObject, Format(BECHECKS, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(BECHECKS, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 7000)
+        'PrintTo(OutputObject, Format(PBECHECKS, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PBECHECKS, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 7000)
 
         '    OutputObject.Print Tab(49); "______________"; Tab(88); "______________" & vbCrLf
-        PrintTo(OutputObject, "______________", CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, "______________", CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "______________", CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, "______________", CS2, AlignConstants.vbAlignRight, False, 7400)
+        'PrintTo(OutputObject, "______________", CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, "______________", CS4, AlignConstants.vbAlignRight, True, 7400)
 
         PEROIDBANK = PBCASHSALES + PBVISA + PBMASTER + PBDisc + PBAmcx + PDebit + PBSTORECARD + PBECHECKS
         BNETRECEIPTS = BCASHSALES + BVISA + BMASTER + BDisc + BAmcx + Debit + BSTORECARD + BECHECKS
 
-        PrintTo(OutputObject, "Total Bank Deposits", 3, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(Bank, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PEROIDBANK, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Total Bank Deposits", 3, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Total Bank Deposits", 3, AlignConstants.vbAlignLeft, False, 7600)
+        'PrintTo(OutputObject, Format(Bank, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(Bank, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 7600)
+        'PrintTo(OutputObject, Format(PEROIDBANK, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PEROIDBANK, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 7600)
 
-        PrintTo(OutputObject, vbCrLf & "Less Petty Cash Out", 3, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, vbCrLf & "Less Petty Cash Out", 3, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, vbCrLf & "Less Petty Cash Out", 3, AlignConstants.vbAlignLeft, False, 7800)
+        'PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(CashOut, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 8000)
+        'PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PCashOut, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 8000)
 
         '    MTDEBITS = GetPrice(txtCashInDrawer) + NETRECEIPTS + TOTCASHIN
         MTDEBITS = NETRECEIPTS + CashIn + BEGCASH
@@ -723,13 +760,19 @@ ErrorHandler:
         PMTDCREDITS = PEROIDBANK + PCashOut
 
         '    OutputObject.Print Tab(37); "_______________________________________________________"
-        PrintTo(OutputObject, New String("_", 65), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, New String("_", 65), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, New String("_", 65), CS4, AlignConstants.vbAlignRight, True, 8400)
 
-        PrintTo(OutputObject, Format(MTDEBITS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(MTDCREDITS, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        'PrintTo(OutputObject, Format(MTDEBITS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(MTDEBITS, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 8600)
+        'PrintTo(OutputObject, Format(MTDCREDITS, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(MTDCREDITS, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 8600)
 
-        PrintTo(OutputObject, Format(PMTDEBITS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PMTDCREDITS, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, Format(PMTDEBITS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(PMTDEBITS, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, False, 8600)
+        'PrintTo(OutputObject, Format(PMTDCREDITS, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PMTDCREDITS, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 8600)
+
         OutputObject.PrintNL
 
         'OutputObject.Print
@@ -738,37 +781,58 @@ ErrorHandler:
         PCOHAND = PMTDEBITS - PMTDCREDITS
         CashOut = CashOut + (COHAND - GetPrice(txtCashInDrawer.Text))
         PCashOut = PCashOut + (PCOHAND - GetPrice(txtCashInDrawer.Text))
-        PrintTo(OutputObject, "Calculated Cash On Hand", 3, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(COHAND, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PCOHAND, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Calculated Cash On Hand", 3, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Calculated Cash On Hand", 3, AlignConstants.vbAlignLeft, False, 9000)
+        'PrintTo(OutputObject, Format(COHAND, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(COHAND, "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 9000)
+        'PrintTo(OutputObject, Format(PCOHAND, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PCOHAND, "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 9000)
 
-        PrintTo(OutputObject, "Actual Cash On Hand", 3, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(txtCashInDrawer, "-$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(txtCashInDrawer, "-$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Actual Cash On Hand", 3, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Actual Cash On Hand", 3, AlignConstants.vbAlignLeft, False, 9200)
+        'PrintTo(OutputObject, Format(txtCashInDrawer, "-$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(txtCashInDrawer.Text, "-$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 9200)
+        'PrintTo(OutputObject, Format(txtCashInDrawer, "-$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(txtCashInDrawer.Text, "-$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 9200)
 
-        PrintTo(OutputObject, New String("_", 65), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, New String("_", 65), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, New String("_", 65), CS4, AlignConstants.vbAlignRight, True, 9600)
 
-        PrintTo(OutputObject, "Difference Over/Short   Acc: 52000", 2, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(COHAND - GetPrice(txtCashInDrawer.Text), "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PCOHAND - GetPrice(txtCashInDrawer.Text), "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Difference Over/Short   Acc: 52000", 2, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Difference Over/Short   Acc: 52000", 2, AlignConstants.vbAlignLeft, False, 9800)
+        'PrintTo(OutputObject, Format(COHAND - GetPrice(txtCashInDrawer.Text), "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(COHAND - GetPrice(txtCashInDrawer.Text), "$###,##0.00"), CS2, AlignConstants.vbAlignRight, False, 9800)
+        'PrintTo(OutputObject, Format(PCOHAND - GetPrice(txtCashInDrawer.Text), "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PCOHAND - GetPrice(txtCashInDrawer.Text), "$###,##0.00"), CS4, AlignConstants.vbAlignRight, True, 9800)
 
-        PrintTo(OutputObject, New String("10", 3), 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "Gross Receipts (No Refunds)", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(NETRECEIPTS - RSALES, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PNETRECEIPTS - PRSALES, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, New String("10", 3), 0, AlignConstants.vbAlignLeft, False)
+        'PrintTo(OutputObject, "Gross Receipts (No Refunds)", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Gross Receipts (No Refunds)", 0, AlignConstants.vbAlignLeft, False, 10400)
+        'PrintTo(OutputObject, Format(NETRECEIPTS - RSALES, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(NETRECEIPTS - RSALES, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 10400)
+        'PrintTo(OutputObject, Format(PNETRECEIPTS - PRSALES, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PNETRECEIPTS - PRSALES, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 10400)
 
-        PrintTo(OutputObject, "Gross Refunds", 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(RSALES + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PRSALES + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "Gross Refunds", 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Gross Refunds", 0, AlignConstants.vbAlignLeft, False, 10600)
+        'PrintTo(OutputObject, Format(RSALES + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(RSALES + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 10600)
+        'PrintTo(OutputObject, Format(PRSALES + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PRSALES + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 10600)
 
         '    OutputObject.Print Tab(31); "____________________________"
-        PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, "______________", CS1, AlignConstants.vbAlignRight, False, 11000)
+        'PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, "______________", CS3, AlignConstants.vbAlignRight, True, 11000)
 
-        PrintTo(OutputObject, "Net Receipts", 10, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(NETRECEIPTS + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PNETRECEIPTS + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
-
+        'PrintTo(OutputObject, "Net Receipts", 10, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Net Receipts", 10, AlignConstants.vbAlignLeft, False, 11200)
+        'PrintTo(OutputObject, Format(NETRECEIPTS + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(NETRECEIPTS + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 11200)
+        'PrintTo(OutputObject, Format(PNETRECEIPTS + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PNETRECEIPTS + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 11200)
+        Printer.EndDoc()
         If OutputToPrinter Then
             If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
         Else
@@ -2231,5 +2295,7 @@ ErrorHandler:
         cmdCancel_Click(cmdCancel, New EventArgs)
     End Sub
 End Class
+
+
 
 
