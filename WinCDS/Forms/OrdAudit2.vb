@@ -392,74 +392,121 @@ ErrorHandler:
         OutputObject.FontBold = True
 
         OutputObject.PrintNL
-        PrintTo(OutputObject, "ACC", 1, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "DESC", 23, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, "MONTH TO DATE", Mcol, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, "PERIOD TO DATE", Pcol, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "ACC", 1, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "ACC", 1, AlignConstants.vbAlignLeft, False, 1200)
+        'PrintTo(OutputObject, "DESC", 23, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "DESC", 23, AlignConstants.vbAlignLeft, False, 1200)
+        'PrintTo(OutputObject, "MONTH TO DATE", Mcol, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, "MONTH TO DATE", Mcol, AlignConstants.vbAlignRight, False, 1200)
+        'PrintTo(OutputObject, "PERIOD TO DATE", Pcol, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, "PERIOD TO DATE", Pcol, AlignConstants.vbAlignRight, True, 1200)
+
         OutputObject.FontBold = False
 
-        PrintGLTrans("11000", "AR CASH SALES", ARCASHSALES, PARCASHSALES)
-        PrintGLTrans("21400", "CUSTOMER DEP (Change)", CUSTDEP, PCUSTDEP)
-        PrintGLTrans(IIf(UNDSALES >= 0, "40600", "11100"), "UND. SALES       " & IIf(UNDSALES >= 0, "-", "+"), UNDSALES, PUNDSALES)
-        PrintGLTrans("40200", "DEL SALES", DELSALES, PDELSALES)
-        PrintGLTrans("41700", "SALES TAX REC.", TAXREC, PTAXREC)
-        PrintGLTrans("10100", "CUST PAYMENTS", TotCash - RSALES, TotPCash - PRSALES)
-        PrintGLTrans("10100", "CUST REFUNDS", RSALES, PRSALES)
+        'PrintGLTrans("11000", "AR CASH SALES", ARCASHSALES, PARCASHSALES)
+        PrintGLTrans("11000", "AR CASH SALES", ARCASHSALES, PARCASHSALES,, 1500)
+
+        'PrintGLTrans("21400", "CUSTOMER DEP (Change)", CUSTDEP, PCUSTDEP)
+        PrintGLTrans("21400", "CUSTOMER DEP (Change)", CUSTDEP, PCUSTDEP,, 1800)
+
+        'PrintGLTrans(IIf(UNDSALES >= 0, "40600", "11100"), "UND. SALES       " & IIf(UNDSALES >= 0, "-", "+"), UNDSALES, PUNDSALES)
+        PrintGLTrans(IIf(UNDSALES >= 0, "40600", "11100"), "UND. SALES       " & IIf(UNDSALES >= 0, "-", "+"), UNDSALES, PUNDSALES,, 2100)
+        'PrintGLTrans("40200", "DEL SALES", DELSALES, PDELSALES)
+        PrintGLTrans("40200", "DEL SALES", DELSALES, PDELSALES,, 2400)
+        'PrintGLTrans("41700", "SALES TAX REC.", TAXREC, PTAXREC)
+        PrintGLTrans("41700", "SALES TAX REC.", TAXREC, PTAXREC,, 2700)
+        'PrintGLTrans("10100", "CUST PAYMENTS", TotCash - RSALES, TotPCash - PRSALES)
+        PrintGLTrans("10100", "CUST PAYMENTS", TotCash - RSALES, TotPCash - PRSALES,, 3000)
+        'PrintGLTrans("10100", "CUST REFUNDS", RSALES, PRSALES)
+        PrintGLTrans("10100", "CUST REFUNDS", RSALES, PRSALES,, 3300)
 
         '    PrintGLTrans "SUB", "Subtotal", _
         'ARCASHSALES+CUSTDEP - Math.Abs(UNDSALES) - DELSALES - TAXREC + TotCash - RSALES + RSALES,
         'PARCASHSALES + PCUSTDEP - Math.Abs(PUNDSALES) - PDELSALES - PTAXREC + TotPCash - PRSALES + PRSALES, False)
 
         OutputObject.PrintNL
-        PrintGLTrans("11300", "A/R PRINCIPAL PAY", AR, PAR)
-        PrintGLTrans("40500", "A/R LATE CHARGES", INTEREST, PINTEREST)
-        PrintGLTrans("10100", "A/R PAYMENTS", -(AR + INTEREST), -(PAR + PINTEREST))
+        'PrintGLTrans("11300", "A/R PRINCIPAL PAY", AR, PAR)
+        PrintGLTrans("11300", "A/R PRINCIPAL PAY", AR, PAR,, 4000)
+        'PrintGLTrans("40500", "A/R LATE CHARGES", INTEREST, PINTEREST)
+        PrintGLTrans("40500", "A/R LATE CHARGES", INTEREST, PINTEREST,, 4300)
+        'PrintGLTrans("10100", "A/R PAYMENTS", -(AR + INTEREST), -(PAR + PINTEREST))
+        PrintGLTrans("10100", "A/R PAYMENTS", -(AR + INTEREST), -(PAR + PINTEREST),, 4600)
 
         'Cash in
         OutputObject.PrintNL
-        PrintGLTrans("69600", "OTHER INCOME", MISCCASHIN, PMISCCASHIN)
+        'PrintGLTrans("69600", "OTHER INCOME", MISCCASHIN, PMISCCASHIN)
+        PrintGLTrans("69600", "OTHER INCOME", MISCCASHIN, PMISCCASHIN,, 5300)
         ' PrintGLTrans "10700", "MASTER/VISA CHK", VISACHECK, PVISACHECK
-        PrintGLTrans("61600", "MEDICAL CO-PAY", BCPAY, PBCPAY)
+        'PrintGLTrans("61600", "MEDICAL CO-PAY", BCPAY, PBCPAY)
+        PrintGLTrans("61600", "MEDICAL CO-PAY", BCPAY, PBCPAY,, 5600)
         ' PrintGLTrans "50200", "PURCHASES COD", RESALE, PRESALE
         ' PrintGLTrans "70000/71000", "FINANCE EXCHANGE", FINANCE, PFINANCE
-        PrintGLTrans("41500", "FORFEIT DEPOSITS", Forfeit, PFORFEIT)   ' FOFFEIT in v8
-        PrintGLTrans("10100", "MISC RECEIPTS TOTAL", -(TOTCASHIN), -(PTOTCASHIN))
+        'PrintGLTrans("41500", "FORFEIT DEPOSITS", Forfeit, PFORFEIT)   ' FOFFEIT in v8
+        PrintGLTrans("41500", "FORFEIT DEPOSITS", Forfeit, PFORFEIT,, 5900)   ' FOFFEIT in v8
+        'PrintGLTrans("10100", "MISC RECEIPTS TOTAL", -(TOTCASHIN), -(PTOTCASHIN))
+        PrintGLTrans("10100", "MISC RECEIPTS TOTAL", -(TOTCASHIN), -(PTOTCASHIN),, 6200)
         '    PrintGLTrans "10100", "MISC RECEIPTS TOTAL", -(TOTCASHIN + FORFEIT), -(PTOTCASHIN + PFORFEIT)  ' original..??
 
         'Cash out
         OutputObject.PrintNL
-        PrintGLTrans("64200", "MISC EXPENSE", MiscCashOut, PMISCCASHOUT)
-        PrintGLTrans("50200", "PURCHASES COD", PURCHASES, PPURCHASES)
-        PrintGLTrans("50500", "FREIGHT OUT", FREIGHTOUT, PFREIGHTOUT)
-        PrintGLTrans("50600", "DISCOUNT/FINAN", Credit, PCREDIT)
-        PrintGLTrans("60100", "GAS & OIL", GAS, PGAS)
-        PrintGLTrans("60500", "DISC VISA Etc.", VISADISC, PVISADISC)
-        PrintGLTrans("62300", "MAINTENANCE", MAINTENANCE, PMAINTENANCE)
-        PrintGLTrans("62400", "REPAIR & REFIN", REPAIR, PREPAIR)
-        PrintGLTrans("63500", "WHSE SUPPLY", WHSE, PWHSE)
-        PrintGLTrans("64100", "OFFICE SUPPLY", OFFICE, POFFICE)
-        PrintGLTrans("65200", "CASUAL LABOR", CASUAL, PCASUAL)
-        PrintGLTrans("67500", "MEALS & ENTERTAIN", TRAVEL, PTRAVEL)
-        PrintGLTrans("52000", "CASH OVER/SHORT", COHAND - GetPrice(txtCashInDrawer.Text), PCOHAND - GetPrice(txtCashInDrawer.Text))
-        PrintGLTrans("10100", "CASH OUT TOTAL", -CashOut, -PCashOut)
+        'PrintGLTrans("64200", "MISC EXPENSE", MiscCashOut, PMISCCASHOUT)
+        PrintGLTrans("64200", "MISC EXPENSE", MiscCashOut, PMISCCASHOUT,, 6900)
+        'PrintGLTrans("50200", "PURCHASES COD", PURCHASES, PPURCHASES)
+        PrintGLTrans("50200", "PURCHASES COD", PURCHASES, PPURCHASES,, 7200)
+        'PrintGLTrans("50500", "FREIGHT OUT", FREIGHTOUT, PFREIGHTOUT)
+        PrintGLTrans("50500", "FREIGHT OUT", FREIGHTOUT, PFREIGHTOUT,, 7500)
+        'PrintGLTrans("50600", "DISCOUNT/FINAN", Credit, PCREDIT)
+        PrintGLTrans("50600", "DISCOUNT/FINAN", Credit, PCREDIT,, 7800)
+        'PrintGLTrans("60100", "GAS & OIL", GAS, PGAS)
+        PrintGLTrans("60100", "GAS & OIL", GAS, PGAS,, 8100)
+        'PrintGLTrans("60500", "DISC VISA Etc.", VISADISC, PVISADISC)
+        PrintGLTrans("60500", "DISC VISA Etc.", VISADISC, PVISADISC,, 8400)
+        'PrintGLTrans("62300", "MAINTENANCE", MAINTENANCE, PMAINTENANCE)
+        PrintGLTrans("62300", "MAINTENANCE", MAINTENANCE, PMAINTENANCE,, 8700)
+        'PrintGLTrans("62400", "REPAIR & REFIN", REPAIR, PREPAIR)
+        PrintGLTrans("62400", "REPAIR & REFIN", REPAIR, PREPAIR,, 9000)
+        'PrintGLTrans("63500", "WHSE SUPPLY", WHSE, PWHSE)
+        PrintGLTrans("63500", "WHSE SUPPLY", WHSE, PWHSE,, 9300)
+        'PrintGLTrans("64100", "OFFICE SUPPLY", OFFICE, POFFICE)
+        PrintGLTrans("64100", "OFFICE SUPPLY", OFFICE, POFFICE,, 9600)
+        'PrintGLTrans("65200", "CASUAL LABOR", CASUAL, PCASUAL)
+        PrintGLTrans("65200", "CASUAL LABOR", CASUAL, PCASUAL,, 9900)
+        'PrintGLTrans("67500", "MEALS & ENTERTAIN", TRAVEL, PTRAVEL)
+        PrintGLTrans("67500", "MEALS & ENTERTAIN", TRAVEL, PTRAVEL,, 10200)
+        'PrintGLTrans("52000", "CASH OVER/SHORT", COHAND - GetPrice(txtCashInDrawer.Text), PCOHAND - GetPrice(txtCashInDrawer.Text))
+        PrintGLTrans("52000", "CASH OVER/SHORT", COHAND - GetPrice(txtCashInDrawer.Text), PCOHAND - GetPrice(txtCashInDrawer.Text),, 10500)
+        'PrintGLTrans("10100", "CASH OUT TOTAL", -CashOut, -PCashOut)
+        PrintGLTrans("10100", "CASH OUT TOTAL", -CashOut, -PCashOut,, 10800)
 
 
         OutputObject.PrintNL
-        PrintGLTrans("10200", "CASH & CHECKS", BCASHSALES, PBCASHSALES)
-        PrintGLTrans("10200", "ELECTRONIC CHECKS", BECHECKS, PBECHECKS)
-        PrintGLTrans("10200", "VISA-MASTER", BVISA, PBVISA)
-        PrintGLTrans("10200", "DISCOVER", BDisc, PBDisc)
-        PrintGLTrans("10200", "AMEX", BAmcx, PBAmcx)
-        PrintGLTrans("10200", "DEBIT CARD", Convert.ToDecimal(Debit), Convert.ToDecimal(PDebit))
-        PrintGLTrans("10200", "STORE CREDIT CARD", BSTORECARD, PBSTORECARD)
-        PrintGLTrans("10100", "BANK DEPOSITS TOTAL", -Bank, -PBANK)
+        'PrintGLTrans("10200", "CASH & CHECKS", BCASHSALES, PBCASHSALES)
+        PrintGLTrans("10200", "CASH & CHECKS", BCASHSALES, PBCASHSALES,, 11500)
+        'PrintGLTrans("10200", "ELECTRONIC CHECKS", BECHECKS, PBECHECKS)
+        PrintGLTrans("10200", "ELECTRONIC CHECKS", BECHECKS, PBECHECKS,, 11800)
+        'PrintGLTrans("10200", "VISA-MASTER", BVISA, PBVISA)
+        PrintGLTrans("10200", "VISA-MASTER", BVISA, PBVISA,, 12100)
+        'PrintGLTrans("10200", "DISCOVER", BDisc, PBDisc)
+        PrintGLTrans("10200", "DISCOVER", BDisc, PBDisc,, 12400)
+        'PrintGLTrans("10200", "AMEX", BAmcx, PBAmcx)
+        PrintGLTrans("10200", "AMEX", BAmcx, PBAmcx,, 12700)
+        'PrintGLTrans("10200", "DEBIT CARD", Convert.ToDecimal(Debit), Convert.ToDecimal(PDebit))
+        PrintGLTrans("10200", "DEBIT CARD", Convert.ToDecimal(Debit), Convert.ToDecimal(PDebit),, 13000)
+        'PrintGLTrans("10200", "STORE CREDIT CARD", BSTORECARD, PBSTORECARD)
+        PrintGLTrans("10200", "STORE CREDIT CARD", BSTORECARD, PBSTORECARD,, 13300)
+        'PrintGLTrans("10100", "BANK DEPOSITS TOTAL", -Bank, -PBANK)
+        PrintGLTrans("10100", "BANK DEPOSITS TOTAL", -Bank, -PBANK,, 13600)
 
         OutputObject.PrintNL
-        PrintGLTrans("21500", "CHECK REFUND", CheckRefund, PCHECKREFUND)
-        PrintGLTrans("11200", "BACK ORDERS", RECPAYMENTS, PRECPAYMENTS)
+        'PrintGLTrans("21500", "CHECK REFUND", CheckRefund, PCHECKREFUND)
+        PrintGLTrans("21500", "CHECK REFUND", CheckRefund, PCHECKREFUND,, 14100)
+        'PrintGLTrans("11200", "BACK ORDERS", RECPAYMENTS, PRECPAYMENTS)
+        PrintGLTrans("11200", "BACK ORDERS", RECPAYMENTS, PRECPAYMENTS,, 14400)
 
-        PrintTo(OutputObject, "______________", Mcol, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, "______________", Pcol, AlignConstants.vbAlignRight, True)
+        'PrintTo(OutputObject, "______________", Mcol, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, "______________", Mcol, AlignConstants.vbAlignRight, False, 14700)
+        'PrintTo(OutputObject, "______________", Pcol, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, "______________", Pcol, AlignConstants.vbAlignRight, True, 14700)
 
         Total = RECPAYMENTS + ARCASHSALES + CashOut + Sales + CUSTDEP + MISCCASHIN + VISACHECK + BCPAY + Bank + CheckRefund + AR + INTEREST + Forfeit '+ RSALES '+ TotCash
         Total = Total + RESALE + FINANCE
@@ -484,30 +531,37 @@ ErrorHandler:
             PTotal = PTotal - PUNDSALES
         End If
 
-        PrintTo(OutputObject, Format(Total, "$###,##0.00"), Mcol, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(PTotal, "$###,##0.00"), Pcol, AlignConstants.vbAlignRight, True)
-
+        'PrintTo(OutputObject, Format(Total, "$###,##0.00"), Mcol, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(Total, "$###,##0.00"), Mcol, AlignConstants.vbAlignRight, False, 15000)
+        'PrintTo(OutputObject, Format(PTotal, "$###,##0.00"), Pcol, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(PTotal, "$###,##0.00"), Pcol, AlignConstants.vbAlignRight, True, 15000)
     End Sub
 
-    Private Sub PrintGLTrans(ByVal Account As String, ByVal Desc As String, ByVal MTD As Decimal, ByVal PTD As Decimal, Optional ByVal Negative As Boolean = False)
+    Private Sub PrintGLTrans(ByVal Account As String, ByVal Desc As String, ByVal MTD As Decimal, ByVal PTD As Decimal, Optional ByVal Negative As Boolean = False, Optional ByVal CY As Integer = 0)
         Dim Mcol As Integer, Pcol As Integer
         Mcol = 93
         Pcol = 123
-        PrintTo(OutputObject, Account, 0, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Desc, 23, AlignConstants.vbAlignLeft, False)
+        'PrintTo(OutputObject, Account, 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, Account, 0, AlignConstants.vbAlignLeft, False, CY)
+        'PrintTo(OutputObject, Desc, 23, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, Desc, 23, AlignConstants.vbAlignLeft, False, CY)
 
         Negative = False
 
         If Negative Or MTD < 0 Then
-            PrintTo(OutputObject, Format(Math.Abs(MTD), "($###,##0.00)"), Mcol + 1, AlignConstants.vbAlignRight, False)
+            'PrintTo(OutputObject, Format(Math.Abs(MTD), "($###,##0.00)"), Mcol + 1, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, Format(Math.Abs(MTD), "($###,##0.00)"), Mcol + 1, AlignConstants.vbAlignRight, False, CY)
         Else
-            PrintTo(OutputObject, Format(MTD, "$###,##0.00"), Mcol, AlignConstants.vbAlignRight, False)
+            'PrintTo(OutputObject, Format(MTD, "$###,##0.00"), Mcol, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, Format(MTD, "$###,##0.00"), Mcol, AlignConstants.vbAlignRight, False, CY)
         End If
 
         If Negative Or PTD < 0 Then
-            PrintTo(OutputObject, Format(Math.Abs(PTD), "($###,##0.00)"), Pcol + 1, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, Format(Math.Abs(PTD), "($###,##0.00)"), Pcol + 1, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(Math.Abs(PTD), "($###,##0.00)"), Pcol + 1, AlignConstants.vbAlignRight, True, CY)
         Else
-            PrintTo(OutputObject, Format(PTD, "$###,##0.00"), Pcol, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, Format(PTD, "$###,##0.00"), Pcol, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, Format(PTD, "$###,##0.00"), Pcol, AlignConstants.vbAlignRight, True, CY)
         End If
 
 
@@ -832,7 +886,7 @@ ErrorHandler:
         PrintTo(OutputObject, Format(NETRECEIPTS + CheckRefund, "$###,##0.00"), CS1, AlignConstants.vbAlignRight, False, 11200)
         'PrintTo(OutputObject, Format(PNETRECEIPTS + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True)
         PrintTo(OutputObject, Format(PNETRECEIPTS + CheckRefund, "$###,##0.00"), CS3, AlignConstants.vbAlignRight, True, 11200)
-        Printer.EndDoc()
+
         If OutputToPrinter Then
             If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
         Else
@@ -2295,7 +2349,4 @@ ErrorHandler:
         cmdCancel_Click(cmdCancel, New EventArgs)
     End Sub
 End Class
-
-
-
 
