@@ -3,7 +3,7 @@ Imports stdole
 Public Class cPrinter
     Private Const PI As Double = 3.14159265358979
     Private Const PI_2 As Double = 6.28318530717958
-    Private mBuildPDF As Boolean
+    Public mBuildPDF As Boolean
     Private mPreviewImage As Object
     Private mDocTitle As String
     Private mDocFile As String
@@ -831,4 +831,18 @@ NoPrint:
         frmPrintPreviewDocument.ReportName = DocTitle
     End Sub
 
+    Public Sub SetPreview2(Optional ByVal vReportTitle As String = "", Optional ByVal vKeywords As String = "", Optional ByRef vCallingForm As Form = Nothing)
+        If vReportTitle <> "" Then DocTitle = vReportTitle
+        DocKeywords = vKeywords
+        OutputToPrinter = False
+
+        'Load frmPrintPreviewMain
+        'frmPrintPreviewDocument.CallingForm = vCallingForm
+
+        OutputObject = Me
+
+        'PreviewImage = frmPrintPreviewDocument.picPicture
+        '  Set frmPrintPreviewDocument.CallingForm = CallingForm
+        'frmPrintPreviewDocument.ReportName = DocTitle
+    End Sub
 End Class

@@ -66,6 +66,7 @@ Public Class OrdAudit2
     Dim Debit As Decimal, PDebit As Decimal
 
     Private Const EntireStore As String = "[Entire Store]"
+    Dim PrintPreview As Boolean
 
     Private ReadOnly Property DateFilter(Optional ByVal Previous As Boolean = False) As String
         Get
@@ -318,7 +319,15 @@ ErrorHandler:
 
         CashJournalRecordSet = Nothing
 
-        OutputObject.EndDoc
+        '<CT>
+        'OutputObject.EndDoc
+        If PrintPreview = True Then
+            Printer.PrintAction = Printing.PrintAction.PrintToPreview
+            Printer.EndDoc()
+        Else
+            OutputObject.EndDoc
+        End If
+        '</CT>
     End Sub
 
     Private Sub Headings()
@@ -2038,13 +2047,24 @@ HandleErr:
             'PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
             PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True, Cy)
 
-            If OutputToPrinter Then
+            '<CT>
+            'If OutputToPrinter Then
+            '    If OutputObject.CurrentY <> 0 Then
+            '        OutputObject.NewPage
+            '    End If
+            'Else
+            '    frmPrintPreviewDocument.NewPage()
+            'End If
+
+            If OutputToPrinter Or PrintPreview = True Then
                 If OutputObject.CurrentY <> 0 Then
+                    OutputObject.mBuildPDF = True
                     OutputObject.NewPage
                 End If
             Else
                 frmPrintPreviewDocument.NewPage()
             End If
+            '</CT>
         End If
         Exit Sub
 
@@ -2235,6 +2255,10 @@ HandleErr:
     Private Sub cmdPrintPreview_Click(sender As Object, e As EventArgs) Handles cmdPrintPreview.Click
         Dim DBG As String
         On Error GoTo ErrorHandler
+
+        '<CT>
+        PrintPreview = True
+        '</CT>
         DBG = "a"
 
         If Not StoreSettings.bManualBillofSaleNo Then
@@ -2247,7 +2271,11 @@ HandleErr:
         SetWorking(True)
 
         OutputObject = New cPrinter
-        OutputObject.SetPreview("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report", Me)
+        '<CT>
+        'OutputObject.SetPreview("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report", Me)
+        'OutputObject.SetPreview2("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report", Me)
+        OutputObject.SetPrintToPDF("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report")
+        '</CT>
 
         DBG = "cc"
         PrintSub()
@@ -2258,6 +2286,9 @@ HandleErr:
         SetWorking(False)
         DBG = "f"
 
+        '<CT>
+        PrintPreview = False
+        '</CT>
         Exit Sub
 
 ErrorHandler:
