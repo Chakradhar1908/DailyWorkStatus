@@ -302,8 +302,10 @@ ErrorHandler:
 
         LoadCash(DateFormat(theDate), DateFormat(ToTheDate))
         CashReport()
+
         '    Refund  ' Part of CashReport now.
         CashInReport()
+
         CashOutDwr()
         Banking()
         CheckForfeit()
@@ -319,15 +321,7 @@ ErrorHandler:
 
         CashJournalRecordSet = Nothing
 
-        '<CT>
-        'OutputObject.EndDoc
-        If PrintPreview = True Then
-            Printer.PrintAction = Printing.PrintAction.PrintToPreview
-            Printer.EndDoc()
-        Else
-            OutputObject.EndDoc
-        End If
-        '</CT>
+        OutputObject.EndDoc
     End Sub
 
     Private Sub Headings()
@@ -1003,11 +997,13 @@ ErrorHandler:
 
     Private Sub PageCheck()
         If Counter >= 68 Or (OutputObject.CurrentY + OutputObject.TextHeight("X") > Printer.ScaleHeight) Then
+
             If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
             Else
                 frmPrintPreviewDocument.NewPage()
             End If
+
             Counter = 0
             Headings()
             SubHeading()
@@ -1865,6 +1861,7 @@ HandleErr:
             PrintTo(OutputObject, "Month To Date:", 0, AlignConstants.vbAlignLeft, False, 1450)
             PrintTo(OutputObject, FormatCurrency(Cash), 33, AlignConstants.vbAlignRight, True, 1450)
 
+
             If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then OutputObject.NewPage
             Else
@@ -2047,24 +2044,13 @@ HandleErr:
             'PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True)
             PrintTo(OutputObject, CurrencyFormat(TAXREC), 125, AlignConstants.vbAlignRight, True, Cy)
 
-            '<CT>
-            'If OutputToPrinter Then
-            '    If OutputObject.CurrentY <> 0 Then
-            '        OutputObject.NewPage
-            '    End If
-            'Else
-            '    frmPrintPreviewDocument.NewPage()
-            'End If
-
-            If OutputToPrinter Or PrintPreview = True Then
+            If OutputToPrinter Then
                 If OutputObject.CurrentY <> 0 Then
-                    OutputObject.mBuildPDF = True
                     OutputObject.NewPage
                 End If
             Else
                 frmPrintPreviewDocument.NewPage()
             End If
-            '</CT>
         End If
         Exit Sub
 
@@ -2256,9 +2242,6 @@ HandleErr:
         Dim DBG As String
         On Error GoTo ErrorHandler
 
-        '<CT>
-        PrintPreview = True
-        '</CT>
         DBG = "a"
 
         If Not StoreSettings.bManualBillofSaleNo Then
@@ -2273,7 +2256,6 @@ HandleErr:
         OutputObject = New cPrinter
         '<CT>
         'OutputObject.SetPreview("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report", Me)
-        'OutputObject.SetPreview2("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report", Me)
         OutputObject.SetPrintToPDF("Daily Audit Report", "Daily Audit,Audit,Daily Audit Report")
         '</CT>
 
@@ -2286,9 +2268,6 @@ HandleErr:
         SetWorking(False)
         DBG = "f"
 
-        '<CT>
-        PrintPreview = False
-        '</CT>
         Exit Sub
 
 ErrorHandler:

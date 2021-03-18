@@ -831,18 +831,4 @@ NoPrint:
         frmPrintPreviewDocument.ReportName = DocTitle
     End Sub
 
-    Public Sub SetPreview2(Optional ByVal vReportTitle As String = "", Optional ByVal vKeywords As String = "", Optional ByRef vCallingForm As Form = Nothing)
-        If vReportTitle <> "" Then DocTitle = vReportTitle
-        DocKeywords = vKeywords
-        OutputToPrinter = False
-
-        'Load frmPrintPreviewMain
-        'frmPrintPreviewDocument.CallingForm = vCallingForm
-
-        OutputObject = Me
-
-        'PreviewImage = frmPrintPreviewDocument.picPicture
-        '  Set frmPrintPreviewDocument.CallingForm = CallingForm
-        'frmPrintPreviewDocument.ReportName = DocTitle
-    End Sub
 End Class
