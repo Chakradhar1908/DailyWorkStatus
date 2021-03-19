@@ -1628,6 +1628,9 @@
     <EmbeddedResource Include="Forms\Practice.resx">
       <DependentUpon>Practice.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReportPrint.resx">
+      <DependentUpon>ReportPrint.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RestoreInv.resx">
       <DependentUpon>RestoreInv.vb</DependentUpon>
     </EmbeddedResource>

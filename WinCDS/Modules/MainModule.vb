@@ -1466,4 +1466,13 @@ TestClearFailed:
     Public Function PDFFontsFolder() As String
         PDFFontsFolder = FXFolder() & "PDF Fonts\"
     End Function
+
+    Public Sub Domain_init()
+        On Error GoTo HandleErr
+        OpenApDatabase 1, False
+  Exit Sub
+HandleErr:
+        If Err.Number = 55 Then Exit Sub
+    End Sub
+
 End Module

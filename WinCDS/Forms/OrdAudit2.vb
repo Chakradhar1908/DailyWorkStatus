@@ -66,7 +66,6 @@ Public Class OrdAudit2
     Dim Debit As Decimal, PDebit As Decimal
 
     Private Const EntireStore As String = "[Entire Store]"
-    Dim PrintPreview As Boolean
 
     Private ReadOnly Property DateFilter(Optional ByVal Previous As Boolean = False) As String
         Get
