@@ -314,6 +314,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.OrdVoid.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PackagePrice.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.PassWord.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Practice.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.ReportPrint.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.RestoreInv.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.SelectPrinter.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Service.resources

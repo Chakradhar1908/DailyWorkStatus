@@ -369,8 +369,8 @@ HandleErr:
 
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
-                        OutputObject.Line(4800, OutputObject.CurrentY)-(8800, OutputObject.CurrentY)
-On Error GoTo 0
+                        OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        On Error GoTo 0
                         PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
@@ -395,8 +395,8 @@ On Error GoTo 0
 
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
-                        OutputObject.Line(4800, OutputObject.CurrentY)-(8800, OutputObject.CurrentY)
-On Error GoTo 0
+                        OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        On Error GoTo 0
                         PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
@@ -421,8 +421,8 @@ On Error GoTo 0
 
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
-                        OutputObject.Line(4800, OutputObject.CurrentY)-(8800, OutputObject.CurrentY)
-On Error GoTo 0
+                        OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        On Error GoTo 0
                         PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
@@ -447,8 +447,8 @@ On Error GoTo 0
 
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
-                        OutputObject.Line(4800, OutputObject.CurrentY)-(8800, OutputObject.CurrentY)
-On Error GoTo 0
+                        OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        On Error GoTo 0
                         PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
                         PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
@@ -471,8 +471,8 @@ On Error GoTo 0
 
             If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                 On Error Resume Next
-                OutputObject.Line(4800, OutputObject.CurrentY)-(8800, OutputObject.CurrentY)
-On Error GoTo 0
+                OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                On Error GoTo 0
                 PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
                 PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
                 PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
@@ -596,19 +596,19 @@ On Error GoTo 0
             PrintedCost = PO.Cost
         End If
 
-        OutputObject.Print TAB(4); PO.Quantity; Tab(12); PO.Style; Tab(34); PO.Desc;
-  If PO.PrintPo = "v" Then
+        OutputObject.Print(TAB(4), PO.Quantity, TAB(12), PO.Style, TAB(34), PO.Desc)
+        If PO.PrintPo = "v" Then
             OutputObject.CurrentX = 5000
             OutputObject.FontBold = True
-            OutputObject.Print "VOID VOID VOID";
-    OutputObject.FontBold = False
+            OutputObject.Print("VOID VOID VOID")
+            OutputObject.FontBold = False
         End If
 
         'Allow over-write
         OutputObject.CurrentX = 9900
-        OutputObject.Print AlignString(Format(PrintedCost, "$###,##0.00"), 13, vbAlignRight)
+        OutputObject.Print(AlignString(Format(PrintedCost, "$###,##0.00"), 13, AlignConstants.vbAlignRight))
 
-'  ' EditPO doesn't call this!
+        '  ' EditPO doesn't call this!
         '  If Not EditPO.PrintReport Then
         'Only for first print
         If PO.PrintPo = "v" Then PO.PrintPo = "V" Else PO.PrintPo = "X"
@@ -667,108 +667,131 @@ On Error GoTo 0
         OutputObject.CurrentY = 200
         OutputObject.FontSize = 13
 
-        OutputObject.Print vbCrLf; vbCrLf; Tab(8); "SOLD TO:"; Tab(60);
-  
-  OutputObject.FontBold = True
-        OutputObject.Print "SHIP TO:" & vbCrLf
-  OutputObject.FontBold = False
+        OutputObject.Print(vbCrLf, vbCrLf, TAB(8), "SOLD TO:", TAB(60))
 
-        Addresses PO
+        OutputObject.FontBold = True
+        OutputObject.Print("SHIP TO:" & vbCrLf)
+        OutputObject.FontBold = False
 
-  OutputObject.Print TAB(10); StoreName; Tab(65); StoreShipTo
-  OutputObject.Print TAB(10); StoreAddress; Tab(65); StoreShipAdd
-  OutputObject.Print TAB(10); StoreCity; Tab(65); StoreShipCity
-  OutputObject.Print TAB(10); DressAni(CleanAni(StorePhone)); Tab(65); DressAni(CleanAni(StoreShipPhone))
-  OutputObject.Print vbCrLf3
+        Addresses(PO)
 
-  VendorAddress PO
+        OutputObject.Print(TAB(10), StoreName, TAB(65), StoreShipTo)
+        OutputObject.Print(TAB(10), StoreAddress, TAB(65), StoreShipAdd)
+        OutputObject.Print(TAB(10), StoreCity, TAB(65), StoreShipCity)
+        OutputObject.Print(TAB(10), DressAni(CleanAni(StorePhone)), TAB(65), DressAni(CleanAni(StoreShipPhone)))
+        OutputObject.Print(vbCrLf3)
 
-  OutputObject.Print vbCrLf3
+        VendorAddress(PO)
 
-  If StoreSettings.bPOSpecialInstr Then
+        OutputObject.Print(vbCrLf3)
+
+        If StoreSettings.bPOSpecialInstr Then
             OutputObject.FontSize = 12
             OutputObject.CurrentX = 5900
             OutputObject.CurrentY = 3000
             OutputObject.FontBold = True
-            OutputObject.Print " **** SPECIAL INSTRUCTIONS ****"
-    OutputObject.FontBold = False
+            OutputObject.Print(" **** SPECIAL INSTRUCTIONS ****")
+            OutputObject.FontBold = False
 
             OutputObject.CurrentX = 7000
             OutputObject.CurrentY = 3300
             OutputObject.FontUnderline = True
             If PO.Note1 = "1" Then
-                OutputObject.Print " X "
-      OutputObject.FontUnderline = False
+                OutputObject.Print(" X ")
+                OutputObject.FontUnderline = False
             Else
-                OutputObject.Print "   "
-    End If
+                OutputObject.Print("   ")
+            End If
             OutputObject.FontUnderline = False
             OutputObject.CurrentY = 3300
 
 
             OutputObject.CurrentX = 7500
             If IsParkPlace Then
-                OutputObject.Print "If order is less than 90 lbs., HOLD"
-    Else
-                OutputObject.Print "If order is less than $300.00, HOLD"
-    End If
+                OutputObject.Print("If order is less than 90 lbs., HOLD")
+            Else
+                OutputObject.Print("If order is less than $300.00, HOLD")
+            End If
             OutputObject.CurrentX = 7500
-            OutputObject.Print "and SHIP with other goods."
+            OutputObject.Print("and SHIP with other goods.")
 
-    OutputObject.CurrentX = 7000
+            OutputObject.CurrentX = 7000
             OutputObject.CurrentY = 3900
             OutputObject.FontUnderline = True
             If PO.Note2 = "1" Then
-                OutputObject.Print " X "
-    Else
-                OutputObject.Print "   "
-    End If
+                OutputObject.Print(" X ")
+            Else
+                OutputObject.Print("   ")
+            End If
             OutputObject.FontUnderline = False
             OutputObject.CurrentY = 3900
 
             OutputObject.CurrentX = 7500
-            OutputObject.Print "Sold orders:  Ship Complete Only"
+            OutputObject.Print("Sold orders:  Ship Complete Only")
 
-    OutputObject.CurrentX = 7000
+            OutputObject.CurrentX = 7000
             OutputObject.CurrentY = 4200
             OutputObject.FontUnderline = True
             If PO.Note3 = "1" Then
-                OutputObject.Print " X "
-    Else
-                OutputObject.Print "   "
-    End If
+                OutputObject.Print(" X ")
+            Else
+                OutputObject.Print("   ")
+            End If
             OutputObject.FontUnderline = False
             OutputObject.CurrentY = 4200
 
             OutputObject.CurrentX = 7500
-            OutputObject.Print "Ship UPS, PP OR With Other Goods"
+            OutputObject.Print("Ship UPS, PP OR With Other Goods")
 
-    OutputObject.CurrentX = 7000
+            OutputObject.CurrentX = 7000
             OutputObject.CurrentY = 4500
             OutputObject.FontUnderline = True
             If PO.Note4 = "1" Then
-                OutputObject.Print " X "
-    Else
-                OutputObject.Print "   "
-    End If
+                OutputObject.Print(" X ")
+            Else
+                OutputObject.Print("   ")
+            End If
             OutputObject.FontUnderline = False
             OutputObject.CurrentY = 4500
 
             OutputObject.CurrentX = 7500
-            OutputObject.Print "_______________________________"
-  End If
+            OutputObject.Print("_______________________________")
+        End If
 
         OutputObject.CurrentX = 0
         OutputObject.CurrentY = 5000
         OutputObject.FontSize = 12
 
-        OutputObject.Print vbCrLf; Tab(10); "Please put our PO NUMBER, ORDER NUMBER & TAG NAME on all correspondence!" & vbCrLf
-  
-  OutputObject.FontBold = True
-        OutputObject.Print TAB(7); "PO Number: "; PO.PoNo; Tab(30); "Order Number: "; PO.SaleNo; Tab(56); "Date "; DateFormat(dteReportDate.Value); Tab(78); "TAG: "; PO.Name
-  
-  OutputObject.Print vbCrLf2 & "QUAN.   STYLE NO.                   DESCRIPTION"; Tab(93); " Cost"
-  OutputObject.FontBold = False
+        OutputObject.Print(vbCrLf, TAB(10), "Please put our PO NUMBER, ORDER NUMBER & TAG NAME on all correspondence!" & vbCrLf)
+
+        OutputObject.FontBold = True
+        OutputObject.Print(TAB(7), "PO Number: ", PO.PoNo, TAB(30), "Order Number: ", PO.SaleNo, TAB(56), "Date ", DateFormat(dteReportDate.Value), TAB(78), "TAG: ", PO.Name)
+
+        OutputObject.Print(vbCrLf2 & "QUAN.   STYLE NO.                   DESCRIPTION", TAB(93), " Cost")
+        OutputObject.FontBold = False
+    End Sub
+
+    Private Sub VendorAddress(ByRef PO As cPODetail)
+        'Go to AP to get vendor Physical address
+        Dim TName As String
+        Dim tAddress As String
+        Dim tAddress2 As String
+        Dim tAddress3 As String
+        Dim tZip As String
+        Dim tPhone As String
+        Dim tFax As String
+
+        If UseQB() Then
+            QBGetVendorName(PO.Vendor, TName, tAddress, tAddress2, tAddress3, tZip, tPhone, tFax)
+        Else
+            GetVendorName(PO.Vendor, TName, tAddress, tAddress2, tAddress3, tZip, tPhone, tFax)
+        End If
+
+        If Trim(TName) = "" Then TName = PO.Vendor
+        OutputObject.Print(TAB(10), TName)
+        OutputObject.Print(TAB(10), tAddress)
+        OutputObject.Print(TAB(10), tAddress2 & " " & tZip)
+        OutputObject.Print(TAB(10), PhoneAndFax(tPhone, tFax))
     End Sub
 
     Private Sub GetLocation(ByRef PO As cPODetail)
@@ -786,6 +809,32 @@ On Error GoTo 0
         StoreShipAdd = SI.StoreShipToAddr
         StoreShipCity = SI.StoreShipToCity
         StoreShipPhone = SI.StoreShipToTele
+    End Sub
+
+    Private Sub Addresses(ByRef PO As cPODetail)
+        If PO.SoldTo = "1" Then
+            StoreName = SI.Name
+            StoreAddress = SI.Address
+            StoreCity = SI.City
+            StorePhone = CleanAni(SI.Phone)
+        Else
+            StoreName = SI.StoreShipToName
+            StoreAddress = SI.StoreShipToAddr
+            StoreCity = SI.StoreShipToCity
+            StorePhone = CleanAni(SI.StoreShipToTele)
+        End If
+
+        If PO.ShipTo = "2" Then
+            StoreShipTo = SI.StoreShipToName
+            StoreShipAdd = SI.StoreShipToAddr
+            StoreShipCity = SI.StoreShipToCity
+            StoreShipPhone = CleanAni(SI.StoreShipToTele)
+        Else
+            StoreShipTo = SI.Name
+            StoreShipAdd = SI.Address
+            StoreShipCity = SI.City
+            StoreShipPhone = CleanAni(SI.Phone)
+        End If
     End Sub
 
 End Class

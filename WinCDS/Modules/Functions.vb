@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
 Module Functions
     Public Const vbCrLf2 As String = vbCrLf & vbCrLf
-
+    Public Const vbCrLf3 As String = vbCrLf & vbCrLf & vbCrLf
     Public Function DescribeColor(ByVal RGB As Integer) As String
         Dim R As Integer, G As Integer, B As Integer
         Select Case RGB

@@ -24,6 +24,7 @@ Partial Class ReportPrint
     Private Sub InitializeComponent()
         Me.fra = New System.Windows.Forms.GroupBox()
         Me.dteReportDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblSelectDate = New System.Windows.Forms.Label()
         Me.fraOptions = New System.Windows.Forms.GroupBox()
         Me.chkLastPay = New System.Windows.Forms.CheckBox()
         Me.Opt5 = New System.Windows.Forms.RadioButton()
@@ -34,7 +35,6 @@ Partial Class ReportPrint
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.cmdPrintPreview = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
-        Me.lblSelectDate = New System.Windows.Forms.Label()
         Me.fra.SuspendLayout()
         Me.fraOptions.SuspendLayout()
         Me.SuspendLayout()
@@ -59,6 +59,14 @@ Partial Class ReportPrint
         Me.dteReportDate.Size = New System.Drawing.Size(129, 26)
         Me.dteReportDate.TabIndex = 0
         '
+        'lblSelectDate
+        '
+        Me.lblSelectDate.Location = New System.Drawing.Point(6, 18)
+        Me.lblSelectDate.Name = "lblSelectDate"
+        Me.lblSelectDate.Size = New System.Drawing.Size(210, 23)
+        Me.lblSelectDate.TabIndex = 1
+        Me.lblSelectDate.Text = "Label1"
+        '
         'fraOptions
         '
         Me.fraOptions.Controls.Add(Me.chkLastPay)
@@ -69,7 +77,7 @@ Partial Class ReportPrint
         Me.fraOptions.Controls.Add(Me.Opt2)
         Me.fraOptions.Location = New System.Drawing.Point(8, 91)
         Me.fraOptions.Name = "fraOptions"
-        Me.fraOptions.Size = New System.Drawing.Size(234, 91)
+        Me.fraOptions.Size = New System.Drawing.Size(234, 78)
         Me.fraOptions.TabIndex = 1
         Me.fraOptions.TabStop = False
         Me.fraOptions.Text = "Sort By"
@@ -77,7 +85,7 @@ Partial Class ReportPrint
         'chkLastPay
         '
         Me.chkLastPay.AutoSize = True
-        Me.chkLastPay.Location = New System.Drawing.Point(6, 65)
+        Me.chkLastPay.Location = New System.Drawing.Point(6, 57)
         Me.chkLastPay.Name = "chkLastPay"
         Me.chkLastPay.Size = New System.Drawing.Size(97, 17)
         Me.chkLastPay.TabIndex = 5
@@ -87,7 +95,7 @@ Partial Class ReportPrint
         'Opt5
         '
         Me.Opt5.AutoSize = True
-        Me.Opt5.Location = New System.Drawing.Point(129, 65)
+        Me.Opt5.Location = New System.Drawing.Point(129, 57)
         Me.Opt5.Name = "Opt5"
         Me.Opt5.Size = New System.Drawing.Size(72, 17)
         Me.Opt5.TabIndex = 4
@@ -98,7 +106,7 @@ Partial Class ReportPrint
         'Opt3
         '
         Me.Opt3.AutoSize = True
-        Me.Opt3.Location = New System.Drawing.Point(129, 42)
+        Me.Opt3.Location = New System.Drawing.Point(129, 38)
         Me.Opt3.Name = "Opt3"
         Me.Opt3.Size = New System.Drawing.Size(58, 17)
         Me.Opt3.TabIndex = 3
@@ -120,7 +128,7 @@ Partial Class ReportPrint
         'Opt1
         '
         Me.Opt1.AutoSize = True
-        Me.Opt1.Location = New System.Drawing.Point(6, 42)
+        Me.Opt1.Location = New System.Drawing.Point(6, 38)
         Me.Opt1.Name = "Opt1"
         Me.Opt1.Size = New System.Drawing.Size(63, 17)
         Me.Opt1.TabIndex = 1
@@ -141,7 +149,7 @@ Partial Class ReportPrint
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(9, 188)
+        Me.cmdPrint.Location = New System.Drawing.Point(9, 176)
         Me.cmdPrint.Name = "cmdPrint"
         Me.cmdPrint.Size = New System.Drawing.Size(75, 60)
         Me.cmdPrint.TabIndex = 2
@@ -150,7 +158,7 @@ Partial Class ReportPrint
         '
         'cmdPrintPreview
         '
-        Me.cmdPrintPreview.Location = New System.Drawing.Point(84, 188)
+        Me.cmdPrintPreview.Location = New System.Drawing.Point(84, 176)
         Me.cmdPrintPreview.Name = "cmdPrintPreview"
         Me.cmdPrintPreview.Size = New System.Drawing.Size(77, 60)
         Me.cmdPrintPreview.TabIndex = 3
@@ -159,26 +167,18 @@ Partial Class ReportPrint
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(161, 188)
+        Me.cmdCancel.Location = New System.Drawing.Point(161, 176)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 60)
         Me.cmdCancel.TabIndex = 4
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
-        'lblSelectDate
-        '
-        Me.lblSelectDate.Location = New System.Drawing.Point(6, 18)
-        Me.lblSelectDate.Name = "lblSelectDate"
-        Me.lblSelectDate.Size = New System.Drawing.Size(210, 23)
-        Me.lblSelectDate.TabIndex = 1
-        Me.lblSelectDate.Text = "Label1"
-        '
         'ReportPrint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(247, 251)
+        Me.ClientSize = New System.Drawing.Size(247, 238)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdPrintPreview)
         Me.Controls.Add(Me.cmdPrint)
