@@ -232,8 +232,12 @@ HandleErr:
         OutputObject.FontSize = 9
 
         ProgressForm(0, RS.RecordCount, "Printing...")
+
+        '<CT>
+        Dim Cy As Integer = 900
+        '</CT>
         Do Until RS.EOF
-            ProgressForm(RS.AbsolutePosition)
+            'ProgressForm(RS.AbsolutePosition)
             GetEOM(Eom, RS)
             EOMRecord = EOMRecord + 1
 
@@ -255,14 +259,22 @@ HandleErr:
             End If
 
             ' New formatting, allowing right-and-center-aligned fields.
-            PrintTo(OutputObject, Microsoft.VisualBasic.Left(Eom.LastName, 18), 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Trim(Eom.Status), 38, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Trim(Eom.LeaseNo), 48, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Format(Eom.GrossSale, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Format(Eom.TotDeposit, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Format(Eom.Balance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Trim(Eom.LastPay), 124, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Trim(Eom.Salesman), 128, AlignConstants.vbAlignLeft, True)
+            'PrintTo(OutputObject, Microsoft.VisualBasic.Left(Eom.LastName, 18), 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Microsoft.VisualBasic.Left(Eom.LastName, 18), 0, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.Status), 38, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Trim(Eom.Status), 38, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.LeaseNo), 48, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, Trim(Eom.LeaseNo), 48, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, Format(Eom.GrossSale, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.GrossSale), "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Format(Eom.TotDeposit, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.TotDeposit), "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Format(Eom.Balance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.Balance), "$###,##0.00"), 109, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.LastPay), 124, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, Trim(Eom.LastPay), 124, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.Salesman), 128, AlignConstants.vbAlignLeft, True)
+            PrintTo(OutputObject, Trim(Eom.Salesman), 128, AlignConstants.vbAlignLeft, True, Cy)
 
             TotGross = TotGross + Eom.GrossSale
             TotDep = TotDep + Eom.TotDeposit
@@ -270,14 +282,18 @@ HandleErr:
             OldSalesStaff = Eom.Salesman
 
             Counter = Counter + 1
-
+            '<CT>
+            Cy = Cy + 200
+            '</CT>
             If Counter >= 66 Then
                 If OutputToPrinter Then OutputObject.NewPage Else frmPrintPreviewDocument.NewPage()
                 UndeliveredHeading()
                 Counter = 0
+                Cy = 900
             End If
             RS.MoveNext()
         Loop
+        
         ProgressForm()
 
         If Opt3.Checked = True Then Ageing(Eom, True)
@@ -546,14 +562,22 @@ HandleErr:
         If OrderMode("R", "B", "L", "C") Then
             OutputObject.FontSize = 9
 
-            PrintTo(OutputObject, "Last Name", 0, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, "Status", 38, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, "Sale No.", 48, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, "Gross Sale", 74, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "Total Deposit", 90, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "Balance", 109, AlignConstants.vbAlignRight, False)
-            If chkLastPay.Checked = True Then PrintTo(OutputObject, "Last Pay", 124, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "Salesmen", 128, AlignConstants.vbAlignLeft, True)
+            'PrintTo(OutputObject, "Last Name", 0, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Last Name", 0, AlignConstants.vbAlignLeft, False, 700)
+            'PrintTo(OutputObject, "Status", 38, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Status", 38, AlignConstants.vbAlignLeft, False, 700)
+            'PrintTo(OutputObject, "Sale No.", 48, AlignConstants.vbAlignLeft, False)
+            PrintTo(OutputObject, "Sale No.", 48, AlignConstants.vbAlignLeft, False, 700)
+            'PrintTo(OutputObject, "Gross Sale", 74, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "Gross Sale", 74, AlignConstants.vbAlignRight, False, 700)
+            'PrintTo(OutputObject, "Total Deposit", 90, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "Total Deposit", 90, AlignConstants.vbAlignRight, False, 700)
+            'PrintTo(OutputObject, "Balance", 109, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "Balance", 109, AlignConstants.vbAlignRight, False, 700)
+            'If chkLastPay.Checked = True Then PrintTo(OutputObject, "Last Pay", 124, AlignConstants.vbAlignRight, False)
+            If chkLastPay.Checked = True Then PrintTo(OutputObject, "Last Pay", 124, AlignConstants.vbAlignRight, False, 700)
+            'PrintTo(OutputObject, "Salesmen", 128, AlignConstants.vbAlignLeft, True)
+            PrintTo(OutputObject, "Salesmen", 128, AlignConstants.vbAlignLeft, True, 700)
 
         End If
 
