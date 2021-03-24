@@ -238,16 +238,16 @@ HandleErr:
         '</CT>
         Do Until RS.EOF
             'ProgressForm(RS.AbsolutePosition)
-            GetEOM(Eom, RS)
-            EOMRecord = EOMRecord + 1
+            'GetEOM(Eom, RS)
+            'EOMRecord = EOMRecord + 1
 
-            If Opt3.Checked = True Then Ageing(Eom)
+            'If Opt3.Checked = True Then Ageing(Eom)
 
             'If IsDevelopment And RS("LeaseNo") = "47391" Then Stop
 
-            SubGross = SubGross + Eom.GrossSale
-            SubDep = SubDep + Eom.TotDeposit
-            SubBalance = SubBalance + Eom.Balance
+            'SubGross = SubGross + Eom.GrossSale
+            'SubDep = SubDep + Eom.TotDeposit
+            'SubBalance = SubBalance + Eom.Balance
 
             If Opt4.Checked = True Then
                 If Trim(OldSalesStaff) <> Trim(Eom.Salesman) And EOMRecord > 1 Then
@@ -262,24 +262,24 @@ HandleErr:
             'PrintTo(OutputObject, Microsoft.VisualBasic.Left(Eom.LastName, 18), 0, AlignConstants.vbAlignLeft, False)
             PrintTo(OutputObject, Microsoft.VisualBasic.Left(Eom.LastName, 18), 0, AlignConstants.vbAlignLeft, False, Cy)
             'PrintTo(OutputObject, Trim(Eom.Status), 38, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Trim(Eom.Status), 38, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.Status), 38, AlignConstants.vbAlignLeft, False, Cy)
             'PrintTo(OutputObject, Trim(Eom.LeaseNo), 48, AlignConstants.vbAlignLeft, False)
-            PrintTo(OutputObject, Trim(Eom.LeaseNo), 48, AlignConstants.vbAlignLeft, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.LeaseNo), 48, AlignConstants.vbAlignLeft, False, Cy)
             'PrintTo(OutputObject, Format(Eom.GrossSale, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.GrossSale), "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.GrossSale), "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
             'PrintTo(OutputObject, Format(Eom.TotDeposit, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.TotDeposit), "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.TotDeposit), "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
             'PrintTo(OutputObject, Format(Eom.Balance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.Balance), "$###,##0.00"), 109, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Format(Convert.ToDecimal(Eom.Balance), "$###,##0.00"), 109, AlignConstants.vbAlignRight, False, Cy)
             'PrintTo(OutputObject, Trim(Eom.LastPay), 124, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, Trim(Eom.LastPay), 124, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, Trim(Eom.LastPay), 124, AlignConstants.vbAlignRight, False, Cy)
             'PrintTo(OutputObject, Trim(Eom.Salesman), 128, AlignConstants.vbAlignLeft, True)
-            PrintTo(OutputObject, Trim(Eom.Salesman), 128, AlignConstants.vbAlignLeft, True, Cy)
+            'PrintTo(OutputObject, Trim(Eom.Salesman), 128, AlignConstants.vbAlignLeft, True, Cy)
 
-            TotGross = TotGross + Eom.GrossSale
-            TotDep = TotDep + Eom.TotDeposit
-            TotBalance = TotBalance + Eom.Balance
-            OldSalesStaff = Eom.Salesman
+            'TotGross = TotGross + Eom.GrossSale
+            'TotDep = TotDep + Eom.TotDeposit
+            'TotBalance = TotBalance + Eom.Balance
+            'OldSalesStaff = Eom.Salesman
 
             Counter = Counter + 1
             '<CT>
@@ -290,6 +290,7 @@ HandleErr:
                 UndeliveredHeading()
                 Counter = 0
                 Cy = 900
+                Printer.EndDoc()
             End If
             RS.MoveNext()
         Loop
