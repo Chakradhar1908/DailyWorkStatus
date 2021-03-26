@@ -929,6 +929,8 @@ PrinterDialogCancelled:
             OutOb.CurrentX = OutOb.TextWidth("X") * TabLoc
         End If
         OutOb.FontBold = X
+        'PrintToPosition(OutOb, OutText, , Alignment, NewLine)
+        PrintToPosition(OutOb, OutText, , Alignment, NewLine, CY)
     End Sub
 
     Public Function PrinterStat(Optional ByVal vDeviceName As String = "") As Boolean

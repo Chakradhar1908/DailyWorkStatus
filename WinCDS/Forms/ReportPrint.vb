@@ -333,33 +333,57 @@ HandleErr:
             OutputObject.Print
             OutputObject.Print
             OutputObject.FontSize = 16
+            Cy = OutputObject.CurrentY
             OutputObject.Print(TAB(25), "Receivables Ageing Report")
             OutputObject.FontSize = 12
             OutputObject.FontBold = True
-            PrintToTab(OutputObject, "No Deposit", 20)
-            PrintToTab(OutputObject, "Current", 40)
-            PrintToTab(OutputObject, "Over 30", 60)
-            PrintToTab(OutputObject, "Over 60", 80)
-            PrintToTab(OutputObject, "Over 90", 100, , True)
+            Cy = Cy + 200
+            'PrintToTab(OutputObject, "No Deposit", 20)
+            PrintToTab(OutputObject, "No Deposit", 20,,, Cy)
+            'PrintToPosition2(OutputObject, "No Deposit", 28,,, Cy)
+            'PrintToTab(OutputObject, "Current", 40)
+            PrintToTab(OutputObject, "Current", 80,,, Cy)
+            'PrintToPosition2(OutputObject, "Current", 38,,, Cy)
+            'Printer.EndDoc()
+            'PrintToTab(OutputObject, "Over 30", 60)
+            PrintToTab(OutputObject, "Over 30", 60,,, Cy)
+            'PrintToTab(OutputObject, "Over 60", 80)
+            PrintToTab(OutputObject, "Over 60", 80,,, Cy)
+            'PrintToTab(OutputObject, "Over 90", 100, , True)
+            PrintToTab(OutputObject, "Over 90", 100, , True, Cy)
             OutputObject.FontBold = False
 
+            Cy = Cy + 200
             OutputObject.FontBold = True
-            PrintToTab(OutputObject, "Gross Sale")
+            'PrintToTab(OutputObject, "Gross Sale")
+            PrintToTab(OutputObject, "Gross Sale",,,, Cy)
             OutputObject.FontBold = False
-            PrintToTab(OutputObject, FormatCurrency(Nosale), 20)
-            PrintToTab(OutputObject, FormatCurrency(Curr30), 40)
-            PrintToTab(OutputObject, FormatCurrency(Sales30), 60)
-            PrintToTab(OutputObject, FormatCurrency(Sales60), 80)
-            PrintToTab(OutputObject, FormatCurrency(Sales90), 100, , True)
+            'PrintToTab(OutputObject, FormatCurrency(Nosale), 20)
+            PrintToTab(OutputObject, FormatCurrency(Nosale), 20,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Curr30), 40)
+            PrintToTab(OutputObject, FormatCurrency(Curr30), 40,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Sales30), 60)
+            PrintToTab(OutputObject, FormatCurrency(Sales30), 60,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Sales60), 80)
+            PrintToTab(OutputObject, FormatCurrency(Sales60), 80,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Sales90), 100, , True)
+            PrintToTab(OutputObject, FormatCurrency(Sales90), 100, , True, Cy)
 
+            Cy = Cy + 200
             OutputObject.FontBold = True
-            PrintToTab(OutputObject, "Balance")
+            'PrintToTab(OutputObject, "Balance")
+            PrintToTab(OutputObject, "Balance",,,, Cy)
             OutputObject.FontBold = False
-            PrintToTab(OutputObject, FormatCurrency(BNoSale), 20)
-            PrintToTab(OutputObject, FormatCurrency(BCurr30), 40)
-            PrintToTab(OutputObject, FormatCurrency(BSales30), 60)
-            PrintToTab(OutputObject, FormatCurrency(BSales60), 80)
-            PrintToTab(OutputObject, FormatCurrency(BSales90), 100, , True)
+            'PrintToTab(OutputObject, FormatCurrency(BNoSale), 20)
+            PrintToTab(OutputObject, FormatCurrency(BNoSale), 20,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BCurr30), 40)
+            PrintToTab(OutputObject, FormatCurrency(BCurr30), 40,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BSales30), 60)
+            PrintToTab(OutputObject, FormatCurrency(BSales30), 60,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BSales60), 80)
+            PrintToTab(OutputObject, FormatCurrency(BSales60), 80,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BSales90), 100, , True)
+            PrintToTab(OutputObject, FormatCurrency(BSales90), 100, , True, Cy)
         End If
 
         TotGross = 0
@@ -380,10 +404,13 @@ HandleErr:
 
     Private Sub Ageing(ByRef Eom As EomFile, Optional ByVal LastTotal As Boolean = False)
         Dim TodayDate As Date
+        '<CT>
+        Dim Cy As Integer
+        '</CT>
+
         TodayDate = dteReportDate.Value
 
         If Not LastTotal And Val(Eom.LastPay) <> 0 Then 'For wrong date format or no date
-
             If DateDiff("d", Eom.LastPay, TodayDate) >= 91 Then
                 Sales90 = Sales90 + Eom.GrossSale
                 BSales90 = BSales90 + Eom.Balance
@@ -393,10 +420,14 @@ HandleErr:
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
                         OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        Cy = OutputObject.CurrentY
                         On Error GoTo 0
-                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        'PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True, Cy)
                     End If
                     SubGross = 0 : SubDep = 0 : SubBalance = 0
 
@@ -419,10 +450,14 @@ HandleErr:
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
                         OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        Cy = OutputObject.CurrentY
                         On Error GoTo 0
-                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        'PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True, Cy)
                     End If
                     SubGross = 0 : SubDep = 0 : SubBalance = 0
 
@@ -445,10 +480,14 @@ HandleErr:
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
                         OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        Cy = OutputObject.CurrentY
                         On Error GoTo 0
-                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        'PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True, Cy)
                     End If
                     SubGross = 0 : SubDep = 0 : SubBalance = 0
 
@@ -471,10 +510,14 @@ HandleErr:
                     If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                         On Error Resume Next
                         OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                        Cy = OutputObject.CurrentY
                         On Error GoTo 0
-                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        'PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                        PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+                        'PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                        PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True, Cy)
                     End If
                     SubGross = 0 : SubDep = 0 : SubBalance = 0
 
@@ -495,10 +538,14 @@ HandleErr:
             If SubGross <> 0 Or SubDep <> 0 Or SubBalance <> 0 Then
                 On Error Resume Next
                 OutputObject.Line(4800, OutputObject.CurrentY, 8800, OutputObject.CurrentY)
+                Cy = OutputObject.CurrentY
                 On Error GoTo 0
-                PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                'PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, Format(SubGross, "$###,##0.00"), 74, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, Format(SubDep, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True)
+                PrintTo(OutputObject, Format(SubBalance, "$###,##0.00"), 109, AlignConstants.vbAlignRight, True, Cy)
             End If
             SubGross = 0 : SubDep = 0 : SubBalance = 0
             OutputObject.FontBold = False

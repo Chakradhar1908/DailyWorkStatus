@@ -1729,10 +1729,14 @@ Public Class MainMenu4
         'Printer.CurrentY = 700
         'Printer.Print("Telephone")
         'Printer.EndDoc()
-        Dim r As Integer, re As Decimal
-        r = 50 / 20
-        re = 50 / 20
-        MessageBox.Show(r & "--" & Math.Ceiling(re))
+        'Dim r As Integer, re As Decimal
+        'r = 50 / 20
+        're = 50 / 20
+        'MessageBox.Show(r & "--" & Math.Ceiling(re))
+
+        Printer.CurrentX = 5000
+        Printer.Print("current")
+        Printer.EndDoc()
         'End
     End Sub
 
