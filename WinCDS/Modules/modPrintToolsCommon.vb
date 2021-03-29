@@ -930,7 +930,7 @@ PrinterDialogCancelled:
         End If
         OutOb.FontBold = X
         'PrintToPosition(OutOb, OutText, , Alignment, NewLine)
-        PrintToPosition(OutOb, OutText, , Alignment, NewLine, CY)
+        PrintToPosition2(OutOb, OutText, , Alignment, NewLine, CY)
     End Sub
 
     Public Function PrinterStat(Optional ByVal vDeviceName As String = "") As Boolean

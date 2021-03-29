@@ -1734,9 +1734,30 @@ Public Class MainMenu4
         're = 50 / 20
         'MessageBox.Show(r & "--" & Math.Ceiling(re))
 
-        Printer.CurrentX = 5000
+        Dim y As Integer
+        Printer.CurrentX = 2200
+        y = Printer.CurrentY
+        Printer.Print("no deposit")
+
+        Printer.CurrentX = 4200
+        Printer.CurrentY = y
         Printer.Print("current")
+
+
+        Printer.CurrentX = 6500
+        Printer.CurrentY = y
+        Printer.Print("over 30")
+
+        Printer.CurrentX = 8500
+        Printer.CurrentY = y
+        Printer.Print("over 60")
+
+        Printer.CurrentX = 10500
+        Printer.CurrentY = y
+        Printer.Print("over 90")
         Printer.EndDoc()
+
+
         'End
     End Sub
 

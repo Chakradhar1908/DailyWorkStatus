@@ -334,56 +334,70 @@ HandleErr:
             OutputObject.Print
             OutputObject.FontSize = 16
             Cy = OutputObject.CurrentY
-            OutputObject.Print(TAB(25), "Receivables Ageing Report")
+            OutputObject.Print(TAB(50), "Receivables Ageing Report")
             OutputObject.FontSize = 12
             OutputObject.FontBold = True
-            Cy = Cy + 200
+            Cy = Cy + 300
             'PrintToTab(OutputObject, "No Deposit", 20)
-            PrintToTab(OutputObject, "No Deposit", 20,,, Cy)
-            'PrintToPosition2(OutputObject, "No Deposit", 28,,, Cy)
+            'PrintToTab(OutputObject, "No Deposit", 2200,,, Cy)
+            PrintToPosition2(OutputObject, "No Deposit", 2200,,, Cy)
             'PrintToTab(OutputObject, "Current", 40)
-            PrintToTab(OutputObject, "Current", 80,,, Cy)
-            'PrintToPosition2(OutputObject, "Current", 38,,, Cy)
-            'Printer.EndDoc()
+            'PrintToTab(OutputObject, "Current", 4200,,, Cy)
+            PrintToPosition2(OutputObject, "Current", 4200,,, Cy)
             'PrintToTab(OutputObject, "Over 30", 60)
-            PrintToTab(OutputObject, "Over 30", 60,,, Cy)
+            'PrintToTab(OutputObject, "Over 30", 6500,,, Cy)
+            PrintToPosition2(OutputObject, "Over 30", 6500,,, Cy)
             'PrintToTab(OutputObject, "Over 60", 80)
-            PrintToTab(OutputObject, "Over 60", 80,,, Cy)
+            'PrintToTab(OutputObject, "Over 60", 8500,,, Cy)
+            PrintToPosition2(OutputObject, "Over 60", 8500,,, Cy)
             'PrintToTab(OutputObject, "Over 90", 100, , True)
-            PrintToTab(OutputObject, "Over 90", 100, , True, Cy)
+            'PrintToTab(OutputObject, "Over 90", 10500, , True, Cy)
+            PrintToPosition2(OutputObject, "Over 90", 10500,,, Cy)
             OutputObject.FontBold = False
 
-            Cy = Cy + 200
+            Cy = Cy + 300
             OutputObject.FontBold = True
             'PrintToTab(OutputObject, "Gross Sale")
-            PrintToTab(OutputObject, "Gross Sale",,,, Cy)
+            'PrintToTab(OutputObject, "Gross Sale",,,, Cy)
+            PrintToPosition2(OutputObject, "Gross Sale", 0,,, Cy)
             OutputObject.FontBold = False
             'PrintToTab(OutputObject, FormatCurrency(Nosale), 20)
-            PrintToTab(OutputObject, FormatCurrency(Nosale), 20,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Nosale), 20,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(Nosale), 2200,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(Curr30), 40)
-            PrintToTab(OutputObject, FormatCurrency(Curr30), 40,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Curr30), 40,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(Curr30), 4200,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(Sales30), 60)
-            PrintToTab(OutputObject, FormatCurrency(Sales30), 60,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Sales30), 60,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(Sales30), 6500,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(Sales60), 80)
-            PrintToTab(OutputObject, FormatCurrency(Sales60), 80,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Sales60), 80,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(Sales60), 8500,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(Sales90), 100, , True)
-            PrintToTab(OutputObject, FormatCurrency(Sales90), 100, , True, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(Sales90), 100, , True, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(Sales90), 10500,,, Cy)
 
-            Cy = Cy + 200
+            Cy = Cy + 300
             OutputObject.FontBold = True
             'PrintToTab(OutputObject, "Balance")
-            PrintToTab(OutputObject, "Balance",,,, Cy)
+            'PrintToTab(OutputObject, "Balance",,,, Cy)
+            PrintToPosition2(OutputObject, "Balance", 0,,, Cy)
             OutputObject.FontBold = False
             'PrintToTab(OutputObject, FormatCurrency(BNoSale), 20)
-            PrintToTab(OutputObject, FormatCurrency(BNoSale), 20,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BNoSale), 20,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(BNoSale), 2200,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(BCurr30), 40)
-            PrintToTab(OutputObject, FormatCurrency(BCurr30), 40,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BCurr30), 40,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(BCurr30), 4200,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(BSales30), 60)
-            PrintToTab(OutputObject, FormatCurrency(BSales30), 60,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BSales30), 60,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(BSales30), 6500,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(BSales60), 80)
-            PrintToTab(OutputObject, FormatCurrency(BSales60), 80,,, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BSales60), 80,,, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(BSales60), 8500,,, Cy)
             'PrintToTab(OutputObject, FormatCurrency(BSales90), 100, , True)
-            PrintToTab(OutputObject, FormatCurrency(BSales90), 100, , True, Cy)
+            'PrintToTab(OutputObject, FormatCurrency(BSales90), 100, , True, Cy)
+            PrintToPosition2(OutputObject, FormatCurrency(BSales90), 10500,,, Cy)
         End If
 
         TotGross = 0
@@ -557,12 +571,17 @@ HandleErr:
     Private Sub GetEOM(ByRef Eom As EomFile, ByRef RS As ADODB.Recordset)
         Eom.Balance = RS("Sale").Value - RS("Deposit").Value
         Eom.GrossSale = RS("Sale").Value
-        If IsNothing(RS("Last").Value) Then
+        If RS("Last").Value.ToString = "" Then
             Eom.LastName = "Cash & Carry"
         Else
-            Eom.LastName = RS("Last").Value & IIf(IsNothing(RS("First").Value), "", ", " & RS("First").Value)
+            Eom.LastName = RS("Last").Value & IIf(RS("First").Value.ToString = "", "", ", " & RS("First").Value)
+            'Eom.LastPay = IIf(IsNothing(RS("LastPay").Value), "", RS("LastPay").Value)
+            If RS("LastPay").Value.ToString = "" Then
+                Eom.LastPay = ""
+            Else
+                Eom.LastPay = RS("LastPay").Value
+            End If
         End If
-        Eom.LastPay = IIf(IsNothing(RS("LastPay").Value), "", RS("LastPay").Value)
         Eom.LeaseNo = RS("LeaseNo").Value
         Eom.Salesman = TranslateSalesmen(IfNullThenNilString(RS("FirstSalesman").Value))
         Eom.Status = RS("Status").Value
@@ -595,7 +614,8 @@ HandleErr:
         OutputObject.CurrentX = 10
         OutputObject.CurrentY = 100
         OutputObject.Print("Date: ", DateFormat(dteReportDate.Value))
-        OutputObject.Print("Time: ", Format(Now, "h:mm:ss am/pm"))
+        'OutputObject.Print("Time: ", Format(Now, "h:mm:ss am/pm"))
+        OutputObject.Print("Time: ", Format(Now, "h:mm:ss tt"))
 
         OutputObject.CurrentX = 10100
         OutputObject.CurrentY = 100
@@ -632,7 +652,6 @@ HandleErr:
             If chkLastPay.Checked = True Then PrintTo(OutputObject, "Last Pay", 124, AlignConstants.vbAlignRight, False, 700)
             'PrintTo(OutputObject, "Salesmen", 128, AlignConstants.vbAlignLeft, True)
             PrintTo(OutputObject, "Salesmen", 128, AlignConstants.vbAlignLeft, True, 700)
-
         End If
 
         If Reports = "ML" Then
