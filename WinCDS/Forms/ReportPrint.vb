@@ -131,18 +131,24 @@ HandleErr:
     End Sub
 
     Private Sub cmdPrintPreview_Click(sender As Object, e As EventArgs) Handles cmdPrintPreview.Click
+        Printer.PrintAction = Printing.PrintAction.PrintToPreview
         'MousePointer = vbHourglass
         Me.Cursor = Cursors.WaitCursor
         cmdPrint.Enabled = False
         cmdPrintPreview.Enabled = False
         cmdCancel.Enabled = False
 
+        '<CT>
         'Load frmPrintPreviewMain
-        OutputToPrinter = False
-        OutputObject = frmPrintPreviewDocument.picPicture
+        'OutputToPrinter = False
+        OutputToPrinter = True
+        OutputObject = Printer
+        'OutputObject = frmPrintPreviewDocument.picPicture
 
-        frmPrintPreviewDocument.CallingForm = Me
-        frmPrintPreviewDocument.ReportName = Text
+        'frmPrintPreviewDocument.CallingForm = Me
+        'frmPrintPreviewDocument.ReportName = Text
+        '</CT>
+
         If InvenMode("P") Then
             SelectPo()
         End If
@@ -151,10 +157,13 @@ HandleErr:
             Counter = 0
             Undelivered()
         End If
-        Hide()
+        'Hide()
+
+        'OutputObject.EndDoc
+        Printer.EndDoc()
         'MousePointer = vbDefault
         Me.Cursor = Cursors.Default
-        frmPrintPreviewDocument.DataEnd()
+        'frmPrintPreviewDocument.DataEnd()
 
         cmdPrint.Enabled = True
         cmdPrintPreview.Enabled = True
@@ -231,6 +240,7 @@ HandleErr:
         UndeliveredHeading()
         OutputObject.FontSize = 9
 
+
         ProgressForm(0, RS.RecordCount, "Printing...")
 
         '<CT>
@@ -256,7 +266,6 @@ HandleErr:
                     UndeliveredHeading()
                     Counter = 0
                     Cy = 900
-                    MessageBox.Show("kekwwk")
                 End If
             End If
 
