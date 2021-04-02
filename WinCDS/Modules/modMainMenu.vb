@@ -97,7 +97,7 @@ Module modMainMenu
     Public ViewSaleSelected As Boolean
     Public MailCheckSaleNoChecked As Boolean
     Public VoidSaleContinue As Boolean
-
+    Public CustomerHistoryReport As Boolean
     'Public ReadOnly Property frmSplash As frmSplash2
     '    Get
     '        Return frmSplas
@@ -927,6 +927,10 @@ Module modMainMenu
                         MainMenu.Hide()
                         Reports = "H"
                         'MailCheck.HelpContextID = 49670
+                        'MailCheck.Show()
+                        'MailCheckSaleNoChecked = False
+                        'MailCheck.HidePriorSales = True
+                        CustomerHistoryReport = True
                         OnScreenReport.CustomerHistory()
                         'OnScreenReport.HelpContextID = 49670
                     Case "salestax"

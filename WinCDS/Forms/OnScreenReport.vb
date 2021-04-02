@@ -147,8 +147,11 @@ Public Class OnScreenReport
             If ReportsMode("H") Then  'customer history
                 fraControls1.Visible = True
                 fraControls2.Visible = False
-                fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 360
-                Height = fraControls2.Top + fraControls1.Height + 120 + (Height - Me.ClientSize.Height)
+                'fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 360
+                fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 12
+                'Height = fraControls2.Top + fraControls1.Height + 120 + (Height - Me.ClientSize.Height)
+                'Height = fraControls2.Top + fraControls1.Height + 120
+                Height = fraControls2.Top + fraControls1.Height + 12
 
                 txtDiffTax0.Visible = False
                 txtBalDue.Visible = False
@@ -993,6 +996,7 @@ HandleErr:
             'If Holding.Load(Trim(Index), "#Index") Then
             If Not g_Holding.DataAccess.Record_EOF Then
                 Do While g_Holding.DataAccess.Records_Available
+                    g_Holding.cDataAccess_GetRecordSet(g_Holding.DataAccess.RS)
                     PoNo = 0
                     EnableControls(True)
                     If Trim(g_Holding.Status) <> "V" Then
@@ -1436,7 +1440,18 @@ HandleErr:
             MailCheckSaleNoChecked = True
         End If
         'MailCheckRef.Show vbModal, Me
-        MailCheckRef.ShowDialog(Me)
+
+        If CustomerHistoryReport = True Then
+            MailCheckSaleNoChecked = False
+            MailCheck.HidePriorSales = True
+            MailCheck.optTelephone.Checked = False
+            MailCheckRef.ShowDialog(Me)
+            MailCheck.HidePriorSales = False
+            CustomerHistoryReport = False
+        Else
+            MailCheckRef.ShowDialog(Me)
+        End If
+
         'Unload MailCheckRef
         MailCheckRef.Close()
         MailCheckRef = Nothing
