@@ -110,13 +110,13 @@ Partial Class OnScreenReport
         Me.fraControls1.Controls.Add(Me.cmdAllStores)
         Me.fraControls1.Location = New System.Drawing.Point(22, 353)
         Me.fraControls1.Name = "fraControls1"
-        Me.fraControls1.Size = New System.Drawing.Size(274, 67)
+        Me.fraControls1.Size = New System.Drawing.Size(274, 81)
         Me.fraControls1.TabIndex = 8
         Me.fraControls1.TabStop = False
         '
         'txtLocation
         '
-        Me.txtLocation.Location = New System.Drawing.Point(119, 34)
+        Me.txtLocation.Location = New System.Drawing.Point(117, 55)
         Me.txtLocation.Name = "txtLocation"
         Me.txtLocation.Size = New System.Drawing.Size(79, 20)
         Me.txtLocation.TabIndex = 4
@@ -126,7 +126,7 @@ Partial Class OnScreenReport
         '
         Me.cmdMenu.Location = New System.Drawing.Point(202, 16)
         Me.cmdMenu.Name = "cmdMenu"
-        Me.cmdMenu.Size = New System.Drawing.Size(65, 35)
+        Me.cmdMenu.Size = New System.Drawing.Size(65, 59)
         Me.cmdMenu.TabIndex = 3
         Me.cmdMenu.Text = "&Menu"
         Me.cmdMenu.UseVisualStyleBackColor = True
@@ -135,7 +135,7 @@ Partial Class OnScreenReport
         '
         Me.cmdPrint.Location = New System.Drawing.Point(137, 16)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(65, 35)
+        Me.cmdPrint.Size = New System.Drawing.Size(65, 59)
         Me.cmdPrint.TabIndex = 2
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
@@ -144,7 +144,7 @@ Partial Class OnScreenReport
         '
         Me.cmdNext.Location = New System.Drawing.Point(72, 16)
         Me.cmdNext.Name = "cmdNext"
-        Me.cmdNext.Size = New System.Drawing.Size(65, 35)
+        Me.cmdNext.Size = New System.Drawing.Size(65, 59)
         Me.cmdNext.TabIndex = 1
         Me.cmdNext.Text = "&Next"
         Me.cmdNext.UseVisualStyleBackColor = True
@@ -154,7 +154,7 @@ Partial Class OnScreenReport
         Me.cmdAllStores.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdAllStores.Location = New System.Drawing.Point(7, 16)
         Me.cmdAllStores.Name = "cmdAllStores"
-        Me.cmdAllStores.Size = New System.Drawing.Size(65, 35)
+        Me.cmdAllStores.Size = New System.Drawing.Size(65, 59)
         Me.cmdAllStores.TabIndex = 0
         Me.cmdAllStores.Text = "&All Stores"
         Me.cmdAllStores.UseVisualStyleBackColor = True
@@ -350,9 +350,9 @@ Partial Class OnScreenReport
         Me.Controls.Add(Me.lblBalDue2)
         Me.Controls.Add(Me.lblPrevBal)
         Me.Controls.Add(Me.lblPrevBal2)
-        Me.Controls.Add(Me.lblCaption)
         Me.Controls.Add(Me.cmbManuf)
         Me.Controls.Add(Me.UGridIO1)
+        Me.Controls.Add(Me.lblCaption)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Name = "OnScreenReport"

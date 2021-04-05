@@ -59,9 +59,14 @@ Public Class OnScreenReport
     Const MaxAdjustments As Integer = 30
     'Public MailCheckSaleNoChecked As Boolean
     Dim FromCmdMenu As Boolean
+    Dim Lastrow As Integer
 
     Private Sub OnScreenReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim P As Object
+
+        '<CT>
+        lblCaption.SendToBack()
+        '</CT>
 
         SetButtonImage(cmdReturn, 11)
 
@@ -142,13 +147,13 @@ Public Class OnScreenReport
             'fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 120
             fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 12
             'Height = fraControls2.Top + fraControls1.Height + 120
-            Height = fraControls2.Top + fraControls1.Height + 120
+            Height = fraControls2.Top + fraControls1.Height
 
             If ReportsMode("H") Then  'customer history
                 fraControls1.Visible = True
                 fraControls2.Visible = False
                 'fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 360
-                fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 12
+                fraControls1.Top = UGridIO2.Top + UGridIO2.Height + 50
                 'Height = fraControls2.Top + fraControls1.Height + 120 + (Height - Me.ClientSize.Height)
                 'Height = fraControls2.Top + fraControls1.Height + 120
                 Height = fraControls2.Top + fraControls1.Height + 12
@@ -160,7 +165,7 @@ Public Class OnScreenReport
                 lblPrevBal2.Visible = False
                 lblPrevBal.Visible = False
 
-                UGridIO1.Height = 5415
+                UGridIO1.Height = 350
             End If
 
             If OrderMode("Credit") Then
@@ -173,6 +178,7 @@ Public Class OnScreenReport
 
                 lblCaption.Text = "Customer Adjustment"
                 lblCaption.Left = Width / 3
+                lblCaption.BringToFront()
                 'cmdMenu2.Cancel = True
                 Me.CancelButton = cmdMenu2
 
@@ -245,6 +251,10 @@ Public Class OnScreenReport
             'If Order <> "Credit" Then OnScreenReport
             Row = 0
             mLoading = False
+
+            'CT>
+            lblBalDue2.SendToBack()
+            '</CT>
             Exit Sub
         End If
         mLoading = False
@@ -313,7 +323,19 @@ CustNotFound:
 
         X = StoresSld
 
-        UGridIO1.Clear()
+        UGridIO1.Clear() 'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.
+        '<CT>
+        Dim Rno As Integer
+        For Rno = 0 To Lastrow
+            UGridIO1.Row = Rno
+            For c = 0 To 11
+                On Error Resume Next
+                UGridIO1.Col = c
+                UGridIO1.Text = ""
+            Next
+        Next
+        '</CT>
+
         UGridIO1.Refresh()
         'UGridIO1.MaxRows = 2
         Row = 0
@@ -325,11 +347,11 @@ CustNotFound:
 
             Do While Not R.EOF
                 pHolding = New cHolding
-
                 pHolding.DataAccess.Records_OpenFieldIndexAtNumber("Index", R("index").Value, "LeaseNo")
                 'If Holding.Load(Trim(Index), "#Index") Then
                 If Not pHolding.DataAccess.Record_EOF Then
                     Do While pHolding.DataAccess.Records_Available
+                        pHolding.cDataAccess_GetRecordSet(pHolding.DataAccess.RS)
                         PoNo = 0
                         EnableControls(True)
                         If Trim(pHolding.Status) <> "V" Then
@@ -1412,11 +1434,11 @@ HandleErr:
         OrdTotal = 0
         TotDue = 0
 
-        Dim Lastrow As Integer
         Lastrow = UGridIO1.LastRowUsed
 
         UGridIO1.Clear()  'IMP NOTE: This Clear method is to clear the ugridio1 data(rows and cols) using AxDataGrid1.ClearFields() in Clear method. But it is not working. So to clear it, below For loop is added. This for loop is not in vb6.0 code.
 
+        '<CT>
         For r = 0 To Lastrow
             UGridIO1.Row = r
             For c = 0 To 11
@@ -1425,7 +1447,7 @@ HandleErr:
                 UGridIO1.Text = ""
             Next
         Next
-        '------
+        '</CT>
 
         UGridIO1.Refresh()
 
