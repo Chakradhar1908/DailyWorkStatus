@@ -307,4 +307,19 @@
         Next
     End Function
 
+    Public Function ShortenSalesTaxDescription(ByVal TaxRate As String) As String
+        '::::ShortenSalesTaxDescription
+        ':::SUMMARY
+        ': Return a shorter Sales tax description
+        ':::DESCRIPTION
+        ': Strips off the rate information, leaving only essentials
+        ':::PARAMETERS
+        ': - TaxRate - The original to be shortened
+        ':::RETURN
+        ': String - Returns the SalesTax Description as a String.
+        Dim ind As Long
+        ind = InStr(TaxRate, " (")
+        If ind > 0 Then ShortenSalesTaxDescription = Left(TaxRate, ind - 1) Else ShortenSalesTaxDescription = TaxRate
+    End Function
+
 End Module

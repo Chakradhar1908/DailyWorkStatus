@@ -1251,6 +1251,7 @@
     <Compile Include="Modules\modRaycom.vb" />
     <Compile Include="Modules\modReceipts.vb" />
     <Compile Include="Modules\modRegistry.vb" />
+    <Compile Include="Modules\modReportGeneration.vb" />
     <Compile Include="Modules\modRevolving.vb" />
     <Compile Include="Modules\modRTF.vb" />
     <Compile Include="Modules\modSalesJournal.vb" />
@@ -1384,6 +1385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CalendarInstr.resx">
       <DependentUpon>CalendarInstr.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DateForm.resx">
+      <DependentUpon>DateForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditPO.resx">
       <DependentUpon>EditPO.vb</DependentUpon>

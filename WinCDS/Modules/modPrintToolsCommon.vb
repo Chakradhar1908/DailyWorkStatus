@@ -1162,4 +1162,14 @@ PrinterDialogCancelled:
         OutputObject.CurrentY = 4514
     End Sub
 
+    Public Sub PrintSet(Optional ByVal OutObj As Object, Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal FontName As String = "#", Optional ByVal FontSize As String = -1, Optional ByVal FontBold As Long = -1)
+        If OutObj Is Nothing Then Set OutObj = OutputObject
+On Error Resume Next
+        If X >= 0 Then OutObj.CurrentX = X
+        If Y >= 0 Then OutObj.CurrentY = Y
+        If FontName <> "#" Then OutObj.FontName = FontName
+        If FontSize >= 0 Then OutObj.FontSize = FontSize
+        If FontBold >= 0 Then OutObj.FontBold = (FontBold > 0)
+    End Sub
+
 End Module

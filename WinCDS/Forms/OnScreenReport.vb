@@ -1506,6 +1506,7 @@ HandleErr:
         ' read out grid and print
         '********************
         Dim X As Integer
+        Dim Cy As Integer
 
         If ReportsMode("H") Then
             For X = CurrentLine To UGridIO1.MaxRows - 1
@@ -1538,26 +1539,71 @@ HandleErr:
                 '            Printer.FontSize = 10
                 '            PrintToTab Printer, AlignString(CurrencyFormat(Margin.SellPrice), 13, vbAlignRight, False), 104
 
+                'Printer.Print(Margin.SaleNo, TAB(12), Margin.Style, TAB(32), Microsoft.VisualBasic.Left(Margin.Vendor, 12), TAB(50), Margin.Status, TAB(58), Margin.Quantity, TAB(65))
 
-                Printer.Print(Margin.SaleNo, TAB(12), Margin.Style, TAB(32), Microsoft.VisualBasic.Left(Margin.Vendor, 12), TAB(50), Margin.Status, TAB(58), Margin.Quantity, TAB(65))
+                Cy = Printer.CurrentY
+                'Printer.Print(Margin.SaleNo, TAB(20), Margin.Style, TAB(38), Microsoft.VisualBasic.Left(Margin.Vendor, 12), TAB(50), Margin.Status, TAB(78), Margin.Quantity)
+                'Printer.Print(Margin.SaleNo & " " & Margin.Style & " " & Microsoft.VisualBasic.Left(Margin.Vendor, 12) & " " & Margin.Status & " " & Margin.Quantity)
+
+                Printer.CurrentY = Cy
+                Printer.Print(Margin.SaleNo)
+
+                Printer.CurrentX = 1000
+                Printer.CurrentY = Cy
+                Printer.Print(Margin.Style)
+
+                Printer.CurrentX = 2600
+                Printer.CurrentY = Cy
+                Printer.Print(Microsoft.VisualBasic.Left(Margin.Vendor, 12))
+
+                Printer.CurrentX = 4500
+                Printer.CurrentY = Cy
+                Printer.Print(Margin.Status)
+
+                Printer.CurrentX = 5200
+                Printer.CurrentY = Cy
+                Printer.Print(Margin.Quantity)
+
                 Printer.FontSize = 8
+
+                Printer.CurrentX = 6000
+                Printer.CurrentY = Cy
                 Printer.Print(Microsoft.VisualBasic.Left(Margin.Desc, 34))
+
                 Printer.FontSize = 10
-                Printer.Print(TAB(104), AlignString(CurrencyFormat(Margin.SellPrice), 13, VBRUN.AlignConstants.vbAlignRight, False))
+                Printer.CurrentX = 9100
+                Printer.CurrentY = Cy
+                'Printer.Print(TAB(104), AlignString(CurrencyFormat(Margin.SellPrice), 13, VBRUN.AlignConstants.vbAlignRight, False))
+                Printer.Print(AlignString(CurrencyFormat(Margin.SellPrice), 13, VBRUN.AlignConstants.vbAlignRight, False))
+
                 Counter = Counter + 1
 
                 If Trim(Margin.SaleNo) = "" And Microsoft.VisualBasic.Left(UCase(Margin.Style), 10) <> "SALE DATE:" Then
                     OrdTotal = GetPrice(UGridIO1.GetValue(X, 8))
-                    Printer.Print(TAB(95), "Order Total:         ", AlignString(CurrencyFormat(OrdTotal), 13, VBRUN.AlignConstants.vbAlignRight, False)) ' Spc(NoOfSpaces2); PstrFieldText
-                    TotDue = TotDue + Format(OrdTotal, "###,###.00")
+                    'Printer.Print(TAB(95), "Order Total:         ", AlignString(CurrencyFormat(OrdTotal), 13, VBRUN.AlignConstants.vbAlignRight, False)) ' Spc(NoOfSpaces2); PstrFieldText
+                    Printer.CurrentX = 8300
+                    Cy = Printer.CurrentY
+                    Printer.Print("Order Total:")
 
+                    Printer.CurrentX = 9800
+                    Printer.CurrentY = Cy
+                    Printer.Print(AlignString(CurrencyFormat(OrdTotal), 13, VBRUN.AlignConstants.vbAlignRight, False))
+
+                    TotDue = TotDue + Format(OrdTotal, "###,###.00")
                     Counter = Counter + 1
                     OrdTotal = 0
                 End If
                 If Trim(UGridIO1.GetValue(X, 0)) = "" And Trim(UGridIO1.GetValue(X + 1, 0)) = "" And Trim(UGridIO1.GetValue(X + 2, 0)) = "" And Trim(UGridIO1.GetValue(X + 3, 0)) = "" Then Exit For
             Next
             Printer.Print()
-            Printer.Print(TAB(96), "Total Due:          ", AlignString(CurrencyFormat(TotDue), 13, VBRUN.AlignConstants.vbAlignRight, False)) 'Spc(NoOfSpaces2); PstrFieldText
+            'Printer.Print(TAB(96), "Total Due:          ", AlignString(CurrencyFormat(TotDue), 13, VBRUN.AlignConstants.vbAlignRight, False)) 'Spc(NoOfSpaces2); PstrFieldText
+            Printer.CurrentX = 8300
+            Cy = Printer.CurrentY
+            Printer.Print("Total Due:")
+
+            Printer.CurrentX = 9800
+            Printer.CurrentY = Cy
+            Printer.Print(AlignString(CurrencyFormat(TotDue), 13, VBRUN.AlignConstants.vbAlignRight, False))
             Counter = Counter + 2
         ElseIf ReportsMode("I") Then
             ItemHistoryHeading()
@@ -1565,7 +1611,6 @@ HandleErr:
             '********************
             ' read out grid and print
             '********************
-
             For X = CurrentLine To UGridIO1.MaxRows - 1
                 Margin.Style = UGridIO1.GetValue(X, 0)
                 Margin.Vendor = UGridIO1.GetValue(X, 1)
@@ -1624,22 +1669,24 @@ HandleErr:
             Printer.CurrentY = 200
             Printer.CurrentX = 0
 
-            Printer.Print(TAB(15), "Customer Consolidated History:  ")
+            Printer.Print(TAB(25), "Customer Consolidated History:  ")
 
             Printer.FontSize = 10
             Printer.CurrentY = 300
 
+            Printer.CurrentX = 7500
             Printer.Print(Mail.Last & "  " & Mail.Tele)
             Printer.FontSize = 8
 
             Printer.CurrentY = 300
             Printer.CurrentX = 0
-            Printer.Print("Date: ", DateFormat(Now))
-            Printer.Print("Time: ", Format(Now, "h:mm:ss am/pm"))
+            Printer.Print("Date:" & " " & DateFormat(Now))
+            'Printer.Print("Time: ", Format(Now, "h:mm:ss am/pm"))
+            Printer.Print("Time:" & " " & Format(Now, "h:mm:ss tt"))
 
-            Printer.CurrentX = 10500
+            Printer.CurrentX = 10800
             Printer.CurrentY = 300
-            Printer.Print("Page:", Printer.Page)
+            Printer.Print("Page:" & " " & Printer.Page)
 
             Printer.CurrentY = 600
             Printer.CurrentX = 0
