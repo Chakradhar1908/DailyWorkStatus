@@ -30,25 +30,31 @@ Partial Class DateForm
         Me.optWritten = New System.Windows.Forms.RadioButton()
         Me.optDelivered = New System.Windows.Forms.RadioButton()
         Me.fraStoreSelect = New System.Windows.Forms.GroupBox()
+        Me.cboStoreSelect = New System.Windows.Forms.ComboBox()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdPrintPreview = New System.Windows.Forms.Button()
         Me.cmdPrint = New System.Windows.Forms.Button()
         Me.chkSortByZip = New System.Windows.Forms.CheckBox()
         Me.chkGroupByZip = New System.Windows.Forms.CheckBox()
-        Me.cboStoreSelect = New System.Windows.Forms.ComboBox()
+        Me.lblDate1 = New System.Windows.Forms.Label()
+        Me.lblDate2 = New System.Windows.Forms.Label()
+        Me.ButtonGroupbox = New System.Windows.Forms.GroupBox()
         Me.fraDates.SuspendLayout()
         Me.fraSaleType.SuspendLayout()
         Me.fraStoreSelect.SuspendLayout()
+        Me.ButtonGroupbox.SuspendLayout()
         Me.SuspendLayout()
         '
         'fraDates
         '
+        Me.fraDates.Controls.Add(Me.lblDate1)
         Me.fraDates.Controls.Add(Me.lblNote)
         Me.fraDates.Controls.Add(Me.toDate)
         Me.fraDates.Controls.Add(Me.dDate)
+        Me.fraDates.Controls.Add(Me.lblDate2)
         Me.fraDates.Location = New System.Drawing.Point(7, 7)
         Me.fraDates.Name = "fraDates"
-        Me.fraDates.Size = New System.Drawing.Size(261, 65)
+        Me.fraDates.Size = New System.Drawing.Size(261, 66)
         Me.fraDates.TabIndex = 0
         Me.fraDates.TabStop = False
         Me.fraDates.Text = "Date"
@@ -67,7 +73,7 @@ Partial Class DateForm
         Me.toDate.CustomFormat = "MM/dd/yyyy"
         Me.toDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.toDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.toDate.Location = New System.Drawing.Point(136, 32)
+        Me.toDate.Location = New System.Drawing.Point(136, 35)
         Me.toDate.Name = "toDate"
         Me.toDate.Size = New System.Drawing.Size(107, 26)
         Me.toDate.TabIndex = 1
@@ -77,7 +83,7 @@ Partial Class DateForm
         Me.dDate.CustomFormat = "MM/dd/yyyy"
         Me.dDate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dDate.Location = New System.Drawing.Point(9, 32)
+        Me.dDate.Location = New System.Drawing.Point(9, 35)
         Me.dDate.Name = "dDate"
         Me.dDate.Size = New System.Drawing.Size(107, 26)
         Me.dDate.TabIndex = 0
@@ -86,9 +92,9 @@ Partial Class DateForm
         '
         Me.fraSaleType.Controls.Add(Me.optWritten)
         Me.fraSaleType.Controls.Add(Me.optDelivered)
-        Me.fraSaleType.Location = New System.Drawing.Point(9, 0)
+        Me.fraSaleType.Location = New System.Drawing.Point(8, 79)
         Me.fraSaleType.Name = "fraSaleType"
-        Me.fraSaleType.Size = New System.Drawing.Size(242, 45)
+        Me.fraSaleType.Size = New System.Drawing.Size(260, 45)
         Me.fraSaleType.TabIndex = 1
         Me.fraSaleType.TabStop = False
         Me.fraSaleType.Text = "Type of Sale"
@@ -117,44 +123,48 @@ Partial Class DateForm
         '
         'fraStoreSelect
         '
-        Me.fraStoreSelect.Controls.Add(Me.fraSaleType)
         Me.fraStoreSelect.Controls.Add(Me.cboStoreSelect)
-        Me.fraStoreSelect.Controls.Add(Me.cmdCancel)
-        Me.fraStoreSelect.Controls.Add(Me.cmdPrintPreview)
-        Me.fraStoreSelect.Controls.Add(Me.cmdPrint)
         Me.fraStoreSelect.Controls.Add(Me.chkSortByZip)
         Me.fraStoreSelect.Controls.Add(Me.chkGroupByZip)
-        Me.fraStoreSelect.Location = New System.Drawing.Point(8, 79)
+        Me.fraStoreSelect.Location = New System.Drawing.Point(8, 211)
         Me.fraStoreSelect.Name = "fraStoreSelect"
-        Me.fraStoreSelect.Size = New System.Drawing.Size(260, 167)
+        Me.fraStoreSelect.Size = New System.Drawing.Size(260, 97)
         Me.fraStoreSelect.TabIndex = 2
         Me.fraStoreSelect.TabStop = False
         Me.fraStoreSelect.Text = "Select a Store"
         Me.fraStoreSelect.Visible = False
         '
+        'cboStoreSelect
+        '
+        Me.cboStoreSelect.FormattingEnabled = True
+        Me.cboStoreSelect.Location = New System.Drawing.Point(12, 19)
+        Me.cboStoreSelect.Name = "cboStoreSelect"
+        Me.cboStoreSelect.Size = New System.Drawing.Size(239, 21)
+        Me.cboStoreSelect.TabIndex = 6
+        '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(176, 99)
+        Me.cmdCancel.Location = New System.Drawing.Point(168, 13)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(75, 61)
+        Me.cmdCancel.Size = New System.Drawing.Size(75, 56)
         Me.cmdCancel.TabIndex = 5
         Me.cmdCancel.Text = "&Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'cmdPrintPreview
         '
-        Me.cmdPrintPreview.Location = New System.Drawing.Point(86, 99)
+        Me.cmdPrintPreview.Location = New System.Drawing.Point(78, 13)
         Me.cmdPrintPreview.Name = "cmdPrintPreview"
-        Me.cmdPrintPreview.Size = New System.Drawing.Size(90, 61)
+        Me.cmdPrintPreview.Size = New System.Drawing.Size(90, 56)
         Me.cmdPrintPreview.TabIndex = 4
         Me.cmdPrintPreview.Text = "P&rint Preview"
         Me.cmdPrintPreview.UseVisualStyleBackColor = True
         '
         'cmdPrint
         '
-        Me.cmdPrint.Location = New System.Drawing.Point(12, 99)
+        Me.cmdPrint.Location = New System.Drawing.Point(4, 13)
         Me.cmdPrint.Name = "cmdPrint"
-        Me.cmdPrint.Size = New System.Drawing.Size(75, 61)
+        Me.cmdPrint.Size = New System.Drawing.Size(75, 56)
         Me.cmdPrint.TabIndex = 3
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
@@ -179,20 +189,39 @@ Partial Class DateForm
         Me.chkGroupByZip.Text = "&Combine Cities by Zip Code"
         Me.chkGroupByZip.UseVisualStyleBackColor = True
         '
-        'cboStoreSelect
+        'lblDate1
         '
-        Me.cboStoreSelect.FormattingEnabled = True
-        Me.cboStoreSelect.Location = New System.Drawing.Point(12, 19)
-        Me.cboStoreSelect.Name = "cboStoreSelect"
-        Me.cboStoreSelect.Size = New System.Drawing.Size(239, 21)
-        Me.cboStoreSelect.TabIndex = 6
+        Me.lblDate1.Location = New System.Drawing.Point(7, 13)
+        Me.lblDate1.Name = "lblDate1"
+        Me.lblDate1.Size = New System.Drawing.Size(100, 21)
+        Me.lblDate1.TabIndex = 3
+        '
+        'lblDate2
+        '
+        Me.lblDate2.Location = New System.Drawing.Point(133, 8)
+        Me.lblDate2.Name = "lblDate2"
+        Me.lblDate2.Size = New System.Drawing.Size(100, 21)
+        Me.lblDate2.TabIndex = 4
+        '
+        'ButtonGroupbox
+        '
+        Me.ButtonGroupbox.Controls.Add(Me.cmdPrintPreview)
+        Me.ButtonGroupbox.Controls.Add(Me.cmdPrint)
+        Me.ButtonGroupbox.Controls.Add(Me.cmdCancel)
+        Me.ButtonGroupbox.Location = New System.Drawing.Point(8, 144)
+        Me.ButtonGroupbox.Name = "ButtonGroupbox"
+        Me.ButtonGroupbox.Size = New System.Drawing.Size(262, 75)
+        Me.ButtonGroupbox.TabIndex = 6
+        Me.ButtonGroupbox.TabStop = False
         '
         'DateForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(277, 247)
+        Me.ClientSize = New System.Drawing.Size(278, 311)
+        Me.Controls.Add(Me.ButtonGroupbox)
         Me.Controls.Add(Me.fraStoreSelect)
+        Me.Controls.Add(Me.fraSaleType)
         Me.Controls.Add(Me.fraDates)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "DateForm"
@@ -204,6 +233,7 @@ Partial Class DateForm
         Me.fraSaleType.PerformLayout()
         Me.fraStoreSelect.ResumeLayout(False)
         Me.fraStoreSelect.PerformLayout()
+        Me.ButtonGroupbox.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -222,4 +252,7 @@ Partial Class DateForm
     Friend WithEvents chkGroupByZip As CheckBox
     Friend WithEvents lblNote As Label
     Friend WithEvents cboStoreSelect As ComboBox
+    Friend WithEvents lblDate1 As Label
+    Friend WithEvents lblDate2 As Label
+    Friend WithEvents ButtonGroupbox As GroupBox
 End Class

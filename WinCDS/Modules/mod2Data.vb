@@ -832,4 +832,33 @@ ReadError:
         VendorNo = RS("VendorNo").Value
     End Sub
 
+    Public Function QueryAdvertisingType(ByVal TypeKey As Integer, Optional ByVal StoreNum As Integer = 0) As String
+        '::::QueryAdvertisingType
+        ':::SUMMARY
+        ': Used to select Adverstising type.
+        ':::DESCRIPTION
+        ': This function is used to get Advertising type based on store number.
+        ':::PARAMETERS
+        ': - TypeKey - It helps us as a cache to get result fastly.
+        ': - StoreNum - Indicates the Store Number.
+        ':::RETURN
+        ': String - Returns Advertising type as a string.
+        Dim Adv As clsAdvertisingType
+        If StoreNum = 0 Then StoreNum = StoresSld
+        If StoreNum <= 0 Or StoreNum > Setup_MaxStores Then Exit Function
+        Adv = New clsAdvertisingType
+        Adv.DataAccess.DataBase = GetDatabaseAtLocation(StoreNum)
+        If Adv.Load(TypeKey, "#AdvertisingTypeID") Then
+            'If IsNull(Adv.AdType) Then
+            If Adv.AdType.ToString = "" Then
+                QueryAdvertisingType = "Type " & TypeKey
+            Else
+                QueryAdvertisingType = Adv.AdType
+            End If
+        Else
+            QueryAdvertisingType = "Type " & TypeKey
+        End If
+        DisposeDA(Adv)
+    End Function
+
 End Module

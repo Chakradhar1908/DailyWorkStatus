@@ -27,7 +27,7 @@ Public Class ReportPrint
     Dim TotGross As Decimal, SubGross As Decimal
     Dim TotDep As Decimal, SubDep As Decimal
     Dim TotBalance As Decimal, SubBalance As Decimal
-    Dim Counter As Long
+    Dim Counter as integer
 
     Private Sub ReportPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetButtonImage(cmdCancel, 3)
@@ -196,7 +196,7 @@ HandleErr:
 
         Counter = 0
 
-        Dim RS As ADODB.Recordset, SQL As String, Eom As EomFile, EOMRecord As Long
+        Dim RS As ADODB.Recordset, SQL As String, Eom As EomFile, EOMRecord as integer
         SQL = ""
         SQL = SQL & "SELECT Holding.Sale, Holding.Deposit, Holding.LeaseNo, Holding.Status, "
         SQL = SQL & "Holding.LastPay as DBLastPay, trim(Holding.Salesman) as FirstSalesman, Mail.Last, Mail.First, "
@@ -732,7 +732,7 @@ HandleErr:
         Heading(PO)
         LineItems(PO)
 
-        Dim LastPO As Long
+        Dim LastPO as integer
         LastPO = PO.PoNo
 
         If PO.DataAccess.Record_EOF Then

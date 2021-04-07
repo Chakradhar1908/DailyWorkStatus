@@ -317,7 +317,7 @@
         ': - TaxRate - The original to be shortened
         ':::RETURN
         ': String - Returns the SalesTax Description as a String.
-        Dim ind As Long
+        Dim ind As Integer
         ind = InStr(TaxRate, " (")
         If ind > 0 Then ShortenSalesTaxDescription = Left(TaxRate, ind - 1) Else ShortenSalesTaxDescription = TaxRate
     End Function

@@ -1134,7 +1134,6 @@ PrinterDialogCancelled:
     Public Sub PrintAutoMailingLetterHeader(ByVal Name1 As String, ByVal addr1 As String, ByVal City1 As String, ByVal Tele1 As String, ByVal Name2 As String, ByVal addr2 As String, ByVal City2 As String, ByVal Tele2 As String, Optional ByVal ShowDate As Boolean = True)
         Dim oFN As String, oFS As Integer, oDW As Integer
 
-
         OutputObject = Printer
 
         oFN = OutputObject.FontName
@@ -1162,9 +1161,9 @@ PrinterDialogCancelled:
         OutputObject.CurrentY = 4514
     End Sub
 
-    Public Sub PrintSet(Optional ByVal OutObj As Object, Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal FontName As String = "#", Optional ByVal FontSize As String = -1, Optional ByVal FontBold As Long = -1)
-        If OutObj Is Nothing Then Set OutObj = OutputObject
-On Error Resume Next
+    Public Sub PrintSet(Optional ByVal OutObj As Object = "", Optional ByVal X As Single = -1, Optional ByVal Y As Single = -1, Optional ByVal FontName As String = "#", Optional ByVal FontSize As String = "-1", Optional ByVal FontBold As Integer = -1)
+        If OutObj Is Nothing Then OutObj = OutputObject
+        On Error Resume Next
         If X >= 0 Then OutObj.CurrentX = X
         If Y >= 0 Then OutObj.CurrentY = Y
         If FontName <> "#" Then OutObj.FontName = FontName

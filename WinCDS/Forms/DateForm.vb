@@ -138,7 +138,7 @@ Public Class DateForm
         ClearVariables()
         UndeliveredHeading()
         Order = "ST"
-        Dim effTaxCode As Long
+        Dim effTaxCode As Integer
         For TaxCode = 0 To GetMaxTaxRate()
             effTaxCode = TaxCode
             If TaxCode = 0 Then
@@ -230,7 +230,7 @@ Public Class DateForm
         PrintSet(FontBold:=0)
     End Sub
 
-    Private Sub ProcessTaxRates(ByVal TaxCode As Long)
+    Private Sub ProcessTaxRates(ByVal TaxCode As Integer)
         Dim SQL As String, RS As ADODB.Recordset, NewAudit As SalesJournalNew
         Dim nT As Decimal
         Dim Titled As Boolean
@@ -286,52 +286,87 @@ Public Class DateForm
         ProgressForm()
     End Sub
 
-    Private Sub SalesTaxtotals(Optional ByVal InstallmentTax As Boolean)
+    Private Sub SalesTaxtotals(Optional ByVal InstallmentTax As Boolean = False)
         On Error Resume Next
         OutputObject.Print
-        PrintTo OutputObject, "Totals:", 3, vbAlignLeft, False
-  PrintTo OutputObject, CurrencyFormat(TotSales), 75, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(TotNonTaxable), 91, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(TotTaxable), 106, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(TotTaxRec), 121, vbAlignRight, True
+        PrintTo(OutputObject, "Totals:", 3, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, CurrencyFormat(TotSales), 75, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(TotNonTaxable), 91, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(TotTaxable), 106, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(TotTaxRec), 121, AlignConstants.vbAlignRight, True)
 
-  If InstallmentTax Then
+        If InstallmentTax Then
             If StoreSettings.bInstallmentInterestIsTaxable Then
-                Dim T As Currency, U As Currency, V As Currency
-                T = CalculateInstallmentInterest
-                U = CalculateInstallmentInterestCredit
+                Dim T As Decimal, U As Decimal, V As Decimal
+                T = CalculateInstallmentInterest()
+                U = CalculateInstallmentInterestCredit()
                 V = T - U
-                PrintTo OutputObject, "", , , True
-      If T <> 0 Then
-                    PrintTo OutputObject, "Period Installment Interest Sls Tax:   ", 121, vbAlignRight, False
-        PrintTo OutputObject, CurrencyFormat(T), 131, vbAlignRight, True
-      End If
+                PrintTo(OutputObject, "", , , True)
+                If T <> 0 Then
+                    PrintTo(OutputObject, "Period Installment Interest Sls Tax:   ", 121, AlignConstants.vbAlignRight, False)
+                    PrintTo(OutputObject, CurrencyFormat(T), 131, AlignConstants.vbAlignRight, True)
+                End If
                 If U <> 0 Then
-                    PrintTo OutputObject, "Period Installment Interest Sls Tax Credits:   ", 121, vbAlignRight, False
-        PrintTo OutputObject, CurrencyFormat(U), 131, vbAlignRight, True
-      End If
+                    PrintTo(OutputObject, "Period Installment Interest Sls Tax Credits:   ", 121, AlignConstants.vbAlignRight, False)
+                    PrintTo(OutputObject, CurrencyFormat(U), 131, AlignConstants.vbAlignRight, True)
+                End If
                 If T <> 0 Or U <> 0 Or V <> 0 Then
-                    PrintTo OutputObject, "Period Installment Interest Sls Tax (Total):   ", 121, vbAlignRight, False
-        PrintTo OutputObject, CurrencyFormat(V), 131, vbAlignRight, True
-      End If
+                    PrintTo(OutputObject, "Period Installment Interest Sls Tax (Total):   ", 121, AlignConstants.vbAlignRight, False)
+                    PrintTo(OutputObject, CurrencyFormat(V), 131, AlignConstants.vbAlignRight, True)
+                End If
             End If
         End If
     End Sub
 
-    Private Sub SalesTaxLines(ByVal TaxCode As Long, ByRef NewAudit As SalesJournalNew, ByVal NonTaxable As Currency)
-        Dim GrossSale As Currency, Taxable As Currency, TAXREC As Currency, Amt As Currency, Amt2 As Currency
-        Dim TaxTypeChargedOnSale As Currency, IsTaxed As Boolean, IsTaxedAtAll As Boolean
+    Private Function CalculateInstallmentInterestCredit() As Decimal
+        Dim SQL As String, RS As ADODB.Recordset
+        On Error Resume Next
+        SQL = ""
+        SQL = SQL & "SELECT Sum(Credits) As Tot FROM [Transactions] LEFT JOIN [InstallmentInfo] "
+        SQL = SQL & "ON ([Transactions].[ArNo]=[InstallmentInfo].[ArNo]) "
+        SQL = SQL & "WHERE (true=true) "
+        SQL = SQL & "AND ([TransDate] BETWEEN #" & dDate.Value & "# AND #" & toDate.Value & "#) "
+        SQL = SQL & "AND ([Type] = 'Sls. Tax Payoff') "
+        SQL = SQL & "AND ([Status] <> 'V') " ' bfh20090415 removed VOIDS
+
+        RS = GetRecordsetBySQL(SQL)
+        If Not RS Is Nothing Then
+            CalculateInstallmentInterestCredit = RS("Tot").Value
+        End If
+    End Function
+
+    Private Function CalculateInstallmentInterest() As Decimal
+        Dim SQL As String, RS As ADODB.Recordset
+        On Error Resume Next
+        SQL = ""
+        SQL = SQL & "SELECT Sum(Charges) As Tot FROM [Transactions] LEFT JOIN [InstallmentInfo] "
+        SQL = SQL & "ON ([Transactions].[ArNo]=[InstallmentInfo].[ArNo]) "
+        SQL = SQL & "WHERE (true=true) "
+        SQL = SQL & "AND ([TransDate] BETWEEN #" & dDate.Value & "# AND #" & toDate.Value & "#) "
+        SQL = SQL & "AND ([Type] = 'Int. Sls Tax') "
+        SQL = SQL & "AND (Not [Status] IN ('V','W')) "
+        '  SQL = SQL & "AND (Left([Type],7)='NewSale') "
+
+        RS = GetRecordsetBySQL(SQL)
+        If Not RS Is Nothing Then
+            CalculateInstallmentInterest = RS("Tot").Value
+        End If
+    End Function
+
+    Private Sub SalesTaxLines(ByVal TaxCode As Integer, ByRef NewAudit As SalesJournalNew, ByVal NonTaxable As Decimal)
+        Dim GrossSale As Decimal, Taxable As Decimal, TAXREC As Decimal, Amt As Decimal, Amt2 As Decimal
+        Dim TaxTypeChargedOnSale As Decimal, IsTaxed As Boolean, IsTaxedAtAll As Boolean
         Dim IsAdjustment As Boolean
-        Dim effTaxRec As Currency
+        Dim effTaxRec As Decimal
 
         '  If IsDevelopment And Trim(NewAudit.LeaseNo) = "3977" Then Stop    ' DEBUGING
 
-        GetSaleInfo TaxCode, NewAudit.SaleNo, TaxTypeChargedOnSale, IsTaxed, IsTaxedAtAll
-  ' BFH20060227 - For a VOID line, we must take off all added tax..
-        If IsIn(Left(NewAudit.Name1, 2), "VD", "VB") Then TaxTypeChargedOnSale = -TaxTypeChargedOnSale
+        GetSaleInfo(TaxCode, NewAudit.SaleNo, TaxTypeChargedOnSale, IsTaxed, IsTaxedAtAll)
+        ' BFH20060227 - For a VOID line, we must take off all added tax..
+        If IsIn(Microsoft.VisualBasic.Left(NewAudit.Name1, 2), "VD", "VB") Then TaxTypeChargedOnSale = -TaxTypeChargedOnSale
 
         On Error GoTo HandleErr
-        If optDelivered Then 'Tax on Delivered
+        If optDelivered.Checked = True Then 'Tax on Delivered
             TAXREC = GetPrice(NewAudit.TaxRec1)
             Taxable = GetPrice(NewAudit.DelSls) - NonTaxable
             If Not IsTaxed Then TAXREC = 0
@@ -344,7 +379,7 @@ Public Class DateForm
 
             Amt = GetPrice(NewAudit.Written)
 
-            If Left(NewAudit.Name1, 5) = "Adj. " Then
+            If Microsoft.VisualBasic.Left(NewAudit.Name1, 5) = "Adj. " Then
                 If TAXREC <> 0 Then
                     Taxable = Amt
                 Else
@@ -355,7 +390,7 @@ Public Class DateForm
                 If Amt > 0 Then
                     If Amt < NonTaxable Then Taxable = 0
                 Else
-                    If Abs(Amt) < NonTaxable Then Taxable = 0
+                    If Math.Abs(Amt) < NonTaxable Then Taxable = 0
                 End If
             End If
 
@@ -390,14 +425,14 @@ Public Class DateForm
         TotNonTaxable = TotNonTaxable + NonTaxable
         If Taxable = GrossSale Then NonTaxableSales = NonTaxableSales + GrossSale
 
-        PrintTo OutputObject, NewAudit.Name1, 0, vbAlignLeft, False
-  PrintTo OutputObject, NewAudit.SaleNo, 30, vbAlignLeft, False
-  PrintTo OutputObject, NewAudit.TransDate, 59, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(GrossSale), 75, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(NonTaxable), 91, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(Taxable), 106, vbAlignRight, False
-  PrintTo OutputObject, CurrencyFormat(effTaxRec), 121, vbAlignRight, True
-'  PrintTo OutputObject, CurrencyFormat(TAXREC), 121, vbAlignRight, True
+        PrintTo(OutputObject, NewAudit.Name1, 0, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, NewAudit.SaleNo, 30, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, NewAudit.TransDate, 59, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(GrossSale), 75, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(NonTaxable), 91, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(Taxable), 106, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, CurrencyFormat(effTaxRec), 121, AlignConstants.vbAlignRight, True)
+        '  PrintTo OutputObject, CurrencyFormat(TAXREC), 121, alignconstants.vbalignright, True
 
 
         'BFH20070419 used for debugging...  dumps all tax records to a CSV file
@@ -414,15 +449,43 @@ Public Class DateForm
         Exit Sub
 
 HandleErr:
-        Select Case Err()
+        Select Case Err().ToString
             Case 13 'Type Mismatch
                 Resume Next
             Case 75
                 Resume
             Case Else
-                Debug.Assert False
-      Resume Next
+                Debug.Assert(False)
+                Resume Next
         End Select
+    End Sub
+
+    Private Sub GetSaleInfo(ByVal TaxCode As Integer, ByVal SaleNo As String, ByRef TaxTypeCharged As Decimal, ByRef IsTaxed As Boolean, ByRef IsTaxedAtAll As Boolean)
+        Dim SQL As String, RS As ADODB.Recordset
+        On Error Resume Next
+        SQL = ""
+        SQL = SQL & "SELECT Sum(SellPrice) AS TaxR, Count(SellPrice) AS IsTaxed FROM GrossMargin"
+        SQL = SQL & " WHERE SaleNo='" & Trim(SaleNo) & "'"
+        If TaxCode = 0 Then
+            SQL = SQL & " AND (Style='TAX1' OR (Style='TAX2' and Quantity=1))"
+        Else
+            SQL = SQL & " AND Style='TAX2' AND Quantity=" & TaxCode
+        End If
+
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+        TaxTypeCharged = IfNullThenZeroCurrency(RS("TaxR").Value)
+        IsTaxed = (IfNullThenZero(RS("IsTaxed").Value) > 0)
+        DisposeDA(RS)
+
+
+        SQL = ""
+        SQL = SQL & "SELECT Sum(SellPrice) AS TaxR, Count(SellPrice) AS IsTaxed FROM GrossMargin"
+        SQL = SQL & " WHERE SaleNo='" & Trim(SaleNo) & "'"
+        SQL = SQL & " AND Style IN ('TAX1','TAX2')"
+
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation())
+        IsTaxedAtAll = (IfNullThenZero(RS("IsTaxed").Value) > 0)
+        DisposeDA(RS)
     End Sub
 
     Private Sub ClearVariables()
@@ -433,34 +496,159 @@ HandleErr:
         Counter = 0
         TotTaxRec = 0
         NonTaxableSales = 0
-        cboStoreSelect.ListIndex = -1
+        cboStoreSelect.SelectedIndex = -1
     End Sub
 
-    Private Function GetMaxTaxRate() As Long
+    Private Function GetMaxTaxRate() As Integer
         Dim SQL As String, RS As ADODB.Recordset
         On Error Resume Next
         GetMaxTaxRate = SalesTax2Count()
-        SQL = "SELECT Max(TaxCode) As MaxTaxCode From Audit WHERE TransDate BETWEEN #" & dDate & "# AND #" & toDate & "#"
-  Set RS = GetRecordsetBySQL(SQL)
-  If RS.EOF Then
-    Set RS = Nothing
-    Exit Function
+        SQL = "SELECT Max(TaxCode) As MaxTaxCode From Audit WHERE TransDate BETWEEN #" & dDate.Value & "# AND #" & toDate.Value & "#"
+        RS = GetRecordsetBySQL(SQL)
+        If RS.EOF Then
+            RS = Nothing
+            Exit Function
         End If
-        If RS("MaxTaxCode") > GetMaxTaxRate Then GetMaxTaxRate = RS("MaxTaxCode")
+        If RS("MaxTaxCode").Value > GetMaxTaxRate Then GetMaxTaxRate = RS("MaxTaxCode").Value
         RS.Close()
-          Set RS = Nothing
-End Function
+        RS = Nothing
+    End Function
 
     Private Sub Ctrls(ByVal Enabled As Boolean)
-        MousePointer = IIf(Enabled, vbDefault, vbHourglass)
+        'MousePointer = IIf(Enabled, vbDefault, vbHourglass)
+        Me.Cursor = IIf(Enabled, Cursors.Default, Cursors.WaitCursor)
         On Error Resume Next
         cmdPrint.Enabled = Enabled
         cmdPrintPreview.Enabled = Enabled
         cmdCancel.Enabled = Enabled
-        EnableFrame Me, fraSaleType, Enabled
-  EnableFrame Me, fraDates, Enabled
-  EnableFrame Me, fraStoreSelect, Enabled
-  DoEvents
+        EnableFrame(Me, fraSaleType, Enabled)
+        EnableFrame(Me, fraDates, Enabled)
+        EnableFrame(Me, fraStoreSelect, Enabled)
+        Application.DoEvents()
     End Sub
 
+    Private Sub cmdPrintPreview_Click(sender As Object, e As EventArgs) Handles cmdPrintPreview.Click
+        If OrderMode("ATR") Then
+            If cboStoreSelect.SelectedIndex < 0 Or cboStoreSelect.SelectedIndex > ssMaxStore - 1 Then
+                MessageBox.Show("Please select a store.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+        End If
+
+        Ctrls(False)
+
+        'Load frmPrintPreviewMain
+        OutputToPrinter = False
+        OutputObject = frmPrintPreviewDocument.picPicture
+
+        frmPrintPreviewDocument.CallingForm = Me
+        frmPrintPreviewDocument.ReportName = Text
+        If OrderMode("ST") Then
+            SalesTax()
+        ElseIf OrderMode("ATR") Then
+            AdvertisingReport(dDate.Value, toDate.Value, 0, cboStoreSelect.SelectedIndex + 1, chkGroupByZip.Checked = True, chkSortByZip.Checked = True)
+        Else
+            'Unload frmPrintPreviewMain
+            frmPrintPreviewMain.Close()
+            cmdPrint.Enabled = True
+            cmdPrintPreview.Enabled = True
+            cmdCancel.Enabled = True
+            'MousePointer = vbDefault
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End If
+
+        Ctrls(True)
+        Hide()
+        frmPrintPreviewDocument.DataEnd()
+    End Sub
+
+    Private Sub DateForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim HDiff As Integer, XI As Integer
+
+        SetButtonImage(cmdCancel, 3)
+        SetButtonImage(cmdPrint, 19)
+        SetButtonImage(cmdPrintPreview, 20)
+
+        '<CT>
+        ButtonGroupbox.Location = New Point(8, 144)
+        Me.Size = New Size(294, 257)
+        '</CT>
+
+        fraSaleType.Visible = OrderMode("ST")
+        lblNote.Visible = False
+
+        If OrderMode("T", "ST") Or ArMode("N", "O") Then
+            'Both Dates
+            cmdCancel.Visible = True
+            lblDate1.Text = "&From:"
+            lblDate2.Text = "&To:"
+        ElseIf OrderMode("ATR") Then
+            lblDate1.Text = "&From:"
+            lblDate2.Text = "&To:"
+            fraStoreSelect.Visible = True
+            '<CT>
+            fraStoreSelect.Location = New Point(8, 79)
+            ButtonGroupbox.Location = New Point(17, 182)
+            Me.Size = New Size(292, 315)
+            '</CT>
+            fraSaleType.Visible = False
+            HDiff = cmdPrint.Top
+            cmdPrint.Top = fraStoreSelect.Top + fraStoreSelect.Height + 60
+            cmdPrintPreview.Top = cmdPrint.Top
+            cmdCancel.Top = cmdPrint.Top
+            HDiff = cmdPrint.Top - HDiff
+            Height = Height + HDiff
+            cmdCancel.Visible = True
+            Text = "Advertising Types Report"
+            'DateForm.HelpContextID = 49700
+
+            LoadStoresIntoComboBox(cboStoreSelect, StoresSld, False, True)
+            '    With cboStoreSelect
+            '      .Clear
+            '      For XI = 1 To LicensedNoOfStores ' bfh20051208
+            '        .AddItem "Loc " & XI & ": " & frmSetup .QueryStoreLocAdd(XI)
+            '      Next
+            '      If .ListCount >= StoresSld Then .ListIndex = StoresSld - 1
+            '    End With
+        Else
+            cmdCancel.Visible = False 'One date
+            toDate.Enabled = False
+            cmdPrintPreview.Visible = False
+
+            If Not OrderMode("C") Then 'void
+                Width = FRM_W2
+                fraDates.Width = 1815
+            End If
+            'cmdPrint.Move(ScaleWidth - cmdPrint.Width) / 2, 1380
+            cmdPrint.Location = New Point(((Me.ClientSize.Width - cmdPrint.Width) / 2), 1380)
+            cmdPrint.Text = "&Apply"
+            Height = FRM_H1 ' 2190
+        End If
+
+        If ArMode("T") Then                   ' Trial Balance
+            dDate.Value = DateFormat(CurrentMonthStart)
+            toDate.Value = DateFormat(Now) 'Month (Date)
+        ElseIf OrderMode("ST") Then                 ' Sales Tax Report
+            dDate.Value = MonthlyReportDefaultStart() '  LastFullMonthStart
+            toDate.Value = MonthlyReportDefaultEnd()
+        ElseIf OrderMode("ATR") Then
+            dDate.Value = MonthlyReportDefaultStart()
+            toDate.Value = MonthlyReportDefaultEnd()
+        Else                                              ' Otherwise...
+            dDate.Value = DateFormat(Now)
+            toDate.Value = DateFormat(Now)
+        End If
+
+        If OrderMode("ST") Then
+            Text = "Sales Tax Report"
+            lblDate1.Text = "&From:"
+        ElseIf OrderMode("C") Then 'void added 11-21-01
+            lblNote.Visible = True
+            toDate.Visible = False
+            toDate.Value = Today '""
+            Text = "Void on This Date"
+            lblDate1.Text = "&Date:"
+        End If
+    End Sub
 End Class

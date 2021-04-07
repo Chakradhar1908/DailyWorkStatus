@@ -1,7 +1,7 @@
-﻿Module modReportGeneration
+﻿Imports VBRUN
+Module modReportGeneration
     ' Report printing module, MJK 20030610
-
-    Public Sub AdvertisingReport(ByRef theDate As String, ByRef ToTheDate As String, ByRef PrintIt As Long, ByRef StoreNum As Long, Optional ByRef GroupByZip As Boolean = False, Optional ByRef SortByZip As Boolean = False)
+    Public Sub AdvertisingReport(ByRef theDate As String, ByRef ToTheDate As String, ByRef PrintIt As Integer, ByRef StoreNum As Integer, Optional ByRef GroupByZip As Boolean = False, Optional ByRef SortByZip As Boolean = False)
         '::::AdvertisingReport
         ':::SUMMARY
         ': Used to print the Advertising Report.
@@ -18,43 +18,43 @@
         ': - SortByZip - Used to Sort the Date based on Zip.
         ':::RETURN
 
-        Dim RecsPerPage As Long
+        Dim RecsPerPage As Integer
         RecsPerPage = 70  ' Save at least 2 lines for totals, just in case.
 
         ' Validate inputs
         theDate = DateFormat(theDate)
         ToTheDate = DateFormat(ToTheDate)
 
-        If DateAfter(theDate, ToTheDate) Then MsgBox "End date is earlier than start date.  Please try again.", vbCritical, "Error": Exit Sub
+        If DateAfter(theDate, ToTheDate) Then MessageBox.Show("End date is earlier than start date.  Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning) : Exit Sub
 
         If StoreNum < 1 Or StoreNum > ssMaxStore Then
-            MsgBox "Please select a store.", vbExclamation
-    Exit Sub
+            MessageBox.Show("Please select a store.", "WinCDS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
         End If
 
         ' Prepare output object.
-        Dim OutputObject As Object, PageController As Object, Page As Long, Line As Long, LastType As String, PrintTotals As Boolean
+        Dim OutputObject As Object, PageController As Object, Page As Integer, Line As Integer, LastType As String, PrintTotals As Boolean
         If PrintIt <> 0 Then
-    Set OutputObject = Printer
-    Set PageController = Printer
-  Else
-    Set OutputObject = frmPrintPreviewDocument.picPicture
-    Set PageController = frmPrintPreviewDocument
-    frmPrintPreviewDocument.ReportName = "Advertising Report"
+            OutputObject = Printer
+            PageController = Printer
+        Else
+            OutputObject = frmPrintPreviewDocument.picPicture
+            PageController = frmPrintPreviewDocument
+            frmPrintPreviewDocument.ReportName = "Advertising Report"
         End If
 
         ' Output report page header.
         Page = 1
         Line = 1
-        AdvertisingReportPageHeader OutputObject, Page, theDate, ToTheDate, StoreNum
+        AdvertisingReportPageHeader(OutputObject, Page, theDate, ToTheDate, StoreNum)
 
-  ' Gather the data.
+        ' Gather the data.
         Dim RS As ADODB.Recordset, SQL As String
-        Dim TotSold As Currency, TotDel As Currency, TotCust As Long
+        Dim TotSold As Decimal, TotDel As Decimal, TotCust As Integer
         Dim PrintLine As Boolean
-        Dim LastAdv As Long, LastCity As String, LastZip As String, LastLoc As Long, LastCust As Long
-        Dim SubSold As Currency, SubDel As Currency
-        Dim GrandSold As Currency, GrandDel As Currency
+        Dim LastAdv As Integer, LastCity As String, LastZip As String, LastLoc As Integer, LastCust As Integer
+        Dim SubSold As Decimal, SubDel As Decimal
+        Dim GrandSold As Decimal, GrandDel As Decimal
         Dim SIP As Boolean, DIP As Boolean, VIP As Boolean
 
         Dim B As String
@@ -88,18 +88,18 @@
 
         SQL = SQL & "ORDER BY Mail.CustType, " & IIf(SortByZip, "", "Mail.City, ")
         SQL = SQL & "Mail.Zip, GrossMargin.Location, MailIndex"
-  ' Loop, checking if CustType, Zip, and maybe City changed.
-  ' Advertising type has to be checked differently...
-  ' Count changes in MailIndex to get an accurate customer count..
-  '    (Location<>0 or Style IN ('STAIN','DEL','LAB','TAX1','TAX2'))  -- Matches Audit report.  But we don't necessarily want to do that.
+        ' Loop, checking if CustType, Zip, and maybe City changed.
+        ' Advertising type has to be checked differently...
+        ' Count changes in MailIndex to get an accurate customer count..
+        '    (Location<>0 or Style IN ('STAIN','DEL','LAB','TAX1','TAX2'))  -- Matches Audit report.  But we don't necessarily want to do that.
 
-  'On Error GoTo QueryError
-  Set RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation(StoreNum))
-  If Not RS.EOF Then
-            LastAdv = IfNullThenZero(RS("CustType"))
-            LastCity = IfNullThenNilString(RS("City"))
-            LastZip = IfNullThenNilString(RS("Zip"))
-            LastLoc = IfNullThenZero(RS("Location")) : If LastLoc = 0 Then LastLoc = 1
+        'On Error GoTo QueryError
+        RS = GetRecordsetBySQL(SQL, , GetDatabaseAtLocation(StoreNum))
+        If Not RS.EOF Then
+            LastAdv = IfNullThenZero(RS("CustType").Value)
+            LastCity = IfNullThenNilString(RS("City").Value)
+            LastZip = IfNullThenNilString(RS("Zip").Value)
+            LastLoc = IfNullThenZero(RS("Location").Value) : If LastLoc = 0 Then LastLoc = 1
         End If
         Do Until RS.EOF
             ' Check for page wrap
@@ -107,32 +107,33 @@
                 Page = Page + 1
                 Line = 1
                 PageController.NewPage
-                AdvertisingReportPageHeader OutputObject, Page, theDate, ToTheDate, StoreNum
-    End If
+                AdvertisingReportPageHeader(OutputObject, Page, theDate, ToTheDate, StoreNum)
+            End If
 
             ' Add to the line totals..
-            SIP = RS("SellDate") >= CDate(theDate) And RS("SellDate") <= CDate(ToTheDate)
-            If IsNull(RS("DelDate")) Then ' Or (RS("Rn") = 0 And Not RS("Style") Like "KIT-*") Then
+            SIP = RS("SellDate").Value >= CDate(theDate) And RS("SellDate").Value <= CDate(ToTheDate)
+            'If IsNull(RS("DelDate").Value) Then ' Or (RS("Rn") = 0 And Not RS("Style") Like "KIT-*") Then
+            If RS("DelDate").Value.ToString = "" Then ' Or (RS("Rn") = 0 And Not RS("Style") Like "KIT-*") Then
                 DIP = False
             Else
-                DIP = (RS("Status") = "VDDEL" Or IsDelivered(RS("Status"))) And RS("DelDate") >= CDate(theDate) And RS("DelDate") <= CDate(ToTheDate)
+                DIP = (RS("Status").Value = "VDDEL" Or IsDelivered(RS("Status").Value)) And RS("DelDate").Value >= CDate(theDate) And RS("DelDate").Value <= CDate(ToTheDate)
             End If
-            If IsNull(RS("ShipDate")) Then
+            If RS("ShipDate").ToString = "" Then
                 VIP = False
             Else
-                VIP = RS("ShipDate") >= CDate(theDate) And RS("ShipDate") <= CDate(ToTheDate)
+                VIP = RS("ShipDate").Value >= CDate(theDate) And RS("ShipDate").Value <= CDate(ToTheDate)
             End If
 
-            If SIP Then SubSold = SubSold + RS("SellPrice")
-            If DIP Then SubDel = SubDel + RS("SellPrice")
+            If SIP Then SubSold = SubSold + RS("SellPrice").Value
+            If DIP Then SubDel = SubDel + RS("SellPrice").Value
             If VIP Then
-                If IsVoid(RS("Status")) Or Left(RS("Status"), 1) = "x" Then SubSold = SubSold - RS("SellPrice")
-                If RS("Status") = "VDDEL" Then SubDel = SubDel - RS("SellPrice")
+                If IsVoid(RS("Status").Value) Or Left(RS("Status").Value, 1) = "x" Then SubSold = SubSold - RS("SellPrice").Value
+                If RS("Status").Value = "VDDEL" Then SubDel = SubDel - RS("SellPrice").Value
             End If
 
-            If LastCust <> RS("MailIndex") Then
+            If LastCust <> RS("MailIndex").Value Then
                 TotCust = TotCust + 1
-                LastCust = RS("MailIndex")
+                LastCust = RS("MailIndex").Value
             End If
 
             RS.MoveNext()        ' *** We have to switch records to tell if this line gets printed! ***
@@ -146,32 +147,32 @@
                     PrintLine = True ' Print if AdvType changes..
                     PrintTotals = True
                 End If
-                If IfNullThenNilString(RS("Zip")) <> LastZip Then PrintLine = True ' Print if Zip changes..
-                If IfNullThenZero(RS("Location")) <> LastLoc And LastLoc <> 1 And IfNullThenZero(RS("Location")) <> 0 Then PrintLine = True ' Print if Location changes..
-                If Not GroupByZip And IfNullThenNilString(RS("City")) <> LastCity Then PrintLine = True ' Print if City changes, and we're not ignoring City.
+                If IfNullThenNilString(RS("Zip").Value) <> LastZip Then PrintLine = True ' Print if Zip changes..
+                If IfNullThenZero(RS("Location").Value) <> LastLoc And LastLoc <> 1 And IfNullThenZero(RS("Location").Value) <> 0 Then PrintLine = True ' Print if Location changes..
+                If Not GroupByZip And IfNullThenNilString(RS("City").Value) <> LastCity Then PrintLine = True ' Print if City changes, and we're not ignoring City.
             End If
 
             If PrintLine Then
                 ' Print out line data.
-                PrintTo OutputObject, QueryAdvertisingType(LastAdv, StoreNum), 0, vbAlignLeft, False ' Type
-                PrintTo OutputObject, LastCity, 30, vbAlignLeft, False ' City
-                PrintTo OutputObject, LastZip, 60, vbAlignLeft, False ' Zip
-                PrintTo OutputObject, LastLoc, 75, vbAlignLeft, False ' Loc
-                PrintTo OutputObject, Format(SubSold, "$###,##0.00"), 90, vbAlignRight, False ' Sold
-                PrintTo OutputObject, Format(SubDel, "$###,##0.00"), 105, vbAlignRight, False ' Delivered
-                PrintTo OutputObject, TotCust, 107, vbAlignLeft, True
+                PrintTo(OutputObject, QueryAdvertisingType(LastAdv, StoreNum), 0, AlignConstants.vbAlignLeft, False) ' Type
+                PrintTo(OutputObject, LastCity, 30, AlignConstants.vbAlignLeft, False) ' City
+                PrintTo(OutputObject, LastZip, 60, AlignConstants.vbAlignLeft, False) ' Zip
+                PrintTo(OutputObject, LastLoc, 75, AlignConstants.vbAlignLeft, False) ' Loc
+                PrintTo(OutputObject, Format(SubSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False) ' Sold
+                PrintTo(OutputObject, Format(SubDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, False) ' Delivered
+                PrintTo(OutputObject, TotCust, 107, AlignConstants.vbAlignLeft, True)
 
-      TotSold = TotSold + SubSold
+                TotSold = TotSold + SubSold
                 TotDel = TotDel + SubDel
                 SubSold = 0
                 SubDel = 0
                 Line = Line + 1
                 If Not RS.EOF Then
                     ' There's more data, which means we switched because it changed.
-                    LastAdv = IfNullThenZero(RS("CustType"))
-                    LastCity = IfNullThenNilString(RS("City"))
-                    LastZip = IfNullThenNilString(RS("Zip"))
-                    LastLoc = IfNullThenZero(RS("Location")) : If LastLoc = 0 Then LastLoc = 1
+                    LastAdv = IfNullThenZero(RS("CustType").Value)
+                    LastCity = IfNullThenNilString(RS("City").Value)
+                    LastZip = IfNullThenNilString(RS("Zip").Value)
+                    LastLoc = IfNullThenZero(RS("Location").Value) : If LastLoc = 0 Then LastLoc = 1
                     TotCust = 0
                     LastCust = 0
                 End If
@@ -179,10 +180,10 @@
 
             If PrintTotals Then
                 OutputObject.FontBold = True
-                PrintTo OutputObject, "Totals:", 60, vbAlignLeft, False
-      PrintTo OutputObject, Format(TotSold, "$###,##0.00"), 90, vbAlignRight, False
-      PrintTo OutputObject, Format(TotDel, "$###,##0.00"), 105, vbAlignRight, True
-      OutputObject.FontBold = False
+                PrintTo(OutputObject, "Totals:", 60, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, Format(TotSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, Format(TotDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True)
+                OutputObject.FontBold = False
                 GrandSold = GrandSold + TotSold
                 GrandDel = GrandDel + TotDel
                 TotSold = 0
@@ -192,14 +193,14 @@
             End If
         Loop
         RS.Close()
-          Set RS = Nothing
-  
-  OutputObject.Print
+        RS = Nothing
+
+        OutputObject.Print
         OutputObject.FontBold = True
-        PrintTo OutputObject, "Grand Totals:", 60, vbAlignLeft, False
-  PrintTo OutputObject, Format(GrandSold, "$###,##0.00"), 90, vbAlignRight, False
-  PrintTo OutputObject, Format(GrandDel, "$###,##0.00"), 105, vbAlignRight, True
-  OutputObject.FontBold = False
+        PrintTo(OutputObject, "Grand Totals:", 60, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, Format(GrandSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(GrandDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True)
+        OutputObject.FontBold = False
 
         ' This is handled by DateForm, of all things.
         '  If PrintIt <> 0 Then
@@ -210,9 +211,45 @@
         Exit Sub
 
 QueryError:
-        MsgBox "Error generating Advertising Report.", vbCritical, "Error"
-  Err.Clear()
+        MessageBox.Show("Error generating Advertising Report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        Err.Clear()
         If PrintIt <> 0 Then OutputObject.KillDoc
+    End Sub
+
+    Private Sub AdvertisingReportPageHeader(ByRef OutputObject As Object, ByRef PageNum As Integer, ByRef StartDate As String, ByRef EndDate As String, ByRef StoreNum As Integer)
+        ' Print store header with report title.
+        PrintStoreHeader(OutputObject, "Advertising Report")
+        PrintTo(OutputObject, "Date Range: " & StartDate, Printer.Width - OutputObject.TextWidth("Date Range: " & StartDate) - 1000, AlignConstants.vbAlignLeft, True)
+        PrintTo(OutputObject, "thru " & EndDate, Printer.Width - OutputObject.TextWidth("thru " & EndDate) - 1000, AlignConstants.vbAlignLeft, True)
+
+        ' Print column titles.
+        OutputObject.FontBold = True
+        OutputObject.FontSize = 8
+        OutputObject.CurrentY = 600
+        PrintTo(OutputObject, "Type", 0, AlignConstants.vbAlignLeft, False) ' Type
+        PrintTo(OutputObject, "City", 30, AlignConstants.vbAlignLeft, False) ' City
+        '  PrintTo OutputObject, "State", 50, alignconstants.vbalignleft, False ' State
+        PrintTo(OutputObject, "Zip", 60, AlignConstants.vbAlignLeft, False) ' Zip
+        PrintTo(OutputObject, "Loc", 75, AlignConstants.vbAlignLeft, False) ' Loc
+        PrintTo(OutputObject, "Written", 90, AlignConstants.vbAlignRight, False) ' Sold
+        PrintTo(OutputObject, "Delivered", 105, AlignConstants.vbAlignRight, False) ' Delivered
+        PrintTo(OutputObject, "Customers", 107, AlignConstants.vbAlignLeft, True)  ' Removed because I can't get the right number.
+        OutputObject.FontBold = False
+    End Sub
+
+    Private Sub PrintStoreHeader(ByRef OutputObject As Object, ByRef Title As String)
+        OutputObject.FontName = "Arial"
+        OutputObject.DrawWidth = 2
+        OutputObject.FontSize = 18
+        OutputObject.CurrentY = 100
+        OutputObject.FontBold = True
+        PrintTo(OutputObject, Title, 80, AlignConstants.vbAlignTop, True) ' Centered
+
+        OutputObject.FontBold = False
+        OutputObject.FontSize = 8
+        OutputObject.CurrentY = 100
+        PrintTo(OutputObject, "Date: " & DateFormat(Now), 0, AlignConstants.vbAlignLeft, True)
+        PrintTo(OutputObject, "Time: " & Format(Now, "h:mm:ss am/pm"), 0, AlignConstants.vbAlignLeft, True)
     End Sub
 
 End Module

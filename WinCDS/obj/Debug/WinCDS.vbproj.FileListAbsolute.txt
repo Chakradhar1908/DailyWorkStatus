@@ -232,6 +232,7 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.ARPaySetUp.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.BillOSale.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.Calendar.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.CalendarInstr.resources
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.DateForm.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.EditPO.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAdjustAdd.resources
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.frmAdjustTax.resources
@@ -335,3 +336,4 @@ F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbproj.CopyComplete
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.exe
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.xml
 F:\WinCDS\WinCDS\obj\Debug\WinCDS.pdb
+F:\WinCDS\WinCDS\obj\Debug\WinCDS.vbprojAssemblyReference.cache
