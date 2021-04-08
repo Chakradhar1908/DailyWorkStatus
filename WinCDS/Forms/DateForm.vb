@@ -138,48 +138,72 @@ Public Class DateForm
         ClearVariables()
         UndeliveredHeading()
         Order = "ST"
+
+        '<CT>
+        Dim Cy As Integer
+        Cy = 900
+        OutputObject.FontBold = False
+        '</CT>
         Dim effTaxCode As Integer
         For TaxCode = 0 To GetMaxTaxRate()
             effTaxCode = TaxCode
             If TaxCode = 0 Then
-                PrintTo(OutputObject, "Default Tax", 1, AlignConstants.vbAlignLeft)
-                PrintTo(OutputObject, StoreSettings.SalesTax, 20, AlignConstants.vbAlignLeft)
+                'PrintTo(OutputObject, "Default Tax", 1, AlignConstants.vbAlignLeft)
+                PrintTo(OutputObject, "Default Tax", 1, AlignConstants.vbAlignLeft,, Cy)
+                'PrintTo(OutputObject, StoreSettings.SalesTax, 20, AlignConstants.vbAlignLeft)
+                PrintTo(OutputObject, StoreSettings.SalesTax, 20, AlignConstants.vbAlignLeft,, Cy)
                 If IsCanadian() Then effTaxCode = 1
             Else
-                PrintTo(OutputObject, "Tax Zone #" & TaxCode, 1, AlignConstants.vbAlignLeft)
-                PrintTo(OutputObject, QuerySalesTax2(TaxCode - 1), 20, AlignConstants.vbAlignLeft)
+                'PrintTo(OutputObject, "Tax Zone #" & TaxCode, 1, AlignConstants.vbAlignLeft)
+                PrintTo(OutputObject, "Tax Zone #" & TaxCode, 1, AlignConstants.vbAlignLeft,, Cy)
+                'PrintTo(OutputObject, QuerySalesTax2(TaxCode - 1), 20, AlignConstants.vbAlignLeft)
+                PrintTo(OutputObject, QuerySalesTax2(TaxCode - 1), 20, AlignConstants.vbAlignLeft,, Cy)
                 If IsCanadian() And TaxCode = 1 Then effTaxCode = 0
             End If
 
-            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " TotSales")), 75, AlignConstants.vbAlignRight)
+            'PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " TotSales")), 75, AlignConstants.vbAlignRight)
+            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " TotSales")), 75, AlignConstants.vbAlignRight,, Cy)
             TotSales = TotSales + GetPrice(TaxTotals.Item(Format(effTaxCode, "00") & " TotSales"))
 
-            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " NonTaxtable")), 91, AlignConstants.vbAlignRight)
+            'PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " NonTaxtable")), 91, AlignConstants.vbAlignRight)
+            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " NonTaxtable")), 91, AlignConstants.vbAlignRight,, Cy)
             TotNonTaxable = TotNonTaxable + GetPrice(TaxTotals.Item(Format(effTaxCode, "00") & " NonTaxtable"))
 
-            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " Taxable")), 106, AlignConstants.vbAlignRight)
+            'PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " Taxable")), 106, AlignConstants.vbAlignRight)
+            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " Taxable")), 106, AlignConstants.vbAlignRight,, Cy)
             TotTaxable = TotTaxable + GetPrice(TaxTotals.Item(Format(effTaxCode, "00") & " Taxable"))
 
-            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " TotTaxRec")), 121, AlignConstants.vbAlignRight, True)
+            'PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " TotTaxRec")), 121, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(TaxTotals.Item(Format(effTaxCode, "00") & " TotTaxRec")), 121, AlignConstants.vbAlignRight, True, Cy)
             TotTaxRec = TotTaxRec + GetPrice(TaxTotals.Item(Format(effTaxCode, "00") & " TotTaxRec"))
+            Cy = Cy + 200
         Next
 
         If Not IsDoddsLtd Then ' BFH20130423 they do multiple TAX2's on a sale.  Totals are not necessary.
+            Cy = Cy + 200
             OutputObject.Print
             OutputObject.FontBold = True
-            PrintTo(OutputObject, "Totals:", 1, AlignConstants.vbAlignLeft)
+            'PrintTo(OutputObject, "Totals:", 1, AlignConstants.vbAlignLeft)
+            PrintTo(OutputObject, "Totals:", 1, AlignConstants.vbAlignLeft,, Cy)
 
-            PrintTo(OutputObject, CurrencyFormat(TotSales), 75, AlignConstants.vbAlignRight)
-            PrintTo(OutputObject, CurrencyFormat(TotNonTaxable), 91, AlignConstants.vbAlignRight)
-            PrintTo(OutputObject, CurrencyFormat(TotTaxable), 106, AlignConstants.vbAlignRight)
-            PrintTo(OutputObject, CurrencyFormat(TotTaxRec), 121, AlignConstants.vbAlignRight, True)
-            PrintTo(OutputObject, "Sale totals may be over-counted if sales have multiple TAX2 rates.", 10, , True)
+            'PrintTo(OutputObject, CurrencyFormat(TotSales), 75, AlignConstants.vbAlignRight)
+            PrintTo(OutputObject, CurrencyFormat(TotSales), 75, AlignConstants.vbAlignRight,, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(TotNonTaxable), 91, AlignConstants.vbAlignRight)
+            PrintTo(OutputObject, CurrencyFormat(TotNonTaxable), 91, AlignConstants.vbAlignRight,, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(TotTaxable), 106, AlignConstants.vbAlignRight)
+            PrintTo(OutputObject, CurrencyFormat(TotTaxable), 106, AlignConstants.vbAlignRight,, Cy)
+            'PrintTo(OutputObject, CurrencyFormat(TotTaxRec), 121, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, CurrencyFormat(TotTaxRec), 121, AlignConstants.vbAlignRight, True, Cy)
+            'PrintTo(OutputObject, "Sale totals may be over-counted if sales have multiple TAX2 rates.", 10, , True)
+            PrintTo(OutputObject, "Sale totals may be over-counted if sales have multiple TAX2 rates.", 10, , True, Cy + 200)
 
             OutputObject.FontBold = False
         End If
     End Sub
 
     Public Sub UndeliveredHeading()
+        Dim Cy As Integer
+
         OutputObject.FontName = "Arial"
         OutputObject.FontSize = 18
         OutputObject.CurrentY = 100
@@ -196,13 +220,22 @@ Public Class DateForm
         End If
 
         PrintSet(, 10, 100, "Arial", 8, 0)
-        OutputObject.Print("From: ", DateFormat(dDate), "  To: ", DateFormat(toDate))
-        OutputObject.Print("Time: ", Format(Now, "h:mm:ss tt"))
+        '<CT>
+        OutputObject.FontSize = 8
+        OutputObject.FontBold = False
+        '</CT>
+        Cy = Printer.CurrentY
+        OutputObject.Print("From: " & " " & DateFormat(dDate.Value) & "To: " & " " & DateFormat(toDate.Value))
+        OutputObject.Print("Time: " & " " & Format(Now, "h:mm:ss tt"))
 
         PrintSet(, 10100, 100)
         If OutputToPrinter Then PageNumber = OutputObject.Page
-
+        '<CT>
+        OutputObject.CurrentX = 10100
+        OutputObject.CurrentY = Cy
+        '</CT>
         OutputObject.Print("Page: " & PageNumber)
+
         If OrderMode("ST") Then
             PrintToPosition(OutputObject, ShortenSalesTaxDescription(SaleTaxRate), 10100 + Printer.TextWidth("Page: " & PageNumber), AlignConstants.vbAlignRight, True)
         End If
@@ -221,10 +254,19 @@ Public Class DateForm
             PrintTo(OutputObject, "Taxable", 106, AlignConstants.vbAlignRight, False)
             PrintTo(OutputObject, IIf(optDelivered.Checked = True, "Tax Rec", "Tax Chg"), 121, AlignConstants.vbAlignRight, True)
         ElseIf OrderMode("STTOT") Then 'Sales tax
-            PrintTo(OutputObject, "Tot Sale", 75, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "Non Taxable", 91, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, "Taxable", 106, AlignConstants.vbAlignRight, False)
-            PrintTo(OutputObject, IIf(optDelivered.Checked = True, "Tax Rec", "Tax Chg"), 121, AlignConstants.vbAlignRight, True)
+            '<CT>
+            Cy = 700
+            OutputObject.FontBold = True
+            OutputObject.FontSize = 9
+            '</CT>
+            'PrintTo(OutputObject, "Tot Sale", 75, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "Tot Sale", 75, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, "Non Taxable", 91, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "Non Taxable", 91, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, "Taxable", 106, AlignConstants.vbAlignRight, False)
+            PrintTo(OutputObject, "Taxable", 106, AlignConstants.vbAlignRight, False, Cy)
+            'PrintTo(OutputObject, IIf(optDelivered.Checked = True, "Tax Rec", "Tax Chg"), 121, AlignConstants.vbAlignRight, True)
+            PrintTo(OutputObject, IIf(optDelivered.Checked = True, "Tax Rec", "Tax Chg"), 121, AlignConstants.vbAlignRight, True, Cy)
         End If
 
         PrintSet(FontBold:=0)
@@ -263,7 +305,6 @@ Public Class DateForm
             ProgressForm(RS.AbsolutePosition, , "Processing " & IIf(TaxCode = 0, "Def Tax Zone", "Tax Zone #" & TaxCode) & " (" & RS.AbsolutePosition & " of " & RS.RecordCount & " Sales)")
             SalesJournalNew_RecordSet_Set(NewAudit, RS)
             nT = IIf(Microsoft.VisualBasic.Left(NewAudit.Name1, 1) = "V", -1, 1) * IfNullThenZeroCurrency(RS("Holding.NonTaxable").Value)
-
 
             '    If IsDevelopment And NewAudit.SaleNo = "504159" Then Stop
             '    If IsDevelopment And NewAudit.SaleNo = "16660" Then Stop
@@ -434,7 +475,6 @@ Public Class DateForm
         PrintTo(OutputObject, CurrencyFormat(effTaxRec), 121, AlignConstants.vbAlignRight, True)
         '  PrintTo OutputObject, CurrencyFormat(TAXREC), 121, alignconstants.vbalignright, True
 
-
         'BFH20070419 used for debugging...  dumps all tax records to a CSV file
         '  WriteFile DevOutputFolder & "taxrep.csv", (Taxable) & "," & (TAXREC)
 
@@ -476,7 +516,6 @@ HandleErr:
         TaxTypeCharged = IfNullThenZeroCurrency(RS("TaxR").Value)
         IsTaxed = (IfNullThenZero(RS("IsTaxed").Value) > 0)
         DisposeDA(RS)
-
 
         SQL = ""
         SQL = SQL & "SELECT Sum(SellPrice) AS TaxR, Count(SellPrice) AS IsTaxed FROM GrossMargin"

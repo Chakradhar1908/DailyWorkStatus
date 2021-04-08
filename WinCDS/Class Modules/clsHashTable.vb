@@ -8,7 +8,8 @@ Public Class clsHashTable
     Private mAutoIndex As Integer      ' For AutoIndexing
     Private m_IgnoreCase As Boolean ' member variable for IgnoreCase property
     'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByVal Source As Object, ByVal bytes As Integer)
-    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByRef Source As Object, ByVal bytes As Integer)
+    'Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Object, ByRef Source As Object, ByVal bytes As Integer)
+    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Integer, ByRef Source As String, ByVal bytes As Integer)
     'Public Declare Auto Sub CopyMemory Lib "kernel32.dll" Alias "CopyMemory" (destination As Object, source As IntPtr, length As UInteger)
 
     Dim resx As Object
@@ -209,7 +210,8 @@ Public Class clsHashTable
     Private Function HashCode(ByVal key As String) As Integer
         Dim lastEl As Integer, I As Integer
         'Dim Codes() As Byte
-        Dim Codes(0) As Integer
+        'Dim Codes() As Integer
+        Dim Codes() As Integer
 
         ' copy ansi codes into an array of long
         lastEl = (Len(key) - 1) \ 4
@@ -222,7 +224,9 @@ Public Class clsHashTable
         'targetPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Codes.ToArray, 0)
 
         'lLen = CUInt(sThis.ToArray.Length)
-        CopyMemory(Codes(0), key, key.Length)
+        'CopyMemory(Codes(0), key, key.Length)
+
+        CopyMemory(Codes(0), key, Len(key))
         'CopyMemory(Codes, key, key.Length)
         'CopyMemory(Codes, sourcePtr, 1)
 
