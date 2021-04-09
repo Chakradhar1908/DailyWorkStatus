@@ -131,7 +131,10 @@ HandleErr:
     End Sub
 
     Private Sub cmdPrintPreview_Click(sender As Object, e As EventArgs) Handles cmdPrintPreview.Click
+        '<CT>
         Printer.PrintAction = Printing.PrintAction.PrintToPreview
+        '</CT>
+
         'MousePointer = vbHourglass
         Me.Cursor = Cursors.WaitCursor
         cmdPrint.Enabled = False
