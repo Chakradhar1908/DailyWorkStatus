@@ -647,7 +647,8 @@ HandleErr:
         If OrderMode("ST") Then
             SalesTax()
         ElseIf OrderMode("ATR") Then
-            AdvertisingReport(dDate.Value, toDate.Value, 0, cboStoreSelect.SelectedIndex + 1, chkGroupByZip.Checked = True, chkSortByZip.Checked = True)
+            'AdvertisingReport(dDate.Value, toDate.Value, 0, cboStoreSelect.SelectedIndex + 1, chkGroupByZip.Checked = True, chkSortByZip.Checked = True)
+            AdvertisingReport(dDate.Value, toDate.Value, 1, cboStoreSelect.SelectedIndex + 1, chkGroupByZip.Checked = True, chkSortByZip.Checked = True)
         Else
             'Unload frmPrintPreviewMain
             frmPrintPreviewMain.Close()
@@ -660,7 +661,7 @@ HandleErr:
         End If
 
         Ctrls(True)
-        Hide()
+        'Hide()
 
         '<CT>
         'frmPrintPreviewDocument.DataEnd()
@@ -698,12 +699,12 @@ HandleErr:
             Me.Size = New Size(292, 315)
             '</CT>
             fraSaleType.Visible = False
-            HDiff = cmdPrint.Top
-            cmdPrint.Top = fraStoreSelect.Top + fraStoreSelect.Height + 60
-            cmdPrintPreview.Top = cmdPrint.Top
-            cmdCancel.Top = cmdPrint.Top
-            HDiff = cmdPrint.Top - HDiff
-            Height = Height + HDiff
+            'HDiff = cmdPrint.Top
+            'cmdPrint.Top = fraStoreSelect.Top + fraStoreSelect.Height + 60
+            'cmdPrintPreview.Top = cmdPrint.Top
+            'cmdCancel.Top = cmdPrint.Top
+            'HDiff = cmdPrint.Top - HDiff
+            'Height = Height + HDiff
             cmdCancel.Visible = True
             Text = "Advertising Types Report"
             'DateForm.HelpContextID = 49700

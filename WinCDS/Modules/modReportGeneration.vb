@@ -19,6 +19,8 @@ Module modReportGeneration
         ':::RETURN
 
         Dim RecsPerPage As Integer
+        Dim Cy As Integer
+
         RecsPerPage = 70  ' Save at least 2 lines for totals, just in case.
 
         ' Validate inputs
@@ -58,7 +60,8 @@ Module modReportGeneration
         Dim SIP As Boolean, DIP As Boolean, VIP As Boolean
 
         Dim B As String
-        B = " between #" & Format(theDate, "mm/dd/yyyy") & "# and #" & Format(ToTheDate, "mm/dd/yyyy") & "# "
+        'B = " between #" & Format(theDate, "mm/dd/yyyy") & "# and #" & Format(ToTheDate, "mm/dd/yyyy") & "# "
+        B = " between #" & Format(Convert.ToDateTime(theDate), "MM/dd/yyyy") & "# and #" & Format(Convert.ToDateTime(ToTheDate), "MM/dd/yyyy") & "# "
 
         SQL = ""
         SQL = SQL & "SELECT GrossMargin.Style, GrossMargin.Rn, GrossMargin.SellPrice, "
@@ -101,6 +104,8 @@ Module modReportGeneration
             LastZip = IfNullThenNilString(RS("Zip").Value)
             LastLoc = IfNullThenZero(RS("Location").Value) : If LastLoc = 0 Then LastLoc = 1
         End If
+
+        Cy = 800
         Do Until RS.EOF
             ' Check for page wrap
             If Line > RecsPerPage Then
@@ -118,7 +123,7 @@ Module modReportGeneration
             Else
                 DIP = (RS("Status").Value = "VDDEL" Or IsDelivered(RS("Status").Value)) And RS("DelDate").Value >= CDate(theDate) And RS("DelDate").Value <= CDate(ToTheDate)
             End If
-            If RS("ShipDate").ToString = "" Then
+            If RS("ShipDate").Value.ToString = "" Then
                 VIP = False
             Else
                 VIP = RS("ShipDate").Value >= CDate(theDate) And RS("ShipDate").Value <= CDate(ToTheDate)
@@ -143,7 +148,7 @@ Module modReportGeneration
                 PrintTotals = True
                 PrintLine = True
             Else
-                If IfNullThenZero(RS("CustType")) <> LastAdv Then
+                If IfNullThenZero(RS("CustType").Value) <> LastAdv Then
                     PrintLine = True ' Print if AdvType changes..
                     PrintTotals = True
                 End If
@@ -154,13 +159,20 @@ Module modReportGeneration
 
             If PrintLine Then
                 ' Print out line data.
-                PrintTo(OutputObject, QueryAdvertisingType(LastAdv, StoreNum), 0, AlignConstants.vbAlignLeft, False) ' Type
-                PrintTo(OutputObject, LastCity, 30, AlignConstants.vbAlignLeft, False) ' City
-                PrintTo(OutputObject, LastZip, 60, AlignConstants.vbAlignLeft, False) ' Zip
-                PrintTo(OutputObject, LastLoc, 75, AlignConstants.vbAlignLeft, False) ' Loc
-                PrintTo(OutputObject, Format(SubSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False) ' Sold
-                PrintTo(OutputObject, Format(SubDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, False) ' Delivered
-                PrintTo(OutputObject, TotCust, 107, AlignConstants.vbAlignLeft, True)
+                'PrintTo(OutputObject, QueryAdvertisingType(LastAdv, StoreNum), 0, AlignConstants.vbAlignLeft, False) ' Type
+                PrintTo(OutputObject, QueryAdvertisingType(LastAdv, StoreNum), 0, AlignConstants.vbAlignLeft, False, Cy) ' Type
+                'PrintTo(OutputObject, LastCity, 30, AlignConstants.vbAlignLeft, False) ' City
+                PrintTo(OutputObject, LastCity, 30, AlignConstants.vbAlignLeft, False, Cy) ' City
+                'PrintTo(OutputObject, LastZip, 60, AlignConstants.vbAlignLeft, False) ' Zip
+                PrintTo(OutputObject, LastZip, 60, AlignConstants.vbAlignLeft, False, Cy) ' Zip
+                'PrintTo(OutputObject, LastLoc, 75, AlignConstants.vbAlignLeft, False) ' Loc
+                PrintTo(OutputObject, LastLoc, 75, AlignConstants.vbAlignLeft, False, Cy) ' Loc
+                'PrintTo(OutputObject, Format(SubSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False) ' Sold
+                PrintTo(OutputObject, Format(SubSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy) ' Sold
+                'PrintTo(OutputObject, Format(SubDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, False) ' Delivered
+                PrintTo(OutputObject, Format(SubDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, False, Cy) ' Delivered
+                'PrintTo(OutputObject, TotCust, 107, AlignConstants.vbAlignLeft, True)
+                PrintTo(OutputObject, TotCust, 107, AlignConstants.vbAlignLeft, True, Cy)
 
                 TotSold = TotSold + SubSold
                 TotDel = TotDel + SubDel
@@ -176,13 +188,17 @@ Module modReportGeneration
                     TotCust = 0
                     LastCust = 0
                 End If
+                Cy = Cy + 200
             End If
 
             If PrintTotals Then
                 OutputObject.FontBold = True
-                PrintTo(OutputObject, "Totals:", 60, AlignConstants.vbAlignLeft, False)
-                PrintTo(OutputObject, Format(TotSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-                PrintTo(OutputObject, Format(TotDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True)
+                'PrintTo(OutputObject, "Totals:", 60, AlignConstants.vbAlignLeft, False)
+                PrintTo(OutputObject, "Totals:", 60, AlignConstants.vbAlignLeft, False, Cy)
+                'PrintTo(OutputObject, Format(TotSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+                PrintTo(OutputObject, Format(TotSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+                'PrintTo(OutputObject, Format(TotDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True)
+                PrintTo(OutputObject, Format(TotDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True, Cy)
                 OutputObject.FontBold = False
                 GrandSold = GrandSold + TotSold
                 GrandDel = GrandDel + TotDel
@@ -192,14 +208,19 @@ Module modReportGeneration
                 Line = RecsPerPage + 1  ' Trigger a new page next time.
             End If
         Loop
+
         RS.Close()
         RS = Nothing
 
         OutputObject.Print
         OutputObject.FontBold = True
-        PrintTo(OutputObject, "Grand Totals:", 60, AlignConstants.vbAlignLeft, False)
-        PrintTo(OutputObject, Format(GrandSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
-        PrintTo(OutputObject, Format(GrandDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True)
+        Cy = OutputObject.CurrentY
+        'PrintTo(OutputObject, "Grand Totals:", 60, AlignConstants.vbAlignLeft, False)
+        PrintTo(OutputObject, "Grand Totals:", 60, AlignConstants.vbAlignLeft, False, Cy)
+        'PrintTo(OutputObject, Format(GrandSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False)
+        PrintTo(OutputObject, Format(GrandSold, "$###,##0.00"), 90, AlignConstants.vbAlignRight, False, Cy)
+        'PrintTo(OutputObject, Format(GrandDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True)
+        PrintTo(OutputObject, Format(GrandDel, "$###,##0.00"), 105, AlignConstants.vbAlignRight, True, Cy)
         OutputObject.FontBold = False
 
         ' This is handled by DateForm, of all things.
@@ -217,6 +238,8 @@ QueryError:
     End Sub
 
     Private Sub AdvertisingReportPageHeader(ByRef OutputObject As Object, ByRef PageNum As Integer, ByRef StartDate As String, ByRef EndDate As String, ByRef StoreNum As Integer)
+        Dim Cy As Integer
+
         ' Print store header with report title.
         PrintStoreHeader(OutputObject, "Advertising Report")
         PrintTo(OutputObject, "Date Range: " & StartDate, Printer.Width - OutputObject.TextWidth("Date Range: " & StartDate) - 1000, AlignConstants.vbAlignLeft, True)
@@ -226,14 +249,22 @@ QueryError:
         OutputObject.FontBold = True
         OutputObject.FontSize = 8
         OutputObject.CurrentY = 600
-        PrintTo(OutputObject, "Type", 0, AlignConstants.vbAlignLeft, False) ' Type
-        PrintTo(OutputObject, "City", 30, AlignConstants.vbAlignLeft, False) ' City
+        Cy = OutputObject.CurrentY
+        'PrintTo(OutputObject, "Type", 0, AlignConstants.vbAlignLeft, False) ' Type
+        PrintTo(OutputObject, "Type", 0, AlignConstants.vbAlignLeft, False, Cy) ' Type
+        'PrintTo(OutputObject, "City", 30, AlignConstants.vbAlignLeft, False) ' City
+        PrintTo(OutputObject, "City", 30, AlignConstants.vbAlignLeft, False, Cy) ' City
         '  PrintTo OutputObject, "State", 50, alignconstants.vbalignleft, False ' State
-        PrintTo(OutputObject, "Zip", 60, AlignConstants.vbAlignLeft, False) ' Zip
-        PrintTo(OutputObject, "Loc", 75, AlignConstants.vbAlignLeft, False) ' Loc
-        PrintTo(OutputObject, "Written", 90, AlignConstants.vbAlignRight, False) ' Sold
-        PrintTo(OutputObject, "Delivered", 105, AlignConstants.vbAlignRight, False) ' Delivered
-        PrintTo(OutputObject, "Customers", 107, AlignConstants.vbAlignLeft, True)  ' Removed because I can't get the right number.
+        'PrintTo(OutputObject, "Zip", 60, AlignConstants.vbAlignLeft, False) ' Zip
+        PrintTo(OutputObject, "Zip", 60, AlignConstants.vbAlignLeft, False, Cy)
+        'PrintTo(OutputObject, "Loc", 75, AlignConstants.vbAlignLeft, False) ' Loc
+        PrintTo(OutputObject, "Loc", 75, AlignConstants.vbAlignLeft, False, Cy) ' Loc
+        'PrintTo(OutputObject, "Written", 90, AlignConstants.vbAlignRight, False) ' Sold
+        PrintTo(OutputObject, "Written", 90, AlignConstants.vbAlignRight, False, Cy) ' Sold
+        'PrintTo(OutputObject, "Delivered", 105, AlignConstants.vbAlignRight, False) ' Delivered
+        PrintTo(OutputObject, "Delivered", 105, AlignConstants.vbAlignRight, False, Cy) ' Delivered
+        'PrintTo(OutputObject, "Customers", 107, AlignConstants.vbAlignLeft, True)  ' Removed because I can't get the right number.
+        PrintTo(OutputObject, "Customers", 107, AlignConstants.vbAlignLeft, True, Cy)  ' Removed because I can't get the right number.
         OutputObject.FontBold = False
     End Sub
 
@@ -243,13 +274,16 @@ QueryError:
         OutputObject.FontSize = 18
         OutputObject.CurrentY = 100
         OutputObject.FontBold = True
-        PrintTo(OutputObject, Title, 80, AlignConstants.vbAlignTop, True) ' Centered
+        'PrintTo(OutputObject, Title, 80, AlignConstants.vbAlignTop, True) ' Centered
+        PrintTo(OutputObject, Title, 80, AlignConstants.vbAlignTop, True, OutputObject.CurrentY) ' Centered
 
         OutputObject.FontBold = False
         OutputObject.FontSize = 8
         OutputObject.CurrentY = 100
-        PrintTo(OutputObject, "Date: " & DateFormat(Now), 0, AlignConstants.vbAlignLeft, True)
-        PrintTo(OutputObject, "Time: " & Format(Now, "h:mm:ss am/pm"), 0, AlignConstants.vbAlignLeft, True)
+        'PrintTo(OutputObject, "Date: " & DateFormat(Now), 0, AlignConstants.vbAlignLeft, True)
+        PrintTo(OutputObject, "Date: " & DateFormat(Now), 0, AlignConstants.vbAlignLeft, True, OutputObject.CurrentY)
+        'PrintTo(OutputObject, "Time: " & Format(Now, "h:mm:ss am/pm"), 0, AlignConstants.vbAlignLeft, True)
+        PrintTo(OutputObject, "Time: " & Format(Now, "h:mm:ss tt"), 0, AlignConstants.vbAlignLeft, True, OutputObject.CurrentY)
     End Sub
 
 End Module

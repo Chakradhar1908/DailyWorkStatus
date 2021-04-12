@@ -23,21 +23,21 @@ Partial Class DateForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.fraDates = New System.Windows.Forms.GroupBox()
+        Me.lblDate1 = New System.Windows.Forms.Label()
         Me.lblNote = New System.Windows.Forms.Label()
         Me.toDate = New System.Windows.Forms.DateTimePicker()
         Me.dDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblDate2 = New System.Windows.Forms.Label()
         Me.fraSaleType = New System.Windows.Forms.GroupBox()
         Me.optWritten = New System.Windows.Forms.RadioButton()
         Me.optDelivered = New System.Windows.Forms.RadioButton()
         Me.fraStoreSelect = New System.Windows.Forms.GroupBox()
         Me.cboStoreSelect = New System.Windows.Forms.ComboBox()
+        Me.chkSortByZip = New System.Windows.Forms.CheckBox()
+        Me.chkGroupByZip = New System.Windows.Forms.CheckBox()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdPrintPreview = New System.Windows.Forms.Button()
         Me.cmdPrint = New System.Windows.Forms.Button()
-        Me.chkSortByZip = New System.Windows.Forms.CheckBox()
-        Me.chkGroupByZip = New System.Windows.Forms.CheckBox()
-        Me.lblDate1 = New System.Windows.Forms.Label()
-        Me.lblDate2 = New System.Windows.Forms.Label()
         Me.ButtonGroupbox = New System.Windows.Forms.GroupBox()
         Me.fraDates.SuspendLayout()
         Me.fraSaleType.SuspendLayout()
@@ -58,6 +58,13 @@ Partial Class DateForm
         Me.fraDates.TabIndex = 0
         Me.fraDates.TabStop = False
         Me.fraDates.Text = "Date"
+        '
+        'lblDate1
+        '
+        Me.lblDate1.Location = New System.Drawing.Point(7, 13)
+        Me.lblDate1.Name = "lblDate1"
+        Me.lblDate1.Size = New System.Drawing.Size(100, 21)
+        Me.lblDate1.TabIndex = 3
         '
         'lblNote
         '
@@ -87,6 +94,13 @@ Partial Class DateForm
         Me.dDate.Name = "dDate"
         Me.dDate.Size = New System.Drawing.Size(107, 26)
         Me.dDate.TabIndex = 0
+        '
+        'lblDate2
+        '
+        Me.lblDate2.Location = New System.Drawing.Point(133, 8)
+        Me.lblDate2.Name = "lblDate2"
+        Me.lblDate2.Size = New System.Drawing.Size(100, 21)
+        Me.lblDate2.TabIndex = 4
         '
         'fraSaleType
         '
@@ -142,6 +156,26 @@ Partial Class DateForm
         Me.cboStoreSelect.Size = New System.Drawing.Size(239, 21)
         Me.cboStoreSelect.TabIndex = 6
         '
+        'chkSortByZip
+        '
+        Me.chkSortByZip.AutoSize = True
+        Me.chkSortByZip.Location = New System.Drawing.Point(38, 76)
+        Me.chkSortByZip.Name = "chkSortByZip"
+        Me.chkSortByZip.Size = New System.Drawing.Size(140, 17)
+        Me.chkSortByZip.TabIndex = 2
+        Me.chkSortByZip.Text = "&Sort Report by Zip Code"
+        Me.chkSortByZip.UseVisualStyleBackColor = True
+        '
+        'chkGroupByZip
+        '
+        Me.chkGroupByZip.AutoSize = True
+        Me.chkGroupByZip.Location = New System.Drawing.Point(38, 53)
+        Me.chkGroupByZip.Name = "chkGroupByZip"
+        Me.chkGroupByZip.Size = New System.Drawing.Size(155, 17)
+        Me.chkGroupByZip.TabIndex = 1
+        Me.chkGroupByZip.Text = "&Combine Cities by Zip Code"
+        Me.chkGroupByZip.UseVisualStyleBackColor = True
+        '
         'cmdCancel
         '
         Me.cmdCancel.Location = New System.Drawing.Point(168, 13)
@@ -169,46 +203,12 @@ Partial Class DateForm
         Me.cmdPrint.Text = "&Print"
         Me.cmdPrint.UseVisualStyleBackColor = True
         '
-        'chkSortByZip
-        '
-        Me.chkSortByZip.AutoSize = True
-        Me.chkSortByZip.Location = New System.Drawing.Point(38, 76)
-        Me.chkSortByZip.Name = "chkSortByZip"
-        Me.chkSortByZip.Size = New System.Drawing.Size(140, 17)
-        Me.chkSortByZip.TabIndex = 2
-        Me.chkSortByZip.Text = "&Sort Report by Zip Code"
-        Me.chkSortByZip.UseVisualStyleBackColor = True
-        '
-        'chkGroupByZip
-        '
-        Me.chkGroupByZip.AutoSize = True
-        Me.chkGroupByZip.Location = New System.Drawing.Point(38, 53)
-        Me.chkGroupByZip.Name = "chkGroupByZip"
-        Me.chkGroupByZip.Size = New System.Drawing.Size(155, 17)
-        Me.chkGroupByZip.TabIndex = 1
-        Me.chkGroupByZip.Text = "&Combine Cities by Zip Code"
-        Me.chkGroupByZip.UseVisualStyleBackColor = True
-        '
-        'lblDate1
-        '
-        Me.lblDate1.Location = New System.Drawing.Point(7, 13)
-        Me.lblDate1.Name = "lblDate1"
-        Me.lblDate1.Size = New System.Drawing.Size(100, 21)
-        Me.lblDate1.TabIndex = 3
-        '
-        'lblDate2
-        '
-        Me.lblDate2.Location = New System.Drawing.Point(133, 8)
-        Me.lblDate2.Name = "lblDate2"
-        Me.lblDate2.Size = New System.Drawing.Size(100, 21)
-        Me.lblDate2.TabIndex = 4
-        '
         'ButtonGroupbox
         '
         Me.ButtonGroupbox.Controls.Add(Me.cmdPrintPreview)
         Me.ButtonGroupbox.Controls.Add(Me.cmdPrint)
         Me.ButtonGroupbox.Controls.Add(Me.cmdCancel)
-        Me.ButtonGroupbox.Location = New System.Drawing.Point(8, 144)
+        Me.ButtonGroupbox.Location = New System.Drawing.Point(8, 149)
         Me.ButtonGroupbox.Name = "ButtonGroupbox"
         Me.ButtonGroupbox.Size = New System.Drawing.Size(262, 75)
         Me.ButtonGroupbox.TabIndex = 6
